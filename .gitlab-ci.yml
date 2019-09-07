@@ -4,22 +4,21 @@ stages:
   - deploy
 
 before_script:
+  - cd client/
   - npm ci
 
 build:
   stage: build
-  image: trion/ng-cli
+  image: node:latest
   script:
-    - ng build --prod
+    - ng build
   tags:
     - docker
-  only:
-    - merge_requests
 
 variables:
   CLI_VERSION: 6.2.1
 
-test:karma:
+unit_tests:
   stage: test
   image: trion/ng-cli-karma:${CLI_VERSION}
   allow_failure: false
@@ -31,10 +30,8 @@ test:karma:
       - coverage/
   tags:
     - docker
-  only:
-    - merge_requests
 
-test:nglint:
+nglint:
   stage: test
   image: trion/ng-cli:${CLI_VERSION}
   script:
