@@ -1,17 +1,21 @@
+image: node:latest
+
+cache:
+  paths:
+    - client/
+
 stages:
   - build
   - test
   - deploy
 
 before_script:
-  - cd client/
   - npm ci
 
 build:
   stage: build
-  image: node:latest
   script:
-    - ng build
+    - npm run build
   tags:
     - docker
 
@@ -23,11 +27,7 @@ unit_tests:
   image: trion/ng-cli-karma:${CLI_VERSION}
   allow_failure: false
   script:
-    - ng test --progress false --watch false
-  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
-  artifacts:
-    paths:
-      - coverage/
+    - npm run test
   tags:
     - docker
 
@@ -35,6 +35,6 @@ nglint:
   stage: test
   image: trion/ng-cli:${CLI_VERSION}
   script:
-    - ng lint
+    - npm run lint
   tags:
     - docker
