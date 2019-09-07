@@ -7,7 +7,6 @@ stages:
 before_script:
   - cd client/
   - npm ci
-  - echo $CI_COMMIT_REF_NAME
 
 build:
   stage: build
