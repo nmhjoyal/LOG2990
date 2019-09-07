@@ -1,5 +1,5 @@
-[![pipeline status](https://gitlab.com/log2990-G18/log2990-18/badges/CI_pipeline/pipeline.svg)](https://gitlab.com/log2990-G18/log2990-18/commits/CI_pipeline)
-[![coverage report](https://gitlab.com/log2990-G18/log2990-18/badges/CI_pipeline/coverage.svg)](https://gitlab.com/log2990-G18/log2990-18/commits/CI_pipeline)
+[![pipeline status](https://gitlab.com/log2990-G18/log2990-18/badges/$CI_COMMIT_REF_NAME/pipeline.svg)](https://gitlab.com/log2990-G18/log2990-18/commits/$CI_COMMIT_REF_NAME)
+[![coverage report](https://gitlab.com/log2990-G18/log2990-18/badges/$CI_COMMIT_REF_NAME/coverage.svg)](https://gitlab.com/log2990-G18/log2990-18/commits/$CI_COMMIT_REF_NAME)
 # Log2990
 Projet généré avec [Angular CLI](https://github.com/angular/angular-cli) version 8.1.2.
 
