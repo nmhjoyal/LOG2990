@@ -5,15 +5,14 @@ stages:
   - test
   - deploy
 
+before_script:
+  - cd client/
+  - npm ci
+
 build:
   stage: build
-  before_script:
-    - cd client/
-    - npm ci
   script:
     - npm run build
-  tags:
-    - docker
 
 variables:
   CLI_VERSION: 6.2.1
@@ -28,7 +27,6 @@ unit_tests:
 
 nglint:
   stage: test
+  allow_failure: false
   script:
     - npm run lint
-  tags:
-    - docker
