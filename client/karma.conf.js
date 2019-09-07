@@ -21,7 +21,7 @@ module.exports = function (config) {
       reports: ['html', 'text'],
       fixWebpackSourcePaths: true,
       combineBrowserReports: true,
-      threshold: 100,
+      threshold: 80,
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
