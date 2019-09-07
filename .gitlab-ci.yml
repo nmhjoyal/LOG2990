@@ -24,7 +24,7 @@ nglint:
 
 unit_tests:
   stage: test
-  image: trion/ng-cli-karma:${CLI_VERSION}
+  image: atlassianlabs/docker-node-jdk-chrome-firefox
   script:
     - npm run test
     - npm run coverage
