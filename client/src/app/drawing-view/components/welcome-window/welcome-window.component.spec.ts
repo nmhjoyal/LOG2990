@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BarreLateraleComponent } from './barre-laterale.component';
+import { WelcomeWindowComponent } from './welcome-window.component';
 
-describe('BarreLateraleComponent', () => {
-  let component: BarreLateraleComponent;
-  let fixture: ComponentFixture<BarreLateraleComponent>;
+describe('WelcomeWindowComponent', () => {
+  let component: WelcomeWindowComponent;
+  let fixture: ComponentFixture<WelcomeWindowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BarreLateraleComponent ]
+      declarations: [ WelcomeWindowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BarreLateraleComponent);
+    fixture = TestBed.createComponent(WelcomeWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

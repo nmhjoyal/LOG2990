@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FenetreBienvenueComponent } from './fenetre-bienvenue.component';
+import { LateralBarComponent } from './lateral-bar.component';
 
-describe('FenetreBienvenueComponent', () => {
-  let component: FenetreBienvenueComponent;
-  let fixture: ComponentFixture<FenetreBienvenueComponent>;
+describe('LateralBarComponent', () => {
+  let component: LateralBarComponent;
+  let fixture: ComponentFixture<LateralBarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FenetreBienvenueComponent ]
+      declarations: [ LateralBarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FenetreBienvenueComponent);
+    fixture = TestBed.createComponent(LateralBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
