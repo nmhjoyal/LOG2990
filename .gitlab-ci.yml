@@ -6,12 +6,10 @@ stages:
 
 before_script:
   - cd client/
+  - npm ci
 
 build:
   stage: build
-  before_script:
-    - cd client/
-    - npm ci
   script:
     - npm run build
 
