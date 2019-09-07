@@ -25,8 +25,8 @@ nglint:
 unit_tests:
   stage: test
   image: atlassianlabs/docker-node-jdk-chrome-firefox
+  allow_failure: false
   script:
-    - npm run test
     - npm run coverage
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
