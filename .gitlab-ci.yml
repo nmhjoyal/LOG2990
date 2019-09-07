@@ -4,6 +4,9 @@ stages:
   - build
   - test
 
+before_script:
+  - cd client/
+
 build:
   stage: build
   before_script:
