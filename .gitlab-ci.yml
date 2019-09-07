@@ -31,7 +31,3 @@ unit_tests:
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
     - docker
-
-coverage:
-  script:
-    - yarn coverage
