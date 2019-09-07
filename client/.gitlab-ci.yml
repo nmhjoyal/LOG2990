@@ -1,0 +1,31 @@
+image: node:latest
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  before_script:
+    - npm ci
+  script:
+    - npm run build
+
+variables:
+  CLI_VERSION: 6.2.1
+
+nglint:
+  stage: test
+  allow_failure: false
+  script:
+    - npm run lint
+
+unit_tests:
+  stage: test
+  image: trion/ng-cli-karma:${CLI_VERSION}
+  script:
+    - npm run test
+    - npm run coverage
+  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
+  tags:
+    - docker
