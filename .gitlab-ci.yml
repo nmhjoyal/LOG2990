@@ -27,7 +27,7 @@ nglint:
 
 unit_tests:
   stage: test
-  image: atlassianlabs/docker-node-jdk-chrome-firefox
+  image: trion/ng-cli-karma:latest
   allow_failure: false
   script:
     - rm -rf /tmp/.X99-lock
