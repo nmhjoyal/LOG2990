@@ -30,6 +30,8 @@ unit_tests:
   image: atlassianlabs/docker-node-jdk-chrome-firefox
   allow_failure: false
   script:
+    - rm -rf /tmp/.X99-lock
+    - rm -rf /tmp/.X100-lock
     - npm run coverage
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
