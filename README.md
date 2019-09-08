@@ -1,3 +1,4 @@
+### Master branch status
 [![pipeline status](https://gitlab.com/log2990-G18/log2990-18/badges/master/pipeline.svg)](https://gitlab.com/log2990-G18/log2990-18/commits/master)
 [![coverage report](https://gitlab.com/log2990-G18/log2990-18/badges/master/coverage.svg)](https://gitlab.com/log2990-G18/log2990-18/commits/master)
 # Log2990
