@@ -31,6 +31,6 @@ unit_tests:
     allow_failure: false
     script:
       - npm run coverage
-  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
-  tags:
-    - docker
+    coverage: '/Lines \W+: (\d+\.\d+)%.*/'
+    tags:
+      - docker
