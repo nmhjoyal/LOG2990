@@ -26,13 +26,11 @@ nglint:
     - npm run lint
 
 unit_tests:
-  stage: test
-  image: kekel87/node-chrome-firefox
-  allow_failure: false
-  script:
-    - rm -rf /tmp/.X99-lock
-    - rm -rf /tmp/.X100-lock
-    - npm run coverage
+    stage: test
+    image: trion/ng-cli-e2e:latest
+    allow_failure: false
+    script:
+      - npm run coverage --host=chrome
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
     - docker
