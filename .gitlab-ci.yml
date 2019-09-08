@@ -27,10 +27,10 @@ nglint:
 
 unit_tests:
     stage: test
-    image: trion/ng-cli-e2e:latest
+    image: trion/ng-cli-e2e
     allow_failure: false
     script:
-      - npm run coverage --host=chrome
+      - npm run coverage
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
     - docker
