@@ -21,12 +21,16 @@ nglint:
   allow_failure: false
   script:
     - npm run lint
+    - cd ../server/
+    - npm run lint
 
 unit_tests:
   stage: test
   image: atlassianlabs/docker-node-jdk-chrome-firefox
   allow_failure: false
   script:
+    - rm /tmp/.X99-lock
+    - rm /tmp/.X100-lock
     - npm run coverage
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
