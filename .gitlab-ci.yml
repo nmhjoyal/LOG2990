@@ -27,10 +27,10 @@ nglint:
 
 unit_tests:
     stage: test
-    image: trion/ng-cli-e2e
+    image: angular/ngcontainer
     allow_failure: false
     script:
-      - npm run coverage
+      - xvfb-run npm run coverage
     coverage: '/Lines \W+: (\d+\.\d+)%.*/'
     tags:
       - docker
