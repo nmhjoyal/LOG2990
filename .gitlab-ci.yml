@@ -12,9 +12,6 @@ build:
   script:
     - npm run build
 
-variables:
-  CLI_VERSION: 6.2.1
-
 nglint:
   stage: test
   allow_failure: false
@@ -31,9 +28,6 @@ unit_tests:
     stage: test
     image: angular/ngcontainer
     allow_failure: false
-    before_script:
-      - xvfb-run cd client/
-      - xvfb-run npm ci
     script:
       - xvfb-run npm run coverage
     coverage: '/Lines \W+: (\d+\.\d+)%.*/'
