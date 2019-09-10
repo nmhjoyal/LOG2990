@@ -29,11 +29,10 @@ unit_tests:
     image: angular/ngcontainer
     allow_failure: false
     before_script:
-      - ENTRYPOINT ["/bin/sh", "-c"]
-      - xvfb-run cd client/
-      - xvfb-run npm ci
+      - run: cd client/
+      - run: xvfb-run npm ci
     script:
-      - xvfb-run npm run coverage
+      - run: xvfb-run npm run coverage
     coverage: '/Lines \W+: (\d+\.\d+)%.*/'
     tags:
       - docker
