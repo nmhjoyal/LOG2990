@@ -4,20 +4,18 @@ stages:
   - build
   - test
 
-build:
-  stage: build
-  before_script:
+before_script:
   - cd client/
   - npm ci
+
+build:
+  stage: build
   script:
     - npm run build
 
 nglint:
   stage: test
   allow_failure: false
-  before_script:
-    - cd client/
-    - npm ci
   script:
     - npm run lint
     - cd ../server/
@@ -26,12 +24,8 @@ nglint:
 
 unit_tests:
     stage: test
-    image: angular/ngcontainer
+    image: trion/ng-cli-karma
     allow_failure: false
-    before_script:
-      - ENTRYPOINT ["/bin/bash", "-c"]
-      - cd client/
-      - xvfb-run npm ci
     script:
       - xvfb-run npm run coverage
     coverage: '/Lines \W+: (\d+\.\d+)%.*/'
