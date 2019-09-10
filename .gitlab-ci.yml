@@ -28,6 +28,10 @@ unit_tests:
     stage: test
     image: angular/ngcontainer
     allow_failure: false
+    before_script:
+      - ENTRYPOINT ["/bin/sh", "-c"]
+      - xvfb-run cd client/
+      - xvfb-run npm ci
     script:
       - xvfb-run npm run coverage
     coverage: '/Lines \W+: (\d+\.\d+)%.*/'
