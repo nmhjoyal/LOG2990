@@ -29,6 +29,7 @@ unit_tests:
     image: angular/ngcontainer
     allow_failure: false
     before_script:
+      - ENTRYPOINT ["/bin/bash", "-c"]
       - cd client/
       - xvfb-run npm ci
     script:
