@@ -1,33 +1,79 @@
 image: xwiillz/node-yarn-firefox-chromium:latest
 cache:
-    key: "$CI_COMMIT_REF_NAME"
-    paths:
-        - client/node_modules/
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - client/node_modules/
 
 stages:
+  - setup
   - build
   - test
 
-before_script:
-  - cd client/
-  - yarn
+setup:
+  stage: setup
+  script:
+    - pushd client
+    - yarn
+    - popd
+    - pushd server
+    - yarn
+    - popd
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+      - client/node_modules/
+      - server/node_modules/
+    policy: pull-push
 
-build:
+build:client:
   stage: build
   script:
+    - pushd client
     - yarn build
+    - popd
 
-nglint:
+build:server:
+  stage: build
+  script:
+    - pushd server
+    - yarn server
+    - popd
+
+nglint:client:
   stage: test
   allow_failure: false
   script:
+    - pushd client
     - yarn lint
+    - popd
 
-unit_tests:
+nglint:server:
   stage: test
   allow_failure: false
   script:
+    - pushd server
+    - yarn lint
+    - popd
+
+unit_tests:client:
+  stage: test
+  allow_failure: false
+  script:
+    - Xvfb :99 -ac -screen 0 1920x1080x24 &
+    - pushd client
     - yarn coverage --browsers ChromeHeadlessNoSandbox
+    - popd
+  dependencies:
+    - build:client
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
-  tags:
-    - docker
+
+unit_tests:server:
+  stage: test
+  allow_failure: false
+  script:
+    - pushd server
+    - yarn coverage
+    - popd
+  dependencies:
+    - build:server
+  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
