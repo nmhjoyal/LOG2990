@@ -25,7 +25,6 @@ nglint:
 
 unit_tests:
   stage: test
-  image: trion/ng-cli-karma
   allow_failure: false
   script:
     - yarn coverage
