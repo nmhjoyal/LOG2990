@@ -1,33 +1,33 @@
-image: node:latest
+image: xwiillz/node-yarn-firefox-chromium:latest
+cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+        - client/node_modules/
 
 stages:
   - build
   - test
 
 before_script:
-  - cd client/
-  - npm ci
+  - yarn
 
 build:
   stage: build
   script:
-    - npm run build
+    - yarn build
 
 nglint:
   stage: test
   allow_failure: false
   script:
-    - npm run lint
-    - cd ../server/
-    - npm ci
-    - npm run lint
+    - yarn lint
 
 unit_tests:
-    stage: test
-    image: trion/ng-cli-karma
-    allow_failure: false
-    script:
-      - xvfb-run npm run coverage
-    coverage: '/Lines \W+: (\d+\.\d+)%.*/'
-    tags:
-      - docker
+  stage: test
+  image: trion/ng-cli-karma
+  allow_failure: false
+  script:
+    - yarn coverage
+  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
+  tags:
+    - docker

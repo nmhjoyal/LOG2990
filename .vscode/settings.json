@@ -1,0 +1,5 @@
+{
+    "tslint.packageManager": "yarn",
+    "tslint.configFile": "tslint.json",
+    "files.eol": "\n"
+}
