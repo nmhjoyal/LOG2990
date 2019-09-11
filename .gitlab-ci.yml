@@ -27,7 +27,7 @@ unit_tests:
   stage: test
   allow_failure: false
   script:
-    - yarn coverage
+    - yarn coverage --browsers ChromeHeadlessNoSandbox
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   tags:
     - docker
