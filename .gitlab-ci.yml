@@ -36,7 +36,7 @@ build:server:
   stage: build
   script:
     - pushd server
-    - yarn build
+    - yarn tsc
     - popd
 
 nglint:client:
