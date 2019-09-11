@@ -15,6 +15,12 @@
   },
   "nyc": {
     "check-coverage": true,
+    "watermarks": {
+      "lines": [0, 95],
+      "functions": [0, 95],
+      "branches": [0, 95],
+      "statements": [0, 95]
+    },
     "per-file": true,
     "include": [
       "app/**/*.ts"
