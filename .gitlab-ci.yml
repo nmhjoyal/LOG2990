@@ -3,6 +3,8 @@ cache:
   key: "$CI_COMMIT_REF_NAME"
   paths:
     - client/node_modules/
+    - server/node_modules/
+  policy: pull
 
 stages:
   - setup
@@ -47,13 +49,13 @@ nglint:client:
     - yarn lint
     - popd
 
-# nglint:server:
-#   stage: test
-#   allow_failure: false
-#   script:
-#     - pushd server
-#     - yarn lint
-#     - popd
+nglint:server:
+  stage: test
+  allow_failure: false
+  script:
+    - pushd server
+    - yarn lint
+    - popd
 
 unit_tests:client:
   stage: test
@@ -67,13 +69,13 @@ unit_tests:client:
     - build:client
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
 
-# unit_tests:server:
-#   stage: test
-#   allow_failure: false
-#   script:
-#     - pushd server
-#     - yarn coverage
-#     - popd
-#   dependencies:
-#     - build:server
-#   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
+unit_tests:server:
+  stage: test
+  allow_failure: false
+  script:
+    - pushd server
+    - yarn coverage
+    - popd
+  dependencies:
+    - build:server
+  coverage: '/Lines \W+: (\d+\.\d+)%.*/'
