@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
+import { MatDialog } from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
 import {Message} from '../../../../../common/communication/message';
 import {IndexService} from '../../services/index/index.service';
-import { MatDialog } from '@angular/material';
-import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-
-
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +28,7 @@ export class AppComponent {
   openDialog(): void {
     this.dialog.open(ModalWindowComponent, {
       width: '800px',
-      height: '600px'
+      height: '600px',
     });
   }
 }

@@ -8,7 +8,7 @@ describe('ModalWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalWindowComponent ]
+      declarations: [ ModalWindowComponent ],
     })
     .compileComponents();
   }));

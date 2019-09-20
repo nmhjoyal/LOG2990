@@ -1,12 +1,11 @@
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
 import {BrowserModule} from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppComponent} from './components/app/app.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-import { FormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [
