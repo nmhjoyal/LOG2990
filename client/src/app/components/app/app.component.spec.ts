@@ -40,4 +40,11 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('LOG2990');
   });
+
+  it('should have a defined dialog component', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.dialog).toBeDefined();
+  });
+
 });

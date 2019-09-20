@@ -29,7 +29,7 @@ export class AppComponent {
     this.dialog.open(ModalWindowComponent, {
       width: '800px',
       height: '600px',
-      data: {title: 'Template'},
+      data: {title: ''},
     });
   }
 }
