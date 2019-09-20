@@ -1,0 +1,20 @@
+<div class="color-wrapper">
+  <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
+ <!-- <app-color-slider
+    (color)="hue=$event"
+    style="margin-left:16px"
+  ></app-color-slider>-->
+</div>
+<div class="input-wrapper">
+  <!--<span class="text">{{color}}</span>-->
+  <div
+    class="color-div"
+    [ngStyle]="{'background-color': color || 'lastColor'}"
+  ></div>
+</div>
+<div>
+  Input <input id="hex01" type="text" class="input-color" onchange="setColor()">
+</div>
+<div>
+  Transparancy <input type="range" class="slider" min="0" max="100" onchnage="setAlpha()">
+</div>
