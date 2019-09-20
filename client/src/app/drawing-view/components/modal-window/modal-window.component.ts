@@ -12,6 +12,7 @@ export class ModalWindowComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ModalWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModalData) {
+      this.data.title = '';
   }
 
   onCloseClick(): void {
@@ -19,7 +20,7 @@ export class ModalWindowComponent implements OnInit {
   }
 
   ngOnInit() {
-    print();
+    this.data.title = 'test window';
   }
 
 }
