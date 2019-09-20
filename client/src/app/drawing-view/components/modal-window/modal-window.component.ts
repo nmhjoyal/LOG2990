@@ -14,7 +14,7 @@ export class ModalWindowComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: ModalData) {
   }
 
-  onNoClick(): void {
+  onCloseClick(): void {
     this.dialogRef.close();
   }
 
