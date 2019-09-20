@@ -1,0 +1,9 @@
+<!--This snippet of SVG shows the preview of the rectangle-->
+<rect [attr.x]="getX()" [attr.y]="getY()" [attr.width]="getRectW()" [attr.height]="getRectH()"
+style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:0.9" />
+
+<!--This snippet of SVG shows all saved rectangles-->
+<g *ngFor="let rectangle of rectangles">
+    <rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
+  style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:0.9" />
+</g>
