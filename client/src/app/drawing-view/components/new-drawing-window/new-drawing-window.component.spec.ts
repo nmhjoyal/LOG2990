@@ -8,7 +8,7 @@ describe('NewDrawingWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewDrawingWindowComponent ]
+      declarations: [ NewDrawingWindowComponent ],
     })
     .compileComponents();
   }));
@@ -22,7 +22,5 @@ describe('NewDrawingWindowComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  
 
 });

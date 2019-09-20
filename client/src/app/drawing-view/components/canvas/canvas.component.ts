@@ -1,5 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-canvas',
@@ -8,26 +7,12 @@ import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-win
 })
 export class CanvasComponent implements OnInit {
 
-  private windowHeight: number;
-  private windowWidth: number;
-
   constructor() {
-    this.updateWindowSize();
-  }
-
-  @HostListener('document:keydown.ctrl.o') handleKeyboardEvent(event: KeyboardEvent) {
-    // create modal window here
-    const newDrawing = new NewDrawingWindowComponent;
-    newDrawing.createNewDrawing(this.windowHeight, this.windowWidth);
-  }
-
-  @HostListener('window: resize', ['$event']) updateWindowSize(event?: Event) {
-    this.windowWidth = window.innerWidth;
-    this.windowHeight = window.innerWidth;
+    console.log();
   }
 
   ngOnInit() {
-    print();
+    console.log();
   }
 
 }

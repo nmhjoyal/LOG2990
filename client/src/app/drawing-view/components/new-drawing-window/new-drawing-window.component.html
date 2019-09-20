@@ -1,1 +1,18 @@
-<p>new-drawing-window works!</p>
+<h1 mat-dialog-title id='new_drawing_title'>{{data.title}}</h1>
+<div mat-dialog-content>
+    <h3>Please enter the dimensions of your drawing:</h3>
+    <h4>Height:</h4>
+    <mat-form-field>
+        <input matInput [(ngModel)]="height" placeholder="Window height:  {{data.defaultHeight}}px">
+    </mat-form-field>
+    <h4>Width:</h4>
+
+    <mat-form-field>
+        <input matInput [(ngModel)]="width" placeholder="Window width:  {{data.defaultWidth}}px">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-fab (click)="onCloseClick()">Close</button>
+    <button mat-fab (click)="onAcceptClick()">Accept</button>
+
+</div>
