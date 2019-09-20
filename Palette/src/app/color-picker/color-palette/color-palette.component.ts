@@ -20,8 +20,10 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   @Input()
   hue: string
 
+
   @Output()
   color: EventEmitter<string> = new EventEmitter(true)
+  colors: Array<EventEmitter<string>> = new EventEmitter(true)[10]
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>
@@ -70,7 +72,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     gradient2.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)'); 
     gradient2.addColorStop(0.3, 'rgba(0, 0, 0, 0.25)'); 
     gradient2.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-    //gradient2.addColorStop(0.6, 'rgba(0, 0, 0, 0)'); 
     gradient2.addColorStop(0.7, 'rgba(255, 255, 255, 0.25)'); 
     gradient2.addColorStop(0.85, 'rgba(255, 255, 255, 0.5)');
     gradient2.addColorStop(1, 'rgba(255, 255, 255, 1)');
@@ -105,10 +106,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
       this.ctx.arc(
         this.selectedPosition.x,
         this.selectedPosition.y,
-        10,
-        0,
-        2 * Math.PI
-      )
+        10, 0,  2 * Math.PI )
       this.ctx.lineWidth = 5
       this.ctx.stroke()
     }
@@ -127,6 +125,15 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(evt: MouseEvent) {
     this.mousedown = false
+    if (this.colors.length==10){
+        this.colors.pop()
+      }
+    const pos = this.selectedPosition
+    if (pos) {
+      this.colors[0].emit((this.getColorAtPosition(pos.x, pos.y)))
+    }
+      
+    
   }
 
   onMouseDown(evt: MouseEvent) {
@@ -144,6 +151,8 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
+
+
   emitColor(x: number, y: number) {
     const rgbaColor = this.getColorAtPosition(x, y)
     this.color.emit(rgbaColor)
@@ -155,16 +164,14 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
       'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)'
     )
   }
+/*
+  setColor(color: string ){
+    const rgbaColor = '#' + color + '01'
+    this.color.emit('rgba(000000ff')
+
+  }*/
 
 
 
-  onchange(changes: SimpleChanges) {
-    if (changes['alpha']) {
-      this.draw()
-      const pos = this.selectedPosition
-      if (pos) {
-        this.color.emit(this.getColorAtPosition(pos.x, pos.y))
-      }
-    }
-  }
 }
+

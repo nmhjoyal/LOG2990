@@ -1,20 +1,50 @@
 <div class="color-wrapper">
-  <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
- <!-- <app-color-slider
-    (color)="hue=$event"
-    style="margin-left:16px"
-  ></app-color-slider>-->
+  <app-color-palette [hue]="hue" (color)="color = $event" (colors)="colors = $event"></app-color-palette>
+<!--
+    <div class="clearfix">
+      <div class="box" [ngStyle]="{'background-color': colors[0] || '#bbb' }">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[2] ||'#ccc'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[4] ||'#ddd'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[6] ||'#ccc'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[8] ||'#bbb'}">
+      </div>
+    </div>
+    <div class="clearfix">
+      <div class="box" [ngStyle]="{'background-color': colors[1] ||'#ddd'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[3] ||'#bbb'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[5] ||'#ccc'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[7] ||'#bbb'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[9] ||'#ddd'}">
+      </div>
+    </div>
+-->
 </div>
+
 <div class="input-wrapper">
   <!--<span class="text">{{color}}</span>-->
   <div
     class="color-div"
-    [ngStyle]="{'background-color': color || 'lastColor'}"
+    [ngStyle]="{'background-color': color || 'white'}"
   ></div>
+
+  
 </div>
+
 <div>
-  Input <input id="hex01" type="text" class="input-color" onchange="setColor()">
+  Input <input id="hex" type="text" class="input-color" (ngOnChanges)="setColor()">
 </div>
+
+ <app-color-inputs ></app-color-inputs>
+
 <div>
-  Transparancy <input type="range" class="slider" min="0" max="100" onchnage="setAlpha()">
+  Transparency <input type="range" class="slider" min="0" max="100" onchange="setAlpha()">
 </div>
+

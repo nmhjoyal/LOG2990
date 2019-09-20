@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import {  Component } from '@angular/core'
+
 
 @Component({
   selector: 'app-color-picker',
@@ -8,14 +9,21 @@ import { Component } from '@angular/core'
 export class ColorPickerComponent {
   public hue: string
   public color: string
+  public colors: Array<string>
   public alpha: string
 
-  /*setColor(color hex01: hex01){
-    color = hex;
-  }
+
   setAlpha(){
-    co
+   // this.color = color[0:5] + alpha;
+    
+
+  }
+/*
+   setColor(color: string ){
+    const rgbaColor = '#' + color + '01'
+    this.color.emit('rgba(000000ff')
 
   }
 */
+
 }

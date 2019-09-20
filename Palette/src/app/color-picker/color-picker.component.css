@@ -3,11 +3,11 @@
   width: 316px;
   padding: 16px;
 }
-/*.color-wrapper {
+.color-wrapper {
   display: flex;
   height: 250px;
   border-radius: 50px;
-}*/
+}
 
 .input-wrapper {
   margin: 8px 0px 8px 0px;
@@ -58,4 +58,20 @@
   border-radius: 50%;
   background: #4CAF50;
   cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  float: left;
+  width: 25px;
+  padding: 25px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
