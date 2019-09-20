@@ -8,7 +8,7 @@ describe('WelcomeWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WelcomeWindowComponent ]
+      declarations: [ WelcomeWindowComponent ],
     })
     .compileComponents();
   }));
