@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToolsComponent } from './tools.component';
+import { ModalWindowComponent } from './modal-window.component';
 
-describe('ToolsComponent', () => {
-  let component: ToolsComponent;
-  let fixture: ComponentFixture<ToolsComponent>;
+describe('ModalWindowComponent', () => {
+  let component: ModalWindowComponent;
+  let fixture: ComponentFixture<ModalWindowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolsComponent ],
+      declarations: [ ModalWindowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ToolsComponent);
+    fixture = TestBed.createComponent(ModalWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

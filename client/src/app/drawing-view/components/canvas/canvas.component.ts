@@ -4,7 +4,7 @@ import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-win
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.scss']
+  styleUrls: ['./canvas.component.scss'],
 })
 export class CanvasComponent implements OnInit {
 
@@ -27,6 +27,7 @@ export class CanvasComponent implements OnInit {
   }
 
   ngOnInit() {
+    print();
   }
 
 }
