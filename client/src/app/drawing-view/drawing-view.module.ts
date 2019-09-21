@@ -13,12 +13,14 @@ import { WelcomeWindowComponent } from './components/welcome-window/welcome-wind
     WelcomeWindowComponent,
     LateralBarComponent,
     ModalWindowComponent,
+    WelcomeWindowComponent,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
     ModalWindowComponent,
+    WelcomeWindowComponent,
     CommonModule,
   ],
 })

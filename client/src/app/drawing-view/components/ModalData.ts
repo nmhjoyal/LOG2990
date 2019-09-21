@@ -1,5 +1,5 @@
 export interface ModalData {
-    showAgain?: boolean;
+    title?: string;
     drawingHeight?: number;
     drawingWidth?: number;
     drawingBackgroundColor?: string;
