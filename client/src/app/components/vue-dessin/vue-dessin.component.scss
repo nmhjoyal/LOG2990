@@ -1,0 +1,50 @@
+.mainContainer {
+    display: flex;
+    height: 100%;
+    
+}
+
+.greyBox {
+    height: 950px;
+    width: 100%;
+    // display: flex;
+    // align-items: center;
+    // justify-content: left;
+    background-color: silver;
+}
+
+.AttributePanel {
+    height: 950px;
+    width: 100px;
+    background-color: rgb(54, 47, 47);
+}
+
+
+.LatBar {
+    height: 950px;
+    width: 50px;
+    background-color: rgb(70, 70, 70);
+}
+
+.whiteBox {
+    height: 800px;
+    width: 1600px;
+    background-color: white;
+    box-shadow: 3px 3px darkgrey;
+}
+
+.sideBarIcon {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+// #FillBucket {
+//     max-width: 100%;
+//     max-height: 100%;
+// }
+
+.sideBarIcon:hover {
+    background-color: lightgrey;
+    border: 1px solid black; 
+}
+
