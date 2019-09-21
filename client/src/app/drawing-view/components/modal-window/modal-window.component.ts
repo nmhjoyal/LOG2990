@@ -15,14 +15,6 @@ export abstract class ModalWindowComponent implements OnInit {
       this.data.title = '';
   }
 
-  onCloseClick(): void {
-    this.dialogRef.close();
-  }
-
-  onAcceptClick(): void {
-    console.log();
-  }
-
   ngOnInit() {
     this.data.title = 'test window';
   }

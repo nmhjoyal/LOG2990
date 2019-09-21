@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ModalData } from '../ModalData';
@@ -30,6 +30,14 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
 
   createNewDrawing(height: number, width: number) {
     console.log();
+  }
+
+  onAcceptClick(): void {
+    console.log();
+  }
+
+  onCloseClick(): void {
+    this.dialogRef.close();
   }
 
 }
