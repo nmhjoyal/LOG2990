@@ -5,10 +5,10 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatDialogConfig, MatDialogModule} from '@angular/material/dialog';
 import {BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CookieService } from 'ngx-cookie-service';
 import {AppComponent} from './components/app/app.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
+import { LocalStorageService } from './services/local_storage/LocalStorageService';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +24,7 @@ import { WelcomeWindowComponent } from './drawing-view/components/welcome-window
     BrowserAnimationsModule,
     FormsModule,
   ],
-  providers: [CookieService, MatDialogConfig],
+  providers: [ MatDialogConfig, LocalStorageService],
   bootstrap: [AppComponent],
   entryComponents: [ModalWindowComponent, WelcomeWindowComponent],
 })

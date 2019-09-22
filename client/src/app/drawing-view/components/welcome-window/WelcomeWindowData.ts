@@ -1,6 +1,6 @@
-import { CookieService } from 'ngx-cookie-service';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { ModalData } from '../ModalData';
 
 export interface WelcomeWindowData extends ModalData {
-    cookie?: CookieService;
+    storage?: LocalStorageService;
 }
