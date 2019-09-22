@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalData } from '../ModalData';
 
 @Component({
@@ -7,20 +7,20 @@ import { ModalData } from '../ModalData';
   templateUrl: './modal-window.component.html',
   styleUrls: ['./modal-window.component.scss'],
 })
-export class ModalWindowComponent implements OnInit {
+export abstract class ModalWindowComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ModalWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModalData) {
-      this.data.title = '';
-  }
+      this.data.title = 'test window';
+    }
 
   onCloseClick(): void {
-    this.dialogRef.close('Dialog Closed');
+    this.dialogRef.close();
   }
 
   ngOnInit() {
-    this.data.title = 'test window';
+    // empty body
   }
 
 }

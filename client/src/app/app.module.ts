@@ -1,5 +1,5 @@
 import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {NgModule, Type} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {BrowserModule} from '@angular/platform-browser';
@@ -10,7 +10,7 @@ import { ModalWindowComponent } from './drawing-view/components/modal-window/mod
 @NgModule({
   declarations: [
     AppComponent,
-    ModalWindowComponent,
+    ModalWindowComponent as Type<ModalWindowComponent>,
   ],
   imports: [
     BrowserModule,
@@ -21,7 +21,7 @@ import { ModalWindowComponent } from './drawing-view/components/modal-window/mod
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ModalWindowComponent],
+  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>],
 })
 export class AppModule {
 }
