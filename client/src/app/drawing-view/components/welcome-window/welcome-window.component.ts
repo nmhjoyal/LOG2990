@@ -8,6 +8,7 @@ import { WelcomeWindowData } from './WelcomeWindowData';
   templateUrl: './welcome-window.component.html',
   styleUrls: ['./welcome-window.component.scss'],
 })
+
 export class WelcomeWindowComponent extends ModalWindowComponent {
   readonly welcomeScreenActivatedCookie = 'welcomeScreenActivated';
   isChecked: boolean;
