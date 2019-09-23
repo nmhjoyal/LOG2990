@@ -1,0 +1,26 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ModalData } from '../ModalData';
+
+@Component({
+  selector: 'app-modal-window',
+  templateUrl: './modal-window.component.html',
+  styleUrls: ['./modal-window.component.scss'],
+})
+export abstract class ModalWindowComponent implements OnInit {
+
+  constructor(
+    public dialogRef: MatDialogRef<ModalWindowComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ModalData) {
+      this.data.title = 'test window';
+    }
+
+  onCloseClick(): void {
+    this.dialogRef.close();
+  }
+
+  ngOnInit() {
+    // empty body
+  }
+
+}
