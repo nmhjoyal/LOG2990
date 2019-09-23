@@ -8,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class WelcomeWindowComponent implements OnInit {
 
   constructor() {
-    print();
+    console.log();
    }
 
   ngOnInit() {
-    print();
+    console.log();
   }
 
 }

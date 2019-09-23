@@ -4,5 +4,8 @@
 /.vscode/
 /.idea/
 
+# ignoring node_module changes; these should be rebuilt locally and not cloned 
+/node_modules
+
 # Keep the package-lock.json !
 !package-lock.json
