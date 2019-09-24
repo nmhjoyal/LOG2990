@@ -1,27 +1,24 @@
-import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { CanvasComponent } from './components/canvas/canvas.component';
-import { LateralBarComponent } from './components/lateral-bar/lateral-bar.component';
-import { ModalWindowComponent } from './components/modal-window/modal-window.component';
-import { ToolsComponent } from './components/tools/tools.component';
-import { WelcomeWindowComponent } from './components/welcome-window/welcome-window.component';
+import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from '../components/app/app.component';
 
 @NgModule({
   declarations: [
-    ToolsComponent,
-    CanvasComponent,
-    WelcomeWindowComponent,
-    LateralBarComponent,
-    ModalWindowComponent,
-    WelcomeWindowComponent,
+    AppComponent,
   ],
   imports: [
-    CommonModule,
+    BrowserModule,
+    HttpClientModule,
+    MatDialogModule,
+    FormsModule,
+    BrowserAnimationsModule,
   ],
-  exports: [
-    ModalWindowComponent,
-    WelcomeWindowComponent,
-    CommonModule,
-  ],
+  providers: [{ provide: MatDialogRef, useValue: {} },
+  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+  bootstrap: [AppComponent],
 })
 export class DrawingViewModule { }

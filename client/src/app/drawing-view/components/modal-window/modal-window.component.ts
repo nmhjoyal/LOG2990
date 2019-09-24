@@ -7,7 +7,7 @@ import { ModalData } from '../ModalData';
   templateUrl: './modal-window.component.html',
   styleUrls: ['./modal-window.component.scss'],
 })
-export class ModalWindowComponent implements OnInit {
+export abstract class ModalWindowComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ModalWindowComponent>,

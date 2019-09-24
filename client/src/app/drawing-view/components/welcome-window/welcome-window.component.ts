@@ -10,13 +10,16 @@ import { WelcomeWindowData } from './WelcomeWindowData';
 })
 
 export class WelcomeWindowComponent extends ModalWindowComponent {
-  readonly welcomeScreenActivatedCookie = 'welcomeScreenActivated';
   isChecked: boolean;
 
   constructor(public dialogRef: MatDialogRef<WelcomeWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: WelcomeWindowData) {
     super(dialogRef, data);
     this.isChecked = false;
+  }
+
+  checkboxClicked(): void {
+    this.isChecked = !this.isChecked;
   }
 
   onCloseClick(): void {

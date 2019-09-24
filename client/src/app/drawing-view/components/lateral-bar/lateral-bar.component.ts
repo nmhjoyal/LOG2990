@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class LateralBarComponent implements OnInit {
 
   constructor() {
-    console.log('lateral bar constructor');
+    console.log('LateralBarComponent constructor');
    }
 
   ngOnInit() {
-    console.log('lateral bar initialized');
+    console.log('LateralBarComponent initialized');
   }
 }
