@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-rectangle',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rectangle.component.scss']
 })
 export class RectangleComponent implements OnInit {
-  private _cursorX:number;
+  private _cursorX:number;//passable with service
   private _cursorY:number;
   private _rectH: number = 0;
   private _rectW: number = 0;
@@ -24,14 +24,12 @@ export class RectangleComponent implements OnInit {
   }
 
   // Event handling methods
-  onMouseDown($event){
-    this._x=$event.offsetX;
-    this._y=$event.offsetY;
+  @HostListener('mousedown', ['$event']) onMouseDown(event:any){
+    this._x=event.offsetX;
+    this._y=event.offsetY;
     this._mouseDown = true;
-    this.testMessage = "Loaded mouse coordinates: (" + this._x +", " +this._y + ")";
   }
-
-  onMouseUp(){
+  @HostListener('mouseup') onMouseUp(){
     this._mouseDown = false;
     if(!(this._rectH == 0 && this._rectW == 0))
     this.rectangles.push(
@@ -46,20 +44,24 @@ export class RectangleComponent implements OnInit {
     this._y=0;
   }
 
-  onMouseMove($event){
+  @HostListener('mouseleave') onMouseleave(){
+    this.onMouseUp();
+  }
+
+  @HostListener('mousemove', ['$event'])onMouseMove(event:any){
     if(this._mouseDown){
-      this._rectW = $event.offsetX - this._x;
-      this._rectH = $event.offsetY - this._y;
+      this._rectW = event.offsetX - this._x;
+      this._rectH = event.offsetY - this._y;
       
       if(this.shiftDown)
       this._rectH = this._rectW
       }
       
-      this._cursorX = $event.offsetX;
-      this._cursorY = $event.offsetY;
+      this._cursorX = event.offsetX;
+      this._cursorY = event.offsetY;
   }
 
-  onShiftUp($event){
+  @HostListener('keyup.shift', ['$event'])onShiftUp(event:any){
     this.shiftDown = false;
     //maxValue: Math.max(this._rectH, this._rectW); necessaire??
     this._rectW = this._cursorX - this._x;
@@ -68,7 +70,7 @@ export class RectangleComponent implements OnInit {
     //debugger;
   }
 
-  onShiftDown($event){
+  @HostListener('keydown.shift', ['$event']) onShiftDown(event:any){
     this.shiftDown = true;
     this._rectH = this._rectW;
     

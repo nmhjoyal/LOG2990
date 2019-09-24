@@ -1,8 +1,8 @@
-<!--This snippet of SVG shows the preview of the rectangle-->
+<!--This snippet of SVG shows the preview of the rectangle; Should be conditionally loaded into the canvas-->
 <rect [attr.x]="getX()" [attr.y]="getY()" [attr.width]="getRectW()" [attr.height]="getRectH()"
 style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:0.9" />
 
-<!--This snippet of SVG shows all saved rectangles-->
+<!--This snippet of SVG shows all saved rectangles; Should be added to the canvas.-->
 <g *ngFor="let rectangle of rectangles">
     <rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
   style="stroke:black;stroke-width:5;fill-opacity:0;stroke-opacity:0.9" />
