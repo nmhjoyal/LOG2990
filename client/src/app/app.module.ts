@@ -9,12 +9,25 @@ import { AppComponent } from './components/app/app.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from './services/local_storage/LocalStorageService';
+import { RouterModule, Routes } from '@angular/router';
+import {DrawViewComponent} from './drawing-view/draw-view/draw-view.component';
+import { LateralBarComponent } from './drawing-view/components/lateral-bar/lateral-bar.component';
+import {TitleBarComponent} from './drawing-view/components/title-bar/title-bar.component';
+
+
+const appRoutes: Routes = [
+  {path: '', component: DrawViewComponent },
+]
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ModalWindowComponent,
     WelcomeWindowComponent,
+    DrawViewComponent,
+    LateralBarComponent,
+    TitleBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +40,10 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     MatSidenavModule,
     BrowserAnimationsModule,
     FormsModule,
+    RouterModule.forRoot(
+      appRoutes,
+      {enableTracing: true} // debugging purposes?
+    )
   ],
   providers: [ MatDialogConfig, LocalStorageService],
   bootstrap: [AppComponent],
