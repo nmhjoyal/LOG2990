@@ -1,0 +1,65 @@
+
+<div class="color-wrapper">
+  <app-color-palette  [hue]="hue" (color)="color = $event" (color2)="color2 = $event"(colors)="colors"></app-color-palette>
+<div>
+      <div class="box" [ngStyle]="{'background-color': colors[0] ||'#bbb'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[1] ||'#ccc'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[1] || 'white'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[3] ||'#ccc'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[4] ||'#bbb'}">
+      </div>
+    </div>
+    <div>
+      <div class="box" [ngStyle]="{'background-color': colors[10] ||'#ddd'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[7] ||'#bbb'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[8] ||'#ccc'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[9] ||'#bbb'}">
+      </div>
+      <div class="box" [ngStyle]="{'background-color': colors[6] ||'#ddd'}">
+      </div>
+    </div>
+</div>
+
+<div class="input-wrapper" >
+  
+    <div
+      id = "primary" 
+      class="main-color"
+      [ngStyle]="{'background-color': color || 'white'}"
+      onclick="chooseColor1()"
+    ></div>
+    <div
+      id = "secondary"
+      class="main-color" 
+      [ngStyle]="{'background-color': color2 || 'lightgrey'}"
+      onclick="chooseColor2()"
+    ></div>
+  
+  
+</div>
+
+
+
+<!--
+<div class="input-color">
+  Input <input id="hex" type="text"  (ngOnChanges)="setColor()">
+  <button (click)="setColor()">
+  Submit
+</button>
+</div>
+-->
+<div class="input-color">
+ <app-color-inputs ></app-color-inputs>
+</div>
+
+<div class="slider">
+  Transparency <input type="range" class="slider" min="0" max="100" onchange="setAlpha()">
+</div>
+

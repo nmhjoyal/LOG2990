@@ -1,18 +1,14 @@
-import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {AppComponent} from './components/app/app.component';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { ColorPickerModule } from './color-picker/color-picker.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-  ],
+  imports:      [ BrowserModule, ColorPickerModule ],
+  declarations: [ AppComponent],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap:    [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule { }
