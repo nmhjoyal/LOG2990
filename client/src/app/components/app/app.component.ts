@@ -12,11 +12,11 @@ export class AppComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private storage: LocalStorageService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.openWelcomeScreen();
   }
 
-  openWelcomeScreen() {
+  openWelcomeScreen(): void {
     const showAgain = this.storage.getShowAgain();
     if (showAgain) {
       this.dialog.open(WelcomeWindowComponent, {

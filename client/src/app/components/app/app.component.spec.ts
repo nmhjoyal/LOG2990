@@ -1,43 +1,23 @@
-import { HttpClientModule } from '@angular/common/http';
-import { async, TestBed } from '@angular/core/testing';
-import { MatButtonModule, MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import SpyObj = jasmine.SpyObj;
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
-import { IndexService } from '../../services/index/index.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  let indexServiceSpy: SpyObj<IndexService>;
+  const serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
+  const dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+  let component: AppComponent;
 
   beforeEach(() => {
-    indexServiceSpy = jasmine.createSpyObj('IndexService', ['basicGet']);
-    indexServiceSpy.basicGet.and.returnValue(of({ title: '', body: '' }));
+    component = new AppComponent(dialogMock, serviceMock);
   });
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        BrowserModule,
-        HttpClientModule,
-        MatListModule,
-        MatToolbarModule,
-        MatCheckboxModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatDialogModule,
-        BrowserAnimationsModule,
-      ],
-      declarations: [
-        AppComponent,
-      ],
-      providers: [
-        { provide: IndexService, useValue: indexServiceSpy },
-        { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: [] },
-      ],
-    }).compileComponents();
-  }));
+  it('should open dialog when storage returns true', () => {
+    serviceMock.getShowAgain.and.returnValue(true);
+    component.ngOnInit();
+    expect(dialogMock.open).toHaveBeenCalled();
+  });
+
+  it('should not open dialog when storage returns false', () => {
+    serviceMock.getShowAgain.and.returnValue(false);
+    component.openWelcomeScreen();
+    expect(dialogMock.open).not.toHaveBeenCalled();
+  });
 });

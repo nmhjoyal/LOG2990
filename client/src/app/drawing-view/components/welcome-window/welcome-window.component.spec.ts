@@ -12,6 +12,16 @@ import { WelcomeWindowComponent } from './welcome-window.component';
 describe('WelcomeWindowComponent', () => {
   let component: WelcomeWindowComponent;
   let fixture: ComponentFixture<WelcomeWindowComponent>;
+  const mockLocalStorage = jasmine.createSpyObj('LocalStorageService',  ['getShowAgain', 'setShowAgain']);
+  const mockData = {
+    storage: jasmine.createSpyObj('LocalStorageService',  ['getShowAgain', 'setShowAgain']),
+  };
+
+  const dialogMock = {
+    close: () => {
+      console.log('MockDialog close');
+    },
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,9 +37,9 @@ describe('WelcomeWindowComponent', () => {
         WelcomeWindowComponent,
       ],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: [] },
-        LocalStorageService,
+        { provide: MatDialogRef, useValue: dialogMock },
+        { provide: MAT_DIALOG_DATA, useValue: mockData },
+        { provide: LocalStorageService, useValue: mockLocalStorage },
       ],
     })
     .overrideComponent(WelcomeWindowComponent, {
@@ -58,16 +68,8 @@ describe('WelcomeWindowComponent', () => {
   }));
 
   it('should update local storage when checkbox clicked', () => {
-    const checkbox = fixture.debugElement.query(By.css('#chbx-showAgain')).nativeElement;
-    checkbox.click();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      component.onCloseClick();
-      fixture.whenStable().then(() => {
-        const localStorageService = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
-        localStorageService.getShowAgain.and.returnValue(true);
-        expect(localStorageService.setShowAgain).toHaveBeenCalled();
-      });
-    });
+    component.isChecked = true;
+    component.onCloseClick();
+    expect(mockData.storage.setShowAgain).toHaveBeenCalled();
   });
 });
