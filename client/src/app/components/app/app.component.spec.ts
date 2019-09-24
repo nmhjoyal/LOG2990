@@ -1,11 +1,16 @@
+import SpyObj = jasmine.SpyObj;
+import { MatDialog } from '@angular/material';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  const serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
-  const dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+  let serviceMock: SpyObj<LocalStorageService>;
+  let dialogMock: SpyObj<MatDialog>;
   let component: AppComponent;
 
   beforeEach(() => {
+    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
     component = new AppComponent(dialogMock, serviceMock);
   });
 
