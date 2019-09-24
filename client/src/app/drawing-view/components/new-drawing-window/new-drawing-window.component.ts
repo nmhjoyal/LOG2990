@@ -1,7 +1,7 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { ModalData } from '../ModalData';
+import { ModalData } from '../NewDrawingModalData';
 
 @Component({
   selector: 'app-new-drawing-window',
@@ -24,7 +24,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.title = 'Create a new drawing';
     this.data.defaultHeight = window.innerHeight;
     this.data.defaultWidth = window.innerWidth;
-
     console.log();
   }
 
