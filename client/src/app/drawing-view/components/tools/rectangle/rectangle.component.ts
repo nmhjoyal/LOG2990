@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-rectangle',
+  selector: 'app-tools-rectangle',
   templateUrl: './rectangle.component.html',
   styleUrls: ['./rectangle.component.scss']
 })
@@ -85,7 +85,7 @@ export class RectangleComponent implements OnInit {
     //debugger;
   }
 
-  setTraceMode(mode:number){
+  setTraceMode(mode:number){//à mettre dans le service
     switch (mode) {
       case 1://Contour
         this._strokeOpacity = 1;//load from service

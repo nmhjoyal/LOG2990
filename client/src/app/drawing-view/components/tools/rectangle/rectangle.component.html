@@ -1,0 +1,23 @@
+<!--This snippet of HTML is intended for the options box of the rectangle, loaded when the rectangle tool is selected-->
+<p>
+  <button (click)="getService().switchColor()">Change Color!</button>
+  <button (click)="getService().setMode(1)">Contour</button>
+  <button (click)="getService().setMode(2)">Plein</button>
+  <button (click)="getService().setMode(3)">Plein&Contour</button>
+</p>
+
+<!--This snippet of SVG shows the preview of the rectangle; Should be conditionally loaded into the canvas-->
+<svg:rect [attr.x]="getX()" [attr.y]="getY()" [attr.width]="getRectW()" [attr.height]="getRectH()"
+  [style.stroke]="getSecondColor()" 
+  [style.stroke-opacity]="_strokeOpacity"
+  [style.fill]="getPrimeColor()"
+  [style.fill-opacity]="_fillOpacity" />
+
+<!--This snippet of SVG shows all saved rectangles; Should be added to the canvas.-->
+<svg:g *ngFor="let rectangle of rectangles">
+  <svg:rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
+    [style.stroke]="rectangle.secondColor" 
+    [style.fill]="rectangle.primeColor"  
+    [style.stroke-opacity]="rectangle.strokeOpacity"
+    [style.fill-opacity]="rectangle.fillOpacity"/>
+</svg:g>
