@@ -17,19 +17,22 @@ import {
   styleUrls: ['./color-palette.component.css'],
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
-  @Input()
-  hue: string
-  
 
-  @Output()
-  color: EventEmitter<string> = new EventEmitter(true)
-  color2: EventEmitter<string> = new EventEmitter(true)
-  colors: Array<string> = new Array;
-  mainColor: boolean = true;
+  @Input() alpha: number
+  @Input() mainColor: boolean = false
+  @Input() public colors: Array<string> 
+  
+  @Output() color2: EventEmitter<string> = new EventEmitter(true)
+  @Output() color: EventEmitter<string> = new EventEmitter(true)
+  @Output() emitAlpha: EventEmitter<number> = new EventEmitter(true)
   
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>
+
+  
+  //public mainColor: boolean = false;
+  //public alpha: number = 1;
 
   private ctx: CanvasRenderingContext2D
 
@@ -48,8 +51,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     const width = this.canvas.nativeElement.width
     const height = this.canvas.nativeElement.height
 
-    this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)'
-    this.ctx.fillRect(0, 0, width, height)
 
 
     const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
@@ -86,33 +87,24 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.closePath();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['hue']) {
-      this.draw()
-      const pos = this.selectedPosition
-      if (pos) {
-        if (this.mainColor){
-        this.color.emit(this.getColorAtPosition(pos.x, pos.y))
-        }
-      else{
-        this.color2.emit(this.getColorAtPosition(pos.x, pos.y))
-      }
-      }
-    }
-  }
-
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(evt: MouseEvent) {
     this.mousedown = false
-    if (this.colors.length == 10){
-        this.colors.pop()
-      }
+
     const pos = this.selectedPosition
-    if (pos) {
-      this.colors.push(this.getColorAtPosition(pos.x, pos.y))
-    }
-      
+    let duplicate = false;
+    for  (let i = 0; i < this.colors.length; i++) {
     
+      if (this.getColorAtPosition(pos.x, pos.y) == this.colors[i] ){
+        duplicate = true;
+      }
+    }
+    if (!duplicate){
+        this.colors.shift()
+        if (pos) {
+        this.colors.push(this.getColorAtPosition(pos.x, pos.y))
+    }
+    }
   }
 
   onMouseDown(evt: MouseEvent) {
@@ -150,18 +142,38 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   getColorAtPosition(x: number, y: number) {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data
     return (
-      'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)'
+      'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',' + this.alpha+')'
     )
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['alpha']) {
+      this.alpha = changes.item.currentValue
+    }
+  }
+
+
   setColor(input: string ){
-    if (input | "ffffff"){
+    if(this.mainColor){
       this.color.emit(input)
+      }
+    else{
+      this.color2.emit(input)
     }
   }
   
 
+  setAlpha(alpha: number){
+    this.alpha = alpha;
+    this.emitAlpha.emit(alpha);
+  }
 
-
+  switchColors(){
+  let inter = this.color
+  this.color = this.color2
+  this.color2 = inter
 }
+}
+
+
 

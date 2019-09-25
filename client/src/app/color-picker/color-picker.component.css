@@ -17,24 +17,19 @@
 
 
 .main-color{
-  width: 105px;
   height: 25px;
+  width: 105px;
   border-radius: 50px;
   border: 2px solid grey;
-  margin: 5px 10px;
+  margin: 5px 7px;
   cursor: pointer
 }
 
-.secondary{
-  width: 105px;
-  height: 25px;
-  border-radius: 50px;
-  border: 2px solid grey;
-  cursor: pointer;
-  margin: 5px 10px;
+.main-color:hover{
+   filter: brightness(80%);
 }
 
-.clicked-color{
+.main-color:active{
   height: 35px;
   border: 4px solid black;
 }
@@ -42,38 +37,7 @@
 .slidecontainer {
   width: 100%;
 }
-/*
-.slider {
-  -webkit-appearance: none;
-  width: 250px;
-  height: 15px;
-  border-radius: 5px;
-  background: lightgrey;
-  outline: none;
 
-
-}
-
-
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: grey;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-}
-*/
 * {
   box-sizing: border-box;
 }
@@ -83,6 +47,16 @@
   width: 25px;
   padding: 25px;
   cursor: pointer;
+}
+
+.box:hover{
+  filter: brightness(80%);
+}
+
+.box:active{
+  border: 2px solid black;
+  filter: brightness(50%);
+
 }
 /*
 .clearfix::after {
@@ -94,4 +68,18 @@
 .input-color{
   float: left;
   margin: 25px 0;
+}
+
+.button{
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.button:hover {
+  background-color: RoyalBlue;
 }
