@@ -18,8 +18,8 @@ export class AppComponent {
   readonly title: string = 'LOG2990';
   message = new BehaviorSubject<string>('');
 
-  @HostListener('document:keydown.ctrl.i', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    // create modal window here
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
     this.openNewDrawingDialog();
   }
 
@@ -30,7 +30,6 @@ export class AppComponent {
         map((message: Message) => `${message.title} ${message.body}`),
       )
       .subscribe(this.message);
-    this.openNewDrawingDialog();
   }
 
   openNewDrawingDialog(): void {
