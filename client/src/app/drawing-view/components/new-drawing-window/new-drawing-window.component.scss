@@ -3,5 +3,22 @@
     color: #424242;
     font-family: Arial, Helvetica, sans-serif, bold;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 10pt;
+    padding: 0 10px 0 10px;
+}
+
+.mat-dialog-title {
+    font-size: 13pt; 
+    margin: 15px;
+    font-weight: 900;
+}
+
+.mat-dialog-content {
+    font-size: 10pt;
+    margin: 10px;
+    font-weight: 500;
+}
+
+.new_drawing {
+    padding: 20px;
 }

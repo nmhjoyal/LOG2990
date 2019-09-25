@@ -1,9 +1,9 @@
 export interface ModalData {
     title: string;
-    showAgain?: boolean; // used for the welcome window
-    drawingHeight?: number; // used for the drawing
+    drawingHeight?: number;
     drawingWidth?: number;
-    defaultHeight?: number;
-    defaultWidth?: number;
-    drawingBackgroundColor?: string;
+    defaultHeight: number;
+    defaultWidth: number;
+    drawingBackgroundColor: string;
+    canvasIsDrawnOn: boolean;
 }

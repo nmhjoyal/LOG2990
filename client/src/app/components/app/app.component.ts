@@ -20,7 +20,7 @@ export class AppComponent {
 
   @HostListener('document:keydown.ctrl.i', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     // create modal window here
-    this.openDialog();
+    this.openNewDrawingDialog();
   }
 
   constructor(private basicService: IndexService, public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
@@ -30,13 +30,12 @@ export class AppComponent {
         map((message: Message) => `${message.title} ${message.body}`),
       )
       .subscribe(this.message);
+    this.openNewDrawingDialog();
   }
 
-  openDialog(): void {
+  openNewDrawingDialog(): void {
     this.dialog.open(NewDrawingWindowComponent, {
-      width: '800px',
-      height: '600px',
-      data: { title: 'Template' },
+      data: {  },
     });
   }
 
