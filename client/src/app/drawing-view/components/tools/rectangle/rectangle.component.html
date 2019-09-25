@@ -3,14 +3,18 @@
   <button (click)="setMode(1)">Contour</button>
   <button (click)="setMode(2)">Plein</button>
   <button (click)="setMode(3)">Plein&Contour</button>
+  <button (click)="decreaseStrokeWidth()">-</button>
+    {{getStrokeWidth()}}
+  <button (click)="increaseStrokeWidth()">+</button>
 </p>
 
 <!--This snippet of SVG shows the preview of the rectangle; Should be conditionally loaded into the canvas-->
 <svg:rect [attr.x]="getX()" [attr.y]="getY()" [attr.width]="getRectW()" [attr.height]="getRectH()"
   [style.stroke]="getSecondColor()" 
-  [style.stroke-opacity]="_strokeOpacity"
+  [style.stroke-opacity]="getStrokeOpacity()"
   [style.fill]="getPrimeColor()"
-  [style.fill-opacity]="_fillOpacity" />
+  [style.stroke-width]="getStrokeWidth()"
+  [style.fill-opacity]="getFillOpacity()" />
 
 <!--This snippet of SVG shows all saved rectangles; Should be added to the canvas.-->
 <svg:g *ngFor="let rectangle of rectangles">
@@ -18,5 +22,6 @@
     [style.stroke]="rectangle.secondColor" 
     [style.fill]="rectangle.primeColor"  
     [style.stroke-opacity]="rectangle.strokeOpacity"
+    [style.stroke-width]="rectangle.strokeWidth"
     [style.fill-opacity]="rectangle.fillOpacity"/>
 </svg:g>

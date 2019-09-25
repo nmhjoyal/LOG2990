@@ -15,10 +15,9 @@ export class RectangleComponent implements OnInit {
   private _mouseDown: boolean = false;
   private _shiftDown: boolean = false;
 
-  _strokeOpacity:number = 1;//These values should be loaded from the service holding color opacities
-  _fillOpacity:number = 1;
+  //following array should be in a service for ease of access by the canvas
   public rectangles:{x:number, y:number, width:number, height:number, 
-                    primeColor:string, secondColor:string
+                    primeColor:string, secondColor:string, strokeWidth:number,
                     strokeOpacity:number, fillOpacity:number}[] = [];
 
   constructor() { }
@@ -43,8 +42,9 @@ export class RectangleComponent implements OnInit {
        height: this._rectH,
        primeColor: this.getPrimeColor(),
        secondColor: this.getSecondColor(),
-       strokeOpacity: this._strokeOpacity,
-       fillOpacity: this._fillOpacity}
+       strokeWidth: this.getStrokeWidth(),
+       strokeOpacity: this.getStrokeOpacity(),
+       fillOpacity: this.getFillopacity()}
        );
     this._rectH = 0;
     this._rectW = 0;
@@ -85,6 +85,63 @@ export class RectangleComponent implements OnInit {
     //debugger;
   }
 
+  //Getter methods
+
+  getCursorX():number{
+    return this._cursorX;
+  }
+
+  getCursorY():number{
+    return this._cursorY;
+  }
+
+  getX():number{
+    return this._x;
+  }
+
+  getY():number{
+    return this._y;
+  }
+
+  getRectW():number{
+    return this._rectW;
+  }
+
+  getRectH():number{
+    return this._rectH;
+  }
+
+  //These methods should be defined in the service 
+  //that provides the information to rectangle for encapsulation purposes
+
+  getPrimeColor():string{
+    return "blue"; //Place holder, should load color from service here
+  }
+
+  getSecondColor():string{
+    return "green"; //Place holder, should load color from service here
+  }
+
+  getStrokeWidth():number{
+    return 3; //should load strokewidth from the service
+  }
+
+  getStrokeOpacity():number{
+    return 1; //should load strokewidth from the service
+  }
+
+  getFillopacity():number{
+    return 1; //should load strokewidth from the service
+  }
+
+  decreaseStrokeWidth(){//calls the method of the service to decrease stroke width
+  }
+
+  increaseStrokeWidth(){//calls the method of the service to increase stroke width
+  }
+
+  //Service exclusive methods
+  
   setTraceMode(mode:number){//à mettre dans le service
     switch (mode) {
       case 1://Contour
@@ -106,41 +163,6 @@ export class RectangleComponent implements OnInit {
         break;
     }
 
-  }
-
-
-  //Getter methods
-
-  getCursorX(){
-    return this._cursorX;
-  }
-
-  getCursorY(){
-    return this._cursorY;
-  }
-
-  getX(){
-    return this._x;
-  }
-
-  getY(){
-    return this._y;
-  }
-
-  getRectW(){
-    return this._rectW;
-  }
-
-  getRectH(){
-    return this._rectH;
-  }
-
-  getPrimeColor(){
-    return "blue"; //Place holder, should load color from service here
-  }
-
-  getSecondColor(){
-    return "green"; //Place holder, should load color from service here
   }
 
 }

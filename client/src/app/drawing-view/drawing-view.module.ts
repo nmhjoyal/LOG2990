@@ -4,8 +4,7 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { WelcomeWindowComponent } from './components/welcome-window/welcome-window.component';
 import { LateralBarComponent } from './components/lateral-bar/lateral-bar.component';
-import { ShapesComponent } from './components/shapes/shapes.component';
-import { RectangleComponent } from './components/shapes/rectangle/rectangle.component';
+import { RectangleComponent } from './components/tools/rectangle/rectangle.component';
 
 
 
