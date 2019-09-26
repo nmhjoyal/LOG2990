@@ -6,14 +6,14 @@ import { Component, OnInit, HostListener } from '@angular/core';
   styleUrls: ['./rectangle.component.scss']
 })
 export class RectangleComponent implements OnInit {
-  private _cursorX:number;//passable with service
+  private _cursorX:number;
   private _cursorY:number;
-  private _rectH: number = 0;
-  private _rectW: number = 0;
+  private _height: number = 0;
+  private _width: number = 0;
   private _x:number = 0;
   private _y:number = 0;
   private _mouseDown: boolean = false;
-  private _shiftDown: boolean = false;
+  private shiftDown: boolean = false;
 
   //following array should be in a service for ease of access by the canvas
   public rectangles:{x:number, y:number, width:number, height:number, 
@@ -26,65 +26,70 @@ export class RectangleComponent implements OnInit {
   }
 
   // Event handling methods
+  
   @HostListener('mousedown', ['$event']) onMouseDown(event:any){
-    this._x=event.offsetX;
-    this._y=event.offsetY;
+    this._x=event.offsetX + this.getStrokeWidth()/2;
+    this._y=event.offsetY + this.getStrokeWidth()/2;
     this._mouseDown = true;
   }
 
   @HostListener('mouseup') onMouseUp(){
     this._mouseDown = false;
-    if(!(this._rectH == 0 && this._rectW == 0))
+    if(!(this._height == 0 && this._width == 0))
     this.rectangles.push(
       {x: this._x,
        y: this._y,
-       width: this._rectW,
-       height: this._rectH,
-       primeColor: this.getPrimeColor(),
-       secondColor: this.getSecondColor(),
-       strokeWidth: this.getStrokeWidth(),
-       strokeOpacity: this.getStrokeOpacity(),
-       fillOpacity: this.getFillopacity()}
+       width: this._width,
+       height: this._height,
+      primeColor: this.getPrimeColor(),
+    secondColor: this.getSecondColor(),
+    strokeOpacity: this.getStrokeOpacity(),
+    strokeWidth: this.getStrokeWidth(),
+    fillOpacity: this.getFillOpacity()
+  }
        );
-    this._rectH = 0;
-    this._rectW = 0;
+    this._height = 0;
+    this._width = 0;
     this._x=0;
     this._y=0;
   }
 
   @HostListener('mouseleave') onMouseleave(){
+    if(this._mouseDown)
     this.onMouseUp();
   }
 
-  @HostListener('mousemove', ['$event'])onMouseMove(event:any){
-    if(this._mouseDown){
-      this._rectW = event.offsetX - this._x;
-      this._rectH = event.offsetY - this._y;
-      
-      if(this._shiftDown)
-      this._rectH = this._rectW
-      }
-      
-      this._cursorX = event.offsetX;
-      this._cursorY = event.offsetY;
-  }
-
-  @HostListener('keyup.shift', ['$event'])onShiftUp(event:any){
-    this._shiftDown = false;
-    //maxValue: Math.max(this._rectH, this._rectW); necessaire??
-    this._rectW = this._cursorX - this._x;
-    this._rectH = this._cursorY - this._y;
-
-    //debugger;
-  }
-
-  @HostListener('keydown.shift', ['$event']) on_shiftDown(event:any){
-    this._shiftDown = true;
-    this._rectH = this._rectW;
+  @HostListener('mousemove', ['$event']) onMouseMove(event:any){
+    this._cursorX = event.offsetX;
+    this._cursorY = event.offsetY;
     
-    //debugger;
+    if(this._mouseDown){
+      this.calculateDimensions();
+    }
   }
 
+  @HostListener('keyup.shift', ['$event']) onShiftUp(event:any){
+    this.shiftDown = false;
+    if(this._mouseDown)
+    this.calculateDimensions();
+  }
+
+  @HostListener('keydown.shift', ['$event']) onShiftDown(event:any){
+    this.shiftDown = true;
+    if(this._mouseDown)
+    this.calculateDimensions();
+  }
+
+  calculateDimensions(){
+    this._width =  this._cursorX- this._x -  this.getStrokeWidth();
+    this._height = this._cursorY - this._y -  this.getStrokeWidth();
+
+    if(this.shiftDown){
+      let minValue = Math.min(this._height, this._width);
+      this._height = minValue;
+      this._width = minValue;
+    }
+  }
   //Getter methods
 
   getCursorX():number{
@@ -103,12 +108,12 @@ export class RectangleComponent implements OnInit {
     return this._y;
   }
 
-  getRectW():number{
-    return this._rectW;
+  getRectangleWidth():number{
+    return this._width;
   }
 
-  getRectH():number{
-    return this._rectH;
+  getRectangleHeight():number{
+    return this._height;
   }
 
   //These methods should be defined in the service 
@@ -130,7 +135,7 @@ export class RectangleComponent implements OnInit {
     return 1; //should load strokewidth from the service
   }
 
-  getFillopacity():number{
+  getFillOpacity():number{
     return 1; //should load strokewidth from the service
   }
 
