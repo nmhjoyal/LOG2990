@@ -10,14 +10,13 @@ export class RectangleComponent implements OnInit {
   private _cursorY:number;
   private _height: number = 0;
   private _width: number = 0;
+  private _strokeOpacity:number = 1;
+  private _fillOpacity:number = 1;
+  private _strokeWidth:number = 2;
   private _x:number = 0;
   private _y:number = 0;
   private _mouseDown: boolean = false;
   private shiftDown: boolean = false;
-
-  //The following attributes are placeholders; they should be kept in a service
-  _strokeOpacity:number;
-  _fillOpacity:number;
 
   //following array should be in a service for ease of access by the canvas
   public rectangles:{x:number, y:number, width:number, height:number, 
@@ -84,7 +83,10 @@ export class RectangleComponent implements OnInit {
     this.calculateDimensions();
   }
 
-  calculateDimensions(){
+
+  //Funcitons
+
+  calculateDimensions():void{
     this._width =  this._cursorX- this._x -  this.getStrokeWidth();
     this._height = this._cursorY - this._y -  this.getStrokeWidth();
 
@@ -94,64 +96,17 @@ export class RectangleComponent implements OnInit {
       this._width = minValue;
     }
   }
-  //Getter methods
 
-  getCursorX():number{
-    return this._cursorX;
+  decreaseStrokeWidth():void{
+    if(this._strokeWidth != 0)
+    this._strokeWidth--;
   }
 
-  getCursorY():number{
-    return this._cursorY;
+  increaseStrokeWidth():void{
+    this._strokeWidth++;
   }
 
-  getX():number{
-    return this._x;
-  }
-
-  getY():number{
-    return this._y;
-  }
-
-  getRectangleWidth():number{
-    return this._width;
-  }
-
-  getRectangleHeight():number{
-    return this._height;
-  }
-
-  //These methods should be defined in the service 
-  //that provides the information to rectangle for encapsulation purposes
-
-  getPrimeColor():string{
-    return "blue"; //Place holder, should load color from service here
-  }
-
-  getSecondColor():string{
-    return "green"; //Place holder, should load color from service here
-  }
-
-  getStrokeWidth():number{
-    return 3; //should load strokewidth from the service
-  }
-
-  getStrokeOpacity():number{
-    return 1; //should load strokewidth from the service
-  }
-
-  getFillOpacity():number{
-    return 1; //should load strokewidth from the service
-  }
-
-  decreaseStrokeWidth(){//calls the method of the service to decrease stroke width
-  }
-
-  increaseStrokeWidth(){//calls the method of the service to increase stroke width
-  }
-
-  //Service exclusive methods
-  
-  setTraceMode(mode:number){//à mettre dans le service
+  setTraceMode(mode:number):void{//MAKE CONSTANTS FOR MODES
     switch (mode) {
       case 1://Contour
         this._strokeOpacity = 1;//load from service
@@ -172,6 +127,47 @@ export class RectangleComponent implements OnInit {
         break;
     }
 
+  }
+
+  //Getter methods
+
+  getX():number{
+    return this._x;
+  }
+
+  getY():number{
+    return this._y;
+  }
+
+  getRectangleWidth():number{
+    return this._width;
+  }
+
+  getRectangleHeight():number{
+    return this._height;
+  }
+
+  getStrokeWidth():number{
+    return this._strokeWidth; 
+  }
+
+  getStrokeOpacity():number{
+    return this._strokeOpacity;
+  }
+
+  getFillOpacity():number{
+    return this._fillOpacity;
+  }
+
+  //These methods should be defined in the service 
+  //that provides the information to rectangle for encapsulation purposes
+
+  getPrimeColor():string{
+    return "blue"; //Place holder, should load color from service here
+  }
+
+  getSecondColor():string{
+    return "green"; //Place holder, should load color from service here
   }
 
 }
