@@ -12,9 +12,9 @@ import { ModalData } from '../NewDrawingModalData';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  widthInput = new FormControl('', [Validators.pattern('^[1-9][0-9]*$'), ]);
-  heightInput = new FormControl('', [Validators.pattern('^[1-9][0-9]*$'), ]);
-  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
+  widthInput = new FormControl('', [Validators.required, Validators.maxLength(4), Validators.pattern('^[1-9][0-9]*$'), ]);
+  heightInput = new FormControl('', [Validators.required, Validators.maxLength(4), Validators.pattern('^[1-9][0-9]*$'), ]);
+  colourInput = new FormControl('', [Validators.required, Validators.pattern('^#[0-9a-f]{6}$'), ]);
 
   constructor(public dialogRef: MatDialogRef<ModalWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ModalData) {
@@ -36,13 +36,9 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   }
 
   onAcceptClick(): void {
-    if (this.widthInput.hasError('pattern') || this.heightInput.hasError('pattern') || this.colourInput.hasError('pattern')) {
-      confirm('There are errors in the form. Please fix them before continuing.');
-    } else {
-      this.data.drawingHeight ? this.data.defaultHeight = this.data.drawingHeight : this.data.defaultHeight = this.data.defaultHeight;
-      this.data.drawingWidth ? this.data.defaultWidth = this.data.drawingWidth : this.data.defaultWidth = this.data.defaultWidth;
-      this.dialogRef.close();
-    }
+    this.data.drawingHeight ? this.data.defaultHeight = this.data.drawingHeight : this.data.defaultHeight = this.data.defaultHeight;
+    this.data.drawingWidth ? this.data.defaultWidth = this.data.drawingWidth : this.data.defaultWidth = this.data.defaultWidth;
+    this.dialogRef.close();
   }
 
   onCloseClick(): void {
