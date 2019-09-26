@@ -9,6 +9,8 @@ import {
   OnChanges,
   EventEmitter,
   HostListener,
+  HostBinding
+
 } from '@angular/core'
 
 @Component({
@@ -18,14 +20,16 @@ import {
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
+  
+
   @Input() alpha: number
-  @Input() mainColor: boolean = false
+  @Input() mainColor: boolean
   @Input() public colors: Array<string> 
   
   @Output() color2: EventEmitter<string> = new EventEmitter(true)
   @Output() color: EventEmitter<string> = new EventEmitter(true)
-  @Output() emitAlpha: EventEmitter<number> = new EventEmitter(true)
   
+  //@HostBinding('attr.mainColor') mainColor: boolean;
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>
@@ -152,7 +156,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
-
+/*
   setColor(input: string ){
     if(this.mainColor){
       this.color.emit(input)
@@ -162,17 +166,13 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
   
-
+*/
   setAlpha(alpha: number){
     this.alpha = alpha;
-    this.emitAlpha.emit(alpha);
-  }
+    //this.setColor(this.colors[9]);
+} 
 
-  switchColors(){
-  let inter = this.color
-  this.color = this.color2
-  this.color2 = inter
-}
+  
 }
 
 
