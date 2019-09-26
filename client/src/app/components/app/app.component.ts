@@ -12,7 +12,6 @@ import { IndexService } from '../../services/index/index.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  // animations: [BrowserAnimationsModule],
 })
 export class AppComponent {
   readonly title: string = 'LOG2990';
@@ -20,7 +19,10 @@ export class AppComponent {
 
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     event.preventDefault();
-    this.openNewDrawingDialog();
+    if (this.dialog.openDialogs.length < 1) {
+      this.openNewDrawingDialog();
+    }
+
   }
 
   constructor(private basicService: IndexService, public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
@@ -34,7 +36,8 @@ export class AppComponent {
 
   openNewDrawingDialog(): void {
     this.dialog.open(NewDrawingWindowComponent, {
-      data: {  },
+      data: NewDrawingWindowComponent.prototype.data,
+      panelClass: 'new-drawing-window',
     });
   }
 

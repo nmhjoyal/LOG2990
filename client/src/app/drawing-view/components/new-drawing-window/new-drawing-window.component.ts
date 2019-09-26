@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
@@ -8,11 +8,13 @@ import { ModalData } from '../NewDrawingModalData';
   selector: 'app-new-drawing-window',
   templateUrl: './new-drawing-window.component.html',
   styleUrls: ['./new-drawing-window.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
+
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  widthInput = new FormControl(this.data.drawingWidth, [Validators.min(1), Validators.pattern('^[0-9]*$'), ]);
-  heightInput = new FormControl(this.data.drawingHeight, [Validators.min(1), Validators.pattern('^[0-9]*$'), ]);
-  colourInput = new FormControl(this.data.drawingBackgroundColor, [Validators.pattern('^#[0-9a-f]{6}$'), ]);
+  widthInput = new FormControl('', [Validators.pattern('^[1-9][0-9]*$'), ]);
+  heightInput = new FormControl('', [Validators.pattern('^[1-9][0-9]*$'), ]);
+  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
 
   constructor(public dialogRef: MatDialogRef<ModalWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ModalData) {
@@ -33,15 +35,13 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.defaultWidth = window.innerWidth;
   }
 
-  createNewDrawing(): void {
-    // create mock svg here
-  }
-
   onAcceptClick(): void {
-    if (!this.widthInput.hasError && !this.heightInput.hasError && !this.colourInput.hasError) {
-      this.dialogRef.close();
-    } else {
+    if (this.widthInput.hasError('pattern') || this.heightInput.hasError('pattern') || this.colourInput.hasError('pattern')) {
       confirm('There are errors in the form. Please fix them before continuing.');
+    } else {
+      this.data.drawingHeight ? this.data.defaultHeight = this.data.drawingHeight : this.data.defaultHeight = this.data.defaultHeight;
+      this.data.drawingWidth ? this.data.defaultWidth = this.data.drawingWidth : this.data.defaultWidth = this.data.defaultWidth;
+      this.dialogRef.close();
     }
   }
 
@@ -56,7 +56,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
 
   }
 
-  confirmExit() {
+  confirmExit(): boolean {
     return confirm('Are you sure you want to exit and lose your changes?');
   }
 }
