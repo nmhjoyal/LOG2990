@@ -15,6 +15,10 @@ export class RectangleComponent implements OnInit {
   private _mouseDown: boolean = false;
   private shiftDown: boolean = false;
 
+  //The following attributes are placeholders; they should be kept in a service
+  _strokeOpacity:number;
+  _fillOpacity:number;
+
   //following array should be in a service for ease of access by the canvas
   public rectangles:{x:number, y:number, width:number, height:number, 
                     primeColor:string, secondColor:string, strokeWidth:number,
@@ -26,7 +30,7 @@ export class RectangleComponent implements OnInit {
   }
 
   // Event handling methods
-  
+
   @HostListener('mousedown', ['$event']) onMouseDown(event:any){
     this._x=event.offsetX + this.getStrokeWidth()/2;
     this._y=event.offsetY + this.getStrokeWidth()/2;
