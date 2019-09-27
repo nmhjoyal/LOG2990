@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppComponent } from '../components/app/app.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { WelcomeWindowComponent } from './components/welcome-window/welcome-window.component';
@@ -10,7 +16,8 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
 
 
 @NgModule({
-  declarations: [ToolsComponent, 
+  declarations: [AppComponent,
+    ToolsComponent, 
     CanvasComponent, 
     WelcomeWindowComponent, 
     LateralBarComponent, 
