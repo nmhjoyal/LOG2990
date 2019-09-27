@@ -12,15 +12,14 @@ export abstract class ModalWindowComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ModalWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModalData) {
-      this.data.title = 'Template';
-    }
+  }
 
   onCloseClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit() {
-    // empty body
+    console.log('ModalWindowComponent initialized');
   }
 
 }

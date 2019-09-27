@@ -8,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class ToolsComponent implements OnInit {
 
   constructor() {
-    console.log();
-   }
+    console.log('ToolsComponent constructed');
+  }
 
   ngOnInit() {
-    console.log();
+    console.log('ToolsComponent initialized');
   }
 
 }

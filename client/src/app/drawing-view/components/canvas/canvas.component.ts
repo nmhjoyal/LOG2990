@@ -8,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class CanvasComponent implements OnInit {
 
   constructor() {
-    console.log();
+    console.log('CanvasComponent constructed');
   }
 
   ngOnInit() {
-    console.log();
+    console.log('CanvasComponent initialized');
   }
 
 }
