@@ -1,7 +1,7 @@
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule, MatCardModule } from '@angular/material';
 import { MatDialogConfig, MatDialogModule} from '@angular/material/dialog';
 import {BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +13,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {DrawViewComponent} from './drawing-view/draw-view/draw-view.component';
 import { LateralBarComponent } from './drawing-view/components/lateral-bar/lateral-bar.component';
 import {TitleBarComponent} from './drawing-view/components/title-bar/title-bar.component';
+import { ToolDetailsComponent } from './drawing-view/components/tool-details/tool-details.component';
 
 
 const appRoutes: Routes = [
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     DrawViewComponent,
     LateralBarComponent,
     TitleBarComponent,
+    ToolDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ const appRoutes: Routes = [
     MatCheckboxModule,
     MatButtonModule,
     MatSidenavModule,
+    MatCardModule,
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(
