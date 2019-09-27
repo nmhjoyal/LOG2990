@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {LateralBarComponent} from '../components/lateral-bar/lateral-bar.component';
-import {TitleBarComponent} from '../components/title-bar/title-bar.component';
+// import {LateralBarComponent} from '../components/lateral-bar/lateral-bar.component';
+// import {TitleBarComponent} from '../components/title-bar/title-bar.component';
 
 
 @Component({
