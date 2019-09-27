@@ -5,17 +5,29 @@
         width = "500" height = "700" style="border: 1px solid black;"
         (mousedown)="onMouseDown($event)"
         (mousemove)="onMouseMove($event)"
-        (mouseup)="onMouseUp($event)" >
+        (mouseup)="onMouseUp()"
+        (mouseleave)="onMouseLeave()" >
 
+      
     <polyline 
         id="current"
         [attr.points]="_points"
-        style="fill:none;stroke:black;stroke-width:2" />
+        [style.fill]="getFill()"
+        [style.stroke]="getColor()"
+        [style.stroke-width]="getStrokeWidth()"
+        [style.stroke-linecap]="getStrokeLinecap()" />
+    
 
-    <g *ngFor = "let line of _lines">
+    <g *ngFor = "let line of lines">
         <polyline 
-        [attr.points]="_lines"
-        style="fill:none;stroke:black;stroke-width:2" />
+        [attr.points]="line.points"
+        [style.fill]="line.fill"
+        [style.stroke]="line.color"
+        [style.stroke-width]="line.strokeWidth"
+        [style.stroke-linecap]="line.strokeLinecap"
+         />
+         
     </g>
+
     
   </svg>
