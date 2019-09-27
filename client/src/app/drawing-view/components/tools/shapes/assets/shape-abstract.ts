@@ -3,21 +3,24 @@ import { ShapeService } from './shape.service';
 
 const DEFAULT_OPACITY = 1;
 const DEFAULT_STROKE_WIDTH = 2;
+const CONTOUR_MODE = 1;
+const FILL_MODE = 2;
+const CONTOUR_FILL_MODE = 3;
 
 export abstract class ShapeAbstract implements OnInit {
-    protected _cursorX:number;
-    protected _cursorY:number;
-    protected _previewWidth:number;
-    protected _previewHeight:number;
-    protected _strokeOpacity:number = DEFAULT_OPACITY;
-    protected _fillOpacity:number = DEFAULT_OPACITY;
-    protected _strokeWidth:number = DEFAULT_STROKE_WIDTH;
+    protected _cursorX: number;
+    protected _cursorY: number;
+    protected _previewWidth: number;
+    protected _previewHeight: number;
+    protected _strokeOpacity: number = DEFAULT_OPACITY;
+    protected _fillOpacity: number = DEFAULT_OPACITY;
+    protected _strokeWidth: number = DEFAULT_STROKE_WIDTH;
     protected _shapeHeight: number = 0;
     protected _shapeWidth: number = 0;
-    protected _x:number = 0;
-    protected _y:number = 0;
-    protected _shapeX:number = 0;
-    protected _shapeY:number = 0;
+    protected _x: number = 0;
+    protected _y: number = 0;
+    protected _shapeX: number = 0;
+    protected _shapeY: number = 0;
     protected _mouseDown: boolean = false;
     protected _shiftDown: boolean = false;
   
@@ -102,21 +105,21 @@ export abstract class ShapeAbstract implements OnInit {
       this._strokeWidth++;
     }
   
-    setTraceMode(mode:number): void{//MAKE CONSTANTS FOR MODES
+    setTraceMode(mode:number): void{
       switch (mode) {
-        case 1://Contour
-          this._strokeOpacity = 1;//load from service
+        case CONTOUR_MODE:
+          this._strokeOpacity = 1;//load from color service
           this._fillOpacity = 0;
           break;
         
-        case 2://Fill
+        case FILL_MODE:
           this._strokeOpacity = 0;
-          this._fillOpacity = 1;//load from service
+          this._fillOpacity = 1;//load from color service
           break;
       
-        case 3://Contour&Fill
-            this._strokeOpacity = 1;//load from service
-            this._fillOpacity = 1;//load from service
+        case CONTOUR_FILL_MODE:
+            this._strokeOpacity = 1;//load from color service
+            this._fillOpacity = 1;//load from color service
             break;
   
         default:
