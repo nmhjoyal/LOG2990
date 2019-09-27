@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShapePerimeterComponent } from './shape-perimeter.component';
+import { ShapeToolboxComponent } from './shape-toolbox.component';
 
-describe('ShapePerimeterComponent', () => {
-  let component: ShapePerimeterComponent;
-  let fixture: ComponentFixture<ShapePerimeterComponent>;
+describe('ShapeToolboxComponent', () => {
+  let component: ShapeToolboxComponent;
+  let fixture: ComponentFixture<ShapeToolboxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShapePerimeterComponent ]
+      declarations: [ ShapeToolboxComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShapePerimeterComponent);
+    fixture = TestBed.createComponent(ShapeToolboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

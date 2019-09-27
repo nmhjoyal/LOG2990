@@ -4,13 +4,17 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { WelcomeWindowComponent } from './components/welcome-window/welcome-window.component';
 import { LateralBarComponent } from './components/lateral-bar/lateral-bar.component';
-import { RectangleComponent } from './components/tools/rectangle/rectangle.component';
-import { ShapePerimeterComponent } from './components/tools/shape-perimeter/shape-perimeter.component';
+import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
 
 
 
 @NgModule({
-  declarations: [ToolsComponent, CanvasComponent, WelcomeWindowComponent, LateralBarComponent, RectangleComponent, ShapePerimeterComponent],
+  declarations: [ToolsComponent, 
+    CanvasComponent, 
+    WelcomeWindowComponent, 
+    LateralBarComponent, 
+    RectangleComponent, ShapeToolboxComponent],
   imports: [
     CommonModule
   ]
