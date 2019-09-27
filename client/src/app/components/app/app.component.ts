@@ -1,23 +1,29 @@
-import {Component} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {Message} from '../../../../../common/communication/message';
-import {IndexService} from '../../services/index/index.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  readonly title: string = 'LOG2990';
-  message = new BehaviorSubject<string>('');
+export class AppComponent implements OnInit {
 
-  constructor(private basicService: IndexService) {
-    this.basicService.basicGet()
-      .pipe(
-        map((message: Message) => `${message.title} ${message.body}`),
-      )
-      .subscribe(this.message);
+  constructor(public dialog: MatDialog, private storage: LocalStorageService) { }
+
+  ngOnInit(): void {
+    this.openWelcomeScreen();
   }
+
+  openWelcomeScreen(): void {
+    const showAgain = this.storage.getShowAgain();
+    if (showAgain) {
+      this.dialog.open(WelcomeWindowComponent, {
+        data: { storage : this.storage },
+        disableClose: true,
+      });
+    }
+  }
+
 }
