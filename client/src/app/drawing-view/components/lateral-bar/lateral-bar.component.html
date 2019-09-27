@@ -1,6 +1,6 @@
 <div>
     <mat-sidenav-container class="main-container">
-        <mat-sidenav #sidenav mode="side" opened fixedTopGap="56">
+        <mat-sidenav #sidenav mode="side" opened position="start" fixedTopGap="56">
             <mat-nav-list>
                 <a mat-list-item class="filter">
                     <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
@@ -23,10 +23,24 @@
                 <a mat-list-item class="filter">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
                 </a>
+                <a mat-list-item class="filter" (click)="sidenav2.toggle()">
+                    <img id="details" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Details">
+                </a>
                 <a mat-list-item id="userGuide">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
             </mat-nav-list>
         </mat-sidenav>
+
+        <mat-card id="canvas"></mat-card>
+
+        <mat-sidenav #sidenav2 position="end">
+            <mat-nav-list>
+                <a mat-list-item class="filter">
+                    <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Color Palette">
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+
     </mat-sidenav-container>
 </div>
