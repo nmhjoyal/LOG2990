@@ -1,13 +1,15 @@
-<button id="modal" (click)="openNewDrawingDialog()"> click here!</button>
-<app-mock-canvas style="display: block"></app-mock-canvas>
 <div>
     <mat-toolbar color="secondary">
         <h1 class="app-name">J'Opine</h1>
     </mat-toolbar>
-    
+
     <mat-sidenav-container class="main-container">
         <mat-sidenav #sidenav mode="side" opened fixedTopGap="56">
             <mat-nav-list>
+                <a mat-list-item class="filter">
+                    <img id="newDrawing" class="sideBarIcon" src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" 
+                    title="Nouveau dessin" (click)="openNewDrawingDialog()">
+                </a>
                 <a mat-list-item class="filter">
                     <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
                 </a>
@@ -15,7 +17,7 @@
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="fillBucket" class="sideBarIcon"  src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
+                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
                 </a>
                 <a mat-list-item class="filter">
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
@@ -34,6 +36,8 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
+        <app-mock-canvas style="width: 0; height: 0" ></app-mock-canvas>
+
     </mat-sidenav-container>
+
 </div>
-  

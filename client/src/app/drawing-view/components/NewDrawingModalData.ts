@@ -1,9 +1,10 @@
 export interface ModalData {
     title: string;
-    drawingHeight?: number;
-    drawingWidth?: number;
-    defaultHeight: number;
-    defaultWidth: number;
-    drawingBackgroundColor: string;
+    drawingHeightInput?: number;
+    drawingWidthInput?: number;
+    drawingHeight: number;
+    drawingWidth: number;
+    drawingColorInput?: string;
+    drawingColor: string;
     canvasIsDrawnOn: boolean;
 }

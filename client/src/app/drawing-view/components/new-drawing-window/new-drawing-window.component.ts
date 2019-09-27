@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ModalData } from '../NewDrawingModalData';
 
@@ -16,43 +17,63 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   heightInput = new FormControl('', [Validators.required, Validators.maxLength(4), Validators.pattern('^[1-9][0-9]*$'), ]);
   colourInput = new FormControl('', [Validators.required, Validators.pattern('^#[0-9a-f]{6}$'), ]);
 
-  constructor(public dialogRef: MatDialogRef<ModalWindowComponent>,
+  constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ModalData) {
     super(dialogRef, data);
     dialogRef.disableClose = true;
   }
 
   @HostListener('window: resize', ['$event']) updateWindowSize(event?: Event) {
-    if (!this.data.drawingHeight && !this.data.drawingWidth) {
-      this.data.defaultWidth = window.innerWidth;
-      this.data.defaultHeight = window.innerHeight;
+    if (!this.data.drawingHeightInput && !this.data.drawingWidthInput) {
+      this.data.drawingWidth = window.innerWidth;
+      this.data.drawingHeight = window.innerHeight;
     }
   }
 
-  ngOnInit() {
-    this.data.title = 'Create a new drawing';
-    this.data.defaultHeight = window.innerHeight;
-    this.data.defaultWidth = window.innerWidth;
-  }
-
-  onAcceptClick(): void {
-    this.data.drawingHeight ? this.data.defaultHeight = this.data.drawingHeight : this.data.defaultHeight = this.data.defaultHeight;
-    this.data.drawingWidth ? this.data.defaultWidth = this.data.drawingWidth : this.data.defaultWidth = this.data.defaultWidth;
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.reinitializeDrawingVariables();
     this.dialogRef.close();
   }
 
+  ngOnInit() {
+    this.data.title = 'Créer un nouveau dessin';
+  }
+
+  onAcceptClick(): void {
+    this.data.drawingHeightInput ? this.data.drawingHeight = this.data.drawingHeightInput
+      : this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
+    this.data.drawingWidthInput ? this.data.drawingWidth = this.data.drawingWidthInput
+      : this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
+    this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
+      this.data.drawingColor = '#ffffff';
+    this.dialogRef.close();
+    this.reinitializeDrawingVariables();
+    this.data.canvasIsDrawnOn = false;
+  }
+
   onCloseClick(): void {
-    if (this.data.drawingHeight || this.data.drawingWidth || this.data.drawingBackgroundColor) {
+    if (this.data.drawingHeightInput || this.data.drawingWidthInput || this.data.drawingColorInput) {
       if (this.confirmExit()) {
         this.dialogRef.close();
+
+        this.reinitializeDrawingVariables();
+      } else {
+        return;
       }
     } else {
+      this.reinitializeDrawingVariables();
       this.dialogRef.close();
     }
 
   }
 
+  reinitializeDrawingVariables(): void {
+    this.data.drawingColorInput = undefined;
+    this.data.drawingHeightInput = undefined;
+    this.data.drawingWidthInput = undefined;
+  }
+
   confirmExit(): boolean {
-    return confirm('Are you sure you want to exit and lose your changes?');
+    return confirm('Êtes-vous certain.e de vouloir quitter et perdre vos changements?');
   }
 }

@@ -50,12 +50,12 @@ describe('NewDrawingWindowComponent', () => {
 
   it('should have default width equal to window inner width', () => {
     const window = new Window();
-    expect(component.data.defaultWidth).toEqual(window.innerWidth);
+    expect(component.data.drawingWidth).toEqual(window.innerWidth);
   });
 
   it('should have default height equal to window inner height', () => {
     const window = new Window();
-    expect(component.data.defaultHeight).toEqual(window.innerHeight);
+    expect(component.data.drawingHeight).toEqual(window.innerHeight);
   });
 
 });
