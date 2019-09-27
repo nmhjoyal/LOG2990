@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { LocalStorageService } from '../../../services/local_storage/LocalStorageService';
+import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 
 
 @Component({
