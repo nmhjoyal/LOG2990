@@ -1,4 +1,4 @@
-import {  Component, ViewChild } from '@angular/core'
+import {  Component } from '@angular/core'
 
 
 @Component({
@@ -6,63 +6,36 @@ import {  Component, ViewChild } from '@angular/core'
   templateUrl: './color-picker.component.html',
   styleUrls: ['./color-picker.component.css'],
 })
+
 export class ColorPickerComponent {
-  public color: string = 'rgba(0,0,0,0)'
-  public color2: string = 'rgba(100,100,100,1)'
-  public colors: Array<string> = ["#222","#333", "#444", "#555", "#777", "#aaa", "#bbb", "#ccc", "#ddd", "#eee"]
-  public alpha: number = 1
-  public mainColor: boolean = true
+  public color: Array<string> = ["#ffffffff", "#000000ff"] 
+  public colors: Array<string> = ["#222222ff","#333333ff", "#444444ff", "#555555ff", "#777777ff", "#aaaaaaff", "#bbbbbbff", "#ccccccff", "#ddddddff", "#eeeeeeff"]
+  public alpha: Array<number> = [1, 1]
+  public mainColor: boolean = false
 
 
-  chooseColor(primary: boolean)
-{
-   
-    if (primary == true){
-      if (this.mainColor == false){
-        this.mainColor = true;
+  chooseColor(primary: boolean){
+      if (primary){
+        if (!this.mainColor) this.mainColor = true;      
       }
-    }
-    else{
-      if (this.mainColor == true){
-        this.mainColor = false;
+      else {
+        if (this.mainColor) this.mainColor = false;
       }
-    }
-}
-/*
-chooseColor2()
-{
-    //document.getElementById('secondary').setAttribute("main-color", "clicked-color");
-    this.mainColor = false;
-}*/
+  }
 
-switchColors(){
-  let inter = this.color
-  this.color = this.color2
-  this.color2 = inter
-}
+  switchColors(){
+    let inter = this.color[0]
+    this.color[0] = this.color[1]
+    this.color[1] = inter
+  }
 
-setAlpha(alpha: number){
-  //"app-color-palette.setAlpha(alpha)"
-    this.alpha = alpha;
-    //this.setColor(this.colors[9]);
-} 
+  setAlpha(alpha: number){
+    this.alpha[+this.mainColor] = alpha;
+    this.setColor(this.colors[9]);
+  } 
 
-setColor(color: string ){
-  
-  
-
-    if(this.mainColor) this.color = color 
-      
-    else this.color2 = color
-  
-  
- }
-
- isHexColor (color: string) {
-   if(color.match("#([0-9A-F]{6}$/i.test('#AABBCC')")){
-     this.setColor(color);
-   }
-}
-
+  setColor(color: string ){ 
+    this.color[+this.mainColor] = color
+  }
 
 }

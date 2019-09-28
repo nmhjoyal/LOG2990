@@ -18,25 +18,27 @@ import {
   templateUrl: './color-palette.component.html',
   styleUrls: ['./color-palette.component.css'],
 })
-export class ColorPaletteComponent implements AfterViewInit, OnChanges {
+export class ColorPaletteComponent implements AfterViewInit {
 
-  
-
-  @Input() alpha: number
   @Input() mainColor: boolean
-  @Input() public colors: Array<string> 
-  
-  @Output() color2: EventEmitter<string> = new EventEmitter(true)
-  @Output() color: EventEmitter<string> = new EventEmitter(true)
-  
-  //@HostBinding('attr.mainColor') mainColor: boolean;
+  @Input() colors: Array<string> 
+  @Input() alpha: Array<number>;
+
+  @Output() color1: EventEmitter<string> = new EventEmitter()
+  @Output() color2: EventEmitter<string> = new EventEmitter()
+  color = [this.color1, this.color2]
+  //@Output() color2: EventEmitter<string> = new EventEmitter()
+  //color  = [this.color1, this.color2]
+ // @Output color =  new EventEmitter<{color1: string, color2: string}>()
+
+  //@Output() color = [new EventEmitter(true), new EventEmitter(true)]
+  //@Output() color[1] = new EventEmitter(true)
+
+  //@Output() color: EventEmitter<Array<string>> = new EventEmitter()
+
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>
-
-  
-  //public mainColor: boolean = false;
-  //public alpha: number = 1;
 
   private ctx: CanvasRenderingContext2D
 
@@ -55,10 +57,9 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     const width = this.canvas.nativeElement.width
     const height = this.canvas.nativeElement.height
 
-
-
     const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
-    //gradient.addColorStop(0,   'rgba(0, 0, 0, 1)'); 
+
+    //vertical color grandient
     gradient.addColorStop(0,    'rgba(255, 0, 0, 1)');
     gradient.addColorStop(0.15, 'rgba(255, 102, 0, 1)');
     gradient.addColorStop(0.3,  'rgba(255, 225, 55, 1)');
@@ -66,7 +67,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     gradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
     gradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
     gradient.addColorStop(0.9, 'rgba(255, 0, 255, 1)');
-    //gradient.addColorStop(1,   'rgba(255, 255, 255, 1)');
 
     this.ctx.beginPath();
     this.ctx.rect(0, 0, width, height);
@@ -74,7 +74,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.fill();
     this.ctx.closePath();
 
-   
+    //horizontal greyscale gradient
     const gradient2 = this.ctx.createLinearGradient( height, 0, 0, 0) ;
     gradient2.addColorStop(0, 'rgba(0, 0, 0, 1)'); 
     gradient2.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)'); 
@@ -98,29 +98,29 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     const pos = this.selectedPosition
     let duplicate = false;
     for  (let i = 0; i < this.colors.length; i++) {
-    
       if (this.getColorAtPosition(pos.x, pos.y) == this.colors[i] ){
         duplicate = true;
       }
     }
     if (!duplicate){
-        this.colors.shift()
-        if (pos) {
-        this.colors.push(this.getColorAtPosition(pos.x, pos.y))
-    }
+      this.colors.shift()
+      if (pos) {
+      this.colors.push(this.getColorAtPosition(pos.x, pos.y))
+      } 
     }
   }
 
   onMouseDown(evt: MouseEvent) {
     this.mousedown = true
     this.selectedPosition = { x: evt.offsetX, y: evt.offsetY }
-    this.draw()
+    this.draw()/*
     if (this.mainColor){
       this.color.emit(this.getColorAtPosition(evt.offsetX, evt.offsetY))
       }
     else{
       this.color2.emit(this.getColorAtPosition(evt.offsetX, evt.offsetY))
-    }
+    }*/
+    this.color[+this.mainColor].emit(this.getColorAtPosition(evt.offsetX, evt.offsetY))
   }
 
   onMouseMove(evt: MouseEvent) {
@@ -131,48 +131,28 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
-
-
   emitColor(x: number, y: number) {
-    const rgbaColor = this.getColorAtPosition(x, y)
-    if (this.mainColor){
+    const hexColor = this.getColorAtPosition(x, y)
+    /*if (this.mainColor){
       this.color.emit(rgbaColor)
     }
     else{
       this.color2.emit(rgbaColor)
-    }
+    }*/
+    this.color[+this.mainColor].emit(hexColor)
   }
 
+  rgb2hex(hue){
+    if (!hue) return "00"
+    else if (hue < 10) return ("0" + hue.toString(16))
+    else return hue.toString(16)
+  }
+  
   getColorAtPosition(x: number, y: number) {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data
-    return (
-      'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',' + this.alpha+')'
-    )
+    return ( "#" + this.rgb2hex(imageData[0]) +  this.rgb2hex(imageData[1]) + this.rgb2hex(imageData[2]) + this.rgb2hex(Math.round(this.alpha[+this.mainColor]*255)))
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['alpha']) {
-      this.alpha = changes.item.currentValue
-    }
-  }
-
-/*
-  setColor(input: string ){
-    if(this.mainColor){
-      this.color.emit(input)
-      }
-    else{
-      this.color2.emit(input)
-    }
-  }
-  
-*/
-  setAlpha(alpha: number){
-    this.alpha = alpha;
-    //this.setColor(this.colors[9]);
-} 
-
-  
 }
 
 
