@@ -66,18 +66,6 @@ describe('NewDrawingWindowComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have as page title `Créer un nouveau dessin`', () => {
-    expect(dataMock.title).toEqual('Créer un nouveau dessin');
-  });
-
-  it('should have default width equal to window inner width minues sidebar width', () => {
-    expect(dataMock.drawingWidthPreview).toEqual(window.innerWidth - AppConstants.SIDEBAR_WIDTH);
-  });
-
-  it('should have default height equal to window inner height minus titlebar width', () => {
-    expect(dataMock.drawingHeightPreview).toEqual(window.innerHeight - AppConstants.TITLEBAR_WIDTH);
-  });
-
   it('should set all input variables to undefined on reinitializing -- not keep values for next modal window', () => {
     component.reinitializeDrawingVariables();
     expect(dataMock.drawingColorInput).toBeUndefined();
@@ -92,9 +80,10 @@ describe('NewDrawingWindowComponent', () => {
   });
 
   it('should automatically close the dialog if the user did not input values', () => {
+    const spyClose = spyOn(window, 'confirm');
     component.reinitializeDrawingVariables();
     component.onClose();
-    expect(dialogRefMock.close).toHaveBeenCalled();
+    expect(spyClose).not.toHaveBeenCalled();
   });
 
   it('should prompt the user before closing if there are values in the dialog, and then close it', () => {

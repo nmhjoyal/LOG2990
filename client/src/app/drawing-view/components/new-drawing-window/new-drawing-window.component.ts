@@ -13,9 +13,9 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  widthInput = new FormControl('', [Validators.required, Validators.maxLength(4), Validators.pattern('^[1-9][0-9]*$'), ]);
-  heightInput = new FormControl('', [Validators.required, Validators.maxLength(4), Validators.pattern('^[1-9][0-9]*$'), ]);
-  colourInput = new FormControl('', [Validators.required, Validators.pattern('^#[0-9a-f]{6}$'), ]);
+  widthInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
+  heightInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
+  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
 
   constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {

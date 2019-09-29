@@ -5,7 +5,6 @@ import { async } from '@angular/core/testing';
 import { NewDrawingModalData } from '../NewDrawingModalData';
 
 describe('MockCanvasComponent', () => {
-  // let component: MockCanvasComponent;
   let dataMock: SpyObj<NewDrawingModalData>;
 
   beforeEach(async(() => {
