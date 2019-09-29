@@ -38,5 +38,5 @@ describe('AppComponent', () => {
     component.ngOnInit();
     component.openNewDrawingDialog();
     expect(dialogMock.open).toHaveBeenCalled();
-  })
+  });
 });
