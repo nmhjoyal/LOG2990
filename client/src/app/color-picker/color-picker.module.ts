@@ -12,4 +12,5 @@ import { ColorPaletteComponent } from './color-palette/color-palette.component';
   declarations: [ColorPickerComponent, ColorPaletteComponent],
   exports: [ColorPickerComponent],
 })
-export class ColorPickerModule { }
+export class ColorPickerModule {
+ }
