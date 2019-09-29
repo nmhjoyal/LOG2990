@@ -13,6 +13,8 @@ export class SvgTestComponent implements OnInit {
   private _strokeWidth : number = 5;
   private _color : string = "black"
   public _mousePosition : string = "Mouse coordonates: ()";
+  private _x:number;
+  private _y:number;
 
   public lines :{
     points:string,
@@ -29,6 +31,8 @@ export class SvgTestComponent implements OnInit {
   onMouseDown(event : MouseEvent){
     this._mouseDown = true;
     this._points = event.offsetX + "," + event.offsetY;
+    this._x = event.offsetX;
+    this._y = event.offsetY;
     this._mousePosition = "Mouse coordonates: (" + event.offsetX + ", " + event.offsetY + ")";
   }
 
@@ -39,7 +43,11 @@ export class SvgTestComponent implements OnInit {
     this._mousePosition = "Mouse coordonates: (" + event.offsetX + ", " + event.offsetY + ")";
   }
 
-  onMouseUp(){
+  onMouseUp(event : MouseEvent){
+    
+    if(this._x == event.offsetX && this._y == event.offsetY){
+      this._points += (" " + (event.offsetX+0.1) + "," + (event.offsetY+0.1));
+    }
     this._mouseDown = false;
     this.lines.push({
       points:this._points,
@@ -50,9 +58,9 @@ export class SvgTestComponent implements OnInit {
     this._points = "";
   }
 
-  onMouseLeave(){
+  onMouseLeave(event : MouseEvent){
     if(this._mouseDown)
-      this.onMouseUp();
+      this.onMouseUp(event);
   }
   
   getPoints(){
