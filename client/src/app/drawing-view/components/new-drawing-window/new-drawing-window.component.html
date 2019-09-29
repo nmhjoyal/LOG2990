@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label for="heightInput">Hauteur: </label>
                 <mat-form-field appearance="fill">
-                    <input matInput id="heightInput" name="heightInput" class="form-control" pattern="^[1-9][0-9]*$"
+                    <input matInput id="heightInput" name="heightInput" class="form-control" pattern="^[1-9][0-9]*$" maxlength="4"
                         [(ngModel)]="data.drawingHeightInput" [(ngModel)]="drawingHeightPreview" placeholder="Window height: {{this.data.drawingHeightPreview}}px"
                         #heightInput="ngModel" >
                     <div *ngIf="heightInput.invalid && (heightInput.dirty || heightInput.touched)"
@@ -14,19 +14,25 @@
                         <mat-error *ngIf="heightInput.errors.pattern">
                             La hauteur doit être numérique et ne pas commencer par 0.
                         </mat-error>
+                        <mat-error *ngIf="widthInput.errors.maxlength">
+                            La hauteur du dessin doit être inférieure à 9999.
+                        </mat-error>
                     </div>
                 </mat-form-field>
             </div>
             <div class="form-group">
                 <label for="widthInput">Largeur: </label>
                 <mat-form-field mat-form-field appearance="fill">
-                    <input matInput id="widthInput" name="widthInput" class="form-control"
+                    <input matInput id="widthInput" name="widthInput" class="form-control" maxlength="4"
                         [(ngModel)]="data.drawingWidthInput" [(ngModel)]="drawingWidthPreview"  placeholder="Window width: {{this.data.drawingWidthPreview}}px"
                         pattern="^[1-9][0-9]*$" #widthInput="ngModel" >
                     <div *ngIf="widthInput.invalid && (widthInput.dirty || widthInput.touched)"
                         class="alert alert-danger">
                         <mat-error *ngIf="widthInput.errors.pattern">
                             La largeur doit être numérique et ne pas commencer par 0.
+                        </mat-error>
+                        <mat-error *ngIf="widthInput.errors.maxlength">
+                            La largeur du dessin doit être inférieure à 9999.
                         </mat-error>
                     </div>
                 </mat-form-field>
