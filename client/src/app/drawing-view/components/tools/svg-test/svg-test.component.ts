@@ -10,6 +10,8 @@ export class SvgTestComponent implements OnInit {
 
   public _points : string;
   private _mouseDown : boolean = false;
+  private _strokeWidth : number = 5;
+  private _color : string = "black"
   public _mousePosition : string = "Mouse coordonates: ()";
 
   public lines :{
@@ -58,15 +60,41 @@ export class SvgTestComponent implements OnInit {
   }
 
   getColor(){
-    return "black";
+    return this._color;
   }
+
   getStrokeWidth(){
-    return 15;
+    return this._strokeWidth;
   }
+
   getFill(){
     return "none";
   }
+
   getStrokeLinecap(){
     return "round";
+  }
+
+  strokeWidthIncrease(){
+    if(this._strokeWidth <= 20)
+      this._strokeWidth += 1;
+  }
+
+  strokeWidthDecrease(){
+    if(this._strokeWidth > 1)
+      this._strokeWidth -= 1;
+  }
+
+  setColorBlue(){
+    this._color = "blue";
+  }
+  setColorGreen(){
+    this._color = "green";
+  }
+  setColorRed(){
+    this._color = "red";
+  }
+  setColorBlack(){
+    this._color = "black";
   }
 }
