@@ -1,4 +1,4 @@
-import { OnInit, Input, HostListener } from '@angular/core';
+import { HostListener, Input, OnInit } from '@angular/core';
 import { ShapeService } from './shape.service';
 
 const DEFAULT_OPACITY = 1;
@@ -53,8 +53,8 @@ export abstract class ShapeAbstract implements OnInit {
     @HostListener('mouseup') onMouseUp(){
       this._mouseDown = false;
       
-      if(!(this._shapeHeight == 0 && this._shapeWidth == 0))
-      this.saveShape();
+      if(!(this._shapeHeight === 0 && this._shapeWidth === 0))
+        this.saveShape();
   
       this._shapeHeight = 0;
       this._shapeWidth = 0;
@@ -66,7 +66,7 @@ export abstract class ShapeAbstract implements OnInit {
     
     @HostListener('mouseleave') onMouseleave(){
       if(this._mouseDown)
-      this.onMouseUp();
+        this.onMouseUp();
     }
   
     @HostListener('mousemove', ['$event']) onMouseMove(event:any){
@@ -83,44 +83,43 @@ export abstract class ShapeAbstract implements OnInit {
     @HostListener('keyup.shift') onShiftUp(){
       this._shiftDown = false;
       if(this._mouseDown)
-      this.calculateDimensions();
+        this.calculateDimensions();
     }
   
     @HostListener('keydown.shift') onShiftDown(){
       this._shiftDown = true;
       if(this._mouseDown)
-      this.calculateDimensions();
+        this.calculateDimensions();
     }
   
   
     //Functions
   
-  
-    decreaseStrokeWidth(): void{
+    decreaseStrokeWidth(): void {
       if(this._strokeWidth != 0)
-      this._strokeWidth--;
+        this._strokeWidth--;
     }
   
-    increaseStrokeWidth(): void{
+    increaseStrokeWidth(): void {
       this._strokeWidth++;
     }
   
-    setTraceMode(mode:number): void{
+    setTraceMode(mode:number): void {
       switch (mode) {
         case CONTOUR_MODE:
           this._strokeOpacity = 1;//load from color service
           this._fillOpacity = 0;
-          break;
+        break;
         
         case FILL_MODE:
           this._strokeOpacity = 0;
           this._fillOpacity = 1;//load from color service
-          break;
+        break;
       
         case CONTOUR_FILL_MODE:
             this._strokeOpacity = 1;//load from color service
             this._fillOpacity = 1;//load from color service
-            break;
+          break;
   
         default:
           break;
@@ -131,62 +130,62 @@ export abstract class ShapeAbstract implements OnInit {
   
     //Getter methods
   
-    getX(): number{
+    getX(): number {
       return this._x;
     }
   
-    getY(): number{
+    getY(): number {
       return this._y;
     }
   
-    getShapeX(): number{
+    getShapeX(): number {
       return this._shapeX;
     }
   
-    getShapeY(): number{
+    getShapeY(): number {
       return this._shapeY;
     }
   
-    getPreviewWidth(): number{
+    getPreviewWidth(): number {
       return this._previewWidth;
     }
   
-    getPreviewHeight(): number{
+    getPreviewHeight(): number {
       return this._previewHeight;
     }
   
-    getShapeWidth(): number{
+    getShapeWidth(): number {
       return this._shapeWidth;
     }
   
-    getShapeHeight(): number{
+    getShapeHeight(): number {
       return this._shapeHeight;
     }
   
-    getStrokeWidth(): number{
+    getStrokeWidth(): number {
       return this._strokeWidth; 
     }
   
-    getStrokeOpacity(): number{
+    getStrokeOpacity(): number {
       return this._strokeOpacity;
     }
   
-    getFillOpacity(): number{
+    getFillOpacity(): number {
       return this._fillOpacity;
     }
   
   
     //Color service simulating methods
   
-    getPrimeColor(): string{
+    getPrimeColor(): string {
       return this._shapeService.primaryColour;
     }
   
-    getSecondColor(): string{
+    getSecondColor(): string {
       return this._shapeService.secondaryColour;
     }
   
-    switchColor(): void{
+    switchColor(): void {
       this._shapeService.switchColor();
     }
 }
