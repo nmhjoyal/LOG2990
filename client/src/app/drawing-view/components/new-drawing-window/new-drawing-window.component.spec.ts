@@ -28,7 +28,6 @@ describe('NewDrawingWindowComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
-        MatButtonModule,
         MatDialogModule,
         FormsModule,
         MatFormFieldModule,
@@ -168,12 +167,11 @@ describe('NewDrawingWindowComponent', () => {
 
   it('should call onClose when escape is pressed', () => {
     const spy = spyOn(component, 'onClose');
-    dispatchEvent(new KeyboardEvent('keypress', {
+    const event = new KeyboardEvent('keypress', {
       key: 'Escape',
-    }));
-    component.onKeydownHandler(new KeyboardEvent('keypress', {
-      key: 'Escape',
-    }));
+    });
+    dispatchEvent(event);
+    component.onKeydownHandler(event);
     expect(spy).toHaveBeenCalled();
   });
 

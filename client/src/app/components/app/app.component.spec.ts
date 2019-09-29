@@ -35,6 +35,7 @@ describe('AppComponent', () => {
 
   it('should open a new drawing dialog', () => {
     spyOn(window, 'confirm').and.returnValue(true);
+    serviceMock.getShowAgain.and.returnValue(false);
     component.ngOnInit();
     component.openNewDrawingDialog();
     expect(dialogMock.open).toHaveBeenCalled();
