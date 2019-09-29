@@ -1,25 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import SpyObj = jasmine.SpyObj;
 
-import { MockCanvasComponent } from './mock-canvas.component';
+import { async } from '@angular/core/testing';
+
+import { NewDrawingModalData } from '../NewDrawingModalData';
 
 describe('MockCanvasComponent', () => {
-  let component: MockCanvasComponent;
-  let fixture: ComponentFixture<MockCanvasComponent>;
+  // let component: MockCanvasComponent;
+  let dataMock: SpyObj<NewDrawingModalData>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MockCanvasComponent ],
-    })
-    .compileComponents();
+    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MockCanvasComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should have a defined injected data', () => {
+    expect(dataMock).toBeDefined();
   });
 });

@@ -1,14 +1,14 @@
 <div mat-dialog-container class='new_drawing' style="font-family: Arial, Helvetica, sans-serif">
     <h1 mat-dialog-title id='new_drawing_title'>{{data.title}}</h1>
     <div mat-dialog-content>
-        <h3 style="font-size: 11pt">Veuillez entrer les dimensions du novueau dessin:</h3>
+        <h3 style="font-size: 11pt">Veuillez entrer les dimensions du nouveau dessin:</h3>
         <form (ngSubmit)="onAcceptClick()" #newDrawingForm="ngForm">
             <div class="form-group">
                 <label for="heightInput">Hauteur: </label>
                 <mat-form-field appearance="fill">
                     <input matInput id="heightInput" name="heightInput" class="form-control" pattern="^[1-9][0-9]*$"
-                        [(ngModel)]="data.drawingHeightInput" placeholder="Window height: {{data.drawingHeight}}px"
-                        #heightInput="ngModel">
+                        [(ngModel)]="data.drawingHeightInput" [(ngModel)]="drawingHeightPreview" placeholder="Window height: {{this.data.drawingHeightPreview}}px"
+                        #heightInput="ngModel" >
                     <div *ngIf="heightInput.invalid && (heightInput.dirty || heightInput.touched)"
                         class="alert alert-danger">
                         <mat-error *ngIf="heightInput.errors.pattern">
@@ -21,8 +21,8 @@
                 <label for="widthInput">Largeur: </label>
                 <mat-form-field mat-form-field appearance="fill">
                     <input matInput id="widthInput" name="widthInput" class="form-control"
-                        [(ngModel)]="data.drawingWidthInput" placeholder="Window width: {{data.drawingWidth}}px"
-                        pattern="^[1-9][0-9]*$" #widthInput="ngModel">
+                        [(ngModel)]="data.drawingWidthInput" [(ngModel)]="drawingWidthPreview"  placeholder="Window width: {{this.data.drawingWidthPreview}}px"
+                        pattern="^[1-9][0-9]*$" #widthInput="ngModel" >
                     <div *ngIf="widthInput.invalid && (widthInput.dirty || widthInput.touched)"
                         class="alert alert-danger">
                         <mat-error *ngIf="widthInput.errors.pattern">
@@ -45,8 +45,8 @@
                     </div>
                 </mat-form-field>
             </div>
-            <button mat-raised-button (click)="onCloseClick()">Fermer</button>
-            <button type="submit" mat-raised-button [disabled]="!newDrawingForm.form.valid">Accepter</button>
+            <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
+            <button type="button" mat-raised-button [disabled]="!newDrawingForm.form.valid"  (click)="onAcceptClick()">Accepter</button>
         </form>
     </div>
 </div>

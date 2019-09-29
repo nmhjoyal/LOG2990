@@ -1,4 +1,4 @@
-export interface ModalData {
+export interface NewDrawingModalData {
     title: string;
     drawingHeightInput?: number;
     drawingWidthInput?: number;
@@ -7,4 +7,6 @@ export interface ModalData {
     drawingColorInput?: string;
     drawingColor: string;
     canvasIsDrawnOn: boolean;
+    drawingWidthPreview: number;
+    drawingHeightPreview: number;
 }

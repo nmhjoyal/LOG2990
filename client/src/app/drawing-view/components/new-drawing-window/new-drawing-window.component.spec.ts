@@ -1,37 +1,54 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import SpyObj = jasmine.SpyObj;
 import { HttpClientModule } from '@angular/common/http';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppConstants } from 'src/AppConstants';
+import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { NewDrawingModalData } from '../NewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
 
 describe('NewDrawingWindowComponent', () => {
+  let dataMock: SpyObj<NewDrawingModalData>;
+  let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
+  dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
+
+  const dialogMock = {
+    close: () => {
+      console.log('MockDialog close');
+    },
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserModule,
         HttpClientModule,
+        MatButtonModule,
         MatDialogModule,
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
+        MatButtonModule,
       ],
       declarations: [
+        ModalWindowComponent,
         NewDrawingWindowComponent,
       ],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: [] },
+        { provide: MatDialogRef, useValue: dialogMock },
+        { provide: MAT_DIALOG_DATA, useValue: dataMock },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(NewDrawingWindowComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -40,22 +57,124 @@ describe('NewDrawingWindowComponent', () => {
     fixture.detectChanges();
   });
 
+  beforeEach(async(() => {
+    dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock);
+    component.ngOnInit();
+  }));
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have as page title `Create a new drawing`', () => {
-    expect(component.data.title).toEqual('Create a new drawing');
+  it('should have as page title `Créer un nouveau dessin`', () => {
+    expect(dataMock.title).toEqual('Créer un nouveau dessin');
   });
 
-  it('should have default width equal to window inner width', () => {
-    const window = new Window();
-    expect(component.data.drawingWidth).toEqual(window.innerWidth);
+  it('should have default width equal to window inner width minues sidebar width', () => {
+    expect(dataMock.drawingWidthPreview).toEqual(window.innerWidth - AppConstants.SIDEBAR_WIDTH);
   });
 
-  it('should have default height equal to window inner height', () => {
-    const window = new Window();
-    expect(component.data.drawingHeight).toEqual(window.innerHeight);
+  it('should have default height equal to window inner height minus titlebar width', () => {
+    expect(dataMock.drawingHeightPreview).toEqual(window.innerHeight - AppConstants.TITLEBAR_WIDTH);
+  });
+
+  it('should set all input variables to undefined on reinitializing -- not keep values for next modal window', () => {
+    component.reinitializeDrawingVariables();
+    expect(dataMock.drawingColorInput).toBeUndefined();
+    expect(dataMock.drawingHeightInput).toBeUndefined();
+    expect(dataMock.drawingWidthInput).toBeUndefined();
+  });
+
+  it('should open a confirmation with message `Êtes-vous certain.e de vouloir quitter et perdre vos changements?`', () => {
+    spyOn(window, 'confirm');
+    component.confirmExit();
+    expect(window.confirm).toHaveBeenCalledWith('Êtes-vous certain.e de vouloir quitter et perdre vos changements?');
+  });
+
+  it('should automatically close the dialog if the user did not input values', () => {
+    component.reinitializeDrawingVariables();
+    component.onClose();
+    expect(dialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should prompt the user before closing if there are values in the dialog, and then close it', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    dataMock.drawingColorInput = '#ffaaaa';
+    component.onClose();
+    expect(window.confirm).toHaveBeenCalled();
+    expect(dialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should not close if the user refuses the prompt', () => {
+    spyOn(window, 'confirm').and.returnValue(false);
+    dataMock.drawingColorInput = '#ffaaaa';
+    component.onClose();
+    expect(window.confirm).toHaveBeenCalled();
+    expect(dialogRefMock.close).not.toHaveBeenCalled();
+  });
+
+  it('should assign default values to canvas parameters if inputs are empty', () => {
+    component.reinitializeDrawingVariables();
+    component.onAcceptClick();
+    expect(dataMock.drawingColor).toBe('#ffffff');
+    expect(dataMock.drawingHeight).toBe(window.innerHeight - AppConstants.TITLEBAR_WIDTH);
+    expect(dataMock.drawingWidth).toBe(window.innerWidth - AppConstants.SIDEBAR_WIDTH);
+  });
+
+  it('should properly pass user input to canvas parameters', () => {
+    dataMock.drawingColorInput = '#ffaaaa';
+    dataMock.drawingHeightInput = 500;
+    dataMock.drawingWidthInput = 200;
+    component.onAcceptClick();
+    expect(dataMock.drawingColor).toBe(dataMock.drawingColorInput);
+    expect(dataMock.drawingHeight).toBe(dataMock.drawingHeightInput);
+    expect(dataMock.drawingWidth).toBe(dataMock.drawingWidthInput);
+  });
+
+  it('should update the resize preview if user inputs are not present', () => {
+    component.reinitializeDrawingVariables();
+    (window as any).innerHeight = 500;
+    (window as any).innerWidth = 500;
+    window.dispatchEvent(new Event('resize'));
+    component.updateWindowSize();
+    expect(dataMock.drawingWidthPreview).toBe(500 - AppConstants.SIDEBAR_WIDTH);
+    expect(dataMock.drawingHeightPreview).toBe(500 - AppConstants.TITLEBAR_WIDTH);
+  });
+
+  it('should not update resize width preview if user input for height is present', () => {
+    const originalWidth = window.innerWidth;
+    window.dispatchEvent(new Event('resize'));
+    dataMock.drawingHeightInput = 200;
+    (window as any).innerWidth = 100;
+    window.dispatchEvent(new Event('resize'));
+    component.updateWindowSize();
+    component.onAcceptClick();
+    expect(dataMock.drawingWidth).toBe(originalWidth - AppConstants.SIDEBAR_WIDTH);
+    expect(dataMock.drawingHeight).toBe(200);
+  });
+
+  it('should not update resize height preview if user input for width is present', () => {
+    const originalHeight = window.innerHeight;
+    window.dispatchEvent(new Event('resize'));
+    dataMock.drawingWidthInput = 200;
+    (window as any).innerHeight = 100;
+    window.dispatchEvent(new Event('resize'));
+    component.updateWindowSize();
+    component.onAcceptClick();
+    expect(dataMock.drawingHeight).toBe(originalHeight - AppConstants.TITLEBAR_WIDTH);
+    expect(dataMock.drawingWidth).toBe(200);
+  });
+
+  it('should call onClose when escape is pressed', () => {
+    const spy = spyOn(component, 'onClose');
+    dispatchEvent(new KeyboardEvent('keypress', {
+      key: 'Escape',
+    }));
+    component.onKeydownHandler(new KeyboardEvent('keypress', {
+      key: 'Escape',
+    }));
+    expect(spy).toHaveBeenCalled();
   });
 
 });

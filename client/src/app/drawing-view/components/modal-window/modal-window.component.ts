@@ -15,7 +15,7 @@ export abstract class ModalWindowComponent implements OnInit {
 
   }
 
-  onCloseClick(): void {
+  onClose(): void {
     this.dialogRef.close();
   }
 

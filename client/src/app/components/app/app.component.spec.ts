@@ -1,24 +1,25 @@
 import SpyObj = jasmine.SpyObj;
+import { async } from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
-import { ModalData } from 'src/app/drawing-view/components/ModalData';
+import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let dialogMock: SpyObj<MatDialog>;
-  let dataMock: SpyObj<ModalData>;
+  let dataMock: SpyObj<NewDrawingModalData>;
   let dialogRefMock: SpyObj<MatDialogRef<ModalWindowComponent>>;
   let component: AppComponent;
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
-    dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
-    dataMock = jasmine.createSpyObj('ModalData', ['data']);
-    dialogRefMock = jasmine.createSpyObj('MatDialogRef<ModalWindowComponent>', ['dialogRef']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
+    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
+    dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
     component = new AppComponent(dialogMock, dialogRefMock, serviceMock, dataMock);
-  });
+  }));
 
   it('should open dialog when storage returns true', () => {
     serviceMock.getShowAgain.and.returnValue(true);
@@ -31,4 +32,11 @@ describe('AppComponent', () => {
     component.openWelcomeScreen();
     expect(dialogMock.open).not.toHaveBeenCalled();
   });
+
+  it('should open a new drawing dialog', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    component.ngOnInit();
+    component.openNewDrawingDialog();
+    expect(dialogMock.open).toHaveBeenCalled();
+  })
 });
