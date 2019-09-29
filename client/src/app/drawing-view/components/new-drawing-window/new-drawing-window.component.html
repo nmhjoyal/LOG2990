@@ -2,6 +2,7 @@
     <h1 mat-dialog-title id='new_drawing_title'>{{data.title}}</h1>
     <div mat-dialog-content>
         <h3 style="font-size: 11pt">Veuillez entrer les dimensions du nouveau dessin:</h3>
+        <h4>9999px par 9999px maximum.</h4>
         <form (ngSubmit)="onAcceptClick()" #newDrawingForm="ngForm">
             <div class="form-group">
                 <label for="heightInput">Hauteur: </label>
@@ -13,9 +14,6 @@
                         class="alert alert-danger">
                         <mat-error *ngIf="heightInput.errors.pattern">
                             La hauteur doit être numérique et ne pas commencer par 0.
-                        </mat-error>
-                        <mat-error *ngIf="widthInput.errors.maxlength">
-                            La hauteur du dessin doit être inférieure à 9999.
                         </mat-error>
                     </div>
                 </mat-form-field>
@@ -31,16 +29,13 @@
                         <mat-error *ngIf="widthInput.errors.pattern">
                             La largeur doit être numérique et ne pas commencer par 0.
                         </mat-error>
-                        <mat-error *ngIf="widthInput.errors.maxlength">
-                            La largeur du dessin doit être inférieure à 9999.
-                        </mat-error>
                     </div>
                 </mat-form-field>
             </div>
             <div class="form-group">
                 <label for="colourInput">Couleur: </label>
                 <mat-form-field mat-form-field appearance="fill">
-                    <input matInput id="colourInput" name="colourInput" class="form-control"
+                    <input matInput id="colourInput" name="colourInput" class="form-control" 
                         [(ngModel)]="data.drawingColorInput" placeholder="Background: #ffffff (white)"
                         pattern="^#[0-9a-f]{6}$" #colourInput="ngModel">
                     <div *ngIf="colourInput.invalid && (colourInput.dirty || colourInput.touched)"
