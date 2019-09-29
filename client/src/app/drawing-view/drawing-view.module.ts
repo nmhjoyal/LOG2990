@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +24,14 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
     LateralBarComponent, 
     RectangleComponent, ShapeToolboxComponent],
   imports: [
-    CommonModule
-  ]
+    BrowserModule,
+    HttpClientModule,
+    MatDialogModule,
+    FormsModule,
+    BrowserAnimationsModule,
+  ],
+  providers: [{ provide: MatDialogRef, useValue: {} },
+  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+  bootstrap: [AppComponent],
 })
 export class DrawingViewModule { }

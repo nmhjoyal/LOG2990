@@ -1,43 +1,28 @@
-import {HttpClientModule} from '@angular/common/http';
-import {async, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {of} from 'rxjs';
-import {IndexService} from '../../services/index/index.service';
-import {AppComponent} from './app.component';
 import SpyObj = jasmine.SpyObj;
+import { MatDialog } from '@angular/material';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  let indexServiceSpy: SpyObj<IndexService>;
+  let serviceMock: SpyObj<LocalStorageService>;
+  let dialogMock: SpyObj<MatDialog>;
+  let component: AppComponent;
 
   beforeEach(() => {
-    indexServiceSpy = jasmine.createSpyObj('IndexService', ['basicGet']);
-    indexServiceSpy.basicGet.and.returnValue(of({title: '', body: ''}));
+    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+    component = new AppComponent(dialogMock, serviceMock);
   });
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientModule,
-      ],
-      declarations: [
-        AppComponent,
-      ],
-      providers: [
-        {provide: IndexService, useValue: indexServiceSpy},
-      ],
-    });
-  }));
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should open dialog when storage returns true', () => {
+    serviceMock.getShowAgain.and.returnValue(true);
+    component.ngOnInit();
+    expect(dialogMock.open).toHaveBeenCalled();
   });
 
-  it(`should have as title 'LOG2990'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('LOG2990');
+  it('should not open dialog when storage returns false', () => {
+    serviceMock.getShowAgain.and.returnValue(false);
+    component.openWelcomeScreen();
+    expect(dialogMock.open).not.toHaveBeenCalled();
   });
 });
