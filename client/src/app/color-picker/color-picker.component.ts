@@ -1,4 +1,4 @@
-import {  Component } from '@angular/core'
+import {  Component } from '@angular/core';
 
 
 @Component({
@@ -8,15 +8,14 @@ import {  Component } from '@angular/core'
 })
 
 export class ColorPickerComponent {
-  color: Array<string> = ['#ffffffff', '#000000ff'] 
+  color: Array<string> = ['#ffffffff', '#000000ff'];
   colors: Array<string> = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
                            '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
   alpha: Array<number> = [1, 1]
-  mainColor = false
-
+  mainColor = false;
 
   chooseColor(primary: boolean){
-    if (primary){
+    if (primary) {
       if (!this.mainColor) {this.mainColor = true;
       }
     }
