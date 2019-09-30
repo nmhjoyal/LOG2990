@@ -1,43 +1,43 @@
-import {HttpClientModule} from '@angular/common/http';
-import {async, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {of} from 'rxjs';
-import {IndexService} from '../../services/index/index.service';
-import {AppComponent} from './app.component';
 import SpyObj = jasmine.SpyObj;
+import { async } from '@angular/core/testing';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
+import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  let indexServiceSpy: SpyObj<IndexService>;
-
-  beforeEach(() => {
-    indexServiceSpy = jasmine.createSpyObj('IndexService', ['basicGet']);
-    indexServiceSpy.basicGet.and.returnValue(of({title: '', body: ''}));
-  });
+  let serviceMock: SpyObj<LocalStorageService>;
+  let dialogMock: SpyObj<MatDialog>;
+  let dataMock: SpyObj<NewDrawingModalData>;
+  let dialogRefMock: SpyObj<MatDialogRef<ModalWindowComponent>>;
+  let component: AppComponent;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientModule,
-      ],
-      declarations: [
-        AppComponent,
-      ],
-      providers: [
-        {provide: IndexService, useValue: indexServiceSpy},
-      ],
-    });
+    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
+    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
+    dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
+    component = new AppComponent(dialogMock, dialogRefMock, serviceMock, dataMock);
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should open dialog when storage returns true', () => {
+    serviceMock.getShowAgain.and.returnValue(true);
+    component.ngOnInit();
+    expect(dialogMock.open).toHaveBeenCalled();
   });
 
-  it(`should have as title 'LOG2990'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('LOG2990');
+  it('should not open dialog when storage returns false', () => {
+    serviceMock.getShowAgain.and.returnValue(false);
+    component.openWelcomeScreen();
+    expect(dialogMock.open).not.toHaveBeenCalled();
+  });
+
+  it('should open a new drawing dialog', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    serviceMock.getShowAgain.and.returnValue(false);
+    component.ngOnInit();
+    component.openNewDrawingDialog();
+    expect(dialogMock.open).toHaveBeenCalled();
   });
 });
