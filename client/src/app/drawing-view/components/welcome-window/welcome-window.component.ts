@@ -22,8 +22,8 @@ export class WelcomeWindowComponent extends ModalWindowComponent {
     this.isChecked = !this.isChecked;
   }
 
-  onCloseClick(): void {
-    super.onCloseClick();
+  onClose(): void {
+    super.onClose();
     if (this.isChecked && this.data.storage !== undefined) {
       this.data.storage.setShowAgain(false);
     }
