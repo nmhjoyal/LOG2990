@@ -30,5 +30,4 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
   bootstrap: [AppComponent],
   entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, NewDrawingWindowComponent],
 })
-export class AppModule {
-}
+export class AppModule { }
