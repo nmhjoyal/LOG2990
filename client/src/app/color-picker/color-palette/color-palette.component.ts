@@ -84,13 +84,8 @@ export class ColorPaletteComponent implements AfterViewInit {
     this.mousedown = false;
 
     const pos = this.selectedPosition;
-    let duplicate = false;
-    for  (let i = 0; i < this.colors.length; i++) {
-      if (this.getColorAtPosition(pos.x, pos.y) === this.colors[i] ) {
-        duplicate = true;
-      }
-    }
-    if (!duplicate) {
+
+    if (this.getColorAtPosition(pos.x, pos.y) !== this.colors[9] ) {
       this.colors.shift();
       if (pos) {
       this.colors.push(this.getColorAtPosition(pos.x, pos.y));

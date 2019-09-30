@@ -64,6 +64,7 @@
      
       <input matInput id="colourInput" name="colourInput" class="form-control" #input
           [(ngModel)]="color[+mainColor]" 
+          [ngModelOptions]="{ updateOn: 'blur' }"
           placeholder="Background: #ffffff (white)"
           pattern="^#[0-9a-f]{8}$"
           #colourInput="ngModel">
@@ -74,7 +75,7 @@
           </mat-error>
       </div>
 
-  </div>
+</div>
   
 <div class="input-color">
   Transparency <input type="range" 
