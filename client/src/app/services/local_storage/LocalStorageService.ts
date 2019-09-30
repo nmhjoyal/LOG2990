@@ -33,6 +33,11 @@ export class LocalStorageService {
     }
 
     // Tool Handling methods
+    clear(): void {
+        this.reset();
+        this.rectangles.length = 0;
+    }
+
     reset(): void {
         this.rectangleSelected = false;
     }
