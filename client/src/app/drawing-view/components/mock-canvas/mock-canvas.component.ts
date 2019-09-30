@@ -26,5 +26,7 @@ export class MockCanvasComponent implements OnInit {
 
   ngOnInit() {
     // empty block
+    console.log(this.rectangles);
+    console.log(this.storage);
   }
 }
