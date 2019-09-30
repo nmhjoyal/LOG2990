@@ -8,185 +8,186 @@ const FILL_MODE = 2;
 const CONTOUR_FILL_MODE = 3;
 
 export abstract class ShapeAbstract implements OnInit {
-    protected _cursorX: number;
-    protected _cursorY: number;
-    protected _previewWidth: number;
-    protected _previewHeight: number;
-    protected _strokeOpacity: number = DEFAULT_OPACITY;
-    protected _fillOpacity: number = DEFAULT_OPACITY;
-    protected _strokeWidth: number = DEFAULT_STROKE_WIDTH;
-    protected _shapeHeight: number = 0;
-    protected _shapeWidth: number = 0;
-    protected _x: number = 0;
-    protected _y: number = 0;
-    protected _shapeX: number = 0;
-    protected _shapeY: number = 0;
-    protected _mouseDown: boolean = false;
-    protected _shiftDown: boolean = false;
-  
+    protected cursorX: number;
+    protected cursorY: number;
+    protected previewWidth: number;
+    protected previewHeight: number;
+    protected strokeOpacity: number = DEFAULT_OPACITY;
+    protected fillOpacity: number = DEFAULT_OPACITY;
+    protected strokeWidth: number = DEFAULT_STROKE_WIDTH;
+    protected shapeHeight = 0;
+    protected shapeWidth = 0;
+    protected x = 0;
+    protected y = 0;
+    protected shapeX = 0;
+    protected shapeY = 0;
+    protected mouseDown = false;
+    protected shiftDown = false;
+
     @Input() windowHeight: number;
     @Input() windowWidth: number;
 
-    protected _shapeService: ShapeService;
-    
-    constructor(serviceInstance:ShapeService) {
-      this._shapeService = serviceInstance;
+    protected shapeService: ShapeService;
+
+    constructor(serviceInstance: ShapeService) {
+      this.shapeService = serviceInstance;
     }
-  
+
     ngOnInit() {
+
     }
-  
+
     // Abstract methods
 
-    protected abstract saveShape():void;
-    protected abstract calculateDimensions():void;
+    protected abstract saveShape(): void;
+    protected abstract calculateDimensions(): void;
 
     // Event handling methods
-  
 
-    @HostListener('mousedown', ['$event']) onMouseDown(event:any){
-      this._x=event.offsetX;
-      this._y=event.offsetY;
-      this._mouseDown = true;
+    @HostListener('mousedown', ['$event']) onMouseDown(event: any) {
+      this.x = event.offsetX;
+      this.y = event.offsetY;
+      this.mouseDown = true;
     }
-  
-    @HostListener('mouseup') onMouseUp(){
-      this._mouseDown = false;
-      
-      if(!(this._shapeHeight === 0 && this._shapeWidth === 0))
+
+    @HostListener('mouseup') onMouseUp() {
+      this.mouseDown = false;
+
+      if (!(this.shapeHeight === 0 && this.shapeWidth === 0)) {
         this.saveShape();
-  
-      this._shapeHeight = 0;
-      this._shapeWidth = 0;
-      this._previewHeight = 0;
-      this._previewWidth = 0;
-      this._x=0;
-      this._y=0;
+      }
+
+      this.shapeHeight = 0;
+      this.shapeWidth = 0;
+      this.previewHeight = 0;
+      this.previewWidth = 0;
+      this.x = 0;
+      this.y = 0;
     }
-    
-    @HostListener('mouseleave') onMouseleave(){
-      if(this._mouseDown)
+
+    @HostListener('mouseleave') onMouseleave() {
+      if (this.mouseDown) {
         this.onMouseUp();
+      }
     }
-  
-    @HostListener('mousemove', ['$event']) onMouseMove(event:any){
-      this._cursorX = event.offsetX;
-      this._cursorY = event.offsetY;
-      
-      if(this._mouseDown){
-        this._previewWidth = event.offsetX - this._x;
-        this._previewHeight = event.offsetY - this._y;
+
+    @HostListener('mousemove', ['$event']) onMouseMove(event: any) {
+      this.cursorX = event.offsetX;
+      this.cursorY = event.offsetY;
+
+      if (this.mouseDown) {
+        this.previewWidth = event.offsetX - this.x;
+        this.previewHeight = event.offsetY - this.y;
         this.calculateDimensions();
       }
     }
-  
-    @HostListener('keyup.shift') onShiftUp(){
-      this._shiftDown = false;
-      if(this._mouseDown)
+
+    @HostListener('keyup.shift') onShiftUp() {
+      this.shiftDown = false;
+      if (this.mouseDown) {
         this.calculateDimensions();
+      }
     }
-  
-    @HostListener('keydown.shift') onShiftDown(){
-      this._shiftDown = true;
-      if(this._mouseDown)
+
+    @HostListener('keydown.shift') onShiftDown() {
+      this.shiftDown = true;
+      if (this.mouseDown) {
         this.calculateDimensions();
+      }
     }
-  
-  
-    //Functions
-  
+
+    // Functions
+
     decreaseStrokeWidth(): void {
-      if(this._strokeWidth != 0)
-        this._strokeWidth--;
+      if (this.strokeWidth !== 0) {
+        this.strokeWidth--;
+      }
     }
-  
+
     increaseStrokeWidth(): void {
-      this._strokeWidth++;
+      this.strokeWidth++;
     }
-  
-    setTraceMode(mode:number): void {
+
+    setTraceMode(mode: number): void {
       switch (mode) {
         case CONTOUR_MODE:
-          this._strokeOpacity = 1;//load from color service
-          this._fillOpacity = 0;
-        break;
-        
-        case FILL_MODE:
-          this._strokeOpacity = 0;
-          this._fillOpacity = 1;//load from color service
-        break;
-      
-        case CONTOUR_FILL_MODE:
-            this._strokeOpacity = 1;//load from color service
-            this._fillOpacity = 1;//load from color service
+          this.strokeOpacity = 1; // load from color service
+          this.fillOpacity = 0;
           break;
-  
+
+        case FILL_MODE:
+          this.strokeOpacity = 0;
+          this.fillOpacity = 1; // load from color service
+          break;
+
+        case CONTOUR_FILL_MODE:
+            this.strokeOpacity = 1; // load from color service
+            this.fillOpacity = 1; // load from color service
+            break;
+
         default:
           break;
       }
-  
+
     }
-  
-  
-    //Getter methods
-  
-    getX(): number {
-      return this._x;
+
+    // Getter methods
+
+    get X(): number {
+      return this.x;
     }
-  
-    getY(): number {
-      return this._y;
+
+    get Y(): number {
+      return this.y;
     }
-  
-    getShapeX(): number {
-      return this._shapeX;
+
+    get ShapeX(): number {
+      return this.shapeX;
     }
-  
-    getShapeY(): number {
-      return this._shapeY;
+
+    get ShapeY(): number {
+      return this.shapeY;
     }
-  
-    getPreviewWidth(): number {
-      return this._previewWidth;
+
+    get PreviewWidth(): number {
+      return this.previewWidth;
     }
-  
-    getPreviewHeight(): number {
-      return this._previewHeight;
+
+    get PreviewHeight(): number {
+      return this.previewHeight;
     }
-  
-    getShapeWidth(): number {
-      return this._shapeWidth;
+
+    get ShapeWidth(): number {
+      return this.shapeWidth;
     }
-  
-    getShapeHeight(): number {
-      return this._shapeHeight;
+
+    get ShapeHeight(): number {
+      return this.shapeHeight;
     }
-  
-    getStrokeWidth(): number {
-      return this._strokeWidth; 
+
+    get StrokeWidth(): number {
+      return this.strokeWidth;
     }
-  
-    getStrokeOpacity(): number {
-      return this._strokeOpacity;
+
+    get StrokeOpacity(): number {
+      return this.strokeOpacity;
     }
-  
-    getFillOpacity(): number {
-      return this._fillOpacity;
+
+    get FillOpacity(): number {
+      return this.fillOpacity;
     }
-  
-  
-    //Color service simulating methods
-  
+
+    // Color service simulating methods
+
     getPrimeColor(): string {
-      return this._shapeService.primaryColour;
+      return this.shapeService.primaryColour;
     }
-  
+
     getSecondColor(): string {
-      return this._shapeService.secondaryColour;
+      return this.shapeService.secondaryColour;
     }
-  
+
     switchColor(): void {
-      this._shapeService.switchColor();
+      this.shapeService.switchColor();
     }
 }
-

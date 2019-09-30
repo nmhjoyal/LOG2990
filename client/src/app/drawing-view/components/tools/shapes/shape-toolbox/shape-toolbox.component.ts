@@ -15,8 +15,8 @@ export class ShapeToolboxComponent implements OnInit {
   ngOnInit() {
   }
 
-  getComponent(): ShapeAbstract{
-    return this.shapeComponent; 
+  getComponent(): ShapeAbstract {
+    return this.shapeComponent;
   }
 
 }

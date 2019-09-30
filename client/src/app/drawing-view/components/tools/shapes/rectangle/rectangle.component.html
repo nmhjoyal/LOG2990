@@ -2,18 +2,18 @@
 <!--This snippet of SVG shows the preview of the rectangle along with it's perimeter box on an overlapping svg; -->
 <svg tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" style="position:absolute; z-index:1">
 
-  <rect [attr.x]="getShapeX()"
-  [attr.y]="getShapeY()"
-  [attr.width]="getShapeWidth()" 
-  [attr.height]="getShapeHeight()"
-  [style.stroke]="getSecondColor()" 
-  [style.stroke-opacity]="getStrokeOpacity()"
-  [style.fill]="getPrimeColor()"
-  [style.stroke-width]="getStrokeWidth()"
-  [style.fill-opacity]="getFillOpacity()"
+  <rect [attr.x]="ShapeX"
+  [attr.y]="ShapeY"
+  [attr.width]="ShapeWidth" 
+  [attr.height]="ShapeHeight"
+  [style.stroke]="getSecondColor" 
+  [style.stroke-opacity]="StrokeOpacity"
+  [style.fill]="getPrimeColor"
+  [style.stroke-width]="StrokeWidth"
+  [style.fill-opacity]="FillOpacity"
   />
 
-  <rect class="previewBox" [attr.x]="getX()" [attr.y]="getY()" [attr.width]="getPreviewWidth()" [attr.height]="getPreviewHeight()"/>
+  <rect class="previewBox" [attr.x]="X" [attr.y]="Y" [attr.width]="PreviewWidth" [attr.height]="PreviewHeight"/>
   
 </svg> 
 

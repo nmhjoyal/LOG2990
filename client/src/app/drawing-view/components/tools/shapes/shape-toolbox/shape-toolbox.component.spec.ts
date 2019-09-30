@@ -8,7 +8,7 @@ describe('ShapeToolboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShapeToolboxComponent ]
+      declarations: [ ShapeToolboxComponent ],
     })
     .compileComponents();
   }));

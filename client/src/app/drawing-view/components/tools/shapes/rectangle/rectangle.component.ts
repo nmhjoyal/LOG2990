@@ -19,30 +19,30 @@ export class RectangleComponent extends ShapeAbstract {
   // Abstract&Overridden methods
 
   protected saveShape(): void {
-    this._shapeService.rectangles.push(
-      {x: this.getShapeX(),
-      y: this.getShapeY(),
-      width: this.getShapeWidth(),
-      height: this.getShapeHeight(),
+    this.shapeService.rectangles.push(
+      {x: this.shapeX,
+      y: this.shapeY,
+      width: this.shapeWidth,
+      height: this.shapeHeight,
       primeColor: this.getPrimeColor(),
       secondColor: this.getSecondColor(),
-      strokeOpacity: this.getStrokeOpacity(),
-      strokeWidth: this.getStrokeWidth(),
-      fillOpacity: this.getFillOpacity(),
+      strokeOpacity: this.strokeOpacity,
+      strokeWidth: this.strokeWidth,
+      fillOpacity: this.fillOpacity,
       });
   }
 
   protected calculateDimensions(): void {
-    const shapeOffset = this.getStrokeWidth()/2;
-    this._shapeX = this._x + shapeOffset;
-    this._shapeY = this._y + shapeOffset;
-    this._shapeWidth =  this._cursorX - this._shapeX - shapeOffset;
-    this._shapeHeight = this._cursorY - this._shapeY - shapeOffset;
+    const shapeOffset = this.strokeWidth / 2;
+    this.shapeX = this.x + shapeOffset;
+    this.shapeY = this.y + shapeOffset;
+    this.shapeWidth =  this.cursorX - this.shapeX - shapeOffset;
+    this.shapeHeight = this.cursorY - this.shapeY - shapeOffset;
 
-    if (this._shiftDown ){ //Carré maximale Non centré...
-      const minValue = Math.min(this._shapeHeight, this._shapeWidth);
-      this._shapeHeight = minValue;
-      this._shapeWidth = minValue;
+    if (this.shiftDown ) { // Carré maximale Non centré...
+      const minValue = Math.min(this.shapeHeight, this.shapeWidth);
+      this.shapeHeight = minValue;
+      this.shapeWidth = minValue;
     }
   }
 
