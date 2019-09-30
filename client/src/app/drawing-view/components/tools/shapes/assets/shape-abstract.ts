@@ -48,7 +48,6 @@ export abstract class ShapeAbstract implements OnInit {
       this.x = event.offsetX;
       this.y = event.offsetY;
       this.mouseDown = true;
-      console.log("drawing preview rectangle")
     }
 
     @HostListener('mouseup') onMouseUp() {

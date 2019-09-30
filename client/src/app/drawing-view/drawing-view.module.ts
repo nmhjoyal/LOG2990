@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,8 +24,6 @@ import { ToolsComponent } from './components/tools/tools.component';
     ShapeToolboxComponent,
     MockCanvasComponent, ],
 
-  exports: [MockCanvasComponent],
-  
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -36,8 +34,19 @@ import { ToolsComponent } from './components/tools/tools.component';
     BrowserAnimationsModule,
     MatButtonModule,
   ],
-  providers: [{ provide: MatDialogRef, useValue: {} },
-  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+
+  exports: [
+    MockCanvasComponent,
+    BrowserModule,
+    HttpClientModule,
+    MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatButtonModule, ],
+
+  providers: [],
   bootstrap: [MockCanvasComponent],
   entryComponents: [],
 })

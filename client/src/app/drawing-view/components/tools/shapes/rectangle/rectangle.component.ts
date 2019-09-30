@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ShapeAbstract } from '../assets/shape-abstract';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { ShapeAbstract } from '../assets/shape-abstract';
 
 @Component({
   selector: 'app-tools-rectangle',
