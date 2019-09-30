@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ModalData } from '../ModalData';
 
 @Component({
@@ -12,10 +12,9 @@ export abstract class ModalWindowComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ModalWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModalData) {
-
   }
 
-  onClose(): void {
+  onCloseClick(): void {
     this.dialogRef.close();
   }
 
