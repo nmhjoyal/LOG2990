@@ -1,14 +1,14 @@
 
 <!--This snippet of SVG shows the preview of the rectangle along with it's perimeter box on an overlapping svg; -->
-<svg tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" style="position:absolute; z-index:1">
+<svg tabindex="0" class='rectanglePreviewZone' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
 
   <rect [attr.x]="ShapeX"
   [attr.y]="ShapeY"
   [attr.width]="ShapeWidth" 
   [attr.height]="ShapeHeight"
-  [style.stroke]="getSecondColor" 
+  [style.stroke]="getSecondColor()" 
   [style.stroke-opacity]="StrokeOpacity"
-  [style.fill]="getPrimeColor"
+  [style.fill]="getPrimeColor()"
   [style.stroke-width]="StrokeWidth"
   [style.fill-opacity]="FillOpacity"
   />
@@ -16,15 +16,3 @@
   <rect class="previewBox" [attr.x]="X" [attr.y]="Y" [attr.width]="PreviewWidth" [attr.height]="PreviewHeight"/>
   
 </svg> 
-
-
-<!--This snippet of SVG shows all saved rectangles; Should be added to the canvas along with
-  retrieval of saved rectangles from the Shape-service in the canvas typescript file.-->
-<svg:g *ngFor="let rectangle of rectangles">
-  <svg:rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
-    [style.stroke]="rectangle.secondColor" 
-    [style.fill]="rectangle.primeColor"  
-    [style.stroke-opacity]="rectangle.strokeOpacity"
-    [style.stroke-width]="rectangle.strokeWidth"
-    [style.fill-opacity]="rectangle.fillOpacity"/>
-</svg:g>

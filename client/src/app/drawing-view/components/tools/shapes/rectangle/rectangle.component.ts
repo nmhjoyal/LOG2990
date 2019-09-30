@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ShapeAbstract } from '../assets/shape-abstract';
-import { ShapeService } from '../assets/shape.service';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 
 @Component({
   selector: 'app-tools-rectangle',
@@ -9,7 +9,7 @@ import { ShapeService } from '../assets/shape.service';
 })
 export class RectangleComponent extends ShapeAbstract {
 
-  constructor(myShapeService: ShapeService) {
+  constructor(myShapeService: LocalStorageService) {
     super(myShapeService);
     }
 

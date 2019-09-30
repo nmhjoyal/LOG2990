@@ -1,5 +1,5 @@
 import { HostListener, Input, OnInit } from '@angular/core';
-import { ShapeService } from './shape.service';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 
 const DEFAULT_OPACITY = 1;
 const DEFAULT_STROKE_WIDTH = 2;
@@ -27,9 +27,9 @@ export abstract class ShapeAbstract implements OnInit {
     @Input() windowHeight: number;
     @Input() windowWidth: number;
 
-    protected shapeService: ShapeService;
+    protected shapeService: LocalStorageService;
 
-    constructor(serviceInstance: ShapeService) {
+    constructor(serviceInstance: LocalStorageService) {
       this.shapeService = serviceInstance;
     }
 
@@ -48,6 +48,7 @@ export abstract class ShapeAbstract implements OnInit {
       this.x = event.offsetX;
       this.y = event.offsetY;
       this.mouseDown = true;
+      console.log("drawing preview rectangle")
     }
 
     @HostListener('mouseup') onMouseUp() {
@@ -180,11 +181,11 @@ export abstract class ShapeAbstract implements OnInit {
     // Color service simulating methods
 
     getPrimeColor(): string {
-      return this.shapeService.primaryColour;
+      return this.shapeService.PrimaryColor;
     }
 
     getSecondColor(): string {
-      return this.shapeService.secondaryColour;
+      return this.shapeService.SecondColor;
     }
 
     switchColor(): void {
