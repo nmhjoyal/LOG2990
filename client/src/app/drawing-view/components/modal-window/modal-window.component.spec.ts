@@ -35,5 +35,4 @@ describe('ModalWindowComponent', () => {
     const app = fixture.componentInstance;
     expect(app.dialogRef).toBeDefined();
   });
-
 });
