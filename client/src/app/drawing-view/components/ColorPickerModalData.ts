@@ -1,6 +1,6 @@
-export interface NewDrawingModalData {
-    color: Array<string> ;
-    colors: Array<string>;
-    alpha: Array<number> ;
+export interface ColorPickerModalData {
+    color: string[] ;
+    colors: string[];
+    alpha: number[] ;
     mainColor: boolean ;
 }

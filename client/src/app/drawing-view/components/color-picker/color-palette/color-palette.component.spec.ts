@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientModule } from '@angular/common/http';
+import { Component, ElementRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColorPaletteComponent } from './color-palette.component';
-import { Component, ViewChild, ElementRef, Input, Output, HostListener } from '@angular/core';
 import { EventEmitter } from 'events';
+import { ColorPaletteComponent } from './color-palette.component';
 
 describe('ColorPaletteComponent', () => {
     let component: ColorPaletteComponent;
@@ -23,7 +23,7 @@ describe('ColorPaletteComponent', () => {
             Input,
             Output,
             EventEmitter,
-            HostListener
+            HostListener,
         ],
         declarations: [
             ColorPaletteComponent,

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { ColorPickerModalData } from '../ColorPickerModalData';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ColorPickerModalData } from '../ColorPickerModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 
 @Component({
@@ -19,21 +19,19 @@ export class ColorPickerComponent extends ModalWindowComponent {
   constructor(public dialogRef: MatDialogRef<ColorPickerComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ColorPickerModalData) {
     super(dialogRef, data);
-    dialogRef.disableClose = true;
   }
 
-  chooseColor(primary: boolean){
+  chooseColor(primary: boolean) {
     if (primary) {
       if (!this.data.mainColor) {this.data.mainColor = true;
       }
-    }
-    else {
+    } else {
       if (this.data.mainColor) {this.data.mainColor = false;
       }
     }
   }
 
-  switchColors(){
+  switchColors() {
     const inter = this.data.color[0];
     this.data.color[0] = this.data.color[1];
     this.data.color[1] = inter;

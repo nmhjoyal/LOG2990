@@ -1,12 +1,11 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
-import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
+import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
-
+import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
 
 @Component({
   selector: 'app-root',
