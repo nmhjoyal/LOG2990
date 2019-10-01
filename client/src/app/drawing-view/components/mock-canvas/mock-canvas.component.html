@@ -38,7 +38,7 @@
         <app-drawing-tool-toolbox [drawingToolComponent]="activeCrayon" ></app-drawing-tool-toolbox>
     </div>
     <div  *ngIf="storage.isPinceau">
-            <app-pinceau #activePinceau [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-pinceau>
+            <app-crayon #activePinceau [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
             <app-drawing-tool-toolbox [drawingToolComponent]="activePinceau" ></app-drawing-tool-toolbox>
         </div>
 </div>
