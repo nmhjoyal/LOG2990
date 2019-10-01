@@ -11,25 +11,32 @@
                     title="Nouveau dessin" (click)="openNewDrawingDialog()">
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
+                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon"
+                    (click)='storage.chooseCrayon()'>
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
+                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo"
+                    (click)='storage.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
+                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau"
+                    (click)='storage.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
+                    <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau"
+                    (click)='storage.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume">
+                    <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume"
+                    (click)='storage.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
+                    <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol"
+                    (click)='storage.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
-                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Rectangle" 
+                    (click)='storage.chooseRectangle()'>
                 </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">

@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 
 const STROKE_LINECAP_MODE = "round";
 const FILL_MODE = "none";
@@ -15,10 +16,14 @@ export class PinceauComponent extends DrawingToolsAbstract {
   ngOnInit() {
   }
 
+  constructor(myDrawingToolService: LocalStorageService) {
+    super(myDrawingToolService);
+  }
+  
   // Abstract&Overridden methods
   
   protected saveShape(): void {
-    this.lines.push({
+    this.drawingToolService.lines.push({
       points:this._points,
       color:this.getColor(),
       strokeWidth:this.getStrokeWidth(),

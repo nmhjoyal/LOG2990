@@ -1,4 +1,5 @@
-import { HostListener, OnInit } from '@angular/core';
+import { HostListener, Input, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 
 const STROKE_LINECAP_MODE = "round";
 const FILL_MODE = "none";
@@ -14,15 +15,14 @@ export abstract class DrawingToolsAbstract implements OnInit {
   private _x:number;
   private _y:number;
 
-  public lines :{
-    points:string,
-    color:string,
-    strokeWidth:number 
-    fill:string 
-    strokeLinecap:string
-    filter:string}[] = [];
+  @Input() windowHeight: number;
+  @Input() windowWidth: number;
 
-  constructor() { }
+  protected drawingToolService: LocalStorageService;
+
+  constructor(serviceInstance: LocalStorageService) {
+    this.drawingToolService = serviceInstance;
+   }
 
   ngOnInit() {
   }
@@ -98,12 +98,18 @@ export abstract class DrawingToolsAbstract implements OnInit {
   getFilter(){
       return this._filter;
   }
-  
 
   setColor(color:string){
     this._color = color;
   }
-  
+
+  getPrimeColor(): string {
+    return this.drawingToolService.PrimaryColor;
+  }
+
+  switchColor(): void {
+    this.drawingToolService.switchColor();
+  }
 }
 
 
