@@ -20,8 +20,8 @@ export class LocalStorageService {
         primeColor: string, secondColor: string
         strokeOpacity: number, strokeWidth: number, fillOpacity: number}[] = [];
 
-    lines: {points: string, color: string, strokeWidth: number, 
-        fill:string, strokeLinecap:string, filter:string}[] = [];
+    lines: {points: string, color: string, strokeWidth: number,
+        fill: string, strokeLinecap: string, filter: string}[] = [];
 
     paints: {points: string, color: string, strokeWidth: number, 
             fill:string, strokeLinecap:string, filter:{baseFrequency:string, numOctaves:string, scale:string}}[] = [];
@@ -34,7 +34,7 @@ export class LocalStorageService {
     {baseFrequency:"0.9", numOctaves:"3", scale:"6"}]
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
-        
+
     }
 
     setShowAgain(showAgain: boolean): void {

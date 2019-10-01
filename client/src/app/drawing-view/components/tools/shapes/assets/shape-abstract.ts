@@ -34,7 +34,7 @@ export abstract class ShapeAbstract implements OnInit {
   }
 
   ngOnInit() {
-
+    // empty block
   }
 
   // Abstract methods

@@ -5,6 +5,7 @@
 
         <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
     retrieval of saved rectangles from the service in the canvas typescript file.-->
+<<<<<<< HEAD
         <g *ngFor="let rectangle of drawnRectangles">
             <rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width"
                 [attr.height]="rectangle.height" [style.stroke]="rectangle.secondColor"
@@ -16,7 +17,30 @@
             <polyline [attr.points]="line.points" [style.fill]="line.fill" [style.stroke]="line.color"
                 [style.stroke-width]="line.strokeWidth" [style.stroke-linecap]="line.strokeLinecap"
                 [style.stroke-linejoin]="line.strokeLinecap" />
+=======
+    <g *ngFor="let rectangle of drawnRectangles">
+        <rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
+        [style.stroke]="rectangle.secondColor" 
+        [style.fill]="rectangle.primeColor"  
+        [style.stroke-opacity]="rectangle.strokeOpacity"
+        [style.stroke-width]="rectangle.strokeWidth"
+        [style.fill-opacity]="rectangle.fillOpacity"
+        />
+    </g>
+    <g *ngFor = "let line of drawnLines">
+            <polyline 
+            [attr.points]="line.points"
+            [style.fill]="line.fill"
+            [style.stroke]="line.color"
+            [style.stroke-width]="line.strokeWidth"
+            [style.stroke-linecap]="line.strokeLinecap"
+            [style.stroke-linestroke]="line.strokeLinecap"
+            [style.filter]="line.filter"
+                />
+>>>>>>> 4aae3b2311cb675a857b6570bc63c55e3291e1c4
         </g>
+    
+    
 
         <g *ngFor="let line of drawnPaints">
                 <filter id="displacementFilter">
@@ -38,11 +62,11 @@
         </app-tools-rectangle>
         <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
     </div>
-    <div *ngIf="storage.isCrayon">
-        <app-crayon #activeDrawingTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
-        </app-crayon>
-        <app-drawing-tool-toolbox [drawingToolComponent]="activeDrawingTool"></app-drawing-tool-toolbox>
+    <div  *ngIf="storage.isCrayon">
+        <app-crayon #activeCrayon [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+        <app-drawing-tool-toolbox [drawingToolComponent]="activeCrayon" ></app-drawing-tool-toolbox>
     </div>
+<<<<<<< HEAD
     <div *ngIf="storage.isPinceau">
             <app-pinceau #activeDrawingTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
             </app-pinceau>
@@ -50,4 +74,10 @@
         </div>
 
 
+=======
+    <div  *ngIf="storage.isPinceau">
+            <app-crayon #activePinceau [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+            <app-drawing-tool-toolbox [drawingToolComponent]="activePinceau" ></app-drawing-tool-toolbox>
+        </div>
+>>>>>>> 4aae3b2311cb675a857b6570bc63c55e3291e1c4
 </div>

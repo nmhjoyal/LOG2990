@@ -11,10 +11,10 @@ import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { RectangleComponent } from './drawing-view/components/tools/shapes/rectangle/rectangle.component';
+import { ShapeToolboxComponent } from './drawing-view/components/tools/shapes/shape-toolbox/shape-toolbox.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { LocalStorageService } from './services/local_storage/LocalStorageService';
-import { ShapeToolboxComponent } from './drawing-view/components/tools/shapes/shape-toolbox/shape-toolbox.component';
 @NgModule({
   declarations: [
     AppComponent,

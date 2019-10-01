@@ -8,7 +8,7 @@ describe('CrayonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrayonComponent ]
+      declarations: [ CrayonComponent ],
     })
     .compileComponents();
   }));

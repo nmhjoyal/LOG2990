@@ -1,19 +1,19 @@
 import { HostListener, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 
-const STROKE_LINECAP_MODE = "round";
-const FILL_MODE = "none";
+const STROKE_LINECAP_MODE = 'round';
+const FILL_MODE = 'none';
 const DEFAULT_STROKE_WIDTH = 2;
-const DEFAULT_FILTER = "none";
+const DEFAULT_FILTER = 'none';
 
 export abstract class DrawingToolsAbstract implements OnInit {
-  public _points : string;
-  private _mouseDown : boolean = false;
-  private _strokeWidth : number = DEFAULT_STROKE_WIDTH;
-  private _color : string = "black";
-  private _filter : string = DEFAULT_FILTER;
-  private _x:number;
-  private _y:number;
+  points: string;
+  private mouseDown = false;
+  private strokeWidth: number = DEFAULT_STROKE_WIDTH;
+  private color = 'black';
+  private filter: string = DEFAULT_FILTER;
+  private x: number;
+  private y: number;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -25,6 +25,7 @@ export abstract class DrawingToolsAbstract implements OnInit {
    }
 
   ngOnInit() {
+    // empty block
   }
 
   // Abstract methods
@@ -33,74 +34,76 @@ export abstract class DrawingToolsAbstract implements OnInit {
 
   // Event handling methods
 
-  @HostListener('mousedown', ['$event']) onMouseDown(event: any){
-    this._mouseDown = true;
-    this._points = event.offsetX + "," + event.offsetY;
-    this._x = event.offsetX;
-    this._y = event.offsetY;
+  @HostListener('mousedown', ['$event']) onMouseDown(event: any) {
+    this.mouseDown = true;
+    this.points = event.offsetX + ',' + event.offsetY;
+    this.x = event.offsetX;
+    this.y = event.offsetY;
   }
 
-  @HostListener('mousemove', ['$event']) onMouseMove(event: any){
-    if(this._mouseDown){
-      this._points += (" " + event.offsetX + "," + event.offsetY);
+  @HostListener('mousemove', ['$event']) onMouseMove(event: any) {
+    if (this.mouseDown) {
+      this.points += (' ' + event.offsetX + ',' + event.offsetY);
     }
     this.saveShape();
   }
 
-  @HostListener('mouseup', ['$event']) onMouseUp(event: any){
-    
-    if(this._x == event.offsetX && this._y == event.offsetY){
-      this._points += (" " + (event.offsetX+0.1) + "," + (event.offsetY+0.1));
+  @HostListener('mouseup', ['$event']) onMouseUp(event: any) {
+
+    if (this.x === event.offsetX && this.y === event.offsetY) {
+      this.points += (' ' + (event.offsetX + 0.1) + ',' + (event.offsetY + 0.1));
     }
-    this._mouseDown = false;
-    
-    this._points = "";
+    this.mouseDown = false;
+
+    this.points = '';
   }
 
-  @HostListener('mouseleave', ['$event']) onMouseLeave(event: any){
-    if(this._mouseDown)
+  @HostListener('mouseleave', ['$event']) onMouseLeave(event: any) {
+    if (this.mouseDown) {
       this.onMouseUp(event);
+    }
   }
-  
+
   // Functions
 
-  increaseStrokeWidth(){
-    this._strokeWidth++;
+  increaseStrokeWidth() {
+    this.strokeWidth++;
   }
 
-  decreaseStrokeWidth(){
-    if(this._strokeWidth > 1)
-      this._strokeWidth--;
+  decreaseStrokeWidth() {
+    if (this.strokeWidth > 1) {
+      this.strokeWidth--;
+    }
   }
 
   // Getter methods
 
-  getPoints(){
-    return this._points;
+  getPoints() {
+    return this.points;
   }
 
-  getColor(){
-    return this._color;
+  getColor() {
+    return this.color;
   }
 
-  getStrokeWidth(){
-    return this._strokeWidth;
+  getStrokeWidth() {
+    return this.strokeWidth;
   }
 
-  getFill(){
+  getFill() {
     return FILL_MODE;
   }
 
-  getStrokeLinecap(){
+  getStrokeLinecap() {
     return STROKE_LINECAP_MODE;
   }
 
-  getFilter(){
-      return this._filter;
+  getFilter() {
+      return this.filter;
   }
 
-  setColor(color:string){
-    this._color = color;
+  setColor(color: string) {
+    this.color = color;
   }
 
   getPrimeColor(): string {
@@ -111,5 +114,3 @@ export abstract class DrawingToolsAbstract implements OnInit {
     this.drawingToolService.switchColor();
   }
 }
-
-

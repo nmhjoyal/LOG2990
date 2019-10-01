@@ -20,12 +20,12 @@ export class MockCanvasComponent implements OnInit {
                          strokeWidth: number;
                          fillOpacity: number; }[];
 
-  private lines:    { points: string;
-                        color: string; 
-                        strokeWidth: number; 
-                        fill:string; 
-                        strokeLinecap:string; 
-                        filter:string; }[];
+  private lines: { points: string;
+                        color: string;
+                        strokeWidth: number;
+                        fill: string;
+                        strokeLinecap: string;
+                        filter: string; }[];
 
   private paints: {points: string, color: string, strokeWidth: number, 
     fill:string, strokeLinecap:string, filter:{baseFrequency:string, numOctaves:string, scale:string}}[];
@@ -36,8 +36,6 @@ export class MockCanvasComponent implements OnInit {
     this.paints = storage.paints;
   }
 
-  
-
   ngOnInit() {
     // empty block
   }
@@ -47,8 +45,8 @@ export class MockCanvasComponent implements OnInit {
                           strokeWidth: number; fillOpacity: number; }[] {
     return this.rectangles;
   }
-  get drawnLines(): { points: string; color: string; strokeWidth: number; 
-                      fill:string; strokeLinecap:string; filter:string; }[] {
+  get drawnLines(): { points: string; color: string; strokeWidth: number;
+                      fill: string; strokeLinecap: string; filter: string; }[] {
     return this.lines;
   }
 
