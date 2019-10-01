@@ -16,13 +16,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
-      if (!this.data.canvasIsDrawnOn) {
-        this.openNewDrawingDialog();
-      } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
-          this.openNewDrawingDialog();
-      }
-    }
+    this.confirmNewDrawing();
   }
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
@@ -31,6 +25,16 @@ export class AppComponent implements OnInit {
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = '#ffffff';
     this.data.canvasIsDrawnOn = true;
+  }
+
+  confirmNewDrawing(): void {
+    if (!this.dialog.openDialogs.length) {
+      if (!this.data.canvasIsDrawnOn) {
+        this.openNewDrawingDialog();
+      } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
+        this.openNewDrawingDialog();
+      }
+    }
   }
 
   openNewDrawingDialog(): void {
