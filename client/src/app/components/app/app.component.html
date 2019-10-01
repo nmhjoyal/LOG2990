@@ -34,15 +34,17 @@
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol"
                     (click)='storage.chooseOther()'>
                 </a>
-                <a mat-list-item class="filter" >
+                <a mat-list-item class="filter" (click)="snav.toggle()">
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Rectangle" 
-                    (click)='storage.chooseRectangle()'>
+                <a mat-list-item class="filter" (click)="storage.chooseRectangle()">
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
                 </a>
                 <a mat-list-item class="filter" (click)="sidenav2.toggle()">
                         <!-- this is supposed to toggle the right side sidenav with extra options; it doesn't work with new format -->
+                    <img id="details" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Détails">
+                </a>
+                <a mat-list-item class="filter" (click)="sidenav2.toggle()">
                     <img id="details" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Détails">
                 </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
@@ -51,8 +53,7 @@
             </mat-nav-list>
         </mat-sidenav>
         <app-mock-canvas style="width: 0; height: 0" ></app-mock-canvas>
-
-            <mat-sidenav #sidenav2 position="end">
+        <mat-sidenav #sidenav2 position="end">
             <mat-nav-list>
                 <a mat-list-item class="filter">
                     <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs">
@@ -62,6 +63,12 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
+        <mat-sidenav #snav>
+            <mat-nav-list disabled='true'>
+                <app-color-picker #picker></app-color-picker>
+                <button type="button" (click)="snav.close()" mat-raised-button>Fermer</button>
+                <button id="accepter" type="button" (click)="storage.chooseColourApplicator(picker.color[0], picker.color[1]); snav.close()" mat-raised-button>Accepter</button>
+            </mat-nav-list>
+        </mat-sidenav>
     </mat-sidenav-container>
-
 </div>

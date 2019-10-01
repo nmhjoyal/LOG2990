@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div mat-dialog-container class='new_drawing' style="font-family: Arial, Helvetica, sans-serif">
+  <div mat-dialog-content>
+
+    <div class="color-wrapper">
+      <app-color-palette (color1)="color[0] = $event" (color2)="color[1] = $event" [colors]="colors"
+        [mainColor]="mainColor" [alpha]="alpha">
+      </app-color-palette>
+
+      <div>
+        <div class="box" [ngStyle]="{'background-color': colors[0]} " (click)="setColor(colors[0])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[1]} " (click)="setColor(colors[1])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[2]} " (click)="setColor(colors[2])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[3]} " (click)="setColor(colors[3])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[4]} " (click)="setColor(colors[4])">
+        </div>
+      </div>
+      <div>
+        <div class="box" [ngStyle]="{'background-color': colors[5]} " (click)="setColor(colors[5])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[6]} " (click)="setColor(colors[6])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[7]} " (click)="setColor(colors[7])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[8]} " (click)="setColor(colors[8])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colors[9]} " (click)="setColor(colors[9])">
+        </div>
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <div class="color-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': color[0]}"
+        (click)="chooseColor(false)"></div>
+
+      <div class="button">
+        <button type="button" (click)="switchColors()"><i class="fa fa-arrows-h"></i></button>
+      </div>
+
+      <div class="color-preview" tabindex="0" id="secondary" [ngStyle]="{'background-color': color[1]}"
+        (click)="chooseColor(true)"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="colourInput"> Input: </label>
+
+      <input matInput id="colourInput" name="colourInput" class="form-control" #input [(ngModel)]="color[+mainColor]"
+        [ngModelOptions]="{ updateOn: 'blur' }" placeholder="Background: #ffffff (white)" pattern="^#[0-9a-f]{8}$"
+        #colourInput="ngModel">
+      <div *ngIf="colourInput.invalid && (colourInput.dirty || colourInput.touched)" class="alert alert-danger">
+        <mat-error *ngIf="colourInput.errors.pattern">
+          La couleur doit être hexadécimale: commencer avec '#' et avoir 8 caractères de 0 à 9 et a à f.
+        </mat-error>
+      </div>
+
+    </div>
+
+    <div class="input-color">
+      Transparency <input type="range" min="0.0" max="1.0" value="1" step="0.01" class="slider" #slider
+        [(ngModel)]="alpha[+mainColor]" (ngModelChange)="setAlpha(slider.value)">
+      {{alpha[+mainColor]*100}}%
+    </div>
+  </div>
+</div>

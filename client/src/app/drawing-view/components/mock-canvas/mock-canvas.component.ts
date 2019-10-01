@@ -34,7 +34,53 @@ export class MockCanvasComponent implements OnInit {
 
   ngOnInit() {
     // empty block
+    console.log(this.rectangles);
+    console.log(this.storage);
   }
+
+  applyColourToLine(line: { points: string;
+    color: string,
+    strokeWidth: number,
+    fill: string,
+    strokeLinecap: string,
+    filter: string, }): void {
+    if (this.storage.isColourApplicatorSelected()) {
+      line.fill = this.storage.primaryColor;
+    }
+  }
+
+  applyColour(rectangle: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    primeColor: string;
+    secondColor: string;
+    strokeOpacity: number;
+    strokeWidth: number;
+    fillOpacity: number; }): void {
+    if (this.storage.isColourApplicatorSelected()) {
+      rectangle.primeColor = this.storage.primaryColor;
+    }
+  }
+
+  applySecondaryColour(event: MouseEvent, rectangle: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    primeColor: string;
+    secondColor: string;
+    strokeOpacity: number;
+    strokeWidth: number;
+    fillOpacity: number; }): void {
+    if (this.storage.isColourApplicatorSelected()) {
+      event.preventDefault();
+      rectangle.secondColor = this.storage.secondaryColor;
+    }
+  }
+
+
 
   get drawnRectangles(): { x: number; y: number; width: number; height: number;
                           primeColor: string; secondColor: string; strokeOpacity: number;

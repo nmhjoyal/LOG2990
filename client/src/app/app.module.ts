@@ -7,6 +7,8 @@ import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule, MatDialogRef } from 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
+import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
+import { ColorPickerComponent } from './drawing-view/components/color-picker/color-picker.component';
 import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-canvas.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
@@ -20,8 +22,9 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     AppComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
     WelcomeWindowComponent,
-    ShapeToolboxComponent,
     NewDrawingWindowComponent,
+    ColorPickerComponent,
+    ColorPaletteComponent,
     MockCanvasComponent,
     RectangleComponent,
   ],
@@ -42,8 +45,9 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
   ],
   providers: [ MatDialogConfig, LocalStorageService, MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
-  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, NewDrawingWindowComponent],
+  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>,
+    WelcomeWindowComponent, NewDrawingWindowComponent, ColorPickerComponent],
 })
 export class AppModule { }

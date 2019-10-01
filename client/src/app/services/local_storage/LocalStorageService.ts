@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { AppConstants } from 'src/AppConstants';
 
 const WELCOME_WINDOW_KEY = 'showAgain';
 
@@ -7,13 +8,14 @@ const WELCOME_WINDOW_KEY = 'showAgain';
 export class LocalStorageService {
 
     // Shape Handling attributes
-    private rectangleSelected = false;
-    private crayonSelected = false;
-    private pinceauSelected = false;
+    private rectangleSelected: boolean;
+    private colourApplicatorSelected: boolean;
+    private crayonSelected: boolean;
+    private pinceauSelected: boolean;
 
     // Color service simulating attributes
-    primaryColor = 'green';
-    secondaryColor = 'rgb(76, 24, 199)';
+    primaryColor: string;
+    secondaryColor: string;
 
     // Shape Storage
     rectangles: {x: number, y: number, width: number, height: number,
@@ -24,8 +26,13 @@ export class LocalStorageService {
         fill: string, strokeLinecap: string, filter: string}[] = [];
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
-
-    }
+        this.rectangleSelected = false;
+        this.colourApplicatorSelected = false;
+        this.crayonSelected = false;
+        this.pinceauSelected = false;
+        this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
+        this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
+     }
 
     setShowAgain(showAgain: boolean): void {
         this.storage.set(WELCOME_WINDOW_KEY, showAgain);
@@ -48,12 +55,21 @@ export class LocalStorageService {
 
     reset(): void {
         this.rectangleSelected = false;
+        this.colourApplicatorSelected = false;
         this.crayonSelected = false;
+        this.pinceauSelected = false;
     }
 
     chooseRectangle(): void {
         this.reset();
         this.rectangleSelected = true;
+    }
+
+    chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
+        this.reset();
+        this.primaryColor = primaryColor;
+        this.secondaryColor = secondaryColor;
+        this.colourApplicatorSelected = true;
     }
 
     chooseCrayon(): void {
@@ -72,6 +88,10 @@ export class LocalStorageService {
 
     get isRectangle(): boolean {
         return this.rectangleSelected;
+    }
+
+    isColourApplicatorSelected(): boolean {
+        return this.colourApplicatorSelected;
     }
 
     get isCrayon(): boolean {
