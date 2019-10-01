@@ -20,19 +20,17 @@ export class MockCanvasComponent implements OnInit {
                          strokeWidth: number;
                          fillOpacity: number; }[];
 
-    private lines:    { points: string;
-                        color: string; 
-                        strokeWidth: number; 
-                        fill:string; 
-                        strokeLinecap:string; 
-                        filter:string; }[];
+    private lines: { points: string;
+                        color: string;
+                        strokeWidth: number;
+                        fill: string;
+                        strokeLinecap: string;
+                        filter: string; }[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData, private storage: LocalStorageService) {
     this.rectangles = this.storage.rectangles;
     this.lines = storage.lines;
   }
-
-  
 
   ngOnInit() {
     // empty block
@@ -43,8 +41,8 @@ export class MockCanvasComponent implements OnInit {
                           strokeWidth: number; fillOpacity: number; }[] {
     return this.rectangles;
   }
-  get drawnLines(): { points: string; color: string; strokeWidth: number; 
-                      fill:string; strokeLinecap:string; filter:string; }[] {
+  get drawnLines(): { points: string; color: string; strokeWidth: number;
+                      fill: string; strokeLinecap: string; filter: string; }[] {
     return this.lines;
   }
 

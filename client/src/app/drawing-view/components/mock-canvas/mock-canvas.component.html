@@ -10,18 +10,22 @@
         [style.fill]="rectangle.primeColor"  
         [style.stroke-opacity]="rectangle.strokeOpacity"
         [style.stroke-width]="rectangle.strokeWidth"
-        [style.fill-opacity]="rectangle.fillOpacity"/>
+        [style.fill-opacity]="rectangle.fillOpacity"
+        />
     </g>
-
-    <g *ngFor="let line of drawnLines">
-        <polyline 
-        [attr.points]="line.points"
-        [style.fill]="line.fill"
-        [style.stroke]="line.color"
-        [style.stroke-width]="line.strokeWidth"
-        [style.stroke-linecap]="line.strokeLinecap"
-        [style.filter]="line.filter" />
-    </g>
+    <g *ngFor = "let line of drawnLines">
+            <polyline 
+            [attr.points]="line.points"
+            [style.fill]="line.fill"
+            [style.stroke]="line.color"
+            [style.stroke-width]="line.strokeWidth"
+            [style.stroke-linecap]="line.strokeLinecap"
+            [style.stroke-linestroke]="line.strokeLinecap"
+            [style.filter]="line.filter"
+                />
+        </g>
+    
+    
 
     </svg>
 
@@ -30,7 +34,11 @@
         <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
     </div>
     <div  *ngIf="storage.isCrayon">
-        <app-crayon #activeDrawingTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
-        <app-drawing-tool-toolbox [drawingToolComponent]="activeDrawingTool" ></app-drawing-tool-toolbox>
+        <app-crayon #activeCrayon [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+        <app-drawing-tool-toolbox [drawingToolComponent]="activeCrayon" ></app-drawing-tool-toolbox>
     </div>
+    <div  *ngIf="storage.isPinceau">
+            <app-pinceau #activePinceau [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-pinceau>
+            <app-drawing-tool-toolbox [drawingToolComponent]="activePinceau" ></app-drawing-tool-toolbox>
+        </div>
 </div>

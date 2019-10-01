@@ -20,11 +20,11 @@ export class LocalStorageService {
         primeColor: string, secondColor: string
         strokeOpacity: number, strokeWidth: number, fillOpacity: number}[] = [];
 
-    lines: {points: string, color: string, strokeWidth: number, 
-        fill:string, strokeLinecap:string, filter:string}[] = [];
+    lines: {points: string, color: string, strokeWidth: number,
+        fill: string, strokeLinecap: string, filter: string}[] = [];
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
-        
+
     }
 
     setShowAgain(showAgain: boolean): void {

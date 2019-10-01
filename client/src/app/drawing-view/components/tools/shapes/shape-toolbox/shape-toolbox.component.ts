@@ -11,7 +11,7 @@ export class ShapeToolboxComponent implements OnInit {
   @Input() shapeComponent: ShapeAbstract;
 
   constructor() {
-    
+
   }
 
   ngOnInit() {

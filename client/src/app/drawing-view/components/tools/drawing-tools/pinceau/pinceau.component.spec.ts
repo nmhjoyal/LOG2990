@@ -8,7 +8,7 @@ describe('PinceauComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinceauComponent ]
+      declarations: [ PinceauComponent ],
     })
     .compileComponents();
   }));

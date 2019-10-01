@@ -8,7 +8,7 @@ describe('DrawingToolToolboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DrawingToolToolboxComponent ]
+      declarations: [ DrawingToolToolboxComponent ],
     })
     .compileComponents();
   }));

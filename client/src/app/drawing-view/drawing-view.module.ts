@@ -18,7 +18,6 @@ import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pince
 import { SvgTestComponent } from './components/tools/svg-test/svg-test.component';
 import { ToolsComponent } from './components/tools/tools.component';
 
-
 @NgModule({
   declarations: [
     ToolsComponent,
