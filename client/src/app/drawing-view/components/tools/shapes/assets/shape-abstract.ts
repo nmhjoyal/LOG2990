@@ -65,7 +65,7 @@ export abstract class ShapeAbstract implements OnInit {
     this.y = 0;
   }
 
-  @HostListener('mouseleave') onMouseleave(): void {
+  @HostListener('mouseleave') onMouseLeave(): void {
     if (this.mouseDown) {
       this.onMouseUp();
     }
