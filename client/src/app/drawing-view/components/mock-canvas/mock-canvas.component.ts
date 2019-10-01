@@ -45,7 +45,7 @@ export class MockCanvasComponent implements OnInit {
     strokeLinecap: string,
     filter: string, }): void {
     if (this.storage.isColourApplicatorSelected()) {
-      line.fill = this.storage.primaryColor;
+      line.color = this.storage.primaryColor;
     }
   }
 
