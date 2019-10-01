@@ -12,7 +12,7 @@
                 </a>
                 <a mat-list-item class="filter">
                     <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon"
-                    (click)='storage.chooseOther()'>
+                    (click)='storage.chooseCrayon()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo"
@@ -28,7 +28,7 @@
                 </a>
                 <a mat-list-item class="filter">
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau"
-                    (click)='storage.chooseOther()'>
+                    (click)='storage.choosePaint()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume"
@@ -47,14 +47,14 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav #snav [disableClose]='true'>
-            <mat-nav-list>
+        <app-mock-canvas style="width: 0; height: 0" ></app-mock-canvas>
+        <mat-sidenav #snav>
+            <mat-nav-list disabled='true'>
                 <app-color-picker #picker></app-color-picker>
                 <button type="button" (click)="snav.close()" mat-raised-button>Fermer</button>
                 <button id="accepter" type="button" (click)="storage.chooseColourApplicator(picker.color[0], picker.color[1]); snav.close()" mat-raised-button>Accepter</button>
             </mat-nav-list>
         </mat-sidenav>
-        <app-mock-canvas style="width: 0; height: 0" ></app-mock-canvas>
     </mat-sidenav-container>
 
 </div>

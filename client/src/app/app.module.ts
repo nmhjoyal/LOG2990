@@ -1,12 +1,18 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Type } from '@angular/core';
-import { MatButtonModule, MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatListModule, MatSidenavModule,
+  MatToolbarModule } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
 import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from './drawing-view/components/color-picker/color-picker.component';
 import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-canvas.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
+import { RectangleComponent } from './drawing-view/components/tools/shapes/rectangle/rectangle.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { LocalStorageService } from './services/local_storage/LocalStorageService';
@@ -19,14 +25,23 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     NewDrawingWindowComponent,
     ColorPickerComponent,
     ColorPaletteComponent,
+    MockCanvasComponent,
+    RectangleComponent,
   ],
   imports: [
     DrawingViewModule,
+    BrowserModule,
+    HttpClientModule,
     MatListModule,
     MatToolbarModule,
     MatCheckboxModule,
     MatButtonModule,
     MatSidenavModule,
+    MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
   ],
   providers: [ MatDialogConfig, LocalStorageService, MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },

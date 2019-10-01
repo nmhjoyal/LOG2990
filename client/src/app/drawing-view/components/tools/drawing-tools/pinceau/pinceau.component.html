@@ -1,0 +1,28 @@
+<svg tabindex = "0" 
+        
+        (mousedown)="onMouseDown($event)"
+        (mousemove)="onMouseMove($event)"
+        (mouseup)="onMouseUp($event)"
+        (mouseleave)="onMouseLeave($event)" >
+      
+    <polyline 
+        id="current"
+        [attr.points]="_points"
+        [style.fill]="getFill()"
+        [style.stroke]="getColor()"
+        [style.stroke-width]="getStrokeWidth()"
+        [style.stroke-linecap]="getStrokeLinecap()"
+        [style.filter]="getFilter()" />
+    
+
+    <g *ngFor = "let line of lines">
+        <polyline 
+        [attr.points]="line.points"
+        [style.fill]="line.fill"
+        [style.stroke]="line.color"
+        [style.stroke-width]="line.strokeWidth"
+        [style.stroke-linecap]="line.strokeLinecap"
+        [style.filter]="line.filter"
+         />
+    </g>
+  </svg>

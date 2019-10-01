@@ -1,0 +1,54 @@
+
+<h1> Test for polyline</h1>
+<p>{{_mousePosition}}</p>
+
+<!--<defs>
+    <filter id="blur">
+        <feGaussianBlur stdDeviation = "5"/>
+    </filter>
+</defs>
+-->
+
+
+
+<svg tabindex = "0"
+        width = "500" height = "700" style="border: 1px solid black;"
+        
+        (mousedown)="onMouseDown($event)"
+        (mousemove)="onMouseMove($event)"
+        (mouseup)="onMouseUp($event)"
+        (mouseleave)="onMouseLeave($event)" >
+
+
+
+    <g *ngFor = "let line of lines">
+        <polyline 
+        [attr.points]="line.points"
+        [style.fill]="line.fill"
+        [style.stroke]="line.color"
+        [style.stroke-width]="line.strokeWidth"
+        [style.stroke-linecap]="line.strokeLinecap"
+        [style.filter]="line.filter"
+            />
+    </g>
+      
+    <polyline 
+        id="current"
+        [attr.points]="_points"
+        [style.fill]="getFill()"
+        [style.stroke]="getColor()"
+        [style.stroke-width]="getStrokeWidth()"
+        [style.stroke-linecap]="getStrokeLinecap()"
+        [style.filter]="getFilter()" />
+    
+  </svg>
+
+  <button (click)="strokeWidthIncrease()">Augmenter epaisseur du trait</button>
+  <button (click)="strokeWidthDecrease()">Diminuer epaisseur du trait</button>
+  <button (click)="setColor(1)">bleu</button>
+  <button (click)="setColor(2)">vert</button>
+  <button (click)="setColor(3)">rouge</button>
+  <button (click)="setColor(0)">noir</button>
+
+
+  
