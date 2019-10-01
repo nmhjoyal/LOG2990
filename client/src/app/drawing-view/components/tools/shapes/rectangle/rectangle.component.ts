@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { ShapeAbstract } from '../assets/shape-abstract';
 
@@ -7,13 +7,14 @@ import { ShapeAbstract } from '../assets/shape-abstract';
   templateUrl: './rectangle.component.html',
   styleUrls: ['./rectangle.component.scss'],
 })
-export class RectangleComponent extends ShapeAbstract {
+export class RectangleComponent extends ShapeAbstract implements OnInit {
 
   constructor(myShapeService: LocalStorageService) {
     super(myShapeService);
   }
 
   ngOnInit() {
+    // empty init
   }
 
   // Abstract&Overridden methods

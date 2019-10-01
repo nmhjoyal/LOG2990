@@ -1,3 +1,4 @@
+
 // import SpyObj = jasmine.SpyObj;
 // import { ShapeAbstract } from './shape-abstract';
 // import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';

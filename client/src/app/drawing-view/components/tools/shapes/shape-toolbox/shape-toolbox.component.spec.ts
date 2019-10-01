@@ -22,4 +22,9 @@ describe('ShapeToolboxComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should return the appropriate component', () => {
+    const spy = spyOn(component, 'getComponent');
+    expect(spy).toEqual(component.shapeComponent);
+  })
 });
