@@ -1,8 +1,9 @@
 <div>
-    <svg tabindex="0" class="mock-canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
-        <rect class="mock-rectangle" width=100% height=100%/>   
-    
-    <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
+    <svg tabindex="0" class="mock-canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight"
+        [attr.fill]="data.drawingColor">
+        <rect class="mock-rectangle" width=100% height=100% />
+
+        <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
     retrieval of saved rectangles from the service in the canvas typescript file.-->
     <g *ngFor="let rectangle of drawnRectangles">
         <rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
@@ -29,8 +30,9 @@
 
     </svg>
 
-    <div  *ngIf="storage.isRectangle">
-        <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+    <div *ngIf="storage.isRectangle">
+        <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
+        </app-tools-rectangle>
         <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
     </div>
     <div  *ngIf="storage.isCrayon">
