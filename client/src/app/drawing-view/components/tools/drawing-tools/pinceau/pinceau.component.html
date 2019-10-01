@@ -1,0 +1,12 @@
+<svg tabindex = "0" class = "previewPinceau" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
+      
+    <polyline 
+        id="current"
+        [attr.points]="_points"
+        [style.fill]="getFill()"
+        [style.stroke]="getColor()"
+        [style.stroke-width]="getStrokeWidth()"
+        [style.stroke-linecap]="getStrokeLinecap()"
+        [style.filter]="getFilter()"
+        [style.stroke-linestroke]="line.strokeLinecap" />
+</svg>

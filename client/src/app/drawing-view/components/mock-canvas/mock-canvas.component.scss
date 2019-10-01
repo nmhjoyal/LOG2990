@@ -1,0 +1,15 @@
+.mock-canvas {
+    top: 60px;
+    left: 56px;
+    -webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
+    box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
+    z-index:-5;
+
+    .mock-rectangle {
+        fill: inherit;
+        top:inherit;
+        left: inherit;
+
+    }
+}
