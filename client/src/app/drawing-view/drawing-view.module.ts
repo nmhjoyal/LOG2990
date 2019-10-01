@@ -14,7 +14,6 @@ import { MockCanvasComponent } from './components/mock-canvas/mock-canvas.compon
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pinceau.component';
-import { SvgTestComponent } from './components/tools/svg-test/svg-test.component';
 import { ToolsComponent } from './components/tools/tools.component';
 
 @NgModule({
@@ -22,7 +21,6 @@ import { ToolsComponent } from './components/tools/tools.component';
     ToolsComponent,
     CanvasComponent,
     LateralBarComponent,
-    SvgTestComponent,
     CrayonComponent,
     PinceauComponent,
     DrawingToolToolboxComponent],
@@ -37,7 +35,8 @@ import { ToolsComponent } from './components/tools/tools.component';
     MatButtonModule,
     CommonModule,
   ],
-  exports: [ToolsComponent, CanvasComponent, LateralBarComponent, SvgTestComponent, CommonModule, CrayonComponent, PinceauComponent, DrawingToolToolboxComponent],
+  exports: [ToolsComponent, CanvasComponent, LateralBarComponent,
+    CommonModule, CrayonComponent, PinceauComponent, DrawingToolToolboxComponent],
   providers: [MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],

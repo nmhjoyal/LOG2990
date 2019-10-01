@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 
@@ -11,9 +11,10 @@ const DEFAULT_FILTER = 'none';
   templateUrl: './pinceau.component.html',
   styleUrls: ['./pinceau.component.scss'],
 })
-export class PinceauComponent extends DrawingToolsAbstract {
+export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
 
   ngOnInit() {
+    // empty block
   }
 
   constructor(myDrawingToolService: LocalStorageService) {
@@ -24,7 +25,7 @@ export class PinceauComponent extends DrawingToolsAbstract {
 
   protected saveShape(): void {
     this.drawingToolService.lines.push({
-      points: this._points,
+      points: this.points,
       color: this.getColor(),
       strokeWidth: this.getStrokeWidth(),
       fill: FILL_MODE,

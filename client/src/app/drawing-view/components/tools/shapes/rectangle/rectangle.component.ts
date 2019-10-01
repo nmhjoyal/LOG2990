@@ -7,13 +7,14 @@ import { ShapeAbstract } from '../assets/shape-abstract';
   templateUrl: './rectangle.component.html',
   styleUrls: ['./rectangle.component.scss'],
 })
-export class RectangleComponent extends ShapeAbstract {
+export class RectangleComponent extends ShapeAbstract implements OnInit {
 
   constructor(myShapeService: LocalStorageService) {
     super(myShapeService);
   }
 
   ngOnInit() {
+    // empty block
   }
 
   // Abstract&Overridden methods

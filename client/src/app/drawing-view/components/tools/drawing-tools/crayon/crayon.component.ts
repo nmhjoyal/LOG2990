@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 
@@ -11,20 +11,21 @@ const DEFAULT_FILTER = 'none';
   templateUrl: './crayon.component.html',
   styleUrls: ['./crayon.component.scss'],
 })
-export class CrayonComponent extends DrawingToolsAbstract {
+export class CrayonComponent extends DrawingToolsAbstract implements OnInit {
 
   constructor(myDrawingToolService: LocalStorageService) {
     super(myDrawingToolService);
   }
 
   ngOnInit() {
+    // empty block
   }
 
   // Abstract&Overridden methods
 
   protected saveShape(): void {
     this.drawingToolService.lines.push({
-      points: this._points,
+      points: this.points,
       color: this.getColor(),
       strokeWidth: this.getStrokeWidth(),
       fill: FILL_MODE,
