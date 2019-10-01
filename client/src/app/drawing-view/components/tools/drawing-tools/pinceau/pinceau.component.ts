@@ -4,7 +4,6 @@ import { LocalStorageService } from 'src/app/services/local_storage/LocalStorage
 
 const STROKE_LINECAP_MODE = "round";
 const FILL_MODE = "none";
-const DEFAULT_FILTER = "none";
 
 @Component({
   selector: 'app-pinceau',
@@ -13,22 +12,32 @@ const DEFAULT_FILTER = "none";
 })
 export class PinceauComponent extends DrawingToolsAbstract {
 
+  public currentFilter:{baseFrequency:string,
+                        numOctaves:string,
+                        scale:string};
+
   ngOnInit() {
+    //empty block
   }
 
   constructor(myDrawingToolService: LocalStorageService) {
     super(myDrawingToolService);
+    this.currentFilter = myDrawingToolService.filters[0];
   }
   
+  public setFilter(n:number): void {
+    this.currentFilter = this.drawingToolService.filters[n];
+  }
+
   // Abstract&Overridden methods
   
   protected saveShape(): void {
-    this.drawingToolService.lines.push({
+    this.drawingToolService.paints.push({
       points:this._points,
       color:this.getColor(),
       strokeWidth:this.getStrokeWidth(),
       fill:FILL_MODE,
       strokeLinecap:STROKE_LINECAP_MODE,
-      filter:DEFAULT_FILTER});
+      filter: this.currentFilter});
   }
 }

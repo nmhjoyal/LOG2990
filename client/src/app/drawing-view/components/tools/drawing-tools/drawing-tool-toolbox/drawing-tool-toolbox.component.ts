@@ -10,9 +10,12 @@ export class DrawingToolToolboxComponent implements OnInit {
 
   @Input() drawingToolComponent: DrawingToolsAbstract;
 
-  constructor() { }
+  constructor() { 
+    // empty block
+  }
 
   ngOnInit() {
+    // empty block
   }
 
   getComponent() {

@@ -20,16 +20,20 @@ export class MockCanvasComponent implements OnInit {
                          strokeWidth: number;
                          fillOpacity: number; }[];
 
-    private lines:    { points: string;
+  private lines:    { points: string;
                         color: string; 
                         strokeWidth: number; 
                         fill:string; 
                         strokeLinecap:string; 
                         filter:string; }[];
 
+  private paints: {points: string, color: string, strokeWidth: number, 
+    fill:string, strokeLinecap:string, filter:{baseFrequency:string, numOctaves:string, scale:string}}[];
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData, private storage: LocalStorageService) {
     this.rectangles = this.storage.rectangles;
     this.lines = storage.lines;
+    this.paints = storage.paints;
   }
 
   
@@ -48,4 +52,9 @@ export class MockCanvasComponent implements OnInit {
     return this.lines;
   }
 
+  get drawnPaints(): {points: string, color: string, strokeWidth: number, 
+                      fill:string, strokeLinecap:string, filter:{baseFrequency:string, numOctaves:string, scale:string}}[]{
+    return this.paints;
+  }
+  
 }

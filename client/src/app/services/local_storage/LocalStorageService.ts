@@ -23,6 +23,16 @@ export class LocalStorageService {
     lines: {points: string, color: string, strokeWidth: number, 
         fill:string, strokeLinecap:string, filter:string}[] = [];
 
+    paints: {points: string, color: string, strokeWidth: number, 
+            fill:string, strokeLinecap:string, filter:{baseFrequency:string, numOctaves:string, scale:string}}[] = [];
+
+    filters: {baseFrequency:string, numOctaves:string, scale:string}[] = 
+    [{baseFrequency:"0.2", numOctaves:"2", scale:"5"}, 
+    {baseFrequency:"0.4", numOctaves:"6", scale:"3"},
+    {baseFrequency:"0.6", numOctaves:"4", scale:"4"},
+    {baseFrequency:"1.0", numOctaves:"5", scale:"3"},
+    {baseFrequency:"0.9", numOctaves:"3", scale:"6"}]
+
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
         
     }

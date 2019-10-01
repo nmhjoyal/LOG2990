@@ -1,5 +1,9 @@
 <svg tabindex = "0" class = "previewPinceau" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
-      
+    <filter id="displacementFilter">
+            <feTurbulence type="turbulence" [attr.baseFrequency]="currentFilter.baseFrequency" [attr.numOctaves]="currentFilter.numOctaves" result="turbulence" />
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" [attr.scale]="currentFilter.scale" xChannelSelector="R"
+                yChannelSelector="G" />
+    </filter>
     <polyline 
         id="current"
         [attr.points]="_points"
