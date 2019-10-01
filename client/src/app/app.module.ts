@@ -40,6 +40,7 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     BrowserAnimationsModule,
     MatButtonModule,
     ColorPickerModule,
+    ColorPaletteComponent,
   ],
   providers: [MatDialogConfig, LocalStorageService,
     { provide: MatDialogRef, useValue: {} },
