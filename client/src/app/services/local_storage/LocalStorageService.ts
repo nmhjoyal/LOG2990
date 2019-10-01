@@ -10,8 +10,6 @@ export class LocalStorageService {
     // Shape Handling attributes
     private rectangleSelected: boolean;
     private colourApplicatorSelected: boolean;
-    private crayonSelected: boolean;
-    private paintSelected: boolean;
 
     // Color service simulating attributes
     primaryColor: string;
@@ -25,8 +23,6 @@ export class LocalStorageService {
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
         this.rectangleSelected = false;
         this.colourApplicatorSelected = false;
-        this.crayonSelected = false;
-        this.paintSelected = false;
         this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
         this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
      }
@@ -59,16 +55,6 @@ export class LocalStorageService {
         this.primaryColor = primaryColor;
         this.secondaryColor = secondaryColor;
         this.colourApplicatorSelected = true;
-    }
-
-    chooseCrayon(): void {
-        this.reset();
-        this.crayonSelected = true;
-    }
-
-    choosePaint(): void {
-        this.reset();
-        this.paintSelected = true;
     }
 
     chooseOther(): void {
