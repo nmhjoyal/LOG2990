@@ -1,1 +1,24 @@
-<p>welcome-window works!</p>
+<div class="welcome-box">
+    <h2 class='welcome-box' id='title' mat-dialog-title>Bienvenue au site J'Opine!</h2>
+    <mat-dialog-content class='welcome-box' id='instructions'>
+        Ici vous pouvez: 
+        <ul>
+            <li>Créer un nouveau dessin</li>
+            <li>Dessiner avec différentes textures</li>
+            <li>Tracer des formes variées</li>
+            <li>...et plus encore!</li>
+        </ul>
+        <p>Pour avoir plus d'informations concernant l'utilisation du site, 
+            à n'importe quel moment, veuillez consulter le <a style='color:lightskyblue' href="../../../../assets/lateral-bar/Guide d'utilisation.pdf">
+                <b>Guide d'utilisation</b></a> 
+            en cliquant le symbole <img src='../../../../assets/lateral-bar/guide_utilisation.svg'>
+            sur la barre latérale à gauche.
+        </p>
+    </mat-dialog-content><br><br>
+    <div class='welcome-box'>
+        <mat-checkbox id='chbx-showAgain' (click)='checkboxClicked()'>Ne plus m'afficher ce texte.</mat-checkbox>
+    </div>
+    <div mat-dialog-actions class='welcome-box'>
+        <button id='btn-close' mat-raised-button (click)="onClose()">Fermer</button>
+    </div>
+</div>
