@@ -10,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
 import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from './drawing-view/components/color-picker/color-picker.component';
-import { ColorPickerModule } from './drawing-view/components/color-picker/color-picker.module';
 import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-canvas.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
@@ -24,6 +23,8 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     MockCanvasComponent,
     WelcomeWindowComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
+    ColorPaletteComponent,
+    ColorPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,8 +40,6 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    ColorPickerModule,
-    ColorPaletteComponent,
   ],
   providers: [MatDialogConfig, LocalStorageService,
     { provide: MatDialogRef, useValue: {} },

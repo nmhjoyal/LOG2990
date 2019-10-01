@@ -53,7 +53,7 @@ export class ColorPaletteComponent implements AfterViewInit {
     gradient.addColorStop(0.45, 'rgba(0, 200, 25, 1)');
     gradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
     gradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
-    gradient.addColorStop(0.9, 'rgba(255, 0, 255, 1)');
+    gradient.addColorStop(0.9,  'rgba(255, 0, 255, 1)');
 
     this.ctx.beginPath();
     this.ctx.rect(0, 0, width, height);

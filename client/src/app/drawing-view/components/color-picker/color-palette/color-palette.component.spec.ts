@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HttpClientModule } from '@angular/common/http';
+//import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+/*import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';*/
 import { EventEmitter } from 'events';
 import { ColorPaletteComponent } from './color-palette.component';
 
@@ -41,9 +41,13 @@ describe('ColorPaletteComponent', () => {
         fixture.detectChanges();
     });
 
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
     it('should have default alpha = 1', () => {
-        expect(component.alpha[0]).toEqual('1');
-        expect(component.alpha[1]).toEqual('1');
+        expect(component.alpha[0]).toEqual(1);
+        expect(component.alpha[1]).toEqual(1);
     });
 
     it('should have primary color = white', () => {
@@ -62,4 +66,7 @@ describe('ColorPaletteComponent', () => {
         expect(component.colors.length).toEqual(10);
     });
 
+    it('should change Color on click of palette', () => {
+        expect(component.alpha[0]).toBeDefined('setAlpha()');
+    });
 });
