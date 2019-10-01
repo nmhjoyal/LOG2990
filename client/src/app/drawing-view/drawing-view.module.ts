@@ -18,7 +18,6 @@ import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pince
 import { SvgTestComponent } from './components/tools/svg-test/svg-test.component';
 import { ToolsComponent } from './components/tools/tools.component';
 
-
 @NgModule({
   declarations: [
     ToolsComponent,
@@ -39,10 +38,10 @@ import { ToolsComponent } from './components/tools/tools.component';
     MatButtonModule,
     CommonModule,
   ],
-  exports: [ToolsComponent, CanvasComponent, LateralBarComponent, SvgTestComponent, CommonModule, CrayonComponent, DrawingToolToolboxComponent],
+  exports: [ToolsComponent, CanvasComponent, LateralBarComponent,
+    SvgTestComponent, CommonModule, CrayonComponent, DrawingToolToolboxComponent],
   providers: [MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
-  bootstrap: [AppComponent],
 })
 export class DrawingViewModule { }
