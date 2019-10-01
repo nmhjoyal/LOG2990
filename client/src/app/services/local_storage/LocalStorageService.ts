@@ -7,7 +7,7 @@ const WELCOME_WINDOW_KEY = 'showAgain';
 export class LocalStorageService {
 
     // Shape Handling attributes
-    private rectangleSelected = false;
+    rectangleSelected = false;
 
     // Color service simulating attributes
     primaryColor = 'green';
@@ -19,7 +19,7 @@ export class LocalStorageService {
         strokeOpacity: number, strokeWidth: number, fillOpacity: number}[] = [];
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
-        
+
     }
 
     setShowAgain(showAgain: boolean): void {
@@ -55,20 +55,6 @@ export class LocalStorageService {
 
     get isRectangle(): boolean {
         return this.rectangleSelected;
-    }
-
-    // Color service simulating (DELETE ONCE IMPLEMENTED WITH COLOR SERVICE)
-    switchColor() {
-        this.primaryColor = 'rgb('
-                              + Math.floor(Math.random() * 255)
-                              + ',' + Math.floor(Math.random() * 255)
-                              + ','  + Math.floor(Math.random() * 255)
-                              + ')';
-        this.secondaryColor = 'rgb('
-                                + Math.floor(Math.random() * 255)
-                                + ',' + Math.floor(Math.random() * 255)
-                                + ','  + Math.floor(Math.random() * 255)
-                                + ')';
     }
 
     get PrimaryColor(): string {

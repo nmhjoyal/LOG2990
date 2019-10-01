@@ -34,7 +34,7 @@ export abstract class ShapeAbstract implements OnInit {
   }
 
   ngOnInit() {
-
+    // empty body
   }
 
   // Abstract methods
@@ -177,17 +177,11 @@ export abstract class ShapeAbstract implements OnInit {
     return this.fillOpacity;
   }
 
-  // Color service simulating methods
-
   getPrimeColor(): string {
     return this.shapeService.PrimaryColor;
   }
 
   getSecondColor(): string {
     return this.shapeService.SecondColor;
-  }
-
-  switchColor(): void {
-    this.shapeService.switchColor();
   }
 }

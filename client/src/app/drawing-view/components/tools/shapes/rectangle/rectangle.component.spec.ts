@@ -1,16 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { LOCAL_STORAGE } from 'ngx-webstorage-service';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { RectangleComponent } from './rectangle.component';
 
 describe('RectangleComponent', () => {
   let component: RectangleComponent;
   let fixture: ComponentFixture<RectangleComponent>;
+  const storageServiceMock: jasmine.SpyObj<LocalStorageService> = jasmine.createSpyObj('LocalStorageService', ['']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RectangleComponent ],
+      imports: [BrowserDynamicTestingModule],
+      declarations: [RectangleComponent],
+      providers: [
+        { provide: LOCAL_STORAGE, useValue: storageServiceMock, },
+      ],
+
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,4 +31,5 @@ describe('RectangleComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
