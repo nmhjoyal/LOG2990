@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+const COLOR_BLACK = "black";
+const DEFAULT_FILTER = "none";
+
 @Component({
   selector: 'app-svg-test',
   templateUrl: './svg-test.component.html',
@@ -11,7 +14,8 @@ export class SvgTestComponent implements OnInit {
   public _points : string;
   private _mouseDown : boolean = false;
   private _strokeWidth : number = 5;
-  private _color : string = "black"
+  private _color : string = COLOR_BLACK
+  private _filter : string = DEFAULT_FILTER
   public _mousePosition : string = "Mouse coordonates: ()";
   private _x:number;
   private _y:number;
@@ -21,7 +25,8 @@ export class SvgTestComponent implements OnInit {
     color:string,
     strokeWidth:number 
     fill:string 
-    strokeLinecap:string}[] = [];
+    strokeLinecap:string
+    filter:string}[] = [];
 
   constructor() { }
 
@@ -54,7 +59,8 @@ export class SvgTestComponent implements OnInit {
       color:this.getColor(),
       strokeWidth:this.getStrokeWidth(),
       fill:this.getFill(),
-      strokeLinecap:this.getStrokeLinecap()});
+      strokeLinecap:this.getStrokeLinecap(),
+      filter:this.getFilter()});
     this._points = "";
   }
 
@@ -83,6 +89,10 @@ export class SvgTestComponent implements OnInit {
     return "round";
   }
 
+  getFilter(){
+    return this._filter;
+  }
+
   strokeWidthIncrease(){
     if(this._strokeWidth <= 20)
       this._strokeWidth += 1;
@@ -93,16 +103,20 @@ export class SvgTestComponent implements OnInit {
       this._strokeWidth -= 1;
   }
 
-  setColorBlue(){
-    this._color = "blue";
-  }
-  setColorGreen(){
-    this._color = "green";
-  }
-  setColorRed(){
-    this._color = "red";
-  }
-  setColorBlack(){
-    this._color = "black";
+  setColor(index:number){
+    switch(index){
+      case 1:
+      this._color = "blue";
+      break;
+      case 2:
+        this._color = "green";
+        break;
+      case 3:
+        this._color = "red";
+        break;
+      default:
+      this._color = "black";
+      break;
+    }
   }
 }

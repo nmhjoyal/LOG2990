@@ -2,13 +2,14 @@
 <h1> Test for polyline</h1>
 <p>{{_mousePosition}}</p>
 
-<!--<defs id="defs">
-    <pattern id="gold"  x="0" y="0" width="350" height="350" patternUnits="userSpaceOnUse" >
-        <image x="0" y="0" width="350px" height="350px" xlink:href="textures\gold.png" />
-    </pattern>
-    <mask id="maskGold" x="0" y="0" width="100" height="100" > </mask>
+<!--<defs>
+    <filter id="blur">
+        <feGaussianBlur stdDeviation = "5"/>
+    </filter>
 </defs>
 -->
+
+
 
 <svg tabindex = "0"
         width = "500" height = "700" style="border: 1px solid black;"
@@ -17,15 +18,8 @@
         (mousemove)="onMouseMove($event)"
         (mouseup)="onMouseUp($event)"
         (mouseleave)="onMouseLeave($event)" >
-      
-    <polyline 
-        id="current"
-        [attr.points]="_points"
-        [style.fill]="getFill()"
-        [style.stroke]="getColor()"
-        [style.stroke-width]="getStrokeWidth()"
-        [style.stroke-linecap]="getStrokeLinecap()" />
-    
+
+
 
     <g *ngFor = "let line of lines">
         <polyline 
@@ -34,14 +28,27 @@
         [style.stroke]="line.color"
         [style.stroke-width]="line.strokeWidth"
         [style.stroke-linecap]="line.strokeLinecap"
-         />
+        [style.filter]="line.filter"
+            />
     </g>
+      
+    <polyline 
+        id="current"
+        [attr.points]="_points"
+        [style.fill]="getFill()"
+        [style.stroke]="getColor()"
+        [style.stroke-width]="getStrokeWidth()"
+        [style.stroke-linecap]="getStrokeLinecap()"
+        [style.filter]="getFilter()" />
+    
   </svg>
 
   <button (click)="strokeWidthIncrease()">Augmenter epaisseur du trait</button>
   <button (click)="strokeWidthDecrease()">Diminuer epaisseur du trait</button>
-  <button (click)="setColorRed()">rouge</button>
-  <button (click)="setColorGreen()">vert</button>
-  <button (click)="setColorBlue()">bleu</button>
-  <button (click)="setColorBlack()">noir</button>
+  <button (click)="setColor(1)">bleu</button>
+  <button (click)="setColor(2)">vert</button>
+  <button (click)="setColor(3)">rouge</button>
+  <button (click)="setColor(0)">noir</button>
+
+
   
