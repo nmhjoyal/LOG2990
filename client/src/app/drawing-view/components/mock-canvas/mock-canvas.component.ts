@@ -31,7 +31,7 @@ export class MockCanvasComponent implements OnInit {
   get drawnRectangles(): { x: number; y: number; width: number; height: number;
                           primeColor: string; secondColor: string; strokeOpacity: number;
                           strokeWidth: number; fillOpacity: number; }[] {
-     return this.rectangles;
-    }
+    return this.rectangles;
+  }
 
 }

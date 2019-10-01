@@ -18,13 +18,15 @@ export class LocalStorageService {
         primeColor: string, secondColor: string
         strokeOpacity: number, strokeWidth: number, fillOpacity: number}[] = [];
 
-    constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) { }
+    constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
+        
+    }
 
-    setShowAgain(showAgain: boolean) {
+    setShowAgain(showAgain: boolean): void {
         this.storage.set(WELCOME_WINDOW_KEY, showAgain);
     }
 
-    getShowAgain() {
+    getShowAgain(): boolean {
         if (this.storage.has(WELCOME_WINDOW_KEY)) {
             return this.storage.get(WELCOME_WINDOW_KEY);
         }
@@ -67,7 +69,7 @@ export class LocalStorageService {
                                 + ',' + Math.floor(Math.random() * 255)
                                 + ','  + Math.floor(Math.random() * 255)
                                 + ')';
-      }
+    }
 
     get PrimaryColor(): string {
         return this.primaryColor;

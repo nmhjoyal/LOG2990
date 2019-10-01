@@ -14,9 +14,9 @@
     </g>
 
     </svg>
-    
+
     <div  *ngIf="storage.isRectangle">
-    <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
-    <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
+        <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+        <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
     </div>
 </div>
