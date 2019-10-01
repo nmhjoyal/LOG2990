@@ -2,6 +2,9 @@ import { NgModule, Type } from '@angular/core';
 import { MatButtonModule, MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppComponent } from './components/app/app.component';
+import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
+import { ColorPickerComponent } from './drawing-view/components/color-picker/color-picker.component';
+import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-canvas.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
@@ -14,7 +17,8 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     ModalWindowComponent as Type<ModalWindowComponent>,
     WelcomeWindowComponent,
     NewDrawingWindowComponent,
-
+    ColorPickerComponent,
+    ColorPaletteComponent,
   ],
   imports: [
     DrawingViewModule,
@@ -24,7 +28,7 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     MatButtonModule,
     MatSidenavModule,
   ],
-  providers: [ MatDialogConfig, LocalStorageService,
+  providers: [ MatDialogConfig, LocalStorageService, MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
   { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],

@@ -1,29 +1,29 @@
 import {
-  Component,
-  ViewChild,
-  ElementRef,
   AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
   Input,
   Output,
-  EventEmitter,
-  HostListener
+  ViewChild
 
 } from '@angular/core';
 
 @Component({
   selector: 'app-color-palette',
   templateUrl: './color-palette.component.html',
-  styleUrls: ['./color-palette.component.css'],
+  styleUrls: ['./color-palette.component.scss'],
 })
 export class ColorPaletteComponent implements AfterViewInit {
 
   @Input() mainColor: boolean;
-  @Input() colors: Array<string>;
-  @Input() alpha: Array<number>;
+  @Input() colors: string[];
+  @Input() alpha: number[];
 
   @Output() color1: EventEmitter<string> = new EventEmitter();
   @Output() color2: EventEmitter<string> = new EventEmitter();
-  color = [this.color1, this.color2]
+  color = [this.color1, this.color2];
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>;
@@ -35,14 +35,13 @@ export class ColorPaletteComponent implements AfterViewInit {
   selectedPosition: { x: number; y: number };
 
   ngAfterViewInit() {
-    this.draw()
+    this.draw();
   }
 
   draw() {
-   if (!this.ctx) {
-      // tslint:disable-next-line: no-non-null-assertion
-      this.ctx = this.canvas.nativeElement.getContext('2d')!;
-   }
+    if (!this.ctx) {
+      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+    }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
 
@@ -115,9 +114,13 @@ export class ColorPaletteComponent implements AfterViewInit {
   }
 
   rgb2hex(hue: number) {
-    if (!hue) {return '00'}
-    else if (hue < 16) {return ('0' + hue.toString(16)); }
-    else {return hue.toString(16); }
+    if (!hue) {
+      return '00';
+    } else if (hue < 16) {
+      return ('0' + hue.toString(16));
+    } else {
+      return hue.toString(16);
+    }
   }
 
   getColorAtPosition(x: number, y: number) {
@@ -128,5 +131,4 @@ export class ColorPaletteComponent implements AfterViewInit {
     const a = this.rgb2hex(Math.round(this.alpha[+this.mainColor] * 255));
     return ( '#' + r + g + b + a );
   }
-
 }

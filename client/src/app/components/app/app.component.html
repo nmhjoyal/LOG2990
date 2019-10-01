@@ -18,6 +18,10 @@
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo"
                     (click)='storage.chooseOther()'>
                 </a>
+                <a mat-list-item>
+                    <img id="colour-picker" class="sideBarIcon" src="../../../assets/lateral-bar/colorize.svg" title="Applicateur de couleur"
+                    (click)='snav.toggle("app-color-picker")'>
+                </a>
                 <a mat-list-item class="filter">
                     <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau"
                     (click)='storage.chooseOther()'>
@@ -43,8 +47,14 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
+        <mat-sidenav #snav [disableClose]='true'>
+            <mat-nav-list>
+                <app-color-picker #picker></app-color-picker>
+                <button type="button" (click)="snav.close()" mat-raised-button>Fermer</button>
+                <button id="accepter" type="button" (click)="storage.chooseColourApplicator(picker.color[0], picker.color[1]); snav.close()" mat-raised-button>Accepter</button>
+            </mat-nav-list>
+        </mat-sidenav>
         <app-mock-canvas style="width: 0; height: 0" ></app-mock-canvas>
-
     </mat-sidenav-container>
 
 </div>

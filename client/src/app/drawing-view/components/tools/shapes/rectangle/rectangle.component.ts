@@ -13,9 +13,6 @@ export class RectangleComponent extends ShapeAbstract {
     super(myShapeService);
     }
 
-  ngOnInit() {
-  }
-
   // Abstract&Overridden methods
 
   protected saveShape(): void {

@@ -29,4 +29,35 @@ export class MockCanvasComponent implements OnInit {
     console.log(this.rectangles);
     console.log(this.storage);
   }
+
+  applyColour(rectangle: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    primeColor: string;
+    secondColor: string;
+    strokeOpacity: number;
+    strokeWidth: number;
+    fillOpacity: number; }): void {
+    if (this.storage.isColourApplicatorSelected()) {
+      rectangle.primeColor = this.storage.primaryColor;
+    }
+  }
+
+  applySecondaryColour(event: MouseEvent, rectangle: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    primeColor: string;
+    secondColor: string;
+    strokeOpacity: number;
+    strokeWidth: number;
+    fillOpacity: number; }): void {
+    if (this.storage.isColourApplicatorSelected()) {
+      event.preventDefault();
+      rectangle.secondColor = this.storage.secondaryColor;
+    }
+  }
 }

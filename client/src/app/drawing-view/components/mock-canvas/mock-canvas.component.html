@@ -4,7 +4,7 @@
     
     <!--This snippet of SVG shows all saved rectangles; Should be added to the canvas along with
     retrieval of saved rectangles from the Shape-service in the canvas typescript file.-->
-    <g *ngFor="let rectangle of rectangles">
+    <g *ngFor="let rectangle of rectangles" (click)="applyColour(rectangle)" (contextmenu)="applySecondaryColour($event, rectangle)">
         <rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
         [style.stroke]="rectangle.secondColor" 
         [style.fill]="rectangle.primeColor"  

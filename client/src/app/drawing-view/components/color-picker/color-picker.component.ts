@@ -1,31 +1,31 @@
 import {  Component } from '@angular/core';
 
-
 @Component({
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
-  styleUrls: ['./color-picker.component.css'],
+  styleUrls: ['./color-picker.component.scss'],
 })
 
 export class ColorPickerComponent {
-  color: Array<string> = ['#ffffffff', '#000000ff'];
-  colors: Array<string> = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
+  color: string[] = ['#ffffffff', '#000000ff'];
+  colors: string[] = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
                            '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
-  alpha: Array<number> = [1, 1]
+  alpha: number[] = [1, 1];
   mainColor = false;
 
-  chooseColor(primary: boolean){
+  chooseColor(primary: boolean) {
     if (primary) {
-      if (!this.mainColor) {this.mainColor = true;
+      if (!this.mainColor) {
+        this.mainColor = true;
       }
-    }
-    else {
-      if (this.mainColor) {this.mainColor = false;
+    } else {
+      if (this.mainColor) {
+        this.mainColor = false;
       }
     }
   }
 
-  switchColors(){
+  switchColors() {
     const inter = this.color[0];
     this.color[0] = this.color[1];
     this.color[1] = inter;
