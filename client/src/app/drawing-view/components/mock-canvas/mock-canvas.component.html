@@ -15,7 +15,8 @@
 
     </svg>
     
-    <app-tools-rectangle #activeShape *ngIf="storage.isRectangle" [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
-    <app-shape-toolbox *ngIf="storage.isRectangle" [shapeComponent]="activeShape"></app-shape-toolbox>
-
+    <div  *ngIf="storage.isRectangle">
+    <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+    <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
+    </div>
 </div>
