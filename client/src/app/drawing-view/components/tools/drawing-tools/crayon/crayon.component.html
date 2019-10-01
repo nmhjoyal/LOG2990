@@ -1,10 +1,11 @@
-<svg tabindex = "0" 
-        
-        (mousedown)="onMouseDown($event)"
-        (mousemove)="onMouseMove($event)"
-        (mouseup)="onMouseUp($event)"
-        (mouseleave)="onMouseLeave($event)" >
-      
+<svg tabindex = "0" class = "previewCrayon" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
+    
+    <filter id="displacementFilter">
+        <feTurbulence type="turbulence" baseFrequency="0.05"
+            numOctaves="2" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="SourceGraphic"
+            scale="50" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
     <polyline 
         id="current"
         [attr.points]="_points"
@@ -12,17 +13,7 @@
         [style.stroke]="getColor()"
         [style.stroke-width]="getStrokeWidth()"
         [style.stroke-linecap]="getStrokeLinecap()"
-        [style.filter]="getFilter()" />
-    
-
-    <g *ngFor = "let line of lines">
-        <polyline 
-        [attr.points]="line.points"
-        [style.fill]="line.fill"
-        [style.stroke]="line.color"
-        [style.stroke-width]="line.strokeWidth"
-        [style.stroke-linecap]="line.strokeLinecap"
-        [style.filter]="line.filter"
+        [style.stroke-linejoin] = "getStrokeLinecap()"
+        style="filter: url(#displacementFilter)"
          />
-    </g>
-  </svg>
+</svg>

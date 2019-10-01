@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
@@ -18,20 +19,21 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
 
   constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+              @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData,
+              private storage: LocalStorageService) {
     super(dialogRef, data);
     this.reinitializeDrawingVariables();
     dialogRef.disableClose = true;
   }
 
-  @HostListener('window: resize', ['$event']) updateWindowSize() {
+  @HostListener('window: resize', ['$event']) updateWindowSize(): void {
     if (!this.data.drawingHeightInput && !this.data.drawingWidthInput) {
       this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
       this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     }
   }
 
-  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     this.onClose();
   }
 
@@ -49,6 +51,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
       this.data.drawingColor = '#ffffff';
     this.data.canvasIsDrawnOn = false;
+    this.storage.clear();
     this.dialogRef.close();
   }
 

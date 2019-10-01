@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 
 const STROKE_LINECAP_MODE = "round";
@@ -12,13 +13,17 @@ const DEFAULT_FILTER = "none";
 })
 export class CrayonComponent extends DrawingToolsAbstract {
 
+  constructor(myDrawingToolService: LocalStorageService) {
+    super(myDrawingToolService);
+  }
+
   ngOnInit() {
   }
 
   // Abstract&Overridden methods
   
   protected saveShape(): void {
-    this.lines.push({
+    this.drawingToolService.lines.push({
       points:this._points,
       color:this.getColor(),
       strokeWidth:this.getStrokeWidth(),

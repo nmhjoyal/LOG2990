@@ -11,7 +11,7 @@ export class RectangleComponent extends ShapeAbstract {
 
   constructor(myShapeService: LocalStorageService) {
     super(myShapeService);
-    }
+  }
 
   // Abstract&Overridden methods
 

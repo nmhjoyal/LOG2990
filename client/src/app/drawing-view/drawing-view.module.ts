@@ -29,7 +29,6 @@ import { ToolsComponent } from './components/tools/tools.component';
     CrayonComponent,
     PinceauComponent,
     DrawingToolToolboxComponent],
-
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -41,7 +40,8 @@ import { ToolsComponent } from './components/tools/tools.component';
     MatButtonModule,
     CommonModule,
   ],
-  exports: [ToolsComponent, CanvasComponent, LateralBarComponent, SvgTestComponent, CommonModule],
+  exports: [ToolsComponent, CanvasComponent, LateralBarComponent, SvgTestComponent,
+    CommonModule, CrayonComponent, DrawingToolToolboxComponent, ShapeToolboxComponent],
   providers: [MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
