@@ -1,5 +1,11 @@
 <svg tabindex = "0" class = "previewCrayon" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
-      
+    
+    <filter id="displacementFilter">
+        <feTurbulence type="turbulence" baseFrequency="0.05"
+            numOctaves="2" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="SourceGraphic"
+            scale="50" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
     <polyline 
         id="current"
         [attr.points]="_points"
@@ -8,5 +14,6 @@
         [style.stroke-width]="getStrokeWidth()"
         [style.stroke-linecap]="getStrokeLinecap()"
         [style.stroke-linejoin] = "getStrokeLinecap()"
+        style="filter: url(#displacementFilter)"
          />
 </svg>
