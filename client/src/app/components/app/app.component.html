@@ -1,3 +1,4 @@
+
 <div>
     <mat-toolbar color="secondary">
         <h1 class="app-name">J'Opine</h1>
@@ -34,10 +35,17 @@
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
+                <a mat-list-item >
+                    <div class = "color-preview" 
+                     [ngStyle]="{'background-color': blue}" title = "primary color" (click)="openChooseColorgDialog()"></div>
+                </a>
+                <a mat-list-item >
+                    <div class = "color-preview" 
+                    [ngStyle]="{'background-color': blue}" title = "secondary color" (click)="openChooseColorgDialog()"></div>    
+                 </a>
             </mat-nav-list>
         </mat-sidenav>
         <app-mock-canvas style="width: 0; height: 0" ></app-mock-canvas>
 
     </mat-sidenav-container>
-
 </div>

@@ -1,5 +1,7 @@
-import {  Component } from '@angular/core';
-
+import { Component, Inject } from '@angular/core';
+import { ColorPickerModalData } from '../ColorPickerModalData';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ModalWindowComponent } from '../modal-window/modal-window.component';
 
 @Component({
   selector: 'app-color-picker',
@@ -7,37 +9,43 @@ import {  Component } from '@angular/core';
   styleUrls: ['./color-picker.component.css'],
 })
 
-export class ColorPickerComponent {
-  color: Array<string> = ['#ffffffff', '#000000ff'];
-  colors: Array<string> = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
-                           '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
-  alpha: Array<number> = [1, 1]
+export class ColorPickerComponent extends ModalWindowComponent {
+  color = ['#ffffffff', '#000000ff'];
+  colors = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
+            '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
+  alpha = [1, 1];
   mainColor = false;
+
+  constructor(public dialogRef: MatDialogRef<ColorPickerComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: ColorPickerModalData) {
+    super(dialogRef, data);
+    dialogRef.disableClose = true;
+  }
 
   chooseColor(primary: boolean){
     if (primary) {
-      if (!this.mainColor) {this.mainColor = true;
+      if (!this.data.mainColor) {this.data.mainColor = true;
       }
     }
     else {
-      if (this.mainColor) {this.mainColor = false;
+      if (this.data.mainColor) {this.data.mainColor = false;
       }
     }
   }
 
   switchColors(){
-    const inter = this.color[0];
-    this.color[0] = this.color[1];
-    this.color[1] = inter;
+    const inter = this.data.color[0];
+    this.data.color[0] = this.data.color[1];
+    this.data.color[1] = inter;
   }
 
   setAlpha(alpha: number) {
-    this.alpha[+this.mainColor] = alpha;
+    this.data.alpha[+this.data.mainColor] = alpha;
     this.setColor(this.colors[9]);
   }
 
   setColor(color: string ) {
-    this.color[+this.mainColor] = color;
+    this.data.color[+this.data.mainColor] = color;
   }
 
 }

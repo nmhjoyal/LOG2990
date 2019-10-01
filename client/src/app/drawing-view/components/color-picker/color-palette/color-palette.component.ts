@@ -7,8 +7,8 @@ import {
   Output,
   EventEmitter,
   HostListener
-
 } from '@angular/core';
+
 
 @Component({
   selector: 'app-color-palette',
@@ -39,10 +39,9 @@ export class ColorPaletteComponent implements AfterViewInit {
   }
 
   draw() {
-   if (!this.ctx) {
-      // tslint:disable-next-line: no-non-null-assertion
-      this.ctx = this.canvas.nativeElement.getContext('2d')!;
-   }
+    if (!this.ctx) {
+      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+    }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
 
