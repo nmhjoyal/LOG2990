@@ -45,8 +45,9 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
   ],
   providers: [ MatDialogConfig, LocalStorageService, MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
-  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, NewDrawingWindowComponent],
+  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>,
+    WelcomeWindowComponent, NewDrawingWindowComponent, ColorPickerComponent],
 })
 export class AppModule { }

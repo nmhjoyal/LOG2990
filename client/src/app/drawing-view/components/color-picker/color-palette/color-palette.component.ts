@@ -7,7 +7,6 @@ import {
   Input,
   Output,
   ViewChild
-
 } from '@angular/core';
 
 @Component({
