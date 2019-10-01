@@ -1,4 +1,4 @@
-//import {ModalData} from '../ModalData';
+// import {ModalData} from '../ModalData';
 
 export interface ColorPickerModalData /*extends ModalData*/ {
     title?: string ;
