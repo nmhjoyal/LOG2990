@@ -14,7 +14,7 @@ export class RectangleComponent extends ShapeAbstract implements OnInit {
   }
 
   ngOnInit() {
-    // empty block
+    // empty init
   }
 
   // Abstract&Overridden methods

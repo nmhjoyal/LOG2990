@@ -1,17 +1,13 @@
 import { HostListener, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-
-const STROKE_LINECAP_MODE = 'round';
-const FILL_MODE = 'none';
-const DEFAULT_STROKE_WIDTH = 2;
-const DEFAULT_FILTER = 'none';
+import { AppConstants } from 'src/AppConstants';
 
 export abstract class DrawingToolsAbstract implements OnInit {
   points: string;
   private mouseDown = false;
-  private strokeWidth: number = DEFAULT_STROKE_WIDTH;
+  private strokeWidth: number = AppConstants.DEFAULT_STROKE_WIDTH;
   private color = 'black';
-  private filter: string = DEFAULT_FILTER;
+  private filter: string = AppConstants.DEFAULT_FILTER;
   private x: number;
   private y: number;
 
@@ -91,11 +87,11 @@ export abstract class DrawingToolsAbstract implements OnInit {
   }
 
   getFill() {
-    return FILL_MODE;
+    return AppConstants.FILL_MODE;
   }
 
   getStrokeLinecap() {
-    return STROKE_LINECAP_MODE;
+    return AppConstants.STROKE_LINECAP_MODE;
   }
 
   getFilter() {

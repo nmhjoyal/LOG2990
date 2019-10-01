@@ -15,7 +15,6 @@ import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pinceau.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
-import { SvgTestComponent } from './components/tools/svg-test/svg-test.component';
 import { ToolsComponent } from './components/tools/tools.component';
 
 @NgModule({
@@ -24,7 +23,6 @@ import { ToolsComponent } from './components/tools/tools.component';
     CanvasComponent,
     LateralBarComponent,
     ShapeToolboxComponent,
-    SvgTestComponent,
     CrayonComponent,
     PinceauComponent,
     DrawingToolToolboxComponent],
