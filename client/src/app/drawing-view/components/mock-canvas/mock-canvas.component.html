@@ -13,14 +13,9 @@
         </g>
 
         <g *ngFor="let line of drawnLines">
-                <filter id="displacementFilter">
-                        <feTurbulence type="turbulence" baseFrequency="0.2" numOctaves="2" result="turbulence" />
-                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="5" xChannelSelector="R"
-                            yChannelSelector="G" />
-                    </filter>
             <polyline [attr.points]="line.points" [style.fill]="line.fill" [style.stroke]="line.color"
                 [style.stroke-width]="line.strokeWidth" [style.stroke-linecap]="line.strokeLinecap"
-                [style.stroke-linejoin]="line.strokeLinecap" style="filter: url(#displacementFilter)" />
+                [style.stroke-linejoin]="line.strokeLinecap" />
         </g>
 
         <g *ngFor="let line of drawnPaints">

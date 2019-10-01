@@ -1,12 +1,12 @@
-<p> 
-    <button (click)="getComponent().setFilter(0)">Filter 1</button>
-    <button (click)="getComponent().setFilter(1)">Filter 2</button>
-    <button (click)="getComponent().setFilter(2)">Filter 3</button>
-    <button (click)="getComponent().setFilter(3)">Filter 4</button>
-    <button (click)="getComponent().setFilter(4)">Filter 5</button>
-
+<p>
+    <button *ngIf="storage.isPinceau" (click)="getComponent().setFilter(0)">Filter 1</button>
+    <button *ngIf="storage.isPinceau" (click)="getComponent().setFilter(1)">Filter 2</button>
+    <button *ngIf="storage.isPinceau" (click)="getComponent().setFilter(2)">Filter 3</button>
+    <button *ngIf="storage.isPinceau" (click)="getComponent().setFilter(3)">Filter 4</button>
+    <button *ngIf="storage.isPinceau" (click)="getComponent().setFilter(4)">Filter 5</button>
+    
     <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-    {{getComponent().StrokeWidth}}
+    {{getComponent().getStrokeWidth()}}
     <button (click)="getComponent().increaseStrokeWidth()">+</button>
-</p>
+</p> 
   

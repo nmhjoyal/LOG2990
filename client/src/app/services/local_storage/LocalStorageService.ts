@@ -54,11 +54,13 @@ export class LocalStorageService {
         this.reset();
         this.rectangles.length = 0;
         this.lines.length = 0;
+        this.paints.length=0;
     }
 
     reset(): void {
         this.rectangleSelected = false;
         this.crayonSelected = false;
+        this.pinceauSelected = false;
     }
 
     chooseRectangle(): void {
