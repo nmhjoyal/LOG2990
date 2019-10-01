@@ -16,7 +16,7 @@ export class ColorPickerComponent extends ModalWindowComponent {
   alpha = [1, 1];
   mainColor = false;
 
-  constructor(public dialogRef: MatDialogRef<ColorPickerComponent>,
+  constructor(public dialogRef: MatDialogRef<ModalWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ColorPickerModalData) {
     super(dialogRef, data);
   }
