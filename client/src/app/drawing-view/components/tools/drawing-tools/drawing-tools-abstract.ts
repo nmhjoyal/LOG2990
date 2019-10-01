@@ -18,7 +18,7 @@ export abstract class DrawingToolsAbstract implements OnInit {
 
   constructor(serviceInstance: LocalStorageService) {
     this.drawingToolService = serviceInstance;
-   }
+  }
 
   ngOnInit() {
     // empty block
@@ -40,8 +40,9 @@ export abstract class DrawingToolsAbstract implements OnInit {
   @HostListener('mousemove', ['$event']) onMouseMove(event: any) {
     if (this.mouseDown) {
       this.points += (' ' + event.offsetX + ',' + event.offsetY);
+      this.saveShape();
+
     }
-    this.saveShape();
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(event: any) {
@@ -50,8 +51,10 @@ export abstract class DrawingToolsAbstract implements OnInit {
       this.points += (' ' + (event.offsetX + 0.1) + ',' + (event.offsetY + 0.1));
     }
     this.mouseDown = false;
+    this.saveShape();
 
     this.points = '';
+
   }
 
   @HostListener('mouseleave', ['$event']) onMouseLeave(event: any) {
@@ -95,7 +98,7 @@ export abstract class DrawingToolsAbstract implements OnInit {
   }
 
   getFilter() {
-      return this.filter;
+    return this.filter;
   }
 
   setColor(color: string) {

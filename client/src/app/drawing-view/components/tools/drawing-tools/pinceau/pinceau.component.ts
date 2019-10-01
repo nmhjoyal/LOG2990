@@ -4,7 +4,7 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 
 const STROKE_LINECAP_MODE = 'round';
 const FILL_MODE = 'none';
-const DEFAULT_FILTER = 'none';
+const PINCEAU_FILTER = 'url(#displacementFilter)';
 
 @Component({
   selector: 'app-pinceau',
@@ -26,10 +26,10 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
   protected saveShape(): void {
     this.drawingToolService.lines.push({
       points: this.points,
-      color: this.getColor(),
+      color: this.getPrimeColor(),
       strokeWidth: this.getStrokeWidth(),
       fill: FILL_MODE,
       strokeLinecap: STROKE_LINECAP_MODE,
-      filter: DEFAULT_FILTER});
+      filter: PINCEAU_FILTER});
   }
 }

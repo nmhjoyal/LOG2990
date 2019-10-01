@@ -26,7 +26,7 @@ export class CrayonComponent extends DrawingToolsAbstract implements OnInit {
   protected saveShape(): void {
     this.drawingToolService.lines.push({
       points: this.points,
-      color: this.getColor(),
+      color: this.getPrimeColor(),
       strokeWidth: this.getStrokeWidth(),
       fill: FILL_MODE,
       strokeLinecap: STROKE_LINECAP_MODE,
