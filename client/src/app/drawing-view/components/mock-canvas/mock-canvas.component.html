@@ -5,23 +5,28 @@
 
         <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
     retrieval of saved rectangles from the service in the canvas typescript file.-->
-        <g *ngFor="let rectangle of drawnRectangles" (click)="applyColour(rectangle)" (contextmenu)="applySecondaryColour($event, rectangle)">
-            <rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width"
-                [attr.height]="rectangle.height" [style.stroke]="rectangle.secondColor"
-                [style.fill]="rectangle.primeColor" [style.stroke-opacity]="rectangle.strokeOpacity"
-                [style.stroke-width]="rectangle.strokeWidth" [style.fill-opacity]="rectangle.fillOpacity" />
+    <g *ngFor="let rectangle of drawnRectangles" (click)="applyColour(rectangle)" (contextmenu)="applySecondaryColour($event, rectangle)">
+        <rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
+        [style.stroke]="rectangle.secondColor" 
+        [style.fill]="rectangle.primeColor"  
+        [style.stroke-opacity]="rectangle.strokeOpacity"
+        [style.stroke-width]="rectangle.strokeWidth"
+        [style.fill-opacity]="rectangle.fillOpacity"
+        />
+    </g>
+    <g *ngFor = "let line of drawnLines" (click)="applyColourToLine(line)">
+            <polyline 
+            [attr.points]="line.points"
+            [style.fill]="line.fill"
+            [style.stroke]="line.color"
+            [style.stroke-width]="line.strokeWidth"
+            [style.stroke-linecap]="line.strokeLinecap"
+            [style.stroke-linestroke]="line.strokeLinecap"
+            [style.filter]="line.filter"
+                />
         </g>
-
-        <g *ngFor="let line of drawnLines" (click)="applyColourToLine(line)">
-            <filter id="displacementFilter">
-                <feTurbulence type="turbulence" baseFrequency="0.2" numOctaves="2" result="turbulence" />
-                <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="5" xChannelSelector="R"
-                    yChannelSelector="G" />
-            </filter>
-            <polyline [attr.points]="line.points" [style.fill]="line.fill" [style.stroke]="line.color"
-                [style.stroke-width]="line.strokeWidth" [style.stroke-linecap]="line.strokeLinecap"
-                [style.stroke-linejoin]="line.strokeLinecap" style="filter: url(#displacementFilter)" />
-        </g>
+    
+    
 
     </svg>
 
@@ -30,9 +35,12 @@
         </app-tools-rectangle>
         <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
     </div>
-    <div *ngIf="storage.isCrayon">
-        <app-crayon #activeDrawingTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
-        </app-crayon>
-        <app-drawing-tool-toolbox [drawingToolComponent]="activeDrawingTool"></app-drawing-tool-toolbox>
+    <div  *ngIf="storage.isCrayon">
+        <app-crayon #activeCrayon [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+        <app-drawing-tool-toolbox [drawingToolComponent]="activeCrayon" ></app-drawing-tool-toolbox>
     </div>
+    <div  *ngIf="storage.isPinceau">
+            <app-crayon #activePinceau [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+            <app-drawing-tool-toolbox [drawingToolComponent]="activePinceau" ></app-drawing-tool-toolbox>
+        </div>
 </div>

@@ -10,10 +10,8 @@
         id="current"
         [attr.points]="_points"
         [style.fill]="getFill()"
-        [style.stroke]="getColor()"
+        [style.stroke]="getPrimeColor()"
         [style.stroke-width]="getStrokeWidth()"
         [style.stroke-linecap]="getStrokeLinecap()"
-        [style.stroke-linejoin] = "getStrokeLinecap()"
-        style="filter: url(#displacementFilter)"
-         />
+        [style.stroke-linestroke]="getStrokeLinecap()" />
 </svg>

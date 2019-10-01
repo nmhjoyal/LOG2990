@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppComponent } from '../components/app/app.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { LateralBarComponent } from './components/lateral-bar/lateral-bar.component';
 import { MockCanvasComponent } from './components/mock-canvas/mock-canvas.component';
@@ -40,12 +39,10 @@ import { ToolsComponent } from './components/tools/tools.component';
     MatButtonModule,
     CommonModule,
   ],
-  exports: [ToolsComponent, CanvasComponent, LateralBarComponent, SvgTestComponent,
-    CommonModule, CrayonComponent, DrawingToolToolboxComponent, ShapeToolboxComponent],
+  exports: [ToolsComponent, CanvasComponent, LateralBarComponent, SvgTestComponent, CommonModule,
+    CrayonComponent, PinceauComponent, DrawingToolToolboxComponent, ShapeToolboxComponent],
   providers: [MockCanvasComponent,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
-  bootstrap: [AppComponent],
 })
-
 export class DrawingViewModule { }

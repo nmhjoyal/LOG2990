@@ -16,7 +16,6 @@ import { RectangleComponent } from './drawing-view/components/tools/shapes/recta
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { LocalStorageService } from './services/local_storage/LocalStorageService';
-
 @NgModule({
   declarations: [
     AppComponent,
