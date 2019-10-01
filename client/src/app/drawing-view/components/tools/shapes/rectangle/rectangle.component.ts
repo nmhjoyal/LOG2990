@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { ShapeAbstract } from '../assets/shape-abstract';
 
