@@ -8,12 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../components/app/app.component';
-import { MockCanvasComponent } from './components/mock-canvas/mock-canvas.component';
+import { CanvasComponent } from './components/mock-canvas/canvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MockCanvasComponent,
+    CanvasComponent,
   ],
   imports: [
     BrowserModule,
