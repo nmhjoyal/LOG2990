@@ -14,17 +14,21 @@ import { AppConstants } from 'src/AppConstants';
 })
 export class AppComponent implements OnInit {
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    event.preventDefault();
-    this.confirmNewDrawing();
-  }
-
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
               private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = '#ffffff';
     this.data.canvasIsDrawnOn = true;
+  }
+
+  ngOnInit(): void {
+    this.openWelcomeScreen();
+  }
+
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
+    this.confirmNewDrawing();
   }
 
   confirmNewDrawing(): void {
@@ -42,10 +46,6 @@ export class AppComponent implements OnInit {
       data: NewDrawingWindowComponent.prototype.data,
       panelClass: 'new-drawing-window',
     });
-  }
-
-  ngOnInit(): void {
-    this.openWelcomeScreen();
   }
 
   openWelcomeScreen(): void {

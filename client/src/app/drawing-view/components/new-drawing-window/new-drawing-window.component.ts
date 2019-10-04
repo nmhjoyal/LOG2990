@@ -1,5 +1,4 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
@@ -13,15 +12,17 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  widthInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
-  heightInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
-  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
-
   constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     super(dialogRef, data);
     this.reinitializeDrawingVariables();
     dialogRef.disableClose = true;
+  }
+
+  ngOnInit() {
+    this.data.title = 'Créer un nouveau dessin';
+    this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
+    this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
   }
 
   @HostListener('window: resize', ['$event']) updateWindowSize() {
@@ -33,12 +34,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
 
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     this.onClose();
-  }
-
-  ngOnInit() {
-    this.data.title = 'Créer un nouveau dessin';
-    this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-    this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
   }
 
   onAcceptClick(): void {
