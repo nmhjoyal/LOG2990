@@ -17,7 +17,7 @@ import {
 export class ColorPaletteComponent implements AfterViewInit {
 
   @Input() mainColor: boolean;
-  @Input() colors: string[];
+  @Input() lastColors: string[];
   @Input() alpha: number[];
 
   @Output() color1: EventEmitter<string> = new EventEmitter();
@@ -79,27 +79,27 @@ export class ColorPaletteComponent implements AfterViewInit {
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  onMouseUp(evt: MouseEvent): void {
     this.mousedown = false;
 
-    const pos = this.selectedPosition;
+    const position = this.selectedPosition;
 
-    if (this.getColorAtPosition(pos.x, pos.y) !== this.colors[9] ) {
-      this.colors.shift();
-      if (pos) {
-      this.colors.push(this.getColorAtPosition(pos.x, pos.y));
+    if (this.getColorAtPosition(position.x, position.y) !== this.lastColors[9] ) {
+      this.lastColors.shift();
+      if (position) {
+      this.lastColors.push(this.getColorAtPosition(position.x, position.y));
       }
     }
   }
 
-  onMouseDown(evt: MouseEvent) {
+  onMouseDown(evt: MouseEvent): void {
     this.mousedown = true;
     this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
     this.draw();
     this.color[+this.mainColor].emit(this.getColorAtPosition(evt.offsetX, evt.offsetY));
   }
 
-  onMouseMove(evt: MouseEvent) {
+  onMouseMove(evt: MouseEvent): void {
     if (this.mousedown) {
       this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
       this.draw();
@@ -107,21 +107,21 @@ export class ColorPaletteComponent implements AfterViewInit {
     }
   }
 
-  emitColor(x: number, y: number) {
+  emitColor(x: number, y: number): void {
     const hexColor = this.getColorAtPosition(x, y);
     this.color[+this.mainColor].emit(hexColor);
   }
 
-  rgb2hex(hue: number) {
+  rgbToHex(hue: number): string {
     if (!hue) {return '00'; } else if (hue < 16) {return ('0' + hue.toString(16)); } else {return hue.toString(16); }
   }
 
-  getColorAtPosition(x: number, y: number) {
+  getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data;
-    const r = this.rgb2hex(imageData[0]);
-    const g = this.rgb2hex(imageData[1]);
-    const b = this.rgb2hex(imageData[2]);
-    const a = this.rgb2hex(Math.round(this.alpha[+this.mainColor] * 255));
+    const r = this.rgbToHex(imageData[0]);
+    const g = this.rgbToHex(imageData[1]);
+    const b = this.rgbToHex(imageData[2]);
+    const a = this.rgbToHex(Math.round(this.alpha[+this.mainColor] * 255));
     return ( '#' + r + g + b + a );
   }
 

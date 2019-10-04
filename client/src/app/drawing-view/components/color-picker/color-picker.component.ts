@@ -11,7 +11,7 @@ import { ModalWindowComponent } from '../modal-window/modal-window.component';
 
 export class ColorPickerComponent extends ModalWindowComponent {
   color = ['#ffffffff', '#000000ff'];
-  colors = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
+  lastColors = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
             '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
   alpha = [1, 1];
   mainColor = false;
@@ -21,7 +21,7 @@ export class ColorPickerComponent extends ModalWindowComponent {
     super(dialogRef, data);
   }
 
-  chooseColor(primary: boolean) {
+  chooseColor(primary: boolean): void  {
     if (primary) {
       if (!this.data.mainColor) {this.data.mainColor = true;
       }
@@ -31,18 +31,18 @@ export class ColorPickerComponent extends ModalWindowComponent {
     }
   }
 
-  switchColors() {
-    const inter = this.data.color[0];
+  switchColors(): void {
+    const intermediateColor = this.data.color[0];
     this.data.color[0] = this.data.color[1];
-    this.data.color[1] = inter;
+    this.data.color[1] = intermediateColor;
   }
 
-  setAlpha(alpha: number) {
+  setAlpha(alpha: number): void  {
     this.data.alpha[+this.data.mainColor] = alpha;
-    this.setColor(this.colors[9]);
+    this.setColor(this.lastColors[9]);
   }
 
-  setColor(color: string ) {
+  setColor(color: string ): void  {
     this.data.color[+this.data.mainColor] = color;
   }
 

@@ -15,4 +15,9 @@ export class MockCanvasComponent implements OnInit {
   ngOnInit() {
     // empty block
   }
+
+  drawGrid(width: number, height: number){
+    
+
+  }
 }
