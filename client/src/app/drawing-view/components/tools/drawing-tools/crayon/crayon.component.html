@@ -1,7 +1,7 @@
 <svg tabindex = "0" class = "previewCrayon" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
     <polyline 
         id="current"
-        [attr.points]="_points"
+        [attr.points]="points"
         [style.fill]="getFill()"
         [style.stroke]="getColor()"
         [style.stroke-width]="getStrokeWidth()"
