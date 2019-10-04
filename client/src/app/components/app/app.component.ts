@@ -61,4 +61,11 @@ export class AppComponent implements OnInit {
     });
   }
 
+  switchColors(): void {
+    const inter = this.data.color[0];
+    this.data.color[0] = this.data.color[1];
+    this.data.color[1] = inter;
+
+
+  }
 }

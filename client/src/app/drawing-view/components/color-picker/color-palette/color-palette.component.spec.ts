@@ -1,12 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-/*import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';*/
 import { EventEmitter } from 'events';
 import { ColorPaletteComponent } from './color-palette.component';
 
@@ -63,7 +58,7 @@ describe('ColorPaletteComponent', () => {
     });
 
     it('should have last 10 colors be of length 10', () => {
-        expect(component.colors.length).toEqual(10);
+        expect(component.lastColors.length).toEqual(10);
     });
 
     it('should change Color on click of palette', () => {

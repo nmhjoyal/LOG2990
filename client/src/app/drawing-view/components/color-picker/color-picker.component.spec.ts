@@ -16,7 +16,6 @@ describe('ColorPickerComponent', () => {
             ElementRef,
             Input,
             Output,
-           // EventEmitter,
             HostListener,
         ],
         declarations: [
@@ -56,7 +55,7 @@ describe('ColorPickerComponent', () => {
     });
 
     it('should have last 10 colors be of length 10', () => {
-        expect(component.colors.length).toEqual(10);
+        expect(component.lastColors.length).toEqual(10);
     });
 
     it('should switch primary color with secondary color ', () => {

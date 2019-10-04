@@ -37,6 +37,14 @@ export class ColorPaletteComponent implements AfterViewInit {
     this.draw();
   }
 
+  drawGradient(gradient: CanvasGradient, width: number, height: number): void {
+    this.ctx.beginPath();
+    this.ctx.rect(0, 0, width, height);
+    this.ctx.fillStyle = gradient;
+    this.ctx.fill();
+    this.ctx.closePath();
+  }
+
   draw() {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
@@ -54,12 +62,7 @@ export class ColorPaletteComponent implements AfterViewInit {
     gradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
     gradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
     gradient.addColorStop(0.9,  'rgba(255, 0, 255, 1)');
-
-    this.ctx.beginPath();
-    this.ctx.rect(0, 0, width, height);
-    this.ctx.fillStyle = gradient;
-    this.ctx.fill();
-    this.ctx.closePath();
+    this.drawGradient(gradient, width, height);
 
     // horizontal greyscale gradient
     const gradient2 = this.ctx.createLinearGradient( height, 0, 0, 0) ;
@@ -70,12 +73,7 @@ export class ColorPaletteComponent implements AfterViewInit {
     gradient2.addColorStop(0.7, 'rgba(255, 255, 255, 0.25)');
     gradient2.addColorStop(0.85, 'rgba(255, 255, 255, 0.5)');
     gradient2.addColorStop(1, 'rgba(255, 255, 255, 1)');
-
-    this.ctx.beginPath();
-    this.ctx.rect(0, 0, width, height);
-    this.ctx.fillStyle = gradient2;
-    this.ctx.fill();
-    this.ctx.closePath();
+    this.drawGradient(gradient2, width, height);
   }
 
   @HostListener('window:mouseup', ['$event'])

@@ -1,9 +1,7 @@
-// import {ModalData} from '../ModalData';
-
-export interface ColorPickerModalData /*extends ModalData*/ {
+export interface ColorPickerModalData {
     title?: string ;
     color: string[] ;
-    colors: string[] ;
+    lastColors: string[] ;
     alpha: number[] ;
     mainColor: boolean ;
 }

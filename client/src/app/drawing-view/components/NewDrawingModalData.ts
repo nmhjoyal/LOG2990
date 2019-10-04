@@ -9,4 +9,5 @@ export interface NewDrawingModalData {
     canvasIsDrawnOn: boolean;
     drawingWidthPreview: number;
     drawingHeightPreview: number;
+    color: string[];
 }

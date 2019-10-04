@@ -4,32 +4,32 @@
   <div mat-dialog-content>
 
     <div class="color-wrapper">
-      <app-color-palette (color1)="color[0] = $event" (color2)="color[1] = $event" [colors]="colors"
+      <app-color-palette (color1)="color[0] = $event" (color2)="color[1] = $event" [lastColors]="lastColors"
         [mainColor]="mainColor" [alpha]="alpha">
       </app-color-palette>
 
       <div>
-        <div class="box" [ngStyle]="{'background-color': colors[0]} " (click)="setColor(colors[0])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[0]} " (click)="setColor(lastColors[0])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[1]} " (click)="setColor(colors[1])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[1]} " (click)="setColor(lastColors[1])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[2]} " (click)="setColor(colors[2])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[2]} " (click)="setColor(lastColors[2])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[3]} " (click)="setColor(colors[3])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[3]} " (click)="setColor(lastColors[3])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[4]} " (click)="setColor(colors[4])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[4]} " (click)="setColor(lastColors[4])">
         </div>
       </div>
       <div>
-        <div class="box" [ngStyle]="{'background-color': colors[5]} " (click)="setColor(colors[5])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[5]} " (click)="setColor(lastColors[5])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[6]} " (click)="setColor(colors[6])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[6]} " (click)="setColor(lastColors[6])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[7]} " (click)="setColor(colors[7])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[7]} " (click)="setColor(lastColors[7])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[8]} " (click)="setColor(colors[8])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[8]} " (click)="setColor(lastColors[8])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': colors[9]} " (click)="setColor(colors[9])">
+        <div class="box" [ngStyle]="{'background-color': lastColors[9]} " (click)="setColor(lastColors[9])">
         </div>
       </div>
     </div>
