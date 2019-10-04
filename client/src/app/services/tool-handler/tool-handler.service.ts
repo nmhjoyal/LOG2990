@@ -28,7 +28,7 @@ export class ToolHandlerService {
       this.pinceauSelected = false;
       this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
       this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
-   }
+  }
 ​
   // Tool Handling methods
   clearPage(): void {

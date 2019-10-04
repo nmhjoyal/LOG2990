@@ -140,7 +140,18 @@ export abstract class ShapeAbstract implements OnInit {
   }
 
   protected saveShape(): void {
-    this.toolService.drawings.push(this.shape);
+    const currentDrawing: IShape = {
+      x: this.shape.x,
+      y: this.shape.y,
+      width: this.shape.width,
+      height: this.shape.height,
+      primaryColor: this.shape.primaryColor,
+      secondaryColor: this.shape.secondaryColor,
+      strokeOpacity: this.shape.strokeOpacity,
+      strokeWidth: this.shape.strokeWidth,
+      fillOpacity: this.shape.fillOpacity,
+    };
+    this.toolService.drawings.push(currentDrawing);
   }
 
 
