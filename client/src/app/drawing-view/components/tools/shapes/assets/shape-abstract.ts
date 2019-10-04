@@ -51,12 +51,12 @@ export abstract class ShapeAbstract implements OnInit {
   }
 
   @HostListener('mouseup') onMouseUp(): void {
-    this.mouseDown = false;
 
-    if (!(this.shapeHeight === 0 && this.shapeWidth === 0)) {
+    if (this.mouseDown && (this.shapeHeight > 0 && this.shapeWidth > 0)) {
       this.saveShape();
     }
 
+    this.mouseDown = false;
     this.shapeHeight = 0;
     this.shapeWidth = 0;
     this.previewHeight = 0;
@@ -177,11 +177,11 @@ export abstract class ShapeAbstract implements OnInit {
     return this.fillOpacity;
   }
 
-  getPrimeColor(): string {
+  getPrimaryColor(): string {
     return this.shapeService.PrimaryColor;
   }
 
-  getSecondColor(): string {
-    return this.shapeService.SecondColor;
+  getSecondaryColor(): string {
+    return this.shapeService.SecondaryColor;
   }
 }

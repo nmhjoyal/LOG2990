@@ -51,7 +51,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
       this.data.drawingColor = '#ffffff';
     this.data.canvasIsDrawnOn = false;
-    this.storage.clear();
+    this.storage.clearPage();
     this.dialogRef.close();
   }
 

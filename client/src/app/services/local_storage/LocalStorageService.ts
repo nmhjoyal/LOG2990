@@ -35,22 +35,22 @@ export class LocalStorageService {
     }
 
     // Tool Handling methods
-    clear(): void {
-        this.reset();
+    clearPage(): void {
+        this.resetSelection();
         this.rectangles.length = 0;
     }
 
-    reset(): void {
+    resetSelection(): void {
         this.rectangleSelected = false;
     }
 
     chooseRectangle(): void {
-        this.reset();
+        this.resetSelection();
         this.rectangleSelected = true;
     }
 
     chooseOther(): void {
-        this.reset();
+        this.resetSelection();
     }
 
     get isRectangle(): boolean {
@@ -61,7 +61,7 @@ export class LocalStorageService {
         return this.primaryColor;
     }
 
-    get SecondColor(): string {
+    get SecondaryColor(): string {
         return this.secondaryColor;
     }
 
