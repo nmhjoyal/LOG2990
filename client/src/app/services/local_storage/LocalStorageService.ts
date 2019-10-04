@@ -7,11 +7,11 @@ const WELCOME_WINDOW_KEY = 'showAgain';
 export class LocalStorageService {
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) { }
 
-    setShowAgain(showAgain: boolean) {
+    setShowAgain(showAgain: boolean): void {
         this.storage.set(WELCOME_WINDOW_KEY, showAgain);
     }
 
-    getShowAgain() {
+    getShowAgain(): boolean {
         if (this.storage.has(WELCOME_WINDOW_KEY)) {
             return this.storage.get(WELCOME_WINDOW_KEY);
         }

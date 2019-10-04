@@ -24,18 +24,19 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     dialogRef.disableClose = true;
   }
 
-  @HostListener('window: resize', ['$event']) updateWindowSize() {
+  @HostListener('window: resize', ['$event']) updateWindowSize(): void {
     if (!this.data.drawingHeightInput && !this.data.drawingWidthInput) {
       this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
       this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     }
   }
 
-  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+    event.preventDefault();
     this.onClose();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.data.title = 'Créer un nouveau dessin';
     this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;

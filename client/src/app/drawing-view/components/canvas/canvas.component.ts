@@ -11,7 +11,7 @@ export class CanvasComponent implements OnInit {
     console.log('CanvasComponent constructed');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('CanvasComponent initialized');
   }
 
