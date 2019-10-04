@@ -19,10 +19,6 @@ export class RectangleComponent extends ShapeAbstract implements OnInit {
 
   // Abstract&Overridden methods
 
-  protected saveShape(): void {
-    this.toolService.stack.push(this.shape);
-  }
-
   protected calculateDimensions(): void {
     super.calculateDimensions();
     if (this.shiftDown ) { // Carré maximale Non centré...

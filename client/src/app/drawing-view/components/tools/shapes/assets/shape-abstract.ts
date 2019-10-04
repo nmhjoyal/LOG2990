@@ -33,11 +33,7 @@ export abstract class ShapeAbstract implements OnInit {
   ngOnInit(): void {
     // empty body
   }
-
-  // Abstract methods
-
-  protected abstract saveShape(): void;
-
+  
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: any): void {
@@ -135,6 +131,10 @@ export abstract class ShapeAbstract implements OnInit {
     this.shape.width =  this.cursorX - this.shape.x - shapeOffset;
     this.shape.height = this.cursorY - this.shape.y - shapeOffset;
   }
+
+  protected saveShape(): void {
+    this.toolService.drawings.push(this.shape);
+  };
 
 
 }

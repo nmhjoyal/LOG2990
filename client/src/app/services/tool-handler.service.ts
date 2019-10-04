@@ -18,7 +18,7 @@ export class ToolHandlerService {
   secondaryColor: string;
 ​
   // Shape Storage
-  protected drawings:IShape[]; // change type to parent of IShape
+  public drawings:IShape[]; // change type to parent of IShape
 
 
   constructor() {
@@ -31,11 +31,12 @@ export class ToolHandlerService {
    }
 ​
   // Tool Handling methods
-  clear(): void {
-      this.reset();
+  clearPage(): void {
+      this.resetSelection();
+      this.drawings.length = 0;
   }
 ​
-  reset(): void {
+  resetSelection(): void {
       this.rectangleSelected = false;
       this.colourApplicatorSelected = false;
       this.crayonSelected = false;
@@ -43,29 +44,29 @@ export class ToolHandlerService {
   }
 ​
   chooseRectangle(): void {
-      this.reset();
+      this.resetSelection();
       this.rectangleSelected = true;
   }
 ​
   chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
-      this.reset();
+      this.resetSelection();
       this.primaryColor = primaryColor;
       this.secondaryColor = secondaryColor;
       this.colourApplicatorSelected = true;
   }
 ​
   chooseCrayon(): void {
-      this.reset();
+      this.resetSelection();
       this.crayonSelected = true;
   }
 ​
   choosePinceau(): void {
-      this.reset();
+      this.resetSelection();
       this.pinceauSelected = true;
   }
 ​
   chooseOther(): void {// Place holder for unimplemented tools
-      this.reset();
+      this.resetSelection();
   }
 ​
 }
