@@ -4,7 +4,7 @@ import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-wind
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { AppConstants } from 'src/AppConstants';
 
 @Component({

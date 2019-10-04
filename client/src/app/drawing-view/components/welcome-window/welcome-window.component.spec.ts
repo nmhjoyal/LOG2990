@@ -5,7 +5,7 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { WelcomeWindowComponent } from './welcome-window.component';
 

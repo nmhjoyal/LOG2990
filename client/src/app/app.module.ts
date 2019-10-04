@@ -12,7 +12,7 @@ import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
-import { LocalStorageService } from './services/local_storage/LocalStorageService';
+import { LocalStorageService } from './services/local_storage/local-storage-service';
 
 @NgModule({
   declarations: [
