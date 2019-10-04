@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit {
   }
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              private storage: LocalStorageService,  @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+              private storage: LocalStorageService, private colorService: ColorService,
+              @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = '#ffffff';
@@ -66,10 +68,10 @@ export class AppComponent implements OnInit {
   }
 
   switchColors(): void {
-    const inter = this.data.color[0];
-    this.data.color[0] = this.data.color[1];
+    this.colorService.switchColors();/*
+    const inter = this.colorStorage.color[0];
+    this.data.color[0] = this.colorStorage.color[1];
     this.data.color[1] = inter;
-
-
+*/
   }
 }

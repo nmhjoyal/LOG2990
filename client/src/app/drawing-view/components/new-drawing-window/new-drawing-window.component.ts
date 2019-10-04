@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
-// import { ColorPaletteComponent } from '/color-picker/ColorPaletteComponent'
+//import { ColorPaletteComponent } from '../color-picker/ColorPaletteComponent'
 
 @Component({
   selector: 'app-new-drawing-window',

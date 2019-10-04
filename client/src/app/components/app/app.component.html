@@ -44,14 +44,14 @@
                 </a>
                 <a mat-list-item >
                     <div class = "color-preview" 
-                     [ngStyle]="{'background-color': primary}" title = "primary color" (click)="openChooseColorDialog()"></div>
+                     [ngStyle]="{'background-color': colorService.color[0] }" title = "primary color" (click)="openChooseColorDialog()"></div>
                 </a>
-                <a mat-list-item>
-                    <img src = "https://i.imgur.com/xwBu4Rd.png" title = "Switch Colors" (click)="switchColors()" >            
+                <a mat-list-item  class = "switchIcon" >
+                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" (click)="switchColors()" >            
                 </a>
                 <a mat-list-item >
                     <div class = "color-preview" 
-                    [ngStyle]="{'background-color': secondary}" title = "secondary color" (click)="openChooseColorDialog()"></div>    
+                    [ngStyle]="{'background-color': colorService.color[1] }" title = "secondary color" (click)="openChooseColorDialog()"></div>    
                  </a>
             </mat-nav-list>
         </mat-sidenav>

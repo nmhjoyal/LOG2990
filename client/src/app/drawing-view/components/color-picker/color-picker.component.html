@@ -4,52 +4,52 @@
   <div mat-dialog-content>
 
     <div class="color-wrapper">
-      <app-color-palette (color1)="color[0] = $event" (color2)="color[1] = $event" [lastColors]="lastColors"
-        [mainColor]="mainColor" [alpha]="alpha">
+      <app-color-palette (color1)="colorService.color[0] = $event" (color2)="colorService.color[1] = $event"
+       [lastColors]="colorService.lastColors" [mainColor]="colorService.mainColor" [alpha]="colorService.alpha">
       </app-color-palette>
 
       <div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[0]} " (click)="setColor(lastColors[0])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[0]} " (click)="setColor(colorService.lastColors[0])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[1]} " (click)="setColor(lastColors[1])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[1]} " (click)="setColor(colorService.lastColors[1])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[2]} " (click)="setColor(lastColors[2])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[2]} " (click)="setColor(colorService.lastColors[2])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[3]} " (click)="setColor(lastColors[3])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[3]} " (click)="setColor(colorService.lastColors[3])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[4]} " (click)="setColor(lastColors[4])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[4]} " (click)="setColor(colorService.lastColors[4])">
         </div>
       </div>
       <div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[5]} " (click)="setColor(lastColors[5])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[5]} " (click)="setColor(colorService.lastColors[5])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[6]} " (click)="setColor(lastColors[6])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[6]} " (click)="setColor(colorService.lastColors[6])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[7]} " (click)="setColor(lastColors[7])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[7]} " (click)="setColor(colorService.lastColors[7])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[8]} " (click)="setColor(lastColors[8])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[8]} " (click)="setColor(colorService.lastColors[8])">
         </div>
-        <div class="box" [ngStyle]="{'background-color': lastColors[9]} " (click)="setColor(lastColors[9])">
+        <div class="box" [ngStyle]="{'background-color': colorService.lastColors[9]} " (click)="setColor(colorService.lastColors[9])">
         </div>
       </div>
     </div>
 
     <div class="input-wrapper">
-      <div class="color-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': color[0]}"
+      <div class="color-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': colorService.color[0]}"
         (click)="chooseColor(false)"></div>
 
       <div class="button">
         <button type="button" (click)="switchColors()"><i class="fa fa-arrows-h"></i></button>
       </div>
 
-      <div class="color-preview" tabindex="0" id="secondary" [ngStyle]="{'background-color': color[1]}"
+      <div class="color-preview" tabindex="0" id="secondary" [ngStyle]="{'background-color': colorService.color[1]}"
         (click)="chooseColor(true)"></div>
     </div>
 
     <div class="form-group">
       <label for="colourInput"> Input: </label>
 
-      <input matInput id="colourInput" name="colourInput" class="form-control" #input [(ngModel)]="color[+mainColor]"
+      <input matInput id="colourInput" name="colourInput" class="form-control" #input [(ngModel)]="colorService.color[+mainColor]"
         [ngModelOptions]="{ updateOn: 'blur' }" placeholder="Background: #ffffff (white)" pattern="^#[0-9a-f]{8}$"
         #colourInput="ngModel">
       <div *ngIf="colourInput.invalid && (colourInput.dirty || colourInput.touched)" class="alert alert-danger">
@@ -62,8 +62,8 @@
 
     <div class="input-color">
       Transparency <input type="range" min="0.0" max="1.0" value="1" step="0.01" class="slider" #slider
-        [(ngModel)]="alpha[+mainColor]" (ngModelChange)="setAlpha(slider.value)">
-      {{alpha[+mainColor]*100}}%
+        [(ngModel)]="colorService.alpha[+mainColor]" (ngModelChange)="colorService.setAlpha(slider.value)">
+      {{colorService.alpha[+mainColor]*100}}%
     </div>
   </div>
 </div>

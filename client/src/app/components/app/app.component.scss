@@ -35,5 +35,9 @@
     border-radius: 50px;
     border: 2px solid grey;
     padding: 5px;
-    cursor: pointer
+    cursor: pointer;
+  }
+
+  .switchIcon{
+    transform: rotate(90deg);
   }
