@@ -2,17 +2,17 @@
 <!--This snippet of SVG shows the preview of the rectangle along with it's perimeter box on an overlapping svg; -->
 <svg tabindex="0" class='rectanglePreviewZone' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
 
-  <rect [attr.x]="ShapeX"
-  [attr.y]="shapeY"
-  [attr.width]="shapeWidth" 
-  [attr.height]="shapeHeight"
-  [style.stroke]="shapeService.secondaryColor" 
-  [style.stroke-opacity]="strokeOpacity"
-  [style.fill]="shapeService.primaryColor"
-  [style.stroke-width]="strokeWidth"
-  [style.fill-opacity]="fillOpacity"
+  <rect [attr.x]="shape.x"
+  [attr.y]="shape.y"
+  [attr.width]="shape.width" 
+  [attr.height]="shape.height"
+  [style.stroke]="toolService.secondaryColor" 
+  [style.stroke-opacity]="shape.strokeOpacity"
+  [style.fill]="toolService.primaryColor"
+  [style.stroke-width]="shape.strokeWidth"
+  [style.fill-opacity]="shape.fillOpacity"
   />
 
-  <rect class="previewBox" [attr.x]="X" [attr.y]="Y" [attr.width]="previewWidth" [attr.height]="previewHeight"/>
+  <rect class="previewBox" [attr.x]="initialX" [attr.y]="initialY" [attr.width]="previewWidth" [attr.height]="previewHeight"/>
   
 </svg> 

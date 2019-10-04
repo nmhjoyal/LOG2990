@@ -6,6 +6,7 @@ import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingM
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,7 @@ export class AppComponent implements OnInit {
   }
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
-              private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+              private storage: LocalStorageService, public toolHandler: ToolHandlerService, @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = '#ffffff';

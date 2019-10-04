@@ -4,7 +4,7 @@
     
     <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
     retrieval of saved rectangles from the service in the canvas typescript file.-->
-    <g *ngFor="let rectangle of drawnRectangles">
+    <g *ngFor="let rectangle of storage.drawings">
         <rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
         [style.stroke]="rectangle.secondaryColor" 
         [style.fill]="rectangle.primaryColor"  
@@ -15,7 +15,7 @@
 
     </svg>
 
-    <div  *ngIf="storage.isRectangle">
+    <div  *ngIf="storage.rectangleSelected">
         <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
         <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
     </div>

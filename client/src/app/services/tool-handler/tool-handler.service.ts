@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConstants } from 'src/AppConstants';
-import { IShape } from '../drawing-view/components/tools/shapes/interfaces/shape-interface';
+import { IShape } from '../../drawing-view/components/tools/shapes/assets/interfaces/shape-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -8,17 +8,17 @@ import { IShape } from '../drawing-view/components/tools/shapes/interfaces/shape
 export class ToolHandlerService {
 
   // Shape Handling attributes
-  protected rectangleSelected: boolean;
-  protected colourApplicatorSelected: boolean;
-  protected crayonSelected: boolean;
-  protected pinceauSelected: boolean;
+  public rectangleSelected: boolean;
+  public colourApplicatorSelected: boolean;
+  public crayonSelected: boolean;
+  public pinceauSelected: boolean;
 ​
   // Color service simulating attributes
   primaryColor: string;
   secondaryColor: string;
 ​
   // Shape Storage
-  public drawings:IShape[]; // change type to parent of IShape
+  public drawings: IShape[] = []; // change type to parent of IShape
 
 
   constructor() {

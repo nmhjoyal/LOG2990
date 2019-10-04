@@ -1,20 +1,13 @@
-import { Inject, Injectable } from '@angular/core';
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { Injectable, Inject } from '@angular/core';
+import { StorageService, LOCAL_STORAGE } from 'ngx-webstorage-service';
 
 const WELCOME_WINDOW_KEY = 'showAgain';
 
 @Injectable()
 export class LocalStorageService {
 
-    // Shape Handling attributes
-    rectangleSelected = false;
-
-    // Color service simulating attributes
-    primaryColor = 'green';
-    secondaryColor = 'rgb(76, 24, 199)';
-
-    constructor(private storage: StorageService) {
-
+    constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
+        // empty body
     }
 
     setShowAgain(showAgain: boolean): void {
@@ -27,29 +20,6 @@ export class LocalStorageService {
         }
         this.storage.set(WELCOME_WINDOW_KEY, true);
         return true;
-    }
-
-    // Tool Handling methods
-    clearPage(): void {
-        this.resetSelection();
-        this.rectangles.length = 0;
-    }
-
-    resetSelection(): void {
-        this.rectangleSelected = false;
-    }
-
-    chooseRectangle(): void {
-        this.resetSelection();
-        this.rectangleSelected = true;
-    }
-
-    chooseOther(): void {
-        this.resetSelection();
-    }
-
-    get isRectangle(): boolean {
-        return this.rectangleSelected;
     }
 
 }

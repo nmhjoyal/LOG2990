@@ -1,6 +1,6 @@
 import { HostListener, Input, OnInit } from '@angular/core';
-import { IShape } from 'src/app/drawing-view/components/tools/shapes/interfaces/shape-interface'
-import { ToolHandlerService } from 'src/app/services/tool-handler.service';
+import { IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface'
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 const DEFAULT_OPACITY = 1;
 const DEFAULT_STROKE_WIDTH = 2;
@@ -15,25 +15,32 @@ export abstract class ShapeAbstract implements OnInit {
   protected cursorY: number;
   protected previewWidth: number;
   protected previewHeight: number;
-
-  protected shape: IShape;
-  
   protected mouseDown = false;
   protected shiftDown = false;
+
+  public shape: IShape = {
+    x: 0,
+    y:0,
+    width: 0,
+    height: 0,
+    primaryColor: "green",
+    secondaryColor: "blue",
+    strokeOpacity: DEFAULT_OPACITY, 
+    strokeWidth: DEFAULT_STROKE_WIDTH, 
+    fillOpacity: 1,
+  };
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
   constructor(protected toolService: ToolHandlerService) {
-    this.shape.strokeOpacity = DEFAULT_OPACITY;
-    this.shape.fillOpacity = DEFAULT_OPACITY;
-    this.shape.strokeWidth = DEFAULT_STROKE_WIDTH;
+    // empty body
   }
 
   ngOnInit(): void {
     // empty body
   }
-  
+
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: any): void {
@@ -97,7 +104,7 @@ export abstract class ShapeAbstract implements OnInit {
   }
 
   protected increaseStrokeWidth(): void {
-    this.strokeWidth++;
+    this.shape.strokeWidth++;
   }
 
   protected setTraceMode(mode: number): void {
@@ -134,7 +141,7 @@ export abstract class ShapeAbstract implements OnInit {
 
   protected saveShape(): void {
     this.toolService.drawings.push(this.shape);
-  };
+  }
 
 
 }

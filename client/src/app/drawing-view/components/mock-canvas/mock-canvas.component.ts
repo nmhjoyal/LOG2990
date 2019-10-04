@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { Component, OnInit, Inject } from '@angular/core';
 import { NewDrawingModalData } from '../NewDrawingModalData';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-mock-canvas',
@@ -10,28 +10,12 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 export class MockCanvasComponent implements OnInit {
 
-  private rectangles: { x: number;
-                         y: number;
-                         width: number;
-                         height: number;
-                         primeColor: string;
-                         secondColor: string;
-                         strokeOpacity: number;
-                         strokeWidth: number;
-                         fillOpacity: number; }[];
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData, private storage: LocalStorageService) {
-    this.rectangles = this.storage.rectangles;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData, public storage: ToolHandlerService) {
+    // empty body
   }
 
   ngOnInit() {
     // empty block
-  }
-
-  get drawnRectangles(): { x: number; y: number; width: number; height: number;
-                          primeColor: string; secondColor: string; strokeOpacity: number;
-                          strokeWidth: number; fillOpacity: number; }[] {
-    return this.rectangles;
   }
 
 }
