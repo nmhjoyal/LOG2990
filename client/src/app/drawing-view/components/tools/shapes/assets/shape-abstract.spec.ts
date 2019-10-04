@@ -29,6 +29,8 @@ describe('ShapeAbstract', () => {
     expect(new ShapeTest()).toBeTruthy();
   });
 
+  // Tests of event handling methods
+
   it('should call onMouseDown when left mouse button is pressed', () => {
     const spy = spyOn(ShapeTest, 'onMouseDown');
     const event = new MouseEvent('mousedown');
@@ -117,5 +119,9 @@ describe('ShapeAbstract', () => {
     ShapeTest.onMouseUp();
     expect(spy).toHaveBeenCalled();
   });
+
+  // Tests of getters
+
+  // Tests of Functions
 
 });
