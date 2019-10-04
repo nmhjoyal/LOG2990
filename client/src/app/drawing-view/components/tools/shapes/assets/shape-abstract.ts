@@ -33,7 +33,7 @@ export abstract class ShapeAbstract implements OnInit {
     this.shapeService = serviceInstance;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // empty body
   }
 

@@ -11,10 +11,11 @@ export class ShapeToolboxComponent implements OnInit {
   @Input() shapeComponent: ShapeAbstract;
 
   constructor() {
-    
+    // empty body
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // empty body
   }
 
   getComponent(): ShapeAbstract {
