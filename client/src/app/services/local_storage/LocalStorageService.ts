@@ -13,12 +13,7 @@ export class LocalStorageService {
     primaryColor = 'green';
     secondaryColor = 'rgb(76, 24, 199)';
 
-    // Shape Storage
-    rectangles: {x: number, y: number, width: number, height: number,
-        primeColor: string, secondColor: string
-        strokeOpacity: number, strokeWidth: number, fillOpacity: number}[] = [];
-
-    constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
+    constructor(private storage: StorageService) {
 
     }
 
@@ -55,14 +50,6 @@ export class LocalStorageService {
 
     get isRectangle(): boolean {
         return this.rectangleSelected;
-    }
-
-    get PrimaryColor(): string {
-        return this.primaryColor;
-    }
-
-    get SecondaryColor(): string {
-        return this.secondaryColor;
     }
 
 }
