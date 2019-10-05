@@ -5,7 +5,7 @@
   ],
   "rules": {
     "deprecation": {
-      "severity": "warn"
+      "severity": "error"
     },
     "import-blacklist": [
       true,
@@ -20,6 +20,8 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "interface-name": false,
+    "curly": true
   }
 }

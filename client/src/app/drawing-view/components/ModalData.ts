@@ -1,3 +1,3 @@
-export interface ModalData {
+export interface IModalData {
     title?: string;
 }

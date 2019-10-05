@@ -2,8 +2,8 @@ import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@ang
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
+import { INewDrawingModalData } from '../INewDrawingModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { NewDrawingModalData } from '../NewDrawingModalData';
 
 @Component({
   selector: 'app-new-drawing-window',
@@ -18,7 +18,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
 
   constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
     super(dialogRef, data);
     this.reinitializeDrawingVariables();
     dialogRef.disableClose = true;

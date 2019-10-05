@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { NewDrawingModalData } from '../NewDrawingModalData';
+import { INewDrawingModalData } from '../INewDrawingModalData';
 
 @Component({
   selector: 'app-mock-canvas',
@@ -9,7 +9,7 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 export class MockCanvasComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
   }
 
   ngOnInit(): void {

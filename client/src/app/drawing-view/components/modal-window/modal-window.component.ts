@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ModalData } from '../ModalData';
+import { IModalData } from '../ModalData';
 
 @Component({
   selector: 'app-modal-window',
@@ -11,7 +11,7 @@ export abstract class ModalWindowComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ModalWindowComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ModalData) {
+    @Inject(MAT_DIALOG_DATA) public data: IModalData) {
 
   }
 

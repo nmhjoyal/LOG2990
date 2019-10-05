@@ -1,4 +1,4 @@
-export interface NewDrawingModalData {
+export interface INewDrawingModalData {
     title: string;
     drawingHeightInput?: number;
     drawingWidthInput?: number;

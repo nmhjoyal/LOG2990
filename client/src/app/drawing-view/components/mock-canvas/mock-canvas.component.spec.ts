@@ -2,10 +2,10 @@ import SpyObj = jasmine.SpyObj;
 
 import { async } from '@angular/core/testing';
 
-import { NewDrawingModalData } from '../NewDrawingModalData';
+import { INewDrawingModalData } from '../INewDrawingModalData';
 
 describe('MockCanvasComponent', () => {
-  let dataMock: SpyObj<NewDrawingModalData>;
+  let dataMock: SpyObj<INewDrawingModalData>;
 
   beforeEach(async(() => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
