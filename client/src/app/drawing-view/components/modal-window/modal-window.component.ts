@@ -10,8 +10,8 @@ import { ModalData } from '../ModalData';
 export abstract class ModalWindowComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<ModalWindowComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ModalData) {
+    protected dialogRef: MatDialogRef<ModalWindowComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: ModalData) {
 
   }
 

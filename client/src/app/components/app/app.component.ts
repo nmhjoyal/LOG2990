@@ -1,6 +1,5 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
@@ -14,8 +13,7 @@ import { AppConstants } from 'src/AppConstants';
 })
 export class AppComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
-              private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+  constructor(private dialog: MatDialog, private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) private data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = '#ffffff';

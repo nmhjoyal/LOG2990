@@ -12,7 +12,7 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
+  constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     super(dialogRef, data);
     this.reinitializeDrawingVariables();
