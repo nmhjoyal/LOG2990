@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog, private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) private data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-    this.data.drawingColor = '#ffffff';
+    this.data.drawingColor = AppConstants.WHITE_HEX;
     this.data.canvasIsDrawnOn = true;
   }
 
