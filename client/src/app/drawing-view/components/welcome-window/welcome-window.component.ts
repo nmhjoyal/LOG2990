@@ -18,7 +18,7 @@ export class WelcomeWindowComponent extends ModalWindowComponent {
     this.isChecked = false;
   }
 
-  checkboxClicked(): void {
+  reverseCheckboxClicked(): void {
     this.isChecked = !this.isChecked;
   }
 

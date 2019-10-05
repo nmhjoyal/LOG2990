@@ -11,7 +11,7 @@ export class ToolsComponent implements OnInit {
     console.log('ToolsComponent constructed');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('ToolsComponent initialized');
   }
 

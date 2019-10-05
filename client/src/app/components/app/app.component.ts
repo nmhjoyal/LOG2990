@@ -14,9 +14,9 @@ import { AppConstants } from 'src/AppConstants';
 })
 export class AppComponent implements OnInit {
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
-    this.confirmNewDrawing();
+    this.confirmNewDrawingWindow();
   }
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     this.data.canvasIsDrawnOn = true;
   }
 
-  confirmNewDrawing(): void {
+  confirmNewDrawingWindow(): void {
     if (!this.dialog.openDialogs.length) {
       if (!this.data.canvasIsDrawnOn) {
         this.openNewDrawingDialog();

@@ -19,7 +19,7 @@ export abstract class ModalWindowComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('ModalWindowComponent initialized');
   }
 

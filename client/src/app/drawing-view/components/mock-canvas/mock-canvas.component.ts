@@ -12,7 +12,7 @@ export class MockCanvasComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // empty block
   }
 }

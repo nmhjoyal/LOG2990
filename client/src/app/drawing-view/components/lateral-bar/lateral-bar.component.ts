@@ -11,7 +11,7 @@ export class LateralBarComponent implements OnInit {
     console.log('LateralBarComponent constructor');
    }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('LateralBarComponent initialized');
   }
 }
