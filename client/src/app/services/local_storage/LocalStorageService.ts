@@ -9,7 +9,7 @@ export class LocalStorageService {
     // Shape Handling attributes
     private rectangleSelected = false;
     private crayonSelected = false;
-    private pinceauSelected = false;
+    private paintbrushSelected = false;
 
     // Color service simulating attributes
     primaryColor = 'green';
@@ -23,15 +23,16 @@ export class LocalStorageService {
     lines: {points: string, color: string, strokeWidth: number,
         fill: string, strokeLinecap: string, filter: string}[] = [];
 
-    paints: {points: string, color: string, strokeWidth: number, 
-            fill:string, strokeLinecap:string, filter:{baseFrequency:string, numOctaves:string, scale:string}}[] = [];
+    paints: {points: string, color: string, strokeWidth: number,
+            fill: string, strokeLinecap: string,
+            filter: {baseFrequency: string, numOctaves: string, scale: string}}[] = [];
 
-    filters: {baseFrequency:string, numOctaves:string, scale:string}[] = 
-    [{baseFrequency:"0.2", numOctaves:"2", scale:"5"}, 
-    {baseFrequency:"0.4", numOctaves:"6", scale:"3"},
-    {baseFrequency:"0.6", numOctaves:"4", scale:"4"},
-    {baseFrequency:"1.0", numOctaves:"5", scale:"3"},
-    {baseFrequency:"0.9", numOctaves:"3", scale:"6"}]
+    filters: {baseFrequency: string, numOctaves: string, scale: string}[] =
+    [{baseFrequency: '0.2', numOctaves: '2', scale: '5'},
+     {baseFrequency: '0.4', numOctaves: '6', scale: '3'},
+     {baseFrequency: '0.6', numOctaves: '4', scale: '4'},
+     {baseFrequency: '1.0', numOctaves: '5', scale: '3'},
+     {baseFrequency: '0.9', numOctaves: '3', scale: '6'}];
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
 
@@ -60,7 +61,7 @@ export class LocalStorageService {
     reset(): void {
         this.rectangleSelected = false;
         this.crayonSelected = false;
-        this.pinceauSelected = false;
+        this.paintbrushSelected = false;
     }
 
     chooseRectangle(): void {
@@ -73,9 +74,9 @@ export class LocalStorageService {
         this.crayonSelected = true;
     }
 
-    choosePinceau(): void {
+    choosePaintbrush(): void {
         this.reset();
-        this.pinceauSelected = true;
+        this.paintbrushSelected = true;
     }
 
     chooseOther(): void {
@@ -91,7 +92,7 @@ export class LocalStorageService {
     }
 
     get isPinceau(): boolean {
-        return this.pinceauSelected;
+        return this.paintbrushSelected;
     }
 
     // Color service simulating (DELETE ONCE IMPLEMENTED WITH COLOR SERVICE)

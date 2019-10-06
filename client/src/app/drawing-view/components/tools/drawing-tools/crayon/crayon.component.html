@@ -1,10 +1,10 @@
 <svg tabindex = "0" class = "previewCrayon" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
     <polyline 
         id="current"
-        [attr.points]="_points"
-        [style.fill]="getFill()"
-        [style.stroke]="getColor()"
-        [style.stroke-width]="getStrokeWidth()"
-        [style.stroke-linecap]="getStrokeLinecap()"
-        [style.stroke-linestroke]="getStrokeLinecap()" />
+        [attr.points]="stroke.points"
+        [style.fill]="stroke.fill"
+        [style.stroke]="stroke.color"
+        [style.stroke-width]="stroke.strokeWidth"
+        [style.stroke-linecap]="stroke.strokeLinecap"
+        [style.stroke-linestroke]="stroke.strokeLinejoin" />
 </svg>

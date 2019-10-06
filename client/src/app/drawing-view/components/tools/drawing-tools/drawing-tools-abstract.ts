@@ -1,17 +1,11 @@
 import { HostListener, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-
-const STROKE_LINECAP_MODE = 'round';
-const FILL_MODE = 'none';
-const DEFAULT_STROKE_WIDTH = 2;
-const DEFAULT_FILTER = 'none';
+import { IDrawingTool } from './drawing-tool-interface';
 
 export abstract class DrawingToolsAbstract implements OnInit {
-  points: string;
-  private mouseDown = false;
-  private strokeWidth: number = DEFAULT_STROKE_WIDTH;
-  private color = 'black';
-  private filter: string = DEFAULT_FILTER;
+
+  protected stroke: IDrawingTool;
+  private mouseDown: boolean;
   private x: number;
   private y: number;
 
@@ -28,34 +22,33 @@ export abstract class DrawingToolsAbstract implements OnInit {
     // empty block
   }
 
-  // Abstract methods
-
-  protected abstract saveShape(): void;
+  protected saveShape(): void {
+    this.drawingToolService.stack.push(this.stroke);
+  }
 
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: any) {
     this.mouseDown = true;
-    this.points = event.offsetX + ',' + event.offsetY;
+    this.stroke.points = event.offsetX + ',' + event.offsetY;
     this.x = event.offsetX;
     this.y = event.offsetY;
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: any) {
     if (this.mouseDown) {
-      this.points += (' ' + event.offsetX + ',' + event.offsetY);
+      this.stroke.points += (' ' + event.offsetX + ',' + event.offsetY);
     }
-    this.saveShape();
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(event: any) {
 
     if (this.x === event.offsetX && this.y === event.offsetY) {
-      this.points += (' ' + (event.offsetX + 0.1) + ',' + (event.offsetY + 0.1));
+      this.stroke.points += (' ' + (event.offsetX + 0.1) + ',' + (event.offsetY + 0.1));
     }
+    this.saveShape();
     this.mouseDown = false;
-
-    this.points = '';
+    this.stroke.points = '';
   }
 
   @HostListener('mouseleave', ['$event']) onMouseLeave(event: any) {
@@ -66,51 +59,13 @@ export abstract class DrawingToolsAbstract implements OnInit {
 
   // Functions
 
-  increaseStrokeWidth() {
-    this.strokeWidth++;
+  increaseStrokeWidth(): void {
+    this.stroke.strokeWidth++;
   }
 
-  decreaseStrokeWidth() {
-    if (this.strokeWidth > 1) {
-      this.strokeWidth--;
+  decreaseStrokeWidth(): void {
+    if (this.stroke.strokeWidth > 1) {
+      this.stroke.strokeWidth--;
     }
-  }
-
-  // Getter methods
-
-  getPoints() {
-    return this.points;
-  }
-
-  getColor() {
-    return this.color;
-  }
-
-  getStrokeWidth() {
-    return this.strokeWidth;
-  }
-
-  getFill() {
-    return FILL_MODE;
-  }
-
-  getStrokeLinecap() {
-    return STROKE_LINECAP_MODE;
-  }
-
-  getFilter() {
-      return this.filter;
-  }
-
-  setColor(color: string) {
-    this.color = color;
-  }
-
-  getPrimeColor(): string {
-    return this.drawingToolService.PrimaryColor;
-  }
-
-  switchColor(): void {
-    this.drawingToolService.switchColor();
   }
 }
