@@ -9,32 +9,40 @@ const FILL_MODE = 2;
 const CONTOUR_FILL_MODE = 3;
 
 export abstract class ShapeAbstract implements OnInit {
-  protected initialX = 0;
-  protected initialY = 0;
+  protected initialX: number; 
+  protected initialY: number;
   protected cursorX: number;
   protected cursorY: number;
   protected previewWidth: number;
   protected previewHeight: number;
-  protected mouseDown = false;
-  protected shiftDown = false;
+  protected mouseDown: boolean;
+  protected shiftDown: boolean;
 
-  public shape: IShape = {
-    x: 0,
-    y:0,
-    width: 0,
-    height: 0,
-    primaryColor: "green",
-    secondaryColor: "blue",
-    strokeOpacity: DEFAULT_OPACITY, 
-    strokeWidth: DEFAULT_STROKE_WIDTH, 
-    fillOpacity: 1,
-  };
+  protected shape: IShape;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
   constructor(protected toolService: ToolHandlerService) {
-    // empty body
+    this.mouseDown = false;
+    this.shiftDown = false;
+    this.initialX = 0;
+    this.initialY = 0;
+    this.cursorX = 0;
+    this.cursorY = 0;
+    this.previewHeight = 0;
+    this.previewWidth = 0;
+    this.shape = {
+      x: 0,
+      y:0,
+      width: 0,
+      height: 0,
+      primaryColor: "green", // take values of the colorService.
+      secondaryColor: "blue",
+      strokeOpacity: DEFAULT_OPACITY, 
+      strokeWidth: DEFAULT_STROKE_WIDTH, 
+      fillOpacity: 1,
+    };
   }
 
   ngOnInit(): void {
