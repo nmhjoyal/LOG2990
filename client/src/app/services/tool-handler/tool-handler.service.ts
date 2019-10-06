@@ -15,6 +15,7 @@ public paintbrushSelected: boolean;
 // Color service simulating attributes
 primaryColor: string;
 secondaryColor: string;
+filters: {baseFrequency: string; numOctaves: string; scale: string;}[];
 ​
 // Shape Storage
 public drawings: IDrawingTool[] = []; // change type to parent of IShape

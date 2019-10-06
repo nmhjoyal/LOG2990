@@ -1,5 +1,5 @@
 import { HostListener, Input, OnInit } from '@angular/core';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawingTool } from './drawing-tool-interface';
 
 export abstract class DrawingToolsAbstract implements OnInit {
@@ -12,18 +12,18 @@ export abstract class DrawingToolsAbstract implements OnInit {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  protected drawingToolService: LocalStorageService;
+  protected drawingToolService: ToolHandlerService;
 
-  constructor(serviceInstance: LocalStorageService) {
+  constructor(serviceInstance: ToolHandlerService) {
     this.drawingToolService = serviceInstance;
-   }
-
+  }
+  
   ngOnInit() {
     // empty block
   }
 
   protected saveShape(): void {
-    this.drawingToolService.stack.push(this.stroke);
+    this.drawingToolService.drawings.push(this.stroke);
   }
 
   // Event handling methods

@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-pinceau',
@@ -17,7 +17,7 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
     // empty block
   }
 
-  constructor(myDrawingToolService: LocalStorageService) {
+  constructor(myDrawingToolService: ToolHandlerService) {
     super(myDrawingToolService);
     this.currentFilter = myDrawingToolService.filters[0];
   }

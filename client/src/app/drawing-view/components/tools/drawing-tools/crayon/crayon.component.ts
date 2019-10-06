@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-crayon',
@@ -9,7 +9,7 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 })
 export class CrayonComponent extends DrawingToolsAbstract implements OnInit {
 
-  constructor(myDrawingToolService: LocalStorageService) {
+  constructor(myDrawingToolService: ToolHandlerService) {
     super(myDrawingToolService);
   }
 

@@ -55,8 +55,8 @@
         <app-crayon #activeCrayon [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
         <app-drawing-tool-toolbox [drawingToolComponent]="activeCrayon" ></app-drawing-tool-toolbox>
     </div>
-    <div  *ngIf="storage.isPinceau">
-            <app-pinceau #activePinceau [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
-            <app-drawing-tool-toolbox [drawingToolComponent]="activePinceau" ></app-drawing-tool-toolbox>
+    <div  *ngIf="storage.isPaintbrush">
+            <app-pinceau #activePaintbrush [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+            <app-drawing-tool-toolbox [drawingToolComponent]="activePaintbrush" ></app-drawing-tool-toolbox>
         </div>
 </div>
