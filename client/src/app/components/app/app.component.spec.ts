@@ -1,14 +1,14 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
-import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
+import { INewDrawingModalData } from 'src/app/drawing-view/components/INewDrawingModalData';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let dialogMock: SpyObj<MatDialog>;
-  let dataMock: SpyObj<NewDrawingModalData>;
+  let dataMock: SpyObj<INewDrawingModalData>;
   let component: AppComponent;
 
   beforeEach(async(() => {

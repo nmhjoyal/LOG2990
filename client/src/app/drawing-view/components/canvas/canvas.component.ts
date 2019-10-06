@@ -1,18 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { INewDrawingModalData } from '../INewDrawingModalData';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData) {
-  }
-
-  ngOnInit() {
-    // empty block
-  }
 }

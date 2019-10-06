@@ -22,6 +22,7 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "interface-name": false,
-    "curly": true
+    "curly": true,
+    "no-magic-numbers": true
   }
 }

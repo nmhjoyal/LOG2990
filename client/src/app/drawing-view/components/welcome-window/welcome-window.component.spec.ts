@@ -19,7 +19,8 @@ describe('WelcomeWindowComponent', () => {
 
   const dialogMock = {
     close: () => {
-      console.log('MockDialog close');
+      // tslint:disable-next-line: no-console
+      console.log('Mock Dialog close');
     },
   };
 

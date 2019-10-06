@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { IWelcomeWindowData } from './WelcomeWindowData';
+import { IWelcomeWindowData } from './IWelcomeWindowData';
 
 @Component({
   selector: 'app-welcome-window',

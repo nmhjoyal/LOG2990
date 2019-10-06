@@ -20,7 +20,7 @@ describe('NewDrawingWindowComponent', () => {
 
   const dialogMock = {
     close: () => {
-      console.log('MockDialog close');
+      confirm('MockDialog close');
     },
   };
 
@@ -122,8 +122,8 @@ describe('NewDrawingWindowComponent', () => {
 
   it('should update the resize preview if user inputs are not present', () => {
     component.reinitializeDrawingVariables();
-    (window as any).innerHeight = 500;
-    (window as any).innerWidth = 500;
+    innerHeight = 500;
+    innerWidth = 500;
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     expect(dataMock.drawingWidthPreview).toBe(500 - AppConstants.SIDEBAR_WIDTH);
