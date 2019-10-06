@@ -1,3 +1,6 @@
+// tslint:disable:no-magic-numbers
+// tslint:disable:no-console
+// tslint:disable:no-implicit-dependencies
 import {assert, expect} from 'chai';
 
 describe('A starting set of test examples to showcase test-suite behaviour', () => {
