@@ -1,5 +1,3 @@
-// tslint:disable:no-magic-numbers
-// tslint:disable:no-console
 import {assert, expect} from 'chai';
 
 describe('A starting set of test examples to showcase test-suite behaviour', () => {
@@ -30,7 +28,7 @@ describe('A starting set of test examples to showcase test-suite behaviour', () 
             // Get a promise of a value that will be later resolved
             const promiseOfValue =  promiseGenerator().next();
             // Assign a value to our object
-            promiseOfValue.value.then((v) => {
+            promiseOfValue.value.then((v: number) => {
                 variableNeedingToBeChangedEachRun = v;
                 d();
             });
