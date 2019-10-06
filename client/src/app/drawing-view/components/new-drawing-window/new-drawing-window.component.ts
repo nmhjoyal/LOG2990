@@ -1,5 +1,4 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
 import { INewDrawingModalData } from '../INewDrawingModalData';
@@ -13,18 +12,20 @@ import { ModalWindowComponent } from '../modal-window/modal-window.component';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  widthInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
-  heightInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
-  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
-
-  constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
+  constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
     super(dialogRef, data);
-    this.reinitializeDrawingVariables();
+    this.data.title = 'Créer un nouveau dessin';
+    this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
+    this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     dialogRef.disableClose = true;
   }
 
-  @HostListener('window: resize', ['$event']) updateWindowSize(): void {
+  ngOnInit() {
+    this.reinitializeDrawingVariables();
+  }
+
+  @HostListener('window: resize', ['$event']) updateWindowSize() {
     if (!this.data.drawingHeightInput && !this.data.drawingWidthInput) {
       this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
       this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
@@ -36,19 +37,13 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.onClose();
   }
 
-  ngOnInit(): void {
-    this.data.title = 'Créer un nouveau dessin';
-    this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-    this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
-  }
-
   onAcceptClick(): void {
     this.data.drawingHeightInput ? this.data.drawingHeight = this.data.drawingHeightInput
       : this.data.drawingHeight = this.data.drawingHeightPreview;
     this.data.drawingWidthInput ? this.data.drawingWidth = this.data.drawingWidthInput
       : this.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
-      this.data.drawingColor = '#ffffff';
+      this.data.drawingColor = AppConstants.WHITE_HEX;
     this.data.canvasIsDrawnOn = false;
     this.dialogRef.close();
   }
