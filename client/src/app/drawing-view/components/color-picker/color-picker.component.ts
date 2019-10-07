@@ -23,36 +23,4 @@ export class ColorPickerComponent extends ModalWindowComponent {
     super(dialogRef, data);
   }
 
-  chooseColor(primary: boolean): void  {
-    this.colorService.chooseColor(primary);
-    /*
-    if (primary) {
-      if (!this.data.mainColor) {this.data.mainColor = true;
-      }
-    } else {
-      if (this.data.mainColor) {this.data.mainColor = false;
-      }
-    }*/
-  }
-
-  switchColors(): void {
-    this.colorService.switchColors();
-    /*
-    const intermediateColor = this.data.color[0];
-    this.data.color[0] = this.data.color[1];
-    this.data.color[1] = intermediateColor;
-    */
-  }
-
-  setAlpha(alpha: number): void  {
-    this.colorService.setAlpha(alpha);/*
-    this.data.alpha[+this.data.mainColor] = alpha;
-    this.setColor(this.lastColors[9]);*/
-  }
-
-  setColor(color: string ): void  {
-    this.colorService.setColor(color);
-    // this.data.color[+this.data.mainColor] = color;
-  }
-
 }

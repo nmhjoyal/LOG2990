@@ -47,7 +47,7 @@
                      [ngStyle]="{'background-color': colorService.color[0] }" title = "primary color" (click)="openChooseColorDialog()"></div>
                 </a>
                 <a mat-list-item  class = "switchIcon" >
-                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" (click)="switchColors()" >            
+                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" (click)="colorService.switchColors()" >            
                 </a>
                 <a mat-list-item >
                     <div class = "color-preview" 

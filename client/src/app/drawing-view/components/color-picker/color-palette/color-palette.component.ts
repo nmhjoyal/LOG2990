@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { ColorService } from '../../../../services/color_service/color.service';
 
 @Component({
   selector: 'app-color-palette',
@@ -79,7 +80,6 @@ export class ColorPaletteComponent implements AfterViewInit {
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(evt: MouseEvent): void {
     this.mousedown = false;
-
     const position = this.selectedPosition;
 
     if (this.getColorAtPosition(position.x, position.y) !== this.lastColors[9] ) {
@@ -119,7 +119,7 @@ export class ColorPaletteComponent implements AfterViewInit {
     const r = this.rgbToHex(imageData[0]);
     const g = this.rgbToHex(imageData[1]);
     const b = this.rgbToHex(imageData[2]);
-    const a = this.rgbToHex(Math.round(this.alpha[+this.mainColor] * 255));
+    const a = this.rgbToHex(Math.round(this.alpha[+this.mainColor] * 2.55));
     return ( '#' + r + g + b + a );
   }
 
