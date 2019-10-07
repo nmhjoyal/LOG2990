@@ -1,5 +1,5 @@
 import { HostListener, Input, OnInit } from '@angular/core';
-import { IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface'
+import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface'
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 const DEFAULT_OPACITY = 1;
@@ -9,15 +9,13 @@ const FILL_MODE = 2;
 const CONTOUR_FILL_MODE = 3;
 
 export abstract class ShapeAbstract implements OnInit {
-  protected initialX: number; 
+  protected initialX: number;
   protected initialY: number;
   protected cursorX: number;
   protected cursorY: number;
-  protected previewWidth: number;
-  protected previewHeight: number;
   protected mouseDown: boolean;
   protected shiftDown: boolean;
-
+  protected previewBox: IPreviewBox;
   protected shape: IShape;
 
   @Input() windowHeight: number;
@@ -30,8 +28,11 @@ export abstract class ShapeAbstract implements OnInit {
     this.initialY = 0;
     this.cursorX = 0;
     this.cursorY = 0;
-    this.previewHeight = 0;
-    this.previewWidth = 0;
+    this.previewBox = {
+      x: 0,
+      y:0,
+      width: 0,
+      height: 0,}
     this.shape = {
       x: 0,
       y:0,
@@ -66,10 +67,12 @@ export abstract class ShapeAbstract implements OnInit {
     this.mouseDown = false;
     this.shape.height = 0;
     this.shape.width = 0;
-    this.previewHeight = 0;
-    this.previewWidth = 0;
-    this.initialX = 0;
+    this.previewBox.height = 0;
+    this.previewBox.width = 0;
+    this.previewBox.x = 0;
+    this.previewBox.y = 0;
     this.initialY = 0;
+    this.initialX = 0;
   }
 
   @HostListener('mouseleave') onMouseLeave(): void {
@@ -83,8 +86,6 @@ export abstract class ShapeAbstract implements OnInit {
     this.cursorY = event.offsetY;
 
     if (this.mouseDown) {
-      this.previewWidth = this.cursorX - this.initialX;
-      this.previewHeight = this.cursorY - this.initialY;
       this.calculateDimensions();
     }
   }
@@ -141,10 +142,14 @@ export abstract class ShapeAbstract implements OnInit {
   protected calculateDimensions(): void {
     const shapeOffset = this.shape.strokeWidth / 2;
 
-    this.shape.x = this.initialX + shapeOffset;
-    this.shape.y = this.initialY + shapeOffset;
-    this.shape.width =  this.cursorX - this.shape.x - shapeOffset;
-    this.shape.height = this.cursorY - this.shape.y - shapeOffset;
+    this.previewBox.x = this.cursorX < this.initialX ? this.cursorX : this.initialX;
+    this.previewBox.y = this.cursorY < this.initialY ? this.cursorY : this.initialY;
+    this.previewBox.width = Math.abs(this.cursorX - this.initialX);
+    this.previewBox.height = Math.abs(this.cursorY - this.initialY);
+    this.shape.x =  this.previewBox.x + shapeOffset;
+    this.shape.y =  this.previewBox.y + shapeOffset;
+    this.shape.width = this.previewBox.width - this.shape.strokeWidth;
+    this.shape.height =this.previewBox.height - this.shape.strokeWidth;
   }
 
   protected saveShape(): void {
