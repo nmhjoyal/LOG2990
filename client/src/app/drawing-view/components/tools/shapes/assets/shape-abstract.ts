@@ -149,8 +149,8 @@ export abstract class ShapeAbstract implements OnInit {
     this.previewBox.height = Math.abs(this.cursorY - this.initialY);
     this.shape.x =  this.previewBox.x + shapeOffset;
     this.shape.y =  this.previewBox.y + shapeOffset;
-    this.shape.width = this.previewBox.width - this.shape.strokeWidth;
-    this.shape.height = this.previewBox.height - this.shape.strokeWidth;
+    this.shape.width = Math.abs(this.previewBox.width - this.shape.strokeWidth);
+    this.shape.height = Math.abs(this.previewBox.height - this.shape.strokeWidth);
   }
 
   protected saveShape(): void {
