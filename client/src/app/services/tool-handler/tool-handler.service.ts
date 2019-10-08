@@ -3,24 +3,23 @@ import { AppConstants } from 'src/AppConstants';
 import { IShape } from '../../drawing-view/components/tools/shapes/assets/interfaces/shape-interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolHandlerService {
 
   // Shape Handling attributes
-  public noneSelected: boolean;
-  public rectangleSelected: boolean;
-  public colourApplicatorSelected: boolean;
-  public crayonSelected: boolean;
-  public pinceauSelected: boolean;
+  noneSelected: boolean;
+  rectangleSelected: boolean;
+  colourApplicatorSelected: boolean;
+  crayonSelected: boolean;
+  pinceauSelected: boolean;
 ​
   // Color service simulating attributes
   primaryColor: string;
   secondaryColor: string;
 ​
   // Shape Storage
-  public drawings: IShape[] = []; // change type to parent of IShape
-
+  drawings: IShape[] = []; // change type to parent of IShape
 
   constructor() {
     this.noneSelected = true;

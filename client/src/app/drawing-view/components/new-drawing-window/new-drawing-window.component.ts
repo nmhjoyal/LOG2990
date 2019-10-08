@@ -1,10 +1,10 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-new-drawing-window',

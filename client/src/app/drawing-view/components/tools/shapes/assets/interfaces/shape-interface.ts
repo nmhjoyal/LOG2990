@@ -5,12 +5,10 @@ export interface IPreviewBox {
     height: number;
 }
 
-export interface IShape extends IPreviewBox{
+export interface IShape extends IPreviewBox {
     primaryColor: string;
     secondaryColor: string;
-    strokeOpacity: number; 
-    strokeWidth: number; 
+    strokeOpacity: number;
+    strokeWidth: number;
     fillOpacity: number;
 }
-
-

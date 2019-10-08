@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
-import { NewDrawingModalData } from '../NewDrawingModalData';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { NewDrawingModalData } from '../NewDrawingModalData';
 import { ShapeAbstract } from '../tools/shapes/assets/shape-abstract';
 
 @Component({

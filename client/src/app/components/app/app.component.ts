@@ -5,8 +5,8 @@ import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-d
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-import { AppConstants } from 'src/AppConstants';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { AppConstants } from 'src/AppConstants';
 
 @Component({
   selector: 'app-root',

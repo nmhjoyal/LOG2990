@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ShapeAbstract } from '../assets/shape-abstract';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ShapeAbstract } from '../assets/shape-abstract';
 
 @Component({
   selector: 'app-shape-toolbox',

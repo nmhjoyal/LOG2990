@@ -1,11 +1,11 @@
 
 import SpyObj = jasmine.SpyObj;
-import { ShapeAbstract } from './shape-abstract';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ShapeAbstract } from './shape-abstract';
 
 class ShapeTest extends ShapeAbstract {
 
-  constructor (serviceInstance: ToolHandlerService) {
+  constructor(serviceInstance: ToolHandlerService) {
     super(serviceInstance);
   }
 
@@ -115,9 +115,9 @@ describe('ShapeAbstract', () => {
     const spy = spyOn(ShapeTest, 'saveShape');
     const mouseDownEvent = new MouseEvent('mousedown');
     const mouseMoveEvent = new MouseEvent('mousemove');
-    
+
     ShapeTest.onMouseDown(mouseDownEvent);
-    ShapeTest.onMouseMove(mouseMoveEvent);// How to controle the data in the event? To only call saveshape when movement is positive
+    ShapeTest.onMouseMove(mouseMoveEvent); // How to controle the data in the event? To only call saveshape when movement is positive
     ShapeTest.onMouseUp();
     expect(spy).toHaveBeenCalled();
   });

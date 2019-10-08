@@ -1,5 +1,5 @@
 import { HostListener, Input, OnInit } from '@angular/core';
-import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface'
+import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 const DEFAULT_OPACITY = 1;
@@ -30,18 +30,18 @@ export abstract class ShapeAbstract implements OnInit {
     this.cursorY = 0;
     this.previewBox = {
       x: 0,
-      y:0,
+      y: 0,
       width: 0,
-      height: 0,}
+      height: 0, };
     this.shape = {
       x: 0,
-      y:0,
+      y: 0,
       width: 0,
       height: 0,
-      primaryColor: "green", // take values of the colorService.
-      secondaryColor: "blue",
-      strokeOpacity: DEFAULT_OPACITY, 
-      strokeWidth: DEFAULT_STROKE_WIDTH, 
+      primaryColor: 'green', // take values of the colorService.
+      secondaryColor: 'blue',
+      strokeOpacity: DEFAULT_OPACITY,
+      strokeWidth: DEFAULT_STROKE_WIDTH,
       fillOpacity: DEFAULT_OPACITY,
     };
   }
@@ -149,7 +149,7 @@ export abstract class ShapeAbstract implements OnInit {
     this.shape.x =  this.previewBox.x + shapeOffset;
     this.shape.y =  this.previewBox.y + shapeOffset;
     this.shape.width = this.previewBox.width - this.shape.strokeWidth;
-    this.shape.height =this.previewBox.height - this.shape.strokeWidth;
+    this.shape.height = this.previewBox.height - this.shape.strokeWidth;
   }
 
   protected saveShape(): void {
@@ -166,6 +166,5 @@ export abstract class ShapeAbstract implements OnInit {
     };
     this.toolService.drawings.push(currentDrawing);
   }
-
 
 }
