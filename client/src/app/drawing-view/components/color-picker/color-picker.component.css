@@ -65,20 +65,14 @@
   filter: brightness(50%);
 
 }
-/*
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-*/
+
 .input-alpha{
   float: left;
   margin: 25px 0;
 }
 
 .button{
-  background-color: white;
+  background-color: transparent;
   border: none;
   color: white;
   padding: 5px 10px;
@@ -88,9 +82,8 @@
 
 /* Darker background on mouse-over */
 .button:hover {
-  background-color: white;
+  background-color: transparent;
 }
-
 
 /**/
 

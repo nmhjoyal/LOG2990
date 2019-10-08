@@ -11,13 +11,7 @@ import { ModalWindowComponent } from '../modal-window/modal-window.component';
 })
 
 export class ColorPickerComponent extends ModalWindowComponent {
-  /*color = ['#ffffffff', '#000000ff'];
-  lastColors = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
-                '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
-  alpha = [1, 1];
-  mainColor = false;
-*/
-  constructor(private colorService: ColorService,
+  constructor(public colorService: ColorService,
               public dialogRef: MatDialogRef<ModalWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ColorPickerModalData) {
     super(dialogRef, data);

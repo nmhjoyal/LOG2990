@@ -25,6 +25,8 @@ export class ColorPaletteComponent implements AfterViewInit {
   @Output() color2: EventEmitter<string> = new EventEmitter();
   color = [this.color1, this.color2];
 
+  constructor(public colorService: ColorService) {}
+
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>;
 
@@ -110,16 +112,12 @@ export class ColorPaletteComponent implements AfterViewInit {
     this.color[+this.mainColor].emit(hexColor);
   }
 
-  rgbToHex(hue: number): string {
-    if (!hue) {return '00'; } else if (hue < 16) {return ('0' + hue.toString(16)); } else {return hue.toString(16); }
-  }
-
   getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data;
-    const r = this.rgbToHex(imageData[0]);
-    const g = this.rgbToHex(imageData[1]);
-    const b = this.rgbToHex(imageData[2]);
-    const a = this.rgbToHex(Math.round(this.alpha[+this.mainColor] * 2.55));
+    const r = this.colorService.rgbToHex(imageData[0]);
+    const g = this.colorService.rgbToHex(imageData[1]);
+    const b = this.colorService.rgbToHex(imageData[2]);
+    const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * 2.55));
     return ( '#' + r + g + b + a );
   }
 

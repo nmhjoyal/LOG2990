@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   }
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              private storage: LocalStorageService, private colorService: ColorService,
+              private storage: LocalStorageService, public colorService: ColorService,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ColorPaletteComponent } from '../../drawing-view/components/color-picker/color-palette/color-palette.component';
 
 @Injectable({
   providedIn: 'root',
