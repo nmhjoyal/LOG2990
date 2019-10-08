@@ -1,4 +1,4 @@
-<div>
+
     <svg tabindex="0" class="mock-canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
         <rect class="mock-rectangle" width=100% height=100%/>   
     
@@ -14,9 +14,4 @@
     </g>
 
     </svg>
-
-    <div  *ngIf="storage.rectangleSelected">
-        <app-tools-rectangle #activeShape [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
-        <app-shape-toolbox [shapeComponent]="activeShape"></app-shape-toolbox>
-    </div>
-</div>
+    

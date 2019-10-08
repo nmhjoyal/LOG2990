@@ -5,9 +5,11 @@ import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-wind
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppComponent } from './app.component';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
+  let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<NewDrawingModalData>;
   let dialogRefMock: SpyObj<MatDialogRef<ModalWindowComponent>>;
@@ -18,7 +20,7 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
-    component = new AppComponent(dialogMock, dialogRefMock, serviceMock, dataMock);
+    component = new AppComponent(dialogMock, dialogRefMock, serviceMock, toolHandlerMock, dataMock);
   }));
 
   it('should open dialog when storage returns true', () => {

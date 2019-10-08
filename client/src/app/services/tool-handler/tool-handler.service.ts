@@ -8,6 +8,7 @@ import { IShape } from '../../drawing-view/components/tools/shapes/assets/interf
 export class ToolHandlerService {
 
   // Shape Handling attributes
+  public noneSelected: boolean;
   public rectangleSelected: boolean;
   public colourApplicatorSelected: boolean;
   public crayonSelected: boolean;
@@ -22,12 +23,13 @@ export class ToolHandlerService {
 
 
   constructor() {
-      this.rectangleSelected = false;
-      this.colourApplicatorSelected = false;
-      this.crayonSelected = false;
-      this.pinceauSelected = false;
-      this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
-      this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
+    this.noneSelected = true;
+    this.rectangleSelected = false;
+    this.colourApplicatorSelected = false;
+    this.crayonSelected = false;
+    this.pinceauSelected = false;
+    this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
+    this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
   }
 ​
   // Tool Handling methods
@@ -37,15 +39,17 @@ export class ToolHandlerService {
   }
 ​
   resetSelection(): void {
-      this.rectangleSelected = false;
-      this.colourApplicatorSelected = false;
-      this.crayonSelected = false;
-      this.pinceauSelected = false;
+    this.noneSelected = true;
+    this.rectangleSelected = false;
+    this.colourApplicatorSelected = false;
+    this.crayonSelected = false;
+    this.pinceauSelected = false;
   }
 ​
   chooseRectangle(): void {
       this.resetSelection();
       this.rectangleSelected = true;
+      this.noneSelected = false;
   }
 ​
   chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
@@ -53,16 +57,19 @@ export class ToolHandlerService {
       this.primaryColor = primaryColor;
       this.secondaryColor = secondaryColor;
       this.colourApplicatorSelected = true;
+      this.noneSelected = false;
   }
 ​
   chooseCrayon(): void {
       this.resetSelection();
       this.crayonSelected = true;
+      this.noneSelected = false;
   }
 ​
   choosePinceau(): void {
       this.resetSelection();
       this.pinceauSelected = true;
+      this.noneSelected = false;
   }
 ​
   chooseOther(): void {// Place holder for unimplemented tools

@@ -42,7 +42,7 @@ export abstract class ShapeAbstract implements OnInit {
       secondaryColor: "blue",
       strokeOpacity: DEFAULT_OPACITY, 
       strokeWidth: DEFAULT_STROKE_WIDTH, 
-      fillOpacity: 1,
+      fillOpacity: DEFAULT_OPACITY,
     };
   }
 

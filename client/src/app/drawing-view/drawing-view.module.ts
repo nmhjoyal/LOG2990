@@ -37,6 +37,8 @@ import { ToolsComponent } from './components/tools/tools.component';
 
   exports: [
     MockCanvasComponent,
+    ShapeToolboxComponent,
+    RectangleComponent,
     BrowserModule,
     HttpClientModule,
     MatDialogModule,

@@ -50,8 +50,11 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <app-mock-canvas></app-mock-canvas>
 
+            <app-mock-canvas></app-mock-canvas>
+            <div>
+            <app-tools-rectangle #activeDrawing [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+            </div>
             <mat-sidenav #sidenav2 position="end">
             <mat-nav-list>
                 <a mat-list-item class="filter">
@@ -60,6 +63,9 @@
                 <a mat-list-item class="filter">
                     <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">
                 </a>
+                <div>
+                    <app-shape-toolbox [drawing]='activeDrawing'></app-shape-toolbox>
+                </div>
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
