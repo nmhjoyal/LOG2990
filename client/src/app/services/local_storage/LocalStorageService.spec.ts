@@ -27,6 +27,8 @@ describe('LocalStorageService ', () => {
         expect(storage.set).toHaveBeenCalled();
     });
 
+    // THESE TESTS ARE TO BE TRANSFERRED TO TOOLHANDLERSERVICE.SPEC.TS
+
     it('should propely access the secondary color', () => {
         const color = instance.SecondColor;
         expect(color).toBe(instance.secondaryColor);

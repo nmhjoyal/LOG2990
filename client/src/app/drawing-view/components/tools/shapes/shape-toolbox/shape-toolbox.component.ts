@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { MockCanvasComponent } from '../../../mock-canvas/mock-canvas.component';
 import { ShapeAbstract } from '../assets/shape-abstract';
 
 @Component({
@@ -9,7 +10,7 @@ import { ShapeAbstract } from '../assets/shape-abstract';
 })
 export class ShapeToolboxComponent implements OnInit {
 
-  @Input() drawing: ShapeAbstract;
+  @Input() canvas: MockCanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {
     // empty body
@@ -20,7 +21,7 @@ export class ShapeToolboxComponent implements OnInit {
   }
 
   getComponent(): ShapeAbstract {
-    return this.drawing;
+    return this.canvas.activeTool;
   }
 
 }

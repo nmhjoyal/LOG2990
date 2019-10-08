@@ -33,7 +33,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     }
   }
 
-  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+  @HostListener('document:keydown.escape') onKeydownHandler(): void {
     this.onClose();
   }
 

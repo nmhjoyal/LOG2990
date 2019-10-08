@@ -1,5 +1,5 @@
 <!--This snippet of HTML is intended for the options box of the tools, loaded when the a tool is selected-->
-<p>
+<p *ngIf="!(toolHandler.noneSelected)">
   <button (click)="getComponent().setTraceMode(1)">Contour</button>
   <button (click)="getComponent().setTraceMode(2)">Plein</button>
   <button (click)="getComponent().setTraceMode(3)">Plein&Contour</button>
