@@ -45,12 +45,13 @@
                             La couleur doit être hexadécimale: commencer avec '#' et avoir 8 caractères de 0 à 9 et a à f.
                         </mat-error>
                     </div>
+                    <div class="color-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': data.drawingColorInput}"
+                    ></div>
                 </mat-form-field>
             </div>
-
-            
-             <app-color-palette (color1)="data.drawingColorInput = $event">
-              </app-color-palette>
+            <app-color-palette (color1)="data.drawingColorInput = $event" (color2)="colorService.color[1] = $event"
+                [lastColors]="colorService.lastColors" [mainColor]="colorService.mainColor" [alpha]="colorService.alpha">
+            </app-color-palette>
 
             <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
             <button type="submit" mat-raised-button [disabled]="!newDrawingForm.form.valid"  (click)="onAcceptClick()">Accepter</button>

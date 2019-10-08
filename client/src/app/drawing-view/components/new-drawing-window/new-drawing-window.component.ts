@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
+import { ColorService } from '../../../services/color_service/color.service';
 //import { ColorPaletteComponent } from '../color-picker/ColorPaletteComponent'
 
 @Component({
@@ -21,6 +22,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   alpha = 1;
 
   constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
+              public colorService: ColorService,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     super(dialogRef, data);
     this.reinitializeDrawingVariables();
