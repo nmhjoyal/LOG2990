@@ -2,6 +2,7 @@ import { HostListener, Input, OnInit } from '@angular/core';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
+const NONE = "none";
 const DEFAULT_OPACITY = 1;
 const DEFAULT_STROKE_WIDTH = 2;
 const CONTOUR_MODE = 1;
@@ -119,18 +120,19 @@ export abstract class ShapeAbstract implements OnInit {
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case CONTOUR_MODE:
-        this.shape.strokeOpacity = 1; // load from color service
-        this.shape.fillOpacity = 0;
+        this.shape.secondaryColor = "blue"; // load from color service
+        this.shape.primaryColor = NONE;
         break;
 
       case FILL_MODE:
-        this.shape.strokeOpacity = 0;
-        this.shape.fillOpacity = 1; // load from color service
+        // this.shape.secondaryColor = NONE; IF the contour should affect width when it is not set
+        this.shape.primaryColor = "green"; // load from color service
+        this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
         break;
 
       case CONTOUR_FILL_MODE:
-          this.shape.strokeOpacity = 1; // load from color service
-          this.shape.fillOpacity = 1; // load from color service
+          this.shape.secondaryColor = "blue"; // load from color service
+          this.shape.primaryColor = "green"; // load from color service
           break;
 
       default:
