@@ -62,7 +62,6 @@ export class AppComponent implements OnInit {
 
   openChooseColorDialog(): void {
     this.dialog.open(ColorPickerComponent, {
-      // data: ColorPickerComponent.prototype.data,
       panelClass: 'choose-color-window',
     });
   }
