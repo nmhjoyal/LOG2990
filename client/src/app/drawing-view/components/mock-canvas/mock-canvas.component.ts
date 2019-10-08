@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NewDrawingModalData } from '../NewDrawingModalData';
@@ -19,10 +19,6 @@ export class MockCanvasComponent implements OnInit {
 
   ngOnInit() {
     // empty block
-  }
-
-  @HostListener('mousedown', ['$event']) onMouseDown(event: any): void {
-    console.log(event);
   }
 
 }
