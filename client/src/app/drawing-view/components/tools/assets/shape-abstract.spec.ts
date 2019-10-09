@@ -21,9 +21,10 @@ class ShapeTest extends ShapeAbstract {
 
 describe('ShapeAbstract', () => {
   let ShapeTest: ShapeTest;
-  let storage: SpyObj<ToolHandlerService>;
+  let toolHandlerMock: SpyObj<ToolHandlerService>;
   beforeEach(() => {
-    ShapeTest = new ShapeTest(storage);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
+    ShapeTest = new ShapeTest(toolHandlerMock);
   });
 
   it('should create an instance of the derived class', () => {

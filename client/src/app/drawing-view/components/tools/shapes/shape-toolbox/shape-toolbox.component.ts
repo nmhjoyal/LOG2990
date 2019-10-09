@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { MockCanvasComponent } from '../../../mock-canvas/mock-canvas.component';
 import { ShapeAbstract } from '../../assets/shape-abstract';
-import { ModeType } from '../../assets/tool-constants'
+import { ModeType } from '../../assets/tool-constants';
 
 @Component({
   selector: 'app-shape-toolbox',
@@ -11,7 +11,7 @@ import { ModeType } from '../../assets/tool-constants'
 })
 export class ShapeToolboxComponent implements OnInit {
 
-  public mode = ModeType;
+  mode = ModeType;
   @Input() canvas: MockCanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {

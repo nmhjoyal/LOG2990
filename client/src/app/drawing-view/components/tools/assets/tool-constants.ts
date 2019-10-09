@@ -4,12 +4,11 @@ export enum ModeType {
     CONTOUR_FILL = 3,
 }
 export enum Id {
-    RECTANGLE = "rectangle",
+    RECTANGLE = 'rectangle',
 }
 
-
 export class ToolConstants {
-    static NONE: string = 'none';
+    static NONE = 'none';
     static DEFAULT_OPACITY = 1;
     static DEFAULT_STROKE_WIDTH = 2;
     static TOOL_ID = Id;

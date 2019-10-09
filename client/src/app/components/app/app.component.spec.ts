@@ -18,6 +18,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
     component = new AppComponent(dialogMock, dialogRefMock, serviceMock, toolHandlerMock, dataMock);

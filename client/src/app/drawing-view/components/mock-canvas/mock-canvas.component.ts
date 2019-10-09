@@ -12,7 +12,7 @@ import { Id } from '../tools/assets/tool-constants';
 })
 export class MockCanvasComponent implements OnInit {
 
-  public toolID = Id;
+  toolID = Id;
   @ViewChild('activeTool', {static: false}) activeTool: ShapeAbstract; // put general tool abstract here
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData, public toolHandler: ToolHandlerService) {

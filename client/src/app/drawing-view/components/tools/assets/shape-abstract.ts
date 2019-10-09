@@ -1,7 +1,7 @@
 import { HostListener, Input, OnInit } from '@angular/core';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 export abstract class ShapeAbstract implements OnInit {
   protected initialX: number;
@@ -29,7 +29,7 @@ export abstract class ShapeAbstract implements OnInit {
       width: 0,
       height: 0, };
     this.shape = {
-      id:"",
+      id: '',
       x: 0,
       y: 0,
       width: 0,

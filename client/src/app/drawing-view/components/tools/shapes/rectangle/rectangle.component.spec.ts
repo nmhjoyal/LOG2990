@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { RectangleComponent } from './rectangle.component';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { RectangleComponent } from './rectangle.component';
 
 describe('RectangleComponent', () => {
   let component: RectangleComponent;
