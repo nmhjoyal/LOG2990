@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div mat-dialog-container class='new_drawing' style="font-family: Arial, Helvetica, sans-serif">
+<div mat-dialog-container class='new_colorChoice' style="font-family: Arial, Helvetica, sans-serif">
   <div mat-dialog-content>
 
     <div class="color-wrapper">
@@ -39,7 +39,7 @@
         (click)="colorService.chooseColor(false); colorService.addColor()"></div>
 
       <div class="button">
-        <button type="button" (click)="colorService.switchColors()"><i class="fa fa-arrows-h"></i></button>
+        <button type="button" (click)="colorService.switchColors(); colorService.addColor() "><i class="fa fa-arrows-h"></i></button>
       </div>
 
       <div class="color-preview" tabindex="0" id="secondary" [ngStyle]="{'background-color': colorService.color[1]}"
@@ -63,8 +63,9 @@
       </mat-form-field>
     </div>
 
-    <div class="input-alpha">
-      Transparency <input type="range" min="0" max="100" value="100" step="1" class="slider" #slider
+    <div> 
+        <label> Transparency: </label>
+       <input type="range" min="0" max="100" value="100" step="1" class="slider" #slider
         [(ngModel)]="colorService.alpha[+colorService.mainColor]" 
         (ngModelChange)="colorService.setAlpha(slider.value)"
         (change)="colorService.addColor()">

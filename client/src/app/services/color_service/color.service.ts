@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ColorService {
 
-    lastColors = ['#222222ff', '#333333ff', '#444444ff', '#555555ff', '#777777ff',
-                  '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
+    lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+                  '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
     alpha = [100, 100];
     mainColor = false;
     primaryColor = '#ffffffff';

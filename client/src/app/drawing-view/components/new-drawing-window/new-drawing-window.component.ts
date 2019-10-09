@@ -2,10 +2,9 @@ import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@ang
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
+import { ColorService } from '../../../services/color_service/color.service';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
-import { ColorService } from '../../../services/color_service/color.service';
-//import { ColorPaletteComponent } from '../color-picker/ColorPaletteComponent'
 
 @Component({
   selector: 'app-new-drawing-window',
