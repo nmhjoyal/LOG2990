@@ -4,13 +4,17 @@
     
     <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
     retrieval of saved rectangles from the service in the canvas typescript file.-->
-    <g *ngFor="let rectangle of toolHandler.drawings">
-        <rect [attr.x] ="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height"
-        [style.stroke]="rectangle.secondaryColor" 
-        [style.fill]="rectangle.primaryColor"  
-        [style.stroke-opacity]="rectangle.strokeOpacity"
-        [style.stroke-width]="rectangle.strokeWidth"
-        [style.fill-opacity]="rectangle.fillOpacity"/>
+    <g *ngFor="let drawing of toolHandler.drawings">
+        <g [ngSwitch]="drawing.id">
+            <g *ngSwitchCase="toolID.RECTANGLE">
+                <rect [attr.x] ="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
+                [style.stroke]="drawing.secondaryColor" 
+                [style.fill]="drawing.primaryColor"  
+                [style.stroke-opacity]="drawing.strokeOpacity"
+                [style.stroke-width]="drawing.strokeWidth"
+                [style.fill-opacity]="drawing.fillOpacity"/>
+            </g>
+        </g>
     </g>
 
     </svg>

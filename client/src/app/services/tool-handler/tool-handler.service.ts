@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConstants } from 'src/AppConstants';
-import { IShape } from '../../drawing-view/components/tools/shapes/assets/interfaces/shape-interface';
+import { ITool } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class ToolHandlerService {
   secondaryColor: string;
 ​
   // Shape Storage
-  drawings: IShape[] = []; // change type to parent of IShape
+  drawings: ITool[] = [];
 
   constructor() {
     this.noneSelected = true;

@@ -1,13 +1,7 @@
 import { HostListener, Input, OnInit } from '@angular/core';
-import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/shapes/assets/interfaces/shape-interface';
+import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-
-const NONE = 'none';
-const DEFAULT_OPACITY = 1;
-const DEFAULT_STROKE_WIDTH = 2;
-const CONTOUR_MODE = 1;
-const FILL_MODE = 2;
-const CONTOUR_FILL_MODE = 3;
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 
 export abstract class ShapeAbstract implements OnInit {
   protected initialX: number;
@@ -35,15 +29,16 @@ export abstract class ShapeAbstract implements OnInit {
       width: 0,
       height: 0, };
     this.shape = {
+      id:"",
       x: 0,
       y: 0,
       width: 0,
       height: 0,
       primaryColor: 'green', // take values of the colorService. Make sure they are updated dynamically...
       secondaryColor: 'blue',
-      strokeOpacity: DEFAULT_OPACITY,
-      strokeWidth: DEFAULT_STROKE_WIDTH,
-      fillOpacity: DEFAULT_OPACITY, };
+      strokeOpacity: ToolConstants.DEFAULT_OPACITY,
+      strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      fillOpacity: ToolConstants.DEFAULT_OPACITY, };
   }
 
   ngOnInit(): void {
@@ -118,18 +113,18 @@ export abstract class ShapeAbstract implements OnInit {
 
   protected setTraceMode(mode: number): void {
     switch (mode) {
-      case CONTOUR_MODE:
+      case ToolConstants.TRACE_MODE.CONTOUR:
         this.shape.secondaryColor = 'blue'; // load from color service
-        this.shape.primaryColor = NONE;
+        this.shape.primaryColor = ToolConstants.NONE;
         break;
 
-      case FILL_MODE:
-        // this.shape.secondaryColor = NONE; IF the contour should affect width when it is not set
+      case ToolConstants.TRACE_MODE.FILL:
+        // this.shape.secondaryColor = ToolConstants.NONE; IF the contour should affect width when it is not set
         this.shape.primaryColor = 'green'; // load from color service
         this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
         break;
 
-      case CONTOUR_FILL_MODE:
+      case ToolConstants.TRACE_MODE.CONTOUR_FILL:
         this.shape.secondaryColor = 'blue'; // load from color service
         this.shape.primaryColor = 'green'; // load from color service
         break;
@@ -155,6 +150,7 @@ export abstract class ShapeAbstract implements OnInit {
 
   protected saveShape(): void {
     const currentDrawing: IShape = {
+      id: this.shape.id,
       x: this.shape.x,
       y: this.shape.y,
       width: this.shape.width,

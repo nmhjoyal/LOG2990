@@ -1,21 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { LOCAL_STORAGE } from 'ngx-webstorage-service';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { RectangleComponent } from './rectangle.component';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 describe('RectangleComponent', () => {
   let component: RectangleComponent;
   let fixture: ComponentFixture<RectangleComponent>;
-  const storageServiceMock: jasmine.SpyObj<LocalStorageService> = jasmine.createSpyObj('LocalStorageService', ['']);
+  const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [RectangleComponent],
       providers: [
-        { provide: LOCAL_STORAGE, useValue: storageServiceMock, },
+        { provide: ToolHandlerService, useValue: toolServiceMock, },
       ],
 
     })
