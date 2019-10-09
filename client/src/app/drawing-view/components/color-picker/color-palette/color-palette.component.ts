@@ -82,14 +82,7 @@ export class ColorPaletteComponent implements AfterViewInit {
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(evt: MouseEvent): void {
     this.mousedown = false;
-    const position = this.selectedPosition;
-
-    if (this.getColorAtPosition(position.x, position.y) !== this.lastColors[9] ) {
-      this.lastColors.shift();
-      if (position) {
-      this.lastColors.push(this.getColorAtPosition(position.x, position.y));
-      }
-    }
+    this.colorService.addColor()
   }
 
   onMouseDown(evt: MouseEvent): void {

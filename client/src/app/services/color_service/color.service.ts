@@ -9,7 +9,9 @@ export class ColorService {
                   '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#ddddddff', '#eeeeeeff'];
     alpha = [100, 100];
     mainColor = false;
-    color = ['#ffffffff', '#000000ff'];
+    primaryColor = '#ffffffff';
+    secondaryColor = '#000000ff';
+    color = [this.primaryColor, this.secondaryColor];
 
     chooseColor(primary: boolean): void  {
       if (primary) {
