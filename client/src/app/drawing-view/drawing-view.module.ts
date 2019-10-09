@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { LateralBarComponent } from './components/lateral-bar/lateral-bar.component';
 import { MockCanvasComponent } from './components/mock-canvas/mock-canvas.component';
