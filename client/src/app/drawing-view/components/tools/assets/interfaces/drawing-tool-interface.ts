@@ -1,4 +1,5 @@
 export interface IDrawingTool {
+    id: string;
     points: string;
     color: string;
     strokeWidth: number;

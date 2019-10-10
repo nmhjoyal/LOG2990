@@ -1,10 +1,10 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-new-drawing-window',
@@ -20,7 +20,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
 
   constructor(public dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData,
-              private storage: LocalStorageService) {
+              private storage: ToolHandlerService) {
     super(dialogRef, data);
     this.reinitializeDrawingVariables();
     dialogRef.disableClose = true;
@@ -51,7 +51,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
       this.data.drawingColor = '#ffffff';
     this.data.canvasIsDrawnOn = false;
-    this.storage.clear();
+    this.storage.clearPage();
     this.dialogRef.close();
   }
 

@@ -12,34 +12,34 @@
                 </a>
                 <a mat-list-item class="filter">
                     <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon"
-                    (click)='storage.chooseCrayon()'>
+                    (click)='toolHandler.chooseCrayon()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo"
-                    (click)='storage.chooseOther()'>
+                    (click)='toolHandler.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau"
-                    (click)='storage.chooseOther()'>
+                    (click)='toolHandler.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau"
-                    (click)='storage.choosePaintbrush()'>
+                    (click)='toolHandler.choosePaintbrush()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume"
-                    (click)='storage.chooseOther()'>
+                    (click)='toolHandler.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol"
-                    (click)='storage.chooseOther()'>
+                    (click)='toolHandler.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter" >
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Rectangle" 
-                    (click)='storage.chooseRectangle()'>
+                    (click)='toolHandler.chooseOther()'>
                 </a>
                 <a mat-list-item class="filter" (click)="sidenav2.toggle()">
                         <!-- this is supposed to toggle the right side sidenav with extra options; it doesn't work with new format -->
@@ -50,20 +50,19 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <app-mock-canvas></app-mock-canvas>
-        <app-mock-canvas #myCanvas></app-mock-canvas>
-        <mat-sidenav #sidenav2 position="end">
-        <mat-nav-list>
-            <a mat-list-item class="filter">
-                <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs">
-            </a>
-            <a mat-list-item class="filter">
-                <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">
-            </a>
-            <app-shape-toolbox [canvas]='myCanvas'></app-shape-toolbox>
-        </mat-nav-list>
-    </mat-sidenav>
-</mat-sidenav-container>
 
+            <app-mock-canvas #myCanvas></app-mock-canvas>
+            <mat-sidenav #sidenav2 position="end">
+            <mat-nav-list>
+                <a mat-list-item class="filter">
+                    <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs">
+                </a>
+                <a mat-list-item class="filter">
+                    <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">
+                </a>
+                <app-drawing-tool-toolbox [canvas]='myCanvas'></app-drawing-tool-toolbox>
+            </mat-nav-list>
+        </mat-sidenav>
+    </mat-sidenav-container>
 
 </div>

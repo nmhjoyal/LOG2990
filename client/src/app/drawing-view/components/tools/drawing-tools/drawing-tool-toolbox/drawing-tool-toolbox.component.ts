@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MockCanvasComponent } from '../../../mock-canvas/mock-canvas.component';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
+
 
 @Component({
   selector: 'app-drawing-tool-toolbox',
@@ -8,9 +11,9 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 })
 export class DrawingToolToolboxComponent implements OnInit {
 
-  @Input() drawingToolComponent: DrawingToolsAbstract;
-
-  constructor() { 
+  @Input() canvas: MockCanvasComponent;
+  
+  constructor(protected toolHandler: ToolHandlerService) { 
     // empty block
   }
 
@@ -18,8 +21,8 @@ export class DrawingToolToolboxComponent implements OnInit {
     // empty block
   }
 
-  getComponent() {
-    return this.drawingToolComponent;
+  getComponent(): DrawingToolsAbstract {
+    return this.canvas.activeTool;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ToolConstants } from '../../assets/tool-constants';
+import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 
 @Component({
   selector: 'app-pinceau',
@@ -9,9 +10,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 })
 export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
 
-  currentFilter: {baseFrequency: string,
-                        numOctaves: string,
-                        scale: string};
+  currentFilter: string = ToolConstants.NONE;
 
   ngOnInit() {
     // empty block
@@ -19,11 +18,26 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
 
   constructor(myDrawingToolService: ToolHandlerService) {
     super(myDrawingToolService);
-    this.currentFilter = myDrawingToolService.filters[0];
+    this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
+    this.stroke.filter = this.currentFilter;
+
   }
 
   setFilter(n: number): void {
-    this.currentFilter = this.drawingToolService.filters[n];
+    switch (n){
+      case 0:
+        this.currentFilter = "none";
+        break;
+      case 1:
+        this.currentFilter = "url(#displacementFilter)";
+        break;  
+      case 2:
+        this.currentFilter = "url(#blurFilter)"
+        break;
+      default:
+          this.currentFilter = "none";
+          break;
+    }
   }
 
   // Abstract&Overridden methods

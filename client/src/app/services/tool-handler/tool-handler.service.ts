@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConstants } from 'src/AppConstants';
-import { IDrawingTool } from '../../drawing-view/components/tools/drawing-tools/drawing-tool-interface';
+import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,9 @@ public paintbrushSelected: boolean;
 // Color service simulating attributes
 primaryColor: string;
 secondaryColor: string;
-filters: {baseFrequency: string; numOctaves: string; scale: string;}[];
 ​
 // Shape Storage
 public drawings: IDrawingTool[] = []; // change type to parent of IShape
-
 
 constructor() {
     this.rectangleSelected = false;
