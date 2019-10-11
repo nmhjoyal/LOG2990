@@ -1,4 +1,57 @@
 
 <svg class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
     <rect class="rectangle" width=100% height=100%/>   
- </svg>
+    <g *ngFor = "let line of storage.drawings">
+
+    <filter id="filter1">
+            <feTurbulence type="turbulence" baseFrequecy = "0.05"  numOctaves = "2" result="turbulence" />
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="50" xChannelSelector="R"
+                yChannelSelector="G" />
+    </filter>
+    
+    <filter id="filter2">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+
+    <filter id="filter3">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+    </filter>
+        
+    <filter id="filter4">
+        <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+        <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+
+    <g [ngSwitch]="line.id">
+        <g *ngSwitchCase="toolID.CRAYON">
+            <polyline 
+            [attr.points]="line.points"
+            [style.fill]="line.fill"
+            [style.stroke]="line.color"
+            [style.stroke-width]="line.strokeWidth"
+            [style.stroke-linecap]="line.strokeLinecap"
+            [style.stroke-linejoin]="line.strokeLinejoin"
+            />
+        </g>
+        <g *ngSwitchCase="toolID.PAINTBRUSH">
+            <polyline 
+            [attr.points]="line.points"
+            [style.fill]="line.fill"
+            [style.stroke]="line.color"
+            [style.stroke-width]="line.strokeWidth"
+            [style.stroke-linecap]="line.strokeLinecap"
+            [style.stroke-linejoin]="line.strokeLinejoin"
+            [style.filter]="line.filter"
+            />
+        </g>
+    </g>
+</g>
+</svg>
+
+<div *ngIf="storage.crayonSelected">
+<app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+</div>
+<div *ngIf="storage.paintbrushSelected">
+<app-pinceau #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-pinceau>
+</div>

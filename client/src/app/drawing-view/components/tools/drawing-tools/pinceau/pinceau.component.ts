@@ -22,22 +22,22 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
   setFilter(n: number): void {
     switch (n) {
       case 0:
-        this.stroke.filter = ToolConstants.NONE;
-        break;
+          this.stroke.filter = ToolConstants.FILTER_ID.FILTER1;
+          break;
       case 1:
-        this.stroke.filter = 'url(#filter1)';
+        this.stroke.filter = ToolConstants.FILTER_ID.FILTER2;
         break;
       case 2:
-        this.stroke.filter = 'url(#filter2)';
-        break;
-      case 3:
-        this.stroke.filter = 'url(#filter3)';
-        break;
-        case 4:
-          this.stroke.filter = 'url(#filter4)';
+          this.stroke.filter = ToolConstants.FILTER_ID.FILTER3;
           break;
+      case 3:
+          this.stroke.filter = ToolConstants.FILTER_ID.FILTER4;
+          break;
+        case 4:
+            this.stroke.filter = ToolConstants.FILTER_ID.FILTER5;
+            break;
       default:
-          this.stroke.filter = ToolConstants.NONE;
+          this.stroke.filter = ToolConstants.FILTER_ID.FILTER1;
           break;
     }
   }

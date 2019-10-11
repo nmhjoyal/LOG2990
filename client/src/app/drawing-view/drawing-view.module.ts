@@ -9,7 +9,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CanvasComponent } from './components/canvas/canvas.component';
-import { MockCanvasComponent } from './components/mock-canvas/mock-canvas.component';
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pinceau.component';
@@ -20,7 +19,7 @@ import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pince
     CrayonComponent,
     PinceauComponent,
     DrawingToolToolboxComponent,
-    MockCanvasComponent, ],
+    ],
 
   imports: [
     BrowserModule,
@@ -34,7 +33,6 @@ import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pince
   ],
 
   exports: [
-    MockCanvasComponent,
     DrawingToolToolboxComponent,
     BrowserModule,
     HttpClientModule,
@@ -43,10 +41,11 @@ import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pince
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatButtonModule, ],
+    MatButtonModule,
+    CanvasComponent, ],
 
   providers: [],
-  bootstrap: [MockCanvasComponent],
+  bootstrap: [CanvasComponent],
   entryComponents: [],
 })
 export class DrawingViewModule { }

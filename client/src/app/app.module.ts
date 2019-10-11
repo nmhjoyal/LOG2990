@@ -27,7 +27,6 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     MatCheckboxModule,
     MatSidenavModule,
     FormsModule,
-    DrawingViewModule,
   ],
   providers: [ MatDialogConfig, LocalStorageService, ToolHandlerService,
     { provide: MatDialogRef, useValue: {} },
