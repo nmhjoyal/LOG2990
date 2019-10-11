@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AppConstants } from 'src/AppConstants';
 import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
+import { AppConstants } from 'src/AppConstants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolHandlerService {
 
@@ -19,7 +19,7 @@ primaryColor: string;
 secondaryColor: string;
 ​
 // Shape Storage
-public drawings: IDrawingTool[] = []; // change type to parent of IShape
+drawings: IDrawingTool[] = []; // change type to parent of IShape
 
 constructor() {
     this.noneSelected = true;

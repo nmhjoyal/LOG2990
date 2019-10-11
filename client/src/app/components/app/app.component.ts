@@ -5,9 +5,8 @@ import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-d
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-import { AppConstants } from 'src/AppConstants';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-
+import { AppConstants } from 'src/AppConstants';
 
 @Component({
   selector: 'app-root',
@@ -21,15 +20,13 @@ export class AppComponent implements OnInit {
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.c') onKeydownCEvent(){
+  @HostListener('document:keydown.c') onKeydownCEvent() {
     this.toolHandler.chooseCrayon();
   }
 
-  @HostListener('document:keydown.p') onKeydownPEvent(){
+  @HostListener('document:keydown.p') onKeydownPEvent() {
     this.toolHandler.choosePaintbrush();
   }
-  
-
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
               private storage: LocalStorageService, public toolHandler: ToolHandlerService, @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {

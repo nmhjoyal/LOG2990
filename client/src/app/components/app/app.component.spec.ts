@@ -4,9 +4,8 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-import { AppComponent } from './app.component';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;

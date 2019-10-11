@@ -6,7 +6,7 @@ export enum ModeType {
 
 export enum Id {
     CRAYON = 'crayon',
-    PAINTBRUSH = 'paintbrush'
+    PAINTBRUSH = 'paintbrush',
 }
 
 export class ToolConstants {

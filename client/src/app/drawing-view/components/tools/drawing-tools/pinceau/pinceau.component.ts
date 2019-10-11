@@ -20,21 +20,21 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
   }
 
   setFilter(n: number): void {
-    switch (n){
+    switch (n) {
       case 0:
         this.stroke.filter = ToolConstants.NONE;
         break;
       case 1:
-        this.stroke.filter = "url(#filter1)";
-        break;  
+        this.stroke.filter = 'url(#filter1)';
+        break;
       case 2:
-        this.stroke.filter = "url(#filter2)"
+        this.stroke.filter = 'url(#filter2)';
         break;
       case 3:
-        this.stroke.filter = 'url(#filter3)'
+        this.stroke.filter = 'url(#filter3)';
         break;
         case 4:
-          this.stroke.filter = 'url(#filter4)'
+          this.stroke.filter = 'url(#filter4)';
           break;
       default:
           this.stroke.filter = ToolConstants.NONE;

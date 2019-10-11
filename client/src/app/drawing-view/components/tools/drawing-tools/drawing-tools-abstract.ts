@@ -22,18 +22,18 @@ export abstract class DrawingToolsAbstract implements OnInit {
     fill: ToolConstants.NONE,
     strokeLinecap: ToolConstants.ROUND,
     strokeLinejoin: ToolConstants.ROUND,
-    filter: ToolConstants.NONE,};
+    filter: ToolConstants.NONE, };
     this.mouseDown = false;
     this.x = 0;
     this.y = 0;
   }
-  
+
   ngOnInit() {
     // empty block
   }
 
   protected saveShape(): void {
-    let currentDrawing: IDrawingTool = {
+    const currentDrawing: IDrawingTool = {
       id: this.stroke.id,
       points: this.stroke.points,
       color: this.stroke.color,
