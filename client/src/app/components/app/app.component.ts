@@ -1,10 +1,11 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
+import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,9 @@ export class AppComponent implements OnInit {
     this.data.canvasIsDrawnOn = true;
   }
 
+  @ViewChild(CanvasComponent, {static: false})
+  myGridd: CanvasComponent;
+
   ngOnInit(): void {
     this.openWelcomeScreen();
   }
@@ -33,7 +37,7 @@ export class AppComponent implements OnInit {
     if (!this.dialog.openDialogs.length) {
       if (!this.data.canvasIsDrawnOn) {
         this.openNewDrawingDialog();
-      } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
+      } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr(e)?')) {
         this.openNewDrawingDialog();
       }
     }
@@ -54,6 +58,11 @@ export class AppComponent implements OnInit {
         disableClose: true,
       });
     }
+  }
+  // viewchild
+
+  gridToggle(): void {
+    this.myGridd.toggleGrid();
   }
 
 }

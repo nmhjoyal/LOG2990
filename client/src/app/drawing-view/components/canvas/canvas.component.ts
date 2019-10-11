@@ -9,10 +9,24 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 export class CanvasComponent implements OnInit {
 
+  i = 0;
+
   constructor(@Inject(MAT_DIALOG_DATA) protected data: NewDrawingModalData) {
   }
 
   ngOnInit() {
     // empty block
   }
+
+  toggleGrid(): void {
+    this.i = 1 - this.i;
+    const status = ['visible', 'hidden'];
+    document.getElementById('myGrid').style.visibility = status[this.i];    // A changer
+    console.log(this.i);
+  }
+
+  setOpacity(value: number): void {
+    document.getElementById('myGrid').style.opacity = value;                // A changer
+  }
+
 }
