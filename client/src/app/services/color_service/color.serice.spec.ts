@@ -8,13 +8,17 @@ describe('ColorService ', () => {
         instance = new ColorService();
     });
 
-    it('should call storage setter', () => {
+    it('should be created', () => {
+        expect(instance).toBeTruthy();
+      });
+
+    it('should access color when addColor is called', () => {
         color.has.and.returnValue(true);
         instance.addColor();
         expect(color.get).toHaveBeenCalled();
     });
 
-    it('should access existing showAgain key', () => {
+    it('should access color when chooseColor is called', () => {
         color.has.and.returnValue(true);
         color.get.and.returnValue(false);
         expect(instance.chooseColor(true)).toHaveBeenCalled();

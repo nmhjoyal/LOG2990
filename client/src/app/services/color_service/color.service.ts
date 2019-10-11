@@ -7,11 +7,12 @@ export class ColorService {
 
     lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
                   '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-    alpha = [100, 100];
     mainColor = false;
     primaryColor = '#ffffffff';
     secondaryColor = '#000000ff';
     color = [this.primaryColor, this.secondaryColor];
+    alpha = [100, 100];
+    alphaDec = [this.alpha[0] / 100, this.alpha[1] / 100];
 
     chooseColor(primary: boolean): void  {
       if (primary) {

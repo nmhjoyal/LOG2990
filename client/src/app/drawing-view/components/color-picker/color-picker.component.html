@@ -64,8 +64,8 @@
     </div>
 
     <div> 
-        <label> Transparency: </label>
-       <input type="range" min="0" max="100" value="100" step="1" class="slider" #slider
+      <label> Transparency: </label>
+      <input type="range" min="0" max="100" value="100" step="1" class="slider" #slider
         [(ngModel)]="colorService.alpha[+colorService.mainColor]" 
         (ngModelChange)="colorService.setAlpha(slider.value)"
         (change)="colorService.addColor()">
@@ -73,3 +73,4 @@
     </div>
   </div>
 </div>
+

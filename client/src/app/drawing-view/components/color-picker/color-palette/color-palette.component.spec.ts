@@ -40,17 +40,13 @@ describe('ColorPaletteComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should have default alpha = 1', () => {
-        expect(component.alpha[0]).toEqual(1);
-        expect(component.alpha[1]).toEqual(1);
-    });
-
     it('should define canvas', () => {
         expect(component.canvas).toBeDefined();
     });
 
-    it('should have last 10 colors be of length 10', () => {
+    it('should call draw() on mouse move', () => {
         expect(component.lastColors.length).toEqual(10);
+        expect(component.draw()).toHaveBeenCalled();
     });
 
     it('should change Color on click of palette', () => {

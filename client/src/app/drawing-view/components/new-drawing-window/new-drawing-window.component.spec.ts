@@ -6,13 +6,16 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { AppConstants } from 'src/AppConstants';
+import {ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component'
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { NewDrawingModalData } from '../NewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
 
 describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<NewDrawingModalData>;
+  let colorServiceMock: SpyObj<ColorService>;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
@@ -34,6 +37,7 @@ describe('NewDrawingWindowComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatButtonModule,
+        ColorPaletteComponent,
       ],
       declarations: [
         ModalWindowComponent,
@@ -58,7 +62,7 @@ describe('NewDrawingWindowComponent', () => {
 
   beforeEach(async(() => {
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock);
+    component = new NewDrawingWindowComponent(dialogRefMock, colorServiceMock, dataMock);
     component.ngOnInit();
   }));
 

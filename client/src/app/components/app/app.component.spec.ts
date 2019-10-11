@@ -1,7 +1,8 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
+// import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
+import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
@@ -12,7 +13,7 @@ describe('AppComponent', () => {
   let colorServiceMock: SpyObj<ColorService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<NewDrawingModalData>;
-  let dialogRefMock: SpyObj<MatDialogRef<ModalWindowComponent>>;
+  let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: AppComponent;
 
   beforeEach(async(() => {
