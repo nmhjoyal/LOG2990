@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Component, ElementRef, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ColorPickerComponent } from './color-picker.component';
 
 describe('ColorPickerComponent', () => {
@@ -11,16 +13,16 @@ describe('ColorPickerComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
         imports: [
-            Component,
-            ViewChild,
-            ElementRef,
-            Input,
-            Output,
-            HostListener,
-        ],
-        declarations: [
+            MatDialogModule,
+            FormsModule,
+            MatFormFieldModule,
+            MatInputModule,
+            BrowserAnimationsModule,
+          ],
+          declarations: [
+            ModalWindowComponent,
             ColorPickerComponent,
-        ],
+          ],
         providers: [
             { provide: MatDialogRef, useValue: {} },
             { provide: MAT_DIALOG_DATA, useValue: [] },
@@ -31,7 +33,6 @@ describe('ColorPickerComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ColorPickerComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
     });
 
     it('should create', () => {

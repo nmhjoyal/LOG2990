@@ -1,7 +1,7 @@
 import { ColorService } from './color.service';
 
 describe('ColorService ', () => {
-    const color = jasmine.createSpyObj('ColorServiceSpy', ['switchColors', 'addColor', 'chooseColor']);
+    const color = jasmine.createSpyObj('ColorServiceSpy', ['switchColors', 'addColor', 'chooseColor', 'setAlpha', 'rgbToHex', 'setColor']);
     let instance: ColorService;
 
     beforeEach(() => {
@@ -13,13 +13,13 @@ describe('ColorService ', () => {
       });
 
     it('should access color when addColor is called', () => {
-        color.addColor();
         expect(instance.color).toHaveBeenCalled();
     });
 
     it('should access color when chooseColor is called', () => {
         color.chooseColor(true);
-        expect(instance.color[0]).toHaveBeenCalled();
+        spyOn(color, 'chooseColor').and.returnValue(true);
+        expect(color).toHaveBeenCalled();
     });
 
     it('should turn a value of 0 into string 00', () => {
@@ -43,8 +43,8 @@ describe('ColorService ', () => {
         expect(instance.color[0]).toEqual('#ffffffff');
     });
 
-    it('should have default primary color = black', () => {
-        expect(instance.color[0]).toEqual('#000000ff');
+    it('should have default secondary color = black', () => {
+        expect(instance.color[1]).toEqual('#000000ff');
     });
 
     it('should have last 10 colors be of length 10', () => {
@@ -52,28 +52,36 @@ describe('ColorService ', () => {
     });
 
     it('should switch primary color with secondary color ', () => {
-        expect(instance.switchColors).toBe(color.color[0]);
+        expect(instance.switchColors()).toHaveBeenCalled();
     });
 
     it('should have last 10 colors be of length 10', () => {
         expect(instance.lastColors.length).toEqual(10);
     });
 
-    it('should add color when alpha is changed', () => {
-        instance.setAlpha(1);
-        expect(instance.addColor()).toHaveBeenCalled();
+    it('should add color to when Alpha is changed', () => {
+        color.lastColors =  ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
+        color.setAlpha(0);
+        expect(color.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888',
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff', '#ffffff00']);
     });
 
-    it('switch colors should switch colors', () => {
-    
+    it('should add color to lastColors', () => {
+        color.lastColors =  ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
+        color.addColor('#010101ff');
+        expect(color.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888',
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff', '#010101ff']);
     });
 
-    it('should change color when setAlpha is called', () => {
 
-    });
-
-    it('shouldnt add color if color is already present in lastColors', () => {
-
+    it('shouldnt add color to lastColors if color is already present in lastColors', () => {
+        color.lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
+        color.addColor('#000000ff');
+        expect(color.lastColors).toEqual(['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff']);
     });
 
     it('change color on setColor', () => {

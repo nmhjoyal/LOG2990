@@ -127,17 +127,15 @@ describe('NewDrawingWindowComponent', () => {
     expect(dataMock.drawingWidth).toBe(dataMock.drawingWidthInput);
   });
 
-
   it('should properly pass color input from palette to canvas parameters', () => {
-   /* spyOn(colorPalette, 'getColorAtPosition').and.returnValue('#aaffaaff');
+    spyOn(colorPalette, 'getColorAtPosition').and.returnValue('#aaffaaff');
     spyOn(colorPalette.color1, 'emit').and.callThrough();
     colorPalette.color1.emit();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(dataMock.drawingColor).toEqual('#aaffaaff');
-    });*/
+    });
   });
-
 
   it('should update the resize preview if user inputs are not present', () => {
     component.reinitializeDrawingVariables();

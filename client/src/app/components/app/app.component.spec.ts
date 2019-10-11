@@ -54,10 +54,9 @@ describe('AppComponent', () => {
 
   });
 
+  // TODO: Test Switch Colors calls colorService.switchColor
+  /*
   it('should switch colors', () => {
-    colorServiceMock.switchColors();
-    expect(component.colorService.color[0]).toEqual(component.colorService.color[0]);
-
   });
-
+*/
 });
