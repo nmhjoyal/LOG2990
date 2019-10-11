@@ -13,7 +13,7 @@ export class DrawingToolToolboxComponent implements OnInit {
 
   @Input() canvas: MockCanvasComponent;
   
-  constructor(protected toolHandler: ToolHandlerService) { 
+  constructor(protected storage: ToolHandlerService) { 
     // empty block
   }
 

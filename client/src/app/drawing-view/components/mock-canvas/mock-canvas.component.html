@@ -1,20 +1,24 @@
-<div>
-    <svg tabindex="0" class="mock-canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight"
-        [attr.fill]="data.drawingColor">
-        <rect class="mock-rectangle" width=100% height=100% />
 
-        <!--This snippet of SVG shows all drawings; Should be added to the official canvas along with
-    retrieval of saved drawings from the service in the canvas typescript file.-->
-    
+<svg tabindex="0" class="mock-canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight"
+    [attr.fill]="data.drawingColor">
+    <rect class="mock-rectangle" width=100% height=100% />
+
+    <!--This snippet of SVG shows all drawings; Should be added to the official canvas along with
+retrieval of saved drawings from the service in the canvas typescript file.-->
+
     <g *ngFor = "let line of drawings">
-            <filter id="displacementFilter">
-                    <feTurbulence type="turbulence" [attr.baseFrequency]="line.filter.baseFrequency" 
-                        [attr.numOctaves]="line.filter.numoctaves" result="turbulence" />
-                    <feDisplacementMap in2="turbulence" in="SourceGraphic" [attr.scale]="line.filter.scale" 
-                        xChannelSelector="R" yChannelSelector="G" />
-            </filter>
+        <filter id="displacementFilter">
+            <feTurbulence type="turbulence" [attr.baseFrequency]="line.filter.baseFrequency" 
+                [attr.numOctaves]="line.filter.numoctaves" result="turbulence" />
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" [attr.scale]="line.filter.scale" 
+                xChannelSelector="R" yChannelSelector="G" />
+        </filter>
 
-            <polyline 
+        <filter id="blurFilter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+        </filter>
+
+        <polyline 
             [attr.points]="line.points"
             [style.fill]="line.fill"
             [style.stroke]="line.color"
@@ -22,18 +26,14 @@
             [style.stroke-linecap]="line.strokeLinecap"
             [style.stroke-linejoin]="line.strokeLinejoin"
             [style.filter]="line.filter"
-            />
-        </g>
-    
-    
-    
-
+        />
+    </g>
 </svg>
-<div *ngIf="toolHandler.crayonSelected">
-    <app-tools-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-crayon>
+
+<div *ngIf="storage.crayonSelected">
+    <app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
 </div>
-<div *ngIf="toolHandler.paintbrushSelected">
-    <app-tools-pinceau #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-pinceau>
+<div *ngIf="storage.paintbrushSelected">
+    <app-pinceau #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-pinceau>
 </div>
 
-</div>
