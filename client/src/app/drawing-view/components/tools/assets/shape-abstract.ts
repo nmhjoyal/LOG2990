@@ -136,6 +136,7 @@ export abstract class ShapeAbstract implements OnInit {
   }
 
   protected calculateDimensions(): void {
+    // tslint:disable-next-line:no-magic-numbers
     const shapeOffset = this.shape.strokeWidth / 2;
 
     this.previewBox.x = this.cursorX < this.initialX ? this.cursorX : this.initialX;

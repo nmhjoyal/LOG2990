@@ -15,18 +15,23 @@ import { AppConstants } from 'src/AppConstants';
 })
 export class AppComponent implements OnInit {
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    event.preventDefault();
-    this.confirmNewDrawing();
-  }
-
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
-              private storage: LocalStorageService, public toolHandler: ToolHandlerService, 
+              private storage: LocalStorageService, public toolHandler: ToolHandlerService,
               @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = '#ffffff';
     this.data.canvasIsDrawnOn = true;
+  }
+
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
+    this.confirmNewDrawing();
+  }
+
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
+    event.preventDefault();
+    this.toolHandler.chooseRectangle();
   }
 
   confirmNewDrawing(): void {

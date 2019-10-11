@@ -28,8 +28,10 @@ export class RectangleComponent extends ShapeAbstract implements OnInit {
       this.shape.height = minValue;
       this.shape.width = minValue;
       // Centrage du carré... necessaire?
+      // tslint:disable:no-magic-numbers
       this.shape.x += this.previewBox.width / 2 - this.shape.width / 2 - this.shape.strokeWidth / 2;
       this.shape.y += this.previewBox.height / 2 - this.shape.height / 2 - this.shape.strokeWidth / 2;
+      // tslint:enable:no-magic-numbers
     }
   }
 }

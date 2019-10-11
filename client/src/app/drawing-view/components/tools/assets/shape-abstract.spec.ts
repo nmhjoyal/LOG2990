@@ -20,15 +20,15 @@ class ShapeTest extends ShapeAbstract {
 }
 
 describe('ShapeAbstract', () => {
-  let ShapeTest: ShapeTest;
+  let shapeTest: ShapeTest;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   beforeEach(() => {
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
-    ShapeTest = new ShapeTest(toolHandlerMock);
+    shapeTest = new ShapeTest(toolHandlerMock);
   });
 
   it('should create an instance of the derived class', () => {
-    expect(new ShapeTest()).toBeTruthy();
+    expect(new ShapeTest(toolHandlerMock)).toBeTruthy();
   });
 
   // Tests of event handling methods
@@ -124,5 +124,5 @@ describe('ShapeAbstract', () => {
   });
 
   // Tests of Functions
-
+// A METTRE DANS LE TEST DE CALCULATE DIMENSIONS expect(component["shape"].width).toBe(component["previewBox"].width - STROKEWIDTH, "width unchanged when it is the smallest value");
 });
