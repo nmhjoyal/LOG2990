@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppComponent } from './components/app/app.component';
-import { CanvasComponent } from './drawing-view/components/canvas/canvas.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
@@ -15,7 +14,6 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
   declarations: [
     AppComponent,
     NewDrawingWindowComponent,
-    CanvasComponent,
     WelcomeWindowComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
     WelcomeWindowComponent,
