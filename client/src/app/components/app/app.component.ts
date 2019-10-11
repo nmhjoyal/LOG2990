@@ -21,6 +21,16 @@ export class AppComponent implements OnInit {
     this.confirmNewDrawing();
   }
 
+  @HostListener('document:keydown.c') onKeydownCEvent(){
+    this.toolHandler.chooseCrayon();
+  }
+
+  @HostListener('document:keydown.p') onKeydownPEvent(){
+    this.toolHandler.choosePaintbrush();
+  }
+  
+
+
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ModalWindowComponent>,
               private storage: LocalStorageService, public toolHandler: ToolHandlerService, @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
