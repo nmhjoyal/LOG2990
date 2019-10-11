@@ -1,6 +1,7 @@
 import { HostListener, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawingTool } from '../assets/interfaces/drawing-tool-interface';
+import { ToolConstants } from '../assets/tool-constants';
 
 export abstract class DrawingToolsAbstract implements OnInit {
 
@@ -12,10 +13,19 @@ export abstract class DrawingToolsAbstract implements OnInit {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  protected drawingToolService: ToolHandlerService;
-
-  constructor(serviceInstance: ToolHandlerService) {
-    this.drawingToolService = serviceInstance;
+  constructor(protected drawingToolService: ToolHandlerService) {
+    this.stroke = {
+    id: '',
+    points: '',
+    color: 'blue',
+    strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+    fill: ToolConstants.NONE,
+    strokeLinecap: ToolConstants.ROUND,
+    strokeLinejoin: ToolConstants.ROUND,
+    filter: ToolConstants.NONE,};
+    this.mouseDown = false;
+    this.x = 0;
+    this.y = 0;
   }
   
   ngOnInit() {
@@ -23,7 +33,17 @@ export abstract class DrawingToolsAbstract implements OnInit {
   }
 
   protected saveShape(): void {
-    this.drawingToolService.drawings.push(this.stroke);
+    let currentDrawing: IDrawingTool = {
+      id: this.stroke.id,
+      points: this.stroke.points,
+      color: this.stroke.color,
+      strokeWidth: this.stroke.strokeWidth,
+      fill: this.stroke.fill,
+      strokeLinecap: this.stroke.strokeLinecap,
+      strokeLinejoin: this.stroke.strokeLinejoin,
+      filter: this.stroke.filter,
+    };
+    this.drawingToolService.drawings.push(currentDrawing);
   }
 
   // Event handling methods
@@ -59,11 +79,11 @@ export abstract class DrawingToolsAbstract implements OnInit {
 
   // Functions
 
-  increaseStrokeWidth(): void {
+  protected increaseStrokeWidth(): void {
     this.stroke.strokeWidth++;
   }
 
-  decreaseStrokeWidth(): void {
+  protected decreaseStrokeWidth(): void {
     if (this.stroke.strokeWidth > 1) {
       this.stroke.strokeWidth--;
     }

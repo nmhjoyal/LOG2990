@@ -10,8 +10,6 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 })
 export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
 
-  currentFilter: string = ToolConstants.NONE;
-
   ngOnInit() {
     // empty block
   }
@@ -19,23 +17,27 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
   constructor(myDrawingToolService: ToolHandlerService) {
     super(myDrawingToolService);
     this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
-    this.stroke.filter = this.currentFilter;
-
   }
 
   setFilter(n: number): void {
     switch (n){
       case 0:
-        this.currentFilter = "none";
+        this.stroke.filter = ToolConstants.NONE;
         break;
       case 1:
-        this.currentFilter = "url(#displacementFilter)";
+        this.stroke.filter = "url(#filter1)";
         break;  
       case 2:
-        this.currentFilter = "url(#blurFilter)"
+        this.stroke.filter = "url(#filter2)"
         break;
+      case 3:
+        this.stroke.filter = 'url(#filter3)'
+        break;
+        case 4:
+          this.stroke.filter = 'url(#filter4)'
+          break;
       default:
-          this.currentFilter = "none";
+          this.stroke.filter = ToolConstants.NONE;
           break;
     }
   }

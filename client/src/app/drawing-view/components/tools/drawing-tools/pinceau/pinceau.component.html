@@ -1,16 +1,26 @@
 <svg tabindex = "0" class = "previewPinceau" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
-    <filter id="displacementFilter">
-            <feTurbulence type="turbulence" [attr.baseFrequency]="currentFilter.baseFrequency" [attr.numOctaves]="currentFilter.numOctaves" result="turbulence" />
-            <feDisplacementMap in2="turbulence" in="SourceGraphic" [attr.scale]="currentFilter.scale" xChannelSelector="R"
+    
+    <filter id="filter1">
+            <feTurbulence type="turbulence" baseFrequecy = "0.05"  numOctaves = "2" result="turbulence" />
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="50" xChannelSelector="R"
                 yChannelSelector="G" />
     </filter>
     
-    <filter id="blurFilter">
+    <filter id="filter2">
         <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
     </filter>
-    <filter id= blurFilter>
 
+    <filter id="filter3">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
     </filter>
+        
+    <filter id="filter4">
+        <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+        <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+
+    
     <polyline 
         id="current"
         [attr.points]="stroke.points"

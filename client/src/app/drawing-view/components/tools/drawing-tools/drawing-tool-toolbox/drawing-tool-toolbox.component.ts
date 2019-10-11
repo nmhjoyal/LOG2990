@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MockCanvasComponent } from '../../../mock-canvas/mock-canvas.component';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
+import { ModeType } from '../../assets/tool-constants';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 export class DrawingToolToolboxComponent implements OnInit {
 
   @Input() canvas: MockCanvasComponent;
+  mode = ModeType;
   
   constructor(protected storage: ToolHandlerService) { 
     // empty block

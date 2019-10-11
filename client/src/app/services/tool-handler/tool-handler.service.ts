@@ -6,11 +6,13 @@ import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/inter
   providedIn: 'root'
 })
 export class ToolHandlerService {
+
 // Shape Handling attributes
-public rectangleSelected: boolean;
-public colourApplicatorSelected: boolean;
-public crayonSelected: boolean;
-public paintbrushSelected: boolean;
+noneSelected: boolean;
+rectangleSelected: boolean;
+colourApplicatorSelected: boolean;
+crayonSelected: boolean;
+paintbrushSelected: boolean;
 ​
 // Color service simulating attributes
 primaryColor: string;
@@ -20,6 +22,7 @@ secondaryColor: string;
 public drawings: IDrawingTool[] = []; // change type to parent of IShape
 
 constructor() {
+    this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
@@ -35,6 +38,7 @@ clearPage(): void {
 }
 ​
 resetSelection(): void {
+    this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
@@ -44,6 +48,7 @@ resetSelection(): void {
 chooseRectangle(): void {
     this.resetSelection();
     this.rectangleSelected = true;
+    this.noneSelected = false;
 }
 ​
 chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
@@ -51,16 +56,19 @@ chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
     this.primaryColor = primaryColor;
     this.secondaryColor = secondaryColor;
     this.colourApplicatorSelected = true;
+    this.noneSelected = false;
 }
 ​
 chooseCrayon(): void {
     this.resetSelection();
     this.crayonSelected = true;
+    this.noneSelected = false;
 }
 ​
 choosePaintbrush(): void {
     this.resetSelection();
     this.paintbrushSelected = true;
+    this.noneSelected = false;
 }
 ​
 chooseOther(): void {// Place holder for unimplemented tools

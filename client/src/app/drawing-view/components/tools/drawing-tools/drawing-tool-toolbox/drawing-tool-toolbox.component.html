@@ -1,4 +1,4 @@
-<p>
+<p *ngIf="!(storage.noneSelected)">
     <button *ngIf="storage.paintbrushSelected" (click)="getComponent().setFilter(0)">Filter 1</button>
     <button *ngIf="storage.paintbrushSelected" (click)="getComponent().setFilter(1)">Filter 2</button>
     <button *ngIf="storage.paintbrushSelected" (click)="getComponent().setFilter(2)">Filter 3</button>
