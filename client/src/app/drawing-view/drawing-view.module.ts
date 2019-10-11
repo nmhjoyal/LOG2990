@@ -9,8 +9,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CanvasComponent } from './components/canvas/canvas.component';
-import { LateralBarComponent } from './components/lateral-bar/lateral-bar.component';
-import { MockCanvasComponent } from './components/mock-canvas/mock-canvas.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
 import { ToolsComponent } from './components/tools/tools.component';
@@ -19,10 +17,9 @@ import { ToolsComponent } from './components/tools/tools.component';
   declarations: [
     ToolsComponent,
     CanvasComponent,
-    LateralBarComponent,
     RectangleComponent,
-    ShapeToolboxComponent,
-    MockCanvasComponent, ],
+    ShapeToolboxComponent, 
+  ],
 
   imports: [
     BrowserModule,
@@ -36,7 +33,7 @@ import { ToolsComponent } from './components/tools/tools.component';
   ],
 
   exports: [
-    MockCanvasComponent,
+    CanvasComponent,
     ShapeToolboxComponent,
     BrowserModule,
     HttpClientModule,
@@ -45,10 +42,11 @@ import { ToolsComponent } from './components/tools/tools.component';
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatButtonModule, ],
+    MatButtonModule, 
+  ],
 
   providers: [],
-  bootstrap: [MockCanvasComponent],
+  bootstrap: [CanvasComponent],
   entryComponents: [],
 })
 export class DrawingViewModule { }

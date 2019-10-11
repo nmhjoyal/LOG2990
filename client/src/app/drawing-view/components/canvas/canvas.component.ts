@@ -10,7 +10,7 @@ import { Id } from '../tools/assets/tool-constants';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class MockCanvasComponent implements OnInit {
+export class CanvasComponent implements OnInit {
 
   toolID = Id;
   @ViewChild('activeTool', {static: false}) activeTool: ShapeAbstract; // put general tool abstract here
