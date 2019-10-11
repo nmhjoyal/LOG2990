@@ -1,7 +1,7 @@
-import { DrawingToolsAbstract } from './drawing-tools-abstract';
+// import { DrawingToolsAbstract } from './drawing-tools-abstract';
 
-describe('DrawingToolsAbstract', () => {
-  it('should create an instance', () => {
-    expect(new DrawingToolsAbstract()).toBeTruthy();
-  });
-});
+// describe('DrawingToolsAbstract', () => {
+//   it('should create an instance', () => {
+//     expect(new DrawingToolsAbstract()).toBeTruthy();
+//   });
+// });

@@ -42,7 +42,8 @@ import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pince
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    CanvasComponent, ],
+    CanvasComponent,
+  ],
 
   providers: [],
   bootstrap: [CanvasComponent],

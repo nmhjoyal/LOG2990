@@ -1,7 +1,6 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
+import { MatDialog } from '@angular/material';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -12,14 +11,14 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<NewDrawingModalData>;
   let component: AppComponent;
-  let toolHandlerMock: ToolHandlerService;
-  let dialogRefMock: MatDialogRef<ModalWindowComponent>;
+  let toolHandlerMock: SpyObj<ToolHandlerService>;
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, dialogRefMock, serviceMock, toolHandlerMock, dataMock);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock);
   }));
 
   it('should open dialog when storage returns true', () => {
