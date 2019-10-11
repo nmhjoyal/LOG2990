@@ -1,8 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Component, ElementRef, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColorPickerComponent } from './color-picker.component';
+import { ColorPaletteComponent } from './color-palette/color-palette.component';
 
 describe('ColorPickerComponent', () => {
     let component: ColorPickerComponent;
@@ -11,15 +15,18 @@ describe('ColorPickerComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
         imports: [
-            Component,
-            ViewChild,
-            ElementRef,
-            Input,
-            Output,
-            HostListener,
+            BrowserModule,
+            HttpClientModule,
+            MatDialogModule,
+            FormsModule,
+            MatFormFieldModule,
+            MatInputModule,
+            BrowserAnimationsModule,
+            MatButtonModule,
         ],
         declarations: [
             ColorPickerComponent,
+            ColorPaletteComponent,
         ],
         providers: [
             { provide: MatDialogRef, useValue: {} },
