@@ -1,18 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { NewDrawingModalData } from '../NewDrawingModalData';
+import { ShapeAbstract } from '../tools/assets/shape-abstract';
+import { Id } from '../tools/assets/tool-constants';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class CanvasComponent implements OnInit {
+export class MockCanvasComponent implements OnInit {
 
-  constructor() {
-    console.log('CanvasComponent constructed');
+  toolID = Id;
+  @ViewChild('activeTool', {static: false}) activeTool: ShapeAbstract; // put general tool abstract here
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData, public toolHandler: ToolHandlerService) {
+    // empty body
   }
 
   ngOnInit() {
-    console.log('CanvasComponent initialized');
+    // empty block
   }
 
 }

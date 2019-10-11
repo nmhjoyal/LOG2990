@@ -3,4 +3,5 @@ export class AppConstants {
     static SIDEBAR_WIDTH = 56;
     static DEFAULT_PRIMARY_COLOUR = 'green';
     static DEFAULT_SECONDARY_COLOUR = 'blue';
+    static WHITE_HEX = '#ffffff';
 }

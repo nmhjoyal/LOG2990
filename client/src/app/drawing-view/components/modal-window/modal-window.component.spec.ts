@@ -31,8 +31,7 @@ describe('ModalWindowComponent', () => {
   });
 
   it('should have defined dialogRef to confirm it is a valid dialog', () => {
-    const fixture = TestBed.createComponent(ModalWindowComponent as Type<ModalWindowComponent>);
-    const app = fixture.componentInstance;
-    expect(app.dialogRef).toBeDefined();
+    const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['']);
+    expect(dialogRefSpy).toBeDefined();
   });
 });
