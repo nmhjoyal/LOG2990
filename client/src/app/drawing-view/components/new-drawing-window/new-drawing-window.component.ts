@@ -12,10 +12,12 @@ import { ModalWindowComponent } from '../modal-window/modal-window.component';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
+  static MODAL_TITLE = 'Créer un nouveau dessin';
+
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
     super(dialogRef, data);
-    this.data.title = 'Créer un nouveau dessin';
+    this.data.title = NewDrawingWindowComponent.MODAL_TITLE  ;
     this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     dialogRef.disableClose = true;
