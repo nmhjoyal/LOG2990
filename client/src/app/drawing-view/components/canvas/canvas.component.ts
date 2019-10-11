@@ -9,7 +9,7 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 export class CanvasComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+  constructor(@Inject(MAT_DIALOG_DATA) protected data: NewDrawingModalData) {
   }
 
   ngOnInit() {
