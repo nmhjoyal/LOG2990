@@ -1,9 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { ColorPaletteComponent } from './color-palette/color-palette.component';
 import { ColorPickerComponent } from './color-picker.component';
 
 describe('ColorPickerComponent', () => {
@@ -13,16 +15,19 @@ describe('ColorPickerComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
         imports: [
+            BrowserModule,
+            HttpClientModule,
             MatDialogModule,
             FormsModule,
             MatFormFieldModule,
             MatInputModule,
             BrowserAnimationsModule,
-          ],
-          declarations: [
-            ModalWindowComponent,
+            MatButtonModule,
+        ],
+        declarations: [
             ColorPickerComponent,
-          ],
+            ColorPaletteComponent,
+        ],
         providers: [
             { provide: MatDialogRef, useValue: {} },
             { provide: MAT_DIALOG_DATA, useValue: [] },
