@@ -23,6 +23,10 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     dialogRef.disableClose = true;
   }
 
+  ngOnInit(): void {
+    this.reinitializeDrawingVariables();
+  }
+
   @HostListener('window: resize', ['$event']) updateWindowSize(): void {
     if (!this.data.drawingHeightInput && !this.data.drawingWidthInput) {
       this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
@@ -33,12 +37,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.onClose();
-  }
-
-  ngOnInit(): void {
-    this.data.title = NewDrawingWindowComponent.MODAL_TITLE;
-    this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-    this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
   }
 
   onAcceptClick(): void {

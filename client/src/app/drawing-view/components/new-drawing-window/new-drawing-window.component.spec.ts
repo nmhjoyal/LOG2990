@@ -138,7 +138,7 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingWidth).toBe(originalWidth - AppConstants.SIDEBAR_WIDTH);
+    expect(dataMock.drawingWidth).toEqual(originalWidth - AppConstants.SIDEBAR_WIDTH);
     expect(dataMock.drawingHeight).toBe(200);
   });
 
@@ -150,7 +150,7 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingHeight).toBe(originalHeight - AppConstants.TITLEBAR_WIDTH);
+    expect(dataMock.drawingHeight).toEqual(originalHeight - AppConstants.TITLEBAR_WIDTH);
     expect(dataMock.drawingWidth).toBe(200);
   });
 
