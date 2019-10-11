@@ -1,6 +1,6 @@
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-import { ModalData } from '../ModalData';
+import { IModalData } from '../modal-window/IModalData';
 
-export interface WelcomeWindowData extends ModalData {
+export interface IWelcomeWindowData extends IModalData {
     storage?: LocalStorageService;
 }

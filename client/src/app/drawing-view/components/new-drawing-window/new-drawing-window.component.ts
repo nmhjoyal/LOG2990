@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@ang
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { NewDrawingModalData } from '../NewDrawingModalData';
+import { INewDrawingModalData } from './INewDrawingModalData';
 
 @Component({
   selector: 'app-new-drawing-window',
@@ -15,7 +15,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   static MODAL_TITLE = 'Créer un nouveau dessin';
 
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
+              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
     super(dialogRef, data);
     this.data.title = NewDrawingWindowComponent.MODAL_TITLE  ;
     this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
