@@ -16,7 +16,7 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
   widthInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
   heightInput = new FormControl('', [Validators.maxLength(5), Validators.pattern('^[1-9][0-9]*$'), ]);
-  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{6}$'), ]);
+  colourInput = new FormControl('', [Validators.pattern('^#[0-9a-f]{8}$'), ]);
   mainColor = false;
   alpha = 1;
 
@@ -51,7 +51,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.drawingWidthInput ? this.data.drawingWidth = this.data.drawingWidthInput
       : this.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
-      this.data.drawingColor = '#ffffff';
+      this.data.drawingColor = '#ffffffff';
     this.data.canvasIsDrawnOn = false;
     this.dialogRef.close();
   }

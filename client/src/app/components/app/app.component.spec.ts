@@ -18,7 +18,7 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     localServiceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
-    colorServiceMock = jasmine.createSpyObj('ColorService', ['getShowAgain', 'setShowAgain']);
+    colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
@@ -53,4 +53,11 @@ describe('AppComponent', () => {
     expect(dialogMock.open).toHaveBeenCalled();
 
   });
+
+  it('should switch colors', () => {
+    colorServiceMock.switchColors();
+    expect(component.colorService.color[0]).toEqual(component.colorService.color[0]);
+
+  });
+
 });

@@ -45,11 +45,22 @@ describe('ColorPaletteComponent', () => {
     });
 
     it('should call draw() on mouse move', () => {
+        fixture.debugElement.triggerEventHandler('mousemove', {x: 50, y: 50});
         expect(component.lastColors.length).toEqual(10);
         expect(component.draw()).toHaveBeenCalled();
     });
 
-    it('should change Color on click of palette', () => {
-        expect(component.alpha[0]).toBeDefined('setAlpha()');
+    it('should call emitColor() on mouse down', () => {
+        fixture.debugElement.triggerEventHandler('mousedown', {x: 50, y: 50});
+        expect(component.lastColors.length).toEqual(10);
+        expect(component.emitColor(50, 50)).toHaveBeenCalled();
+    });
+
+    it('should change color on click of palette', () => {
+        expect(component.color[0]).toBeDefined('setColor()');
+    });
+
+    it('return color at position', () => {
+        expect(component.getColorAtPosition(50, 50));
     });
 });
