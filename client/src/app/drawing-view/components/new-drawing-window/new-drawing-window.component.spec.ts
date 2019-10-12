@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppConstants } from 'src/AppConstants';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
@@ -109,8 +109,8 @@ describe('NewDrawingWindowComponent', () => {
     component.reinitializeDrawingVariables();
     component.onAcceptClick();
     expect(dataMock.drawingColor).toBe('#ffffff');
-    expect(dataMock.drawingHeight).toBe(window.innerHeight - AppConstants.TITLEBAR_WIDTH);
-    expect(dataMock.drawingWidth).toBe(window.innerWidth - AppConstants.SIDEBAR_WIDTH);
+    expect(dataMock.drawingHeight).toBe(window.innerHeight - NumericalValues.TITLEBAR_WIDTH);
+    expect(dataMock.drawingWidth).toBe(window.innerWidth - NumericalValues.SIDEBAR_WIDTH);
   });
 
   it('should properly pass user input to canvas parameters', () => {
@@ -129,8 +129,8 @@ describe('NewDrawingWindowComponent', () => {
     innerWidth = NEW_WINDOW_SIZE;
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
-    expect(dataMock.drawingWidthPreview).toBe(NEW_WINDOW_SIZE - AppConstants.SIDEBAR_WIDTH);
-    expect(dataMock.drawingHeightPreview).toBe(NEW_WINDOW_SIZE - AppConstants.TITLEBAR_WIDTH);
+    expect(dataMock.drawingWidthPreview).toBe(NEW_WINDOW_SIZE - NumericalValues.SIDEBAR_WIDTH);
+    expect(dataMock.drawingHeightPreview).toBe(NEW_WINDOW_SIZE - NumericalValues.TITLEBAR_WIDTH);
   });
 
   it('should not update resize width preview if user input for height is present', () => {
@@ -141,7 +141,7 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingWidth).toBe(originalWidth - AppConstants.SIDEBAR_WIDTH);
+    expect(dataMock.drawingWidth).toBe(originalWidth - NumericalValues.SIDEBAR_WIDTH);
     expect(dataMock.drawingHeight).toBe(MOCK_USER_INPUT);
   });
 
@@ -153,7 +153,7 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingHeight).toBe(originalHeight - AppConstants.TITLEBAR_WIDTH);
+    expect(dataMock.drawingHeight).toBe(originalHeight - NumericalValues.TITLEBAR_WIDTH);
     expect(dataMock.drawingWidth).toBe(MOCK_USER_INPUT);
   });
 
