@@ -6,21 +6,13 @@ describe('ColorService ', () => {
 
     beforeEach(() => {
         instance = new ColorService();
+        instance.lastColors =  ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888ff',
+                            '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
     });
 
     it('should be created', () => {
         expect(instance).toBeTruthy();
       });
-
-    it('should access color when addColor is called', () => {
-        expect(instance.color).toHaveBeenCalled();
-    });
-
-    it('should access color when chooseColor is called', () => {
-        color.chooseColor(true);
-        spyOn(color, 'chooseColor').and.returnValue(true);
-        expect(color).toHaveBeenCalled();
-    });
 
     it('should turn a value of 0 into string 00', () => {
         expect(instance.rgbToHex(0)).toBe('00');
@@ -52,7 +44,8 @@ describe('ColorService ', () => {
     });
 
     it('should switch primary color with secondary color ', () => {
-        expect(instance.switchColors()).toHaveBeenCalled();
+        color.switchColors();
+        expect(color.switchColors).toHaveBeenCalled();
     });
 
     it('should have last 10 colors be of length 10', () => {
@@ -60,31 +53,37 @@ describe('ColorService ', () => {
     });
 
     it('should add color to when Alpha is changed', () => {
-        color.lastColors =  ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
-        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-        color.setAlpha(0);
-        expect(color.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888',
+        instance.setAlpha(0);
+        instance.addColor();
+        expect(instance.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888ff',
         '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff', '#ffffff00']);
     });
 
     it('should add color to lastColors', () => {
-        color.lastColors =  ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
-        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-        color.addColor('#010101ff');
-        expect(color.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888',
+        instance.setColor('#010101ff');
+        instance.addColor();
+        expect(instance.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888ff',
         '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff', '#010101ff']);
     });
 
-
     it('shouldnt add color to lastColors if color is already present in lastColors', () => {
-        color.lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
-        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-        color.addColor('#000000ff');
-        expect(color.lastColors).toEqual(['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+        instance.setColor('#000000ff');
+        expect(instance.lastColors).toEqual(['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888ff',
         '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff']);
     });
 
     it('change color on setColor', () => {
+        instance.setColor('#555555ff');
+        expect(instance.color[+instance.mainColor]).toEqual('#555555ff');
+    });
 
+    it('should change mainColor to false if it is true', () => {
+        instance.chooseColor(true);
+        expect(instance.mainColor).toEqual(true);
+    });
+
+    it('should change mainColor to true if it is false', () => {
+        instance.chooseColor(false);
+        expect(instance.mainColor).toEqual(false);
     });
 });
