@@ -45,13 +45,13 @@ export class ColorService {
           newColor = false;
         }
       });
-      if (newColor === true){
+      if (newColor === true) {
         this.lastColors.shift();
         this.lastColors.push(this.color[+this.mainColor]);
       }
     }
 
-    setColor(color: string ): void  {
+    setColor(color: string): void  {
       this.color[+this.mainColor] = color;
     }
 }

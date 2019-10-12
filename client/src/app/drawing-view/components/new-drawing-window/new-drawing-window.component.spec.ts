@@ -16,7 +16,7 @@ import { NewDrawingWindowComponent } from './new-drawing-window.component';
 describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<NewDrawingModalData>;
   let colorService: ColorService;
-  //let colorPalette: ColorPaletteComponent;
+  // let colorPalette: ColorPaletteComponent;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
@@ -65,7 +65,7 @@ describe('NewDrawingWindowComponent', () => {
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
     colorService = new ColorService();
     component = new NewDrawingWindowComponent(dialogRefMock, colorService, dataMock);
-    //colorPalette = new ColorPaletteComponent(colorService);
+    // colorPalette = new ColorPaletteComponent(colorService);
     component.ngOnInit();
   }));
 
@@ -126,7 +126,7 @@ describe('NewDrawingWindowComponent', () => {
     expect(dataMock.drawingHeight).toBe(dataMock.drawingHeightInput);
     expect(dataMock.drawingWidth).toBe(dataMock.drawingWidthInput);
   });
-  
+
 /* TODO: FIX
   it('should properly pass color input from palette to canvas parameters', () => {
     spyOn(colorPalette, 'getColorAtPosition').and.returnValue('#aaffaaff');
