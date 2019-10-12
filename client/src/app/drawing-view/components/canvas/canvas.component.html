@@ -4,23 +4,26 @@
     <g *ngFor = "let line of storage.drawings">
 
     <filter id="filter1">
-            <feTurbulence type="turbulence" baseFrequecy = "0.05"  numOctaves = "2" result="turbulence" />
-            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="50" xChannelSelector="R"
-                yChannelSelector="G" />
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     
     <filter id="filter2">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
     </filter>
 
     <filter id="filter3">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blurOut"/>
+        <feDisplacementMap in2="turbulence" in="blurOut" scale="10" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
         
     <filter id="filter4">
-        <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
-        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
-        <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+        <feOffset result="offOut" in="StrokePaint" dx="0.05" dy="0.05" />
+        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+        <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
+        <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
+        <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>
 
     <g [ngSwitch]="line.id">

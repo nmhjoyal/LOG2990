@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { AppConstants } from 'src/AppConstants';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { AppConstants } from 'src/AppConstants';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +24,8 @@ drawings: IDrawingTool[] = []; // change type to parent of IDrawingTool
 
 // Attributes Storage
 crayonStrokeWidth: number;
-paintbrushStrokeWidth:number;
+paintbrushStrokeWidth: number;
 paintbrushFilter: string;
-
 
 constructor() {
     this.noneSelected = true;

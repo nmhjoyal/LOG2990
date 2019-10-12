@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ToolConstants } from '../../assets/tool-constants';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
@@ -10,7 +10,6 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 })
 export class CrayonComponent extends DrawingToolsAbstract implements OnInit, OnDestroy {
 
-
   constructor(myDrawingToolService: ToolHandlerService) {
     super(myDrawingToolService);
     this.stroke.id = ToolConstants.TOOL_ID.CRAYON;
@@ -19,7 +18,7 @@ export class CrayonComponent extends DrawingToolsAbstract implements OnInit, OnD
 
   // overwritten method to save attributes
 
-  saveAttribute(){
+  saveAttribute() {
     this.drawingToolService.crayonStrokeWidth = this.stroke.strokeWidth;
   }
 
