@@ -13,6 +13,7 @@ import { LocalStorageService } from 'src/app/services/local_storage/LocalStorage
 import { DrawingViewModule } from '../../drawing-view.module';
 import { INewDrawingModalData } from '../INewDrawingModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';

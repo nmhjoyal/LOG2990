@@ -7,8 +7,8 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppConstants } from 'src/AppConstants';
-import { INewDrawingModalData } from '../INewDrawingModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
 
 describe('NewDrawingWindowComponent', () => {
