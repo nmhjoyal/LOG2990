@@ -49,9 +49,9 @@
 </g>
 </svg>
 
-<div [hidden]="!(storage.crayonSelected)">
-<app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+<div *ngIf="storage.crayonSelected">
+    <app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
 </div>
-<div [hidden]="!(storage.paintbrushSelected)">
-<app-pinceau #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-pinceau>
+<div *ngIf="storage.paintbrushSelected">
+    <app-pinceau #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-pinceau>
 </div>

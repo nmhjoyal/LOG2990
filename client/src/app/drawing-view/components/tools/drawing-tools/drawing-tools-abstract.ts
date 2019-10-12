@@ -1,4 +1,4 @@
-import { HostListener, Input, OnInit } from '@angular/core';
+import { HostListener, Input, OnInit} from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawingTool } from '../assets/interfaces/drawing-tool-interface';
 import { ToolConstants } from '../assets/tool-constants';
@@ -45,6 +45,8 @@ export abstract class DrawingToolsAbstract implements OnInit {
     };
     this.drawingToolService.drawings.push(currentDrawing);
   }
+
+  protected abstract saveAttribute(): void;
 
   // Event handling methods
 

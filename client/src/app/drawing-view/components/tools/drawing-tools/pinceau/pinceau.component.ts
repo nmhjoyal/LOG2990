@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ToolConstants } from '../../assets/tool-constants';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
@@ -8,15 +8,27 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
   templateUrl: './pinceau.component.html',
   styleUrls: ['./pinceau.component.scss'],
 })
-export class PinceauComponent extends DrawingToolsAbstract implements OnInit {
+export class PinceauComponent extends DrawingToolsAbstract implements OnInit, OnDestroy {
+
+  constructor(myDrawingToolService: ToolHandlerService) {
+    super(myDrawingToolService);
+    this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
+    this.stroke.strokeWidth = myDrawingToolService.paintbrushStrokeWidth;
+    this.stroke.filter = myDrawingToolService.paintbrushFilter;
+  }
+
+    // overwritten method to save attributes
+  saveAttribute() {
+    this.drawingToolService.paintbrushStrokeWidth = this.stroke.strokeWidth;
+    this.drawingToolService.paintbrushFilter = this.stroke.filter;
+  }
 
   ngOnInit() {
     // empty block
   }
 
-  constructor(myDrawingToolService: ToolHandlerService) {
-    super(myDrawingToolService);
-    this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
+  ngOnDestroy() {
+    this.saveAttribute();
   }
 
   setFilter(n: number): void {
