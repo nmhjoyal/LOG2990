@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { NewDrawingModalData } from '../NewDrawingModalData';
+import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 
 @Component({
   selector: 'app-canvas',
@@ -9,7 +9,7 @@ import { NewDrawingModalData } from '../NewDrawingModalData';
 })
 export class CanvasComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) protected data: NewDrawingModalData) {
+  constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData) {
   }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { WelcomeWindowData } from './WelcomeWindowData';
+import { IWelcomeWindowData } from './IWelcomeWindowData';
 
 @Component({
   selector: 'app-welcome-window',
@@ -13,12 +13,12 @@ export class WelcomeWindowComponent extends ModalWindowComponent {
   isChecked: boolean;
 
   constructor(dialogRef: MatDialogRef<WelcomeWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) protected data: WelcomeWindowData) {
+              @Inject(MAT_DIALOG_DATA) protected data: IWelcomeWindowData) {
     super(dialogRef, data);
     this.isChecked = false;
   }
 
-  checkboxClicked(): void {
+  reverseCheckboxClicked(): void {
     this.isChecked = !this.isChecked;
   }
 

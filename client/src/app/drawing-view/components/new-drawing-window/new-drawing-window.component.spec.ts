@@ -8,11 +8,11 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppConstants } from 'src/AppConstants';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { NewDrawingModalData } from '../NewDrawingModalData';
+import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
 
 describe('NewDrawingWindowComponent', () => {
-  let dataMock: SpyObj<NewDrawingModalData>;
+  let dataMock: SpyObj<INewDrawingModalData>;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
@@ -138,7 +138,7 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingWidth).toBe(originalWidth - AppConstants.SIDEBAR_WIDTH);
+    expect(dataMock.drawingWidth).toEqual(originalWidth - AppConstants.SIDEBAR_WIDTH);
     expect(dataMock.drawingHeight).toBe(200);
   });
 
@@ -150,7 +150,7 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingHeight).toBe(originalHeight - AppConstants.TITLEBAR_WIDTH);
+    expect(dataMock.drawingHeight).toEqual(originalHeight - AppConstants.TITLEBAR_WIDTH);
     expect(dataMock.drawingWidth).toBe(200);
   });
 
