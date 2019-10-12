@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { DrawingViewModule } from '../../drawing-view.module';
-import { INewDrawingModalData } from '../INewDrawingModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
