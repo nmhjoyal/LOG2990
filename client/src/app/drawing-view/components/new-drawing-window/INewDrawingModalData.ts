@@ -1,4 +1,6 @@
-export interface NewDrawingModalData {
+import { IModalData } from '../modal-window/IModalData';
+
+export interface INewDrawingModalData extends IModalData {
     title: string;
     drawingHeightInput?: number;
     drawingWidthInput?: number;
