@@ -68,6 +68,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
   }
 
   confirmExit(): boolean {
-    return confirm('Êtes-vous certain.e de vouloir quitter et perdre vos changements?');
+    return confirm(Strings.NEW_DRAWING_CONFIRM);
   }
 }

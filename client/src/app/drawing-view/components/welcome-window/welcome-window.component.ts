@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { IWelcomeWindowData } from './IWelcomeWindowData';
 
@@ -25,7 +26,7 @@ export class WelcomeWindowComponent extends ModalWindowComponent {
   onClose(): void {
     super.onClose();
     if (this.isChecked && this.data.storage !== undefined) {
-      this.data.storage.setShowAgain(false);
+      this.data.storage.setShowAgain(Strings.FALSE);
     }
   }
 }

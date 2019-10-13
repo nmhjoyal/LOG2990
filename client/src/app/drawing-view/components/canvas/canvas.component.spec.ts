@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef,
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';

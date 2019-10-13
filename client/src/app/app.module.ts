@@ -8,7 +8,7 @@ import { ModalWindowComponent } from './drawing-view/components/modal-window/mod
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
-import { LocalStorageService } from './services/local_storage/LocalStorageService';
+import { LocalStorageService } from './services/local_storage/local-storage-service';
 
 @NgModule({
   declarations: [
