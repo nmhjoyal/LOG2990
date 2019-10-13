@@ -12,13 +12,13 @@ import { AppComponent } from 'src/app/components/app/app.component';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
-import { NewDrawingModalData } from '../NewDrawingModalData';
 import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {
-  let dataMock: SpyObj<NewDrawingModalData>;
+  let dataMock: SpyObj<INewDrawingModalData>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -51,10 +51,9 @@ describe('CanvasComponent', () => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 
-  it('should have a defined injected data', () => {
+  it('should properly create the component', () => {
     const fixture = TestBed.createComponent(CanvasComponent);
     const app = fixture.componentInstance;
-    app.ngOnInit();
-    expect(dataMock).toBeDefined();
+    expect(app).toBeDefined();
   });
 });

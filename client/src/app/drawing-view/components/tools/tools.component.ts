@@ -1,18 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.scss'],
 })
-export class ToolsComponent implements OnInit {
-
-  constructor() {
-    console.log('ToolsComponent constructed');
-  }
-
-  ngOnInit() {
-    console.log('ToolsComponent initialized');
-  }
+export class ToolsComponent {
 
 }
