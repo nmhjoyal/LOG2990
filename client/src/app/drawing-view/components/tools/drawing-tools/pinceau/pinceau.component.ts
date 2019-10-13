@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+
 import { ToolConstants } from '../../assets/tool-constants';
 import { DrawingToolsAbstract } from '../drawing-tools-abstract';
 
@@ -8,7 +9,7 @@ import { DrawingToolsAbstract } from '../drawing-tools-abstract';
   templateUrl: './pinceau.component.html',
   styleUrls: ['./pinceau.component.scss'],
 })
-export class PinceauComponent extends DrawingToolsAbstract implements OnInit, OnDestroy {
+export class PinceauComponent extends DrawingToolsAbstract implements OnDestroy {
 
   constructor(myDrawingToolService: ToolHandlerService) {
     super(myDrawingToolService);
@@ -21,10 +22,6 @@ export class PinceauComponent extends DrawingToolsAbstract implements OnInit, On
   saveAttribute() {
     this.drawingToolService.paintbrushStrokeWidth = this.stroke.strokeWidth;
     this.drawingToolService.paintbrushFilter = this.stroke.filter;
-  }
-
-  ngOnInit() {
-    // empty block
   }
 
   ngOnDestroy() {
