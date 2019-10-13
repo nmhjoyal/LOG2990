@@ -51,10 +51,9 @@ describe('CanvasComponent', () => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 
-  it('should have a defined injected data', () => {
+  it('should properly create the component', () => {
     const fixture = TestBed.createComponent(CanvasComponent);
     const app = fixture.componentInstance;
-    app.ngOnInit();
-    expect(dataMock).toBeDefined();
+    expect(app).toBeDefined();
   });
 });

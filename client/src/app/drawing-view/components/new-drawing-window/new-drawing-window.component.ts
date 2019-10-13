@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AppConstants } from 'src/AppConstants';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 
@@ -12,14 +13,13 @@ import { INewDrawingModalData } from './INewDrawingModalData';
 })
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
-  static MODAL_TITLE = 'Créer un nouveau dessin';
 
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
     super(dialogRef, data);
-    this.data.title = NewDrawingWindowComponent.MODAL_TITLE  ;
-    this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-    this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
+    this.data.title = Strings.MODAL_TITLE  ;
+    this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
+    this.data.drawingHeightPreview = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     dialogRef.disableClose = true;
   }
 
@@ -29,8 +29,8 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
 
   @HostListener('window: resize', ['$event']) updateWindowSize(): void {
     if (!this.data.drawingHeightInput && !this.data.drawingWidthInput) {
-      this.data.drawingWidthPreview = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-      this.data.drawingHeightPreview = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
+      this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
+      this.data.drawingHeightPreview = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     }
   }
 
@@ -45,7 +45,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.data.drawingWidthInput ? this.data.drawingWidth = this.data.drawingWidthInput
       : this.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
-      this.data.drawingColor = AppConstants.WHITE_HEX;
+      this.data.drawingColor = Strings.WHITE_HEX;
     this.data.canvasIsDrawnOn = false;
     this.dialogRef.close();
   }
