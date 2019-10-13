@@ -11,11 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
-import { ToolsComponent } from './components/tools/tools.component';
+
 
 @NgModule({
   declarations: [
-    ToolsComponent,
     CanvasComponent,
     RectangleComponent,
     ShapeToolboxComponent, 

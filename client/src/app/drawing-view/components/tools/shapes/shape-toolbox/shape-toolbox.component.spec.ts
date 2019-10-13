@@ -24,7 +24,7 @@ describe('ShapeToolboxComponent', () => {
   });
 
   it('should return the appropriate component', () => {
-    const spy = spyOn(component, 'getComponent');
-    expect(spy).toEqual(component.canvas);
+    const returned = component.getComponent();
+    expect(returned).toEqual(component.canvas.activeTool);
   });
 });

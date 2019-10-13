@@ -15,7 +15,7 @@ import { Strings } from 'src/AppConstants/Strings';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private storage: LocalStorageService, protected toolHandler: ToolHandlerService
+  constructor(private dialog: MatDialog, private storage: LocalStorageService, protected toolHandler: ToolHandlerService,
               @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
