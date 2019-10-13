@@ -1,86 +1,96 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ToolHandlerService } from './tool-handler.service';
+import { AppConstants } from 'src/AppConstants';
 
 describe('ToolHandlerServiceService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    const service: ToolHandlerService = TestBed.get(ToolHandlerService);
-    expect(service).toBeTruthy();
+  let service: ToolHandlerService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.get(ToolHandlerService);
   });
+
+  it('should be created with correct initialized values', () => {
+    expect(service).toBeTruthy();
+    
+    expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
+    expect(service.noneSelected).toBeTruthy();
+    expect(service.crayonSelected).toBeFalsy();
+    expect(service.pinceauSelected).toBeFalsy();
+    expect(service.rectangleSelected).toBeFalsy();
+    expect(service.colourApplicatorSelected).toBeFalsy();
+    expect(service.primaryColor).toEqual(AppConstants.DEFAULT_PRIMARY_COLOUR);
+    expect(service.secondaryColor).toEqual(AppConstants.DEFAULT_SECONDARY_COLOUR);
+  });
+
+  it('#secondaryColor should properly access the secondary color', () => {
+      const color = service.secondaryColor;
+      expect(color).toBe(service.secondaryColor); // USE COLOR SERVICE INSTEAD OF SERVICE HERE
+  });
+
+  it('#primaryColor should propely access the primary color', () => {
+      const color = service.primaryColor;
+      expect(color).toBe(service.primaryColor); // USE COLOR SERVICE INSTEAD OF SERVICE HERE
+  });
+
+  it('#resetSelection should reset all tool selections to false and set noneSelected to true', () => {
+      service.resetSelection();
+
+      expect(service.noneSelected).toBeTruthy();
+      expect(service.crayonSelected).toBeFalsy();
+      expect(service.pinceauSelected).toBeFalsy();
+      expect(service.rectangleSelected).toBeFalsy();
+      expect(service.colourApplicatorSelected).toBeFalsy();
+  });
+
+  it('#clearPage should call #resetSelection and empty the drawings array', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.clearPage();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.drawings.length).toBeFalsy();
+  });
+
+  it('#chooseRectangle should call #resetSelection and select the rectangle', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseRectangle();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.rectangleSelected).toBeTruthy();
+    expect(service.noneSelected).toBeFalsy();
+  });
+
+  it('#chooseCrayon should call #resetSelection and select the crayon', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseCrayon();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.crayonSelected).toBeTruthy();
+    expect(service.noneSelected).toBeFalsy();
+  });
+
+  it('#choosePinceau should call #resetSelection and select the Pinceau', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.choosePinceau();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.pinceauSelected).toBeTruthy();
+    expect(service.noneSelected).toBeFalsy();
+  });
+
+  it('#chooseColourApplicator should call #resetSelection and select the Color applicator', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseColourApplicator();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.colourApplicatorSelected).toBeTruthy();
+    expect(service.noneSelected).toBeFalsy();
+  });
+
+  it('#chooseOther should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseOther();
+
+    expect(resetSpy).toHaveBeenCalled();
+  });
+
 });
-
-// import { LocalStorageService } from './LocalStorageService';
-
-// describe('LocalStorageService ', () => {
-//     const storage = jasmine.createSpyObj('StorageService', ['get', 'set', 'has']);
-//     let instance: LocalStorageService;
-
-//     beforeEach(() => {
-//         instance = new LocalStorageService(storage);
-//     });
-
-//     it('should call storage setter', () => {
-//         storage.get.and.returnValue(true);
-//         instance.setShowAgain(true);
-//         expect(storage.set).toHaveBeenCalled();
-//     });
-
-//     it('should access existing showAgain key', () => {
-//         storage.has.and.returnValue(true);
-//         storage.get.and.returnValue(false);
-//         expect(instance.getShowAgain()).toBe(false);
-//         expect(storage.get).toHaveBeenCalled();
-//     });
-
-//     it('should initialize showAgain key', () => {
-//         storage.has.and.returnValue(false);
-//         expect(instance.getShowAgain()).toBe(true);
-//         expect(storage.set).toHaveBeenCalled();
-//     });
-
-//     // THESE TESTS ARE TO BE TRANSFERRED TO TOOLHANDLERSERVICE.SPEC.TS
-
-//     it('should propely access the secondary color', () => {
-//         const color = instance.SecondColor;
-//         expect(color).toBe(instance.secondaryColor);
-//     });
-
-//     it('should propely access the primary color', () => {
-//         const color = instance.PrimaryColor;
-//         expect(color).toBe(instance.primaryColor);
-//     });
-
-//     it('should identify if it is a rectangle', () => {
-//         const rect = instance.isRectangle;
-//         expect(rect).toEqual(instance.rectangleSelected);
-//     });
-
-//     it('should reset whether the rectangle is selected when selecting another object', () => {
-//         const reset = spyOn(instance, 'reset');
-//         instance.chooseOther();
-//         expect(reset).toHaveBeenCalled();
-//     });
-
-//     it('should correctly select the rectangle and reset others when the tool is selected', () => {
-//         const reset = spyOn(instance, 'reset');
-//         instance.chooseRectangle();
-//         expect(reset).toHaveBeenCalled();
-//         expect(instance.rectangleSelected).toBe(true);
-//     });
-
-//     it('should set rectangleSelected to false on reset()', () => {
-//         instance.rectangleSelected = true;
-//         instance.reset();
-//         expect(instance.rectangleSelected).toBe(false);
-//     });
-
-//     it('should call reset and clear all rectangles on clear', () => {
-//         const reset = spyOn(instance, 'reset');
-//         instance.clear();
-//         expect(instance.rectangles.length).toEqual(0);
-//         expect(reset).toHaveBeenCalled();
-//     });
-
-// });

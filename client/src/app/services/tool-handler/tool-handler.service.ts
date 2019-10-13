@@ -19,9 +19,10 @@ export class ToolHandlerService {
   secondaryColor: string;
 ​
   // Shape Storage
-  drawings: ITool[] = [];
+  drawings: ITool[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
 
   constructor() {
+    this.drawings = [];
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
@@ -51,10 +52,8 @@ export class ToolHandlerService {
       this.noneSelected = false;
   }
 ​
-  chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
+  chooseColourApplicator(): void {
       this.resetSelection();
-      this.primaryColor = primaryColor;
-      this.secondaryColor = secondaryColor;
       this.colourApplicatorSelected = true;
       this.noneSelected = false;
   }

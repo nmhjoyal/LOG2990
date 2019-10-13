@@ -48,8 +48,8 @@ describe('RectangleComponent', () => {
 
   it('#calculateDimensions should make both the width and height equals to the smallest of the two when shift is pressed', () => {
     
-    expect(component['shape'].width).toBe(component['previewBox'].width - STROKEWIDTH, 'width unchanged when shift is not pressed');
-    expect(component['shape'].height).toBe(component['previewBox'].height - STROKEWIDTH, 'height unchanged when shift is not pressed');
+    expect(component['shape'].width).toEqual(component['previewBox'].width - STROKEWIDTH, 'width unchanged when shift is not pressed');
+    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKEWIDTH, 'height unchanged when shift is not pressed');
     
     component.onShiftDown();
 
