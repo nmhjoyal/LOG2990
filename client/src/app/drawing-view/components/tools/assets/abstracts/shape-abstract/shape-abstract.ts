@@ -1,9 +1,10 @@
-import { HostListener, Input, OnInit } from '@angular/core';
+import { HostListener, Input, OnInit, OnDestroy } from '@angular/core';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { AttributesService } from '../../attributes/attributes.service';
 
-export abstract class ShapeAbstract implements OnInit {
+export abstract class ShapeAbstract implements OnInit, OnDestroy {
   protected initialX: number;
   protected initialY: number;
   protected cursorX: number;
@@ -12,17 +13,19 @@ export abstract class ShapeAbstract implements OnInit {
   protected shiftDown: boolean;
   protected previewBox: IPreviewBox;
   protected shape: IShape;
+  protected traceMode: number;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService) {
+  constructor(protected toolService: ToolHandlerService, protected attributesService: AttributesService) {
     this.mouseDown = false;
     this.shiftDown = false;
     this.initialX = 0;
     this.initialY = 0;
     this.cursorX = 0;
     this.cursorY = 0;
+    this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
     this.previewBox = {
       x: 0,
       y: 0,
@@ -36,14 +39,14 @@ export abstract class ShapeAbstract implements OnInit {
       height: 0,
       primaryColor: 'green', // take values of the colorService. Make sure they are updated dynamically...
       secondaryColor: 'blue',
-      strokeOpacity: ToolConstants.DEFAULT_OPACITY,
+      strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fillOpacity: ToolConstants.DEFAULT_OPACITY, };
+      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from color service */ };
   }
 
-  ngOnInit(): void {
-    // empty body
-  }
+  abstract ngOnInit(): void;
+
+  abstract ngOnDestroy(): void;
 
   // Event handling methods
 
@@ -116,17 +119,20 @@ export abstract class ShapeAbstract implements OnInit {
       case ToolConstants.TRACE_MODE.CONTOUR:
         this.shape.secondaryColor = 'blue'; // load from color service
         this.shape.primaryColor = ToolConstants.NONE;
+        this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
         // this.shape.secondaryColor = ToolConstants.NONE; IF the contour should affect width when it is not set
         this.shape.primaryColor = 'green'; // load from color service
         this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
+        this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
         this.shape.secondaryColor = 'blue'; // load from color service
         this.shape.primaryColor = 'green'; // load from color service
+        this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 
       default:

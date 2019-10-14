@@ -1,6 +1,7 @@
-export interface ITool {
+export interface IDrawingTool {
     id: string;
 }
+
 
 export interface IPreviewBox {
     x: number;
@@ -9,10 +10,18 @@ export interface IPreviewBox {
     height: number;
 }
 
-export interface IShape extends IPreviewBox, ITool {
+export interface IShape extends IPreviewBox, IDrawingTool {
     primaryColor: string;
     secondaryColor: string;
     strokeOpacity: number;
     strokeWidth: number;
     fillOpacity: number;
+    nVertex?: number;
+}
+
+export interface IShapeOptions extends IDrawingTool {
+    wasSaved: boolean;
+    savedStrokeWidth: number;
+    savedTraceMode: number;
+    savedNVertex?: number;
 }

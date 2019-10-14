@@ -17,7 +17,7 @@ describe('NewDrawingWindowComponent', () => {
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
-  let storageServiceMock: ToolHandlerService;
+  let storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
 
   const NEW_WINDOW_SIZE = 500;

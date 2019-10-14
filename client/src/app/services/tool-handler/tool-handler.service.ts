@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConstants } from 'src/AppConstants';
-import { ITool } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
+import { IDrawingTool } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class ToolHandlerService {
   secondaryColor: string;
 ​
   // Shape Storage
-  drawings: ITool[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
+  drawings: IDrawingTool[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
 
   constructor() {
     this.drawings = [];
@@ -28,7 +28,7 @@ export class ToolHandlerService {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
-    this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
+    this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR; // empty string and subscribe to color in colorservice?
     this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
   }
 ​

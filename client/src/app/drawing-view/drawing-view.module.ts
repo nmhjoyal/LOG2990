@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
+import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
     MatButtonModule, 
   ],
 
-  providers: [],
+  providers: [AttributesService],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })
