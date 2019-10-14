@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../components/app/app.component';
+import { PipetteComponent } from './components/tools/pipette/pipette.component';
 
 @NgModule({
   imports: [
@@ -33,5 +34,6 @@ import { AppComponent } from '../components/app/app.component';
   providers: [{ provide: MatDialogRef, useValue: {} },
   { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
+  declarations: [PipetteComponent],
 })
 export class DrawingViewModule { }
