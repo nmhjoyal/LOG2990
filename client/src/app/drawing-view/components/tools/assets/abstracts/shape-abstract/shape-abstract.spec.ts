@@ -1,9 +1,9 @@
 
 import SpyObj = jasmine.SpyObj;
+import { OnDestroy, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ShapeAbstract } from './shape-abstract';
-import { OnInit, OnDestroy } from '@angular/core';
 
 class ShapeTest extends ShapeAbstract implements OnInit, OnDestroy {
 

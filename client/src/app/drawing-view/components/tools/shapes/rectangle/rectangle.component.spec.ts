@@ -62,9 +62,9 @@ describe('RectangleComponent', () => {
 
     component.ngOnInit();
     // LINEs 66-67 fail... wrong lycycle hooks used?
-    expect(component['shape'].strokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH, 
+    expect(component['shape'].strokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'no loading of attributes, yet strokeWidth did not take default value');
-    expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL, 
+    expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
       'no loading of attributes, yet traceMode did not take correct default value');
   });
 
@@ -75,9 +75,9 @@ describe('RectangleComponent', () => {
 
     component.ngOnInit();
 
-    expect(component['shape'].strokeWidth).toEqual(STROKEWIDTH, 
+    expect(component['shape'].strokeWidth).toEqual(STROKEWIDTH,
       'loading of attributes, yet strokeWidth did not take saved value');
-    expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.CONTOUR, 
+    expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.CONTOUR,
       'loading of attributes, yet traceMode did not take saved value');
 
   });
@@ -85,9 +85,9 @@ describe('RectangleComponent', () => {
   it('#ngOnDestroy should save the current attributes in the rectangleAttributes interface of the service', () => {
     component.ngOnDestroy();
     // LINEs 85-86 fail... wrong lifecycle hooks used?
-    expect(attrService.rectangleAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH, 
+    expect(attrService.rectangleAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'shape.strokeWidth was not successfully saved upon destruction');
-    expect(attrService.rectangleAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL, 
+    expect(attrService.rectangleAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
       'the traceMode was not successfully saved upon destruction');
     expect(attrService.rectangleAttributes.wasSaved).toBeTruthy('#ngOnDestroy set wasSaved to true');
 
@@ -108,7 +108,8 @@ describe('RectangleComponent', () => {
     component['cursorY'] -= CURSOR_MOVE;
     component.onShiftDown();
 
-    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKEWIDTH, 'height unchanged when it is the smallest value');
+    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKEWIDTH,
+    'height unchanged when it is the smallest value');
     expect(component['shape'].width).toEqual(component['shape'].height, 'width took height\'s value');
 
   });

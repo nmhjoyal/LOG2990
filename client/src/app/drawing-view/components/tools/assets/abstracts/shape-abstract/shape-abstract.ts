@@ -1,4 +1,4 @@
-import { HostListener, Input, OnInit, OnDestroy } from '@angular/core';
+import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
