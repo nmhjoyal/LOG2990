@@ -8,10 +8,10 @@ export enum Id {
 }
 
 export class ToolConstants {
-    static NONE: string = 'none';
-    static NULL: number = -1;
-    static DEFAULT_OPACITY: number = 1;
-    static DEFAULT_STROKE_WIDTH: number = 2;
+    static NONE = 'none';
+    static NULL = -1;
+    static DEFAULT_OPACITY = 1;
+    static DEFAULT_STROKE_WIDTH = 2;
     static TOOL_ID = Id;
     static TRACE_MODE = ModeType;
 }

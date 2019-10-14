@@ -9,16 +9,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CanvasComponent } from './components/canvas/canvas.component';
+import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
-import { AttributesService } from './components/tools/assets/attributes/attributes.service';
-
 
 @NgModule({
   declarations: [
     CanvasComponent,
     RectangleComponent,
-    ShapeToolboxComponent, 
+    ShapeToolboxComponent,
   ],
 
   imports: [
@@ -42,7 +41,7 @@ import { AttributesService } from './components/tools/assets/attributes/attribut
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatButtonModule, 
+    MatButtonModule,
   ],
 
   providers: [AttributesService],

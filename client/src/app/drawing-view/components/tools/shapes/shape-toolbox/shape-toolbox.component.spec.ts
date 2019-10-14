@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShapeToolboxComponent } from './shape-toolbox.component';
 import { CanvasComponent } from '../../../canvas/canvas.component';
+import { ShapeToolboxComponent } from './shape-toolbox.component';
 
 describe('ShapeToolboxComponent', () => {
   let component: ShapeToolboxComponent;

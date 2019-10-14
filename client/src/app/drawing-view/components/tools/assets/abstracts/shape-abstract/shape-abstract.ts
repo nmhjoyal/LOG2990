@@ -50,7 +50,7 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
 
   // Event handling methods
 
-  @HostListener('mousedown', ['$event']) onMouseDown(event: any): void {
+  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     this.initialX = event.offsetX;
     this.initialY = event.offsetY;
     this.mouseDown = true;
@@ -79,7 +79,7 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('mousemove', ['$event']) onMouseMove(event: any): void {
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     this.cursorX = event.offsetX;
     this.cursorY = event.offsetY;
 

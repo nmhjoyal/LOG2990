@@ -1,10 +1,11 @@
 
 import SpyObj = jasmine.SpyObj;
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ShapeAbstract } from './shape-abstract';
 import { AttributesService } from '../../attributes/attributes.service';
+import { ShapeAbstract } from './shape-abstract';
+import { OnInit, OnDestroy } from '@angular/core';
 
-class ShapeTest extends ShapeAbstract {
+class ShapeTest extends ShapeAbstract implements OnInit, OnDestroy {
 
   constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService) {
     super(serviceInstance, attributesInstance);
@@ -24,7 +25,7 @@ class ShapeTest extends ShapeAbstract {
   }
 
   calculateDimensions(): void {
-      //empty block
+      // empty block
   }
 }
 
@@ -133,5 +134,4 @@ describe('ShapeAbstract', () => {
   });
 
   // Tests of Functions
-// A METTRE DANS LE TEST DE CALCULATE DIMENSIONS expect(component["shape"].width).toBe(component["previewBox"].width - STROKEWIDTH, "width unchanged when it is the smallest value");
 });

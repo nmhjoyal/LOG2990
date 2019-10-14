@@ -6,18 +6,18 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
-  let storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+  const storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
 
   const NEW_WINDOW_SIZE = 500;

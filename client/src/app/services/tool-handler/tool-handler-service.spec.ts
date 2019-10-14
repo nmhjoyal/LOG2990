@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ToolHandlerService } from './tool-handler.service';
 import { AppConstants } from 'src/AppConstants';
+import { ToolHandlerService } from './tool-handler.service';
 
 describe('ToolHandlerServiceService', () => {
   let service: ToolHandlerService;
@@ -11,7 +11,7 @@ describe('ToolHandlerServiceService', () => {
 
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
-    
+
     expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
     expect(service.noneSelected).toBeTruthy();
     expect(service.crayonSelected).toBeFalsy();

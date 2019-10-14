@@ -16,7 +16,7 @@ import { INewDrawingModalData } from './INewDrawingModalData';
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
 
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData, 
+              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData,
               private storage: ToolHandlerService) {
     super(dialogRef, data);
     this.data.title = Strings.MODAL_TITLE  ;

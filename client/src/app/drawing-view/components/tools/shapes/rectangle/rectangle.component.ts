@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
-import { ToolConstants } from '../../assets/tool-constants';
 import { AttributesService } from '../../assets/attributes/attributes.service';
+import { ToolConstants } from '../../assets/tool-constants';
 
 @Component({
   selector: 'app-tools-rectangle',
   templateUrl: './rectangle.component.html',
   styleUrls: ['./rectangle.component.scss'],
 })
-export class RectangleComponent extends ShapeAbstract {
+export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
   constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService) {
     super(toolServiceRef, attributesServiceRef);
@@ -19,7 +19,7 @@ export class RectangleComponent extends ShapeAbstract {
   // Abstract&Overridden methods
 
   ngOnInit(): void {
-    if(this.attributesService.rectangleAttributes.wasSaved){
+    if (this.attributesService.rectangleAttributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.rectangleAttributes.savedStrokeWidth;
       this.traceMode = this.attributesService.rectangleAttributes.savedTraceMode;
     }
@@ -34,7 +34,7 @@ export class RectangleComponent extends ShapeAbstract {
 
   protected calculateDimensions(): void {
     super.calculateDimensions();
-    if (this.shiftDown ) { 
+    if (this.shiftDown ) {
       const minValue = Math.min(this.shape.height, this.shape.width);
       this.shape.height = minValue;
       this.shape.width = minValue;

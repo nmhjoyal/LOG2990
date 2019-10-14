@@ -2,7 +2,6 @@ export interface IDrawingTool {
     id: string;
 }
 
-
 export interface IPreviewBox {
     x: number;
     y: number;
