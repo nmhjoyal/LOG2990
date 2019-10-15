@@ -15,12 +15,12 @@ export interface IShape extends IPreviewBox, IDrawingTool {
     strokeOpacity: number;
     strokeWidth: number;
     fillOpacity: number;
-    nVertex?: number;
+    verticesNumber?: number;
 }
 
 export interface IShapeOptions extends IDrawingTool {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedTraceMode: number;
-    savedNVertex?: number;
+    savedVerticesNumber?: number;
 }

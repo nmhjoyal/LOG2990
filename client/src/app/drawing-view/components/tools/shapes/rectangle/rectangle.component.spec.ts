@@ -5,11 +5,11 @@ import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 import { RectangleComponent } from './rectangle.component';
 
-const STROKEWIDTH = 10;
-const INITIALX = 150;
-const INITIALY = 200;
-const CURSORX = 550;
-const CURSORY = 700;
+const STROKE_WIDTH = 10;
+const INITIAL_X = 150;
+const INITIAL_Y = 200;
+const CURSOR_X = 550;
+const CURSOR_Y = 700;
 const CURSOR_MOVE = 300;
 
 describe('RectangleComponent', () => {
@@ -37,10 +37,10 @@ describe('RectangleComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component['initialX'] = INITIALX;
-    component['initialY'] = INITIALY;
-    component['cursorX'] = CURSORX;
-    component['cursorY'] = CURSORY;
+    component['initialX'] = INITIAL_X;
+    component['initialY'] = INITIAL_Y;
+    component['cursorX'] = CURSOR_X;
+    component['cursorY'] = CURSOR_Y;
     component['mouseDown'] = true;
 
   });
@@ -91,7 +91,7 @@ describe('RectangleComponent', () => {
   });
 
   it('#calculateDimensions should make both the width and height equals to the smallest of the two when shift is pressed', () => {
-    component['shape'].strokeWidth = STROKEWIDTH;
+    component['shape'].strokeWidth = STROKE_WIDTH;
 
     component.onShiftUp();
 
@@ -112,7 +112,7 @@ describe('RectangleComponent', () => {
   });
 
   it('#calculateDimensions should not alter the values of the shapes width and height when shift is released', () => {
-    component['shape'].strokeWidth = STROKEWIDTH;
+    component['shape'].strokeWidth = STROKE_WIDTH;
     component.onShiftDown();
 
     expect(component['shape'].height).toEqual(component['shape'].width, 'height took widths value');

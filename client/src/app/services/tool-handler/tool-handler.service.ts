@@ -27,8 +27,8 @@ export class ToolHandlerService {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
-    this.primaryColor = "green"; // empty string and subscribe to color in colorservice?
-    this.secondaryColor = "blue";
+    this.primaryColor = 'green'; // empty string and subscribe to color in colorservice?
+    this.secondaryColor = 'blue';
   }
 ​
   // Tool Handling methods
