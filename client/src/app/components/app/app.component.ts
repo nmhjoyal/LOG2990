@@ -27,9 +27,14 @@ export class AppComponent implements OnInit {
     this.openWelcomeScreen();
   }
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandlerCtrlO(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
+  }
+
+  @HostListener('document:keydown.control.s', ['$event']) onKeydownHandlerCtrlS(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.openSaveWindow();
   }
 
   confirmNewDrawing(): void {

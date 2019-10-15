@@ -5,4 +5,5 @@ export class Strings {
     static WELCOME_WINDOW_KEY = 'showAgain';
     static TRUE = 'true';
     static FALSE = 'false';
+    static SAVE_WINDOW_TITLE = 'Enregistrer un dessin.';
 }
