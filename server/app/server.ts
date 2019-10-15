@@ -1,6 +1,7 @@
 import * as http from 'http';
-import {inject, injectable} from 'inversify';
-import {Application} from './app';
+import { inject, injectable } from 'inversify';
+
+import { Application } from './app';
 import Types from './types';
 
 @injectable()
@@ -15,8 +16,12 @@ export class Server {
 
     init(): void {
         this.application.app.set('port', this.appPort);
-
-        this.server = http.createServer(this.application.app);
+        // tslint:disable-next-line: only-arrow-functions
+        this.server = http.createServer(function(request, response) {
+            response.writeHead(200, { 'Content-Type': 'text-plain' });
+            response.write('hello');
+            response.end();
+        });
 
         this.server.listen(this.appPort);
         this.server.on('error', (error: NodeJS.ErrnoException) => this.onError(error));
