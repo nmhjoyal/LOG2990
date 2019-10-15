@@ -1,0 +1,7 @@
+<div mat-dialog-container class='new_drawing' style="font-family: Arial, Helvetica, sans-serif">
+    <h1 mat-dialog-title id='new_drawing_title'>{{data.title}}</h1>
+    <div mat-dialog-content>
+            <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
+            <button type="submit" mat-raised-button  (click)="onAcceptClick()">Accepter</button>
+    </div>
+</div>

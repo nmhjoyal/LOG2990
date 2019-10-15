@@ -6,6 +6,7 @@ import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './drawing-view/components/canvas/canvas.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-windows/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
+import { SaveWindowComponent } from './drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
@@ -17,6 +18,7 @@ import { LocalStorageService } from './services/local_storage/local-storage-serv
     CanvasComponent,
     WelcomeWindowComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
+    SaveWindowComponent,
   ],
   imports: [
     MatListModule,
@@ -26,11 +28,12 @@ import { LocalStorageService } from './services/local_storage/local-storage-serv
     FormsModule,
     DrawingViewModule,
   ],
-  providers: [ MatDialogConfig, LocalStorageService,
+  providers: [MatDialogConfig, LocalStorageService,
     { provide: MatDialogRef, useValue: {} },
-  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, NewDrawingWindowComponent],
+  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent,
+    NewDrawingWindowComponent, SaveWindowComponent],
 })
 export class AppModule {
 }
