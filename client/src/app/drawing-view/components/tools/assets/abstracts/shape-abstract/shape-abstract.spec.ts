@@ -1,11 +1,18 @@
 
 import SpyObj = jasmine.SpyObj;
-import { OnDestroy, OnInit } from '@angular/core';
+import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ShapeAbstract } from './shape-abstract';
 
-class ShapeTest extends ShapeAbstract implements OnInit, OnDestroy {
+@Component({
+    selector: 'test-shape-abstract',
+    template: '<svg x=0 y=0 width=1000 height=1000><\svg>',
+  })
+class ShapeTestComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
   constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService) {
     super(serviceInstance, attributesInstance);
@@ -30,13 +37,30 @@ class ShapeTest extends ShapeAbstract implements OnInit, OnDestroy {
 }
 
 describe('ShapeAbstract', () => {
-  let shapeTest: ShapeTest;
+  let shapeTest: ShapeTestComponent;
+  let hostElement: DebugElement;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let fixture: ComponentFixture<ShapeTestComponent>;
+
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
   beforeEach(() => {
-    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']); // service method that saves drawing operation
-    shapeTest = new ShapeTest(toolHandlerMock, attrServiceMock);
-  });
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']); // eventually put service method that saves drawing operation
+
+    TestBed.configureTestingModule({
+        imports: [BrowserDynamicTestingModule, DrawingViewModule],
+        declarations: [ShapeTestComponent],
+        providers: [
+          { provide: ToolHandlerService, useValue: toolHandlerMock, },
+          { provide: AttributesService, useValue: attrServiceMock, },
+        ],
+      });
+
+      fixture = TestBed.createComponent(ShapeTestComponent);
+      fixture.detectChanges();
+
+      shapeTest = fixture.componentInstance;
+      hostElement = fixture.debugElement;
+});
 
   it('should create an instance of the derived class', () => {
     expect(shapeTest).toBeTruthy();
@@ -47,42 +71,54 @@ describe('ShapeAbstract', () => {
   it('#onMouseDown should be called when left mouse button is pressed', () => {
     const spy = spyOn(shapeTest, 'onMouseDown');
     const event = new MouseEvent('mousedown');
-    dispatchEvent(event);
+
+    hostElement.triggerEventHandler('mousedown', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
   it('#onMouseUp should be called when left mouse button gets released', () => {
     const spy = spyOn(shapeTest, 'onMouseUp');
     const event = new MouseEvent('mouseup');
-    dispatchEvent(event);
+
+    hostElement.triggerEventHandler('mouseup', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
   it('#onMouseLeave should be called when the cursor leaves the window', () => {
     const spy = spyOn(shapeTest, 'onMouseLeave');
     const event = new MouseEvent('mouseleave');
-    dispatchEvent(event);
+
+    hostElement.triggerEventHandler('mouseleave', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
   it('#onMouseMove should be called when the cursor moves on the window', () => {
     const spy = spyOn(shapeTest, 'onMouseMove');
     const event = new MouseEvent('mousemove');
-    dispatchEvent(event);
+
+    hostElement.triggerEventHandler('mousemove', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
   it('#onShiftUp should be called when the shift button is released', () => {
     const spy = spyOn(shapeTest, 'onShiftUp');
     const event = new KeyboardEvent('keyup.shift');
-    dispatchEvent(event);
+
+    hostElement.triggerEventHandler('keyup.shift', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
   it('#onShiftDown should be called when the shift button is pressed', () => {
     const spy = spyOn(shapeTest, 'onShiftDown');
     const event = new KeyboardEvent('keydown.shift');
-    dispatchEvent(event);
+
+    hostElement.triggerEventHandler('keydown.shift', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
@@ -122,13 +158,19 @@ describe('ShapeAbstract', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('#onMouseUp should call #saveShape when the mouse was dragged and is then released', () => {
+  it('#onMouseUp should call #saveShape when the mouse was initially pressed and a shape\'s dimensions was calculated', () => {
     const spy = spyOn(shapeTest, 'saveShape');
     const mouseDownEvent = new MouseEvent('mousedown');
-    const mouseMoveEvent = new MouseEvent('mousemove');
-
     shapeTest.onMouseDown(mouseDownEvent);
-    shapeTest.onMouseMove(mouseMoveEvent); // How to controle the data in the event? To only call saveshape when movement is positive
+
+    const PRESET_WIDTH = 100;
+    const PRESET_HEIGHT = 200;
+
+    // tslint:disable:no-string-literal
+    shapeTest['shape'].width = PRESET_WIDTH;
+    shapeTest['shape'].height = PRESET_HEIGHT;
+    // tslint:enable:no-string-literal
+
     shapeTest.onMouseUp();
     expect(spy).toHaveBeenCalled();
   });

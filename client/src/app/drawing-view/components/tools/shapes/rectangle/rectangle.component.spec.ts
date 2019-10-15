@@ -26,7 +26,6 @@ describe('RectangleComponent', () => {
         { provide: ToolHandlerService, useValue: toolServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
-
     })
       .compileComponents();
   }));
