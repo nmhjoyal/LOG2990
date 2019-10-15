@@ -20,7 +20,7 @@
                         placeholder="(Optionnel).">
                 </mat-form-field> 
                 <button id="add" mat-raised-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
-                <ul><li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button>#{{tag}}</button></li></ul>
+                <ul><li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button (click)="clickOnTag(tag)">#{{tag.name}}</button></li></ul>
             </div>
         </form>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>

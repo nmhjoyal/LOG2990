@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
+import { ITag } from './ITag';
 
 @Component({
   selector: 'app-save-window',
@@ -33,8 +34,12 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   addTag(newTag: string): void {
     if (newTag) {
-      this.data.displayedTags.push(newTag);
+      this.data.displayedTags.push({ name: newTag, isSelected: true });
     }
+  }
+
+  clickOnTag(tag: ITag): void {
+    tag.isSelected = !tag.isSelected;
   }
 
 }
