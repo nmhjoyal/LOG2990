@@ -83,7 +83,6 @@ describe('RectangleComponent', () => {
 
   it('#ngOnDestroy should save the current attributes in the rectangleAttributes interface of the service', () => {
     component.ngOnDestroy();
-    // LINEs 85-86 fail... wrong lifecycle hooks used?
     expect(attrService.rectangleAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'shape.strokeWidth was not successfully saved upon destruction');
     expect(attrService.rectangleAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,

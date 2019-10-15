@@ -175,5 +175,5 @@ describe('ShapeAbstract', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  // Tests of Functions
+  // Tests of Functions and verify attributes value changes in eventhandlers
 });
