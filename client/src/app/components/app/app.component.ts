@@ -16,7 +16,7 @@ import { Strings } from 'src/AppConstants/Strings';
 export class AppComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private storage: LocalStorageService,
-              @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
+    @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingColor = Strings.WHITE_HEX;
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   confirmNewDrawing(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       if (!this.data.canvasIsDrawnOn) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
@@ -50,22 +50,28 @@ export class AppComponent implements OnInit {
   }
 
   openWelcomeScreen(): void {
-    const showAgain = this.storage.getShowAgain();
-    if (showAgain) {
-      this.dialog.open(WelcomeWindowComponent, {
-        data: { storage: this.storage },
-        disableClose: true,
-      });
+    if (this.isOnlyModalOpen()) {
+      const showAgain = this.storage.getShowAgain();
+      if (showAgain) {
+        this.dialog.open(WelcomeWindowComponent, {
+          data: { storage: this.storage },
+          disableClose: true,
+        });
+      }
     }
   }
 
   openSaveWindow(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.dialog.open(SaveWindowComponent, {
         data: SaveWindowComponent.prototype.data,
         panelClass: 'save-window',
       });
     }
+  }
+
+  isOnlyModalOpen(): boolean {
+    return !this.dialog.openDialogs.length;
   }
 
 }
