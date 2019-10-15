@@ -1,9 +1,8 @@
+import { IDrawing } from 'src/app/services/drawing-storage/IDrawing';
 import { IModalData } from '../modal-window/IModalData';
 import { ITag } from './ITag';
 
 export interface ISaveModalData extends IModalData {
-    name: string;
-    savedTags?: ITag[];
+    drawing: IDrawing;
     displayedTags: ITag[];
-    drawings: object[]; // temp placeholder until shapes are saved
 }

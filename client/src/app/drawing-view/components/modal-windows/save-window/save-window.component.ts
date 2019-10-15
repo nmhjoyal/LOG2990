@@ -4,7 +4,6 @@ import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
 import { ITag } from './ITag';
-
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
@@ -25,7 +24,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   ngOnInit(): void {
-    //
+// initialize preview here so time is used more efficiently
   }
 
   onAcceptClick(): void {
