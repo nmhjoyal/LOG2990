@@ -34,8 +34,8 @@
     }
 
     .mat-form-field {
-        width: auto;
-        display: inline-block;
+        max-width:  fit-content;
+        display: block;
     }
 
     .mat-error {

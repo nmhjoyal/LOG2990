@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.openWelcomeScreen();
+    this.openSaveWindow();
   }
 
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandlerCtrlO(event: KeyboardEvent): void {

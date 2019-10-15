@@ -14,11 +14,13 @@
                         </mat-error>
                     </div>
                 </mat-form-field>
-                <label for="userTags">Étiquettes: </label>
+                <label for="userTagInput">Étiquettes: </label>
                 <mat-form-field appearance="fill">
-                    <input matInput id="userTags" name="userTags" class="form-control" [(ngModel)]="data.selectedTags"
-                        placeholder="(Optionnel)." #userTags="ngModel">
-                </mat-form-field>
+                    <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control" 
+                        placeholder="(Optionnel).">
+                </mat-form-field> 
+                <button mat-raised-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
+                <ul><li *ngFor="let tag of data.displayedTags">{{tag}}</li></ul>
             </div>
         </form>
         <button type="button" mat-raised-button (click)="onClose()">Fermer</button>

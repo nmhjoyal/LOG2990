@@ -16,8 +16,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     @Inject(MAT_DIALOG_DATA) public data: ISaveModalData) {
     super(dialogRef, data);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
-    this.data.selectedTags = [];
-    this.data.selectedTags[0] = '';
+    this.data.displayedTags = [];
   }
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
@@ -33,7 +32,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   addTag(newTag: string): void {
-    //
+    if (newTag) {
+      this.data.displayedTags.push(newTag);
+    }
   }
 
 }
