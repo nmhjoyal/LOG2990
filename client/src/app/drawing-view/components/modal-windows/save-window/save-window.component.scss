@@ -63,10 +63,14 @@
     }
 
     .mat-stroked-button {
-        background-color: deepskyblue;
+        background-color: #ACFCFF;
         padding: 0 10px 0 10px;
         margin: 10px 10px 0 10px;
         display: inline-block;
+    }
+
+    .selected-tag {
+        background-color: #FF67DA;
     }
 
 }
