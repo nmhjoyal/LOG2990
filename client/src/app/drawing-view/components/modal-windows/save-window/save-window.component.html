@@ -1,7 +1,27 @@
-<div mat-dialog-container class='new_drawing' style="font-family: Arial, Helvetica, sans-serif">
-    <h1 mat-dialog-title id='new_drawing_title'>{{data.title}}</h1>
+<div mat-dialog-container class='save_window'>
+    <h1 mat-dialog-title id='save_window_title'>{{data.title}}</h1>
     <div mat-dialog-content>
-            <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
-            <button type="submit" mat-raised-button  (click)="onAcceptClick()">Accepter</button>
+        <h3 id="header-3">Veuillez entrer les informations nécessaires pour sauvegarder le dessin.</h3>
+        <form (ngSubmit)="onAcceptClick()" #saveDrawingForm="ngForm">
+            <div class="form-group">
+                <label for="nameInput">Nom: </label>
+                <mat-form-field appearance="fill">
+                    <input matInput required id="nameInput" name="nameInput" class="form-control"
+                        [(ngModel)]="data.name" placeholder="Nom du dessin." #nameInput="ngModel">
+                    <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="alert alert-danger">
+                        <mat-error *ngIf="nameInput.errors.required">
+                            Le nom du dessin ne doit pas être nul.
+                        </mat-error>
+                    </div>
+                </mat-form-field>
+                <label for="userTags">Étiquettes: </label>
+                <mat-form-field appearance="fill">
+                    <input matInput id="userTags" name="userTags" class="form-control" [(ngModel)]="data.selectedTags"
+                        placeholder="(Optionnel)." #userTags="ngModel">
+                </mat-form-field>
+            </div>
+        </form>
+        <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
+        <button type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
     </div>
 </div>

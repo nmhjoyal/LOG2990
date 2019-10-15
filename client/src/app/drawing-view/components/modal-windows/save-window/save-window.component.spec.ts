@@ -8,7 +8,7 @@ describe('SaveWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaveWindowComponent ]
+      declarations: [ SaveWindowComponent ],
     })
     .compileComponents();
   }));

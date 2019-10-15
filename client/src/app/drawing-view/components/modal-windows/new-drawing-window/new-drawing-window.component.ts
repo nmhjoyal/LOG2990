@@ -15,9 +15,9 @@ import { INewDrawingModalData } from './INewDrawingModalData';
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
 
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
+    @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
     super(dialogRef, data);
-    this.data.title = Strings.MODAL_TITLE  ;
+    this.data.title = Strings.MODAL_TITLE;
     this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingHeightPreview = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     dialogRef.disableClose = true;
@@ -58,7 +58,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     } else {
       this.dialogRef.close();
     }
-
   }
 
   reinitializeDrawingVariables(): void {
