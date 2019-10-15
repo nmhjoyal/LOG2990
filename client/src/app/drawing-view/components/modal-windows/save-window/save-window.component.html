@@ -19,11 +19,11 @@
                     <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control" 
                         placeholder="(Optionnel).">
                 </mat-form-field> 
-                <button mat-raised-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
-                <ul><li *ngFor="let tag of data.displayedTags">{{tag}}</li></ul>
+                <button id="add" mat-raised-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
+                <ul><li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button>#{{tag}}</button></li></ul>
             </div>
         </form>
-        <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
+        <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
+        <button id="submit" type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
     </div>
 </div>
