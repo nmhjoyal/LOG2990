@@ -13,7 +13,7 @@ describe('AttributesService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#resetSavedAttributes should set rectangleAttributes back to it\'s initial values if they were changed', () => {
+  it('#resetSavedAttributes should set rectangleAttributes back to its initial values if they were changed', () => {
     service = TestBed.get(AttributesService);
     const rectAttr = service.rectangleAttributes;
     const defaultRectAttr = rectAttr;
@@ -28,7 +28,7 @@ describe('AttributesService', () => {
 
   });
 
-  it('#resetSavedAttributes should not set rectangleAttributes back to it\'s initial values if they were never changed', () => {
+  it('#resetSavedAttributes should not set rectangleAttributes back to its initial values if they were never changed', () => {
     service = TestBed.get(AttributesService);
     const rectAttr = service.rectangleAttributes;
 

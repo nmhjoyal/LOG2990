@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { AppConstants } from 'src/AppConstants';
 import { ToolHandlerService } from './tool-handler.service';
 
 describe('ToolHandlerServiceService', () => {
@@ -13,13 +12,13 @@ describe('ToolHandlerServiceService', () => {
     expect(service).toBeTruthy();
 
     expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
-    expect(service.noneSelected).toBeTruthy();
-    expect(service.crayonSelected).toBeFalsy();
-    expect(service.pinceauSelected).toBeFalsy();
-    expect(service.rectangleSelected).toBeFalsy();
-    expect(service.colourApplicatorSelected).toBeFalsy();
-    expect(service.primaryColor).toEqual(AppConstants.DEFAULT_PRIMARY_COLOUR);
-    expect(service.secondaryColor).toEqual(AppConstants.DEFAULT_SECONDARY_COLOUR);
+    expect(service.noneSelected).toBe(true);
+    expect(service.crayonSelected).toBe(false);
+    expect(service.pinceauSelected).toBe(false);
+    expect(service.rectangleSelected).toBe(false);
+    expect(service.colourApplicatorSelected).toBe(false);
+    expect(service.primaryColor).toEqual('green'); // need color service here
+    expect(service.secondaryColor).toEqual('blue');
   });
 
   it('#secondaryColor should properly access the secondary color', () => {
@@ -35,11 +34,11 @@ describe('ToolHandlerServiceService', () => {
   it('#resetSelection should reset all tool selections to false and set noneSelected to true', () => {
       service.resetSelection();
 
-      expect(service.noneSelected).toBeTruthy();
-      expect(service.crayonSelected).toBeFalsy();
-      expect(service.pinceauSelected).toBeFalsy();
-      expect(service.rectangleSelected).toBeFalsy();
-      expect(service.colourApplicatorSelected).toBeFalsy();
+      expect(service.noneSelected).toBe(true);
+      expect(service.crayonSelected).toBe(false);
+      expect(service.pinceauSelected).toBe(false);
+      expect(service.rectangleSelected).toBe(false);
+      expect(service.colourApplicatorSelected).toBe(false);
   });
 
   it('#clearPage should call #resetSelection and empty the drawings array', () => {
@@ -47,7 +46,7 @@ describe('ToolHandlerServiceService', () => {
     service.clearPage();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.drawings.length).toBeFalsy();
+    expect(service.drawings.length).toEqual(0);
   });
 
   it('#chooseRectangle should call #resetSelection and select the rectangle', () => {
@@ -55,8 +54,8 @@ describe('ToolHandlerServiceService', () => {
     service.chooseRectangle();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.rectangleSelected).toBeTruthy();
-    expect(service.noneSelected).toBeFalsy();
+    expect(service.rectangleSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
   });
 
   it('#chooseCrayon should call #resetSelection and select the crayon', () => {
@@ -64,8 +63,8 @@ describe('ToolHandlerServiceService', () => {
     service.chooseCrayon();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.crayonSelected).toBeTruthy();
-    expect(service.noneSelected).toBeFalsy();
+    expect(service.crayonSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
   });
 
   it('#choosePinceau should call #resetSelection and select the Pinceau', () => {
@@ -73,8 +72,8 @@ describe('ToolHandlerServiceService', () => {
     service.choosePinceau();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.pinceauSelected).toBeTruthy();
-    expect(service.noneSelected).toBeFalsy();
+    expect(service.pinceauSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
   });
 
   it('#chooseColourApplicator should call #resetSelection and select the Color applicator', () => {
@@ -82,8 +81,8 @@ describe('ToolHandlerServiceService', () => {
     service.chooseColourApplicator();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.colourApplicatorSelected).toBeTruthy();
-    expect(service.noneSelected).toBeFalsy();
+    expect(service.colourApplicatorSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
   });
 
   it('#chooseOther should call #resetSelection', () => {

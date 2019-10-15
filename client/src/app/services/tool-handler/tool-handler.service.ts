@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AppConstants } from 'src/AppConstants';
 import { IDrawingTool } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 
 @Injectable({
@@ -28,8 +27,8 @@ export class ToolHandlerService {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
-    this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR; // empty string and subscribe to color in colorservice?
-    this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
+    this.primaryColor = "green"; // empty string and subscribe to color in colorservice?
+    this.secondaryColor = "blue";
   }
 ​
   // Tool Handling methods
