@@ -4,9 +4,9 @@ import { MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } 
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './drawing-view/components/canvas/canvas.component';
-import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
-import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
-import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
+import { ModalWindowComponent } from './drawing-view/components/modal-windows/modal-window/modal-window.component';
+import { NewDrawingWindowComponent } from './drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
+import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 

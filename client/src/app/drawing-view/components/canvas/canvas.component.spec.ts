@@ -11,10 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { DrawingViewModule } from '../../drawing-view.module';
-import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
-import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
-import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
+import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
+import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
+import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
+import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {

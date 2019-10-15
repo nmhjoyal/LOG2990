@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
+import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 
 @Component({
   selector: 'app-canvas',
