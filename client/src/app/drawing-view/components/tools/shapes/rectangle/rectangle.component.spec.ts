@@ -57,7 +57,7 @@ describe('RectangleComponent', () => {
   it('#ngOnInit should not load strokewidth and trace mode if there are no attributes saved in the service', () => {
     attrService.rectangleAttributes.wasSaved = false;
     attrService.rectangleAttributes.savedTraceMode = ToolConstants.TRACE_MODE.CONTOUR;
-    attrService.rectangleAttributes.savedStrokeWidth = STROKEWIDTH;
+    attrService.rectangleAttributes.savedStrokeWidth = STROKE_WIDTH;
 
     component.ngOnInit();
     expect(component['shape'].strokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -69,11 +69,11 @@ describe('RectangleComponent', () => {
   it('#ngOnInit should load strokewidth and trace mode if there are attributes saved in the service', () => {
     attrService.rectangleAttributes.wasSaved = true;
     attrService.rectangleAttributes.savedTraceMode = ToolConstants.TRACE_MODE.CONTOUR;
-    attrService.rectangleAttributes.savedStrokeWidth = STROKEWIDTH;
+    attrService.rectangleAttributes.savedStrokeWidth = STROKE_WIDTH;
 
     component.ngOnInit();
 
-    expect(component['shape'].strokeWidth).toEqual(STROKEWIDTH,
+    expect(component['shape'].strokeWidth).toEqual(STROKE_WIDTH,
       'loading of attributes, yet strokeWidth did not take saved value');
     expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.CONTOUR,
       'loading of attributes, yet traceMode did not take saved value');
@@ -95,8 +95,8 @@ describe('RectangleComponent', () => {
 
     component.onShiftUp();
 
-    expect(component['shape'].width).toEqual(component['previewBox'].width - STROKEWIDTH, 'width unchanged when shift is not pressed');
-    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKEWIDTH, 'height unchanged when shift is not pressed');
+    expect(component['shape'].width).toEqual(component['previewBox'].width - STROKE_WIDTH, 'width unchanged when shift is not pressed');
+    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKE_WIDTH, 'height unchanged when shift is not pressed');
 
     component.onShiftDown();
 
@@ -105,7 +105,7 @@ describe('RectangleComponent', () => {
     component['cursorY'] -= CURSOR_MOVE;
     component.onShiftDown();
 
-    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKEWIDTH,
+    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKE_WIDTH,
     'height unchanged when it is the smallest value');
     expect(component['shape'].width).toEqual(component['shape'].height, 'width took heights value');
 

@@ -16,7 +16,6 @@ export class CanvasComponent {
   @ViewChild('activeTool', {static: false}) activeTool: ShapeAbstract; // put general tool abstract here
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData, public toolHandler: ToolHandlerService) {
-    // empty body
   }
 
 }
