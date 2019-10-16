@@ -38,7 +38,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   onAcceptClick(): void {
-    console.log('onaccept called');
     let test: IDrawing;
     const date = new Date().toLocaleDateString();
     test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing };
@@ -51,14 +50,12 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       }
     });
     this.onClose();
-    console.log(test);
   }
 
   addTag(newTag: string): void {
     if (newTag) {
       this.data.displayedTags.push({ name: newTag, isSelected: true });
     }
-    console.log('addtag called');
   }
 
   clickOnTag(tag: ITag): void {
