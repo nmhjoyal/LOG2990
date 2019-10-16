@@ -98,6 +98,7 @@ export class AppComponent implements OnInit {
       this.dialog.open(GalleryWindowComponent, {
         data: {
           data: GalleryWindowComponent.prototype.data,
+          canvasData: CanvasInformationService.prototype.data,
         },
         panelClass: 'gallery-window',
       });

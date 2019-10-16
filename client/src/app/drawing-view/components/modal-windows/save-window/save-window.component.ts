@@ -1,6 +1,8 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { IDrawing } from 'src/app/services/drawing-storage/IDrawing';
+import { ISVGPreview } from 'src/app/services/drawing-storage/ISVGPreview';
 import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
@@ -12,6 +14,10 @@ import { ITag } from './ITag';
   encapsulation: ViewEncapsulation.None,
 })
 export class SaveWindowComponent extends ModalWindowComponent implements OnInit {
+
+  protected nameInput: string;
+  protected preview: ISVGPreview;
+  private drawing: object[];
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ISaveModalData, protected canvasData: CanvasInformationService) {
@@ -25,21 +31,41 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   ngOnInit(): void {
-// initialize preview here so time is used more efficiently
+    // tslint:disable-next-line: no-any
+    this.preview = 'hello' as any;
+    this.drawing = [Object.create(null)];
   }
 
   onAcceptClick(): void {
-    //
+    console.log('onaccept called');
+    let test: IDrawing;
+    const date = new Date().toLocaleDateString();
+    test = { name: this.nameInput, preview: this.preview , timestamp: date, shapes: this.drawing };
+    this.data.displayedTags.forEach((tag) => {
+      if (tag.isSelected) {
+        if (!test.tags) {
+          test.tags = [];
+        }
+        test.tags.push(tag);
+      }
+    });
+    this.onClose();
+    console.log(test);
   }
 
   addTag(newTag: string): void {
     if (newTag) {
       this.data.displayedTags.push({ name: newTag, isSelected: true });
     }
+    console.log('addtag called');
   }
 
   clickOnTag(tag: ITag): void {
     tag.isSelected = !tag.isSelected;
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
   }
 
 }

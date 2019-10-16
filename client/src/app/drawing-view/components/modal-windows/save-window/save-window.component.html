@@ -24,6 +24,6 @@
             </div>
         </form>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button id="submit" type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
+        <button id="submit" mat-raised-button  [disabled]="!nameInput.valid" (click)="onAcceptClick()">Accepter</button>
     </div>
 </div>

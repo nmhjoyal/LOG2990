@@ -5,6 +5,6 @@ export interface IDrawing {
     name: string;
     preview: ISVGPreview;
     tags?: ITag[];
-    timestamp: Date;
-    drawings: object[];
+    timestamp: string;
+    shapes: object[];
 }
