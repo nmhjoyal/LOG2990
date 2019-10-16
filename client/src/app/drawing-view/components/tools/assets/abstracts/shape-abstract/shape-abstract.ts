@@ -62,15 +62,7 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
       this.saveShape();
     }
 
-    this.mouseDown = false;
-    this.shape.height = 0;
-    this.shape.width = 0;
-    this.previewBox.height = 0;
-    this.previewBox.width = 0;
-    this.previewBox.x = 0;
-    this.previewBox.y = 0;
-    this.initialY = 0;
-    this.initialX = 0;
+    this.resetShape();
   }
 
   @HostListener('mouseleave') onMouseLeave(): void {
@@ -168,6 +160,25 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
       fillOpacity: this.shape.fillOpacity,
     };
     this.toolService.drawings.push(currentDrawing);
+  }
+
+  protected saveSelection(): void {
+    this.toolService.selection = { x: this.shape.x, y: this.shape.y, width: this.shape.width, height: this.shape.height,
+      primaryColor: 'black', secondaryColor: 'black', fillOpacity: 0,
+      strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+    this.resetShape();
+  }
+
+  protected resetShape(): void {
+    this.mouseDown = false;
+    this.shape.height = 0;
+    this.shape.width = 0;
+    this.previewBox.height = 0;
+    this.previewBox.width = 0;
+    this.previewBox.x = 0;
+    this.previewBox.y = 0;
+    this.initialY = 0;
+    this.initialX = 0;
   }
 
 }

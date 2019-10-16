@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IDrawingTool } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,20 @@ export class ToolHandlerService {
   colourApplicatorSelected: boolean;
   crayonSelected: boolean;
   pinceauSelected: boolean;
+  selectorSelected: boolean;
 ​
   // Color service simulating attributes
   primaryColor: string;
   secondaryColor: string;
 ​
   // Shape Storage
-  drawings: IDrawingTool[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
+  drawings: IShape[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
+  selection: IShape;
 
   constructor() {
     this.drawings = [];
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
+                       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
@@ -43,6 +48,9 @@ export class ToolHandlerService {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
+    this.selectorSelected = false;
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: ToolConstants.NONE, secondaryColor: 'black',
+                       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
   }
 ​
   chooseRectangle(): void {
@@ -68,9 +76,14 @@ export class ToolHandlerService {
       this.pinceauSelected = true;
       this.noneSelected = false;
   }
+
+  chooseSelector(): void {
+    this.resetSelection();
+    this.selectorSelected = true;
+    this.noneSelected = false;
+  }
 ​
   chooseOther(): void {// Place holder for unimplemented tools
       this.resetSelection();
   }
-​
 }
