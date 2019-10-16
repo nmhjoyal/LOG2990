@@ -123,9 +123,8 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
-        // this.shape.secondaryColor = ToolConstants.NONE; IF the contour should affect width when it is not set
-        this.shape.primaryColor = 'green'; // load from color service
         this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
+        this.shape.primaryColor = 'green'; // load from color service
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
