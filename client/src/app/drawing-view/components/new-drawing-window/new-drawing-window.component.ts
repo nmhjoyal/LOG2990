@@ -1,5 +1,6 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
@@ -15,7 +16,8 @@ import { INewDrawingModalData } from './INewDrawingModalData';
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
 
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData) {
+              @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData,
+              private storage: ToolHandlerService) {
     super(dialogRef, data);
     this.data.title = Strings.MODAL_TITLE  ;
     this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
@@ -46,7 +48,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
       : this.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
       this.data.drawingColor = Strings.WHITE_HEX;
-    this.data.canvasIsDrawnOn = false;
+    this.storage.clearPage();
     this.dialogRef.close();
   }
 
