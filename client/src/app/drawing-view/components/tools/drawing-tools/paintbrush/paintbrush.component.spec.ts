@@ -2,11 +2,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
-import { PinceauComponent } from './pinceau.component';
+import { PaintbrushComponent } from './paintbrush.component';
 
-describe('PinceauComponent', () => {
-  let component: PinceauComponent;
-  let fixture: ComponentFixture<PinceauComponent>;
+describe('PaintbrushComponent', () => {
+  let component: PaintbrushComponent;
+  let fixture: ComponentFixture<PaintbrushComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('PinceauComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PinceauComponent);
+    fixture = TestBed.createComponent(PaintbrushComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

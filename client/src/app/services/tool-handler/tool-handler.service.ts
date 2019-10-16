@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { AppConstants } from 'src/AppConstants';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ primaryColor: string;
 secondaryColor: string;
 ​
 // drawings Storage
-drawings: IDrawingTool[] = []; // change type to parent of IDrawingTool
+drawings: ITools[] = []; // change type to parent of IDrawingTool
 
 // Attributes Storage
 crayonStrokeWidth: number;

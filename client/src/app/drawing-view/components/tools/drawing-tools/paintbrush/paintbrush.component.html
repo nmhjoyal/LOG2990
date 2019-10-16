@@ -1,4 +1,4 @@
-<svg tabindex = "0" class = "previewPinceau" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
+<svg tabindex = "0" class = "previewPaintbrush" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
     
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
@@ -21,6 +21,13 @@
         <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
+    </filter>
+
+    <filter id="filter5" height="200%" width="200%">
+        <feOffset result="offOut" in="StrokePaint" dx="0.25" dy="0.25" />
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="offOut" scale="10" xChannelSelector="R" yChannelSelector="G" result = "turbOut" />
+        <feGaussianBlur in="turbOut" stdDeviation="3"/>
     </filter>
 
     

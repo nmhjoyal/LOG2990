@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { CanvasComponent } from '../../../canvas/canvas.component';
 import { ModeType } from '../../assets/tool-constants';
-import { DrawingToolsAbstract } from '../drawing-tools-abstract';
+import { DrawingToolsAbstract } from '../../assets/drawing-tools-abstract';
 
 @Component({
   selector: 'app-drawing-tool-toolbox',

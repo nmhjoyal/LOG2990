@@ -11,13 +11,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
-import { PinceauComponent } from './components/tools/drawing-tools/pinceau/pinceau.component';
+import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 
 @NgModule({
   declarations: [
     CanvasComponent,
     CrayonComponent,
-    PinceauComponent,
+    PaintbrushComponent,
     DrawingToolToolboxComponent,
     ],
 

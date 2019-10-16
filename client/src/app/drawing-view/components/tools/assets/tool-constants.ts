@@ -10,11 +10,12 @@ export enum Id {
 }
 
 export enum Filter {
-    FILTER1 = 'none',
-    FILTER2 = 'url(#filter1)',
-    FILTER3 = 'url(#filter2)',
-    FILTER4 = 'url(#filter3)',
-    FILTER5 = 'url(#filter4)',
+    FILTER0 = 'none',
+    FILTER1 = 'url(#filter1)',
+    FILTER2 = 'url(#filter2)',
+    FILTER3 = 'url(#filter3)',
+    FILTER4 = 'url(#filter4)',
+    FILTER5 = 'url(#filter5)',
 }
 
 export class ToolConstants {

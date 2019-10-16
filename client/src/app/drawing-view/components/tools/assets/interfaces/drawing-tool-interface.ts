@@ -1,7 +1,7 @@
-export interface IDrawingTool {
-    id: string;
+import { ITools } from './itools';
+
+export interface IDrawingTool extends ITools{
     points: string;
-    color: string;
     strokeWidth: number;
     fill: string;
     strokeLinecap: string;

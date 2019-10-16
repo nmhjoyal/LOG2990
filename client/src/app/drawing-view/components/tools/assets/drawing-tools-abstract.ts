@@ -1,7 +1,7 @@
 import { HostListener, Input, OnInit} from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { IDrawingTool } from '../assets/interfaces/drawing-tool-interface';
-import { ToolConstants } from '../assets/tool-constants';
+import { IDrawingTool } from './interfaces/drawing-tool-interface';
+import { ToolConstants } from './tool-constants';
 
 export abstract class DrawingToolsAbstract implements OnInit {
 

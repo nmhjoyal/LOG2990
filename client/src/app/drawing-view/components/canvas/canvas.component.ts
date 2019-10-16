@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NewDrawingModalData } from '../NewDrawingModalData';
 import { Id } from '../tools/assets/tool-constants';
-import { DrawingToolsAbstract } from '../tools/drawing-tools/drawing-tools-abstract';
+import { DrawingToolsAbstract } from '../tools/assets/drawing-tools-abstract';
 
 @Component({
   selector: 'app-canvas',
