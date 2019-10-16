@@ -36,7 +36,6 @@ describe('CanvasComponent', () => {
       declarations: [
         AppComponent,
         NewDrawingWindowComponent,
-        CanvasComponent,
         WelcomeWindowComponent,
         ModalWindowComponent as Type<ModalWindowComponent>,
       ],

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
@@ -16,6 +17,7 @@ describe('NewDrawingWindowComponent', () => {
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
+  const storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
 
   const NEW_WINDOW_SIZE = 500;
@@ -45,6 +47,7 @@ describe('NewDrawingWindowComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: dataMock },
+        { provide: ToolHandlerService, useValue: storageServiceMock },
       ],
     })
       .overrideComponent(NewDrawingWindowComponent, {
@@ -61,7 +64,7 @@ describe('NewDrawingWindowComponent', () => {
 
   beforeEach(async(() => {
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock);
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, storageServiceMock);
     component.ngOnInit();
   }));
 
