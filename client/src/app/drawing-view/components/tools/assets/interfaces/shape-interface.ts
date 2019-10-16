@@ -9,7 +9,14 @@ export interface IPreviewBox {
     height: number;
 }
 
-export interface IShape extends IPreviewBox, IDrawingTool {
+export interface IPreviewLine {
+    x1: number;
+    x2: number;
+    y1: number;
+    y2: number;
+}
+
+export interface IShape extends IPreviewBox, IPreviewLine, IDrawingTool {
     primaryColor: string;
     secondaryColor: string;
     strokeOpacity: number;

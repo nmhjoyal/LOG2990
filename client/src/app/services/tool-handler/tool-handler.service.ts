@@ -13,6 +13,7 @@ export class ToolHandlerService {
   colourApplicatorSelected: boolean;
   crayonSelected: boolean;
   pinceauSelected: boolean;
+  lineSelected: boolean;
 ​
   // Color service simulating attributes
   primaryColor: string;
@@ -28,6 +29,7 @@ export class ToolHandlerService {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
+    this.lineSelected = false;
     this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR; // empty string and subscribe to color in colorservice?
     this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
   }
@@ -51,6 +53,12 @@ export class ToolHandlerService {
       this.rectangleSelected = true;
       this.noneSelected = false;
   }
+
+  chooseLine(): void {
+    this.resetSelection();
+    this.lineSelected = true;
+    this.noneSelected = false;
+}
 ​
   chooseColourApplicator(): void {
       this.resetSelection();

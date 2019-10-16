@@ -7,11 +7,11 @@ import { ToolConstants } from '../tool-constants';
 })
 export class AttributesService {
 
-  rectangleAttributes: IShapeOptions;
+  lineAttributes: IShapeOptions;
 
   constructor() {
-    this.rectangleAttributes = {
-      id: ToolConstants.TOOL_ID.RECTANGLE,
+    this.lineAttributes = {
+      id: ToolConstants.TOOL_ID.LINE,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
       savedTraceMode: ToolConstants.NULL,
@@ -19,9 +19,9 @@ export class AttributesService {
   }
 
   resetSavedAttributes() {
-    if (this.rectangleAttributes.wasSaved) {
-      this.rectangleAttributes = {
-        id: ToolConstants.TOOL_ID.RECTANGLE,
+    if (this.lineAttributes.wasSaved) {
+      this.lineAttributes = {
+        id: ToolConstants.TOOL_ID.LINE,
         wasSaved: false,
         savedStrokeWidth: ToolConstants.NULL,
         savedTraceMode: ToolConstants.NULL,

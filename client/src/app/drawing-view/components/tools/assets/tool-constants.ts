@@ -5,6 +5,7 @@ export enum ModeType {
 }
 export enum Id {
     RECTANGLE = 'rectangle',
+    LINE = 'line',
 }
 
 export class ToolConstants {
