@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../components/app/app.component';
-import { GalleryWindowComponent } from './components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 
 @NgModule({
   imports: [
@@ -34,6 +33,5 @@ import { GalleryWindowComponent } from './components/modal-windows/gallery-windo
   providers: [{ provide: MatDialogRef, useValue: {} },
   { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
-  declarations: [GalleryWindowComponent],
 })
 export class DrawingViewModule { }

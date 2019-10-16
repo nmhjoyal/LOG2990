@@ -4,6 +4,7 @@ import { MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } 
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppComponent } from './components/app/app.component';
 import { CanvasComponent } from './drawing-view/components/canvas/canvas.component';
+import { GalleryWindowComponent } from './drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-windows/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from './drawing-view/components/modal-windows/save-window/save-window.component';
@@ -20,6 +21,7 @@ import { LocalStorageService } from './services/local_storage/local-storage-serv
     WelcomeWindowComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
     SaveWindowComponent,
+    GalleryWindowComponent,
   ],
   imports: [
     MatListModule,
@@ -34,7 +36,7 @@ import { LocalStorageService } from './services/local_storage/local-storage-serv
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
   entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent,
-    NewDrawingWindowComponent, SaveWindowComponent],
+    NewDrawingWindowComponent, SaveWindowComponent, GalleryWindowComponent],
 })
 export class AppModule {
 }

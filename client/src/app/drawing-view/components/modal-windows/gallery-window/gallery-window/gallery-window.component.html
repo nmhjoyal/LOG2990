@@ -1,1 +1,7 @@
-<p>gallery-window works!</p>
+<div mat-dialog-container class='gallery_window'>
+    <h1 mat-dialog-title id='gallery_window_title'>{{data.title}}</h1>
+    <div mat-dialog-content>
+        <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
+        <button id="submit" type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
+    </div>
+</div>

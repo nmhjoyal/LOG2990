@@ -1,5 +1,7 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+// tslint:disable-next-line: max-line-length
+import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
@@ -18,9 +20,11 @@ export class AppComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private storage: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData, public canvasData: CanvasInformationService) {
-      this.canvasData.data = {drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
-        drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
-        drawingColor: Strings.WHITE_HEX};
+    this.canvasData.data = {
+      drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
+      drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
+      drawingColor: Strings.WHITE_HEX,
+    };
 
     this.data.canvasIsDrawnOn = true;
   }
@@ -40,6 +44,11 @@ export class AppComponent implements OnInit {
     this.openSaveWindow();
   }
 
+  @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.openGalleryWindow();
+  }
+
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {
       if (!this.data.canvasIsDrawnOn) {
@@ -52,7 +61,10 @@ export class AppComponent implements OnInit {
 
   openNewDrawingDialog(): void {
     this.dialog.open(NewDrawingWindowComponent, {
-      data: NewDrawingWindowComponent.prototype.data,
+      data: {
+        data: NewDrawingWindowComponent.prototype.data,
+        canvasData: CanvasInformationService.prototype.data,
+      },
       panelClass: 'new-drawing-window',
     });
   }
@@ -77,6 +89,17 @@ export class AppComponent implements OnInit {
           canvasData: CanvasInformationService.prototype.data,
         },
         panelClass: 'save-window',
+      });
+    }
+  }
+
+  openGalleryWindow(): void {
+    if (this.isOnlyModalOpen()) {
+      this.dialog.open(GalleryWindowComponent, {
+        data: {
+          data: GalleryWindowComponent.prototype.data,
+        },
+        panelClass: 'gallery-window',
       });
     }
   }

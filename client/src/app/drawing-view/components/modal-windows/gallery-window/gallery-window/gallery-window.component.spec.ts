@@ -8,7 +8,7 @@ describe('GalleryWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GalleryWindowComponent ]
+      declarations: [ GalleryWindowComponent ],
     })
     .compileComponents();
   }));
