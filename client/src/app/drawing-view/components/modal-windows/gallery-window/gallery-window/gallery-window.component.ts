@@ -4,6 +4,7 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
 import { SaveWindowComponent } from '../../save-window/save-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-gallery-window',
@@ -12,9 +13,9 @@ import { IGalleryModalData } from './IGalleryModalData';
 })
 export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
 
-  constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData, protected canvasData: CanvasInformationService) {
-    super(dialogRef, data, canvasData);
+  constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData, 
+  protected canvasData: CanvasInformationService, protected storage: ToolHandlerService) {
+    super(dialogRef, data, canvasData, storage);
     this.data.title = 'Voir vos dessins';
   }
 

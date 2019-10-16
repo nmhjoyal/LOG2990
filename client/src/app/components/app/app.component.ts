@@ -8,6 +8,7 @@ import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windo
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 
@@ -18,15 +19,13 @@ import { Strings } from 'src/AppConstants/Strings';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private storage: LocalStorageService,
+  constructor(private dialog: MatDialog, private storage: LocalStorageService, protected toolHandler: ToolHandlerService,
     @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData, public canvasData: CanvasInformationService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
       drawingColor: Strings.WHITE_HEX,
     };
-
-    this.data.canvasIsDrawnOn = true;
   }
 
   ngOnInit(): void {
@@ -49,9 +48,16 @@ export class AppComponent implements OnInit {
     this.openGalleryWindow();
   }
 
+
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseRectangle();
+    }
+  }
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {
-      if (!this.data.canvasIsDrawnOn) {
+      if (!this.toolHandler.drawings.length) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openNewDrawingDialog();
