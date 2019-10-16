@@ -16,7 +16,7 @@ import { ITag } from './ITag';
 })
 export class SaveWindowComponent extends ModalWindowComponent implements OnInit {
 
-  protected nameInput: string;
+  protected name: string;
   protected preview: ISVGPreview;
   private drawing: object[];
 
@@ -41,7 +41,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     console.log('onaccept called');
     let test: IDrawing;
     const date = new Date().toLocaleDateString();
-    test = { name: this.nameInput, preview: this.preview, timestamp: date, shapes: this.drawing };
+    test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing };
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
         if (!test.tags) {

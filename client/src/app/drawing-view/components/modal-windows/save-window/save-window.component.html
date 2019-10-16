@@ -7,7 +7,7 @@
                 <label for="nameInput">Nom: </label>
                 <mat-form-field appearance="fill">
                     <input matInput required id="nameInput" name="nameInput" class="form-control"
-                        [(ngModel)]="data.name" placeholder="Nom du dessin." #nameInput="ngModel">
+                        [(ngModel)]="name" placeholder="Nom du dessin." #nameInput="ngModel">
                     <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="alert alert-danger">
                         <mat-error *ngIf="nameInput.errors.required">
                             Le nom du dessin ne doit pas être nul.
@@ -19,8 +19,8 @@
                     <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control" 
                         placeholder="(Optionnel).">
                 </mat-form-field> 
-                <button id="add" type="button" mat-flat-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
-                <ul><li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button (click)="clickOnTag(tag)" [class.selected-tag]="tag.isSelected">#{{tag.name}}</button></li></ul>
+                <button id="add" type="button" mat-raised-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
+                <ul><li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button type="button" (click)="clickOnTag(tag)" [class.selected-tag]="tag.isSelected">#{{tag.name}}</button></li></ul>
             </div>
         </form>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
