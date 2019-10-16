@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ICanvasData } from './ICanvasData';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CanvasInformationService {
 
-  constructor() { }
+export class CanvasInformationService {
+  data: ICanvasData;
+
 }

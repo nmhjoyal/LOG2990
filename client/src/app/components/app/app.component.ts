@@ -4,6 +4,7 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-wind
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
@@ -16,10 +17,11 @@ import { Strings } from 'src/AppConstants/Strings';
 export class AppComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private storage: LocalStorageService,
-    @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
-    this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
-    this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
-    this.data.drawingColor = Strings.WHITE_HEX;
+    @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData, public canvasData: CanvasInformationService) {
+      this.canvasData.data = {drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
+        drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
+        drawingColor: Strings.WHITE_HEX};
+
     this.data.canvasIsDrawnOn = true;
   }
 
@@ -70,7 +72,10 @@ export class AppComponent implements OnInit {
   openSaveWindow(): void {
     if (this.isOnlyModalOpen()) {
       this.dialog.open(SaveWindowComponent, {
-        data: SaveWindowComponent.prototype.data,
+        data: {
+          data: SaveWindowComponent.prototype.data,
+          canvasData: CanvasInformationService.prototype.data,
+        },
         panelClass: 'save-window',
       });
     }

@@ -9,6 +9,7 @@ import { NewDrawingWindowComponent } from './drawing-view/components/modal-windo
 import { SaveWindowComponent } from './drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
+import { CanvasInformationService } from './services/canvas-information/canvas-information.service';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 
 @NgModule({
@@ -28,7 +29,7 @@ import { LocalStorageService } from './services/local_storage/local-storage-serv
     FormsModule,
     DrawingViewModule,
   ],
-  providers: [MatDialogConfig, LocalStorageService,
+  providers: [MatDialogConfig, LocalStorageService, CanvasInformationService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],

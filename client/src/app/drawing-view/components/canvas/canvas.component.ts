@@ -1,6 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
+import { Component } from '@angular/core';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 
 @Component({
   selector: 'app-canvas',
@@ -9,6 +8,6 @@ import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDr
 })
 export class CanvasComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData) {
+  constructor(protected canvasData: CanvasInformationService) {
   }
 }
