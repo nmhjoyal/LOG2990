@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
 
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
-      if (this.toolHandler.drawings.length) {
+      if (!this.toolHandler.drawings.length) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openNewDrawingDialog();
