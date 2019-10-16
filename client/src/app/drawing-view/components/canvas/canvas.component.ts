@@ -1,10 +1,10 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ShapeAbstract } from '../tools/assets/abstracts/shape-abstract/shape-abstract';
 import { Id } from '../tools/assets/tool-constants';
-import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 
 @Component({
   selector: 'app-canvas',

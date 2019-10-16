@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { IDrawing } from 'src/app/services/drawing-storage/IDrawing';
 import { ISVGPreview } from 'src/app/services/drawing-storage/ISVGPreview';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
 import { ITag } from './ITag';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',

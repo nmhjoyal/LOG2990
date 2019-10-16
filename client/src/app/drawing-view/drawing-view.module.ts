@@ -12,7 +12,6 @@ import { CanvasComponent } from './components/canvas/canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
-
 @NgModule({
   declarations: [
     CanvasComponent,

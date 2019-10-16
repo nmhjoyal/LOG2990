@@ -20,7 +20,7 @@ import { Strings } from 'src/AppConstants/Strings';
 export class AppComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private storage: LocalStorageService, protected toolHandler: ToolHandlerService,
-    @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData, public canvasData: CanvasInformationService) {
+    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData, public canvasData: CanvasInformationService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
     event.preventDefault();
     this.openGalleryWindow();
   }
-
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
     event.preventDefault();
