@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 import { IModalData } from './IModalData';
 
 @Component({
