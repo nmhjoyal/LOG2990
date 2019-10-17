@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
     this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingColor = Strings.WHITE_HEX;
-    this.data.canvasIsDrawnOn = true;
   }
 
   ngOnInit(): void {
@@ -34,12 +33,14 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
     event.preventDefault();
-    this.toolHandler.chooseRectangle();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseRectangle();
+    }
   }
 
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
-      if (!this.data.canvasIsDrawnOn) {
+      if (!this.toolHandler.drawings.length) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openNewDrawingDialog();

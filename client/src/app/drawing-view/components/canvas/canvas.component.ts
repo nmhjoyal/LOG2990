@@ -12,11 +12,10 @@ import { Id } from '../tools/assets/tool-constants';
 })
 export class CanvasComponent {
 
-  toolID = Id;
+  toolId = Id;
   @ViewChild('activeTool', {static: false}) activeTool: ShapeAbstract; // put general tool abstract here
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData, public toolHandler: ToolHandlerService) {
-    // empty body
   }
 
 }

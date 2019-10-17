@@ -41,11 +41,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     this.onClose();
   }
 
-    @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent): void {
-    event.preventDefault();
-    this.storage.chooseRectangle();
-  }
-
   onAcceptClick(): void {
     this.data.drawingHeightInput ? this.data.drawingHeight = this.data.drawingHeightInput
       : this.data.drawingHeight = this.data.drawingHeightPreview;
@@ -53,7 +48,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
       : this.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.data.drawingColor = this.data.drawingColorInput :
       this.data.drawingColor = Strings.WHITE_HEX;
-    this.data.canvasIsDrawnOn = false;
     this.storage.clearPage();
     this.dialogRef.close();
   }

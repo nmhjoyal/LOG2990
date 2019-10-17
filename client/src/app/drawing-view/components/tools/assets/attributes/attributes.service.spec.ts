@@ -13,34 +13,34 @@ describe('AttributesService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#resetSavedAttributes should set rectangleAttributes back to it\'s initial values if they were changed', () => {
+  it('#resetSavedAttributes should set rectangleAttributes back to its initial values if they were changed', () => {
     service = TestBed.get(AttributesService);
-    const rectAttr = service.rectangleAttributes;
-    const defaultRectAttr = rectAttr;
+    const rectangleAttribute = service.rectangleAttributes;
+    const defaultRectAttr = rectangleAttribute;
 
-    rectAttr.wasSaved = true;
-    rectAttr.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
-    rectAttr.savedStrokeWidth = STROKEWIDTH;
+    rectangleAttribute.wasSaved = true;
+    rectangleAttribute.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
+    rectangleAttribute.savedStrokeWidth = STROKEWIDTH;
 
     service.resetSavedAttributes();
 
-    expect(rectAttr).toEqual(defaultRectAttr, 'rectangleAttributes did not take initial values after the expected reset');
+    expect(rectangleAttribute).toEqual(defaultRectAttr, 'rectangleAttributes did not take initial values after the expected reset');
 
   });
 
-  it('#resetSavedAttributes should not set rectangleAttributes back to it\'s initial values if they were never changed', () => {
+  it('#resetSavedAttributes should not set rectangleAttributes back to its initial values if they were never changed', () => {
     service = TestBed.get(AttributesService);
-    const rectAttr = service.rectangleAttributes;
+    const rectangleAttribute = service.rectangleAttributes;
 
-    rectAttr.wasSaved = false;
-    rectAttr.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
-    rectAttr.savedStrokeWidth = STROKEWIDTH;
+    rectangleAttribute.wasSaved = false;
+    rectangleAttribute.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
+    rectangleAttribute.savedStrokeWidth = STROKEWIDTH;
 
-    const unmodifiedRectAttr = rectAttr;
+    const unmodifiedRectAttr = rectangleAttribute;
 
     service.resetSavedAttributes();
 
-    expect(rectAttr).toEqual(unmodifiedRectAttr, 'rectangleAttributes took initial values but wasSaved was false');
+    expect(rectangleAttribute).toEqual(unmodifiedRectAttr, 'rectangleAttributes took initial values but wasSaved was false');
 
   });
 });

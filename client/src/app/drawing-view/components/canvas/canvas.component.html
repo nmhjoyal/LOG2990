@@ -1,11 +1,9 @@
  <svg tabindex="0" class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
         <rect class="rectangle" width=100% height=100%/>   
-    
-    <!--This snippet of SVG shows all saved rectangles; Should be added to the official canvas along with
-    retrieval of saved rectangles from the service in the canvas typescript file.-->
+
     <g *ngFor="let drawing of toolHandler.drawings">
         <g [ngSwitch]="drawing.id">
-            <g *ngSwitchCase="toolID.RECTANGLE">
+            <g *ngSwitchCase="toolId.RECTANGLE">
                 <rect [attr.x] ="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
                 [style.stroke]="drawing.secondaryColor" 
                 [style.fill]="drawing.primaryColor"  

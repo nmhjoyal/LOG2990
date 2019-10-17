@@ -8,7 +8,6 @@ export interface INewDrawingModalData extends IModalData {
     drawingWidth: number;
     drawingColorInput?: string;
     drawingColor: string;
-    canvasIsDrawnOn: boolean;
     drawingWidthPreview: number;
     drawingHeightPreview: number;
 }
