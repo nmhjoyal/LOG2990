@@ -9,6 +9,7 @@ import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { LocalStorageService } from './services/local_storage/LocalStorageService';
+import { MygridService } from './services/mygrid/mygrid.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { LocalStorageService } from './services/local_storage/LocalStorageServic
     FormsModule,
     DrawingViewModule,
   ],
-  providers: [ MatDialogConfig, LocalStorageService,
+  providers: [ MatDialogConfig, LocalStorageService, MygridService,
     { provide: MatDialogRef, useValue: {} },
   { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],

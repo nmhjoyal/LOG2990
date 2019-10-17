@@ -1,11 +1,12 @@
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppConstants } from 'src/AppConstants';
-import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
+import { MygridService } from '../../services/mygrid/mygrid.service';
+//import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +15,12 @@ import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.c
 })
 export class AppComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) private data: NewDrawingModalData) {
+  constructor(private dialog: MatDialog, private storage: LocalStorageService, @Inject(MAT_DIALOG_DATA) private data: NewDrawingModalData, private mygridsvc: MygridService) {
     this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
     this.data.drawingColor = AppConstants.WHITE_HEX;
     this.data.canvasIsDrawnOn = true;
   }
-
-  @ViewChild(CanvasComponent, {static: false})
-  myGridd: CanvasComponent;
 
   ngOnInit(): void {
     this.openWelcomeScreen();
@@ -59,10 +57,16 @@ export class AppComponent implements OnInit {
       });
     }
   }
-  // viewchild
 
-  gridToggle(): void {
-    this.myGridd.toggleGrid();
+  toggleGrid(): void {
+    this.mygridsvc.toggleGrid();
   }
 
+  setOpacity(): void {
+    let stringValue = (document.getElementById('opacityBox') as HTMLInputElement).value;
+    let numberValue = Number(stringValue)/100;      // Car 'slider' va de 0 à 100.
+    this.mygridsvc.setOpacity(numberValue);
+    console.log("value:" + numberValue);
+  }
+  
 }
