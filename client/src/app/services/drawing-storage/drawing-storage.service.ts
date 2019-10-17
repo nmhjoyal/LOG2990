@@ -7,5 +7,5 @@ export class DrawingStorageService {
 
   constructor() {
     //
-   }
+  }
 }

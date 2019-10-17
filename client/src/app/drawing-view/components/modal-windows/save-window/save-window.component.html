@@ -6,8 +6,8 @@
             <div class="form-group">
                 <label for="nameInput">Nom: </label>
                 <mat-form-field appearance="fill">
-                    <input matInput required id="nameInput" name="nameInput" class="form-control"
-                        [(ngModel)]="name" placeholder="Nom du dessin." #nameInput="ngModel">
+                    <input matInput required id="nameInput" name="nameInput" class="form-control" [(ngModel)]="name"
+                        placeholder="Nom du dessin." #nameInput="ngModel">
                     <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="alert alert-danger">
                         <mat-error *ngIf="nameInput.errors.required">
                             Le nom du dessin ne doit pas être nul.
@@ -16,14 +16,18 @@
                 </mat-form-field>
                 <label for="userTagInput">Étiquettes: </label>
                 <mat-form-field appearance="fill">
-                    <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control" 
+                    <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control"
                         placeholder="(Optionnel).">
-                </mat-form-field> 
-                <button id="add" type="button" mat-raised-button (click)="addTag(userTagInput.value)">Ajouter l'étiquette</button>
-                <ul><li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button type="button" (click)="clickOnTag(tag)" [class.selected-tag]="tag.isSelected">#{{tag.name}}</button></li></ul>
+                </mat-form-field>
+                <button id="add" type="button" mat-raised-button (click)="addTag(userTagInput.value)">Ajouter
+                    l'étiquette</button>
+                <ul>
+                    <li id="list-style" *ngFor="let tag of data.displayedTags"><button mat-stroked-button type="button"
+                            (click)="clickOnTag(tag)" [class.selected-tag]="tag.isSelected">#{{tag.name}}</button></li>
+                </ul>
             </div>
         </form>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button id="submit" mat-raised-button  [disabled]="!nameInput.valid" (click)="onAcceptClick()">Accepter</button>
+        <button id="submit" mat-raised-button [disabled]="!nameInput.valid" (click)="onAcceptClick()">Accepter</button>
     </div>
 </div>

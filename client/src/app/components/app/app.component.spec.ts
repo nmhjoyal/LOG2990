@@ -2,6 +2,7 @@ import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
@@ -11,6 +12,7 @@ describe('AppComponent', () => {
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
+  let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
 
   beforeEach(async(() => {
@@ -18,7 +20,8 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock);
+    canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock);
   }));
 
   it('should open dialog when storage returns true', () => {
