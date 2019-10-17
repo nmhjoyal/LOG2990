@@ -3,7 +3,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
-import { RectangleComponent } from './rectangle.component';
+import { RectangleComponent } from '../../shapes/rectangle/rectangle.component';
 
 const STROKE_WIDTH = 10;
 const INITIAL_X = 150;
