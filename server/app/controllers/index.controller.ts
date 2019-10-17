@@ -1,16 +1,18 @@
 import {NextFunction, Request, Response, Router} from 'express';
 import {inject, injectable} from 'inversify';
-
 import {Message} from '../../../common/communication/message';
 import {IndexService} from '../services/index.service';
 import Types from '../types';
+import { SavesController } from './saves.controller';
 
 @injectable()
 export class IndexController {
 
     router: Router;
 
-    constructor(@inject(Types.IndexService) private indexService: IndexService) {
+    constructor(
+        @inject(Types.IndexService) private indexService: IndexService, 
+        @inject(Types.SavesController) private savesController: SavesController) {
         this.configureRouter();
     }
 
@@ -23,8 +25,8 @@ export class IndexController {
                 const time: Message = await this.indexService.helloWorld();
                 res.json(time);
             });
-        
-        this.router.get('/saves',);
+
+        this.router.use('/saves', this.savesController.router); // do routers have a use method like app? how to pass from one controller to the other?
 
         this.router.get('/about',
             (req: Request, res: Response, next: NextFunction) => {
