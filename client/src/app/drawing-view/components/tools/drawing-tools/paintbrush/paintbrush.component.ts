@@ -3,6 +3,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 
 import { DrawingToolsAbstract } from '../../assets/drawing-tools-abstract';
 import { ToolConstants } from '../../assets/tool-constants';
+import { AttributesService } from '../../assets/attributes/attributes.service';
 
 @Component({
   selector: 'app-paintbrush',
@@ -11,25 +12,21 @@ import { ToolConstants } from '../../assets/tool-constants';
 })
 export class PaintbrushComponent extends DrawingToolsAbstract implements OnInit, OnDestroy {
 
-  constructor(myDrawingToolService: ToolHandlerService) {
-    super(myDrawingToolService);
+  constructor(toolServiceRef: ToolHandlerService, attributeServiceRef: AttributesService) {
+    super(toolServiceRef, attributeServiceRef);
     this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
-    this.stroke.strokeWidth = myDrawingToolService.paintbrushStrokeWidth;
-    this.stroke.filter = myDrawingToolService.paintbrushFilter;
   }
 
-    // overwritten method to save attributes
-  saveAttribute() {
-    this.drawingToolService.paintbrushStrokeWidth = this.stroke.strokeWidth;
-    this.drawingToolService.paintbrushFilter = this.stroke.filter;
+  ngOnInit(): void {
+    if(this.attributesService.paintbrushAttributes.wasSaved) {
+      this.stroke.strokeWidth = this.attributesService.paintbrushAttributes.savedStrokeWidth;
+      this.stroke.filter = this.attributesService.paintbrushAttributes.savedFilter;
+    }
   }
 
-  ngOnInit() {
-    // empty block
-  }
-
-  ngOnDestroy() {
-    this.saveAttribute();
+  ngOnDestroy(): void {
+    this.attributesService.paintbrushAttributes.savedStrokeWidth = this.stroke.strokeWidth;
+    this.attributesService.paintbrushAttributes.savedFilter = this.stroke.filter;
   }
 
   setFilter(n: number): void {

@@ -1,9 +1,10 @@
-import { HostListener, Input, OnInit} from '@angular/core';
+import { HostListener, Input, OnInit, OnDestroy} from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawingTool } from './interfaces/drawing-tool-interface';
 import { ToolConstants } from './tool-constants';
+import { AttributesService } from './attributes/attributes.service';
 
-export abstract class DrawingToolsAbstract implements OnInit {
+export abstract class DrawingToolsAbstract implements OnInit, OnDestroy {
 
   protected stroke: IDrawingTool;
   private mouseDown: boolean;
@@ -13,7 +14,7 @@ export abstract class DrawingToolsAbstract implements OnInit {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected drawingToolService: ToolHandlerService) {
+  constructor(protected toolService: ToolHandlerService, protected attributesService: AttributesService) {
     this.stroke = {
     id: '',
     points: '',
@@ -28,9 +29,9 @@ export abstract class DrawingToolsAbstract implements OnInit {
     this.y = 0;
   }
 
-  ngOnInit() {
-    // empty block
-  }
+  abstract ngOnInit(): void;  
+  abstract ngOnDestroy(): void;
+
 
   protected saveShape(): void {
     const currentDrawing: IDrawingTool = {
@@ -43,10 +44,8 @@ export abstract class DrawingToolsAbstract implements OnInit {
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
     };
-    this.drawingToolService.drawings.push(currentDrawing);
+    this.toolService.drawings.push(currentDrawing);
   }
-
-  protected abstract saveAttribute(): void;
 
   // Event handling methods
 

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { AppConstants } from 'src/AppConstants';
 
 @Injectable({
@@ -22,11 +21,6 @@ secondaryColor: string;
 // drawings Storage
 drawings: ITools[] = []; // change type to parent of IDrawingTool
 
-// Attributes Storage
-crayonStrokeWidth: number;
-paintbrushStrokeWidth: number;
-paintbrushFilter: string;
-
 constructor() {
     this.noneSelected = true;
     this.rectangleSelected = false;
@@ -35,9 +29,6 @@ constructor() {
     this.paintbrushSelected = false;
     this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
     this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
-    this.crayonStrokeWidth = ToolConstants.DEFAULT_STROKE_WIDTH;
-    this.paintbrushStrokeWidth = ToolConstants.DEFAULT_STROKE_WIDTH;
-    this.paintbrushFilter = ToolConstants.NONE;
 }
 ​
 // Tool Handling methods
