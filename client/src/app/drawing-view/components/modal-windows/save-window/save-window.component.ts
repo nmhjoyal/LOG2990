@@ -21,8 +21,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   private drawing: object[];
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
-    protected canvasData: CanvasInformationService, protected storage: ToolHandlerService) {
-    super(dialogRef, data, canvasData, storage);
+    protected canvasData: CanvasInformationService, protected toolHandler: ToolHandlerService) {
+    super(dialogRef, data, canvasData, undefined, toolHandler);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.data.displayedTags = [];
   }

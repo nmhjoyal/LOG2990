@@ -16,11 +16,12 @@ import { INewDrawingModalData } from './INewDrawingModalData';
 
 export class NewDrawingWindowComponent extends ModalWindowComponent implements OnInit {
 
-  constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
+  constructor(
+    dialogRef: MatDialogRef<NewDrawingWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData,
     protected canvasData: CanvasInformationService,
-    storage: ToolHandlerService) {
-    super(dialogRef, data, canvasData, storage);
+    protected toolHandler: ToolHandlerService) {
+    super(dialogRef, data, canvasData, undefined, toolHandler);
     this.data.title = Strings.MODAL_TITLE;
     this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingHeightPreview = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
@@ -50,7 +51,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
       : this.canvasData.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.canvasData.data.drawingColor = this.data.drawingColorInput :
       this.canvasData.data.drawingColor = Strings.WHITE_HEX;
-    this.storage.clearPage();
+    this.toolHandler.clearPage();
     this.dialogRef.close();
   }
 
