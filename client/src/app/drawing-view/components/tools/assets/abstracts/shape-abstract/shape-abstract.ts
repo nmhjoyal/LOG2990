@@ -162,13 +162,6 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
     this.toolService.drawings.push(currentDrawing);
   }
 
-  protected saveSelection(): void {
-    this.toolService.selection = { x: this.shape.x, y: this.shape.y, width: this.shape.width, height: this.shape.height,
-      primaryColor: 'black', secondaryColor: 'black', fillOpacity: 0,
-      strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
-    this.resetShape();
-  }
-
   protected resetShape(): void {
     this.mouseDown = false;
     this.shape.height = 0;
