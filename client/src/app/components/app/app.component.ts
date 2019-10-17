@@ -17,7 +17,7 @@ import { ColorPickerComponent } from '../../drawing-view/components/color-picker
 })
 export class AppComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private storage: LocalStorageService, public color: ColorService,
+  constructor(private dialog: MatDialog, private storage: LocalStorageService, public colorService: ColorService,
               protected toolHandler: ToolHandlerService,
               @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
