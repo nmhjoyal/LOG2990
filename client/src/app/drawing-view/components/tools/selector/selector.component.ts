@@ -20,6 +20,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   minWidth: number;
   minHeight: number;
   mouseMoved: boolean;
+  isRightClick: boolean;
+  isReverseSelection: boolean;
 
   constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService) {
     super(toolServiceRef, attributesServiceRef);
@@ -59,26 +61,50 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     event.preventDefault();
     this.mouseMoved = false;
-    if (event.button === ClickTypes.LEFT_CLICK) {
-      this.resetSelection();
-      super.onMouseDown(event);
-    } else if (event.button === ClickTypes.RIGHT_CLICK) {
-      if (!this.selectionExists) {
-        this.resetSelection();
-        super.onMouseDown(event);
-      } else {
-        this.mouseDown = true;
-      }
-    }
+    this.handleMouseDown(event);
+    super.onMouseDown(event);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     super.onMouseMove(event);
+    this.handleMouseMove();
+  }
+
+  @HostListener('mouseup', ['$event']) onRelease(event: MouseEvent): void {
+    event.preventDefault();
+    this.handleMouseUp(event);
+  }
+
+  @HostListener('mouseup') onMouseUp(): void {
+    // Override ShapeAbstract listener (prevents from saving shape)
+    return;
+  }
+
+  handleMouseDown(event: MouseEvent): void {
+    if (event.button === ClickTypes.LEFT_CLICK) {
+      this.isRightClick = false;
+      this.isReverseSelection = false;
+      this.resetSelection();
+    } else if (event.button === ClickTypes.RIGHT_CLICK) {
+      this.isRightClick = true;
+      if (!this.selectionExists()) {
+        this.isReverseSelection = false;
+        this.resetSelection();
+      } else {
+        this.isReverseSelection = true;
+      }
+    }
+  }
+
+  handleMouseMove(): void {
     if (this.mouseDown) {
       this.mouseMoved = true;
       this.resetSize();
       this.updateCorners();
       this.checkForItems();
+      if (this.isReverseSelection) {
+        this.recalculateShape();
+      }
       if (this.selectedObjects.size > 0) {
         this.traceBox(this.topCornerX, this.topCornerY, Math.abs(this.minWidth - this.topCornerX),
         Math.abs(this.minHeight - this.topCornerY));
@@ -88,28 +114,29 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     }
   }
 
-  @HostListener('mouseup', ['$event']) onRelease(event: MouseEvent): void {
+  handleMouseUp(event: MouseEvent): void {
+    // Single clicks
     if (this.mouseDown && !this.mouseMoved) {
       if (event.button === ClickTypes.LEFT_CLICK) {
         this.leftClick(event);
         this.mouseDown = false;
-        return;
       } else if (event.button === ClickTypes.RIGHT_CLICK) {
         this.rightClick(event);
         this.mouseDown = false;
-        return;
+      } else {
+        this.resetSelection();
+        this.resetShape();
       }
-      this.resetSelection();
-      this.resetShape();
-      return;
-    }
-    if (this.selectedObjects.size > 0) {
-      this.traceBox(this.topCornerX, this.topCornerY, Math.abs(this.minWidth - this.topCornerX),
-        Math.abs(this.minHeight - this.topCornerY));
-      this.resetShape();
     } else {
-      this.resetSelection();
-      this.resetShape();
+      // Drag & Drop
+      if (this.selectedObjects.size > 0) {
+        this.traceBox(this.topCornerX, this.topCornerY, Math.abs(this.minWidth - this.topCornerX),
+          Math.abs(this.minHeight - this.topCornerY));
+        this.resetShape();
+      } else {
+        this.resetSelection();
+        this.resetShape();
+      }
     }
   }
 
@@ -121,11 +148,16 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   checkForItems(): void {
-    this.selectedObjects = new Set<IShape>();
+    if (!this.isReverseSelection) {
+      this.selectedObjects.clear();
+    }
     for (const drawing of this.toolService.drawings) {
-      if (drawing.x >= this.previewBox.x && drawing.y >= this.previewBox.y && (drawing.x + drawing.width) <= this.bottomCornerX &&
-          (drawing.y + drawing.height) <= this.bottomCornerY) {
-        this.selectedObjects.add(drawing);
+      if (this.objectInBox(drawing, this.previewBox.x, this.previewBox.y, this.bottomCornerX, this.bottomCornerY)) {
+        if (this.isReverseSelection) {
+            this.selectedObjects.delete(drawing);
+        } else {
+          this.selectedObjects.add(drawing);
+        }
         if (drawing.x < this.topCornerX) {
           this.topCornerX = drawing.x;
         }
@@ -142,12 +174,38 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     }
   }
 
+  recalculateShape(): void {
+    this.topCornerX = this.windowWidth;
+    this.topCornerY = this.windowHeight;
+    this.minWidth = 0;
+    this.minHeight = 0;
+    for (const object of this.selectedObjects) {
+        if (object.x < this.topCornerX) {
+          this.topCornerX = object.x;
+        }
+        if (object.y < this.topCornerY) {
+          this.topCornerY = object.y;
+        }
+        if (this.minWidth < (object.x + object.width)) {
+          this.minWidth = object.x + object.width;
+        }
+        if (this.minHeight < (object.y + object.height)) {
+          this.minHeight = object.y + object.height;
+        }
+    }
+  }
+
   leftClick(event: MouseEvent): void {
     for (const drawing of this.toolService.drawings) {
-      if (drawing.x <= event.offsetX && drawing.y <= event.offsetY && (drawing.x + drawing.width) >= event.offsetX &&
-          (drawing.y + drawing.height) >= event.offsetY) {
-        this.selectedObjects = new Set<IShape>();
+      if (this.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
+        this.selectedObjects.clear();
         this.selectedObjects.add(drawing);
+        this.topCornerX = drawing.x;
+        this.topCornerY = drawing.y;
+        this.minWidth = drawing.x + drawing.width;
+        this.minHeight = drawing.y + drawing.height;
+        this.bottomCornerX = drawing.x + drawing.width;
+        this.bottomCornerY = drawing.y + drawing.height;
         this.traceBox(drawing.x, drawing.y, drawing.width, drawing.height);
         return;
       }
@@ -158,16 +216,16 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   rightClick(event: MouseEvent): void {
     for (const drawing of this.toolService.drawings) {
-      if (drawing.x <= event.offsetX && drawing.y <= event.offsetY && (drawing.x + drawing.width) >= event.offsetX &&
-          (drawing.y + drawing.height) >= event.offsetY) {
+      if (this.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
         if (this.selectedObjects.has(drawing)) {
           this.selectedObjects.delete(drawing);
-        } else {
+          this.recalculateShape();
+          this.traceBox(this.topCornerX, this.topCornerY, Math.abs(this.minWidth - this.topCornerX),
+                        Math.abs(this.minHeight - this.topCornerY));
+          return;
+        } else if (this.selectionExists()) {
           this.selectedObjects.add(drawing);
-          this.minWidth = (drawing.x + drawing.width) > this.minWidth ? (drawing.x + drawing.width) : this.minWidth;
-          this.minHeight = (drawing.y + drawing.y) > this.minHeight ? (drawing.y + drawing.height) : this.minHeight;
-          this.topCornerX = drawing.x < this.topCornerX ? drawing.x : this.topCornerX;
-          this.topCornerY = drawing.y < this.topCornerY ? drawing.y : this.topCornerY;
+          this.recalculateShape();
           this.traceBox(this.topCornerX, this.topCornerY, Math.abs(this.minWidth - this.topCornerX),
                         Math.abs(this.minHeight - this.topCornerY));
           return;
@@ -190,7 +248,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   resetSelection(): void {
-    this.selectedObjects = new Set<IShape>();
+    this.selectedObjects.clear();
     this.topCornerX = 0;
     this.topCornerY = 0;
     this.minWidth = 0;
@@ -209,5 +267,17 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   selectionExists(): boolean {
     return (this.toolService.selection.width > 0 && this.toolService.selection.height > 0);
+  }
+
+  cursorTouchesObject(object: IShape, positionX: number, positionY: number): boolean {
+    return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
+            (object.y + object.height) >= positionY);
+  }
+
+  objectInBox(object: IShape, topX: number, topY: number, bottomX: number, bottomY: number): boolean {
+    return (((object.x <= bottomX && (object.x + object.width) >= bottomX) || (object.x + object.width) <= bottomX) &&
+           ((object.y <= bottomY && (object.y + object.height) >= bottomY) || (object.y + object.height) <= bottomY)) &&
+           (((object.x >= topX && (object.x + object.width) <= topX) || (object.x + object.width) >= topX) &&
+           ((object.y >= topY && (object.y + object.height) <= topY) || (object.y + object.height) >= topY));
   }
 }
