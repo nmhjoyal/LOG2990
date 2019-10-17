@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { NewDrawingModalData } from '../NewDrawingModalData';
-import { DrawingToolsAbstract } from '../tools/assets/drawing-tools-abstract';
+import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
+import { ShapeAbstract } from '../tools/assets/abstracts/shape-abstract/shape-abstract';
 import { Id } from '../tools/assets/tool-constants';
 
 @Component({
@@ -10,17 +10,12 @@ import { Id } from '../tools/assets/tool-constants';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent {
 
-  toolID = Id;
-  @ViewChild('activeTool', {static: false}) activeTool: DrawingToolsAbstract; // put general tool abstract here
+  toolId = Id;
+  @ViewChild('activeTool', {static: false}) activeTool: ShapeAbstract; // put general tool abstract here
 
-  constructor(@Inject(MAT_DIALOG_DATA) protected data: NewDrawingModalData, protected storage: ToolHandlerService) {
-    // empty body
-  }
-
-  ngOnInit() {
-    // empty block
+  constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData, public toolHandler: ToolHandlerService) {
   }
 
 }

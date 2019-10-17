@@ -1,11 +1,12 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
-import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { AppConstants } from 'src/AppConstants';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { Strings } from 'src/AppConstants/Strings';
 
 @Component({
   selector: 'app-root',
@@ -14,30 +15,32 @@ import { AppConstants } from 'src/AppConstants';
 })
 export class AppComponent implements OnInit {
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    event.preventDefault();
-    this.confirmNewDrawing();
+  constructor(private dialog: MatDialog, private storage: LocalStorageService, protected toolHandler: ToolHandlerService,
+              @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
+    this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
+    this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
+    this.data.drawingColor = Strings.WHITE_HEX;
   }
 
   @HostListener('document:keydown.c') onKeydownCEvent() {
     this.toolHandler.chooseCrayon();
   }
 
-  @HostListener('document:keydown.w') onKeydownWEvent() {
-    this.toolHandler.choosePaintbrush();
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.confirmNewDrawing();
   }
 
-  constructor(public dialog: MatDialog, private storage: LocalStorageService, public toolHandler: ToolHandlerService,
-              @Inject(MAT_DIALOG_DATA) public data: NewDrawingModalData) {
-    this.data.drawingHeight = window.innerHeight - AppConstants.TITLEBAR_WIDTH;
-    this.data.drawingWidth = window.innerWidth - AppConstants.SIDEBAR_WIDTH;
-    this.data.drawingColor = '#ffffff';
-    this.data.canvasIsDrawnOn = true;
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseRectangle();
+    }
   }
 
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
-      if (!this.data.canvasIsDrawnOn) {
+      if (!this.toolHandler.drawings.length) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openNewDrawingDialog();

@@ -77,5 +77,35 @@ describe('AttributesService', () => {
     expect(paintbrushAttribute).toEqual(unmodifiedRectAttr, 'paintbrushAttribute took initial values but wasSaved was false');
 
   });
-});
 
+  it('#resetSavedAttributes should set rectangleAttributes back to its initial values if they were changed', () => {
+    service = TestBed.get(AttributesService);
+    const rectangleAttribute = service.rectangleAttributes;
+    const defaultRectAttr = rectangleAttribute;
+
+    rectangleAttribute.wasSaved = true;
+    rectangleAttribute.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
+    rectangleAttribute.savedStrokeWidth = STROKEWIDTH;
+
+    service.resetSavedAttributes();
+
+    expect(rectangleAttribute).toEqual(defaultRectAttr, 'rectangleAttributes did not take initial values after the expected reset');
+
+  });
+
+  it('#resetSavedAttributes should not set rectangleAttributes back to its initial values if they were never changed', () => {
+    service = TestBed.get(AttributesService);
+    const rectangleAttribute = service.rectangleAttributes;
+
+    rectangleAttribute.wasSaved = false;
+    rectangleAttribute.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
+    rectangleAttribute.savedStrokeWidth = STROKEWIDTH;
+
+    const unmodifiedRectAttr = rectangleAttribute;
+
+    service.resetSavedAttributes();
+
+    expect(rectangleAttribute).toEqual(unmodifiedRectAttr, 'rectangleAttributes took initial values but wasSaved was false');
+
+  });
+});

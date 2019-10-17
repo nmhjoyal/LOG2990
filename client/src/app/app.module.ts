@@ -7,7 +7,7 @@ import { ModalWindowComponent } from './drawing-view/components/modal-window/mod
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
-import { LocalStorageService } from './services/local_storage/LocalStorageService';
+import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
 
 @NgModule({
@@ -27,6 +27,10 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     MatCheckboxModule,
     MatSidenavModule,
     FormsModule,
+<<<<<<< HEAD
+=======
+    DrawingViewModule,
+>>>>>>> a5da0a35327749d32a25e87110f01bd66e6cd4dd
   ],
   providers: [ MatDialogConfig, LocalStorageService, ToolHandlerService,
     { provide: MatDialogRef, useValue: {} },

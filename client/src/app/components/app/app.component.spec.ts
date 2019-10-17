@@ -1,23 +1,23 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
-import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
-  let dialogMock: SpyObj<MatDialog>;
-  let dataMock: SpyObj<NewDrawingModalData>;
-  let component: AppComponent;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let dialogMock: SpyObj<MatDialog>;
+  let dataMock: SpyObj<INewDrawingModalData>;
+  let component: AppComponent;
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
+    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock);
   }));
 

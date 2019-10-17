@@ -12,6 +12,9 @@ import { CanvasComponent } from './components/canvas/canvas.component';
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
+import { AttributesService } from './components/tools/assets/attributes/attributes.service';
+import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush
     CrayonComponent,
     PaintbrushComponent,
     DrawingToolToolboxComponent,
-    ],
+    RectangleComponent,
+    ShapeToolboxComponent,
+  ],
 
   imports: [
     BrowserModule,
@@ -34,6 +39,8 @@ import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush
 
   exports: [
     DrawingToolToolboxComponent,
+    CanvasComponent,
+    ShapeToolboxComponent,
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
@@ -42,10 +49,9 @@ import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    CanvasComponent,
   ],
 
-  providers: [],
+  providers: [AttributesService],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })
