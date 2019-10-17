@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ToolConstants } from '../../assets/tool-constants';
 import { DrawingToolsAbstract } from '../../assets/drawing-tools-abstract';
+import { ToolConstants } from '../../assets/tool-constants';
 
 @Component({
   selector: 'app-crayon',
