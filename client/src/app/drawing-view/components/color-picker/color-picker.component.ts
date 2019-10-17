@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from '../../../services/color_service/color.service';
-import { ColorPickerModalData } from '../ColorPickerModalData';
+import { IColorPickerModalData } from '../ColorPickerModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 
 @Component({
@@ -13,7 +13,7 @@ import { ModalWindowComponent } from '../modal-window/modal-window.component';
 export class ColorPickerComponent extends ModalWindowComponent {
   constructor(public colorService: ColorService,
               public dialogRef: MatDialogRef<ModalWindowComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: ColorPickerModalData) {
+              @Inject(MAT_DIALOG_DATA) public data: IColorPickerModalData) {
     super(dialogRef, data);
   }
 

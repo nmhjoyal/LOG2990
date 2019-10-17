@@ -1,4 +1,4 @@
-export interface ColorPickerModalData {
+export interface IColorPickerModalData {
     title?: string ;
     color: string[] ;
     lastColors: string[] ;

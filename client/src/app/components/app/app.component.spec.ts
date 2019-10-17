@@ -1,7 +1,6 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material';
-// import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { ColorService } from 'src/app/services/color_service/color.service';
@@ -54,9 +53,4 @@ describe('AppComponent', () => {
 
   });
 
-  // TODO: Test Switch Colors calls colorService.switchColor
-  /*
-  it('should switch colors', () => {
-  });
-*/
 });

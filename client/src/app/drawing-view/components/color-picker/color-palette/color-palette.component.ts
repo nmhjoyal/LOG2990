@@ -17,9 +17,9 @@ import { ColorService } from '../../../../services/color_service/color.service';
 })
 export class ColorPaletteComponent implements AfterViewInit {
 
-  @Input() mainColor: boolean;
-  @Input() lastColors: string[];
-  @Input() alpha: number[];
+  @Input() private mainColor: boolean;
+  @Input() private lastColors: string[];
+  @Input() private alpha: number[];
 
   @Output() color1: EventEmitter<string> = new EventEmitter();
   @Output() color2: EventEmitter<string> = new EventEmitter();
@@ -36,7 +36,7 @@ export class ColorPaletteComponent implements AfterViewInit {
 
   selectedPosition: { x: number; y: number };
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.draw();
   }
 
@@ -48,39 +48,39 @@ export class ColorPaletteComponent implements AfterViewInit {
     this.ctx.closePath();
   }
 
-  draw() {
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
 
-    const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
+    const colorGradient = this.ctx.createLinearGradient(0, 0, 0, height);
 
     // vertical color grandient
-    gradient.addColorStop(0,    'rgba(255, 0, 0, 1)');
-    gradient.addColorStop(0.15, 'rgba(255, 102, 0, 1)');
-    gradient.addColorStop(0.3,  'rgba(255, 225, 55, 1)');
-    gradient.addColorStop(0.45, 'rgba(0, 200, 25, 1)');
-    gradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
-    gradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
-    gradient.addColorStop(0.9,  'rgba(255, 0, 255, 1)');
-    this.drawGradient(gradient, width, height);
+    colorGradient.addColorStop(0,    'rgba(255, 0, 0, 1)');
+    colorGradient.addColorStop(0.15, 'rgba(255, 102, 0, 1)');
+    colorGradient.addColorStop(0.3,  'rgba(255, 225, 55, 1)');
+    colorGradient.addColorStop(0.45, 'rgba(0, 200, 25, 1)');
+    colorGradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
+    colorGradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
+    colorGradient.addColorStop(0.9,  'rgba(255, 0, 255, 1)');
+    this.drawGradient(colorGradient, width, height);
 
     // horizontal greyscale gradient
-    const gradient2 = this.ctx.createLinearGradient( height, 0, 0, 0) ;
-    gradient2.addColorStop(0, 'rgba(0, 0, 0, 1)');
-    gradient2.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)');
-    gradient2.addColorStop(0.3, 'rgba(0, 0, 0, 0.25)');
-    gradient2.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-    gradient2.addColorStop(0.7, 'rgba(255, 255, 255, 0.25)');
-    gradient2.addColorStop(0.85, 'rgba(255, 255, 255, 0.5)');
-    gradient2.addColorStop(1, 'rgba(255, 255, 255, 1)');
-    this.drawGradient(gradient2, width, height);
+    const greyscaleGradient = this.ctx.createLinearGradient( height, 0, 0, 0) ;
+    greyscaleGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+    greyscaleGradient.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)');
+    greyscaleGradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.25)');
+    greyscaleGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
+    greyscaleGradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.25)');
+    greyscaleGradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.5)');
+    greyscaleGradient.addColorStop(1, 'rgba(255, 255, 255, 1)');
+    this.drawGradient(greyscaleGradient, width, height);
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent): void {
+  onMouseUp(): void {
     this.mousedown = false;
     this.colorService.addColor();
   }
