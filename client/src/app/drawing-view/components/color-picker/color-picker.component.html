@@ -4,7 +4,7 @@
   <div mat-dialog-content>
 
     <div class="color-wrapper">
-      <app-color-palette (color1)="colorService.color[0] = $event" (color2)="colorService.color[1] = $event"
+      <app-color-palette (primaryColor)="colorService.color[0] = $event" (secondaryColor)="colorService.color[1] = $event"
        [lastColors]="colorService.lastColors" [mainColor]="colorService.mainColor" [alpha]="colorService.alpha">
       </app-color-palette>
 

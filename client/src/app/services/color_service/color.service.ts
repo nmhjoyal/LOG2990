@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { Strings } from 'src/AppConstants/Strings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColorService {
 
-    lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
-                  '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-    mainColor = false;
-    primaryColor = '#ffffffff';
-    secondaryColor = '#000000ff';
-    color = [this.primaryColor, this.secondaryColor];
-    alpha = [100, 100];
-    alphaDec = [this.alpha[0] / 100, this.alpha[1] / 100];
+  color: string[] ;
+  lastColors: string[] ;
+  alpha: number[] ;
+  mainColor: boolean ;
+
+  constructor() {
+    this.lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
+                       '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
+    this.mainColor = false;
+    this.color = [Strings.WHITE_HEX, Strings.WHITE_HEX];
+    this.alpha = [NumericalValues.INITIAL_TRANSPARENCY, NumericalValues.INITIAL_TRANSPARENCY];
+  }
 
     chooseColor(primary: boolean): void  {
       if (primary) {
@@ -31,11 +37,14 @@ export class ColorService {
     }
 
     rgbToHex(hue: number): string {
-      if (!hue) {return '00'; } else if (hue < 16) {return ('0' + hue.toString(16)); } else {return hue.toString(16); }
+      if (!hue) {return '00'; }
+      else if (hue < NumericalValues.HEX_LENGTH) {return ('0' + hue.toString(NumericalValues.HEX_LENGTH)); }
+      else {return hue.toString(NumericalValues.HEX_LENGTH); }
     }
 
     setAlpha(alpha: number): void  {
-      this.color[+this.mainColor] = this.color[+this.mainColor].slice(0, 7) + (this.rgbToHex(Math.round(alpha * 2.55)));
+      this.color[+this.mainColor] = this.color[+this.mainColor].slice(0, NumericalValues.HEX_NO_ALPHA)
+                                    + (this.rgbToHex(Math.round(alpha * NumericalValues.RGBTOHEX_FACTOR)));
     }
 
     addColor( ): void  {

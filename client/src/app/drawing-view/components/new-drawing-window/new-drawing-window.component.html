@@ -49,7 +49,7 @@
                     ></div>
                 </mat-form-field>
             </div>
-            <app-color-palette (color1)="data.drawingColorInput = $event" (color2)="colorService.color[1] = $event"
+            <app-color-palette (primaryColor)="data.drawingColorInput = $event" (secondaryColor)="colorService.color[1] = $event"
                 [lastColors]="colorService.lastColors" [mainColor]="colorService.mainColor" [alpha]="colorService.alpha">
             </app-color-palette>
 

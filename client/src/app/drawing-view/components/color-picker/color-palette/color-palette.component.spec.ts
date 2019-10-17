@@ -5,6 +5,7 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Strings } from 'src/AppConstants/Strings';
 import { ColorPaletteComponent } from './color-palette.component';
 
 describe('ColorPaletteComponent', () => {
@@ -36,9 +37,8 @@ describe('ColorPaletteComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ColorPaletteComponent);
         component = fixture.componentInstance;
-        initialColor = '#ffffffff';
-        component.lastColors = [initialColor, initialColor, initialColor, initialColor, initialColor,
-                                initialColor, initialColor, initialColor, initialColor, initialColor];
+        component.lastColors = [Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX,
+                                Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX];
         fixture.detectChanges();
     });
 

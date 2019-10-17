@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from '../../../services/color_service/color.service';
-import { IColorPickerModalData } from '../ColorPickerModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { IColorPickerModalData } from './IColorPickerModalData';
 
 @Component({
   selector: 'app-color-picker',

@@ -1,3 +1,4 @@
+// tslint:disable-next-line: no-implicit-dependencies
 import {expect} from 'chai';
 
 describe('A sample service', () => {

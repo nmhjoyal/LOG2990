@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ColorService } from '../../../../services/color_service/color.service';
 
 @Component({
@@ -18,12 +19,12 @@ import { ColorService } from '../../../../services/color_service/color.service';
 export class ColorPaletteComponent implements AfterViewInit {
 
   @Input() private mainColor: boolean;
-  @Input() private lastColors: string[];
   @Input() private alpha: number[];
+  @Input() lastColors: string[];
 
-  @Output() color1: EventEmitter<string> = new EventEmitter();
-  @Output() color2: EventEmitter<string> = new EventEmitter();
-  color = [this.color1, this.color2];
+  @Output() primaryColor: EventEmitter<string> = new EventEmitter();
+  @Output() secondaryColor: EventEmitter<string> = new EventEmitter();
+  color = [this.primaryColor, this.secondaryColor];
 
   constructor(public colorService: ColorService) {}
 
@@ -57,24 +58,27 @@ export class ColorPaletteComponent implements AfterViewInit {
 
     const colorGradient = this.ctx.createLinearGradient(0, 0, 0, height);
 
+    let separatorFactor = 0;
     // vertical color grandient
-    colorGradient.addColorStop(0,    'rgba(255, 0, 0, 1)');
-    colorGradient.addColorStop(0.15, 'rgba(255, 102, 0, 1)');
-    colorGradient.addColorStop(0.3,  'rgba(255, 225, 55, 1)');
-    colorGradient.addColorStop(0.45, 'rgba(0, 200, 25, 1)');
-    colorGradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
-    colorGradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
-    colorGradient.addColorStop(0.9,  'rgba(255, 0, 255, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * separatorFactor, 'rgba(255, 0, 0, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 102, 0, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 225, 55, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 200, 25, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 255, 255, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 255, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 0, 255, 1)');
     this.drawGradient(colorGradient, width, height);
 
+    separatorFactor = 0;
     // horizontal greyscale gradient
     const greyscaleGradient = this.ctx.createLinearGradient( height, 0, 0, 0) ;
-    greyscaleGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
-    greyscaleGradient.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)');
-    greyscaleGradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.25)');
-    greyscaleGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-    greyscaleGradient.addColorStop(0.7, 'rgba(255, 255, 255, 0.25)');
-    greyscaleGradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.5)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * separatorFactor, 'rgba(0, 0, 0, 1)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.5)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.25)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 255, 255, 0.25)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 255, 255, 0.5)');
     greyscaleGradient.addColorStop(1, 'rgba(255, 255, 255, 1)');
     this.drawGradient(greyscaleGradient, width, height);
   }
@@ -110,7 +114,7 @@ export class ColorPaletteComponent implements AfterViewInit {
     const r = this.colorService.rgbToHex(imageData[0]);
     const g = this.colorService.rgbToHex(imageData[1]);
     const b = this.colorService.rgbToHex(imageData[2]);
-    const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * 2.55));
+    const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * NumericalValues.RGBTOHEX_FACTOR));
     return ( '#' + r + g + b + a );
   }
 
