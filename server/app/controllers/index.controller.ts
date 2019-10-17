@@ -23,6 +23,8 @@ export class IndexController {
                 const time: Message = await this.indexService.helloWorld();
                 res.json(time);
             });
+        
+        this.router.get('/saves',);
 
         this.router.get('/about',
             (req: Request, res: Response, next: NextFunction) => {
