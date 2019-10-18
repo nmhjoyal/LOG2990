@@ -1,8 +1,8 @@
-import {inject, injectable} from 'inversify';
+import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import {Message} from '../../../common/communication/message';
+import { Message } from '../../../common/communication/message';
 import Types from '../types';
-import {DateService} from './date.service';
+import { DateService } from './date.service';
 
 @injectable()
 export class IndexService {
@@ -32,5 +32,13 @@ export class IndexService {
                 body: error as string,
             };
         });
+    }
+
+    async saveDrawing(drawingToSave: any): Promise<boolean> {
+        let drawings: any[] = [];
+        drawings.push(drawingToSave);
+        console.log('SAVING');
+        console.log(drawingToSave);
+        return true;
     }
 }
