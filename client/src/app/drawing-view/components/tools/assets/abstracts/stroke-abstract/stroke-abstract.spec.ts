@@ -117,7 +117,7 @@ describe('StrokeAbstract', () => {
     const mouseDownEvent = new MouseEvent('mousedown');
     strokeTest.onMouseDown(mouseDownEvent);
 
-    const PRESET_POINTS = "10,10 20,20";
+    const PRESET_POINTS = '10,10 20,20';
 
     // tslint:disable:no-string-literal
     strokeTest['stroke'].points = PRESET_POINTS;

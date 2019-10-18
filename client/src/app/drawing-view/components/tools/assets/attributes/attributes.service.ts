@@ -12,53 +12,44 @@ export class AttributesService {
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
 
-
-  constructor() {
+  resetCrayonAttributes(): void {
     this.crayonAttributes = {
       id: ToolConstants.TOOL_ID.CRAYON,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
     };
+  }
+  resetPaintbrushAttributes(): void {
     this.paintbrushAttributes = {
-      id:ToolConstants.TOOL_ID.PAINTBRUSH,
+      id: ToolConstants.TOOL_ID.PAINTBRUSH,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
     };
-      this.rectangleAttributes = {
-        id: ToolConstants.TOOL_ID.RECTANGLE,
-        wasSaved: false,
-        savedStrokeWidth: ToolConstants.NULL,
-        savedTraceMode: ToolConstants.NULL,
-      };
-    }
-
-  resetSavedAttributes() {
+  }
+  resetRectangleAttributes(): void {
+    this.rectangleAttributes = {
+      id: ToolConstants.TOOL_ID.RECTANGLE,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
+    };
+  }
+  resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
-      this.crayonAttributes = {
-        id: ToolConstants.TOOL_ID.CRAYON,
-        wasSaved: false,
-        savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-        savedFilter: ToolConstants.NONE,
-      };
+      this.resetCrayonAttributes();
     }
     if(this.paintbrushAttributes.wasSaved){
-      this.paintbrushAttributes = {
-        id:ToolConstants.TOOL_ID.PAINTBRUSH,
-        wasSaved: false,
-        savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-        savedFilter: ToolConstants.NONE,
-      };
+      this.resetPaintbrushAttributes();
     }
     if (this.rectangleAttributes.wasSaved) {
-      this.rectangleAttributes = {
-        id: ToolConstants.TOOL_ID.RECTANGLE,
-        wasSaved: false,
-        savedStrokeWidth: ToolConstants.NULL,
-        savedTraceMode: ToolConstants.NULL,
-      };
+      this.resetRectangleAttributes();
     }
   }
+  
+  constructor() {
+    this.resetSavedAttributes();
+    }
 
 }
