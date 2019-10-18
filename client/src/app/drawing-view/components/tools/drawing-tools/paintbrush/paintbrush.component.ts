@@ -20,6 +20,7 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
   }
 
   saveAttribute(): void {
+    this.attributesService.paintbrushAttributes.wasSaved = true;
     this.attributesService.paintbrushAttributes.savedStrokeWidth = this.stroke.strokeWidth;
     this.attributesService.paintbrushAttributes.savedFilter = this.stroke.filter;
   }

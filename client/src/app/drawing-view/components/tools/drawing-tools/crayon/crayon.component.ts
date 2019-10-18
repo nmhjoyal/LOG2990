@@ -21,6 +21,7 @@ export class CrayonComponent extends StrokeAbstract implements OnInit, OnDestroy
   }
 
   saveAttribute(): void{
+    this.attributesService.crayonAttributes.wasSaved = true;
     this.attributesService.crayonAttributes.savedStrokeWidth = this.stroke.strokeWidth;
   }
   ngOnInit(): void {
