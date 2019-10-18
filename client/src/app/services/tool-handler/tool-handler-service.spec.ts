@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
 
 describe('ToolHandlerServiceService', () => {
   let service: ToolHandlerService;
+  let colorService: ColorService;
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.get(ToolHandlerService);
+    colorService = TestBed.get(ColorService);
   });
 
   it('should be created with correct initialized values', () => {
@@ -17,18 +20,18 @@ describe('ToolHandlerServiceService', () => {
     expect(service.pinceauSelected).toBe(false);
     expect(service.rectangleSelected).toBe(false);
     expect(service.colourApplicatorSelected).toBe(false);
-    expect(service.primaryColor).toEqual('green'); // need color service here
-    expect(service.secondaryColor).toEqual('blue');
+    expect(service.primaryColor).toEqual(colorService.color[0]);
+    expect(service.secondaryColor).toEqual(colorService.color[1]);
   });
 
   it('#secondaryColor should properly access the secondary color', () => {
-      const color = service.secondaryColor;
-      expect(color).toBe(service.secondaryColor); // USE COLOR SERVICE INSTEAD OF SERVICE HERE
+      const color = colorService.color[1];
+      expect(color).toBe( colorService.color[1]);
   });
 
   it('#primaryColor should propely access the primary color', () => {
-      const color = service.primaryColor;
-      expect(color).toBe(service.primaryColor); // USE COLOR SERVICE INSTEAD OF SERVICE HERE
+      const color = colorService.color[0];
+      expect(color).toBe( colorService.color[0]);
   });
 
   it('#resetSelection should reset all tool selections to false and set noneSelected to true', () => {

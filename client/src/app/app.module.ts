@@ -3,10 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppComponent } from './components/app/app.component';
+import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
+import { ColorPickerComponent } from './drawing-view/components/color-picker/color-picker.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
+import { ColorService } from './services/color_service/color.service';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
 
@@ -18,6 +21,8 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     ModalWindowComponent as Type<ModalWindowComponent>,
     WelcomeWindowComponent,
     NewDrawingWindowComponent,
+    ColorPickerComponent,
+    ColorPaletteComponent,
 
   ],
   imports: [
@@ -28,11 +33,11 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     MatSidenavModule,
     FormsModule,
   ],
-  providers: [ MatDialogConfig, LocalStorageService, ToolHandlerService,
+  providers: [ MatDialogConfig, LocalStorageService, ToolHandlerService, ColorService,
     { provide: MatDialogRef, useValue: {} },
-  { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, NewDrawingWindowComponent],
+  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>,
+    WelcomeWindowComponent, NewDrawingWindowComponent, ColorPickerComponent],
 })
-export class AppModule {
-}
+export class AppModule { }

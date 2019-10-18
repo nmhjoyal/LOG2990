@@ -3,6 +3,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ToolConstants } from '../../assets/tool-constants';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
+import { ColorService } from 'src/app/services/color_service/color.service';
 
 @Component({
   selector: 'app-paintbrush',
@@ -11,8 +12,10 @@ import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-ab
 })
 export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
-  constructor(toolServiceRef: ToolHandlerService, attributeServiceRef: AttributesService) {
-    super(toolServiceRef, attributeServiceRef);
+  constructor(toolServiceRef: ToolHandlerService,
+              attributeServiceRef: AttributesService,
+              colorServiceRef: ColorService) {
+    super(toolServiceRef, attributeServiceRef, colorServiceRef);
     this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
   }
 

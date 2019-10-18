@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { AppConstants } from 'src/AppConstants';
+import { ColorService } from '../color_service/color.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolHandlerService {
 
-// Shape Handling attributes
-noneSelected: boolean;
-rectangleSelected: boolean;
-colourApplicatorSelected: boolean;
-crayonSelected: boolean;
-paintbrushSelected: boolean;
+  // Shape Handling attributes
+  noneSelected: boolean;
+  rectangleSelected: boolean;
+  colourApplicatorSelected: boolean;
+  crayonSelected: boolean;
+  paintbrushSelected: boolean;
+  primaryColorSelected: boolean;
+  secondaryColorSelected: boolean;
 ​
 // Color service simulating attributes
 primaryColor: string;
@@ -21,15 +23,18 @@ secondaryColor: string;
 // drawings Storage
 drawings: ITools[] = []; // general interface for all drawing tools
 
-constructor() {
+  constructor(public colorService: ColorService) {
+    this.drawings = [];
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.paintbrushSelected = false;
-    this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
-    this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
-}
+    this.primaryColorSelected = false;
+    this.secondaryColorSelected = false;
+    this.primaryColor = this.colorService.color[0];
+    this.secondaryColor = this.colorService.color[1];
+  }
 ​
 // Tool Handling methods
 clearPage(): void {
@@ -65,14 +70,28 @@ chooseCrayon(): void {
     this.noneSelected = false;
 }
 ​
-choosePaintbrush(): void {
+  choosePaintbrush(): void {
+      this.resetSelection();
+      this.paintbrushSelected = true;
+      this.noneSelected = false;
+  }
+
+  choosePrimaryColor(): void {
     this.resetSelection();
-    this.paintbrushSelected = true;
+    this.primaryColorSelected = true;
     this.noneSelected = false;
-}
-​
-chooseOther(): void {// Place holder for unimplemented tools
+    this.colorService.chooseColor(false);
+  }  ​
+
+  chooseSecondaryColor(): void {
     this.resetSelection();
-}
+    this.secondaryColorSelected = true;
+    this.noneSelected = false;
+    this.colorService.chooseColor(true);
+  }  ​
+
+  chooseOther(): void {// Place holder for unimplemented tools
+      this.resetSelection();
+  }
 ​
 }

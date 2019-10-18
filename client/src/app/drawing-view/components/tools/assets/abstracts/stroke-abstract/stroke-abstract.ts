@@ -3,6 +3,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolConstants } from '../../tool-constants';
+import { ColorService } from 'src/app/services/color_service/color.service';
 
 
 export abstract class StrokeAbstract implements OnInit, OnDestroy {
@@ -15,11 +16,13 @@ export abstract class StrokeAbstract implements OnInit, OnDestroy {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService, protected attributesService: AttributesService) {
+  constructor(protected toolService: ToolHandlerService, 
+              protected attributesService: AttributesService,
+              protected colorService: ColorService) {
     this.stroke = {
     id: '',
     points: '',
-    color: 'blue',
+    color: colorService.color[0],
     strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     fill: ToolConstants.NONE,
     strokeLinecap: ToolConstants.ROUND,
