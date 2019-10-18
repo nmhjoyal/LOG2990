@@ -8,7 +8,6 @@ import { ToolConstants } from '../../assets/tool-constants';
 @Component({
   selector: 'app-tools-rectangle',
   templateUrl: './rectangle.component.html',
-  styleUrls: ['./rectangle.component.scss'],
 })
 export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestroy {
 

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { CanvasComponent } from '../../../canvas/canvas.component';
 import { ModeType } from '../../assets/tool-constants';
-import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
+import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract';
 
 @Component({
   selector: 'app-drawing-tool-toolbox',
@@ -22,7 +22,7 @@ export class DrawingToolToolboxComponent implements OnInit {
     // empty block
   }
 
-  getComponent(): ShapeAbstract {
+  getComponent(): ToolAbstract {
     return this.canvas.activeTool;
   }
 

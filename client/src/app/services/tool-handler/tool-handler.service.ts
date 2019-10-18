@@ -21,7 +21,7 @@ primaryColor: string;
 secondaryColor: string;
 ​
 // drawings Storage
-drawings: ITools[] = []; // general interface for all drawing tools
+drawings: ITools[] = [];
 
   constructor(public colorService: ColorService) {
     this.drawings = [];

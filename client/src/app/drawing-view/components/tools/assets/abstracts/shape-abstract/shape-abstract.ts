@@ -4,8 +4,9 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
+import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
-export abstract class ShapeAbstract implements OnInit, OnDestroy {
+export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDestroy {
   protected initialX: number;
   protected initialY: number;
   protected cursorX: number;
@@ -22,6 +23,7 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
   constructor(protected toolService: ToolHandlerService,
               protected attributesService: AttributesService,
               protected colorService: ColorService) {
+    super();
     this.mouseDown = false;
     this.shiftDown = false;
     this.initialX = 0;
@@ -127,13 +129,13 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
 
       case ToolConstants.TRACE_MODE.FILL:
         this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
-        this.shape.primaryColor = this.colorService.color[0]; //
+        this.shape.primaryColor = this.colorService.color[0];
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.secondaryColor = this.colorService.color[1]; //
-        this.shape.primaryColor = this.colorService.color[0]; //
+        this.shape.secondaryColor = this.colorService.color[1];
+        this.shape.primaryColor = this.colorService.color[0];
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 

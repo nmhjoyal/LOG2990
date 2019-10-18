@@ -4,9 +4,10 @@ import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolConstants } from '../../tool-constants';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 
-export abstract class StrokeAbstract implements OnInit, OnDestroy {
+export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
 
   protected stroke: IDrawingTool;
   private mouseDown: boolean;
@@ -19,6 +20,7 @@ export abstract class StrokeAbstract implements OnInit, OnDestroy {
   constructor(protected toolService: ToolHandlerService, 
               protected attributesService: AttributesService,
               protected colorService: ColorService) {
+    super();
     this.stroke = {
     id: '',
     points: '',
