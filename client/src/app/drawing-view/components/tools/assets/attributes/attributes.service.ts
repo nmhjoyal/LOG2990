@@ -13,15 +13,9 @@ export class AttributesService {
   rectangleAttributes: IShapeOptions;
 
   constructor() {
-    this.rectangleAttributes = {
-      id: ToolConstants.TOOL_ID.RECTANGLE,
-      wasSaved: false,
-      savedStrokeWidth: ToolConstants.NULL,
-      savedTraceMode: ToolConstants.NULL,
-    };
-
-    // INITIALISE CHAQUE BANQUE D'ATTRIBUTS!!! les methode reset AFFECTENT  des valeurs (=) mais ne les INITIALISE pas! (:)
-
+    this.resetRectangleAttributes();
+    this.resetCrayonAttributes();
+    this.resetPaintbrushAttributes();
     }
 
   resetCrayonAttributes(): void {
