@@ -37,9 +37,9 @@ export class ColorService {
     }
 
     rgbToHex(hue: number): string {
-      if (!hue) {return '00'; }
-      else if (hue < NumericalValues.HEX_LENGTH) {return ('0' + hue.toString(NumericalValues.HEX_LENGTH)); }
-      else {return hue.toString(NumericalValues.HEX_LENGTH); }
+      if (!hue) {return '00';
+      } else if (hue < NumericalValues.HEX_LENGTH) {return ('0' + hue.toString(NumericalValues.HEX_LENGTH));
+      } else {return hue.toString(NumericalValues.HEX_LENGTH); }
     }
 
     setAlpha(alpha: number): void  {

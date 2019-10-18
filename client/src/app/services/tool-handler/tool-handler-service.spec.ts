@@ -8,6 +8,7 @@ describe('ToolHandlerServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.get(ToolHandlerService);
+    colorService = TestBed.get(ColorService);
   });
 
   it('should be created with correct initialized values', () => {

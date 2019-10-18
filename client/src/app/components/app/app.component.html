@@ -49,7 +49,7 @@
                 </a>
                 <a mat-list-item  class = "switchIcon" >
                     <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" 
-                    (click)="colorService.switchColors()" >            
+                    (click)='colorService.switchColors(); toolHandler.resetSelection()'>            
                 </a>
                 <a mat-list-item >
                     <div class = "color-preview" title = "Secondary color"

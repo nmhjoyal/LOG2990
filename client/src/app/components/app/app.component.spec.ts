@@ -16,6 +16,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
 
   beforeEach(async(() => {
+    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
