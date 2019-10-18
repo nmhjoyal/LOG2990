@@ -22,10 +22,19 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  @HostListener('document:keydown.c') onKeydownCEvent() {
-    this.toolHandler.chooseCrayon();
+  @HostListener('document:keydown.c') onKeydownCEvent(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseCrayon();
+    }
   }
 
+  @HostListener('document:keydown.w') onKeydownWEvent(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.choosePaintbrush();
+    }
+  }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
