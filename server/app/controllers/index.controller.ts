@@ -18,8 +18,8 @@ export class IndexController {
         this.router = Router();
 
         this.router.use((req, res, next) => {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header(
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader(
                 'Access-Control-Allow-Headers',
                 'Origin, X-Requested-With, Content-Type, Accept',
             );
@@ -43,7 +43,11 @@ export class IndexController {
                 const success: boolean = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);
             });
-            
 
+        this.router.post('/tags',
+            async (req: Request, res: Response, next: NextFunction) => {
+                const success: boolean = await this.indexService.saveTags(req.body.tags);
+                res.json(success);
+            })
     }
 }

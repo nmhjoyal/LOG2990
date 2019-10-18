@@ -35,6 +35,19 @@ export class IndexService {
       });
   }
 
+  async saveTag(tag: any) {
+    return this.http
+    .post('http://localhost:3000/tags', { tagToSave: tag })
+    .toPromise().then((response: any) => {
+      if (response.json()) {
+        console.log(tag + 'SAVED');
+        return true;
+      }
+      console.log(tag + 'SAVE FAILED');
+      return false;
+    });
+  }
+
   private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
     return (error: Error): Observable<T> => {
       confirm('Request:' + request.valueOf + ' returned error: ' + error.name + ' with message ' + error.message);

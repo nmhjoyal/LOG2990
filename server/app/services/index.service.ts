@@ -4,6 +4,7 @@ import { Message } from '../../../common/communication/message';
 import Types from '../types';
 import { DateService } from './date.service';
 
+
 @injectable()
 export class IndexService {
     constructor(
@@ -39,6 +40,14 @@ export class IndexService {
         drawings.push(drawingToSave);
         console.log('SAVING');
         console.log(drawingToSave);
+        return true;
+    }
+
+    async saveTags(tagToSave: any): Promise<boolean> {
+        let tags: any = [];
+        tags.push(tagToSave);
+        console.log('SAVING');
+        console.log(tags);
         return true;
     }
 }
