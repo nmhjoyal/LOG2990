@@ -1,3 +1,4 @@
+
 <div>
     <mat-toolbar color="secondary">
         <h1 class="app-name">POLYDESSIN</h1>
@@ -44,6 +45,20 @@
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
+                <a mat-list-item >
+                    <div class = "color-preview" title = "Primary color" 
+                    [ngStyle]="{'background-color': colorService.color[0]} "
+                     (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'></div>
+                </a>
+                <a mat-list-item  class = "switchIcon" >
+                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" 
+                    (click)='colorService.switchColors(); toolHandler.resetSelection()'>            
+                </a>
+                <a mat-list-item >
+                    <div class = "color-preview" title = "Secondary color"
+                    [ngStyle]="{'background-color': colorService.color[1]} "
+                    (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'></div>
+                 </a>
             </mat-nav-list>
         </mat-sidenav>
 
@@ -60,5 +75,4 @@
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
-
 </div>
