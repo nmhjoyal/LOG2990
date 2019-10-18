@@ -7,6 +7,7 @@ import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract
 @Component({
   selector: 'app-shape-toolbox',
   templateUrl: './shape-toolbox.component.html',
+  styleUrls: ['./shape-toolbox.component.scss'],
 })
 export class ShapeToolboxComponent implements OnInit {
 
