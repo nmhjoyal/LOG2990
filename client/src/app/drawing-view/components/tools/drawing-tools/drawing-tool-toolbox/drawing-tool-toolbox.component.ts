@@ -11,10 +11,11 @@ import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract
 })
 export class DrawingToolToolboxComponent implements OnInit {
 
-  @Input() canvas: CanvasComponent;
   mode = ModeType;
+  @Input() canvas: CanvasComponent;
 
-  constructor(protected storage: ToolHandlerService) {
+
+  constructor(protected toolHandler: ToolHandlerService) {
     // empty block
   }
 
