@@ -2,20 +2,27 @@ import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { ColorService } from 'src/app/services/color_service/color.service';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
+  let colorServiceMock: SpyObj<ColorService>;
+  let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let component: AppComponent;
 
   beforeEach(async(() => {
-    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
+    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
+    colorServiceMock = jasmine.createSpyObj('ColorService', ['']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, serviceMock, dataMock);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
+    dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
+    component = new AppComponent(dialogMock, serviceMock, colorServiceMock, toolHandlerMock, dataMock);
+
   }));
 
   it('should open dialog when storage returns true', () => {
@@ -37,4 +44,14 @@ describe('AppComponent', () => {
     component.openNewDrawingDialog();
     expect(dialogMock.open).toHaveBeenCalled();
   });
+
+  it('should open a new color dialog', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    serviceMock.getShowAgain.and.returnValue(false);
+    component.ngOnInit();
+    component.openChooseColorDialog();
+    expect(dialogMock.open).toHaveBeenCalled();
+
+  });
+
 });

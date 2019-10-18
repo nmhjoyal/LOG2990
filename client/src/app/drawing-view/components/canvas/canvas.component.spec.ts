@@ -9,8 +9,10 @@ import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef,
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { DrawingViewModule } from '../../drawing-view.module';
+import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
+import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
@@ -36,9 +38,10 @@ describe('CanvasComponent', () => {
       declarations: [
         AppComponent,
         NewDrawingWindowComponent,
-        CanvasComponent,
         WelcomeWindowComponent,
         ModalWindowComponent as Type<ModalWindowComponent>,
+        ColorPaletteComponent,
+        ColorPickerComponent,
       ],
       providers: [  MatDialogConfig, LocalStorageService,
         { provide: MatDialogRef, useValue: {} },
@@ -51,10 +54,9 @@ describe('CanvasComponent', () => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 
-  it('should have a defined injected data', () => {
+  it('should properly create the component', () => {
     const fixture = TestBed.createComponent(CanvasComponent);
     const app = fixture.componentInstance;
-    app.ngOnInit();
-    expect(dataMock).toBeDefined();
+    expect(app).toBeDefined();
   });
 });

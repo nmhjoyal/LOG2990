@@ -1,3 +1,4 @@
+
 <div>
     <mat-toolbar color="secondary">
         <h1 class="app-name">POLYDESSIN</h1>
@@ -10,29 +11,29 @@
                     <img id="newDrawing" class="sideBarIcon" src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" 
                     title="Nouveau dessin">
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume">
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
                 <a mat-list-item class="filter" >
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseRectangle()'>
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Rectangle">
                 </a>
                 <a mat-list-item class="filter" (click)="sidenav2.toggle()">
                         <!-- this is supposed to toggle the right side sidenav with extra options; it doesn't work with new format -->
@@ -41,10 +42,24 @@
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
+                <a mat-list-item >
+                    <div class = "color-preview" title = "Primary color" 
+                    [ngStyle]="{'background-color': colorService.color[0]} "
+                     (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'></div>
+                </a>
+                <a mat-list-item  class = "switchIcon" >
+                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" 
+                    (click)='colorService.switchColors(); toolHandler.resetSelection()'>            
+                </a>
+                <a mat-list-item >
+                    <div class = "color-preview" title = "Secondary color"
+                    [ngStyle]="{'background-color': colorService.color[1]} "
+                    (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'></div>
+                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <app-canvas style="width: 0; height: 0" ></app-canvas>
 
+            <app-canvas #myCanvas></app-canvas>
             <mat-sidenav #sidenav2 position="end">
             <mat-nav-list>
                 <a mat-list-item class="filter">
@@ -53,8 +68,8 @@
                 <a mat-list-item class="filter">
                     <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">
                 </a>
+                <app-shape-toolbox [canvas]='myCanvas'></app-shape-toolbox>
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
-
 </div>
