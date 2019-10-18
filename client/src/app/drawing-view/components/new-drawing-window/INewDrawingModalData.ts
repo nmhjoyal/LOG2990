@@ -10,4 +10,5 @@ export interface INewDrawingModalData extends IModalData {
     drawingColor: string;
     drawingWidthPreview: number;
     drawingHeightPreview: number;
+    color: string[];
 }

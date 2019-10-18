@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
+import { ColorService } from '../../../services/color_service/color.service';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 
@@ -17,6 +18,7 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
 
   constructor(dialogRef: MatDialogRef<NewDrawingWindowComponent>,
               @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData,
+              public colorService: ColorService,
               private storage: ToolHandlerService) {
     super(dialogRef, data);
     this.data.title = Strings.MODAL_TITLE  ;
@@ -60,7 +62,6 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     } else {
       this.dialogRef.close();
     }
-
   }
 
   reinitializeDrawingVariables(): void {

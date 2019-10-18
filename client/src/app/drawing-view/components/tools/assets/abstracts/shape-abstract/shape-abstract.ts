@@ -1,6 +1,7 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
 
@@ -18,7 +19,9 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService, protected attributesService: AttributesService) {
+  constructor(protected toolService: ToolHandlerService,
+              protected attributesService: AttributesService,
+              protected colorService: ColorService) {
     this.mouseDown = false;
     this.shiftDown = false;
     this.initialX = 0;
@@ -37,8 +40,8 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
       y: 0,
       width: 0,
       height: 0,
-      primaryColor: 'green', // take values of the colorService. Make sure they are updated dynamically...
-      secondaryColor: 'blue',
+      primaryColor: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
+      secondaryColor: this.colorService.color[1],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from color service */ };
@@ -117,20 +120,20 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case ToolConstants.TRACE_MODE.CONTOUR:
-        this.shape.secondaryColor = 'blue'; // load from color service
+        this.shape.secondaryColor = this.colorService.color[1]; // load from color service
         this.shape.primaryColor = ToolConstants.NONE;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
         this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
-        this.shape.primaryColor = 'green'; // load from color service
+        this.shape.primaryColor = this.colorService.color[0]; //
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.secondaryColor = 'blue'; // load from color service
-        this.shape.primaryColor = 'green'; // load from color service
+        this.shape.secondaryColor = this.colorService.color[1]; //
+        this.shape.primaryColor = this.colorService.color[0]; //
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 
