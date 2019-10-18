@@ -1,9 +1,0 @@
-<p *ngIf="!(toolHandler.noneSelected)">
-  <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
-  <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
-  <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
-  <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-  {{getComponent().shape.strokeWidth}}
-  <button (click)="getComponent().increaseStrokeWidth()">+</button>
-</p>
-  

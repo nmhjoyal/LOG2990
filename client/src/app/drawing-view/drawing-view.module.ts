@@ -14,7 +14,6 @@ import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/dr
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
-import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +22,7 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
     PaintbrushComponent,
     DrawingToolToolboxComponent,
     RectangleComponent,
-    ShapeToolboxComponent,
-  ],
+],
 
   imports: [
     BrowserModule,
@@ -40,7 +38,6 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
   exports: [
     DrawingToolToolboxComponent,
     CanvasComponent,
-    ShapeToolboxComponent,
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
