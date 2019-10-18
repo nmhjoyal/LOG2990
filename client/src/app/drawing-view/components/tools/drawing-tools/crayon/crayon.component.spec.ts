@@ -8,11 +8,12 @@
     import { OnInit, OnDestroy } from '@angular/core';
     import { AttributesService } from '../../assets/attributes/attributes.service';
     import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
+import { ColorService } from 'src/app/services/color_service/color.service';
     
     class AbstractSpy extends StrokeAbstract implements OnInit, OnDestroy {
     
-      constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService) {
-        super(serviceInstance, attributesInstance);
+      constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService, colorInstance: ColorService) {
+        super(serviceInstance, attributesInstance, colorInstance);
       }
       // mock of abstract methods
       ngOnInit(): void {
@@ -34,6 +35,7 @@
       let fixture: ComponentFixture<CrayonComponent>;
       let toolSpy: ToolHandlerService;
       let attributeSpy: AttributesService;
+      let colorSpy: ColorService;
       let abstractSpy: AbstractSpy;
     
       beforeEach(async(() => {
@@ -51,11 +53,12 @@
     
       beforeEach( async () => {
         fixture = TestBed.createComponent(CrayonComponent);
-        toolSpy = new ToolHandlerService();
+        colorSpy = new ColorService();
+        toolSpy = new ToolHandlerService(colorSpy);
         attributeSpy = new AttributesService();
-        component = new CrayonComponent(toolSpy, attributeSpy);
+        component = new CrayonComponent(toolSpy, attributeSpy, colorSpy);
         fixture.detectChanges();
-        abstractSpy = new AbstractSpy(toolSpy, attributeSpy);
+        abstractSpy = new AbstractSpy(toolSpy, attributeSpy, colorSpy);
       });
     
       it('should create', () => {

@@ -18,12 +18,10 @@ describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let colorService: ColorService;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
-  let toolHandlerServiceMock: SpyObj<ToolHandlerService>;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
   const storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-  toolHandlerServiceMock = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
 
   const NEW_WINDOW_SIZE = 500;
   const MOCK_USER_INPUT = 200;
