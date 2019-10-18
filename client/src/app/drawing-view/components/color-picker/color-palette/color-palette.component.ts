@@ -111,9 +111,10 @@ export class ColorPaletteComponent implements AfterViewInit {
 
   getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data;
-    const r = this.colorService.rgbToHex(imageData[0]);
-    const g = this.colorService.rgbToHex(imageData[1]);
-    const b = this.colorService.rgbToHex(imageData[2]);
+    let arrayIndex = 0;
+    const r = this.colorService.rgbToHex(imageData[arrayIndex]);
+    const g = this.colorService.rgbToHex(imageData[++arrayIndex]);
+    const b = this.colorService.rgbToHex(imageData[++arrayIndex]);
     const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * NumericalValues.RGBTOHEX_FACTOR));
     return ( '#' + r + g + b + a );
   }

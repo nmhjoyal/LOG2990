@@ -1,3 +1,4 @@
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ColorService } from './color.service';
 
 describe('ColorService ', () => {
@@ -19,16 +20,16 @@ describe('ColorService ', () => {
     });
 
     it('should turn a value of <16 into string 0 + hex value', () => {
-        expect(instance.rgbToHex(15)).toBe('0f');
+        expect(instance.rgbToHex(NumericalValues.HEX_LENGTH - 1)).toBe('0f');
     });
 
     it('should turn a value of >15 into string hex value', () => {
-        expect(instance.rgbToHex(16)).toBe('10');
+        expect(instance.rgbToHex(NumericalValues.HEX_LENGTH)).toBe('10');
     });
 
     it('should have default alpha = 1', () => {
-        expect(instance.alpha[0]).toEqual(100);
-        expect(instance.alpha[1]).toEqual(100);
+        expect(instance.alpha[0]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
+        expect(instance.alpha[1]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
     });
 
     it('should have defalut primary color = white', () => {
@@ -39,17 +40,9 @@ describe('ColorService ', () => {
         expect(instance.color[1]).toEqual('#000000ff');
     });
 
-    it('should have last 10 colors be of length 10', () => {
-        expect(instance.lastColors.length).toEqual(10);
-    });
-
     it('should switch primary color with secondary color ', () => {
         color.switchColors();
         expect(color.switchColors).toHaveBeenCalled();
-    });
-
-    it('should have last 10 colors be of length 10', () => {
-        expect(instance.lastColors.length).toEqual(10);
     });
 
     it('should add color to when Alpha is changed', () => {
