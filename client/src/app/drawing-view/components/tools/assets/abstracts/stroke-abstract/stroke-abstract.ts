@@ -51,20 +51,20 @@ export abstract class StrokeAbstract implements OnInit, OnDestroy {
 
   // Event handling methods
 
-  @HostListener('mousedown', ['$event']) onMouseDown(event: any) {
+  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     this.mouseDown = true;
     this.stroke.points = event.offsetX + ',' + event.offsetY;
     this.x = event.offsetX;
     this.y = event.offsetY;
   }
 
-  @HostListener('mousemove', ['$event']) onMouseMove(event: any) {
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       this.stroke.points += (' ' + event.offsetX + ',' + event.offsetY);
     }
   }
 
-  @HostListener('mouseup', ['$event']) onMouseUp(event: any) {
+  @HostListener('mouseup', ['$event']) onMouseUp(event: MouseEvent): void {
 
     if (this.x === event.offsetX && this.y === event.offsetY) {
       this.stroke.points += (' ' + (event.offsetX + 0.1) + ',' + (event.offsetY + 0.1));
@@ -74,7 +74,7 @@ export abstract class StrokeAbstract implements OnInit, OnDestroy {
     this.stroke.points = '';
   }
 
-  @HostListener('mouseleave', ['$event']) onMouseLeave(event: any) {
+  @HostListener('mouseleave', ['$event']) onMouseLeave(event: MouseEvent): void {
     if (this.mouseDown) {
       this.onMouseUp(event);
     }
