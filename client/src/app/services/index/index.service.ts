@@ -1,8 +1,9 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import {Message} from '../../../../../common/communication/message';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Message } from '../../../../../common/communication/message';
+import { IDrawing } from '../drawing-storage/IDrawing';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,19 @@ export class IndexService {
     return this.http.get<Message>(this.BASE_URL).pipe(
       catchError(this.handleError<Message>('basicGet')),
     );
+  }
+
+  async saveDrawing(drawing: IDrawing): Promise<boolean> {
+    return this.http
+      .put('http://localhost:3000/about', { drawingToSave: drawing })
+      .toPromise().then((response: any) => {
+        if (response.json()) {
+          console.log('SAVED');
+          return true;
+        }
+        console.log('SAVE FAILED');
+        return false;
+      });
   }
 
   private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
