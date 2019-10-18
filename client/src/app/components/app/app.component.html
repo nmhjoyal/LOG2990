@@ -10,31 +10,25 @@
                     <img id="newDrawing" class="sideBarIcon" src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" 
                     title="Nouveau dessin">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon"
-                    (click)='toolHandler.chooseCrayon()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()' >
+                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon" >
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo"
-                    (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo" >
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau"
-                    (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau" >
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau"
-                    (click)='toolHandler.choosePaintbrush()'>
+                <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
+                    <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume"
-                    (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                    <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol"
-                    (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                    <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
-                <a mat-list-item class="filter" >
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseRectangle()'>
