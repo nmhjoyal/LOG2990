@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
@@ -11,8 +12,8 @@ import { ToolConstants } from '../../assets/tool-constants';
 })
 export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService) {
-    super(toolServiceRef, attributesServiceRef);
+  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
+    super(toolServiceRef, attributesServiceRef, colorServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.RECTANGLE;
   }
 

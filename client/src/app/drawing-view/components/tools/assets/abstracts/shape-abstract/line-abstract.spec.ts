@@ -4,18 +4,19 @@ import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
-import { ShapeAbstract } from './shape-abstract';
+import { LineAbstract } from './line-abstract';
 
 @Component({
     selector: 'test-shape-abstract',
     template: '<svg x=0 y=0 width=1000 height=1000><\svg>',
   })
-class ShapeTestComponent extends ShapeAbstract implements OnInit, OnDestroy {
+class ShapeTestComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService) {
-    super(serviceInstance, attributesInstance);
+  constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService, colorInstance: ColorService) {
+    super(serviceInstance, attributesInstance, colorInstance);
   }
 
   // mock of abstract methods

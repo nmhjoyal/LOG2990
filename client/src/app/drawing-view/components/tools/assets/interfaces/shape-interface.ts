@@ -16,7 +16,13 @@ export interface IPreviewLine {
     y2: number;
 }
 
-export interface IShape extends IPreviewBox, IPreviewLine, IDrawingTool {
+export interface ILine extends IPreviewLine, IDrawingTool {
+    primaryColor: string;
+    strokeOpacity: number;
+    strokeWidth: number;
+}
+
+export interface IShape extends IPreviewBox, IDrawingTool {
     primaryColor: string;
     secondaryColor: string;
     strokeOpacity: number;

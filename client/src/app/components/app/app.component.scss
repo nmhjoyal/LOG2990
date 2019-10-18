@@ -29,6 +29,20 @@
     height: auto;
 }
 
-.filter:hover {
-    background-color: grey;
-}
+.color-preview{
+    height: auto;
+    width: 24px;
+    border-radius: 50px;
+    border: 2px solid grey;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .switchIcon{
+    transform: rotate(90deg);
+  }
+
+  .choose-color-window{
+    height: 200px;
+    width: 200px;
+  }
