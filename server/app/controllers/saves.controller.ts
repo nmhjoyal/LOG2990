@@ -18,7 +18,6 @@ export class SavesController {
         
         this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
             res.send('<p>Page contenant les dessins sauvegardés</p>');
-            res.send(this.savesService.sayHello());
         });
     }
 }

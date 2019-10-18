@@ -26,8 +26,8 @@ export class IndexController {
                 res.json(time);
             });
 
-        this.router.use('/saves', this.savesController.router); // do routers have a use method like app? how to pass from one controller to the other?
-
+        this.router.use('/saves', this.savesController.router); 
+        
         this.router.get('/about',
             (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response

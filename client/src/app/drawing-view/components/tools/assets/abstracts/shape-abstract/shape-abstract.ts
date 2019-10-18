@@ -127,13 +127,13 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
 
       case ToolConstants.TRACE_MODE.FILL:
         this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
-        this.shape.primaryColor = this.colorService.color[0]; //
+        this.shape.primaryColor = this.colorService.color[0];
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.secondaryColor = this.colorService.color[1]; //
-        this.shape.primaryColor = this.colorService.color[0]; //
+        this.shape.secondaryColor = this.colorService.color[1];
+        this.shape.primaryColor = this.colorService.color[0];
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 
