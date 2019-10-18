@@ -24,7 +24,7 @@ export class IndexService {
 
   async saveDrawing(drawing: IDrawing): Promise<boolean> {
     return this.http
-      .put('http://localhost:3000/about', { drawingToSave: drawing })
+      .post('http://localhost:3000/save', { drawingToSave: drawing })
       .toPromise().then((response: any) => {
         if (response.json()) {
           console.log('SAVED');

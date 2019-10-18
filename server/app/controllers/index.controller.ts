@@ -43,5 +43,7 @@ export class IndexController {
                 const success: boolean = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);
             });
+            
+
     }
 }
