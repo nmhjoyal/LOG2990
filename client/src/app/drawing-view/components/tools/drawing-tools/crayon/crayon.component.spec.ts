@@ -2,13 +2,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ToolConstants } from '../../assets/tool-constants';
 import { AttributesService } from '../../assets/attributes/attributes.service';
+import { ToolConstants } from '../../assets/tool-constants';
 import { CrayonComponent } from './crayon.component';
 
 const INITIAL_X = 150;
 const INITIAL_Y = 200;
-
 
 describe('CrayonComponent', () => {
   let component: CrayonComponent;

@@ -10,7 +10,7 @@ export interface IDrawingTool extends ITools {
     filter: string;
 }
 
-export interface IDrawingToolOptions extends ITools{
+export interface IDrawingToolOptions extends ITools {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedFilter: string;

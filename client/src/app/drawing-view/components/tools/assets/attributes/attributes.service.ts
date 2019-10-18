@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ToolConstants } from '../tool-constants';
 import { IDrawingToolOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
+import { ToolConstants } from '../tool-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,7 @@ export class AttributesService {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
     }
-    if(this.paintbrushAttributes.wasSaved){
+    if (this.paintbrushAttributes.wasSaved) {
       this.resetPaintbrushAttributes();
     }
     if (this.rectangleAttributes.wasSaved) {

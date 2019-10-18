@@ -22,7 +22,6 @@ describe('AttributesService', () => {
     crayonAttribute.savedStrokeWidth = STROKEWIDTH;
     crayonAttribute.savedFilter = ToolConstants.NONE;
 
-
     service.resetSavedAttributes();
 
     expect(crayonAttribute).toEqual(defaultRectAttr, 'crayonAttribute did not take initial values after the expected reset');
@@ -37,7 +36,6 @@ describe('AttributesService', () => {
     paintbrushAttribute.savedStrokeWidth = STROKEWIDTH;
     paintbrushAttribute.savedFilter = ToolConstants.NONE;
 
-
     service.resetSavedAttributes();
 
     expect(paintbrushAttribute).toEqual(defaultRectAttr, 'paintbrushAttributes did not take initial values after the expected reset');
@@ -51,7 +49,6 @@ describe('AttributesService', () => {
     crayonAttribute.wasSaved = false;
     crayonAttribute.savedStrokeWidth = STROKEWIDTH;
     crayonAttribute.savedFilter = ToolConstants.FILTER_ID.FILTER1;
-
 
     const unmodifiedRectAttr = crayonAttribute;
 
@@ -68,7 +65,6 @@ describe('AttributesService', () => {
     paintbrushAttribute.wasSaved = false;
     paintbrushAttribute.savedStrokeWidth = STROKEWIDTH;
     paintbrushAttribute.savedFilter = ToolConstants.FILTER_ID.FILTER1;
-
 
     const unmodifiedRectAttr = paintbrushAttribute;
 

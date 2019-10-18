@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ToolConstants } from '../../assets/tool-constants';
-import { AttributesService } from '../../assets/attributes/attributes.service';
-import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
+import { AttributesService } from '../../assets/attributes/attributes.service';
+import { ToolConstants } from '../../assets/tool-constants';
 
 @Component({
   selector: 'app-paintbrush',
@@ -26,7 +26,7 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
   }
 
   ngOnInit(): void {
-    if(this.attributesService.paintbrushAttributes.wasSaved) {
+    if (this.attributesService.paintbrushAttributes.wasSaved) {
       this.stroke.strokeWidth = this.attributesService.paintbrushAttributes.savedStrokeWidth;
       this.stroke.filter = this.attributesService.paintbrushAttributes.savedFilter;
     }
@@ -36,24 +36,24 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
     this.saveAttribute();
   }
 
-  setFilter(n: number): void {
-    switch (n) {
-      case 0:
+  setFilter(filter: number): void {
+    switch (filter) {
+      case ToolConstants.FILTER_SELECTION.FILTER0:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER0;
         break;
-      case 1:
+      case ToolConstants.FILTER_SELECTION.FILTER1:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER1;
         break;
-      case 2:
+      case ToolConstants.FILTER_SELECTION.FILTER2:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER2;
         break;
-      case 3:
+      case ToolConstants.FILTER_SELECTION.FILTER3:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER3;
         break;
-      case 4:
+      case ToolConstants.FILTER_SELECTION.FILTER4:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER4;
         break;
-      case 5:
+      case ToolConstants.FILTER_SELECTION.FILTER5:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER5;
         break;
       default:

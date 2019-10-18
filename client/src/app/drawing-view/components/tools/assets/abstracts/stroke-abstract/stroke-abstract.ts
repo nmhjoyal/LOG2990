@@ -1,11 +1,10 @@
-import { HostListener, Input, OnInit, OnDestroy} from '@angular/core';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
-import { AttributesService } from '../../attributes/attributes.service';
-import { ToolConstants } from '../../tool-constants';
+import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { AttributesService } from '../../attributes/attributes.service';
+import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
+import { ToolConstants } from '../../tool-constants';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
-
 
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
 
@@ -17,7 +16,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService, 
+  constructor(protected toolService: ToolHandlerService,
               protected attributesService: AttributesService,
               protected colorService: ColorService) {
     super();
@@ -35,10 +34,9 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     this.y = 0;
   }
 
-  abstract ngOnInit(): void;  
+  abstract ngOnInit(): void;
   abstract ngOnDestroy(): void;
   abstract saveAttribute(): void;
-
 
   protected saveShape(): void {
     const currentDrawing: IDrawingTool = {
@@ -72,7 +70,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @HostListener('mouseup', ['$event']) onMouseUp(event: MouseEvent): void {
 
     if (this.x === event.offsetX && this.y === event.offsetY) {
-      this.stroke.points += (' ' + (event.offsetX + 0.1) + ',' + (event.offsetY + 0.1));
+      this.stroke.points += (' ' + (event.offsetX) + ',' + (event.offsetY));
     }
     this.saveShape();
     this.mouseDown = false;

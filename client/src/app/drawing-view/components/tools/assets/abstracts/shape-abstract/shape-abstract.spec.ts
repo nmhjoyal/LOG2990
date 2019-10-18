@@ -43,7 +43,7 @@ describe('ShapeAbstract', () => {
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let fixture: ComponentFixture<ShapeTestComponent>;
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
-  
+
   beforeEach(() => {
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']); // eventually put service method that saves drawing operation
 

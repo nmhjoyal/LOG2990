@@ -1,12 +1,12 @@
 import SpyObj = jasmine.SpyObj;
-import { StrokeAbstract } from './stroke-abstract';
 import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { StrokeAbstract } from './stroke-abstract';
 
 @Component({
     selector: 'test-shape-abstract',
@@ -28,7 +28,7 @@ class StrokeTestComponent extends StrokeAbstract implements OnInit, OnDestroy {
   saveShape(): void {
       // empty block
   }
-  saveAttribute(): void{
+  saveAttribute(): void {
       // empty block
   }
 }

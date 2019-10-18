@@ -2,13 +2,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 import { PaintbrushComponent } from './paintbrush.component';
-import { AttributesService } from '../../assets/attributes/attributes.service';
 
 const INITIAL_X = 150;
 const INITIAL_Y = 200;
-
+const OUTSIDE_FILTER_RANGE = 10;
 
 describe('PaintbrushComponent', () => {
   let component: PaintbrushComponent;
@@ -28,7 +28,6 @@ describe('PaintbrushComponent', () => {
     })
       .compileComponents();
   }));
-    // tslint:disable:no-string-literal
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaintbrushComponent);
@@ -67,43 +66,45 @@ describe('PaintbrushComponent', () => {
   });
 
   it('should set no filter for case 0', () => {
-    component.setFilter(0);
+    component.setFilter(ToolConstants.FILTER_SELECTION.FILTER0);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER0);
   });
 
   it('should set the appropriate filter for the first case', () => {
-    component.setFilter(1);
+    component.setFilter(ToolConstants.FILTER_SELECTION.FILTER1);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER1);
   });
 
   it('should set the appropriate filter for the second case', () => {
-    component.setFilter(2);
+    component.setFilter(ToolConstants.FILTER_SELECTION.FILTER2);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER2);
   });
 
   it('should set the appropriate filter for the third case', () => {
-    component.setFilter(3);
+    component.setFilter(ToolConstants.FILTER_SELECTION.FILTER3);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER3);
   });
 
   it('should set the appropriate filter for the fourth case', () => {
-    component.setFilter(4);
+    component.setFilter(ToolConstants.FILTER_SELECTION.FILTER4);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER4);
   });
   it('should set the appropriate filter for the fifth case', () => {
-    component.setFilter(5);
+    component.setFilter(ToolConstants.FILTER_SELECTION.FILTER5);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER5);
   });
   it('should default to no filter', () => {
-    component.setFilter(10);
+    component.setFilter(OUTSIDE_FILTER_RANGE);
     component.saveAttribute();
     expect(attrService.paintbrushAttributes.savedFilter).toEqual(ToolConstants.FILTER_ID.FILTER0);
   });
 
 });
+
+    // tslint:disable:no-string-literal
