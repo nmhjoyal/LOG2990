@@ -1,4 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/NumericalValues';
@@ -16,8 +17,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isReverseSelection: boolean;
   protected selectorService: SelectorService;
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService) {
-    super(toolServiceRef, attributesServiceRef);
+  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, protected colorService: ColorService) {
+    super(toolServiceRef, attributesServiceRef, colorService);
     this.shape.strokeWidth = 1;
     this.shape.secondaryColor = 'black';
     this.shape.fillOpacity = 0;
