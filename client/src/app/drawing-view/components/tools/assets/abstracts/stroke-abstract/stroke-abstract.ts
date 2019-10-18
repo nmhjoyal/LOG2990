@@ -1,10 +1,11 @@
 import { HostListener, Input, OnInit, OnDestroy} from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { IDrawingTool } from './interfaces/drawing-tool-interface';
-import { ToolConstants } from './tool-constants';
-import { AttributesService } from './attributes/attributes.service';
+import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
+import { AttributesService } from '../../attributes/attributes.service';
+import { ToolConstants } from '../../tool-constants';
 
-export abstract class DrawingToolsAbstract implements OnInit, OnDestroy {
+
+export abstract class StrokeAbstract implements OnInit, OnDestroy {
 
   protected stroke: IDrawingTool;
   private mouseDown: boolean;
@@ -31,6 +32,7 @@ export abstract class DrawingToolsAbstract implements OnInit, OnDestroy {
 
   abstract ngOnInit(): void;  
   abstract ngOnDestroy(): void;
+  abstract saveAttribute(): void;
 
 
   protected saveShape(): void {

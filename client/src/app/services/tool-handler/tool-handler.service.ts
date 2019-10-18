@@ -19,7 +19,7 @@ primaryColor: string;
 secondaryColor: string;
 ​
 // drawings Storage
-drawings: ITools[] = []; // change type to parent of IDrawingTool
+drawings: ITools[] = []; // general interface for all drawing tools
 
 constructor() {
     this.noneSelected = true;
