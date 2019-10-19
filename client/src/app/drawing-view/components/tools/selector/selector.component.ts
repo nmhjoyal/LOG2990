@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ClickTypes } from 'src/AppConstants/NumericalValues';
+import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 
@@ -15,14 +15,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected mouseMoved: boolean;
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
-  protected selectorService: SelectorService;
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, protected colorService: ColorService) {
+  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, protected colorService: ColorService,
+    protected selectorService: SelectorService) {
     super(toolServiceRef, attributesServiceRef, colorService);
     this.shape.strokeWidth = 1;
     this.shape.secondaryColor = 'black';
     this.shape.fillOpacity = 0;
-    this.selectorService = new SelectorService(toolServiceRef);
     this.mouseMoved = false;
   }
 
@@ -68,32 +67,40 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  handleMouseDown(event: MouseEvent): void {
+  @HostListener('document:keydown.escape') onEscape() {
+    this.resetShape();
+  }
+
+  handleControlPoint() {
+    return;
+  }
+
+  protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
       this.isRightClick = false;
       this.isReverseSelection = false;
-      this.selectorService.resetSelection();
+      this.resetComponent();
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
-      if (!this.selectorService.selectionExists()) {
+      if (!this.toolService.selectorBoxExists()) {
         this.isReverseSelection = false;
-        this.selectorService.resetSelection();
+        this.resetComponent();
       } else {
         this.isReverseSelection = true;
       }
     }
   }
 
-  handleMouseMove(): void {
+  protected handleMouseMove(): void {
     if (this.mouseDown) {
       this.mouseMoved = true;
       this.selectorService.resetSize();
       this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.previewBox.x, this.previewBox.y);
+      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.drawings, this.previewBox.x, this.previewBox.y);
       if (this.isReverseSelection) {
         this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
       }
-      if (this.selectorService.selectedObjects.size > 0) {
+      if (this.selectorService.SelectedObjects.size > 0) {
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
                       this.selectorService.MinWidth, this.selectorService.MinHeight);
       }
@@ -102,7 +109,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     }
   }
 
-  handleMouseUp(event: MouseEvent): void {
+  protected handleMouseUp(event: MouseEvent): void {
     // Single clicks
     if (this.mouseDown && !this.mouseMoved) {
       if (event.button === ClickTypes.LEFT_CLICK) {
@@ -112,46 +119,46 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.rightClick(event);
         this.mouseDown = false;
       } else {
-        this.selectorService.resetSelection();
+        this.resetComponent();
         this.resetShape();
       }
     } else {
       // Drag & Drop
-      if (this.selectorService.selectedObjects.size > 0) {
+      if (this.selectorService.SelectedObjects.size > 0) {
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);
         this.resetShape();
       } else {
-        this.selectorService.resetSelection();
+        this.resetComponent();
         this.resetShape();
       }
     }
   }
 
-  leftClick(event: MouseEvent): void {
+  protected leftClick(event: MouseEvent): void {
     for (const drawing of this.toolService.drawings) {
       if (this.selectorService.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
-        this.selectorService.selectedObjects.clear();
-        this.selectorService.selectedObjects.add(drawing);
+        this.selectorService.SelectedObjects.clear();
+        this.selectorService.SelectedObjects.add(drawing);
         this.selectorService.setBoxToDrawing(drawing);
         this.traceBox(drawing.x, drawing.y, drawing.width, drawing.height);
         return;
       }
     }
-    this.selectorService.resetSelection();
+    this.resetComponent();
     this.resetShape();
   }
 
-  rightClick(event: MouseEvent): void {
+  protected rightClick(event: MouseEvent): void {
     for (const drawing of this.toolService.drawings) {
       if (this.selectorService.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
-        if (this.selectorService.selectedObjects.has(drawing)) {
+        if (this.selectorService.SelectedObjects.has(drawing)) {
           this.selectorService.selectedObjects.delete(drawing);
           this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
           this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
             this.selectorService.MinWidth, this.selectorService.MinHeight);
           return;
-        } else if (this.selectorService.selectionExists()) {
+        } else if (this.toolService.selectorBoxExists()) {
           this.selectorService.selectedObjects.add(drawing);
           this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
           this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
@@ -162,11 +169,16 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     }
   }
 
-  traceBox(topX: number, topY: number, width: number, height: number): void {
+  protected traceBox(topX: number, topY: number, width: number, height: number): void {
     this.shape.x = topX;
     this.shape.y = topY;
     this.shape.width = width;
     this.shape.height = height;
-    this.selectorService.saveSelection(this.shape);
+    this.toolService.saveSelectorBox(this.shape);
+  }
+
+  protected resetComponent() {
+    this.selectorService.resetSelectorService();
+    this.toolService.resetSelectorBox();
   }
 }

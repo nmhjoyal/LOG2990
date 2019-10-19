@@ -28,13 +28,14 @@ export class ToolHandlerService {
 
   constructor(public colorService: ColorService) {
     this.drawings = [];
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'none', secondaryColor: 'black',
                        fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
+    this.selectorSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
     this.primaryColor = this.colorService.color[0];
@@ -54,8 +55,22 @@ export class ToolHandlerService {
     this.crayonSelected = false;
     this.pinceauSelected = false;
     this.selectorSelected = false;
+    this.resetSelectorBox();
+  }
+
+  resetSelectorBox(): void {
     this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: ToolConstants.NONE, secondaryColor: 'black',
                        fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+  }
+
+  saveSelectorBox(shape: IShape): void {
+    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height,
+      primaryColor: 'black', secondaryColor: 'black', fillOpacity: 0,
+      strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+  }
+
+  selectorBoxExists(): boolean {
+    return (this.selection.width > 0 && this.selection.height > 0);
   }
 ​
   chooseRectangle(): void {

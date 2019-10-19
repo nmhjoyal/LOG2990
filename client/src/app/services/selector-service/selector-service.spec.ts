@@ -4,14 +4,13 @@ import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
   let service: SelectorService;
-  const toolServiceMock = jasmine.createSpyObj('ToolHandlerService', ['']);
   const FIFTY = 50;
   const FORTY = 40;
   const ONE_HUNDRED = 100;
   const TWICE = 2;
 
   beforeEach(() => {
-    service = new SelectorService(toolServiceMock);
+    service = new SelectorService();
   });
 
   it('should be created with correct initialized values', () => {
@@ -45,14 +44,14 @@ describe('SelectorService', () => {
                 secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
     const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
                 secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
-    service.toolService.drawings = [];
-    service.toolService.drawings.push(drawing1);
-    service.toolService.drawings.push(drawing2);
+    const drawings = [];
+    drawings.push(drawing1);
+    drawings.push(drawing2);
     service.selectedObjects.add(drawing1);
     service.selectedObjects.add(drawing2);
-    service.checkForItems(true, FIFTY, FIFTY);
+    service.checkForItems(true, drawings, FIFTY, FIFTY);
     expect(service.selectedObjects.size).toEqual(0);
-    service.checkForItems(false, FIFTY, FIFTY);
+    service.checkForItems(false, drawings, FIFTY, FIFTY);
     expect(service.selectedObjects.size).toEqual(TWICE);
   });
 
@@ -123,23 +122,12 @@ describe('SelectorService', () => {
     const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
     secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
     service.selectedObjects.add(drawing);
-    service.toolService.selection = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY,
-      fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
-    service.resetSelection();
+    service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
     expect(service.width).toEqual(0);
     expect(service.height).toEqual(0);
     expect(service.topCornerX).toEqual(0);
     expect(service.topCornerY).toEqual(0);
-  });
-
-  it('should confirm selection exists already', () => {
-    service.toolService.selection = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY,
-      fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
-    expect(service.selectionExists()).toBeTruthy();
-    service.toolService.selection = { x: FORTY, y: FORTY, width: 0, height: 0,
-      fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
-    expect(service.selectionExists()).toBeFalsy();
   });
 
   it('should confirm cursor touches object', () => {

@@ -20,38 +20,38 @@
         [style.stroke-opacity]="1"
         [style.stroke-width]="1"
         [style.fill-opacity]="0"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2" [attr.cy]="toolHandler.selection.y" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2" [attr.cy]="toolHandler.selection.y" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
-        (click)="return"/>
-        <circle [style.stroke]="toolHandler.selection.secondaryColor"
+        [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
+        (mousedown)="handleControlPoint()"/>
+        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
         [style.fill]="toolHandler.selection.secondaryColor" 
-        [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"
-        (click)="return"/>
+        [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
+        (mousedown)="activeTool.handleControlPoint()"/>
     </g>
 </svg>
 <div *ngIf="toolHandler.rectangleSelected">

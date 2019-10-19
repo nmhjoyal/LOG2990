@@ -1,6 +1,4 @@
 import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
-import { ToolHandlerService } from '../tool-handler/tool-handler.service';
 
 export class SelectorService {
   selectedObjects: Set<IShape>;
@@ -10,9 +8,8 @@ export class SelectorService {
   bottomCornerY: number;
   width: number;
   height: number;
-  toolService: ToolHandlerService;
 
-  constructor(toolService: ToolHandlerService) {
+  constructor() {
     this.selectedObjects = new Set<IShape>();
     this.topCornerX = 0;
     this.topCornerY = 0;
@@ -20,7 +17,6 @@ export class SelectorService {
     this.bottomCornerY = 0;
     this.width = 0;
     this.height = 0;
-    this.toolService = toolService;
   }
 
   get MinWidth(): number {
@@ -29,6 +25,10 @@ export class SelectorService {
 
   get MinHeight(): number {
     return Math.abs(this.height - this.topCornerY);
+  }
+
+  get SelectedObjects(): Set<IShape> {
+    return this.selectedObjects;
   }
 
   setBoxToDrawing(drawing: IShape): void {
@@ -40,11 +40,11 @@ export class SelectorService {
     this.bottomCornerY = drawing.y + drawing.height;
   }
 
-  checkForItems(isReverseSelection: boolean, previewBoxX: number, previewBoxY: number): void {
+  checkForItems(isReverseSelection: boolean, drawings: IShape[], previewBoxX: number, previewBoxY: number): void {
     if (!isReverseSelection) {
       this.selectedObjects.clear();
     }
-    for (const drawing of this.toolService.drawings) {
+    for (const drawing of drawings) {
       if (this.objectInBox(drawing, previewBoxX, previewBoxY)) {
         if (isReverseSelection) {
             this.selectedObjects.delete(drawing);
@@ -93,25 +93,13 @@ export class SelectorService {
     this.height = 0;
   }
 
-  resetSelection(): void {
+  resetSelectorService(): void {
     this.selectedObjects.clear();
     this.resetSize();
     this.topCornerX = 0;
     this.topCornerY = 0;
-    this.toolService.selection.x = 0;
-    this.toolService.selection.y = 0;
-    this.toolService.selection.width = 0;
-    this.toolService.selection.height = 0;
-  }
-
-  saveSelection(shape: IShape): void {
-    this.toolService.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height,
-      primaryColor: 'black', secondaryColor: 'black', fillOpacity: 0,
-      strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
-  }
-
-  selectionExists(): boolean {
-    return (this.toolService.selection.width > 0 && this.toolService.selection.height > 0);
+    this.bottomCornerX = 0;
+    this.bottomCornerY = 0;
   }
 
   cursorTouchesObject(object: IShape, positionX: number, positionY: number): boolean {

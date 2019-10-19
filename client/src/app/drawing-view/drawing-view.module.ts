@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 import { SelectorComponent } from './components/tools/selector/selector.component';
@@ -45,7 +46,7 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
     MatButtonModule,
   ],
 
-  providers: [AttributesService],
+  providers: [AttributesService, SelectorService],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })

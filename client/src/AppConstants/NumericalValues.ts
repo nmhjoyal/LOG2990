@@ -6,10 +6,5 @@ export class NumericalValues {
     static COLOR_PALETTE_SEPARATOR = 0.15;
     static HEX_LENGTH = 16;
     static HEX_NO_ALPHA = 7;
-}
-export enum ClickTypes {
-    LEFT_CLICK = 0,
-    WHEEL_BUTTON = 1,
-    RIGHT_CLICK = 2,
-    WHEEL_BUTTON_2 = 4,
+    static CONTROL_POINTS = 8;
 }
