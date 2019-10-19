@@ -87,4 +87,11 @@ export class AppComponent implements OnInit {
     });
   }
 
+  switchColours(): void {
+    this.colorService.switchColors();
+    if (!this.toolHandler.colourApplicatorSelected) {
+      this.toolHandler.resetSelection();
+    }
+  }
+
 }

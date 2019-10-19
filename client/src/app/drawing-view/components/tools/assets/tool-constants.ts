@@ -39,4 +39,6 @@ export class ToolConstants {
     static FILTER_SELECTION = FilterSelection;
     static NULL = -1;
     static TRACE_MODE = ModeType;
+    static PRIMARY_COLOUR_INDEX = 0;
+    static SECONDARY_COLOUR_INDEX = 1;
 }

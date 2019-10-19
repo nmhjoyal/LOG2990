@@ -19,8 +19,9 @@ import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
+import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { Id } from '../tools/assets/tool-constants';
+import { Id, ToolConstants } from '../tools/assets/tool-constants';
 import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
 
@@ -40,6 +41,16 @@ describe('CanvasComponent', () => {
     strokeWidth: 1,
     fillOpacity: 1,
     id: Id.RECTANGLE, };
+
+  const testLine: IDrawingTool = {
+      color: AppConstants.DEFAULT_PRIMARY_COLOUR,
+      points: '',
+      strokeWidth: 0,
+      strokeLinecap: '',
+      strokeLinejoin: '',
+      fill: '',
+      filter: '',
+      id: Id.CRAYON, };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -81,14 +92,21 @@ describe('CanvasComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should apply primary color', () => {
+  it('should apply primary color to line', () => {
+    mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = AppConstants.DEFAULT_SECONDARY_COLOUR;
+    mockToolService.colourApplicatorSelected = true;
+    component.applyColourToLine(testLine);
+    expect(testLine.color).toEqual(AppConstants.DEFAULT_SECONDARY_COLOUR);
+  });
+
+  it('should apply primary color to shape', () => {
     mockColourService.color[0] = AppConstants.DEFAULT_SECONDARY_COLOUR;
     mockToolService.colourApplicatorSelected = true;
     component.applyColourToShape(testObject);
     expect(testObject.primaryColor).toEqual(AppConstants.DEFAULT_SECONDARY_COLOUR);
   });
 
-  it('should apply secondary color', () => {
+  it('should apply secondary color to shape', () => {
     mockColourService.color[1] = AppConstants.DEFAULT_PRIMARY_COLOUR;
     mockToolService.colourApplicatorSelected = true;
     component.applySecondaryColourToShape(new MouseEvent('contextmenu'), testObject);
