@@ -22,7 +22,7 @@ export class CanvasComponent {
               public toolHandler: ToolHandlerService, public colorService: ColorService) {
   }
 
-  applyColourToCanvas() {
+  applyColourToCanvas(): void {
     if (this.toolHandler.colourApplicatorSelected) {
       this.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     }

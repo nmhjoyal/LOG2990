@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent): void {
     event.preventDefault();
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseRectangle();
