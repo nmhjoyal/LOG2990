@@ -13,7 +13,7 @@ export class ToolHandlerService {
   rectangleSelected: boolean;
   colourApplicatorSelected: boolean;
   crayonSelected: boolean;
-  pinceauSelected: boolean;
+  paintbrushSelected: boolean;
   selectorSelected: boolean;
   primaryColorSelected: boolean;
   secondaryColorSelected: boolean;
@@ -21,7 +21,7 @@ export class ToolHandlerService {
   // Color service simulating attributes
   primaryColor: string;
   secondaryColor: string;
-​
+  ​
   // Shape Storage
   drawings: IShape[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
   selection: IShape;
@@ -29,12 +29,12 @@ export class ToolHandlerService {
   constructor(public colorService: ColorService) {
     this.drawings = [];
     this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'none', secondaryColor: 'black',
-                       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+                       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1 };
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
-    this.pinceauSelected = false;
+    this.paintbrushSelected = false;
     this.selectorSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
@@ -44,56 +44,58 @@ export class ToolHandlerService {
 ​
   // Tool Handling methods
   clearPage(): void {
-      this.resetSelection();
-      this.drawings.length = 0;
+    this.resetSelection();
+    this.drawings.length = 0;
   }
-​
+  ​
   resetSelection(): void {
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
-    this.pinceauSelected = false;
+    this.paintbrushSelected = false;
     this.selectorSelected = false;
     this.resetSelectorBox();
   }
 
   resetSelectorBox(): void {
     this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: ToolConstants.NONE, secondaryColor: 'black',
-                       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1 };
   }
 
   saveSelectorBox(shape: IShape): void {
     this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height,
       primaryColor: 'black', secondaryColor: 'black', fillOpacity: 0,
-      strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+      strokeOpacity: 1, strokeWidth: 1 };
   }
 
   selectorBoxExists(): boolean {
     return (this.selection.width > 0 && this.selection.height > 0);
   }
 ​
-  chooseRectangle(): void {
-      this.resetSelection();
-      this.rectangleSelected = true;
-      this.noneSelected = false;
-  }
+chooseRectangle(): void {
+    this.resetSelection();
+    this.rectangleSelected = true;
+    this.noneSelected = false;
+}
 ​
-  chooseColourApplicator(): void {
-      this.resetSelection();
-      this.colourApplicatorSelected = true;
-      this.noneSelected = false;
-  }
+chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
+    this.resetSelection();
+    this.primaryColor = primaryColor;
+    this.secondaryColor = secondaryColor;
+    this.colourApplicatorSelected = true;
+    this.noneSelected = false;
+}
 ​
-  chooseCrayon(): void {
-      this.resetSelection();
-      this.crayonSelected = true;
-      this.noneSelected = false;
-  }
+chooseCrayon(): void {
+    this.resetSelection();
+    this.crayonSelected = true;
+    this.noneSelected = false;
+}
 ​
-  choosePinceau(): void {
+  choosePaintbrush(): void {
       this.resetSelection();
-      this.pinceauSelected = true;
+      this.paintbrushSelected = true;
       this.noneSelected = false;
   }
 
