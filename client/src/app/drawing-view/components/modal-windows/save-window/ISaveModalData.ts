@@ -1,4 +1,4 @@
-import { IDrawing } from 'src/app/services/drawing-storage/IDrawing';
+import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { IModalData } from '../modal-window/IModalData';
 import { ITag } from './ITag';
 

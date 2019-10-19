@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Message } from '../../../common/communication/message';
+import {IDrawing} from '../../../common/IDrawing';
 import Types from '../types';
 import { DateService } from './date.service';
-
 
 @injectable()
 export class IndexService {
@@ -35,16 +35,16 @@ export class IndexService {
         });
     }
 
-    async saveDrawing(drawingToSave: any): Promise<boolean> {
-        let drawings: any[] = [];
+    async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
+        const drawings: any[] = [];
         drawings.push(drawingToSave);
         console.log('SAVING');
         console.log(drawingToSave);
         return true;
     }
 
-    async saveTags(tagToSave: any): Promise<boolean> {
-        let tags: any = [];
+    async saveTags(tagToSave: ITag): Promise<boolean> {
+        const tags: any = [];
         tags.push(tagToSave);
         console.log('SAVING');
         console.log(tags);
