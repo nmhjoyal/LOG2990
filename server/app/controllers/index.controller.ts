@@ -17,14 +17,6 @@ export class IndexController {
     private configureRouter(): void {
         this.router = Router();
 
-        // this.router.use((req, res, next) => {
-        //     res.setHeader('Access-Control-Allow-Origin', '*');
-        //     res.setHeader(
-        //         'Access-Control-Allow-Headers',
-        //         'Origin, X-Requested-With, Content-Type, Accept',
-        //     );
-        // });
-
         this.router.get('/',
             async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response

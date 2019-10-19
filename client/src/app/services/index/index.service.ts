@@ -22,45 +22,18 @@ export class IndexService {
     );
   }
 
-  _saveDrawing(drawing: IDrawing): Observable<boolean> {
+  saveDrawing(drawing: IDrawing): Observable<boolean> {
     return this.http.post<boolean>(this.BASE_URL + '/save', {drawingToSave: drawing}).pipe(
       catchError(this.handleError<boolean>('save')),
     );
   }
 
-  // async saveDrawing(drawing: IDrawing): Promise<boolean> {
-  //   return this.http
-  //     .post('http://localhost:3000/api/index/save', { drawingToSave: drawing })
-  //     .toPromise().then((response: any) => {
-  //       if (response.json()) {
-  //         console.log('SAVED');
-  //         return true;
-  //       }
-  //       console.log('SAVE FAILED');
-  //       return false;
-  //     });
-  // }
-
-   _saveTag(tag: any): Observable<boolean> {
+   saveTag(tag: any): Observable<boolean> {
 
     return this.http.post<boolean>(this.BASE_URL + '/tags', { tagToSave: tag }).pipe(
       catchError(this.handleError<boolean>('tags')),
     );
   }
-
-
-  // async saveTag(tag: any) {
-  //   return this.http
-  //   .post('http://localhost:3000/tags', { tagToSave: tag })
-  //   .toPromise().then((response: any) => {
-  //     if (response.json()) {
-  //       console.log(tag + 'SAVED');
-  //       return true;
-  //     }
-  //     console.log(tag + 'SAVE FAILED');
-  //     return false;
-  //   });
-  // }
 
   private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
     return (error: Error): Observable<T> => {
