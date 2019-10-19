@@ -1,11 +1,11 @@
 import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { ISVGPreview } from 'src/app/services/drawing-storage/ISVGPreview';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
+import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
