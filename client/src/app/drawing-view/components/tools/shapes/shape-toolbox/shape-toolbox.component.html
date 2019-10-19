@@ -1,4 +1,4 @@
-<p *ngIf="!(toolHandler.noneSelected)">
+<p *ngIf="!(toolHandler.noneSelected || toolHandler.primaryColorSelected || toolHandler.secondaryColorSelected)">
   <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
   <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
   <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>

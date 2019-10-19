@@ -7,20 +7,26 @@ import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
+import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-root', 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private storage: LocalStorageService, protected toolHandler: ToolHandlerService,
-    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData, public canvasData: CanvasInformationService) {
+  constructor(private dialog: MatDialog,
+    private storage: LocalStorageService,
+    protected toolHandler: ToolHandlerService,
+    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
+    public canvasData: CanvasInformationService,
+    public colorService: ColorService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -116,6 +122,12 @@ export class AppComponent implements OnInit {
 
   isOnlyModalOpen(): boolean {
     return !this.dialog.openDialogs.length;
+  }
+
+  openChooseColorDialog(): void {
+    this.dialog.open(ColorPickerComponent, {
+      panelClass: 'choose-color-window',
+    });
   }
 
 }
