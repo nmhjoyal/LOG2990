@@ -6,9 +6,9 @@ import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
-import { ITag } from '../../../../../../../common/drawing-information/ITag';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
