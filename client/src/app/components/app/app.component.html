@@ -39,7 +39,8 @@
                 </a>
                 <a mat-list-item class="filter">
                     <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille" (click)=toggleGrid()>
-                    <input type="range" min="30" id="opacityBox" name="Valeur d'opacité" style="width: 80px" value="1" (click)=setOpacity()>
+                    <input type="range" min="30" value="100" id="opacitySlider" name="Valeur d'opacité" style="width: 80px" (click)=setOpacity()>
+                    <input type="range" min="8" value="8" max="128" id="sizeSlider" name="Taille des carrés" style="width: 80px" (click)=setSize()>
                 </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
