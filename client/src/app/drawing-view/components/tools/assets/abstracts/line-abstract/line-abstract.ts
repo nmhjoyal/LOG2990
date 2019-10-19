@@ -1,5 +1,5 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { ILine, IPreviewLine } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { Coordinate, ILine, IPreviewLine } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -13,10 +13,11 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   protected mouseDown: boolean;
   protected shiftDown: boolean;
   protected previewLine: IPreviewLine;
-  protected lineStack: IPreviewLine[];
+ //  protected lineStack: IPreviewLine[];
   protected shape: ILine;
   protected pointMode: number;
   protected started: boolean;
+  protected point: Coordinate;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -33,19 +34,13 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.started = false;
     this.pointMode = ToolConstants.POINT_MODE.ANGLED;
     this.previewLine = {
-      x1: 0,
-      y1: 0,
-      x2: 0,
-      y2: 0,
+      points: [],
       stroke: 'black',
      };
-    this.lineStack = [];
+    // this.lineStack = [];
     this.shape = {
       id: 'line',
-      x1: 0,
-      y1: 0,
-      x2: 0,
-      y2: 0,
+      points: [],
       stroke: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -64,13 +59,19 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
       this.initialX = event.offsetX;
       this.initialY = event.offsetY;
       this.started = true;
+    }
+    this.addSegment();
+    /*
+      let newPoint: Coordinate;
+      newPoint = {x: event.offsetX, y: event.offsetY};
+      this.previewLine.points.push(newPoint); /*
       let firstSegment: IPreviewLine;
       firstSegment = {x1: this.initialX, y1: this.initialY,
                   x2: this.initialX, y2: this.initialY, stroke: this.colorService.color[0] };
       this.lineStack.push(firstSegment);
     } else {
     this.addSegment(event.offsetX, event.offsetY);
-    }
+    }*/
   }
 
   @HostListener('mouseup') onMouseUp(): void {
@@ -99,20 +100,20 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.calculateDimensions();
   }
 
-  @HostListener('dblclick') onDoubleClick(event: MouseEvent): void {
+  @HostListener('dblclick') onDoubleClick(): void {
     if (this.started) {
-      this.addSegment(event.offsetX, event.offsetY);
+      this.addSegment();
       this.saveSegment();
     }
     this.started = false;
   }
 
   @HostListener('keydown.esc') onEscape(): void {
-    this.lineStack.length = 0;
+    this.shape.points.length = 0;
   }
 
   @HostListener('keydown.delete') onDelete(): void {
-    this.lineStack.pop();
+    this.shape.points.pop();
   }
 
   // Functions
@@ -136,18 +137,18 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.shape.pointWidth++;
   }
 
-  protected setTraceMode(mode: number): void {
-    switch (mode) {
+  protected setTraceMode(pointMode: number): void {
+    switch (pointMode) {
       case ToolConstants.POINT_MODE.ANGLED:
-        this.pointMode = ToolConstants.TRACE_MODE.CONTOUR;
+        this.pointMode = ToolConstants.POINT_MODE.ANGLED;
         break;
 
       case ToolConstants.POINT_MODE.ROUNDED:
-        this.pointMode = ToolConstants.TRACE_MODE.FILL;
+        this.pointMode = ToolConstants.POINT_MODE.ROUNDED;
         break;
 
       case ToolConstants.POINT_MODE.DOTTED:
-        this.pointMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
+        this.pointMode = ToolConstants.POINT_MODE.DOTTED;
         break;
 
       default:
@@ -156,43 +157,39 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   }
 
   protected calculateDimensions(): void {
-    this.previewLine.x1 = this.lineStack[this.lineStack.length].x2;
-    this.previewLine.y1 = this.lineStack[this.lineStack.length].y2;
-    this.previewLine.x2 = this.cursorX;
-    this.previewLine.y2 = this.cursorY;
     this.previewLine.stroke = 'black';
     if (this.shiftDown) {
-      this.previewLine.x2 = this.initialX;
-      this.previewLine.y2 = this.initialY;
+      this.point.x = this.initialX;
+      this.point.y = this.initialY;
+    } else {
+      this.point.x = this.cursorX;
+      this.point.y = this.cursorY;
     }
-    this.shape.x1 = this.previewLine.x1;
-    this.shape.y1 = this.previewLine.y1;
-    this.shape.x2 = this.previewLine.x2;
-    this.shape.y2 = this.previewLine.y2;
+    this.previewLine.points.push(this.point);
+    this.shape.points = this.previewLine.points;
   }
 
   protected saveSegment(): void {
-    for (const iterator of this.lineStack) {
       const currentDrawing: ILine = {
         id: this.shape.id,
-        x1: iterator.x1,
-        y1: iterator.y1,
-        x2: iterator.x2,
-        y2: iterator.y2,
+        points: this.shape.points,
         stroke: this.shape.stroke,
         strokeOpacity: this.shape.strokeOpacity,
         strokeWidth: this.shape.strokeWidth,
         pointWidth: this.shape.pointWidth,
       };
       this.toolService.drawings.push(currentDrawing);
-    }
-    this.lineStack.length = 0;
+    this.previewLine.points.length = 0;
   }
-  protected addSegment(eventx: number, eventy: number): void {
-    let lastSegment: IPreviewLine;
-    lastSegment = {x1: this.lineStack[this.lineStack.length].x2, y1: this.lineStack[this.lineStack.length].y2,
-                  x2: eventx, y2: eventy, stroke: this.colorService.color[0] };
-    this.lineStack.push(lastSegment);
+  protected addSegment(): void {
+    if (this.shiftDown) {
+      this.point.x = this.initialX;
+      this.point.y = this.initialY;
+    } else {
+      this.point.x = this.cursorX;
+      this.point.y = this.cursorY;
+    }
+    this.previewLine.points.push(this.point);
   }
 
 }
