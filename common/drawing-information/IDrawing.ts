@@ -1,5 +1,5 @@
-import { ITag } from 'src/app/drawing-view/components/modal-windows/save-window/ITag';
 import { ISVGPreview } from 'src/app/services/drawing-storage/ISVGPreview';
+import { ITag } from './ITag';
 
 export interface IDrawing {
     name: string;

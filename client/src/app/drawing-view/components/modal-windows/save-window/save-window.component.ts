@@ -8,7 +8,7 @@ import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
-import { ITag } from './ITag';
+import { ITag } from '../../../../../../../common/drawing-information/ITag';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
