@@ -17,7 +17,7 @@ describe('ToolHandlerServiceService', () => {
     expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
     expect(service.noneSelected).toBe(true);
     expect(service.crayonSelected).toBe(false);
-    expect(service.pinceauSelected).toBe(false);
+    expect(service.paintbrushSelected).toBe(false);
     expect(service.rectangleSelected).toBe(false);
     expect(service.colourApplicatorSelected).toBe(false);
     expect(service.primaryColor).toEqual(colorService.color[0]);
@@ -39,7 +39,7 @@ describe('ToolHandlerServiceService', () => {
 
       expect(service.noneSelected).toBe(true);
       expect(service.crayonSelected).toBe(false);
-      expect(service.pinceauSelected).toBe(false);
+      expect(service.paintbrushSelected).toBe(false);
       expect(service.rectangleSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
   });
@@ -70,18 +70,18 @@ describe('ToolHandlerServiceService', () => {
     expect(service.noneSelected).toBe(false);
   });
 
-  it('#choosePinceau should call #resetSelection and select the Pinceau', () => {
+  it('#choosePaintbrush should call #resetSelection and select the Paintbrush', () => {
     const resetSpy = spyOn(service, 'resetSelection');
-    service.choosePinceau();
+    service.choosePaintbrush();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.pinceauSelected).toBe(true);
+    expect(service.paintbrushSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
   });
 
   it('#chooseColourApplicator should call #resetSelection and select the Color applicator', () => {
     const resetSpy = spyOn(service, 'resetSelection');
-    service.chooseColourApplicator();
+    service.choosePrimaryColor();
 
     expect(resetSpy).toHaveBeenCalled();
     expect(service.colourApplicatorSelected).toBe(true);

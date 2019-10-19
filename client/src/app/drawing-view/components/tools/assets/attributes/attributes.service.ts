@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ILineOptions } from '../interfaces/shape-interface';
+import { IDrawingToolOptions } from '../interfaces/drawing-tool-interface';
+import { ILineOptions, IShapeOptions } from '../interfaces/shape-interface';
 import { ToolConstants } from '../tool-constants';
 
 @Injectable({
@@ -7,28 +8,65 @@ import { ToolConstants } from '../tool-constants';
 })
 export class AttributesService {
 
-  attributes: ILineOptions;
+  crayonAttributes: IDrawingToolOptions;
+  paintbrushAttributes: IDrawingToolOptions;
+  rectangleAttributes: IShapeOptions;
+  lineAttributes: ILineOptions;
 
   constructor() {
-    this.attributes = {
-      id: ToolConstants.TOOL_ID.LINE,
+    this.resetRectangleAttributes();
+    this.resetCrayonAttributes();
+    this.resetPaintbrushAttributes();
+    this.resetLineAttributes();
+    }
+
+  resetCrayonAttributes(): void {
+    this.crayonAttributes = {
+      id: ToolConstants.TOOL_ID.CRAYON,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedFilter: ToolConstants.NONE,
+    };
+  }
+  resetPaintbrushAttributes(): void {
+    this.paintbrushAttributes = {
+      id: ToolConstants.TOOL_ID.PAINTBRUSH,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedFilter: ToolConstants.NONE,
+    };
+  }
+  resetRectangleAttributes(): void {
+    this.rectangleAttributes = {
+      id: ToolConstants.TOOL_ID.RECTANGLE,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
-      savedPointMode: ToolConstants.NULL,
-      savedPointWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
     };
   }
 
-  resetSavedAttributes() {
-    if (this.attributes.wasSaved) {
-      this.attributes = {
+  resetLineAttributes(): void {
+      this.lineAttributes = {
         id: ToolConstants.TOOL_ID.LINE,
         wasSaved: false,
         savedStrokeWidth: ToolConstants.NULL,
         savedPointMode: ToolConstants.NULL,
         savedPointWidth: ToolConstants.NULL,
       };
-    }
   }
 
+  resetSavedAttributes(): void {
+    if (this.crayonAttributes.wasSaved) {
+      this.resetCrayonAttributes();
+    }
+    if (this.paintbrushAttributes.wasSaved) {
+      this.resetPaintbrushAttributes();
+    }
+    if (this.rectangleAttributes.wasSaved) {
+      this.resetRectangleAttributes();
+    }
+    if (this.lineAttributes.wasSaved) {
+      this.resetLineAttributes();
+    }
+  }
 }

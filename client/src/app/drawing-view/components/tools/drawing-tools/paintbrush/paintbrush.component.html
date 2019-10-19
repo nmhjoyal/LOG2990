@@ -1,0 +1,43 @@
+<svg tabindex = "0" class = "previewPaintbrush" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
+    
+    <filter id="filter1">
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    
+    <filter id="filter2">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+
+    <filter id="filter3">
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blurOut"/>
+        <feDisplacementMap in2="turbulence" in="blurOut" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+        
+    <filter id="filter4">
+        <feOffset result="offOut" in="StrokePaint" dx="0.05" dy="0.05" />
+        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+        <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
+        <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
+        <feBlend in="blurOut" in2="blurOut2" mode="normal" />
+    </filter>
+
+    <filter id="filter5" height="200%" width="200%">
+        <feOffset result="offOut" in="StrokePaint" dx="0.25" dy="0.25" />
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="offOut" scale="10" xChannelSelector="R" yChannelSelector="G" result = "turbOut" />
+        <feGaussianBlur in="turbOut" stdDeviation="3"/>
+    </filter>
+
+    
+    <polyline 
+        id="current"
+        [attr.points]="stroke.points"
+        [style.fill]="stroke.fill"
+        [style.stroke]="stroke.color"
+        [style.stroke-width]="stroke.strokeWidth"
+        [style.stroke-linecap]="stroke.strokeLinecap"
+        [style.stroke-linestroke]="stroke.strokeLinejoin" 
+        [style.filter]="stroke.filter"/>
+</svg>

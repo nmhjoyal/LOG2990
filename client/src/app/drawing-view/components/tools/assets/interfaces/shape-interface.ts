@@ -1,6 +1,4 @@
-export interface IDrawingTool {
-    id: string;
-}
+import { ITools } from './itools';
 
 export interface IPreviewBox {
     x: number;
@@ -9,23 +7,18 @@ export interface IPreviewBox {
     height: number;
 }
 
-export class Coordinate {
-    x: number;
-    y: number;
-}
-
-export interface IPreviewLine {
-    points: Coordinate[];
-    stroke: string;
-}
-
-export interface ILine extends IPreviewLine, IDrawingTool {
+export interface ILine extends ITools {
+    points: string;
+    color: string;
     strokeOpacity: number;
     strokeWidth: number;
+    fill: string;
     pointWidth: number;
+    strokeLinecap: string;
+    strokeLinejoin: string;
 }
 
-export interface IShape extends IPreviewBox, IDrawingTool {
+export interface IShape extends IPreviewBox, ITools {
     primaryColor: string;
     secondaryColor: string;
     strokeOpacity: number;
@@ -34,14 +27,14 @@ export interface IShape extends IPreviewBox, IDrawingTool {
     verticesNumber?: number;
 }
 
-export interface ILineOptions extends IDrawingTool {
+export interface ILineOptions extends ITools {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedPointMode: number;
     savedPointWidth: number;
 }
 
-export interface IShapeOptions extends IDrawingTool {
+export interface IShapeOptions extends ITools {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedTraceMode: number;

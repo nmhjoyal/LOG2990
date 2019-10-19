@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDrawingTool } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { ColorService } from '../color_service/color.service';
 
 @Injectable({
@@ -14,15 +14,16 @@ export class ToolHandlerService {
   crayonSelected: boolean;
   pinceauSelected: boolean;
   lineSelected: boolean;
+  paintbrushSelected: boolean;
   primaryColorSelected: boolean;
   secondaryColorSelected: boolean;
 ​
-  // Color service simulating attributes
-  primaryColor: string;
-  secondaryColor: string;
+// Color service simulating attributes
+primaryColor: string;
+secondaryColor: string;
 ​
-  // Shape Storage
-  drawings: IDrawingTool[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
+// drawings Storage
+drawings: ITools[] = [];
 
   constructor(public colorService: ColorService) {
     this.drawings = [];
@@ -31,24 +32,26 @@ export class ToolHandlerService {
     this.crayonSelected = false;
     this.pinceauSelected = false;
     this.lineSelected = false;
+    this.paintbrushSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
     this.primaryColor = this.colorService.color[0];
     this.secondaryColor = this.colorService.color[1];
   }
 ​
-  // Tool Handling methods
-  clearPage(): void {
-      this.resetSelection();
-      this.drawings.length = 0;
-  }
+// Tool Handling methods
+clearPage(): void {
+    this.resetSelection();
+    this.drawings.length = 0;
+}
 ​
-  resetSelection(): void {
+resetSelection(): void {
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
     this.lineSelected = false;
+    this.paintbrushSelected = false;
   }
 ​
   chooseRectangle(): void {
@@ -63,15 +66,15 @@ export class ToolHandlerService {
     this.noneSelected = false;
 }
 ​
-  chooseCrayon(): void {
-      this.resetSelection();
-      this.crayonSelected = true;
-      this.noneSelected = false;
-  }
+chooseCrayon(): void {
+    this.resetSelection();
+    this.crayonSelected = true;
+    this.noneSelected = false;
+}
 ​
-  choosePinceau(): void {
+  choosePaintbrush(): void {
       this.resetSelection();
-      this.pinceauSelected = true;
+      this.paintbrushSelected = true;
       this.noneSelected = false;
   }
 

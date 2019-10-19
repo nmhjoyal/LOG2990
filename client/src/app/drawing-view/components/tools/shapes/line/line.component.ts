@@ -20,19 +20,23 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
   // Abstract & Overridden methods
 
   ngOnInit(): void {
-    if (this.attributesService.attributes.wasSaved) {
-      this.shape.strokeWidth = this.attributesService.attributes.savedStrokeWidth;
-      this.shape.pointWidth = this.attributesService.attributes.savedPointWidth;
-      this.pointMode = this.attributesService.attributes.savedPointMode;
+    if (this.attributesService.lineAttributes.wasSaved) {
+      this.shape.strokeWidth = this.attributesService.lineAttributes.savedStrokeWidth;
+      this.shape.pointWidth = this.attributesService.lineAttributes.savedPointWidth;
+      this.pointMode = this.attributesService.lineAttributes.savedPointMode;
     }
     this.setTraceMode(this.pointMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.attributes.savedPointMode = this.pointMode;
-    this.attributesService.attributes.savedPointWidth = this.shape.pointWidth;
-    this.attributesService.attributes.savedStrokeWidth = this.shape.strokeWidth;
-    this.attributesService.attributes.wasSaved = true;
+    this.saveAttribute();
+  }
+
+  saveAttribute(): void {
+    this.attributesService.lineAttributes.savedPointMode = this.pointMode;
+    this.attributesService.lineAttributes.savedPointWidth = this.shape.pointWidth;
+    this.attributesService.lineAttributes.savedStrokeWidth = this.shape.strokeWidth;
+    this.attributesService.lineAttributes.wasSaved = true;
   }
 
 }

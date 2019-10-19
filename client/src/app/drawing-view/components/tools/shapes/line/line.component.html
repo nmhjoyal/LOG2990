@@ -1,14 +1,22 @@
+<svg tabindex="0" class='previewLine' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
 
-<!--This snippet of SVG shows the preview of the next line on an overlapping svg; -->
-<svg tabindex="0" class='linePreviewZone' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-
-  <polyline [attr.points]="shape.points"
-            [style.stroke]="shape.primaryColor" 
+  <polyline id = "current"
+            [attr.points]="shape.points"
+            [style.stroke]="shape.color" 
             [style.stroke-opacity]="shape.strokeOpacity"
             [style.stroke-width]="shape.strokeWidth"
-            [style.point-width]="shape.pointWidth"
+            [style.fill]="shape.fill"
+            [style.stroke-linecap]="shape.strokeLinecap"
+            [style.stroke-linestroke]="shape.strokeLinejoin"
   />
 
-  <polyline class="previewLine" [attr.points] = "previewLine.points" />
+  <polyline class = "nextLinePreview" 
+            id = "current"
+            [attr.points]="nextLine.points"
+            [style.stroke]="black" 
+            [style.stroke-width]="nextLine.strokeWidth"
+            [style.fill]="nextLine.fill"
+            [style.stroke-linecap]="nextLine.strokeLinecap"
+            [style.stroke-linestroke]="nextLine.strokeLinejoin"/>
   
 </svg> 

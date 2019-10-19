@@ -16,7 +16,7 @@ export class ColorService {
     this.lastColors = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
                        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
     this.mainColor = false;
-    this.color = [Strings.WHITE_HEX, Strings.BLACK_HEX];
+    this.color = [Strings.BLACK_HEX, Strings.WHITE_HEX];
     this.alpha = [NumericalValues.INITIAL_TRANSPARENCY, NumericalValues.INITIAL_TRANSPARENCY];
   }
 
