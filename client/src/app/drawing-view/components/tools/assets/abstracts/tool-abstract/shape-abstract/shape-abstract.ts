@@ -3,9 +3,10 @@ import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/asset
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { AttributesService } from '../../attributes/attributes.service';
+import { AttributesService } from '../../../attributes/attributes.service';
+import { ToolAbstract } from '../tool-abstract';
 
-export abstract class ShapeAbstract implements OnInit, OnDestroy {
+export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDestroy {
   protected initialX: number;
   protected initialY: number;
   protected cursorX: number;
@@ -22,6 +23,7 @@ export abstract class ShapeAbstract implements OnInit, OnDestroy {
   constructor(protected toolService: ToolHandlerService,
               protected attributesService: AttributesService,
               protected colorService: ColorService) {
+    super(toolService, attributesService, colorService);
     this.mouseDown = false;
     this.shiftDown = false;
     this.initialX = 0;

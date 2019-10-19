@@ -10,6 +10,7 @@ export class ToolHandlerService {
   // Shape Handling attributes
   noneSelected: boolean;
   rectangleSelected: boolean;
+  polygonSelected: boolean;
   colourApplicatorSelected: boolean;
   crayonSelected: boolean;
   pinceauSelected: boolean;
@@ -55,6 +56,12 @@ export class ToolHandlerService {
       this.rectangleSelected = true;
       this.noneSelected = false;
   }
+
+  choosePolygon(): void {
+    this.resetSelection();
+    this.polygonSelected = true;
+    this.noneSelected = false;
+}
 ​
   chooseColourApplicator(): void {
       this.resetSelection();

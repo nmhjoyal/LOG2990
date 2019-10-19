@@ -1,4 +1,3 @@
-
 import SpyObj = jasmine.SpyObj;
 import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -6,7 +5,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { AttributesService } from '../../attributes/attributes.service';
+import { AttributesService } from '../../../attributes/attributes.service';
 import { ShapeAbstract } from './shape-abstract';
 
 @Component({

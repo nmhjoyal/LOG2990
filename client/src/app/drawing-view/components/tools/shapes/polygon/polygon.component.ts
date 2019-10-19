@@ -6,15 +6,15 @@ import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 
 @Component({
-  selector: 'app-tools-rectangle',
-  templateUrl: './rectangle.component.html',
-  styleUrls: ['./rectangle.component.scss'],
+  selector: 'app-tools-polygon',
+  templateUrl: './polygon.component.html',
+  styleUrls: ['./polygon.component.scss'],
 })
-export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestroy {
+export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
   constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
     super(toolServiceRef, attributesServiceRef, colorServiceRef);
-    this.shape.id = ToolConstants.TOOL_ID.RECTANGLE;
+    this.shape.id = ToolConstants.TOOL_ID.POLYGON;
   }
 
   // Abstract&Overridden methods
