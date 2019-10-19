@@ -55,9 +55,9 @@ describe('RectangleComponent', () => {
   });
 
   it('#ngOnInit should not load strokewidth and trace mode if there are no attributes saved in the service', () => {
-    attrService.rectangleAttributes.wasSaved = false;
-    attrService.rectangleAttributes.savedTraceMode = ToolConstants.TRACE_MODE.CONTOUR;
-    attrService.rectangleAttributes.savedStrokeWidth = STROKE_WIDTH;
+    attrService.attributes.wasSaved = false;
+    attrService.attributes.savedTraceMode = ToolConstants.TRACE_MODE.CONTOUR;
+    attrService.attributes.savedStrokeWidth = STROKE_WIDTH;
 
     component.ngOnInit();
     expect(component['shape'].strokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -67,9 +67,9 @@ describe('RectangleComponent', () => {
   });
 
   it('#ngOnInit should load strokewidth and trace mode if there are attributes saved in the service', () => {
-    attrService.rectangleAttributes.wasSaved = true;
-    attrService.rectangleAttributes.savedTraceMode = ToolConstants.TRACE_MODE.CONTOUR;
-    attrService.rectangleAttributes.savedStrokeWidth = STROKE_WIDTH;
+    attrService.attributes.wasSaved = true;
+    attrService.attributes.savedTraceMode = ToolConstants.TRACE_MODE.CONTOUR;
+    attrService.attributes.savedStrokeWidth = STROKE_WIDTH;
 
     component.ngOnInit();
 
@@ -82,11 +82,11 @@ describe('RectangleComponent', () => {
 
   it('#ngOnDestroy should save the current attributes in the rectangleAttributes interface of the service', () => {
     component.ngOnDestroy();
-    expect(attrService.rectangleAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
+    expect(attrService.attributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'shape.strokeWidth was not successfully saved upon destruction');
-    expect(attrService.rectangleAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
+    expect(attrService.attributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
       'the traceMode was not successfully saved upon destruction');
-    expect(attrService.rectangleAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
+    expect(attrService.attributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
 
   });
 

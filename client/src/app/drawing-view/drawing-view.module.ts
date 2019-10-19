@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
+import { LineComponent } from './components/tools/shapes/line/line.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
 
@@ -17,6 +18,7 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
   declarations: [
     CanvasComponent,
     RectangleComponent,
+    LineComponent,
     ShapeToolboxComponent,
   ],
 

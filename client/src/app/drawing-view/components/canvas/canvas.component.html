@@ -18,3 +18,6 @@
     <div *ngIf="toolHandler.rectangleSelected">
         <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
     </div>
+    <div *ngIf="toolHandler.lineSelected">
+        <app-tools-line #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-line>
+    </div>

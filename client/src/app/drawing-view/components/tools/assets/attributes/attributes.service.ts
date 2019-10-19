@@ -7,10 +7,10 @@ import { ToolConstants } from '../tool-constants';
 })
 export class AttributesService {
 
-  lineAttributes: IShapeOptions;
+  attributes: IShapeOptions;
 
   constructor() {
-    this.lineAttributes = {
+    this.attributes = {
       id: ToolConstants.TOOL_ID.LINE,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
@@ -19,8 +19,8 @@ export class AttributesService {
   }
 
   resetSavedAttributes() {
-    if (this.lineAttributes.wasSaved) {
-      this.lineAttributes = {
+    if (this.attributes.wasSaved) {
+      this.attributes = {
         id: ToolConstants.TOOL_ID.LINE,
         wasSaved: false,
         savedStrokeWidth: ToolConstants.NULL,

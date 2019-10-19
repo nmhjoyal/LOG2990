@@ -28,7 +28,6 @@ export class ToolHandlerService {
     this.drawings = [];
     this.noneSelected = true;
     this.rectangleSelected = false;
-    this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
     this.lineSelected = false;
@@ -47,7 +46,6 @@ export class ToolHandlerService {
   resetSelection(): void {
     this.noneSelected = true;
     this.rectangleSelected = false;
-    this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
   }
@@ -63,12 +61,6 @@ export class ToolHandlerService {
     this.lineSelected = true;
     this.noneSelected = false;
 }
-​
-  chooseColourApplicator(): void {
-      this.resetSelection();
-      this.colourApplicatorSelected = true;
-      this.noneSelected = false;
-  }
 ​
   chooseCrayon(): void {
       this.resetSelection();

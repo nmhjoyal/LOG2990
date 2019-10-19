@@ -11,9 +11,9 @@ export interface IPreviewBox {
 
 export interface IPreviewLine {
     x1: number;
-    x2: number;
     y1: number;
-    y2: number;
+   // y1: number;
+   // y2: number;
 }
 
 export interface ILine extends IPreviewLine, IDrawingTool {

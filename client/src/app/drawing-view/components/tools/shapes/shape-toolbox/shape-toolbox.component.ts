@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { CanvasComponent } from '../../../canvas/canvas.component';
-import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
+import { LineAbstract } from '../../assets/abstracts/line-abstract/line-abstract';
+// import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { ModeType } from '../../assets/tool-constants';
 
 @Component({
@@ -22,7 +23,7 @@ export class ShapeToolboxComponent implements OnInit {
     // empty body
   }
 
-  getComponent(): ShapeAbstract {  // change to parent of shapeAbstract so only one toolbox component can be used for all tools
+  getComponent(): LineAbstract {  // change to parent of shapeAbstract so only one toolbox component can be used for all tools
     return this.canvas.activeTool;
   }
 

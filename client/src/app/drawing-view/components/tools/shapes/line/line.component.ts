@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
+import { LineAbstract } from '../../assets/abstracts/line-abstract/line-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 
@@ -9,27 +10,27 @@ import { ToolConstants } from '../../assets/tool-constants';
   templateUrl: './line.component.html',
   styleUrls: ['./line.component.scss'],
 })
-export class LineComponent extends ShapeAbstract implements OnInit, OnDestroy {
+export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService) {
-    super(toolServiceRef, attributesServiceRef);
+  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
+    super(toolServiceRef, attributesServiceRef, colorServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.LINE;
   }
 
   // Abstract&Overridden methods
 
   ngOnInit(): void {
-    if (this.attributesService.rectangleAttributes.wasSaved) {
-      this.shape.strokeWidth = this.attributesService.rectangleAttributes.savedStrokeWidth;
-      this.traceMode = this.attributesService.rectangleAttributes.savedTraceMode;
+    if (this.attributesService.attributes.wasSaved) {
+      this.shape.strokeWidth = this.attributesService.attributes.savedStrokeWidth;
+      this.traceMode = this.attributesService.attributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.rectangleAttributes.savedTraceMode = this.traceMode;
-    this.attributesService.rectangleAttributes.savedStrokeWidth = this.shape.strokeWidth;
-    this.attributesService.rectangleAttributes.wasSaved = true;
+    this.attributesService.attributes.savedTraceMode = this.traceMode;
+    this.attributesService.attributes.savedStrokeWidth = this.shape.strokeWidth;
+    this.attributesService.attributes.wasSaved = true;
   }
 /*
   protected calculateDimensions(): void {

@@ -17,20 +17,20 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
     this.shape.id = ToolConstants.TOOL_ID.RECTANGLE;
   }
 
-  // Abstract&Overridden methods
+  // Abstract & Overridden methods
 
   ngOnInit(): void {
-    if (this.attributesService.rectangleAttributes.wasSaved) {
-      this.shape.strokeWidth = this.attributesService.rectangleAttributes.savedStrokeWidth;
-      this.traceMode = this.attributesService.rectangleAttributes.savedTraceMode;
+    if (this.attributesService.attributes.wasSaved) {
+      this.shape.strokeWidth = this.attributesService.attributes.savedStrokeWidth;
+      this.traceMode = this.attributesService.attributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.rectangleAttributes.savedTraceMode = this.traceMode;
-    this.attributesService.rectangleAttributes.savedStrokeWidth = this.shape.strokeWidth;
-    this.attributesService.rectangleAttributes.wasSaved = true;
+    this.attributesService.attributes.savedTraceMode = this.traceMode;
+    this.attributesService.attributes.savedStrokeWidth = this.shape.strokeWidth;
+    this.attributesService.attributes.wasSaved = true;
   }
 
   protected calculateDimensions(): void {
@@ -39,7 +39,6 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
       const minValue = Math.min(this.shape.height, this.shape.width);
       this.shape.height = minValue;
       this.shape.width = minValue;
-     
     }
   }
 }

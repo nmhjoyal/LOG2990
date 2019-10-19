@@ -1,27 +1,23 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { ILine, IPreviewLine } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
 
-export abstract class LineAbstract implements OnInit, OnDestroy {
+export abstract class ShapeAbstract implements OnInit, OnDestroy {
   protected initialX: number;
   protected initialY: number;
   protected cursorX: number;
   protected cursorY: number;
   protected mouseDown: boolean;
   protected shiftDown: boolean;
-  protected previewLine: IPreviewLine;
-  protected lineStack: IPreviewLine[];
-  protected shape: ILine;
+  protected previewBox: IPreviewBox;
+  protected shape: IShape;
   protected traceMode: number;
-  protected started: boolean;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  lastX: number;
-  lastY: number;
 
   constructor(protected toolService: ToolHandlerService,
               protected attributesService: AttributesService,
@@ -32,24 +28,23 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.initialY = 0;
     this.cursorX = 0;
     this.cursorY = 0;
-    this.started = false;
     this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
-    this.previewLine = {
-      x1: 0,
-      x2: 0,
-      y1: 0,
-      y2: 0,
-     };
-    this.lineStack = [];
+    this.previewBox = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0, };
     this.shape = {
       id: '',
-      x1: 0,
-      y1: 0,
-      x2: 0,
-      y2: 0,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
       primaryColor: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
+      secondaryColor: this.colorService.color[1],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
-      strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH, };
+      strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from color service */ };
   }
 
   abstract ngOnInit(): void;
@@ -59,21 +54,26 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
-    if (!this.started) {
-      this.initialX = event.offsetX;
-      this.initialY = event.offsetY;
-      this.started = true;
-    } else {
-      let lastSegment: IPreviewLine = new IPreviewLine(event.offsetX, event.offsetY);
-      this.lineStack.push(lastSegment);
-    }
+    this.initialX = event.offsetX;
+    this.initialY = event.offsetY;
     this.mouseDown = true;
   }
 
   @HostListener('mouseup') onMouseUp(): void {
-    if (this.mouseDown && ((this.shape.x2 - this.shape.x1 > 0) || (this.shape.y2 - this.shape.y1 > 0 ))) {
-      this.saveSegment();
+
+    if (this.mouseDown && (this.shape.height > 0 && this.shape.width > 0)) {
+      this.saveShape();
     }
+
+    this.mouseDown = false;
+    this.shape.height = 0;
+    this.shape.width = 0;
+    this.previewBox.height = 0;
+    this.previewBox.width = 0;
+    this.previewBox.x = 0;
+    this.previewBox.y = 0;
+    this.initialY = 0;
+    this.initialX = 0;
   }
 
   @HostListener('mouseleave') onMouseLeave(): void {
@@ -85,39 +85,28 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     this.cursorX = event.offsetX;
     this.cursorY = event.offsetY;
-    this.calculateDimensions();
+
+    if (this.mouseDown) {
+      this.calculateDimensions();
+    }
   }
 
   @HostListener('keyup.shift') onShiftUp(): void {
     this.shiftDown = false;
-    this.calculateDimensions();
+    if (this.mouseDown) {
+      this.calculateDimensions();
+    }
   }
 
   @HostListener('keydown.shift') onShiftDown(): void {
     this.shiftDown = true;
-    this.lastX = this.initialX;
-    this.lastY = this.initialY;
-    this.calculateDimensions();
-
-  }
-
-  @HostListener('dblclick') onDoubleClick(): void {
-    if (this.started) {
-      this.addSegment();
-      this.saveSegment();
+    if (this.mouseDown) {
+      this.calculateDimensions();
     }
-    this.started = false;
-  }
-
-  @HostListener('keydown.esc') onEscape(): void {
-    this.lineStack.length = 0;
-  }
-
-  @HostListener('keydown.delete') onDelete(): void {
-    this.lineStack.pop();
   }
 
   // Functions
+
   protected decreaseStrokeWidth(): void {
     if (this.shape.strokeWidth !== 0) {
       this.shape.strokeWidth--;
@@ -131,16 +120,19 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case ToolConstants.TRACE_MODE.CONTOUR:
+        this.shape.secondaryColor = this.colorService.color[1]; // load from color service
         this.shape.primaryColor = ToolConstants.NONE;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
+        this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
         this.shape.primaryColor = this.colorService.color[0]; //
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
+        this.shape.secondaryColor = this.colorService.color[1]; //
         this.shape.primaryColor = this.colorService.color[0]; //
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
@@ -150,7 +142,7 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     }
 
   }
-/*
+
   protected calculateDimensions(): void {
     // tslint:disable-next-line:no-magic-numbers
     const shapeOffset = this.shape.strokeWidth / 2;
@@ -164,40 +156,21 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
     this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height - this.shape.strokeWidth : 0;
   }
-*/
-  protected saveSegment(): void {
-    const currentDrawing: ILine = {
-      id: '',
-      x1: this.shape.x1,
-      y1: this.shape.y1,
-      x2: this.shape.x2,
-      y2: this.shape.y2,
+
+  protected saveShape(): void {
+    const currentDrawing: IShape = {
+      id: this.shape.id,
+      x: this.shape.x,
+      y: this.shape.y,
+      width: this.shape.width,
+      height: this.shape.height,
       primaryColor: this.shape.primaryColor,
+      secondaryColor: this.shape.secondaryColor,
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
+      fillOpacity: this.shape.fillOpacity,
     };
     this.toolService.drawings.push(currentDrawing);
-  }
-  protected calculateDimensions(): void {
-    // tslint:disable-next-line:no-magic-numbers
-    // const shapeOffset = this.shape.strokeWidth / 2;
-
-    this.previewLine.x1 = this.cursorX;
-    this.previewLine.y1 = this.cursorY;
-    this.previewLine.x2 = this.initialX;
-    this.previewLine.y2 = this.initialY;
-    /*this.shape.x =  this.previewBox.x + shapeOffset;
-    this.shape.y =  this.previewBox.y + shapeOffset;
-    this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
-    this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height - this.shape.strokeWidth : 0;*/
-  }
-
-  protected addSegment(): void {
-    if (this.shiftDown){}
-    this.lineStack.forEach((element) => {
-      this.shape.x1 += element.x1;
-    });
-    this.lineStack.length = 0;
   }
 
 }

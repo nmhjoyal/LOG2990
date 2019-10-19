@@ -163,7 +163,7 @@ describe('ShapeAbstract', () => {
     const spy = spyOn(shapeTest, 'saveShape');
     const mouseDownEvent = new MouseEvent('mousedown');
     shapeTest.onMouseDown(mouseDownEvent);
-
+/*
     const PRESET_WIDTH = 100;
     const PRESET_HEIGHT = 200;
 
@@ -171,7 +171,7 @@ describe('ShapeAbstract', () => {
     shapeTest['shape'].width = PRESET_WIDTH;
     shapeTest['shape'].height = PRESET_HEIGHT;
     // tslint:enable:no-string-literal
-
+*/
     shapeTest.onMouseUp();
     expect(spy).toHaveBeenCalled();
   });
