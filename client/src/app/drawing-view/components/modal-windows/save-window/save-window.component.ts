@@ -48,10 +48,19 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
           test.tags = [];
         }
         test.tags.push(tag);
-        this.index.saveTag(tag);
+        this.index._saveTag(tag);
       }
     });
-    this.index.saveDrawing(test);
+
+    this.index._saveDrawing(test).subscribe(
+      (response: boolean) => {
+        if (response) {
+          console.log('Saved');
+        } else {
+          console.log('Failed to save');
+        }
+      });
+
     this.onClose();
   }
 
