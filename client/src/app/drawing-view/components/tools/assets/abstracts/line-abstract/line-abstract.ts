@@ -15,7 +15,7 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   protected previewLine: IPreviewLine;
   protected lineStack: IPreviewLine[];
   protected shape: ILine;
-  protected traceMode: number;
+  protected pointMode: number;
   protected started: boolean;
 
   @Input() windowHeight: number;
@@ -31,23 +31,25 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.cursorX = 0;
     this.cursorY = 0;
     this.started = false;
-    this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
+    this.pointMode = ToolConstants.POINT_MODE.ANGLED;
     this.previewLine = {
       x1: 0,
       y1: 0,
-     // x1: 0,
-     // y2: 0,
+      x2: 0,
+      y2: 0,
+      stroke: 'black',
      };
     this.lineStack = [];
     this.shape = {
-      id: '',
+      id: 'line',
       x1: 0,
       y1: 0,
-      // x2: 0,
-      // y2: 0,
-      primaryColor: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
+      x2: 0,
+      y2: 0,
+      stroke: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
-      strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH, };
+      strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      pointWidth: ToolConstants.DEFAULT_POINT_WIDTH, };
   }
 
   abstract ngOnInit(): void;
@@ -57,17 +59,18 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
-    let lastSegment: IPreviewLine;
-    lastSegment = {x1: event.offsetX, y1: event.offsetY };
+    this.mouseDown = true;
     if (!this.started) {
       this.initialX = event.offsetX;
       this.initialY = event.offsetY;
       this.started = true;
-    }/*
-    lastSegment = {x1: this.lineStack[this.lineStack.length].x2, y1: this.lineStack[this.lineStack.length].y2,
-                    x2: event.offsetX, y2: event.offsetY};*/
-    this.mouseDown = true;
+      let firstSegment: IPreviewLine;
+      firstSegment = {x1: this.initialX, y1: this.initialY,
+                  x2: this.initialX, y2: this.initialY, stroke: this.colorService.color[0] };
+      this.lineStack.push(firstSegment);
+    } else {
     this.addSegment(event.offsetX, event.offsetY);
+    }
   }
 
   @HostListener('mouseup') onMouseUp(): void {
@@ -93,10 +96,7 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
 
   @HostListener('keydown.shift') onShiftDown(): void {
     this.shiftDown = true;
-    this.previewLine.x1 = this.initialX;
-    this.previewLine.y1 = this.initialY;
     this.calculateDimensions();
-
   }
 
   @HostListener('dblclick') onDoubleClick(event: MouseEvent): void {
@@ -126,33 +126,49 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
     this.shape.strokeWidth++;
   }
 
+  protected decreasePointWidth(): void {
+    if (this.shape.strokeWidth !== 0) {
+      this.shape.pointWidth--;
+    }
+  }
+
+  protected increasePointWidth(): void {
+    this.shape.pointWidth++;
+  }
+
   protected setTraceMode(mode: number): void {
     switch (mode) {
-      case ToolConstants.TRACE_MODE.CONTOUR:
-        this.shape.primaryColor = ToolConstants.NONE;
-        this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
-        break;
-/*
-      case ToolConstants.TRACE_MODE.FILL:
-        this.shape.primaryColor = this.colorService.color[0]; //
-        this.traceMode = ToolConstants.TRACE_MODE.FILL;
+      case ToolConstants.POINT_MODE.ANGLED:
+        this.pointMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
-      case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.primaryColor = this.colorService.color[0]; //
-        this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
+      case ToolConstants.POINT_MODE.ROUNDED:
+        this.pointMode = ToolConstants.TRACE_MODE.FILL;
         break;
-*/
+
+      case ToolConstants.POINT_MODE.DOTTED:
+        this.pointMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
+        break;
+
       default:
         break;
     }
   }
 
   protected calculateDimensions(): void {
-    this.shape.x1 = this.cursorX;
-    this.shape.y1 = this.cursorY;
-    // this.shape.x2 = this.initialX;
-    // this.shape.y2 = this.initialY;
+    this.previewLine.x1 = this.lineStack[this.lineStack.length].x2;
+    this.previewLine.y1 = this.lineStack[this.lineStack.length].y2;
+    this.previewLine.x2 = this.cursorX;
+    this.previewLine.y2 = this.cursorY;
+    this.previewLine.stroke = 'black';
+    if (this.shiftDown) {
+      this.previewLine.x2 = this.initialX;
+      this.previewLine.y2 = this.initialY;
+    }
+    this.shape.x1 = this.previewLine.x1;
+    this.shape.y1 = this.previewLine.y1;
+    this.shape.x2 = this.previewLine.x2;
+    this.shape.y2 = this.previewLine.y2;
   }
 
   protected saveSegment(): void {
@@ -161,19 +177,21 @@ export abstract class LineAbstract implements OnInit, OnDestroy {
         id: this.shape.id,
         x1: iterator.x1,
         y1: iterator.y1,
-      // x2: this.shape.x2,
-      // y2: this.shape.y2,
-        primaryColor: this.shape.primaryColor,
+        x2: iterator.x2,
+        y2: iterator.y2,
+        stroke: this.shape.stroke,
         strokeOpacity: this.shape.strokeOpacity,
         strokeWidth: this.shape.strokeWidth,
+        pointWidth: this.shape.pointWidth,
       };
       this.toolService.drawings.push(currentDrawing);
     }
     this.lineStack.length = 0;
   }
-  protected addSegment(x: number, y: number): void {
+  protected addSegment(eventx: number, eventy: number): void {
     let lastSegment: IPreviewLine;
-    lastSegment = {x1: x, y1: y };
+    lastSegment = {x1: this.lineStack[this.lineStack.length].x2, y1: this.lineStack[this.lineStack.length].y2,
+                  x2: eventx, y2: eventy, stroke: this.colorService.color[0] };
     this.lineStack.push(lastSegment);
   }
 

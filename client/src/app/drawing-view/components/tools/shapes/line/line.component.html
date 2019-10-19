@@ -1,14 +1,18 @@
 
 <!--This snippet of SVG shows the preview of the next line on an overlapping svg; -->
-<svg tabindex="0" class='linePreviewZone' x1=0 y1=0 >
+<svg tabindex="0" class='linePreviewZone' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
 
   <line [attr.x1]="shape.x1"
         [attr.y1]="shape.y1"
+        [attr.x2]="shape.x2"
+        [attr.y2]="shape.y2"
         [style.stroke]="shape.primaryColor" 
         [style.stroke-opacity]="shape.strokeOpacity"
         [style.stroke-width]="shape.strokeWidth"
+        [style.point-width]="shape.pointWidth"
   />
 
-  <line class="previewLine" [attr.x1]="previewLine.x1" [attr.y1]="previewLine.y1" "/>
+  <line class="previewLine" [attr.x1]="previewLine.x1" [attr.y1]="previewLine.y1"
+        [attr.x2]="previewLine.x2" [attr.y2]="previewLine.y2" [attr.stroke] = "previewLine.stroke"/>
   
 </svg> 

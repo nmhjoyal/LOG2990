@@ -17,33 +17,22 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
     this.shape.id = ToolConstants.TOOL_ID.LINE;
   }
 
-  // Abstract&Overridden methods
+  // Abstract & Overridden methods
 
   ngOnInit(): void {
     if (this.attributesService.attributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.attributes.savedStrokeWidth;
-      this.traceMode = this.attributesService.attributes.savedTraceMode;
+      this.shape.pointWidth = this.attributesService.attributes.savedPointWidth;
+      this.pointMode = this.attributesService.attributes.savedPointMode;
     }
-    this.setTraceMode(this.traceMode);
+    this.setTraceMode(this.pointMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.attributes.savedTraceMode = this.traceMode;
+    this.attributesService.attributes.savedPointMode = this.pointMode;
+    this.attributesService.attributes.savedPointWidth = this.shape.pointWidth;
     this.attributesService.attributes.savedStrokeWidth = this.shape.strokeWidth;
     this.attributesService.attributes.wasSaved = true;
   }
-/*
-  protected calculateDimensions(): void {
-    super.calculateDimensions();
-    if (this.shiftDown ) {
-      const minValue = Math.min(this.shape.height, this.shape.width);
-      this.shape.height = minValue;
-      this.shape.width = minValue;
-      // Centrage du carré
-      // tslint:disable:no-magic-numbers
-      this.shape.x += this.previewBox.width / 2 - this.shape.width / 2 - this.shape.strokeWidth / 2;
-      this.shape.y += this.previewBox.height / 2 - this.shape.height / 2 - this.shape.strokeWidth / 2;
-      // tslint:enable:no-magic-numbers
-    }
-  }*/
+
 }

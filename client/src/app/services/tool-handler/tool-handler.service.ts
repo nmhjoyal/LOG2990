@@ -48,6 +48,7 @@ export class ToolHandlerService {
     this.rectangleSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
+    this.lineSelected = false;
   }
 ​
   chooseRectangle(): void {

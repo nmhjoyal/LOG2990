@@ -12,14 +12,15 @@ export interface IPreviewBox {
 export interface IPreviewLine {
     x1: number;
     y1: number;
-   // y1: number;
-   // y2: number;
+    x2: number;
+    y2: number;
+    stroke: string;
 }
 
 export interface ILine extends IPreviewLine, IDrawingTool {
-    primaryColor: string;
     strokeOpacity: number;
     strokeWidth: number;
+    pointWidth: number;
 }
 
 export interface IShape extends IPreviewBox, IDrawingTool {
@@ -29,6 +30,13 @@ export interface IShape extends IPreviewBox, IDrawingTool {
     strokeWidth: number;
     fillOpacity: number;
     verticesNumber?: number;
+}
+
+export interface ILineOptions extends IDrawingTool {
+    wasSaved: boolean;
+    savedStrokeWidth: number;
+    savedPointMode: number;
+    savedPointWidth: number;
 }
 
 export interface IShapeOptions extends IDrawingTool {

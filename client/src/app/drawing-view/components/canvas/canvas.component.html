@@ -11,13 +11,20 @@
                 [style.stroke-width]="drawing.strokeWidth"
                 [style.fill-opacity]="drawing.fillOpacity"/>
             </g>
+            <g *ngSwitchCase="toolId.LINE">
+                <rect [attr.x] ="drawing.x" [attr.y]="drawing.y"
+                [style.stroke]="drawing.primaryyColor" 
+                [style.stroke-opacity]="drawing.strokeOpacity"
+                [style.stroke-width]="drawing.strokeWidth"
+                [style.point-width]="drawing.pointWidth"/>
+            </g>
         </g>
     </g>
 
-    </svg>
-    <div *ngIf="toolHandler.rectangleSelected">
-        <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
-    </div>
-    <div *ngIf="toolHandler.lineSelected">
-        <app-tools-line #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-line>
+</svg>
+<div *ngIf="toolHandler.rectangleSelected">
+    <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+</div>
+<div *ngIf="toolHandler.lineSelected">
+    <app-tools-line #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-line>
     </div>

@@ -3,7 +3,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { CanvasComponent } from '../../../canvas/canvas.component';
 import { LineAbstract } from '../../assets/abstracts/line-abstract/line-abstract';
 // import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
-import { ModeType } from '../../assets/tool-constants';
+import { ModeType, PointType } from '../../assets/tool-constants';
 
 @Component({
   selector: 'app-shape-toolbox',
@@ -13,6 +13,7 @@ import { ModeType } from '../../assets/tool-constants';
 export class ShapeToolboxComponent implements OnInit {
 
   mode = ModeType;
+  point = PointType;
   @Input() canvas: CanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {

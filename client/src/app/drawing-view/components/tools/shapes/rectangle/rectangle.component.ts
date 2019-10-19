@@ -22,13 +22,13 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
   ngOnInit(): void {
     if (this.attributesService.attributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.attributes.savedStrokeWidth;
-      this.traceMode = this.attributesService.attributes.savedTraceMode;
+      // this.traceMode = this.attributesService.attributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.attributes.savedTraceMode = this.traceMode;
+    // this.attributesService.attributes.savedTraceMode = this.traceMode;
     this.attributesService.attributes.savedStrokeWidth = this.shape.strokeWidth;
     this.attributesService.attributes.wasSaved = true;
   }

@@ -1,4 +1,4 @@
-<p *ngIf="!(toolHandler.noneSelected || toolHandler.primaryColorSelected || toolHandler.secondaryColorSelected)">
+<p *ngIf=" toolHandler.rectangleSelected && !(toolHandler.noneSelected)">
   <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
   <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
   <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein & Contour</button>
@@ -7,3 +7,14 @@
   <button (click)="getComponent().increaseStrokeWidth()">+</button>
 </p>
   
+<p *ngIf="toolHandler.lineSelected">
+  <button (click)="getComponent().setTraceMode(point.ANGLED)">Angle</button>
+  <button (click)="getComponent().setTraceMode(point.CURVED)">Courbe</button>
+  <button (click)="getComponent().setTraceMode(point.DOTTED)">Pointe</button>
+  <button (click)="getComponent().decreasePointWidth()">-</button>
+  {{getComponent().shape.pointWidth}}
+  <button (click)="getComponent().increasePointWidth()">+</button>
+  <button (click)="getComponent().decreaseStrokeWidth()">-</button>
+  {{getComponent().shape.strokeWidth}}
+  <button (click)="getComponent().increaseStrokeWidth()">+</button>
+</p>

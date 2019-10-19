@@ -3,11 +3,11 @@
     left: 0px;
     position:absolute; 
     z-index:1;*/
+    cursor: crosshair;
 }
 
 .previewLine{
     stroke: #000000; 
     stroke-width: 2; 
-    stroke-dasharray:10; 
-    fill: none;
+    stroke-dasharray:10;
 }

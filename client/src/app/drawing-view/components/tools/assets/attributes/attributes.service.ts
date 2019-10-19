@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IShapeOptions } from '../interfaces/shape-interface';
+import { ILineOptions } from '../interfaces/shape-interface';
 import { ToolConstants } from '../tool-constants';
 
 @Injectable({
@@ -7,14 +7,15 @@ import { ToolConstants } from '../tool-constants';
 })
 export class AttributesService {
 
-  attributes: IShapeOptions;
+  attributes: ILineOptions;
 
   constructor() {
     this.attributes = {
       id: ToolConstants.TOOL_ID.LINE,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
-      savedTraceMode: ToolConstants.NULL,
+      savedPointMode: ToolConstants.NULL,
+      savedPointWidth: ToolConstants.NULL,
     };
   }
 
@@ -24,7 +25,8 @@ export class AttributesService {
         id: ToolConstants.TOOL_ID.LINE,
         wasSaved: false,
         savedStrokeWidth: ToolConstants.NULL,
-        savedTraceMode: ToolConstants.NULL,
+        savedPointMode: ToolConstants.NULL,
+        savedPointWidth: ToolConstants.NULL,
       };
     }
   }
