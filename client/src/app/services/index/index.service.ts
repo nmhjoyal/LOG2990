@@ -30,9 +30,14 @@ export class IndexService {
   }
 
    saveTag(tag: ITag): Observable<boolean> {
-
     return this.http.post<boolean>(this.BASE_URL + '/tags', { tagToSave: tag }).pipe(
       catchError(this.handleError<boolean>('tags')),
+    );
+  }
+
+  getDrawings(): Observable<IDrawing[]> {
+    return this.http.get<IDrawing[]>(this.BASE_URL + '/getdrawings').pipe(
+      catchError(this.handleError<IDrawing[]>('getdrawings')),
     );
   }
 

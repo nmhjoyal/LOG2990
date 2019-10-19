@@ -38,8 +38,14 @@ export class IndexController {
 
         this.router.post('/tags',
             async (req: Request, res: Response, next: NextFunction) => {
-                const success: boolean = await this.indexService.saveTags(req.body.tags);
+                const success: boolean = await this.indexService.saveTags(req.body.tagToSave);
                 res.json(success);
+            });
+
+        this.router.get('/getdrawings',
+            async (req: Request, res: Response, next: NextFunction) => {
+                const drawings: any[] = await this.indexService.getDrawings();
+                res.json(drawings);
             });
     }
 }

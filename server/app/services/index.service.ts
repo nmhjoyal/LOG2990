@@ -8,9 +8,13 @@ import { DateService } from './date.service';
 
 @injectable()
 export class IndexService {
+    drawingsList: IDrawing[];
+
     constructor(
         @inject(Types.DateService) private dateService: DateService,
     ) {
+        this.drawingsList = [];
+
     }
 
     about(): Message {
@@ -37,8 +41,7 @@ export class IndexService {
     }
 
     async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
-        const drawings: any[] = [];
-        drawings.push(drawingToSave);
+        this.drawingsList.push(drawingToSave);
         console.log('SAVING');
         console.log(drawingToSave);
         return true;
@@ -50,5 +53,10 @@ export class IndexService {
         console.log('SAVING');
         console.log(tags);
         return true;
+    }
+
+    async getDrawings(): Promise<any[]> {
+        console.log('sending drawings');
+        return this.drawingsList;
     }
 }

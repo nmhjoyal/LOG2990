@@ -11,7 +11,9 @@
             </div>
             <div class="row">
                 <ul>
-                    <!-- images go here -->
+                    <li *ngFor="let draw of drawingsInGallery">
+                        <h2>{{draw.name}}</h2>
+                    </li>
                 </ul>
             </div>
         </div>
