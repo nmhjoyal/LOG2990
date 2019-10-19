@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Message } from '../../../common/communication/message';
-import {IDrawing} from '../../../common/IDrawing';
+import { IDrawing } from '../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../common/drawing-information/ITag';
 import Types from '../types';
 import { DateService } from './date.service';
 

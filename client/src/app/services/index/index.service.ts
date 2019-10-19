@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Message } from '../../../../../common/communication/message';
 import { IDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../../../common/drawing-information/ITag';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class IndexService {
     );
   }
 
-   saveTag(tag: any): Observable<boolean> {
+   saveTag(tag: ITag): Observable<boolean> {
 
     return this.http.post<boolean>(this.BASE_URL + '/tags', { tagToSave: tag }).pipe(
       catchError(this.handleError<boolean>('tags')),
