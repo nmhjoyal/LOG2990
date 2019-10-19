@@ -10,15 +10,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
+import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
+import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
+import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
-import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/shape-toolbox.component';
 
 @NgModule({
   declarations: [
     CanvasComponent,
+    CrayonComponent,
+    PaintbrushComponent,
+    DrawingToolToolboxComponent,
     RectangleComponent,
-    ShapeToolboxComponent,
-  ],
+],
 
   imports: [
     BrowserModule,
@@ -32,8 +36,8 @@ import { ShapeToolboxComponent } from './components/tools/shapes/shape-toolbox/s
   ],
 
   exports: [
+    DrawingToolToolboxComponent,
     CanvasComponent,
-    ShapeToolboxComponent,
     BrowserModule,
     HttpClientModule,
     MatDialogModule,

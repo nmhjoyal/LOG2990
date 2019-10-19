@@ -25,10 +25,19 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  ngOnInit(): void {
-    this.openWelcomeScreen();
+  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseCrayon();
+    }
   }
 
+  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.choosePaintbrush();
+    }
+  }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
@@ -56,6 +65,10 @@ export class AppComponent implements OnInit {
       data: NewDrawingWindowComponent.prototype.data,
       panelClass: 'new-drawing-window',
     });
+  }
+
+  ngOnInit(): void {
+    this.openWelcomeScreen();
   }
 
   openWelcomeScreen(): void {

@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CanvasComponent } from '../../../canvas/canvas.component';
-import { ShapeToolboxComponent } from './shape-toolbox.component';
+import { DrawingToolToolboxComponent } from './drawing-tool-toolbox.component';
 
 describe('ShapeToolboxComponent', () => {
-  let component: ShapeToolboxComponent;
+  let component: DrawingToolToolboxComponent;
   const mockCanvasComponent: jasmine.SpyObj<CanvasComponent> = jasmine.createSpyObj('CanvasComponent', ['activeTool']);
-  let fixture: ComponentFixture<ShapeToolboxComponent>;
+  let fixture: ComponentFixture<DrawingToolToolboxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShapeToolboxComponent ],
+      declarations: [ DrawingToolToolboxComponent ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShapeToolboxComponent);
+    fixture = TestBed.createComponent(DrawingToolToolboxComponent);
     component = fixture.componentInstance;
     component.canvas = mockCanvasComponent;
     fixture.detectChanges();
