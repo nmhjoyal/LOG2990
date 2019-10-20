@@ -10,3 +10,8 @@ li.selected {
 li:hover {
   background-color: rgba(255,255,255,.1);
 }
+
+  #list-style {
+    list-style-type: none;
+    display: inline;
+  }

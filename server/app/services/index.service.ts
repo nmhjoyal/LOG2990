@@ -9,7 +9,7 @@ import { DateService } from './date.service';
 @injectable()
 export class IndexService {
     drawingsList: IDrawing[];
-    tags: ITag[];
+    tags: Set<ITag>;
 
     // TODO: Choose a container type for the drawings list - and move it to storage service
     drawingsInGallery: Map<string, IDrawing>;
@@ -19,7 +19,7 @@ export class IndexService {
     ) {
         // this.drawingsList = [];
         this.drawingsInGallery = new Map<string, IDrawing>();
-        this.tags = [];
+        this.tags = new Set<ITag>();
     }
 
     about(): Message {
@@ -57,7 +57,7 @@ export class IndexService {
     }
 
     async saveTag(tagToSave: ITag): Promise<boolean> {
-        this.tags.push(tagToSave);
+        this.tags.add(tagToSave);
         console.log('SAVING ' + tagToSave.name);
         console.log(this.tags);
         return true;

@@ -11,10 +11,17 @@
             </div>
             <div class="row">
                 <ul>
-                    <li *ngFor="let drawing of drawingsInGallery" 
-                        (click)="onSelect(drawing)"
+                    <li id="list-style" *ngFor="let drawing of drawingsInGallery" (click)="onSelect(drawing)"
                         [class.selected]="drawing === selectedDrawing">
                         <h2>{{drawing.name}}</h2>
+                        <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
+                        <mat-menu #menu="matMenu">
+
+                            <div *ngFor="let tag of drawing.tags">
+                                <h3>{{tag.name}}</h3>
+                            </div>
+
+                        </mat-menu>
                     </li>
                 </ul>
             </div>
