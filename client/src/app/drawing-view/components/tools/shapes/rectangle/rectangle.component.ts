@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ShapeAbstract } from '../../assets/abstracts/tool-abstract/shape-abstract/shape-abstract';
+import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 

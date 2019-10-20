@@ -14,7 +14,7 @@ import { Id } from '../tools/assets/tool-constants';
 export class CanvasComponent {
 
   toolId = Id;
-  @ViewChild('activeTool', {static: false}) activeTool: ToolAbstract; // put general tool abstract here
+  @ViewChild('activeTool', {static: false}) activeTool: ToolAbstract;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
               public toolHandler: ToolHandlerService, public colorService: ColorService) {

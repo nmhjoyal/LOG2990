@@ -21,29 +21,36 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
   ngOnInit(): void {
     if (this.attributesService.rectangleAttributes.wasSaved) {
-      this.shape.strokeWidth = this.attributesService.rectangleAttributes.savedStrokeWidth;
-      this.traceMode = this.attributesService.rectangleAttributes.savedTraceMode;
+      this.shape.strokeWidth = this.attributesService.polygonAttributes.savedStrokeWidth;
+      this.traceMode = this.attributesService.polygonAttributes.savedTraceMode;
+      this.shape.verticesNumber = this.attributesService.polygonAttributes.savedVerticesNumber;
     }
     this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.rectangleAttributes.savedTraceMode = this.traceMode;
-    this.attributesService.rectangleAttributes.savedStrokeWidth = this.shape.strokeWidth;
-    this.attributesService.rectangleAttributes.wasSaved = true;
+    this.attributesService.polygonAttributes.savedTraceMode = this.traceMode;
+    this.attributesService.polygonAttributes.savedStrokeWidth = this.shape.strokeWidth;
+    this.attributesService.polygonAttributes.savedVerticesNumber = this.shape.verticesNumber;
+    this.attributesService.polygonAttributes.wasSaved = true;
   }
 
   protected calculateDimensions(): void {
-    super.calculateDimensions();
-    if (this.shiftDown ) {
-      const minValue = Math.min(this.shape.height, this.shape.width);
-      this.shape.height = minValue;
-      this.shape.width = minValue;
-      // Centrage du carré
-      // tslint:disable:no-magic-numbers
-      this.shape.x += this.previewBox.width / 2 - this.shape.width / 2 - this.shape.strokeWidth / 2;
-      this.shape.y += this.previewBox.height / 2 - this.shape.height / 2 - this.shape.strokeWidth / 2;
-      // tslint:enable:no-magic-numbers
+    super.calculateDimensions(); // some usless math for polygon, optimizable in the future?
+    
+    
+  }
+
+  increaseVertexNumber(): void {
+    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != 12){ // constante max vertice number
+      this.shape.verticesNumber++;
     }
   }
+
+  decreaseVertexNumber(): void {
+    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != 0){
+      this.shape.verticesNumber--;
+    }
+  }
+
 }
