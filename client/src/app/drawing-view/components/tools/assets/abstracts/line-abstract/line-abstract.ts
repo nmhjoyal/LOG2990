@@ -44,7 +44,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
       pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
-      strokeLinecap: ToolConstants.BUTT,
+      strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND,
     };
     this.shape = {
@@ -55,7 +55,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
       pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
-      strokeLinecap: ToolConstants.BUTT,
+      strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND, };
   }
 
@@ -65,12 +65,15 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   // Event handling methods
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    if (this.shiftDown) {
-      this.cursorX = this.initialX;
-      this.cursorY = this.initialY;
-    } else {
-    this.cursorX = event.offsetX;
-    this.cursorY = event.offsetY;
+    if (this.started) {
+      if (this.shiftDown) {
+        this.cursorX = this.initialX;
+        this.cursorY = this.initialY;
+      } else {
+        this.cursorX = event.offsetX;
+        this.cursorY = event.offsetY;
+      }
+      this.nextLine.points = this.previewPoints + ' ' + this.cursorX + ',' + this.cursorY;
     }
   }
 
@@ -80,52 +83,47 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       this.initialX = event.offsetX;
       this.initialY = event.offsetY;
       this.started = true;
-      this.previewPoints.push(this.cursorX + ',' + this.cursorY);
-      this.shape.points = this.cursorX + ',' + this.cursorY;
+      this.nextLine.points = event.offsetX + ',' + event.offsetY;
+      this.shape.points = event.offsetX + ',' + event.offsetY;
+      this.previewPoints.push(event.offsetX + ',' + event.offsetY);
     } else {
-      this.shape.points += ' ' + this.cursorX + ',' + this.cursorY;
+      this.shape.points += ' ' + event.offsetX + ',' + event.offsetY;
+      this.addSegment();
     }
-    this.nextLine.points = this.shape.points + ' ' + this.cursorX + ',' + this.cursorY;
-    this.addSegment(event.offsetX, event.offsetY);
-
   }
 
   @HostListener('mouseup') onMouseUp(): void {
     this.mouseDown = false;
-   /* if (this.mouseDown && ((this.shape.x2 - this.shape.x1 > 0) || (this.shape.y2 - this.shape.y1 > 0 ))) {
-      this.saveSegment();
-    }*/
-  }
-
-  @HostListener('mouseleave') onMouseLeave(): void {
-    // this.onDoubleClick = true;
   }
 
   @HostListener('keyup.shift') onShiftUp(): void {
     this.shiftDown = false;
-    // this.calculateDimensions();
   }
 
   @HostListener('keydown.shift') onShiftDown(): void {
     this.shiftDown = true;
-    // this.calculateDimensions();
   }
 
   @HostListener('dblclick') onDoubleClick(): void {
     if (this.started) {
+      this.addSegment();
       this.shape.points += ' ' + this.cursorX + ',' + this.cursorY;
-      this.addSegment(this.cursorX, this.cursorY);
       this.saveSegment();
     }
+    // this.shape.points = '';
+    this.nextLine.points = '';
+    this.previewPoints.length = 0;
     this.started = false;
-    this.shape.points = '';
   }
 
   @HostListener('keydown.esc') onEscape(): void {
-    this.shape.points = '';
+    // this.shape.points = '';
+    this.nextLine.points = '';
+    this.previewPoints.length = 0;
+    this.started = false;
   }
 
-  @HostListener('keydown.delete') onDelete(): void {
+  @HostListener('keydown.backspace') onDelete(): void {
     this.previewPoints.pop();
   }
 
@@ -142,8 +140,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     });
     const currentDrawing: ILine = {
       id: this.shape.id,
-      // points: this.finalPoints,
-      points: this.shape.points,
+      points: this.finalPoints,
+      // points: this.shape.points,
       color: this.shape.color,
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
@@ -152,18 +150,36 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeLinecap: this.shape.strokeLinecap,
       strokeLinejoin: this.shape.strokeLinejoin,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.toolService.drawings.push(this.nextLine);
   }
 
-  protected addSegment(coordX: number, coordY: number): void {
+  protected addSegment(): void {
     if (this.shiftDown) {
     this.previewPoints.push(this.initialX + ',' + this.initialY);
     } else {
-      this.previewPoints.push(coordX + ',' + coordY);
+      this.previewPoints.push(this.cursorX + ',' + this.cursorY);
     }
   }
 
   protected setTraceMode(pointMode: number): void {
+    switch (pointMode) {
+      case ToolConstants.POINT_MODE.ANGLED:
+        this.shape.strokeLinecap = ToolConstants.BUTT;
+        break;
+
+      case ToolConstants.POINT_MODE.ROUNDED:
+        this.shape.strokeLinecap = ToolConstants.ROUND;
+        break;
+
+      case ToolConstants.POINT_MODE.DOTTED:
+        this.shape.strokeLinecap = ToolConstants.SQUARE;
+        break;
+
+      default:
+        break;
+    }
+  }
+  protected setMode(pointMode: number): void {
     switch (pointMode) {
       case ToolConstants.POINT_MODE.ANGLED:
         this.pointMode = ToolConstants.POINT_MODE.ANGLED;

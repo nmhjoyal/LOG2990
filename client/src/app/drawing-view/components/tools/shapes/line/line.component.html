@@ -1,5 +1,5 @@
 <svg tabindex="0" class='previewLine' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-
+<!--
   <polyline id = "current"
             [attr.points]="shape.points"
             [style.stroke]="shape.color" 
@@ -9,14 +9,12 @@
             [style.stroke-linecap]="shape.strokeLinecap"
             [style.stroke-linestroke]="shape.strokeLinejoin"
   />
-
+-->
   <polyline class = "nextLinePreview" 
             id = "current"
             [attr.points]="nextLine.points"
-            [style.stroke]="black" 
-            [style.stroke-width]="nextLine.strokeWidth"
-            [style.fill]="nextLine.fill"
-            [style.stroke-linecap]="nextLine.strokeLinecap"
-            [style.stroke-linestroke]="nextLine.strokeLinejoin"/>
+            [style.stroke]="shape.color" 
+            [style.fill]="shape.fill"
+            />
   
 </svg> 
