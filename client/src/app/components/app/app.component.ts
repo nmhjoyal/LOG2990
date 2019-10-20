@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatMenuTrigger} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
@@ -24,7 +24,13 @@ export class AppComponent implements OnInit {
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingColor = Strings.WHITE_HEX;
   }
+  
+  @ViewChild('menuTrigger', {static: false}) menuTrigger: MatMenuTrigger;
 
+  openShapeMenu() {
+    this.menuTrigger.openMenu();
+  }
+  
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
     event.preventDefault();
     if (!this.dialog.openDialogs.length) {
@@ -47,6 +53,13 @@ export class AppComponent implements OnInit {
     event.preventDefault();
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseRectangle();
+    }
+  }
+
+  @HostListener('document:keydown.2', ['$event']) onKeydown2(event: KeyboardEvent) {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseEllipse();
     }
   }
 

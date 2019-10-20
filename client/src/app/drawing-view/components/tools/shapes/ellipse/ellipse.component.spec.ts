@@ -95,8 +95,8 @@ describe('EllipseComponent', () => {
 
     component.onShiftUp();
 
-    expect(component['shape'].width).toEqual(component['previewBox'].width - STROKE_WIDTH, 'width unchanged when shift is not pressed');
-    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKE_WIDTH, 'height unchanged when shift is not pressed');
+    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / 2, 'width unchanged when shift is not pressed');
+    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2, 'height unchanged when shift is not pressed');
 
     component.onShiftDown();
 
@@ -105,7 +105,7 @@ describe('EllipseComponent', () => {
     component['cursorY'] -= CURSOR_MOVE;
     component.onShiftDown();
 
-    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKE_WIDTH,
+    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2,
     'height unchanged when it is the smallest value');
     expect(component['shape'].width).toEqual(component['shape'].height, 'width took heights value');
 

@@ -40,11 +40,12 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
     this.previewBox.height = Math.abs(this.cursorY - this.initialY);
 
     // tslint:disable:no-magic-numbers
-    this.shape.width = this.previewBox.width / 2;         // horizontal radius
-    this.shape.height = this.previewBox.height / 2;       // vertical radius
+    this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width / 2 - this.shape.strokeWidth / 2 : 0;         // horizontal radius
+    this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height / 2 - this.shape.strokeWidth / 2 : 0;       // vertical radius
+    this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
+    this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
     // tslint:enable:no-magic-numbers
-    this.shape.x = this.previewBox.x + this.shape.width;  // x coordinate for center
-    this.shape.y = this.previewBox.y + this.shape.height; // y coordinate for center
+
 
     if (this.shiftDown ) {
       const minValue = Math.min(this.shape.height, this.shape.width);
