@@ -11,11 +11,13 @@ export class AttributesService {
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
+  ellipseAttributes: IShapeOptions;
 
   constructor() {
     this.resetRectangleAttributes();
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
+    this.resetEllipseAttributes();
     }
 
   resetCrayonAttributes(): void {
@@ -42,6 +44,14 @@ export class AttributesService {
       savedTraceMode: ToolConstants.NULL,
     };
   }
+  resetEllipseAttributes(): void {
+    this.ellipseAttributes = {
+      id: ToolConstants.TOOL_ID.RECTANGLE,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
+    };
+  }
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -51,6 +61,9 @@ export class AttributesService {
     }
     if (this.rectangleAttributes.wasSaved) {
       this.resetRectangleAttributes();
+    }
+    if (this.ellipseAttributes.wasSaved) {
+      this.resetEllipseAttributes();
     }
   }
 }

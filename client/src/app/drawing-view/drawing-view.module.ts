@@ -13,6 +13,7 @@ import { AttributesService } from './components/tools/assets/attributes/attribut
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
+import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     PaintbrushComponent,
     DrawingToolToolboxComponent,
     RectangleComponent,
+    EllipseComponent,
 ],
 
   imports: [

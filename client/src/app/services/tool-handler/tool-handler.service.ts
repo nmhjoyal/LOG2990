@@ -13,6 +13,7 @@ export class ToolHandlerService {
   colourApplicatorSelected: boolean;
   crayonSelected: boolean;
   paintbrushSelected: boolean;
+  ellipseSelected: boolean;
   primaryColorSelected: boolean;
   secondaryColorSelected: boolean;
 ​
@@ -48,6 +49,7 @@ resetSelection(): void {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.paintbrushSelected = false;
+    this.ellipseSelected = false;
 }
 ​
 chooseRectangle(): void {
@@ -89,6 +91,12 @@ chooseCrayon(): void {
     this.noneSelected = false;
     this.colorService.chooseColor(true);
   }  ​
+
+  chooseEllipse(): void {
+    this.resetSelection();
+    this.ellipseSelected = true;
+    this.noneSelected = false;
+  }
 
   chooseOther(): void {// Place holder for unimplemented tools
       this.resetSelection();
