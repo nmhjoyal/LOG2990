@@ -1,3 +1,5 @@
+import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 import { ISVGPreview } from './ISVGPreview';
 import { ITag } from './ITag';
 
@@ -6,5 +8,6 @@ export interface IDrawing {
     preview: ISVGPreview;
     tags?: ITag[];
     timestamp: string;
-    shapes: object[];
+    shapes: IDrawingTool[];
+    canvas: ICanvasData;
 }

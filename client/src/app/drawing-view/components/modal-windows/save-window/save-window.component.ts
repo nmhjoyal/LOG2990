@@ -9,6 +9,7 @@ import { ISVGPreview } from '../../../../../../../common/drawing-information/ISV
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
+import { IDrawingTool } from '../../tools/assets/interfaces/shape-interface';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
@@ -19,7 +20,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   protected name: string;
   protected preview: ISVGPreview;
-  private drawing: object[];
+  private drawing: IDrawingTool[];
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
     protected canvasData: CanvasInformationService, protected toolHandler: ToolHandlerService, protected index: IndexService) {
@@ -40,8 +41,11 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   onAcceptClick(): void {
     let test: IDrawing;
-    const date = new Date().toLocaleDateString();
-    test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing };
+    // TODO: Make sure the Date formatting is the same everywhere cause this is what's
+    // used to retrieved drawings from the server (transformed in an id => removing non-digit char)
+    const date = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
+    test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing, canvas: this.canvasData.data };
+
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
         if (!test.tags) {

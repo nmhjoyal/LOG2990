@@ -17,6 +17,10 @@ import { IGalleryModalData } from './IGalleryModalData';
 })
 export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
 
+  protected drawingsInGallery: IDrawing[];
+  private selectedDrawing: IDrawing;
+  private drawingToOpen: IDrawing;
+
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
     protected canvasData: CanvasInformationService,
@@ -24,15 +28,43 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     protected toolHandler: ToolHandlerService, protected index: IndexService) {
     super(dialogRef, data, canvasData, undefined, toolHandler, drawingData, index);
     this.data.title = Strings.GALLERY_WINDOW_TITLE;
+    this.drawingsInGallery = [];
+    this.selectedDrawing = {} as IDrawing;
+    this.drawingToOpen = {} as IDrawing;
   }
-
-  drawingsInGallery: IDrawing[] = [];
 
   ngOnInit() {
     this.index.getDrawings().subscribe(
       (response: IDrawing[]) => {
         this.drawingsInGallery = response;
       });
+  }
+
+  onSelect(drawing: IDrawing): void {
+    console.log('Drawing selected');
+    this.selectedDrawing = drawing;
+  }
+
+  onAcceptClick(): void {
+
+    if (this.selectedDrawing) {
+      this.index.getDrawing(this.selectedDrawing).subscribe(
+        (response: IDrawing) => {
+          if (response) {
+            this.drawingToOpen = response;
+            // TODO: Open drawing
+            console.log('Opening drawing name: ' + this.drawingToOpen.name + ', timestamp: ' + this.drawingToOpen.timestamp + '.');
+            this.toolHandler.drawings = this.drawingToOpen.shapes;
+            this.canvasData.data = this.drawingToOpen.canvas;
+          } else {
+            // TODO: Show the error to the user
+            console.error('Drawing not found (name: ' + this.selectedDrawing.name +
+              ', timestamp: ' + this.selectedDrawing.timestamp + ').');
+          }
+        });
+    }
+
+    this.onClose();
   }
 
 }

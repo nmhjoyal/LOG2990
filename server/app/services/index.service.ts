@@ -9,12 +9,14 @@ import { DateService } from './date.service';
 @injectable()
 export class IndexService {
     drawingsList: IDrawing[];
+    // TODO: Choose a container type for the drawings list - and move it to storage service
+    drawingsInGallery: Map<string, IDrawing>;
 
     constructor(
         @inject(Types.DateService) private dateService: DateService,
     ) {
-        this.drawingsList = [];
-
+        // this.drawingsList = [];
+        this.drawingsInGallery = new Map<string, IDrawing>();
     }
 
     about(): Message {
@@ -39,24 +41,39 @@ export class IndexService {
             };
         });
     }
-
+ 
     async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
-        this.drawingsList.push(drawingToSave);
-        console.log('SAVING');
-        console.log(drawingToSave);
-        return true;
+        // this.drawingsList.push(drawingToSave);
+        if (drawingToSave.timestamp) {
+            this.drawingsInGallery.set(this.dateToId(drawingToSave.timestamp), drawingToSave);
+            console.log('Saving drawing with id: ' + this.dateToId(drawingToSave.timestamp));
+            console.log(drawingToSave);
+            return true;
+        }
+        return false;
     }
 
     async saveTags(tagToSave: ITag): Promise<boolean> {
-        const tags: any = [];
+        const tags: ITag[] = [];
         tags.push(tagToSave);
         console.log('SAVING');
         console.log(tags);
         return true;
     }
 
-    async getDrawings(): Promise<any[]> {
+    async getDrawings(): Promise<IDrawing[]> {
         console.log('sending drawings');
-        return this.drawingsList;
+        // return this.drawingsList;
+        return Array.from(this.drawingsInGallery.values());
+    }
+
+    async getDrawing(drawingTimestampID: string): Promise<IDrawing | undefined> {
+        console.log('sending drawing of timestampID: ' + drawingTimestampID);
+        return this.drawingsInGallery.get(drawingTimestampID);
+    }
+    
+    // TODO: Move in a common to share with client/index.service
+    private dateToId(date: string): string {
+        return date.replace(/[^0-9]/g, '');
     }
 }

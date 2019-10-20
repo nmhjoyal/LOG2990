@@ -11,8 +11,10 @@
             </div>
             <div class="row">
                 <ul>
-                    <li *ngFor="let draw of drawingsInGallery">
-                        <h2>{{draw.name}}</h2>
+                    <li *ngFor="let drawing of drawingsInGallery" 
+                        (click)="onSelect(drawing)"
+                        [class.selected]="drawing === selectedDrawing">
+                        <h2>{{drawing.name}}</h2>
                     </li>
                 </ul>
             </div>

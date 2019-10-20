@@ -41,10 +41,22 @@ export class IndexService {
     );
   }
 
+  // TODO: check what happens if returns undefined
+  getDrawing(selectedDrawing: IDrawing): Observable<IDrawing> {
+    return this.http.get<IDrawing>(this.BASE_URL + '/getdrawing/' + this.dateToId(selectedDrawing.timestamp)).pipe(
+      catchError(this.handleError<IDrawing>('getdrawing')),
+    );
+  }
+
   private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
     return (error: Error): Observable<T> => {
       confirm('Request:' + request.valueOf + ' returned error: ' + error.name + ' with message ' + error.message);
       return of(result as T);
     };
+  }
+
+  // TODO: Move to common to share with server/index.service.ts
+  private dateToId(date: string): string {
+    return date.replace(/[^0-9]/g, '');
   }
 }

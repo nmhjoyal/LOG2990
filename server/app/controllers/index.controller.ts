@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { inject, injectable } from 'inversify';
 
 import { Message } from '../../../common/communication/message';
+import { IDrawing } from '../../../common/drawing-information/IDrawing';
 import { IndexService } from '../services/index.service';
 import Types from '../types';
 
@@ -44,8 +45,17 @@ export class IndexController {
 
         this.router.get('/getdrawings',
             async (req: Request, res: Response, next: NextFunction) => {
-                const drawings: any[] = await this.indexService.getDrawings();
+                const drawings: IDrawing[] = await this.indexService.getDrawings();
                 res.json(drawings);
+            });
+
+        this.router.get('/getdrawing/:id',
+            async (req: Request, res: Response, next: NextFunction) => {
+                this.indexService.getDrawing(req.params.id).then((drawing: IDrawing) => {
+                    res.json(drawing);
+                }).catch((err: Error) => {
+                    res.json(err.message); // TODO: Send error messages - ex: Not found 
+                });
             });
     }
 }
