@@ -166,6 +166,11 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
             this.selectorService.MinWidth, this.selectorService.MinHeight);
           return;
+        } else {
+          this.selectorService.SelectedObjects.clear();
+          this.selectorService.SelectedObjects.add(drawing);
+          this.selectorService.setBoxToDrawing(drawing);
+          this.traceBox(drawing.x, drawing.y, drawing.width, drawing.height);
         }
       }
     }
