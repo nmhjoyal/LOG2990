@@ -14,9 +14,9 @@
     </div>
 
     <p *ngIf="toolHandler.lineSelected">
-        <button (click)="getComponent().setJunctionMode(mode.BUTT)">Angle</button>
-        <button (click)="getComponent().setJunctionMode(mode.ROUND)">Courbe</button>
-        <button (click)="getComponent().setJunctionMode(mode.SQUARE)">Pointe</button><br>
+        <button (click)="getComponent().setJunctionMode(point.BUTT)">Angle</button>
+        <button (click)="getComponent().setJunctionMode(point.ROUND)">Courbe</button>
+        <button (click)="getComponent().setJunctionMode(point.SQUARE)">Pointe</button><br>
         <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">Continu</button>
         <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">Pointillé (trait)</button>
         <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">Pointillé (point)</button><br>

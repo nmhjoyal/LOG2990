@@ -50,6 +50,6 @@ export class ToolConstants {
     static TRACE_MODE = ModeType;
     static POINT_MODE = PointType;
     static STRAIGHT =  '0';
-    static DOTTED_LINE = '4';
-    static DOTTED_POINT = '4 1';
+    static DOTTED_LINE = '2';
+    static DOTTED_POINT = '4';
 }

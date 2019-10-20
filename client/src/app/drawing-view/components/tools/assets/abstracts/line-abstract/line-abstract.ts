@@ -14,7 +14,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected mouseDown: boolean;
   protected shiftDown: boolean;
   protected stroke: ILine;
-  protected pointMode: number;
+  protected pointMode: string;
   protected previewPoints: string[];
   protected started: boolean;
   protected finalPoints: string;
@@ -34,7 +34,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     this.cursorY = 0;
     this.started = false;
     this.previewPoints = [];
-    this.pointMode = ToolConstants.POINT_MODE.ANGLED;
+    this.pointMode = ToolConstants.ROUND;
     this.stroke  = {
       id: '',
       points: '',
@@ -45,20 +45,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
       strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND,
-      strokeDashArray: ToolConstants.DOTTED_LINE,
+      strokeDashArray: ToolConstants.STRAIGHT,
     };
-    /*
-    this.shape = {
-      id: '',
-      points: '',
-      color: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
-      strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
-      strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fill: ToolConstants.NONE,
-      pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
-      strokeLinecap: ToolConstants.ROUND,
-      strokeLinejoin: ToolConstants.ROUND, };
-      */
   }
 
   abstract ngOnInit(): void;
@@ -186,15 +174,15 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected setTraceMode(lineMode: number): void {
     switch (lineMode) {
       case ToolConstants.TRACE_MODE.STRAIGHT:
-        this.stroke.strokeDashArray = '0';
+        this.stroke.strokeDashArray = ToolConstants.STRAIGHT;
         break;
 
       case ToolConstants.TRACE_MODE.DOTTED_LINE:
-        this.stroke.strokeDashArray = '4';
+        this.stroke.strokeDashArray = ToolConstants.DOTTED_LINE;
         break;
 
       case ToolConstants.TRACE_MODE.DOTTED_POINT:
-        this.stroke.strokeDashArray = '4 1';
+        this.stroke.strokeDashArray = ToolConstants.DOTTED_POINT;
         break;
 
       default:
