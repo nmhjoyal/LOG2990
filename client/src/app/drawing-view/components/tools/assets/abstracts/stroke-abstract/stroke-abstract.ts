@@ -22,6 +22,10 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     super();
     this.stroke = {
     id: '',
+    x: this.windowWidth,
+    y: this.windowHeight,
+    width: 0,
+    height: 0,
     points: '',
     color: colorService.color[0],
     strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -42,6 +46,10 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     const currentDrawing: IDrawingTool = {
       id: this.stroke.id,
       points: this.stroke.points,
+      x: this.stroke.x,
+      y: this.stroke.y,
+      width: this.stroke.width - this.stroke.x,
+      height: this.stroke.height - this.stroke.y,
       color: this.stroke.color,
       strokeWidth: this.stroke.strokeWidth,
       fill: this.stroke.fill,
@@ -64,6 +72,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       this.stroke.points += (' ' + event.offsetX + ',' + event.offsetY);
+      this.adjustCoordinates(event);
     }
   }
 
@@ -71,6 +80,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
 
     if (this.x === event.offsetX && this.y === event.offsetY) {
       this.stroke.points += (' ' + (event.offsetX) + ',' + (event.offsetY));
+      this.adjustCoordinates(event);
     }
     this.saveShape();
     this.mouseDown = false;
@@ -93,5 +103,12 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     if (this.stroke.strokeWidth > 1) {
       this.stroke.strokeWidth--;
     }
+  }
+
+  protected adjustCoordinates(event: MouseEvent): void {
+    this.stroke.x = event.offsetX < this.stroke.x ? event.offsetX : this.stroke.x;
+    this.stroke.y = event.offsetY < this.stroke.y ? event.offsetY : this.stroke.y;
+    this.stroke.width = event.offsetX > this.stroke.width ? event.offsetX : this.stroke.width;
+    this.stroke.height = event.offsetY > this.stroke.height ? event.offsetY : this.stroke.height;
   }
 }

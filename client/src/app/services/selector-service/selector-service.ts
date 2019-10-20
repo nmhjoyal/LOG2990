@@ -1,7 +1,9 @@
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+// tslint:disable-next-line: no-implicit-dependencies
+import * as svgIntersections from 'svg-intersections';
 
 export class SelectorService {
-  selectedObjects: Set<IShape>;
+  selectedObjects: Set<ITools>;
   topCornerX: number;
   topCornerY: number;
   bottomCornerX: number;
@@ -10,7 +12,7 @@ export class SelectorService {
   height: number;
 
   constructor() {
-    this.selectedObjects = new Set<IShape>();
+    this.selectedObjects = new Set<ITools>();
     this.topCornerX = 0;
     this.topCornerY = 0;
     this.bottomCornerX = 0;
@@ -27,11 +29,11 @@ export class SelectorService {
     return Math.abs(this.height - this.topCornerY);
   }
 
-  get SelectedObjects(): Set<IShape> {
+  get SelectedObjects(): Set<ITools> {
     return this.selectedObjects;
   }
 
-  setBoxToDrawing(drawing: IShape): void {
+  setBoxToDrawing(drawing: ITools): void {
     this.topCornerX = drawing.x;
     this.topCornerY = drawing.y;
     this.width = drawing.x + drawing.width;
@@ -40,7 +42,7 @@ export class SelectorService {
     this.bottomCornerY = drawing.y + drawing.height;
   }
 
-  checkForItems(isReverseSelection: boolean, drawings: IShape[], previewBoxX: number, previewBoxY: number): void {
+  checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBoxX: number, previewBoxY: number): void {
     if (!isReverseSelection) {
       this.selectedObjects.clear();
     }
@@ -63,7 +65,7 @@ export class SelectorService {
     this.topCornerY = previewBoxY + this.bottomCornerY;
   }
 
-  updateSelectorShape(drawing: IShape): void {
+  updateSelectorShape(drawing: ITools): void {
     if (drawing.x < this.topCornerX) {
       this.topCornerX = drawing.x;
     }
@@ -102,16 +104,20 @@ export class SelectorService {
     this.bottomCornerY = 0;
   }
 
-  cursorTouchesObject(object: IShape, positionX: number, positionY: number): boolean {
+  cursorTouchesObject(object: ITools, positionX: number, positionY: number): boolean {
     return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
             (object.y + object.height) >= positionY);
   }
 
-  objectInBox(object: IShape, topX: number, topY: number): boolean {
-    return (((object.x <= this.bottomCornerX && (object.x + object.width) >= this.bottomCornerX) ||
-    (object.x + object.width) <= this.bottomCornerX) && ((object.y <= this.bottomCornerY &&
-    (object.y + object.height) >= this.bottomCornerY) || (object.y + object.height) <= this.bottomCornerY))
-    && (((object.x >= topX && (object.x + object.width) <= topX) || (object.x + object.width) >= topX)
-    && ((object.y >= topY && (object.y + object.height) <= topY) || (object.y + object.height) >= topY));
+  objectInBox(object: ITools, topX: number, topY: number): boolean {
+    const intersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: object.x, y: object.y, width: object.width,
+      height: object.height}),
+      svgIntersections.shape('rect', { x: topX, y: topY, width: this.MinWidth, height: this.MinHeight}));
+    return (intersections === 0);
+    // return (((object.x <= this.bottomCornerX && (object.x + object.width) >= this.bottomCornerX) ||
+    // (object.x + object.width) <= this.bottomCornerX) && ((object.y <= this.bottomCornerY &&
+    // (object.y + object.height) >= this.bottomCornerY) || (object.y + object.height) <= this.bottomCornerY))
+    // && (((object.x >= topX && (object.x + object.width) <= topX) || (object.x + object.width) >= topX)
+    // && ((object.y >= topY && (object.y + object.height) <= topY) || (object.y + object.height) >= topY));
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
 
@@ -23,13 +24,12 @@ export class ToolHandlerService {
   secondaryColor: string;
   ​
   // Shape Storage
-  drawings: IShape[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
-  selection: IShape;
+  drawings: ITools[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
+  selection: ITools;
 
   constructor(public colorService: ColorService) {
     this.drawings = [];
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'none', secondaryColor: 'black',
-                       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1 };
+    this.selection = { x: 0, y: 0, width: 0, height: 0, id: Id.SELECTOR, points: '' };
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
@@ -59,14 +59,11 @@ export class ToolHandlerService {
   }
 
   resetSelectorBox(): void {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: ToolConstants.NONE, secondaryColor: 'black',
-      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1 };
+    this.selection = { x: 0, y: 0, width: 0, height: 0, id: Id.SELECTOR, points: '' };
   }
 
   saveSelectorBox(shape: IShape): void {
-    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height,
-      primaryColor: 'black', secondaryColor: 'black', fillOpacity: 0,
-      strokeOpacity: 1, strokeWidth: 1 };
+    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, id: Id.SELECTOR, points: '' };
   }
 
   selectorBoxExists(): boolean {

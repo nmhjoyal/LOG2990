@@ -24,6 +24,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetPaintbrushAttributes(): void {
@@ -32,6 +37,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetRectangleAttributes(): void {
@@ -40,6 +50,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
       savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetSavedAttributes(): void {

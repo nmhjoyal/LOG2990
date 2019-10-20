@@ -1,4 +1,4 @@
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { SelectorService } from './selector-service';
 
@@ -25,9 +25,8 @@ describe('SelectorService', () => {
   });
 
   it('should create selector box as drawing', () => {
-    let drawing: IShape;
-    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: ''};
     service.setBoxToDrawing(drawing);
     expect(service.topCornerX).toEqual(drawing.x);
     expect(service.topCornerY).toEqual(drawing.y);
@@ -40,10 +39,8 @@ describe('SelectorService', () => {
   it('should check for items, add when not in reverse and delete if in reverse', () => {
     spyOn(service, 'updateSelectorShape').and.callFake(() => { return; });
     spyOn(service, 'objectInBox').and.returnValue(true);
-    const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
-    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
     const drawings = [];
     drawings.push(drawing1);
     drawings.push(drawing2);
@@ -64,9 +61,8 @@ describe('SelectorService', () => {
   });
 
   it('should update corners depending on drawing dimensions', () => {
-    let drawing: IShape;
-    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
     service.topCornerX = FORTY;
     service.topCornerY = FIFTY;
     service.width = FORTY;
@@ -76,8 +72,7 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.width).toEqual(drawing.x + drawing.width);
     expect(service.height).toEqual(ONE_HUNDRED);
-    drawing = { x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    drawing = { x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
     service.topCornerX = FIFTY;
     service.topCornerY = FORTY;
     service.width = ONE_HUNDRED;
@@ -90,12 +85,10 @@ describe('SelectorService', () => {
   });
 
   it('should recalculate selector shape with list of selected items', () => {
-    let drawing: IShape;
-    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
     service.selectedObjects.add(drawing);
-    drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-                secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: ''};
     service.selectedObjects.add(drawing);
     spyOn(service, 'updateSelectorShape').and.callFake(() => { return; });
     service.recalculateShape(ONE_HUNDRED, ONE_HUNDRED);
@@ -119,8 +112,7 @@ describe('SelectorService', () => {
     service.height = ONE_HUNDRED;
     service.topCornerX = ONE_HUNDRED;
     service.topCornerY = ONE_HUNDRED;
-    const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-    secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: ''};
     service.selectedObjects.add(drawing);
     service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
@@ -131,23 +123,20 @@ describe('SelectorService', () => {
   });
 
   it('should confirm cursor touches object', () => {
-    const object = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-    secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    const object = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
     expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
     expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
   });
 
   it('should confirm selection box intersects object', () => {
-    let object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black',
-      secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    let object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE, points: '' };
     service.bottomCornerX = FORTY;
     service.bottomCornerY = FORTY;
     expect(service.objectInBox(object, ONE_HUNDRED, ONE_HUNDRED)).toBeFalsy();
     expect(service.objectInBox(object, ONE_HUNDRED, FORTY)).toBeFalsy();
     expect(service.objectInBox(object, FORTY, ONE_HUNDRED)).toBeFalsy();
     expect(service.objectInBox(object, FORTY, FORTY)).toBeFalsy();
-    object = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: ONE_HUNDRED, height: ONE_HUNDRED, fillOpacity: 0, id: Id.RECTANGLE,
-      primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+    object = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: ONE_HUNDRED, height: ONE_HUNDRED, id: Id.RECTANGLE, points: '' };
     service.bottomCornerX = ONE_HUNDRED;
     service.bottomCornerY = ONE_HUNDRED;
     expect(service.objectInBox(object, ONE_HUNDRED, ONE_HUNDRED)).toBeTruthy();
