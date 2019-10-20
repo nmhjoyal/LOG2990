@@ -5,22 +5,21 @@ import { SelectorService } from 'src/app/services/selector-service/selector-serv
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { IShape } from '../assets/interfaces/shape-interface';
+import { ITools } from '../assets/interfaces/itools';
 import { Id } from '../assets/tool-constants';
 import { SelectorComponent } from './selector.component';
 
 const FIFTY = 50;
 const FORTY = 40;
-const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY,
-    fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
 class SelectorServiceMock extends SelectorService {
 
     constructor() {
       super();
     }
 
-    get SelectedObjects(): Set<IShape> {
-        const set = new Set<IShape>();
+    get SelectedObjects(): Set<ITools> {
+        const set = new Set<ITools>();
         set.add(drawing);
         return set;
     }
@@ -189,8 +188,7 @@ describe('SelectorComponent', () => {
     });
 
     it('test leftclick simple', () => {
-        toolServiceMock.drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY,
-            fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1}];
+        toolServiceMock.drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' }];
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         const leftRelease = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
@@ -210,10 +208,10 @@ describe('SelectorComponent', () => {
     });
 
     it('test rightclick reverse', () => {
-        const drawing1 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY,
-            fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
-        const drawing2 = { x: FORTY, y: FORTY, width: FORTY, height: FORTY,
-            fillOpacity: 0, id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1};
+        const drawing1 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0,
+            id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1, points: '' };
+        const drawing2 = { x: FORTY, y: FORTY, width: FORTY, height: FORTY, fillOpacity: 0,
+            id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1, points: '' };
         toolServiceMock.drawings = [drawing1, drawing2];
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });

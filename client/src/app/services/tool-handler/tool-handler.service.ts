@@ -25,11 +25,12 @@ export class ToolHandlerService {
   ​
   // Shape Storage
   drawings: ITools[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
-  selection: ITools;
+  selection: IShape;
 
   constructor(public colorService: ColorService) {
     this.drawings = [];
-    this.selection = { x: 0, y: 0, width: 0, height: 0, id: Id.SELECTOR, points: '' };
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR, points: '' };
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
@@ -59,11 +60,13 @@ export class ToolHandlerService {
   }
 
   resetSelectorBox(): void {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, id: Id.SELECTOR, points: '' };
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR, points: '' };
   }
 
   saveSelectorBox(shape: IShape): void {
-    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, id: Id.SELECTOR, points: '' };
+    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColor: 'black', secondaryColor: 'black',
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR, points: '' };
   }
 
   selectorBoxExists(): boolean {

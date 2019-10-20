@@ -22,8 +22,8 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     super();
     this.stroke = {
     id: '',
-    x: this.windowWidth,
-    y: this.windowHeight,
+    x: 0,
+    y: 0,
     width: 0,
     height: 0,
     points: '',
@@ -48,8 +48,8 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       points: this.stroke.points,
       x: this.stroke.x,
       y: this.stroke.y,
-      width: this.stroke.width - this.stroke.x,
-      height: this.stroke.height - this.stroke.y,
+      width: this.stroke.width,
+      height: this.stroke.height,
       color: this.stroke.color,
       strokeWidth: this.stroke.strokeWidth,
       fill: this.stroke.fill,
@@ -72,7 +72,6 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       this.stroke.points += (' ' + event.offsetX + ',' + event.offsetY);
-      this.adjustCoordinates(event);
     }
   }
 
@@ -80,8 +79,8 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
 
     if (this.x === event.offsetX && this.y === event.offsetY) {
       this.stroke.points += (' ' + (event.offsetX) + ',' + (event.offsetY));
-      this.adjustCoordinates(event);
     }
+    this.getPositionAndDimensions();
     this.saveShape();
     this.mouseDown = false;
     this.stroke.points = '';
@@ -105,10 +104,22 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     }
   }
 
-  protected adjustCoordinates(event: MouseEvent): void {
-    this.stroke.x = event.offsetX < this.stroke.x ? event.offsetX : this.stroke.x;
-    this.stroke.y = event.offsetY < this.stroke.y ? event.offsetY : this.stroke.y;
-    this.stroke.width = event.offsetX > this.stroke.width ? event.offsetX : this.stroke.width;
-    this.stroke.height = event.offsetY > this.stroke.height ? event.offsetY : this.stroke.height;
+  protected getPositionAndDimensions(): void {
+    const pointsList = this.stroke.points.split(' ');
+    this.stroke.x = this.windowWidth;
+    this.stroke.y = this.windowHeight;
+    this.stroke.width = 0;
+    this.stroke.height = 0;
+    for (const point of pointsList) {
+      const coordinates = point.split(',');
+      this.stroke.x = Number(coordinates[0].trim()) < this.stroke.x ? Number(coordinates[0].trim()) : this.stroke.x;
+      this.stroke.width = Number(coordinates[0].trim()) > this.stroke.width ? Number(coordinates[0].trim()) : this.stroke.width;
+      if (coordinates.length > 1) {
+        this.stroke.y = Number(coordinates[1].trim()) < this.stroke.y ? Number(coordinates[1].trim()) : this.stroke.y;
+        this.stroke.height = Number(coordinates[1].trim()) > this.stroke.height ? Number(coordinates[1].trim()) : this.stroke.height;
+      }
+    }
+    this.stroke.width = this.stroke.width - this.stroke.x;
+    this.stroke.height = this.stroke.height - this.stroke.y;
   }
 }

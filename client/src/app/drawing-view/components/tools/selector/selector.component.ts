@@ -20,7 +20,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     protected selectorService: SelectorService) {
     super(toolServiceRef, attributesServiceRef, colorService);
     this.shape.strokeWidth = 1;
-    this.shape.secondaryColor = 'black';
+    this.shape.primaryColor = 'black';
     this.shape.fillOpacity = 0;
     this.mouseMoved = false;
   }
@@ -96,13 +96,15 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       this.mouseMoved = true;
       this.selectorService.resetSize();
       this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.drawings, this.previewBox.x, this.previewBox.y);
+      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.drawings, this.previewBox);
       if (this.isReverseSelection) {
         this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
       }
       if (this.selectorService.SelectedObjects.size > 0) {
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
                       this.selectorService.MinWidth, this.selectorService.MinHeight);
+      } else {
+        this.selectorService.resetSelectorService();
       }
     } else {
       this.mouseMoved = false;

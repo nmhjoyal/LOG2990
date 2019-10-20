@@ -46,9 +46,10 @@ describe('SelectorService', () => {
     drawings.push(drawing2);
     service.selectedObjects.add(drawing1);
     service.selectedObjects.add(drawing2);
-    service.checkForItems(true, drawings, FIFTY, FIFTY);
+    const box = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY };
+    service.checkForItems(true, drawings, box);
     expect(service.selectedObjects.size).toEqual(0);
-    service.checkForItems(false, drawings, FIFTY, FIFTY);
+    service.checkForItems(false, drawings, box);
     expect(service.selectedObjects.size).toEqual(TWICE);
   });
 
@@ -123,25 +124,24 @@ describe('SelectorService', () => {
   });
 
   it('should confirm cursor touches object', () => {
-    const object = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    let object = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
+    expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
+    object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '50,50 50,51 51,50 51,51' };
     expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
     expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
   });
 
   it('should confirm selection box intersects object', () => {
     let object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE, points: '' };
-    service.bottomCornerX = FORTY;
-    service.bottomCornerY = FORTY;
-    expect(service.objectInBox(object, ONE_HUNDRED, ONE_HUNDRED)).toBeFalsy();
-    expect(service.objectInBox(object, ONE_HUNDRED, FORTY)).toBeFalsy();
-    expect(service.objectInBox(object, FORTY, ONE_HUNDRED)).toBeFalsy();
-    expect(service.objectInBox(object, FORTY, FORTY)).toBeFalsy();
-    object = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: ONE_HUNDRED, height: ONE_HUNDRED, id: Id.RECTANGLE, points: '' };
-    service.bottomCornerX = ONE_HUNDRED;
-    service.bottomCornerY = ONE_HUNDRED;
-    expect(service.objectInBox(object, ONE_HUNDRED, ONE_HUNDRED)).toBeTruthy();
-    expect(service.objectInBox(object, ONE_HUNDRED, FORTY)).toBeTruthy();
-    expect(service.objectInBox(object, FORTY, ONE_HUNDRED)).toBeTruthy();
-    expect(service.objectInBox(object, FORTY, FORTY)).toBeTruthy();
+    let box = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: FORTY, height: FORTY };
+    expect(service.objectInBox(object, box)).toBeFalsy();
+    object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40' };
+    expect(service.objectInBox(object, box)).toBeFalsy();
+    box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
+    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE, points: '' };
+    expect(service.objectInBox(object, box)).toBeTruthy();
+    object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40 40,41 41,40 41,41' };
+    expect(service.objectInBox(object, box)).toBeTruthy();
   });
 });
