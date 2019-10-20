@@ -8,8 +8,6 @@ export class SelectorService {
   selectedObjects: Set<ITools>;
   topCornerX: number;
   topCornerY: number;
-  bottomCornerX: number;
-  bottomCornerY: number;
   width: number;
   height: number;
 
@@ -17,8 +15,6 @@ export class SelectorService {
     this.selectedObjects = new Set<ITools>();
     this.topCornerX = 0;
     this.topCornerY = 0;
-    this.bottomCornerX = 0;
-    this.bottomCornerY = 0;
     this.width = 0;
     this.height = 0;
   }
@@ -40,8 +36,6 @@ export class SelectorService {
     this.topCornerY = drawing.y;
     this.width = drawing.x + drawing.width;
     this.height = drawing.y + drawing.height;
-    this.bottomCornerX = drawing.x + drawing.width;
-    this.bottomCornerY = drawing.y + drawing.height;
   }
 
   checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
@@ -61,10 +55,10 @@ export class SelectorService {
   }
 
   updateCorners(cursorX: number, initialX: number, cursorY: number, initialY: number, previewBoxX: number, previewBoxY: number): void {
-    this.bottomCornerX = cursorX >= initialX ? cursorX : initialX;
-    this.bottomCornerY = cursorY >= initialY ? cursorY : initialY;
-    this.topCornerX = previewBoxX + this.bottomCornerX;
-    this.topCornerY = previewBoxY + this.bottomCornerY;
+    const bottomCornerX = cursorX >= initialX ? cursorX : initialX;
+    const bottomCornerY = cursorY >= initialY ? cursorY : initialY;
+    this.topCornerX = previewBoxX + bottomCornerX;
+    this.topCornerY = previewBoxY + bottomCornerY;
   }
 
   updateSelectorShape(drawing: ITools): void {
@@ -102,8 +96,6 @@ export class SelectorService {
     this.resetSize();
     this.topCornerX = 0;
     this.topCornerY = 0;
-    this.bottomCornerX = 0;
-    this.bottomCornerY = 0;
   }
 
   cursorTouchesObject(object: ITools, positionX: number, positionY: number): boolean {

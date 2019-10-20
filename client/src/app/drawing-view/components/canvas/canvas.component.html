@@ -56,44 +56,36 @@
             </g>
         </g>
     </g>
-    <g *ngIf="toolHandler.selectorSelected">
+    <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"
+        [style.stroke]="toolHandler.selection.secondaryColor" 
+        [style.fill]="toolHandler.selection.primaryColor">
         <rect [attr.x] ="toolHandler.selection.x" [attr.y]="toolHandler.selection.y" 
         [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
-        [style.stroke]="toolHandler.selection.secondaryColor" 
-        [style.fill]="toolHandler.selection.primaryColor"  
         [style.stroke-opacity]="1"
         [style.stroke-width]="1"
         [style.fill-opacity]="0"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint" 
         [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2" [attr.cy]="toolHandler.selection.y" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x + toolHandler.selection.width" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
         (mousedown)="handleControlPoint()"/>
-        <circle class="controlPoint" [style.stroke]="toolHandler.selection.secondaryColor"
-        [style.fill]="toolHandler.selection.secondaryColor" 
+        <circle class="controlPoint"
         [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
         (mousedown)="activeTool.handleControlPoint()"/>
     </g>

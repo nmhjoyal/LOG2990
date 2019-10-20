@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
 
@@ -24,7 +24,7 @@ export class ToolHandlerService {
   secondaryColor: string;
   ​
   // Shape Storage
-  drawings: ITools[]; // USING TYPEOF INSTEAD OF STRING MIGHT BE LIGHTER?
+  drawings: ITools[];
   selection: IShape;
 
   constructor(public colorService: ColorService) {
@@ -39,8 +39,8 @@ export class ToolHandlerService {
     this.selectorSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
-    this.primaryColor = this.colorService.color[0];
-    this.secondaryColor = this.colorService.color[1];
+    this.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
+    this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
 ​
   // Tool Handling methods

@@ -18,8 +18,6 @@ describe('SelectorService', () => {
     expect(service.selectedObjects).toBeDefined();
     expect(service.topCornerX).toEqual(0);
     expect(service.topCornerY).toEqual(0);
-    expect(service.bottomCornerX).toEqual(0);
-    expect(service.bottomCornerY).toEqual(0);
     expect(service.width).toEqual(0);
     expect(service.height).toEqual(0);
   });
@@ -32,8 +30,8 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
-    expect(service.bottomCornerX).toEqual(drawing.x + drawing.width);
-    expect(service.bottomCornerY).toEqual(drawing.y + drawing.height);
+    expect(service.width).toEqual(drawing.x + drawing.width);
+    expect(service.height).toEqual(drawing.y + drawing.height);
   });
 
   it('should check for items, add when not in reverse and delete if in reverse', () => {
@@ -55,8 +53,6 @@ describe('SelectorService', () => {
 
   it('should update corners depending on direction or drag', () => {
     service.updateCorners(FIFTY, FORTY, FORTY, FIFTY, ONE_HUNDRED, ONE_HUNDRED);
-    expect(service.bottomCornerX).toEqual(FIFTY);
-    expect(service.bottomCornerY).toEqual(FIFTY);
     expect(service.topCornerX).toEqual(FIFTY + ONE_HUNDRED);
     expect(service.topCornerY).toEqual(FIFTY + ONE_HUNDRED);
   });
