@@ -12,7 +12,7 @@ import { AppComponent } from 'src/app/components/app/app.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { Strings } from 'src/AppConstants/Strings';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
@@ -35,15 +35,15 @@ describe('CanvasComponent', () => {
     y: 1,
     width: 1,
     height: 1,
-    primaryColor: NumericalValues.DEFAULT_PRIMARY_COLOUR,
-    secondaryColor: NumericalValues.DEFAULT_SECONDARY_COLOUR,
+    primaryColor: Strings.BLACK_HEX,
+    secondaryColor: Strings.WHITE_HEX,
     strokeOpacity: 1,
     strokeWidth: 1,
     fillOpacity: 1,
     id: Id.RECTANGLE, };
 
   const testLine: IDrawingTool = {
-      color: NumericalValues.DEFAULT_PRIMARY_COLOUR,
+      color: Strings.BLACK_HEX,
       points: '',
       strokeWidth: 0,
       strokeLinecap: '',
@@ -93,24 +93,24 @@ describe('CanvasComponent', () => {
   });
 
   it('should apply primary color to line', () => {
-    mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = NumericalValues.DEFAULT_SECONDARY_COLOUR;
+    mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = Strings.WHITE_HEX;
     mockToolService.colourApplicatorSelected = true;
     component.applyColourToLine(testLine);
-    expect(testLine.color).toEqual(NumericalValues.DEFAULT_SECONDARY_COLOUR);
+    expect(testLine.color).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply primary color to shape', () => {
-    mockColourService.color[0] = NumericalValues.DEFAULT_SECONDARY_COLOUR;
+    mockColourService.color[0] = Strings.WHITE_HEX;
     mockToolService.colourApplicatorSelected = true;
     component.applyColourToShape(testObject);
-    expect(testObject.primaryColor).toEqual(NumericalValues.DEFAULT_SECONDARY_COLOUR);
+    expect(testObject.primaryColor).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary color to shape', () => {
-    mockColourService.color[1] = NumericalValues.DEFAULT_PRIMARY_COLOUR;
+    mockColourService.color[1] = Strings.BLACK_HEX;
     mockToolService.colourApplicatorSelected = true;
     component.applySecondaryColourToShape(new MouseEvent('contextmenu'), testObject);
-    expect(testObject.secondaryColor).toEqual(NumericalValues.DEFAULT_PRIMARY_COLOUR);
+    expect(testObject.secondaryColor).toEqual(Strings.BLACK_HEX);
   });
 
 });
