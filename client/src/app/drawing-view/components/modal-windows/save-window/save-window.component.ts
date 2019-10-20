@@ -10,6 +10,7 @@ import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
 import { IDrawingTool } from '../../tools/assets/interfaces/drawing-tool-interface';
+import { ITools } from '../../tools/assets/interfaces/itools';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
@@ -20,7 +21,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   protected name: string;
   protected preview: ISVGPreview;
-  private drawing: IDrawingTool[];
+  private drawing: ITools[];
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
     protected canvasData: CanvasInformationService, protected toolHandler: ToolHandlerService, protected index: IndexService) {
