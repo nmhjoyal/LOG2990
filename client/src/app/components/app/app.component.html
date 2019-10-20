@@ -29,7 +29,7 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter">
@@ -47,19 +47,18 @@
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
-                <a mat-list-item >
+                <a mat-list-item (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Primary color" 
-                    [ngStyle]="{'background-color': colorService.color[0]} "
-                     (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'></div>
+                    [ngStyle]="{'background-color': colorService.color[0]}">
+                    </div>
                 </a>
-                <a mat-list-item  class = "switchIcon" >
-                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" 
-                    (click)='colorService.switchColors(); toolHandler.resetSelection()'>            
+                <a mat-list-item  class = "switchIcon" (click)='switchColours()'>
+                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors">            
                 </a>
-                <a mat-list-item >
+                <a mat-list-item (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Secondary color"
-                    [ngStyle]="{'background-color': colorService.color[1]} "
-                    (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'></div>
+                    [ngStyle]="{'background-color': colorService.color[1]}">
+                    </div>
                  </a>
             </mat-nav-list>
         </mat-sidenav>
