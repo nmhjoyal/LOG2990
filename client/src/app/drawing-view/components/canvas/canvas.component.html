@@ -1,5 +1,5 @@
 <svg tabindex="0" class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
-    <rect class="rectangle" width=100% height=100%/>  
+    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
 
     <g *ngFor = "let drawing of toolHandler.drawings">
 
@@ -27,7 +27,7 @@
         </filter>
 
     <g [ngSwitch]="drawing.id">
-        <g *ngSwitchCase="toolId.CRAYON">
+        <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)">
             <polyline 
             [attr.points]="drawing.points"
             [style.fill]="drawing.fill"
@@ -37,7 +37,7 @@
             [style.stroke-linejoin]="drawing.strokeLinejoin"
             />
         </g>
-        <g *ngSwitchCase="toolId.PAINTBRUSH">
+        <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)">
             <polyline 
             [attr.points]="drawing.points"
             [style.fill]="drawing.fill"
@@ -48,7 +48,7 @@
             [style.filter]="drawing.filter"
             />
         </g>
-        <g *ngSwitchCase="toolId.RECTANGLE">
+        <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape(drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
             <rect [attr.x] ="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
             [style.stroke]="drawing.secondaryColor" 
             [style.fill]="drawing.primaryColor"  
@@ -69,3 +69,4 @@
 <div *ngIf="toolHandler.rectangleSelected">
     <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
 </div>
+
