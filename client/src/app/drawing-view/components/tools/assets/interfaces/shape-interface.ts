@@ -31,6 +31,7 @@ export interface IShape extends IPreviewBox, ITools {
 export interface ILineOptions extends ITools {
     wasSaved: boolean;
     savedStrokeWidth: number;
+    savedStrokeMode: string;
     savedPointMode: number;
     savedPointWidth: number;
 }

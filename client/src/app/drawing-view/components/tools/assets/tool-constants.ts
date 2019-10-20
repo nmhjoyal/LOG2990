@@ -24,6 +24,9 @@ export enum ModeType {
     STRAIGHT =  1,
     DOTTED_LINE = 2,
     DOTTED_POINT = 3,
+    CONTOUR = 1,
+    CONTOUR_FILL = 2,
+    FILL = 3,
 }
 export enum PointType {
     ANGLED = 1,

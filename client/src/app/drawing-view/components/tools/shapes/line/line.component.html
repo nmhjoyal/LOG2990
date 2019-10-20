@@ -1,23 +1,13 @@
 <svg tabindex="0" class='previewLine' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-<!--
-  <polyline id = "current"
-            [attr.points]="shape.points"
-            [style.stroke]="shape.color" 
-            [style.stroke-opacity]="shape.strokeOpacity"
-            [style.stroke-width]="shape.strokeWidth"
-            [style.fill]="shape.fill"
-            [style.stroke-linecap]="shape.strokeLinecap"
-            [style.stroke-linestroke]="shape.strokeLinejoin"
-  />
--->
+
   <polyline class = "nextLinePreview" 
             id = "current"
             [attr.points]="stroke.points"
             [style.stroke]="stroke.color"
             [style.stroke-width]="stroke.strokeWidth - 1" 
-            [style.fill]="stroke.fill"
-            [style.stroke-linecap]="stroke.strokeLinecap"
-            [style.stroke-linestroke]="stroke.strokeLinejoin"
+            [style.fill]="stroke.fill" 
+            [style.stroke-linecap] =  "round"
+            [style.stroke-linejoin] = "round"
             [style.stroke-dasharray] = "stroke.strokeDashArray"
             />
   

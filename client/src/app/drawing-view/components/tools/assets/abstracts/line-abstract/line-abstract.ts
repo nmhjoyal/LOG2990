@@ -14,7 +14,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected mouseDown: boolean;
   protected shiftDown: boolean;
   protected stroke: ILine;
-  protected pointMode: string;
+  protected strokeMode: number;
   protected previewPoints: string[];
   protected started: boolean;
   protected finalPoints: string;
@@ -131,7 +131,6 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     const currentDrawing: ILine = {
       id: this.stroke.id,
       points: this.stroke.points,
-      // points: this.shape.points,
       color: this.stroke.color,
       strokeOpacity: this.stroke.strokeOpacity,
       strokeWidth: this.stroke.strokeWidth,
@@ -152,8 +151,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     }
   }
 
-  protected setJunctionMode(pointMode: number): void {
-    switch (pointMode) {
+  protected setJunctionMode(junctionMode: number): void {
+    switch (junctionMode) {
       case ToolConstants.POINT_MODE.ANGLED:
         this.stroke.strokeLinecap = ToolConstants.BUTT;
         break;
@@ -189,25 +188,6 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
         break;
       }
   }
-  /*
-  protected setMode(pointMode: number): void {
-    switch (pointMode) {
-      case ToolConstants.POINT_MODE.ANGLED:
-        this.pointMode = ToolConstants.POINT_MODE.ANGLED;
-        break;
-
-      case ToolConstants.POINT_MODE.ROUNDED:
-        this.pointMode = ToolConstants.POINT_MODE.ROUNDED;
-        break;
-
-      case ToolConstants.POINT_MODE.DOTTED:
-        this.pointMode = ToolConstants.POINT_MODE.DOTTED;
-        break;
-
-      default:
-        break;
-    }
-  }*/
 
   protected increaseStrokeWidth(): void {
     this.stroke.strokeWidth++;
