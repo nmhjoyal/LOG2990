@@ -35,9 +35,9 @@ export class IndexService {
     );
   }
 
-  getTags(): Observable<ITag[]> {
-    return this.http.get<ITag[]>(this.BASE_URL + '/gettags').pipe(
-      catchError(this.handleError<ITag[]>('gettags')),
+  getTags(): Observable<Set<ITag>> {
+    return this.http.get<Set<ITag>>(this.BASE_URL + '/gettags').pipe(
+      catchError(this.handleError<Set<ITag>>('gettags')),
     );
   }
 

@@ -4,5 +4,5 @@ import { IModalData } from '../modal-window/IModalData';
 
 export interface ISaveModalData extends IModalData {
     drawing: IDrawing;
-    displayedTags: ITag[];
+    displayedTags: Set<ITag>;
 }

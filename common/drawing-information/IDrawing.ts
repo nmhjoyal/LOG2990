@@ -6,7 +6,7 @@ import { ITag } from './ITag';
 export interface IDrawing {
     name: string;
     preview: ISVGPreview;
-    tags?: ITag[];
+    tags?: Set<ITag>;
     timestamp: string;
     shapes: ITools[];
     canvas: ICanvasData;

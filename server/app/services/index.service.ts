@@ -73,9 +73,9 @@ export class IndexService {
         return this.drawingsInGallery.get(drawingTimestampID);
     }
 
-    async getTags(): Promise<ITag[]> {
+    async getTags(): Promise<Set<ITag>> {
         console.log('sending tags');
-        return Array.from(this.tags.values());
+        return new Set(this.tags.values());
     }
 
     // TODO: Move in a common to share with client/index.service
