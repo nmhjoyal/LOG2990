@@ -12,18 +12,18 @@ import { AppComponent } from 'src/app/components/app/app.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { Strings } from 'src/AppConstants/Strings';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
+import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
+import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
+import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
+import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { Id, ToolConstants } from '../tools/assets/tool-constants';
 import { CanvasComponent } from './canvas.component';
-import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
-import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
-import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
-import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
-import { Strings } from 'src/AppConstants/Strings';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -100,7 +100,7 @@ describe('CanvasComponent', () => {
   });
 
   it('should apply primary color to shape', () => {
-    mockColourService.color[0] =Strings.BLACK_HEX;
+    mockColourService.color[0] = Strings.BLACK_HEX;
     mockToolService.colourApplicatorSelected = true;
     component.applyColourToShape(testObject);
     expect(testObject.primaryColor).toEqual(Strings.BLACK_HEX);

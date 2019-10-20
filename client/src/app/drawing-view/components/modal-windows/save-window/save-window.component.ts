@@ -7,10 +7,9 @@ import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
+import { ITools } from '../../tools/assets/interfaces/itools';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
-import { IDrawingTool } from '../../tools/assets/interfaces/drawing-tool-interface';
-import { ITools } from '../../tools/assets/interfaces/itools';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
@@ -60,7 +59,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
             } else {
               console.error('FAILED TO SAVE ' + tag.name);
             }
-          }
+          },
         );
       }
     });

@@ -61,12 +61,12 @@
 </svg>
 
 <div *ngIf="toolHandler.crayonSelected">
-    <app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-crayon>
 </div>
 <div *ngIf="toolHandler.paintbrushSelected">
-    <app-paintbrush #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-paintbrush>
+    <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
-    <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+    <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-tools-rectangle>
 </div>
 
