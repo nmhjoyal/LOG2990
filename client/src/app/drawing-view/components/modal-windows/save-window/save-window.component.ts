@@ -9,7 +9,7 @@ import { ISVGPreview } from '../../../../../../../common/drawing-information/ISV
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
-import { IDrawingTool } from '../../tools/assets/interfaces/shape-interface';
+import { IDrawingTool } from '../../tools/assets/interfaces/drawing-tool-interface';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',

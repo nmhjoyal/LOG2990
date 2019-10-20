@@ -19,10 +19,10 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
-    colorServiceMock = jasmine.createSpyObj('ColorService', ['']);
+    colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
-    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
+    dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
   }));
@@ -53,7 +53,13 @@ describe('AppComponent', () => {
     component.ngOnInit();
     component.openChooseColorDialog();
     expect(dialogMock.open).toHaveBeenCalled();
+  });
 
+  it('should only resetSelection when colourApplicator not selected', () => {
+    toolHandlerMock.colourApplicatorSelected = true;
+    toolHandlerMock.resetSelection.and.callThrough();
+    component.switchColours();
+    expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
   });
 
 });

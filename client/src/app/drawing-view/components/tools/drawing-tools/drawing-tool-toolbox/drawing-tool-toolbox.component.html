@@ -1,0 +1,24 @@
+<div *ngIf="!(toolHandler.noneSelected)">
+    <div *ngIf="toolHandler.paintbrushSelected">
+        <button (click)="getComponent().setFilter(0)">Aucun filtre</button>
+        <button (click)="getComponent().setFilter(1)">Filtre 1</button>
+        <button (click)="getComponent().setFilter(2)">Filtre 2</button>
+        <button (click)="getComponent().setFilter(3)">Filtre 3</button>
+        <button (click)="getComponent().setFilter(4)">Filtre 4</button>
+        <button (click)="getComponent().setFilter(5)">Filtre 5</button>
+    </div>
+    <div *ngIf="toolHandler.paintbrushSelected || toolHandler.crayonSelected">
+        <button (click)="getComponent().decreaseStrokeWidth()">-</button>
+        {{getComponent().stroke.strokeWidth}}
+        <button (click)="getComponent().increaseStrokeWidth()">+</button>
+    </div>
+
+    <div *ngIf="toolHandler.rectangleSelected">
+        <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
+        <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
+        <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
+        <button (click)="getComponent().decreaseStrokeWidth()">-</button>
+        {{getComponent().shape.strokeWidth}}
+        <button (click)="getComponent().increaseStrokeWidth()">+</button>
+    </div>
+</div> 

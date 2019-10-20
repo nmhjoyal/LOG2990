@@ -10,16 +10,16 @@
                     <img id="newDrawing" class="sideBarIcon" src="https://image.flaticon.com/icons/svg/44/44143.svg"
                         title="Nouveau dessin">
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()' >
+                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon" >
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
+                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo" >
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
+                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau" >
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
@@ -28,9 +28,8 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png"
-                        title="Applicateur de couleur">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
+                    <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseRectangle()'>
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Rectangle">
@@ -41,19 +40,18 @@
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
-                <a mat-list-item >
+                <a mat-list-item (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Primary color" 
-                    [ngStyle]="{'background-color': colorService.color[0]} "
-                     (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'></div>
+                    [ngStyle]="{'background-color': colorService.color[0]}">
+                    </div>
                 </a>
-                <a mat-list-item  class = "switchIcon" >
-                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" 
-                    (click)='colorService.switchColors(); toolHandler.resetSelection()'>            
+                <a mat-list-item  class = "switchIcon" (click)='switchColours()'>
+                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors">            
                 </a>
-                <a mat-list-item >
+                <a mat-list-item (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Secondary color"
-                    [ngStyle]="{'background-color': colorService.color[1]} "
-                    (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'></div>
+                    [ngStyle]="{'background-color': colorService.color[1]}">
+                    </div>
                  </a>
             </mat-nav-list>
         </mat-sidenav>
@@ -69,7 +67,7 @@
                     <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png"
                         title="Sauvegarde dessin">
                 </a>
-                <app-shape-toolbox [canvas]='myCanvas'></app-shape-toolbox>
+                <app-drawing-tool-toolbox [canvas]='myCanvas'></app-drawing-tool-toolbox>
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>

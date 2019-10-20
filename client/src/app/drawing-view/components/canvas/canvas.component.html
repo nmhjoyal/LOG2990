@@ -1,21 +1,72 @@
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor">
-    <rect class="rectangle" width=100% height=100% />
+    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor" (click)="applyColourToCanvas()">
 
-    <g *ngFor="let drawing of toolHandler.drawings">
-        <g [ngSwitch]="drawing.id">
-            <g *ngSwitchCase="toolId.RECTANGLE">
-                <rect [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
-                    [attr.height]="drawing.height" [style.stroke]="drawing.secondaryColor"
-                    [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
-                    [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
-            </g>
+    <g *ngFor = "let drawing of toolHandler.drawings">
+
+        <filter id="filter1">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+
+        <filter id="filter2">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+        </filter>
+
+        <filter id="filter3">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blurOut"/>
+            <feDisplacementMap in2="turbulence" in="blurOut" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+            
+        <filter id="filter4">
+            <feOffset result="offOut" in="StrokePaint" dx="0.05" dy="0.05" />
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+            <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
+            <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
+            <feBlend in="blurOut" in2="blurOut2" mode="normal" />
+        </filter>
+
+    <g [ngSwitch]="drawing.id">
+        <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)">
+            <polyline 
+            [attr.points]="drawing.points"
+            [style.fill]="drawing.fill"
+            [style.stroke]="drawing.color"
+            [style.stroke-width]="drawing.strokeWidth"
+            [style.stroke-linecap]="drawing.strokeLinecap"
+            [style.stroke-linejoin]="drawing.strokeLinejoin"
+            />
+        </g>
+        <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)">
+            <polyline 
+            [attr.points]="drawing.points"
+            [style.fill]="drawing.fill"
+            [style.stroke]="drawing.color"
+            [style.stroke-width]="drawing.strokeWidth"
+            [style.stroke-linecap]="drawing.strokeLinecap"
+            [style.stroke-linejoin]="drawing.strokeLinejoin"
+            [style.filter]="drawing.filter"
+            />
+        </g>
+        <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape(drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
+            <rect [attr.x] ="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
+            [style.stroke]="drawing.secondaryColor" 
+            [style.fill]="drawing.primaryColor"  
+            [style.stroke-opacity]="drawing.strokeOpacity"
+            [style.stroke-width]="drawing.strokeWidth"
+            [style.fill-opacity]="drawing.fillOpacity"/>
         </g>
     </g>
-
+</g>
 </svg>
-<div *ngIf="toolHandler.rectangleSelected">
-    <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight">
-    </app-tools-rectangle>
+
+<div *ngIf="toolHandler.crayonSelected">
+    <app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
 </div>
+<div *ngIf="toolHandler.paintbrushSelected">
+    <app-paintbrush #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-paintbrush>
+</div>
+<div *ngIf="toolHandler.rectangleSelected">
+    <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
+</div>
+

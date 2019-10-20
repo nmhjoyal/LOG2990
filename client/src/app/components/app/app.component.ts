@@ -15,7 +15,7 @@ import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
 
 @Component({
-  selector: 'app-root', 
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -39,7 +39,20 @@ export class AppComponent implements OnInit {
     this.openSaveWindow();
   }
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandlerCtrlO(event: KeyboardEvent): void {
+  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseCrayon();
+    }
+  }
+
+  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.choosePaintbrush();
+    }
+  }
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
   }
@@ -58,7 +71,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent): void {
     event.preventDefault();
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseRectangle();
@@ -128,6 +141,13 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColorPickerComponent, {
       panelClass: 'choose-color-window',
     });
+  }
+
+  switchColours(): void {
+    this.colorService.switchColors();
+    if (!this.toolHandler.colourApplicatorSelected) {
+      this.toolHandler.resetSelection();
+    }
   }
 
 }
