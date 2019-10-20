@@ -13,8 +13,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected cursorY: number;
   protected mouseDown: boolean;
   protected shiftDown: boolean;
-  protected shape: ILine;
-  protected nextLine: ILine;
+  protected stroke: ILine;
   protected pointMode: number;
   protected previewPoints: string[];
   protected started: boolean;
@@ -36,17 +35,19 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     this.started = false;
     this.previewPoints = [];
     this.pointMode = ToolConstants.POINT_MODE.ANGLED;
-    this.nextLine  = {
+    this.stroke  = {
       id: '',
       points: '',
-      color: 'black',
+      color: this.colorService.color[0],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
       pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
       strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND,
+      strokeDashArray: ToolConstants.DOTTED_LINE,
     };
+    /*
     this.shape = {
       id: '',
       points: '',
@@ -57,6 +58,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
       strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND, };
+      */
   }
 
   abstract ngOnInit(): void;
@@ -73,7 +75,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
         this.cursorX = event.offsetX;
         this.cursorY = event.offsetY;
       }
-      this.nextLine.points = this.previewPoints + ' ' + this.cursorX + ',' + this.cursorY;
+      this.stroke.points = this.previewPoints + ' ' + this.cursorX + ',' + this.cursorY;
     }
   }
 
@@ -83,11 +85,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       this.initialX = event.offsetX;
       this.initialY = event.offsetY;
       this.started = true;
-      this.nextLine.points = event.offsetX + ',' + event.offsetY;
-      this.shape.points = event.offsetX + ',' + event.offsetY;
+      this.stroke.points = event.offsetX + ',' + event.offsetY;
+      // this.shape.points = event.offsetX + ',' + event.offsetY;
       this.previewPoints.push(event.offsetX + ',' + event.offsetY);
     } else {
-      this.shape.points += ' ' + event.offsetX + ',' + event.offsetY;
+      // this.shape.points += ' ' + event.offsetX + ',' + event.offsetY;
       this.addSegment();
     }
   }
@@ -107,18 +109,18 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @HostListener('dblclick') onDoubleClick(): void {
     if (this.started) {
       this.addSegment();
-      this.shape.points += ' ' + this.cursorX + ',' + this.cursorY;
+      // this.shape.points += ' ' + this.cursorX + ',' + this.cursorY;
       this.saveSegment();
     }
     // this.shape.points = '';
-    this.nextLine.points = '';
+    this.stroke.points = '';
     this.previewPoints.length = 0;
     this.started = false;
   }
 
   @HostListener('keydown.esc') onEscape(): void {
     // this.shape.points = '';
-    this.nextLine.points = '';
+    this.stroke.points = '';
     this.previewPoints.length = 0;
     this.started = false;
   }
@@ -129,8 +131,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   // Functions
   protected decreaseStrokeWidth(): void {
-    if (this.shape.strokeWidth !== 0) {
-      this.shape.strokeWidth--;
+    if (this.stroke.strokeWidth !== 0) {
+      this.stroke.strokeWidth--;
     }
   }
 
@@ -139,18 +141,19 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       this.finalPoints += ' ' + element;
     });
     const currentDrawing: ILine = {
-      id: this.shape.id,
-      points: this.finalPoints,
+      id: this.stroke.id,
+      points: this.stroke.points,
       // points: this.shape.points,
-      color: this.shape.color,
-      strokeOpacity: this.shape.strokeOpacity,
-      strokeWidth: this.shape.strokeWidth,
-      fill: this.shape.fill,
-      pointWidth: this.shape.pointWidth,
-      strokeLinecap: this.shape.strokeLinecap,
-      strokeLinejoin: this.shape.strokeLinejoin,
+      color: this.stroke.color,
+      strokeOpacity: this.stroke.strokeOpacity,
+      strokeWidth: this.stroke.strokeWidth,
+      fill: this.stroke.fill,
+      pointWidth: this.stroke.pointWidth,
+      strokeLinecap: this.stroke.strokeLinecap,
+      strokeLinejoin: this.stroke.strokeLinejoin,
+      strokeDashArray: this.stroke.strokeDashArray,
     };
-    this.toolService.drawings.push(this.nextLine);
+    this.toolService.drawings.push(currentDrawing);
   }
 
   protected addSegment(): void {
@@ -161,24 +164,44 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     }
   }
 
-  protected setTraceMode(pointMode: number): void {
+  protected setJunctionMode(pointMode: number): void {
     switch (pointMode) {
       case ToolConstants.POINT_MODE.ANGLED:
-        this.shape.strokeLinecap = ToolConstants.BUTT;
+        this.stroke.strokeLinecap = ToolConstants.BUTT;
         break;
 
       case ToolConstants.POINT_MODE.ROUNDED:
-        this.shape.strokeLinecap = ToolConstants.ROUND;
+        this.stroke.strokeLinecap = ToolConstants.ROUND;
         break;
 
       case ToolConstants.POINT_MODE.DOTTED:
-        this.shape.strokeLinecap = ToolConstants.SQUARE;
+        this.stroke.strokeLinecap = ToolConstants.SQUARE;
         break;
 
       default:
         break;
     }
   }
+
+  protected setTraceMode(lineMode: number): void {
+    switch (lineMode) {
+      case ToolConstants.TRACE_MODE.STRAIGHT:
+        this.stroke.strokeDashArray = '0';
+        break;
+
+      case ToolConstants.TRACE_MODE.DOTTED_LINE:
+        this.stroke.strokeDashArray = '4';
+        break;
+
+      case ToolConstants.TRACE_MODE.DOTTED_POINT:
+        this.stroke.strokeDashArray = '4 1';
+        break;
+
+      default:
+        break;
+      }
+  }
+  /*
   protected setMode(pointMode: number): void {
     switch (pointMode) {
       case ToolConstants.POINT_MODE.ANGLED:
@@ -196,18 +219,19 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       default:
         break;
     }
-  }
+  }*/
+
   protected increaseStrokeWidth(): void {
-    this.shape.strokeWidth++;
+    this.stroke.strokeWidth++;
   }
 
   protected decreasePointWidth(): void {
-    if (this.shape.strokeWidth !== 0) {
-      this.shape.pointWidth--;
+    if (this.stroke.strokeWidth !== 0) {
+      this.stroke.pointWidth--;
     }
   }
 
   protected increasePointWidth(): void {
-    this.shape.pointWidth++;
+    this.stroke.pointWidth++;
   }
 }

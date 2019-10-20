@@ -7,14 +7,3 @@
   <button (click)="getComponent().increaseStrokeWidth()">+</button>
 </p>
   
-<p *ngIf="toolHandler.lineSelected">
-  <button (click)="getComponent().setTraceMode(point.ANGLED)">Angle</button>
-  <button (click)="getComponent().setTraceMode(point.CURVED)">Courbe</button>
-  <button (click)="getComponent().setTraceMode(point.DOTTED)">Pointe</button>
-  <button (click)="getComponent().decreasePointWidth()">-</button>
-  {{getComponent().shape.pointWidth}}
-  <button (click)="getComponent().increasePointWidth()">+</button>
-  <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-  {{getComponent().shape.strokeWidth}}
-  <button (click)="getComponent().increaseStrokeWidth()">+</button>
-</p>

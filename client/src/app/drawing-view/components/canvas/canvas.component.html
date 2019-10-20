@@ -49,11 +49,14 @@
             />
         </g>
         <g *ngSwitchCase="toolId.LINE">
-            <rect [attr.x] ="drawing.x" [attr.y]="drawing.y"
-            [style.stroke]="drawing.primaryyColor" 
+            <polyline
+            [attr.points] ="drawing.points"
+            [style.fill]="drawing.fill"
+            [style.stroke]="drawing.color" 
             [style.stroke-opacity]="drawing.strokeOpacity"
             [style.stroke-width]="drawing.strokeWidth"
-            [style.point-width]="drawing.pointWidth"/>
+            [style.stroke-linecap]="drawing.strokeLinecap"
+            [style.stroke-linejoin]="drawing.strokeLinejoin"/>
         </g>
         <g *ngSwitchCase="toolId.RECTANGLE">
             <rect [attr.x] ="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"

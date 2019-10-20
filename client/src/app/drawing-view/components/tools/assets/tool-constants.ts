@@ -21,9 +21,9 @@ export enum FilterSelection {
     FILTER5 = 5,
 }
 export enum ModeType {
-    CONTOUR = 1,
-    FILL = 2,
-    CONTOUR_FILL = 3,
+    STRAIGHT =  1,
+    DOTTED_LINE = 2,
+    DOTTED_POINT = 3,
 }
 export enum PointType {
     ANGLED = 1,
@@ -49,4 +49,7 @@ export class ToolConstants {
     static NULL = -1;
     static TRACE_MODE = ModeType;
     static POINT_MODE = PointType;
+    static STRAIGHT =  '0';
+    static DOTTED_LINE = '4';
+    static DOTTED_POINT = '4 1';
 }

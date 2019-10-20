@@ -12,9 +12,13 @@
 -->
   <polyline class = "nextLinePreview" 
             id = "current"
-            [attr.points]="nextLine.points"
-            [style.stroke]="shape.color" 
-            [style.fill]="shape.fill"
+            [attr.points]="stroke.points"
+            [style.stroke]="stroke.color"
+            [style.stroke-width]="stroke.strokeWidth - 1" 
+            [style.fill]="stroke.fill"
+            [style.stroke-linecap]="stroke.strokeLinecap"
+            [style.stroke-linestroke]="stroke.strokeLinejoin"
+            [style.stroke-dasharray] = "stroke.strokeDashArray"
             />
   
 </svg> 

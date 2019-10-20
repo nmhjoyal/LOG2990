@@ -16,6 +16,7 @@ export interface ILine extends ITools {
     pointWidth: number;
     strokeLinecap: string;
     strokeLinejoin: string;
+    strokeDashArray: string;
 }
 
 export interface IShape extends IPreviewBox, ITools {

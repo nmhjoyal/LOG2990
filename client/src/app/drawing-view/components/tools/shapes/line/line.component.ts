@@ -14,14 +14,14 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
 
   constructor(toolService: ToolHandlerService, attributesService: AttributesService, colorService: ColorService) {
     super(toolService, attributesService, colorService);
-    this.shape.id = ToolConstants.TOOL_ID.LINE;
+    this.stroke.id = ToolConstants.TOOL_ID.LINE;
   }
 
   // Abstract & Overridden methods
 
   ngOnInit(): void {
     if (this.attributesService.lineAttributes.wasSaved) {
-      this.shape.strokeWidth = this.attributesService.lineAttributes.savedStrokeWidth;
+      this.stroke.strokeWidth = this.attributesService.lineAttributes.savedStrokeWidth;
       // this.shape.pointWidth = this.attributesService.lineAttributes.savedPointWidth;
       // this.pointMode = this.attributesService.lineAttributes.savedPointMode;
     }
@@ -35,7 +35,7 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
   saveAttribute(): void {
     // this.attributesService.lineAttributes.savedPointMode = this.pointMode;
     // this.attributesService.lineAttributes.savedPointWidth = this.shape.pointWidth;
-    this.attributesService.lineAttributes.savedStrokeWidth = this.shape.strokeWidth;
+    this.attributesService.lineAttributes.savedStrokeWidth = this.stroke.strokeWidth;
     this.attributesService.lineAttributes.wasSaved = true;
   }
 
