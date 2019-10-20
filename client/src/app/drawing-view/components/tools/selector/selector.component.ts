@@ -67,11 +67,11 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  @HostListener('document:keydown.escape') onEscape() {
+  @HostListener('document:keydown.escape') onEscape(): void {
     this.resetShape();
   }
 
-  handleControlPoint() {
+  handleControlPoint(): void {
     return;
   }
 
