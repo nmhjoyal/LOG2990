@@ -1,5 +1,5 @@
-import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
+import { IDrawingTool } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ICanvasData } from '../../client/src/app/services/canvas-information/ICanvasData';
 import { ISVGPreview } from './ISVGPreview';
 import { ITag } from './ITag';
 

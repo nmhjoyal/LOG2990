@@ -53,7 +53,7 @@ export class IndexService {
         return false;
     }
 
-    async saveTags(tagToSave: ITag): Promise<boolean> {
+    async saveTag(tagToSave: ITag): Promise<boolean> {
         const tags: ITag[] = [];
         tags.push(tagToSave);
         console.log('SAVING');
