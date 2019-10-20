@@ -35,6 +35,12 @@ export class IndexService {
     );
   }
 
+  getTags(): Observable<ITag[]> {
+    return this.http.get<ITag[]>(this.BASE_URL + '/gettags').pipe(
+      catchError(this.handleError<ITag[]>('gettags')),
+    );
+  }
+
   getDrawings(): Observable<IDrawing[]> {
     return this.http.get<IDrawing[]>(this.BASE_URL + '/getdrawings').pipe(
       catchError(this.handleError<IDrawing[]>('getdrawings')),

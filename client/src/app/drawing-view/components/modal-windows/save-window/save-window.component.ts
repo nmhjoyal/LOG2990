@@ -26,7 +26,15 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     protected canvasData: CanvasInformationService, protected toolHandler: ToolHandlerService, protected index: IndexService) {
     super(dialogRef, data, canvasData, undefined, toolHandler, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
-    this.data.displayedTags = [];
+    this.index.getTags().subscribe(
+      (response: ITag[]) => {
+        if (response) {
+          this.data.displayedTags = response;
+        } else {
+          this.data.displayedTags = [];
+        }
+      }
+    )
   }
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {

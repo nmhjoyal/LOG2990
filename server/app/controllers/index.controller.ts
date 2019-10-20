@@ -5,6 +5,7 @@ import { Message } from '../../../common/communication/message';
 import { IDrawing } from '../../../common/drawing-information/IDrawing';
 import { IndexService } from '../services/index.service';
 import Types from '../types';
+import { ITag } from '../../../common/drawing-information/ITag';
 
 @injectable()
 export class IndexController {
@@ -57,5 +58,11 @@ export class IndexController {
                     res.json(err.message); // TODO: Send error messages - ex: Not found 
                 });
             });
+
+            this.router.get('/gettags',
+            async(req: Request, res: Response, next: NextFunction) => {
+                const tags: ITag[] = await this.indexService.getTags();
+                res.json(tags);
+            })
     }
 }

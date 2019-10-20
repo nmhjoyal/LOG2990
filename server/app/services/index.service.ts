@@ -9,6 +9,8 @@ import { DateService } from './date.service';
 @injectable()
 export class IndexService {
     drawingsList: IDrawing[];
+    tags: ITag[];
+
     // TODO: Choose a container type for the drawings list - and move it to storage service
     drawingsInGallery: Map<string, IDrawing>;
 
@@ -17,6 +19,7 @@ export class IndexService {
     ) {
         // this.drawingsList = [];
         this.drawingsInGallery = new Map<string, IDrawing>();
+        this.tags = [];
     }
 
     about(): Message {
@@ -41,7 +44,7 @@ export class IndexService {
             };
         });
     }
- 
+
     async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
         // this.drawingsList.push(drawingToSave);
         if (drawingToSave.timestamp) {
@@ -54,16 +57,14 @@ export class IndexService {
     }
 
     async saveTag(tagToSave: ITag): Promise<boolean> {
-        const tags: ITag[] = [];
-        tags.push(tagToSave);
-        console.log('SAVING');
-        console.log(tags);
+        this.tags.push(tagToSave);
+        console.log('SAVING ' + tagToSave.name);
+        console.log(this.tags);
         return true;
     }
 
     async getDrawings(): Promise<IDrawing[]> {
         console.log('sending drawings');
-        // return this.drawingsList;
         return Array.from(this.drawingsInGallery.values());
     }
 
@@ -71,7 +72,12 @@ export class IndexService {
         console.log('sending drawing of timestampID: ' + drawingTimestampID);
         return this.drawingsInGallery.get(drawingTimestampID);
     }
-    
+
+    async getTags(): Promise<ITag[]> {
+        console.log('sending tags');
+        return Array.from(this.tags.values());
+    }
+
     // TODO: Move in a common to share with client/index.service
     private dateToId(date: string): string {
         return date.replace(/[^0-9]/g, '');
