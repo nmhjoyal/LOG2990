@@ -46,7 +46,7 @@ export class AttributesService {
   }
   resetEllipseAttributes(): void {
     this.ellipseAttributes = {
-      id: ToolConstants.TOOL_ID.RECTANGLE,
+      id: ToolConstants.TOOL_ID.ELLIPSE,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
       savedTraceMode: ToolConstants.NULL,

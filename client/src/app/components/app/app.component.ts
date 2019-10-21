@@ -31,36 +31,24 @@ export class AppComponent implements OnInit {
     this.menuTrigger.openMenu();
   }
 
-  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
       this.toolHandler.chooseCrayon();
-    }
   }
 
-  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(event: KeyboardEvent): void {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
       this.toolHandler.choosePaintbrush();
-    }
   }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent): void {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
       this.toolHandler.chooseRectangle();
-    }
   }
 
-  @HostListener('document:keydown.2', ['$event']) onKeydown2(event: KeyboardEvent) {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
       this.toolHandler.chooseEllipse();
-    }
   }
 
   confirmNewDrawing(): void {
