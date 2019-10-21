@@ -56,7 +56,8 @@
             [style.stroke-opacity]="drawing.strokeOpacity"
             [style.stroke-width]="drawing.strokeWidth"
             [style.stroke-linecap]="drawing.strokeLinecap"
-            [style.stroke-linejoin]="drawing.strokeLinejoin"/>
+            [style.stroke-linejoin]="drawing.strokeLinejoin" 
+            [style.stroke-dasharray] = "drawing.strokeDashArray" />
         </g>
         <g *ngSwitchCase="toolId.RECTANGLE">
             <rect [attr.x] ="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"

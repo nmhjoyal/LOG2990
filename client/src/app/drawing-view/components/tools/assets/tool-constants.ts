@@ -2,6 +2,8 @@
 export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
+    RECTANGLE = 'rectangle',
+    LINE = 'line',
 }
 
 export enum FilterURL {
@@ -33,10 +35,6 @@ export enum PointType {
     ROUNDED = 2,
     DOTTED = 3,
 }
-export enum Id {
-    RECTANGLE = 'rectangle',
-    LINE = 'line',
-}
 
 export class ToolConstants {
     static NONE = 'none';
@@ -53,6 +51,6 @@ export class ToolConstants {
     static TRACE_MODE = ModeType;
     static POINT_MODE = PointType;
     static STRAIGHT =  '0';
-    static DOTTED_LINE = '2';
-    static DOTTED_POINT = '4';
+    static DOTTED_LINE = '3';
+    static DOTTED_POINT = '6';
 }

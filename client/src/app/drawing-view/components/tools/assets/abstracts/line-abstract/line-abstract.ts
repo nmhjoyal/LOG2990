@@ -14,11 +14,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected mouseDown: boolean;
   protected shiftDown: boolean;
   protected stroke: ILine;
-  protected traceMode: string;
   protected previewPoints: string[];
-   started: boolean;
+  protected started: boolean;
   protected finalPoints: string;
-  protected junctionMode: string;
+  protected traceMode: number;
+  protected junctionMode: number;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -35,12 +35,13 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     this.cursorY = 0;
     this.started = false;
     this.previewPoints = [];
-    this.junctionMode = ToolConstants.ROUND;
+    this.traceMode = ToolConstants.TRACE_MODE.STRAIGHT;
+    this.junctionMode = ToolConstants.POINT_MODE.ROUNDED;
     this.stroke  = {
       id: '',
       points: '',
       color: this.colorService.color[0],
-      strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
+      strokeOpacity: ToolConstants.DEFAULT_OPACITY,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
       pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
@@ -91,17 +92,14 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @HostListener('dblclick') onDoubleClick(): void {
     if (this.started) {
       this.addSegment();
-      // this.shape.points += ' ' + this.cursorX + ',' + this.cursorY;
       this.saveSegment();
     }
-    // this.shape.points = '';
     this.stroke.points = '';
     this.previewPoints.length = 0;
     this.started = false;
   }
 
   @HostListener('keydown.esc') onEscape(): void {
-    // this.shape.points = '';
     this.stroke.points = '';
     this.previewPoints.length = 0;
     this.started = false;
@@ -149,14 +147,17 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     switch (junctionMode) {
       case ToolConstants.POINT_MODE.ANGLED:
         this.stroke.strokeLinecap = ToolConstants.BUTT;
+        this.junctionMode = junctionMode;
         break;
 
       case ToolConstants.POINT_MODE.ROUNDED:
         this.stroke.strokeLinecap = ToolConstants.ROUND;
+        this.junctionMode = junctionMode;
         break;
 
       case ToolConstants.POINT_MODE.DOTTED:
         this.stroke.strokeLinecap = ToolConstants.SQUARE;
+        this.junctionMode = junctionMode;
         break;
 
       default:
@@ -168,14 +169,17 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     switch (traceMode) {
       case ToolConstants.TRACE_MODE.STRAIGHT:
         this.stroke.strokeDashArray = ToolConstants.STRAIGHT;
+        this.traceMode = traceMode;
         break;
 
       case ToolConstants.TRACE_MODE.DOTTED_LINE:
         this.stroke.strokeDashArray = ToolConstants.DOTTED_LINE;
+        this.traceMode = traceMode;
         break;
 
       case ToolConstants.TRACE_MODE.DOTTED_POINT:
         this.stroke.strokeDashArray = ToolConstants.DOTTED_POINT;
+        this.traceMode = traceMode;
         break;
 
       default:

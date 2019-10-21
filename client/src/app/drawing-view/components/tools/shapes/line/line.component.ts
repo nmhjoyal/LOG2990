@@ -23,9 +23,9 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
     if (this.attributesService.lineAttributes.wasSaved) {
       this.stroke.strokeWidth = this.attributesService.lineAttributes.savedStrokeWidth;
       this.stroke.strokeDashArray = this.attributesService.lineAttributes.savedTraceMode;
-      this.traceMode = this.attributesService.lineAttributes.savedTraceMode;
     }
-    this.setTraceMode(1);
+    this.setTraceMode(this.traceMode);
+    this.setJunctionMode(this.junctionMode);
   }
 
   ngOnDestroy(): void {
@@ -33,9 +33,8 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
   }
 
   saveAttribute(): void {
-    this.attributesService.lineAttributes.savedJunctionMode = this.junctionMode;
-    // this.attributesService.lineAttributes.savedPointWidth = this.shape.pointWidth;
-    this.attributesService.lineAttributes.savedTraceMode = this.traceMode;
+    this.attributesService.lineAttributes.savedJunctionMode = this.stroke.strokeLinejoin;
+    this.attributesService.lineAttributes.savedTraceMode = this.stroke.strokeDashArray;
     this.attributesService.lineAttributes.savedStrokeWidth = this.stroke.strokeWidth;
     this.attributesService.lineAttributes.wasSaved = true;
   }

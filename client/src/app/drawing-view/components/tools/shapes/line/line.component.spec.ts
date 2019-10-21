@@ -57,72 +57,45 @@ describe('LineComponent', () => {
   it('#ngOnInit should not load strokewidth and trace mode if there are no attributes saved in the service', () => {
     attrService.lineAttributes.wasSaved = false;
     attrService.lineAttributes.savedJunctionMode = ToolConstants.ROUND;
+    attrService.lineAttributes.savedTraceMode = ToolConstants.STRAIGHT;
     attrService.lineAttributes.savedStrokeWidth = STROKEWIDTH;
 
     component.ngOnInit();
-    // LINEs 66-67 fail... wrong lycycle hooks used?
     expect(component['stroke'].strokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'no loading of attributes, yet strokeWidth did not take default value');
-    expect(component['junctionMode']).toEqual(ToolConstants.ROUND,
+    expect(component['junctionMode']).toEqual(ToolConstants.POINT_MODE.ROUNDED,
+      'no loading of attributes, yet junctionMode did not take correct default value');
+    expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.STRAIGHT,
       'no loading of attributes, yet traceMode did not take correct default value');
   });
 
   it('#ngOnInit should load strokewidth and trace mode if there are attributes saved in the service', () => {
     attrService.lineAttributes.wasSaved = true;
     attrService.lineAttributes.savedJunctionMode = ToolConstants.ROUND;
+    attrService.lineAttributes.savedTraceMode = ToolConstants.STRAIGHT;
     attrService.lineAttributes.savedStrokeWidth = STROKEWIDTH;
 
     component.ngOnInit();
 
     expect(component['stroke'].strokeWidth).toEqual(STROKEWIDTH,
       'loading of attributes, yet strokeWidth did not take saved value');
-      expect(component['junctionMode']).toEqual(ToolConstants.ROUND,
+      expect(component['junctionMode']).toEqual(ToolConstants.POINT_MODE.ROUNDED,
       'loading of attributes, yet traceMode did not take saved value');
+      expect(component['traceMode']).toEqual(ToolConstants.TRACE_MODE.STRAIGHT,
+      'loading of attributes, yet traceMode did not take correct default value');
 
   });
 
   it('#ngOnDestroy should save the current attributes in the rectangleAttributes interface of the service', () => {
     component.ngOnDestroy();
-    // LINEs 85-86 fail... wrong lifecycle hooks used?
     expect(attrService.lineAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
-      'shape.strokeWidth was not successfully saved upon destruction');
+      'stroke.strokeWidth was not successfully saved upon destruction');
     expect(attrService.lineAttributes.savedJunctionMode).toEqual(ToolConstants.ROUND,
-      'the traceMode was not successfully saved upon destruction');
+      'the junctionMode was not successfully saved upon destruction');
+    expect(attrService.lineAttributes.savedTraceMode).toEqual(ToolConstants.STRAIGHT,
+        'the traceMode was not successfully saved upon destruction');
     expect(attrService.lineAttributes.wasSaved).toBeTruthy('#ngOnDestroy set wasSaved to true');
 
   });
-/*
-  it('#calculateDimensions should make both the width and height equals to the smallest of the two when shift is pressed', () => {
-    component['stroke'].strokeWidth = STROKEWIDTH;
 
-    component.onShiftUp();
-
-    expect(component['stroke'].points).toEqual(component['previewLine'].x2 - STROKEWIDTH, 'x2 unchanged when shift is not pressed');
-    expect(component['stroke'].y2).toEqual(component['previewLine'].y2 - STROKEWIDTH, 'y2 unchanged when shift is not pressed');
-
-    component.onShiftDown();
-
-    expect(component['shape'].height).toEqual(component['shape'].width, 'height took width\'s value');
-
-    component['cursorY'] -= CURSOR_MOVE;
-    component.onShiftDown();
-
-    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKEWIDTH,
-    'height unchanged when it is the smallest value');
-    expect(component['shape'].width).toEqual(component['shape'].height, 'width took height\'s value');
-
-  });
-
-  it('#calculateDimensions should not alter the values of the shape\'s width and height when shift is released', () => {
-    component['shape'].strokeWidth = STROKEWIDTH;
-    component.onShiftDown();
-
-    expect(component['shape'].height).toEqual(component['shape'].width, 'height took width\'s value');
-
-    component.onShiftUp();
-
-    expect(component['shape'].height === component['shape'].width).toBeFalsy( 'ERROR: height took width\'s value');
-
-  });
-*/
 });

@@ -75,6 +75,7 @@ describe('LineAbstract', () => {
   });
 
   // Tests of event handling methods
+  // tslint:disable: no-any
 
   it('#onMouseDown should be called when left mouse button is pressed', () => {
     const spy = spyOn(shapeTest, 'onMouseDown');
@@ -130,6 +131,18 @@ describe('LineAbstract', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('#onShiftDown should put shiftDown to true', () => {
+    const event = new KeyboardEvent('keydown.shift');
+    hostElement.triggerEventHandler('keydown.shift', event);
+    expect((component as any).shiftDown).toEqual(true);
+  });
+
+  it('#onShiftUp should put shiftDown to false', () => {
+    const event = new KeyboardEvent('keyup.shift');
+    hostElement.triggerEventHandler('keyup.shift', event);
+    expect((component as any).shiftDown).toEqual(false);
+  });
+
   it('#onDelete should be called when the backspace button is pressed', () => {
     const spy = spyOn(shapeTest, 'onDelete');
     const event = new KeyboardEvent('keydown.backspace');
@@ -139,20 +152,27 @@ describe('LineAbstract', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  /*
   it('#onMouseDown should call #addSegment if started is true', () => {
     const spy = spyOn(shapeTest, 'addSegment');
-    component.started = true;
-    const mouseDownEvent = new MouseEvent('onMouseDown');
+    (component as any).started = true;
+    const mouseDownEvent = new MouseEvent('mousedown');
     shapeTest.onMouseMove(mouseDownEvent);
+    hostElement.triggerEventHandler('mousedown', mouseDownEvent);
     expect(spy).toHaveBeenCalled();
   });
-  */
+
+  it('#onMouseDown should put started to true', () => {
+    (component as any).started = false;
+    const mouseDownEvent = new MouseEvent('mousedown');
+    shapeTest.onMouseMove(mouseDownEvent);
+    hostElement.triggerEventHandler('mousedown', mouseDownEvent);
+    expect((component as any).started).toEqual(true);
+  });
 
   it('#onDoubleClick should call #saveSegment if started is true', () => {
     const spy = spyOn(shapeTest, 'saveSegment');
-    component.started = true;
-    const mouseDownEvent = new MouseEvent('onDoubleClick');
+    (component as any).started = true;
+    const mouseDownEvent = new MouseEvent('dblclick');
     shapeTest.onDoubleClick();
     shapeTest.onMouseMove(mouseDownEvent);
     expect(spy).toHaveBeenCalled();
@@ -160,12 +180,20 @@ describe('LineAbstract', () => {
 
   it('#onDoubleClick should call #addSegment if started is true', () => {
     const spy = spyOn(shapeTest, 'addSegment');
-    component.started = true;
-    const mouseDownEvent = new MouseEvent('onDoubleClick');
+    (component as any).started = true;
+    const mouseDownEvent = new MouseEvent('dblclick');
     shapeTest.onDoubleClick();
     shapeTest.onMouseMove(mouseDownEvent);
     expect(spy).toHaveBeenCalled();
   });
 
-  // Tests of Functions and verify attributes value changes in eventhandlers
+  it('#onDelete should delete last segment from array', () => {
+    (component as any).previewPoints = ['', ''];
+    const length = (component as any).previewPoints.length;
+    const event = new KeyboardEvent('keyup.backspace');
+    hostElement.triggerEventHandler('keyup.backspace', event);
+    shapeTest.onDelete();
+    expect((component as any).previewPoints.length).toEqual(length - 1);
+  });
+
 });
