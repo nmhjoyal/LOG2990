@@ -11,7 +11,7 @@ import { SelectorComponent } from './selector.component';
 
 const FIFTY = 50;
 const FORTY = 40;
-const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
 class SelectorServiceMock extends SelectorService {
 
     constructor() {
@@ -50,6 +50,7 @@ class SelectorServiceMock extends SelectorService {
   }
 
 describe('SelectorComponent', () => {
+    const TWICE = 2;
     let selector: SelectorComponent;
     let selectorServiceMock: SelectorService;
     let fixture: ComponentFixture<SelectorComponent>;
@@ -97,9 +98,8 @@ describe('SelectorComponent', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         fixture.debugElement.triggerEventHandler('mousedown', leftClick);
-        expect(spy).toHaveBeenCalled();
         fixture.debugElement.triggerEventHandler('mousedown', rightClick);
-        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledTimes(TWICE);
     });
 
     it('#onMouseMove should be called when cursor moves', () => {
@@ -114,9 +114,8 @@ describe('SelectorComponent', () => {
         const mouseUpLeft = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
         const mouseUpRight = new MouseEvent('mouseup', { button: ClickTypes.RIGHT_CLICK });
         fixture.debugElement.triggerEventHandler('mouseup', mouseUpLeft);
-        expect(spy).toHaveBeenCalled();
         fixture.debugElement.triggerEventHandler('mouseup', mouseUpRight);
-        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledTimes(TWICE);
     });
 
     it('#onEscape should be called when escape key pressed', () => {
@@ -188,7 +187,7 @@ describe('SelectorComponent', () => {
     });
 
     it('test leftclick simple', () => {
-        toolServiceMock.drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' }];
+        toolServiceMock.drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         const leftRelease = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
@@ -209,9 +208,9 @@ describe('SelectorComponent', () => {
 
     it('test rightclick reverse', () => {
         const drawing1 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0,
-            id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1, points: '' };
+            id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1 };
         const drawing2 = { x: FORTY, y: FORTY, width: FORTY, height: FORTY, fillOpacity: 0,
-            id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1, points: '' };
+            id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1 };
         toolServiceMock.drawings = [drawing1, drawing2];
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });

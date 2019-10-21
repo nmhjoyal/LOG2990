@@ -59,7 +59,7 @@ describe('SelectorService', () => {
 
   it('should update corners depending on drawing dimensions', () => {
     let drawing: ITools;
-    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.topCornerX = FORTY;
     service.topCornerY = FIFTY;
     service.width = FORTY;
@@ -69,7 +69,7 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.width).toEqual(drawing.x + drawing.width);
     expect(service.height).toEqual(ONE_HUNDRED);
-    drawing = { x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    drawing = { x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.topCornerX = FIFTY;
     service.topCornerY = FORTY;
     service.width = ONE_HUNDRED;
@@ -83,9 +83,9 @@ describe('SelectorService', () => {
 
   it('should recalculate selector shape with list of selected items', () => {
     let drawing: ITools;
-    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.selectedObjects.add(drawing);
-    drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: ''};
+    drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.selectedObjects.add(drawing);
     spyOn(service, 'updateSelectorShape').and.callFake(() => { return; });
     service.recalculateShape(ONE_HUNDRED, ONE_HUNDRED);
@@ -109,7 +109,7 @@ describe('SelectorService', () => {
     service.height = ONE_HUNDRED;
     service.topCornerX = ONE_HUNDRED;
     service.topCornerY = ONE_HUNDRED;
-    const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: ''};
+    const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.selectedObjects.add(drawing);
     service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
@@ -120,7 +120,7 @@ describe('SelectorService', () => {
   });
 
   it('should confirm cursor touches object', () => {
-    let object = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    let object: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
     expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '50,50 50,51 51,50 51,51' };
@@ -129,13 +129,13 @@ describe('SelectorService', () => {
   });
 
   it('should confirm selection box intersects object', () => {
-    let object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE, points: '' };
+    let object: ITools = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
     let box = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: FORTY, height: FORTY };
     expect(service.objectInBox(object, box)).toBeFalsy();
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40' };
     expect(service.objectInBox(object, box)).toBeFalsy();
     box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
-    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE, points: '' };
+    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
     expect(service.objectInBox(object, box)).toBeTruthy();
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40 40,41 41,40 41,41' };
     expect(service.objectInBox(object, box)).toBeTruthy();

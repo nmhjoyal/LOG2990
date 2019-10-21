@@ -105,21 +105,23 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   }
 
   protected getPositionAndDimensions(): void {
-    const pointsList = this.stroke.points.split(' ');
-    this.stroke.x = this.windowWidth;
-    this.stroke.y = this.windowHeight;
-    this.stroke.width = 0;
-    this.stroke.height = 0;
-    for (const point of pointsList) {
-      const coordinates = point.split(',');
-      this.stroke.x = Number(coordinates[0].trim()) < this.stroke.x ? Number(coordinates[0].trim()) : this.stroke.x;
-      this.stroke.width = Number(coordinates[0].trim()) > this.stroke.width ? Number(coordinates[0].trim()) : this.stroke.width;
-      if (coordinates.length > 1) {
-        this.stroke.y = Number(coordinates[1].trim()) < this.stroke.y ? Number(coordinates[1].trim()) : this.stroke.y;
-        this.stroke.height = Number(coordinates[1].trim()) > this.stroke.height ? Number(coordinates[1].trim()) : this.stroke.height;
+    if (this.stroke.points !== undefined) {
+      const pointsList = this.stroke.points.split(' ');
+      this.stroke.x = this.windowWidth;
+      this.stroke.y = this.windowHeight;
+      this.stroke.width = 0;
+      this.stroke.height = 0;
+      for (const point of pointsList) {
+        const coordinates = point.split(',');
+        this.stroke.x = Number(coordinates[0].trim()) < this.stroke.x ? Number(coordinates[0].trim()) : this.stroke.x;
+        this.stroke.width = Number(coordinates[0].trim()) > this.stroke.width ? Number(coordinates[0].trim()) : this.stroke.width;
+        if (coordinates.length > 1) {
+          this.stroke.y = Number(coordinates[1].trim()) < this.stroke.y ? Number(coordinates[1].trim()) : this.stroke.y;
+          this.stroke.height = Number(coordinates[1].trim()) > this.stroke.height ? Number(coordinates[1].trim()) : this.stroke.height;
+        }
       }
+      this.stroke.width = this.stroke.width - this.stroke.x;
+      this.stroke.height = this.stroke.height - this.stroke.y;
     }
-    this.stroke.width = this.stroke.width - this.stroke.x;
-    this.stroke.height = this.stroke.height - this.stroke.y;
   }
 }

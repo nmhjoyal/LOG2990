@@ -7,5 +7,5 @@ export class ITools implements IPreviewBox, Line {
     y: number;
     width: number;
     height: number;
-    points: string;
+    points?: string;
 }

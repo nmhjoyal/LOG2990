@@ -18,7 +18,7 @@ describe('ToolHandlerServiceService', () => {
 
     expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
     expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR, points: '' });
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
     expect(service.noneSelected).toBe(true);
     expect(service.crayonSelected).toBe(false);
     expect(service.paintbrushSelected).toBe(false);
@@ -62,15 +62,15 @@ describe('ToolHandlerServiceService', () => {
 
   it('#resetSelectorBox should reset selector property to default data', () => {
     service.selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR, points: '' };
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
     service.resetSelectorBox();
     expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR, points: '' });
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
   });
 
   it('#saveSelectorBox should set selector property to input data', () => {
     const selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR, points: '' };
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
     service.saveSelectorBox(selection);
     expect(service.selection).toEqual(selection);
   });
@@ -78,7 +78,7 @@ describe('ToolHandlerServiceService', () => {
   it('#selectorBoxExists should return false if height or width are 0 and true otherwise', () => {
     expect(service.selectorBoxExists()).toBeFalsy();
     const selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR, points: '' };
+    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
     service.saveSelectorBox(selection);
     expect(service.selectorBoxExists()).toBeTruthy();
   });

@@ -1,7 +1,7 @@
 import { ITools } from './itools';
 
 export interface Line {
-    points: string;
+    points?: string;
 }
 
 export interface IDrawingTool extends ITools {

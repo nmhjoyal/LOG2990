@@ -42,7 +42,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: 0,
       width: 0,
       height: 0,
-      points: '',
       primaryColor: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
       secondaryColor: this.colorService.color[1],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
@@ -159,7 +158,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: this.shape.y,
       width: this.shape.width,
       height: this.shape.height,
-      points: '',
       primaryColor: this.shape.primaryColor,
       secondaryColor: this.shape.secondaryColor,
       strokeOpacity: this.shape.strokeOpacity,
