@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 import { PolygonComponent } from './polygon.component';
-import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 
 const STROKE_WIDTH = 100;
 const INITIAL_X = 150;
@@ -53,7 +53,7 @@ describe('RectangleComponent', () => {
 
   it('should create correctly', () => {
     expect(component).toBeTruthy();
-    expect(component['shape'].verticesNumber).toBeDefined('verticeNumber of shapes is undefined')
+    expect(component['shape'].verticesNumber).toBeDefined('verticeNumber of shapes is undefined');
   });
 
   it('#ngOnInit should not load strokewidth and trace mode if there are no attributes saved in the service', () => {
@@ -95,7 +95,7 @@ describe('RectangleComponent', () => {
     expect(attrService.polygonAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
       'the traceMode was not successfully saved upon destruction');
     expect(attrService.polygonAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
-    expect(attrService.polygonAttributes.savedVerticesNumber).toEqual(ToolConstants.MIN_VERTEX_NUMBER, 
+    expect(attrService.polygonAttributes.savedVerticesNumber).toEqual(ToolConstants.MIN_VERTEX_NUMBER,
       'the seleced number of vertices was not succesfully saved upon destruction');
 
   });
@@ -103,63 +103,63 @@ describe('RectangleComponent', () => {
   it('#calculateDimensions should calculate calculate the radius of the invisible circle that holds the polygon', () => {
     component.onShiftDown(); // to call protected calculateDimensions()
 
+    // tslint:disable-next-line:no-magic-numbers
     const expectedResult = ((CURSOR_X - INITIAL_X) / 2) - component['shape'].strokeWidth;
 
-    expect(component['shape'].height).toBe(expectedResult, 
+    expect(component['shape'].height).toBe(expectedResult,
     'the radius stored in shape.width and height did not match test math-result expectation');
   });
 
   it('#calculateDimensions should not generate the vertices of the polygon if the radius - strokewidth <= 0', () => {
     component['shape'].strokeWidth = STROKE_WIDTH; // radius will be (CURSOR_X - INITIALX)/2 - STROKEWIDTH = 100
     component.onShiftDown();
-    expect(component['shape'].vertices).toEqual('', 
+    expect(component['shape'].vertices).toEqual('',
     'vertices were loaded into shapes when they shouldn\'t have been calculated ');
   });
 
   it('#calculateDimensions should generate the vertices of the polygon if the radius > strokeWidth', () => {
-    component.onShiftDown();// radius will be (CURSOR_X - INITIALX)/2 - ToolConstants.DEFAULT_STROKE_WIDTH = 98
+    component.onShiftDown(); // radius will be (CURSOR_X - INITIALX)/2 - ToolConstants.DEFAULT_STROKE_WIDTH = 98
     expect(component['shape'].vertices).not.toEqual('', 'vertices were not loaded into shapes when calculated ');
   });
 
   it('#increaseVertexNumber should increment shape.vertexNumber while it has not reached the maximum value', () => {
     component['shape'].verticesNumber = VERTEX_NUMBER;
-    let expectedResult = VERTEX_NUMBER + 1;
+    const expectedResult = VERTEX_NUMBER + 1;
     component.increaseVertexNumber();
     expect(component['shape'].verticesNumber).toBe(expectedResult, 'did not increment shape.verticesNumber');
- 
+
     component['shape'].verticesNumber = ToolConstants.MAX_VERTEX_NUMBER;
     component.increaseVertexNumber();
-    expect(component['shape'].verticesNumber).toBe(ToolConstants.MAX_VERTEX_NUMBER, 
+    expect(component['shape'].verticesNumber).toBe(ToolConstants.MAX_VERTEX_NUMBER,
       '#increaseVertexNumber modified shape.verticesNumber when it was already at 12');
 
   });
 
   it('#decreaseVertexNumber should reduce shape.verticesNumber while it has not reached the minimum value', () => {
     component['shape'].verticesNumber = VERTEX_NUMBER;
-    let expectedResult = VERTEX_NUMBER - 1;
+    const expectedResult = VERTEX_NUMBER - 1;
     component.decreaseVertexNumber();
     expect(component['shape'].verticesNumber).toBe(expectedResult, 'did not decrement shape.verticesNumber');
- 
+
     component['shape'].verticesNumber = ToolConstants.MIN_VERTEX_NUMBER;
     component.decreaseVertexNumber();
-    expect(component['shape'].verticesNumber).toBe(ToolConstants.MIN_VERTEX_NUMBER, 
+    expect(component['shape'].verticesNumber).toBe(ToolConstants.MIN_VERTEX_NUMBER,
       '#decreaseVertexNumber modified shape.verticesNumber when it was already at 3');
   });
 
   it('#saveShape not save if vertices were not generated', () => {
-    //no generation
+    // tslint:disable-next-line:no-any
     const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();
     expect(superSaveSpy).not.toHaveBeenCalled();
   });
 
   it('#saveShape not save if vertices were not generated', () => {
-    // generation
     component.onShiftUp();
+    // tslint:disable-next-line:no-any
     const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();
     expect(superSaveSpy).toHaveBeenCalled();
   });
-
 
 });

@@ -1,21 +1,21 @@
-import { ToolAbstract } from './tool-abstract';
+import { OnDestroy, OnInit } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ToolAbstract } from './tool-abstract';
 
-class TestTool extends ToolAbstract {
+class TestTool extends ToolAbstract implements OnDestroy, OnInit {
 
-  constructor(){
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
-    //empty body
-  }  
-  
+    // empty body
+  }
+
   ngOnDestroy(): void {
     // empty body
   }
 
-  
 }
 
 describe('ToolAbstract', () => {

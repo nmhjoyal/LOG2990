@@ -45,16 +45,16 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
     const imaginaryCircleRadius = (Math.min(this.previewBox.width, this.previewBox.height) / 2) - this.shape.strokeWidth;
     // tslint:enable:no-magic-numbers
-    this.shape.height = imaginaryCircleRadius; 
+    this.shape.height = imaginaryCircleRadius;
     this.shape.width = imaginaryCircleRadius;
-    
+
     this.shape.vertices = '';
-    if(this.shape.verticesNumber != undefined && (imaginaryCircleRadius - this.shape.strokeWidth) > 0) {
+    if (this.shape.verticesNumber !== undefined && (imaginaryCircleRadius - this.shape.strokeWidth) > 0) {
       // tslint:disable-next-line:no-magic-numbers
-      const angleBetweenVertices: number = 2*Math.PI / this.shape.verticesNumber;
-      let angleTracker: number = 0;
-      let bufferX: number = 0;
-      let bufferY: number = 0;
+      const angleBetweenVertices: number = 2 * Math.PI / this.shape.verticesNumber;
+      let angleTracker = 0;
+      let bufferX = 0;
+      let bufferY = 0;
       for (let index = 0; index < this.shape.verticesNumber; index++) {
         angleTracker += angleBetweenVertices;
         bufferX = this.shape.x + (imaginaryCircleRadius * Math.cos(angleTracker));
@@ -66,19 +66,19 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
   }
 
   protected saveShape(): void {
-    if(this.shape.vertices !== ''){
+    if (this.shape.vertices !== '') {
       super.saveShape();
     }
   }
 
   increaseVertexNumber(): void {
-    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != ToolConstants.MAX_VERTEX_NUMBER){
+    if (this.shape.verticesNumber !== undefined && this.shape.verticesNumber !== ToolConstants.MAX_VERTEX_NUMBER) {
       this.shape.verticesNumber++;
     }
   }
 
   decreaseVertexNumber(): void {
-    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != ToolConstants.MIN_VERTEX_NUMBER){
+    if (this.shape.verticesNumber !== undefined && this.shape.verticesNumber !== ToolConstants.MIN_VERTEX_NUMBER) {
       this.shape.verticesNumber--;
     }
   }
