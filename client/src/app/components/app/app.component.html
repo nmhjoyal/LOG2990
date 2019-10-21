@@ -34,7 +34,7 @@
                 </a>
                 <a mat-list-item class="filter">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Shapes">
-                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger" (click)="openShapeMenu()"></button>
+                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"></button>
                 </a>
                 <mat-menu #shapeMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>

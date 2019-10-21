@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatMenuTrigger} from '@angular/material';
+import { Component, HostListener, Inject, OnInit} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
@@ -25,11 +25,7 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  @ViewChild('menuTrigger', {static: false}) menuTrigger: MatMenuTrigger;
-
-  openShapeMenu() {
-    this.menuTrigger.openMenu();
-  }
+  
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
       this.toolHandler.chooseCrayon();
