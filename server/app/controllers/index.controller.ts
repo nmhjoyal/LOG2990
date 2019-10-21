@@ -61,8 +61,8 @@ export class IndexController {
 
             this.router.get('/gettags',
             async(req: Request, res: Response, next: NextFunction) => {
-                const tags: Set<ITag> = await this.indexService.getTags();
-                res.json(tags);
+                const tags: ITag[] = await this.indexService.getTags();
+                res.json(tags.values);
             })
     }
 }

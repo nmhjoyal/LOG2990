@@ -3,6 +3,6 @@ import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { IModalData } from '../../modal-window/IModalData';
 
 export interface IGalleryModalData extends IModalData {
-    filterTags: Set<ITag>;
+    filterTags: ITag[];
     previews: ISVGPreview[];
 }

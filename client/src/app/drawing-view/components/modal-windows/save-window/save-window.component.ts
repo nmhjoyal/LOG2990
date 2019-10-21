@@ -27,11 +27,11 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     super(dialogRef, data, canvasData, undefined, toolHandler, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.index.getTags().subscribe(
-      (response: Set<ITag>) => {
+      (response: ITag[]) => {
         if (response) {
           this.data.displayedTags = response;
         } else {
-          this.data.displayedTags = new Set<ITag>();
+          this.data.displayedTags = [];
         }
       }
     )
@@ -57,9 +57,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
         if (!test.tags) {
-          test.tags = new Set<ITag>();
+          test.tags = [];
         }
-        test.tags.add(tag);
+        test.tags.push(tag);
         this.index.saveTag(tag).subscribe(
           (response: boolean) => {
             if (response) {
@@ -86,7 +86,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   addTag(newTag: string): void {
     if (newTag) {
-      this.data.displayedTags.add({ name: newTag, isSelected: true, numberOfTimesUsed: 1 } as ITag);
+      this.data.displayedTags.push({ name: newTag, isSelected: true, numberOfTimesUsed: 1 });
     }
   }
 
