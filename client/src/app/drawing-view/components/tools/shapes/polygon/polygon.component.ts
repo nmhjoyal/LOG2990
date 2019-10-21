@@ -5,11 +5,6 @@ import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstr
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
 
-// interface IVertex {
-//   x: number,
-//   y: number,
-// };
-
 @Component({
   selector: 'app-tools-polygon',
   templateUrl: './polygon.component.html',
@@ -20,7 +15,7 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
   constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
     super(toolServiceRef, attributesServiceRef, colorServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.POLYGON;
-    this.shape.verticesNumber = 3; // constante min vertex number
+    this.shape.verticesNumber = ToolConstants.MIN_VERTEX_NUMBER;
   }
 
   // Abstract&Overridden methods
@@ -48,39 +43,42 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
     this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
     this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
 
-    const radius = Math.min(this.previewBox.width, this.previewBox.height);
-    
-    this.shape.height = radius; // radius of the circle from which the polygon is constructed
-    this.shape.width = radius;
+    const imaginaryCircleRadius = (Math.min(this.previewBox.width, this.previewBox.height) / 2) - this.shape.strokeWidth;
     // tslint:enable:no-magic-numbers
-
-    if(this.shape.verticesNumber != undefined) {
+    this.shape.height = imaginaryCircleRadius; 
+    this.shape.width = imaginaryCircleRadius;
+    
+    this.shape.vertices = '';
+    if(this.shape.verticesNumber != undefined && (imaginaryCircleRadius - this.shape.strokeWidth) > 0) {
       // tslint:disable-next-line:no-magic-numbers
       const angleBetweenVertices: number = 2*Math.PI / this.shape.verticesNumber;
-      let angleTracker: number = - angleBetweenVertices / 2;
+      let angleTracker: number = 0;
       let bufferX: number = 0;
       let bufferY: number = 0;
-      this.shape.vertices = '';
       for (let index = 0; index < this.shape.verticesNumber; index++) {
         angleTracker += angleBetweenVertices;
-        // tslint:disable:no-magic-numbers
-        bufferX = this.shape.x + (radius * Math.cos(angleTracker));
-        bufferY = this.shape.y + (radius * Math.sin(angleTracker));
-        // tslint:enable:no-magic-numbers
+        bufferX = this.shape.x + (imaginaryCircleRadius * Math.cos(angleTracker));
+        bufferY = this.shape.y + (imaginaryCircleRadius * Math.sin(angleTracker));
         this.shape.vertices += (bufferX.toFixed(0) + ',' + bufferY.toFixed(0) + ' ');
       }
     }
 
   }
 
+  protected saveShape(): void {
+    if(this.shape.vertices !== ''){
+      super.saveShape();
+    }
+  }
+
   increaseVertexNumber(): void {
-    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != 12){ // constante max vertice number
+    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != ToolConstants.MAX_VERTEX_NUMBER){
       this.shape.verticesNumber++;
     }
   }
 
   decreaseVertexNumber(): void {
-    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != 3){ // constante min vertex number
+    if(this.shape.verticesNumber != undefined && this.shape.verticesNumber != ToolConstants.MIN_VERTEX_NUMBER){
       this.shape.verticesNumber--;
     }
   }

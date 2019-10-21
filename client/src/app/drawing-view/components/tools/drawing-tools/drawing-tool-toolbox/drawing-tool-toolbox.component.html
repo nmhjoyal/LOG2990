@@ -21,9 +21,9 @@
         {{getComponent().shape.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
         <div *ngIf="toolHandler.polygonSelected">
-            <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
+            <button (click)="getComponent().decreaseVertexNumber()">-1 Sommet</button>
             {{getComponent().shape.verticesNumber}}
-            <button (click)="getComponent().decreaseVertexNumber()">-1 sommet</button>
+            <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
         </div>
     </div>
 </div> 

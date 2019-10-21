@@ -90,6 +90,21 @@ describe('RectangleComponent', () => {
 
   });
 
+  it('#calculateDimensions should make shape.width and height 0 only if strokeWidth is too big', () => {
+    const enormousStrokeWidth = 1000;
+    component['shape'].strokeWidth = enormousStrokeWidth;
+    // Note: the previewBox.width/height is CURSOR_X/Y - INITIAL_X/Y, so 400/500
+    component.onShiftUp();
+    expect(component['shape'].width).toBe(0, 'shape.width != 0 when strokewidth is too big');
+    expect(component['shape'].height).toBe(0, 'shape.height != 0 when strokewidth is too big');
+
+    component['shape'].strokeWidth = STROKE_WIDTH;
+    component.onShiftUp();
+    expect(component['shape'].width).not.toBe(0, 'shape.width = 0 when strokewidth is not too big');
+    expect(component['shape'].height).not.toBe(0, 'shape.height = 0 when strokewidth is not too big');
+  });
+
+
   it('#calculateDimensions should make both the width and height equals to the smallest of the two when shift is pressed', () => {
     component['shape'].strokeWidth = STROKE_WIDTH;
 

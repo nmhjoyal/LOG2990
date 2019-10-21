@@ -52,4 +52,6 @@ export class ToolConstants {
     static FILTER_SELECTION = FilterSelection;
     static NULL = -1;
     static TRACE_MODE = ModeType;
+    static MIN_VERTEX_NUMBER = 3;
+    static MAX_VERTEX_NUMBER = 12;
 }
