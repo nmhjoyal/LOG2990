@@ -41,7 +41,6 @@ describe('CanvasComponent', () => {
     strokeWidth: 1,
     fillOpacity: 1,
     id: Id.RECTANGLE,
-    points: '',
   };
 
   const testLine: IDrawingTool = {
@@ -107,14 +106,14 @@ describe('CanvasComponent', () => {
   });
 
   it('should apply primary color to shape', () => {
-    mockColourService.color[0] = Strings.WHITE_HEX;
+    mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = Strings.WHITE_HEX;
     mockToolService.colourApplicatorSelected = true;
     component.applyColourToShape(testObject);
     expect(testObject.primaryColor).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary color to shape', () => {
-    mockColourService.color[1] = Strings.BLACK_HEX;
+    mockColourService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = Strings.BLACK_HEX;
     mockToolService.colourApplicatorSelected = true;
     component.applySecondaryColourToShape(new MouseEvent('contextmenu'), testObject);
     expect(testObject.secondaryColor).toEqual(Strings.BLACK_HEX);

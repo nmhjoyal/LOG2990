@@ -54,7 +54,6 @@ export class AttributesService {
       y: 0,
       width: 0,
       height: 0,
-      points: '',
     };
   }
   resetSavedAttributes(): void {

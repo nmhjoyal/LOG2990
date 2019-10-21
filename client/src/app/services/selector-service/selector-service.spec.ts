@@ -24,7 +24,7 @@ describe('SelectorService', () => {
 
   it('should create selector box as drawing', () => {
     let drawing: ITools;
-    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: ''};
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.setBoxToDrawing(drawing);
     expect(service.topCornerX).toEqual(drawing.x);
     expect(service.topCornerY).toEqual(drawing.y);
@@ -37,8 +37,8 @@ describe('SelectorService', () => {
   it('should check for items, add when not in reverse and delete if in reverse', () => {
     spyOn(service, 'updateSelectorShape').and.callFake(() => { return; });
     spyOn(service, 'objectInBox').and.returnValue(true);
-    const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
-    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, points: '' };
+    const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     const drawings = [];
     drawings.push(drawing1);
     drawings.push(drawing2);
