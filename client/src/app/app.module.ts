@@ -17,6 +17,7 @@ import { CanvasInformationService } from './services/canvas-information/canvas-i
 import { ColorService } from './services/color_service/color.service';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
+import { FilterTagsPipe } from './services/filter-tags.pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     NewDrawingWindowComponent,
     ColorPickerComponent,
     ColorPaletteComponent,
+    FilterTagsPipe,
   ],
   imports: [
     DrawingViewModule,

@@ -4,24 +4,28 @@
         <div>
             <div class="row" style="margin-top:10px;margin-bottom: 10px;">
                 <div class="col-sm-1">
-                </div>
-                <div class="col-sm-2">
                     <button mat-raised-button class="btn btn-success" (click)="filterBy='all'">Tous</button>
+                    <div *ngFor="let tag of data.filterTags">
+                        <button mat-raised-button class="btn btn-success"
+                            (click)="filterBy=tag.name">{{tag.name}}</button>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <ul>
                     <li id="list-style" *ngFor="let drawing of drawingsInGallery" (click)="onSelect(drawing)"
                         [class.selected]="drawing === selectedDrawing">
-                        <h2>{{drawing.name}}</h2>
-                        <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
-                        <mat-menu #menu="matMenu">
+                        <div *ngFor="let tag of (drawing.tags | filterTags: filterBy)">
+                            <h2>{{drawing.name}}</h2>
+                            <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
+                            <mat-menu #menu="matMenu">
 
-                            <div *ngFor="let tag of drawing.tags">
-                                <h3>{{tag.name}}</h3>
-                            </div>
+                                <div *ngFor="let tag of drawing.tags">
+                                    <h3>{{tag.name}}</h3>
+                                </div>
 
-                        </mat-menu>
+                            </mat-menu>
+                        </div>
                     </li>
                 </ul>
             </div>

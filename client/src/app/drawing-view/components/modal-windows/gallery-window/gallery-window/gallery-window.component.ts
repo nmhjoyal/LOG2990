@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -9,6 +9,7 @@ import { IDrawing } from '../../../../../../../../common/drawing-information/IDr
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
 import { SaveWindowComponent } from '../../save-window/save-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
+import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 
 @Component({
   selector: 'app-gallery-window',
@@ -20,6 +21,8 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   protected drawingsInGallery: IDrawing[];
   private selectedDrawing: IDrawing;
   private drawingToOpen: IDrawing;
+  @Input() filterBy?: string = 'all'
+
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
@@ -31,6 +34,16 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     this.drawingsInGallery = [];
     this.selectedDrawing = {} as IDrawing;
     this.drawingToOpen = {} as IDrawing;
+
+    this.index.getTags().subscribe(
+      (response: ITag[]) => {
+        if (response) {
+          this.data.filterTags = response;
+        } else {
+          this.data.filterTags = [];
+        }
+      }
+    )
   }
 
   ngOnInit() {
