@@ -59,10 +59,11 @@ export class IndexController {
                 });
             });
 
-            this.router.get('/gettags',
-            async(req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/gettags',
+            async (req: Request, res: Response, next: NextFunction) => {
                 const tags: ITag[] = await this.indexService.getTags();
-                res.json(tags.values);
-            })
+                res.json(tags);
+            });
+
     }
 }

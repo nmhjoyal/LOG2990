@@ -29,8 +29,8 @@
                     l'étiquette</button>
                 <ul>
                     <li id="list-style" *ngFor="let tag of data.displayedTags">
-                            <button mat-stroked-button type="button" (click)="clickOnTag(tag)"
-                                [class.selected-tag]="tag.isSelected">#{{tag.name}}</button>
+                        <button mat-stroked-button type="button" (click)="clickOnTag(tag)"
+                            [class.selected-tag]="tag.isSelected">#{{tag.name}}</button>
                     </li>
                 </ul>
             </div>

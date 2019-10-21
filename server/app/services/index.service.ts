@@ -75,7 +75,7 @@ export class IndexService {
 
     async getTags(): Promise<ITag[]> {
         console.log('sending tags');
-        return Array.from(this.tags);
+        return Array.from(this.tags.values());
     }
 
     // TODO: Move in a common to share with client/index.service
