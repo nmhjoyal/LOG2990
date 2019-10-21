@@ -1,5 +1,6 @@
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
     [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor" (click)="applyColourToCanvas()">
+        <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
 
     <g *ngFor = "let drawing of toolHandler.drawings">
 
