@@ -3,13 +3,13 @@
     <div mat-dialog-content>
         <div>
             <div class="row" style="margin-top:10px;margin-bottom: 10px;">
-                <div class="col-sm-1">
-                    <button mat-raised-button class="btn btn-success" (click)="filterBy='all'">Tous</button>
-                    <div *ngFor="let tag of data.filterTags">
-                        <button mat-raised-button class="btn btn-success"
-                            (click)="filterBy=tag.name">{{tag.name}}</button>
-                    </div>
-                </div>
+                <button mat-raised-button class="btn btn-success" (click)="filterBy='all'">Tous</button>
+                <mat-button-toggle-group #group="matButtonToggleGroup" multiple>
+                        <div *ngFor="let tag of data.filterTags">
+                            <mat-button-toggle mat-raised-button class="btn btn-success"
+                                (click)="filterBy=tag.name">{{tag.name}}</mat-button-toggle>
+                        </div>
+                </mat-button-toggle-group>
             </div>
             <div class="row">
                 <ul>
