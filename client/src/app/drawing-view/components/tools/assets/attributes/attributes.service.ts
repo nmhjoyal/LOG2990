@@ -21,7 +21,7 @@ export class AttributesService {
     }
 
     resetPolygonAttributes(): void {
-      this.rectangleAttributes = {
+      this.polygonAttributes = {
         id: ToolConstants.TOOL_ID.POLYGON,
         wasSaved: false,
         savedVerticesNumber: 0,
@@ -63,6 +63,10 @@ export class AttributesService {
     }
     if (this.rectangleAttributes.wasSaved) {
       this.resetRectangleAttributes();
+    }
+
+    if (this.polygonAttributes.wasSaved) {
+      this.resetPolygonAttributes();
     }
   }
 }

@@ -17,23 +17,16 @@ import { ToolConstants } from '../../assets/tool-constants';
 })
 export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  protected vertices: string;
-
   constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
     super(toolServiceRef, attributesServiceRef, colorServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.POLYGON;
     this.shape.verticesNumber = 3; // constante min vertex number
-    this.vertices = "";
   }
 
   // Abstract&Overridden methods
-  onMouseUp() {
-    super.onMouseUp();
-    console.log(this.vertices);
-  }
 
   ngOnInit(): void {
-    if (this.attributesService.rectangleAttributes.wasSaved) {
+    if (this.attributesService.polygonAttributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.polygonAttributes.savedStrokeWidth;
       this.traceMode = this.attributesService.polygonAttributes.savedTraceMode;
       this.shape.verticesNumber = this.attributesService.polygonAttributes.savedVerticesNumber;
@@ -49,25 +42,32 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
   }
 
   protected calculateDimensions(): void {
-    super.calculateDimensions(); // some usless math for polygon, optimizable in the future?
-    const minValue = Math.min(this.previewBox.width, this.previewBox.height);
+    super.calculateDimensions();
+
     // tslint:disable:no-magic-numbers
-    this.shape.height = minValue / 2; // radius of the circle from which the polygon is constructed
-    this.shape.width = minValue / 2;
+    this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
+    this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
+
+    const radius = Math.min(this.previewBox.width, this.previewBox.height);
+    
+    this.shape.height = radius; // radius of the circle from which the polygon is constructed
+    this.shape.width = radius;
     // tslint:enable:no-magic-numbers
-    this.shape.x = this.previewBox.x + this.shape.width;  // x coordinate for center
-    this.shape.y = this.previewBox.y + this.shape.height; // y coordinate for center
 
     if(this.shape.verticesNumber != undefined) {
-      const angleBetweenVertices: number = Math.PI / this.shape.verticesNumber;
-      let angleTracker: number = 0;
+      // tslint:disable-next-line:no-magic-numbers
+      const angleBetweenVertices: number = 2*Math.PI / this.shape.verticesNumber;
+      let angleTracker: number = - angleBetweenVertices / 2;
       let bufferX: number = 0;
       let bufferY: number = 0;
+      this.shape.vertices = '';
       for (let index = 0; index < this.shape.verticesNumber; index++) {
         angleTracker += angleBetweenVertices;
-        bufferX = this.shape.x + Math.cos(angleTracker);
-        bufferY = this.shape.y + Math.sin(angleTracker);
-        this.vertices.concat( bufferX.toString() + "," + bufferY.toString() + " ");
+        // tslint:disable:no-magic-numbers
+        bufferX = this.shape.x + (radius * Math.cos(angleTracker));
+        bufferY = this.shape.y + (radius * Math.sin(angleTracker));
+        // tslint:enable:no-magic-numbers
+        this.shape.vertices += (bufferX.toFixed(0) + ',' + bufferY.toFixed(0) + ' ');
       }
     }
 

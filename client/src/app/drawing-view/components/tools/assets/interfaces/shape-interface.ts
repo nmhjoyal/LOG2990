@@ -14,6 +14,7 @@ export interface IShape extends IPreviewBox, ITools {
     strokeWidth: number;
     fillOpacity: number;
     verticesNumber?: number;
+    vertices?: string;
 }
 
 export interface IShapeOptions extends ITools {

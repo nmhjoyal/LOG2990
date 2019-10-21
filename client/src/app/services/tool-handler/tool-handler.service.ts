@@ -50,6 +50,7 @@ resetSelection(): void {
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
     this.paintbrushSelected = false;
+    this.polygonSelected = false;
 }
 ​
   chooseRectangle(): void {

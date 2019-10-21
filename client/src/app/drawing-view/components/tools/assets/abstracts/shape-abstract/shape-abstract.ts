@@ -43,6 +43,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       width: 0,
       height: 0,
       verticesNumber: 0,
+      vertices: '',
       primaryColor: this.colorService.color[0],
       secondaryColor: this.colorService.color[1],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
@@ -71,6 +72,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
     this.mouseDown = false;
     this.shape.height = 0;
     this.shape.width = 0;
+    this.shape.vertices = '';
     this.previewBox.height = 0;
     this.previewBox.width = 0;
     this.previewBox.x = 0;
@@ -160,6 +162,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: this.shape.y,
       width: this.shape.width,
       height: this.shape.height,
+      verticesNumber: this.shape.verticesNumber,
+      vertices: this.shape.vertices,
       primaryColor: this.shape.primaryColor,
       secondaryColor: this.shape.secondaryColor,
       strokeOpacity: this.shape.strokeOpacity,

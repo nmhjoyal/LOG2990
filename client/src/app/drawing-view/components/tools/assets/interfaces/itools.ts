@@ -1,3 +1,3 @@
-export class ITools {
+export interface ITools {
     id: string;
 }
