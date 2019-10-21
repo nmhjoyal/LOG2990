@@ -24,13 +24,13 @@ export class AppComponent implements OnInit {
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingColor = Strings.WHITE_HEX;
   }
-  
+
   @ViewChild('menuTrigger', {static: false}) menuTrigger: MatMenuTrigger;
 
   openShapeMenu() {
     this.menuTrigger.openMenu();
   }
-  
+
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
     event.preventDefault();
     if (!this.dialog.openDialogs.length) {

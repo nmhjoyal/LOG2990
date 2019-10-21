@@ -95,8 +95,12 @@ describe('EllipseComponent', () => {
 
     component.onShiftUp();
 
-    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / 2, 'width unchanged when shift is not pressed');
-    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2, 'height unchanged when shift is not pressed');
+    // tslint:disable:no-magic-numbers
+    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / 2,
+    'width unchanged when shift is not pressed');
+    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2,
+    'height unchanged when shift is not pressed');
+    // tslint:enable:no-magic-numbers
 
     component.onShiftDown();
 
@@ -105,6 +109,7 @@ describe('EllipseComponent', () => {
     component['cursorY'] -= CURSOR_MOVE;
     component.onShiftDown();
 
+    // tslint:disable-next-line:no-magic-numbers
     expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2,
     'height unchanged when it is the smallest value');
     expect(component['shape'].width).toEqual(component['shape'].height, 'width took heights value');
