@@ -14,10 +14,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected mouseDown: boolean;
   protected shiftDown: boolean;
   protected stroke: ILine;
-  protected strokeMode: number;
+  protected traceMode: string;
   protected previewPoints: string[];
-  protected started: boolean;
+   started: boolean;
   protected finalPoints: string;
+  protected junctionMode: string;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -34,7 +35,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     this.cursorY = 0;
     this.started = false;
     this.previewPoints = [];
-    this.pointMode = ToolConstants.ROUND;
+    this.junctionMode = ToolConstants.ROUND;
     this.stroke  = {
       id: '',
       points: '',
@@ -68,22 +69,15 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
-    this.mouseDown = true;
     if (!this.started) {
       this.initialX = event.offsetX;
       this.initialY = event.offsetY;
       this.started = true;
       this.stroke.points = event.offsetX + ',' + event.offsetY;
-      // this.shape.points = event.offsetX + ',' + event.offsetY;
       this.previewPoints.push(event.offsetX + ',' + event.offsetY);
     } else {
-      // this.shape.points += ' ' + event.offsetX + ',' + event.offsetY;
       this.addSegment();
     }
-  }
-
-  @HostListener('mouseup') onMouseUp(): void {
-    this.mouseDown = false;
   }
 
   @HostListener('keyup.shift') onShiftUp(): void {
@@ -170,8 +164,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     }
   }
 
-  protected setTraceMode(lineMode: number): void {
-    switch (lineMode) {
+  protected setTraceMode(traceMode: number): void {
+    switch (traceMode) {
       case ToolConstants.TRACE_MODE.STRAIGHT:
         this.stroke.strokeDashArray = ToolConstants.STRAIGHT;
         break;

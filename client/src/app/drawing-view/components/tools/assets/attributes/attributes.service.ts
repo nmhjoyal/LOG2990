@@ -49,8 +49,9 @@ export class AttributesService {
       this.lineAttributes = {
         id: ToolConstants.TOOL_ID.LINE,
         wasSaved: false,
+        savedTraceMode: '',
         savedStrokeWidth: ToolConstants.NULL,
-        savedPointMode: ToolConstants.NULL,
+        savedJunctionMode: '',
         savedPointWidth: ToolConstants.NULL,
       };
   }

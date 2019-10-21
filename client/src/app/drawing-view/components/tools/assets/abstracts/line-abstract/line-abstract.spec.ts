@@ -6,14 +6,15 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { LineComponent } from '../../../shapes/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
 import { LineAbstract } from './line-abstract';
 
 @Component({
-    selector: 'test-shape-abstract',
-    template: '<svg x=0 y=0 width=1000 height=1000><\svg>',
+    selector: 'test-line-abstract',
+    template: '<svg points = "" ><\svg>',
   })
-class ShapeTestComponent extends LineAbstract implements OnInit, OnDestroy {
+class LineTestComponent extends LineAbstract implements OnInit, OnDestroy {
 
   constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService, colorInstance: ColorService) {
     super(serviceInstance, attributesInstance, colorInstance);
@@ -28,20 +29,25 @@ class ShapeTestComponent extends LineAbstract implements OnInit, OnDestroy {
       // empty block
   }
 
-  saveShape(): void {
+  saveAttribute(): void {
+    // empty block
+}
+
+  saveSegment(): void {
     // empty block
   }
 
-  calculateDimensions(): void {
+  addSegment(): void {
       // empty block
   }
 }
 
-describe('ShapeAbstract', () => {
-  let shapeTest: ShapeTestComponent;
+describe('LineAbstract', () => {
+  let component: LineComponent;
+  let shapeTest: LineTestComponent;
   let hostElement: DebugElement;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
-  let fixture: ComponentFixture<ShapeTestComponent>;
+  let fixture: ComponentFixture<LineTestComponent>;
 
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
   beforeEach(() => {
@@ -49,15 +55,16 @@ describe('ShapeAbstract', () => {
 
     TestBed.configureTestingModule({
         imports: [BrowserDynamicTestingModule, DrawingViewModule],
-        declarations: [ShapeTestComponent],
+        declarations: [LineTestComponent],
         providers: [
           { provide: ToolHandlerService, useValue: toolHandlerMock, },
           { provide: AttributesService, useValue: attrServiceMock, },
         ],
       });
 
-      fixture = TestBed.createComponent(ShapeTestComponent);
+      fixture = TestBed.createComponent(LineTestComponent);
       fixture.detectChanges();
+      component = fixture.componentInstance;
 
       shapeTest = fixture.componentInstance;
       hostElement = fixture.debugElement;
@@ -74,24 +81,6 @@ describe('ShapeAbstract', () => {
     const event = new MouseEvent('mousedown');
 
     hostElement.triggerEventHandler('mousedown', event);
-
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('#onMouseUp should be called when left mouse button gets released', () => {
-    const spy = spyOn(shapeTest, 'onMouseUp');
-    const event = new MouseEvent('mouseup');
-
-    hostElement.triggerEventHandler('mouseup', event);
-
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('#onMouseLeave should be called when the cursor leaves the window', () => {
-    const spy = spyOn(shapeTest, 'onMouseLeave');
-    const event = new MouseEvent('mouseleave');
-
-    hostElement.triggerEventHandler('mouseleave', event);
 
     expect(spy).toHaveBeenCalled();
   });
@@ -123,56 +112,58 @@ describe('ShapeAbstract', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('#onMouseLeave should call #onMouseUp if mousedown is true', () => {
-    const spy = spyOn(shapeTest, 'onMouseUp');
-    const mouseDownEvent = new MouseEvent('mousedown');
-    shapeTest.onMouseDown(mouseDownEvent);
-    shapeTest.onMouseLeave();
+  it('#onDoubleClick should be called when the mouse button is doubled clicked', () => {
+    const spy = spyOn(shapeTest, 'onDoubleClick');
+    const event = new KeyboardEvent('dblclick');
+
+    hostElement.triggerEventHandler('dblclick', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
-  it('#onMouseMove should call #calculateDimensions the mouse button is pressed', () => {
-    const spy = spyOn(shapeTest, 'calculateDimensions');
-    const mouseDownEvent = new MouseEvent('mousedown');
-    const mouseMoveEvent = new MouseEvent('mousemove');
+  it('#onEscape should be called when the escape button is pressed', () => {
+    const spy = spyOn(shapeTest, 'onEscape');
+    const event = new KeyboardEvent('keydown.esc');
 
-    shapeTest.onMouseDown(mouseDownEvent);
-    shapeTest.onMouseMove(mouseMoveEvent);
+    hostElement.triggerEventHandler('keydown.esc', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
-  it('#onShiftDown should call #calculateDimensions when the mouse is pressed', () => {
-    const spy = spyOn(shapeTest, 'calculateDimensions');
-    const mouseDownEvent = new MouseEvent('mousedown');
+  it('#onDelete should be called when the backspace button is pressed', () => {
+    const spy = spyOn(shapeTest, 'onDelete');
+    const event = new KeyboardEvent('keydown.backspace');
 
-    shapeTest.onMouseDown(mouseDownEvent);
-    shapeTest.onShiftDown();
+    hostElement.triggerEventHandler('keydown.backspace', event);
+
     expect(spy).toHaveBeenCalled();
   });
 
-  it('#onShiftUp should call #calculateDimensions when the mousebutton is pressed', () => {
-    const spy = spyOn(shapeTest, 'calculateDimensions');
-    const mouseDownEvent = new MouseEvent('mousedown');
+  /*
+  it('#onMouseDown should call #addSegment if started is true', () => {
+    const spy = spyOn(shapeTest, 'addSegment');
+    component.started = true;
+    const mouseDownEvent = new MouseEvent('onMouseDown');
+    shapeTest.onMouseMove(mouseDownEvent);
+    expect(spy).toHaveBeenCalled();
+  });
+  */
 
-    shapeTest.onMouseDown(mouseDownEvent);
-    shapeTest.onShiftUp();
+  it('#onDoubleClick should call #saveSegment if started is true', () => {
+    const spy = spyOn(shapeTest, 'saveSegment');
+    component.started = true;
+    const mouseDownEvent = new MouseEvent('onDoubleClick');
+    shapeTest.onDoubleClick();
+    shapeTest.onMouseMove(mouseDownEvent);
     expect(spy).toHaveBeenCalled();
   });
 
-  it('#onMouseUp should call #saveShape when the mouse was initially pressed and a shape\'s dimensions was calculated', () => {
-    const spy = spyOn(shapeTest, 'saveShape');
-    const mouseDownEvent = new MouseEvent('mousedown');
-    shapeTest.onMouseDown(mouseDownEvent);
-/*
-    const PRESET_WIDTH = 100;
-    const PRESET_HEIGHT = 200;
-
-    // tslint:disable:no-string-literal
-    shapeTest['shape'].width = PRESET_WIDTH;
-    shapeTest['shape'].height = PRESET_HEIGHT;
-    // tslint:enable:no-string-literal
-*/
-    shapeTest.onMouseUp();
+  it('#onDoubleClick should call #addSegment if started is true', () => {
+    const spy = spyOn(shapeTest, 'addSegment');
+    component.started = true;
+    const mouseDownEvent = new MouseEvent('onDoubleClick');
+    shapeTest.onDoubleClick();
+    shapeTest.onMouseMove(mouseDownEvent);
     expect(spy).toHaveBeenCalled();
   });
 
