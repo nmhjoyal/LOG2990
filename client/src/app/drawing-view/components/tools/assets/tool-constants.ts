@@ -54,4 +54,6 @@ export class ToolConstants {
     static TRACE_MODE = ModeType;
     static MIN_VERTEX_NUMBER = 3;
     static MAX_VERTEX_NUMBER = 12;
+    static PRIMARY_COLOUR_INDEX = 0;
+    static SECONDARY_COLOUR_INDEX = 1;
 }

@@ -25,15 +25,13 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
-    event.preventDefault();
+  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseCrayon();
     }
   }
 
-  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(event: KeyboardEvent): void {
-    event.preventDefault();
+  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.choosePaintbrush();
     }
@@ -43,8 +41,7 @@ export class AppComponent implements OnInit {
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
-    event.preventDefault();
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseRectangle();
     }
@@ -92,6 +89,13 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColorPickerComponent, {
       panelClass: 'choose-color-window',
     });
+  }
+
+  switchColours(): void {
+    this.colorService.switchColors();
+    if (!this.toolHandler.colourApplicatorSelected) {
+      this.toolHandler.resetSelection();
+    }
   }
 
 }
