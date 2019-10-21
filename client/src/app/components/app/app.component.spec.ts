@@ -25,6 +25,10 @@ describe('AppComponent', () => {
 
   }));
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('should open dialog when storage returns true', () => {
     serviceMock.getShowAgain.and.returnValue(true);
     component.ngOnInit();
@@ -58,6 +62,30 @@ describe('AppComponent', () => {
     toolHandlerMock.resetSelection.and.callThrough();
     component.switchColours();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
+  });
+
+  it('#chooseCrayon should be called when c is pressed', () => {
+    const spy = spyOn(toolHandlerMock, 'chooseCrayon');
+    component.onKeydownCEvent();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('#choosePaintbrush should be called when w is pressed', () => {
+    const spy = spyOn(toolHandlerMock, 'choosePaintbrush');
+    component.onKeydownWEvent();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('#chooseRectangle should be called when 1 is pressed', () => {
+    const spy = spyOn(toolHandlerMock, 'chooseRectangle');
+    component.onKeydown1();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('#chooseEllipse should be called when 2 is pressed', () => {
+    const spy = spyOn(toolHandlerMock, 'chooseEllipse');
+    component.onKeydown2();
+    expect(spy).toHaveBeenCalled();
   });
 
 });
