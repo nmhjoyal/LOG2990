@@ -14,6 +14,7 @@ import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
+import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     DrawingToolToolboxComponent,
     RectangleComponent,
     SelectorComponent,
+    EllipseComponent,
   ],
 
   imports: [

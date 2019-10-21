@@ -3,6 +3,7 @@ export enum Id {
     PAINTBRUSH = 'paintbrush',
     RECTANGLE = 'rectangle',
     SELECTOR = 'selector',
+    ELLIPSE = 'ellipse',
 }
 
 export enum FilterURL {

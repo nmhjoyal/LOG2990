@@ -54,6 +54,14 @@
                 [style.stroke-width]="drawing.strokeWidth"
                 [style.fill-opacity]="drawing.fillOpacity"/>
             </g>
+            <g *ngSwitchCase="toolId.ELLIPSE" (click)="applyColourToShape(drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
+                <ellipse [attr.cx] ="drawing.x" [attr.cy]="drawing.y" [attr.rx]="drawing.width" [attr.ry]="drawing.height"
+                [style.stroke]="drawing.secondaryColor" 
+                [style.fill]="drawing.primaryColor"  
+                [style.stroke-opacity]="drawing.strokeOpacity"
+                [style.stroke-width]="drawing.strokeWidth"
+                [style.fill-opacity]="drawing.fillOpacity"/>
+            </g>
         </g>
     </g>
     <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"
@@ -102,3 +110,8 @@
 <div *ngIf="toolHandler.selectorSelected">
     <app-tools-selector #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-selector>
 </div>
+<div *ngIf="toolHandler.ellipseSelected">
+    <app-ellipse #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-ellipse>
+</div>
+
+

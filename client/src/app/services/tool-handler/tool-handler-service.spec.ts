@@ -23,6 +23,7 @@ describe('ToolHandlerServiceService', () => {
     expect(service.crayonSelected).toBe(false);
     expect(service.paintbrushSelected).toBe(false);
     expect(service.rectangleSelected).toBe(false);
+    expect(service.ellipseSelected).toBe(false);
     expect(service.colourApplicatorSelected).toBe(false);
     expect(service.selectorSelected).toBe(false);
     expect(service.primaryColor).toEqual(colorService.color[0]);
@@ -47,6 +48,7 @@ describe('ToolHandlerServiceService', () => {
       expect(service.crayonSelected).toBe(false);
       expect(service.paintbrushSelected).toBe(false);
       expect(service.rectangleSelected).toBe(false);
+      expect(service.ellipseSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
       expect(service.selectorSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
@@ -89,6 +91,15 @@ describe('ToolHandlerServiceService', () => {
 
     expect(resetSpy).toHaveBeenCalled();
     expect(service.rectangleSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
+  });
+
+  it('#chooseEllipse should call #resetSelection and select the ellipse', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseEllipse();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.ellipseSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
   });
 

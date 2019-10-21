@@ -1,6 +1,7 @@
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 // tslint:disable-next-line: no-implicit-dependencies
 import * as svgIntersections from 'svg-intersections';
 
@@ -32,10 +33,20 @@ export class SelectorService {
   }
 
   setBoxToDrawing(drawing: ITools): void {
-    this.topCornerX = drawing.x;
-    this.topCornerY = drawing.y;
-    this.width = drawing.x + drawing.width;
-    this.height = drawing.y + drawing.height;
+    let x: number = drawing.x;
+    let y: number = drawing.y;
+    let width: number = drawing.width;
+    let height: number = drawing.height;
+    if (drawing.id === Id.ELLIPSE) {
+      x = drawing.x - drawing.width;
+      y = drawing.y - drawing.height;
+      width = drawing.width * NumericalValues.TWO;
+      height = drawing.height * NumericalValues.TWO;
+    }
+    this.topCornerX = x;
+    this.topCornerY = y;
+    this.width = x + width;
+    this.height = y + height;
   }
 
   checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
@@ -62,18 +73,20 @@ export class SelectorService {
   }
 
   updateSelectorShape(drawing: ITools): void {
-    if (drawing.x < this.topCornerX) {
-      this.topCornerX = drawing.x;
+    let x: number = drawing.x;
+    let y: number = drawing.y;
+    let width: number = drawing.width;
+    let height: number = drawing.height;
+    if (drawing.id === Id.ELLIPSE) {
+      x = drawing.x - drawing.width;
+      y = drawing.y - drawing.height;
+      width = drawing.width * NumericalValues.TWO;
+      height = drawing.height * NumericalValues.TWO;
     }
-    if (drawing.y < this.topCornerY) {
-      this.topCornerY = drawing.y;
-    }
-    if (this.width < (drawing.x + drawing.width)) {
-      this.width = drawing.x + drawing.width;
-    }
-    if (this.height < (drawing.y + drawing.height)) {
-      this.height = drawing.y + drawing.height;
-    }
+    this.topCornerX = x < this.topCornerX ? x : this.topCornerX;
+    this.topCornerY = y < this.topCornerY ? y : this.topCornerY;
+    this.width = this.width < (x + width) ? (x + width) : this.width;
+    this.height = this.height < (y + height) ? (y + height) : this.height;
   }
 
   recalculateShape(windowWidth: number, windowHeight: number): void {
@@ -120,6 +133,9 @@ export class SelectorService {
           svgIntersections.shape('polyline', selectorLine));
         intersectionPoints = lineIntersections.points;
         break;
+      case Id.ELLIPSE:
+        cursorInObject = (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
+          (((positionY - object.y) * (positionY - object.y)) / (object.height * object.height)) <= 1;
     }
     return (intersectionPoints.length > 0) || cursorInObject;
   }
@@ -140,6 +156,12 @@ export class SelectorService {
         const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
           svgIntersections.shape('rect', selectorBox));
         intersectionPoints = lineIntersections.points;
+        break;
+      case Id.ELLIPSE:
+        const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
+          rx: object.width, ry: object.height }),
+        svgIntersections.shape('rect', selectorBox));
+        intersectionPoints = ellipseIntersections.points;
         break;
     }
     return (intersectionPoints.length > 0) || objectIsInsideBox;

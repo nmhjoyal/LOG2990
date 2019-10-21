@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, HostListener, Inject, OnInit} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
@@ -25,29 +25,24 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(event: KeyboardEvent): void {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
       this.toolHandler.chooseCrayon();
-    }
   }
 
-  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(event: KeyboardEvent): void {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
       this.toolHandler.choosePaintbrush();
-    }
   }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent): void {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
       this.toolHandler.chooseRectangle();
-    }
+  }
+
+  @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
+      this.toolHandler.chooseEllipse();
   }
 
   confirmNewDrawing(): void {
