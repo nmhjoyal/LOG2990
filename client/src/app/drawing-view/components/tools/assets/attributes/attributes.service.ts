@@ -64,7 +64,6 @@ export class AttributesService {
     if (this.rectangleAttributes.wasSaved) {
       this.resetRectangleAttributes();
     }
-
     if (this.polygonAttributes.wasSaved) {
       this.resetPolygonAttributes();
     }
