@@ -1,7 +1,9 @@
-
 export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
+    RECTANGLE = 'rectangle',
+    SELECTOR = 'selector',
+    ELLIPSE = 'ellipse',
 }
 
 export enum FilterURL {
@@ -24,9 +26,6 @@ export enum ModeType {
     CONTOUR = 1,
     FILL = 2,
     CONTOUR_FILL = 3,
-}
-export enum Id {
-    RECTANGLE = 'rectangle',
 }
 
 export class ToolConstants {

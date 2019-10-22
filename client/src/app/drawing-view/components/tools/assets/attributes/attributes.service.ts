@@ -11,11 +11,13 @@ export class AttributesService {
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
+  ellipseAttributes: IShapeOptions;
 
   constructor() {
     this.resetRectangleAttributes();
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
+    this.resetEllipseAttributes();
     }
 
   resetCrayonAttributes(): void {
@@ -24,6 +26,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetPaintbrushAttributes(): void {
@@ -32,6 +39,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetRectangleAttributes(): void {
@@ -40,6 +52,22 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
       savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+  resetEllipseAttributes(): void {
+    this.ellipseAttributes = {
+      id: ToolConstants.TOOL_ID.ELLIPSE,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
     };
   }
   resetSavedAttributes(): void {
@@ -51,6 +79,9 @@ export class AttributesService {
     }
     if (this.rectangleAttributes.wasSaved) {
       this.resetRectangleAttributes();
+    }
+    if (this.ellipseAttributes.wasSaved) {
+      this.resetEllipseAttributes();
     }
   }
 }
