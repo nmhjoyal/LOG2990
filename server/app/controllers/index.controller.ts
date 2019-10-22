@@ -26,12 +26,6 @@ export class IndexController {
                 res.json(time);
             });
 
-        this.router.get('/about',
-            (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-                res.json(this.indexService.about());
-            });
-
         this.router.post('/save',
             async (req: Request, res: Response, next: NextFunction) => {
                 const success: boolean = await this.indexService.saveDrawing(req.body.drawingToSave);

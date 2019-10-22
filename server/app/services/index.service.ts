@@ -20,13 +20,6 @@ export class IndexService {
         this.tags = [];
     }
 
-    about(): Message {
-        return {
-            title: 'This is merely a test',
-            body: 'Lorem ipsum........',
-        };
-    }
-
     async helloWorld(): Promise<Message> {
         return this.dateService.currentTime().then((timeMessage: Message) => {
             return {

@@ -1,11 +1,12 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, HostListener, Inject, OnInit} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
@@ -49,6 +50,26 @@ export class AppComponent implements OnInit {
       this.toolHandler.choosePaintbrush();
     }
   }
+
+  @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseEyedropper();
+    }
+  }
+
+  @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+         this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
+    }
+  }
+
+  @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseSelector();
+    }
+  }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
