@@ -18,8 +18,6 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
     this.shape.verticesNumber = ToolConstants.MIN_VERTEX_NUMBER;
   }
 
-  // Abstract&Overridden methods
-
   ngOnInit(): void {
     if (this.attributesService.polygonAttributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.polygonAttributes.savedStrokeWidth;

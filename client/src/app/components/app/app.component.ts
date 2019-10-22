@@ -25,33 +25,23 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
-    if (!this.dialog.openDialogs.length) {
-      this.toolHandler.chooseCrayon();
-    }
+  @HostListener('document:keydown.c') onKeydownCEvent(): void {
+    this.toolHandler.chooseCrayon();
   }
 
-  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
-    if (!this.dialog.openDialogs.length) {
-      this.toolHandler.choosePaintbrush();
-    }
+  @HostListener('document:keydown.w') onKeydownWEvent(): void {
+    this.toolHandler.choosePaintbrush();
   }
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
-    event.preventDefault();
+  @HostListener('document:keydown.control.o') onKeydownHandler(): void {
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
-    if (!this.dialog.openDialogs.length) {
-      this.toolHandler.chooseRectangle();
-    }
+  @HostListener('document:keydown.1') onKeydown1(): void {
+    this.toolHandler.chooseRectangle();
   }
 
-  @HostListener('document:keydown.3', ['$event']) onKeydown3(event: KeyboardEvent) {
-    event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
-      this.toolHandler.choosePolygon();
-    }
+  @HostListener('document:keydown.3') onKeydown3(): void {
+    this.toolHandler.choosePolygon();
   }
 
   confirmNewDrawing(): void {
