@@ -140,7 +140,8 @@ export class SelectorService {
       case Id.POLYGON:
         const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polygon', { points: object.vertices }),
           svgIntersections.shape('polyline', selectorLine));
-          cursorInObject = (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
+          cursorInObject = ((object.x - object.width) <= positionX && (object.y - object.height) <= positionY &&
+            (object.x + object.width) >= positionX &&
             (object.y + object.height) >= positionY);
         intersectionPoints = polygonIntersections.points;
         break;
