@@ -61,10 +61,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         test.tags.push(tag);
         this.index.saveTag(tag).subscribe(
           (response: boolean) => {
-            if (response) {
-              console.log(tag.name + ' SAVED');
-            } else {
-              console.error('FAILED TO SAVE ' + tag.name);
+            if (!response) {
+              confirm('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
             }
           },
         );
@@ -74,7 +72,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.index.saveDrawing(test).subscribe(
       (response: boolean) => {
         if (!response) {
-          confirm('Il y a eu une erreur lors de la sauvegarde du dessin.')
+          confirm('Il y a eu une erreur lors de la sauvegarde du dessin.');
         }
       });
     this.isFinishedSaving = true;

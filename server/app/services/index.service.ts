@@ -11,13 +11,11 @@ export class IndexService {
     drawingsList: IDrawing[];
     tags: ITag[];
 
-    // TODO: Choose a container type for the drawings list - and move it to storage service
     drawingsInGallery: Map<string, IDrawing>;
 
     constructor(
         @inject(Types.DateService) private dateService: DateService,
     ) {
-        // this.drawingsList = [];
         this.drawingsInGallery = new Map<string, IDrawing>();
         this.tags = [];
     }
@@ -51,8 +49,6 @@ export class IndexService {
         }
         if (drawingToSave.timestamp) {
             this.drawingsInGallery.set(this.dateToId(drawingToSave.timestamp), drawingToSave);
-            console.log('Saving drawing with id: ' + this.dateToId(drawingToSave.timestamp));
-            console.log(drawingToSave);
             return true;
         }
         return false;
@@ -61,8 +57,6 @@ export class IndexService {
     async saveTag(tagToSave: ITag): Promise<boolean> {
         if (!this.tags.some((tag) => tag.name === tagToSave.name)) {
             this.tags.push(tagToSave);
-            console.log('SAVING ' + tagToSave.name);
-            console.log(this.tags);
             return true;
         }
 
@@ -70,21 +64,17 @@ export class IndexService {
     }
 
     async getDrawings(): Promise<IDrawing[]> {
-        console.log('sending drawings');
         return Array.from(this.drawingsInGallery.values());
     }
 
     async getDrawing(drawingTimestampID: string): Promise<IDrawing | undefined> {
-        console.log('sending drawing of timestampID: ' + drawingTimestampID);
         return this.drawingsInGallery.get(drawingTimestampID);
     }
 
     async getTags(): Promise<ITag[]> {
-        console.log('sending tags');
         return Array.from(this.tags.values());
     }
 
-    // TODO: Move in a common to share with client/index.service
     private dateToId(date: string): string {
         return date.replace(/[^0-9]/g, '');
     }

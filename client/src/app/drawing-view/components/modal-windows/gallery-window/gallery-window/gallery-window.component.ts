@@ -1,5 +1,6 @@
-import { Component, Inject, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
@@ -10,7 +11,6 @@ import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
 import { SaveWindowComponent } from '../../save-window/save-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gallery-window',
@@ -64,7 +64,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   }
 
   onSelect(drawing: IDrawing): void {
-    console.log('Drawing selected');
     this.selectedDrawing = drawing;
   }
 
@@ -78,7 +77,8 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
             this.toolHandler.drawings = this.drawingToOpen.shapes;
             this.canvasData.data = this.drawingToOpen.canvas;
           } else {
-            confirm('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.')}
+            confirm('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.');
+          }
         });
     }
 
@@ -101,7 +101,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
       }
       this.filterBy = arr;
     }
-    console.log('new tags array: ' + this.filterBy);
   }
 
   addTag(tag: string): void {

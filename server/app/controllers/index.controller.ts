@@ -3,9 +3,9 @@ import { inject, injectable } from 'inversify';
 
 import { Message } from '../../../common/communication/message';
 import { IDrawing } from '../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../common/drawing-information/ITag';
 import { IndexService } from '../services/index.service';
 import Types from '../types';
-import { ITag } from '../../../common/drawing-information/ITag';
 
 @injectable()
 export class IndexController {
@@ -55,11 +55,8 @@ export class IndexController {
                 this.indexService.getDrawing(req.params.id).then((drawing: IDrawing) => {
                     res.json(drawing);
                 }).catch((err: Error) => {
-                    res.json(err.message); // TODO: Send error messages - ex: Not found 
+                    res.json(err.message); // TODO: Send error messages - ex: Not found
                 });
-                req.on('close', () => {
-                    
-                })
             });
 
         this.router.get('/gettags',

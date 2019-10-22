@@ -8,7 +8,7 @@ describe('PreviewCanvasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PreviewCanvasComponent ]
+      declarations: [ PreviewCanvasComponent ],
     })
     .compileComponents();
   }));
@@ -27,6 +27,5 @@ describe('PreviewCanvasComponent', () => {
     component.ngOnInit();
     expect(component.viewboxCoordinates).not.toEqual('', 'viewBoxCoordinates were NOT initialized');
   });
-
 
 });
