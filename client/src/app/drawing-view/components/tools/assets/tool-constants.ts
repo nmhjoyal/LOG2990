@@ -65,6 +65,7 @@ export class ToolConstants {
     static RIGHT_CLICK_INDEX = 2;
 }
 
+// tslint:disable:max-classes-per-file
 export class StampConstants {
     static DEFAULT_ANGLE = 90;
     static DEFAULT_DIMENSION = 24;
@@ -74,3 +75,5 @@ export class StampConstants {
     static DEFAULT_HEIGHT = 24;
     static MAX_SCALE = 21;
 }
+
+// tslint:disable:max-classes-per-file

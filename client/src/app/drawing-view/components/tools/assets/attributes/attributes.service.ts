@@ -26,7 +26,6 @@ export class AttributesService {
     this.resetEllipseAttributes();
     this.resetStampAttributes();
   }
-  
 
     resetPolygonAttributes(): void {
       this.polygonAttributes = {
