@@ -63,7 +63,7 @@ describe('AppComponent', () => {
   it('should only resetSelection when colourApplicator not selected', () => {
     toolHandlerMock.colourApplicatorSelected = true;
     toolHandlerMock.resetSelection.and.callThrough();
-    component.switchColours();
+    component.switchColors();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
   });
 

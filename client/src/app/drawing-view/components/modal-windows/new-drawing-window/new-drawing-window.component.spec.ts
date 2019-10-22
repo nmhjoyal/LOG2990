@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
-import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
+import { ColorPaletteComponent } from '../../color-picker/color-palette/color-palette.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
@@ -18,6 +19,7 @@ describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let colorService: ColorService;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
+  let canvasDataMock: CanvasInformationService;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
   const storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
@@ -69,7 +71,8 @@ describe('NewDrawingWindowComponent', () => {
   beforeEach(async(() => {
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
     colorService = new ColorService();
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, colorService, storageServiceMock);
+    canvasDataMock = new CanvasInformationService();
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, storageServiceMock, colorService);
     component.ngOnInit();
   }));
 
@@ -116,9 +119,9 @@ describe('NewDrawingWindowComponent', () => {
   it('should assign default values to canvas parameters if inputs are empty', () => {
     component.reinitializeDrawingVariables();
     component.onAcceptClick();
-    expect(dataMock.drawingColor).toBe('#ffffffff');
-    expect(dataMock.drawingHeight).toBe(window.innerHeight - NumericalValues.TITLEBAR_WIDTH);
-    expect(dataMock.drawingWidth).toBe(window.innerWidth - NumericalValues.SIDEBAR_WIDTH);
+    expect(canvasDataMock.data.drawingColor).toBe('#ffffffff');
+    expect(canvasDataMock.data.drawingHeight).toBe(window.innerHeight - NumericalValues.TITLEBAR_WIDTH);
+    expect(canvasDataMock.data.drawingWidth).toBe(window.innerWidth - NumericalValues.SIDEBAR_WIDTH);
   });
 
   it('should properly pass user input to canvas parameters', () => {
@@ -126,9 +129,9 @@ describe('NewDrawingWindowComponent', () => {
     dataMock.drawingHeightInput = NEW_WINDOW_SIZE;
     dataMock.drawingWidthInput = NEW_WINDOW_SIZE;
     component.onAcceptClick();
-    expect(dataMock.drawingColor).toBe(dataMock.drawingColorInput);
-    expect(dataMock.drawingHeight).toBe(dataMock.drawingHeightInput);
-    expect(dataMock.drawingWidth).toBe(dataMock.drawingWidthInput);
+    expect(canvasDataMock.data.drawingColor).toBe(dataMock.drawingColorInput);
+    expect(canvasDataMock.data.drawingHeight).toBe(dataMock.drawingHeightInput);
+    expect(canvasDataMock.data.drawingWidth).toBe(dataMock.drawingWidthInput);
   });
 
   it('should update the resize preview if user inputs are not present', () => {
@@ -149,8 +152,8 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingWidth).toBe(originalWidth - NumericalValues.SIDEBAR_WIDTH);
-    expect(dataMock.drawingHeight).toBe(MOCK_USER_INPUT);
+    expect(canvasDataMock.data.drawingWidth).toBe(originalWidth - NumericalValues.SIDEBAR_WIDTH);
+    expect(canvasDataMock.data.drawingHeight).toBe(MOCK_USER_INPUT);
   });
 
   it('should not update resize height preview if user input for width is present', () => {
@@ -161,8 +164,8 @@ describe('NewDrawingWindowComponent', () => {
     window.dispatchEvent(new Event('resize'));
     component.updateWindowSize();
     component.onAcceptClick();
-    expect(dataMock.drawingHeight).toBe(originalHeight - NumericalValues.TITLEBAR_WIDTH);
-    expect(dataMock.drawingWidth).toBe(MOCK_USER_INPUT);
+    expect(canvasDataMock.data.drawingHeight).toBe(originalHeight - NumericalValues.TITLEBAR_WIDTH);
+    expect(canvasDataMock.data.drawingWidth).toBe(MOCK_USER_INPUT);
   });
 
   it('should call onClose when escape is pressed', () => {
