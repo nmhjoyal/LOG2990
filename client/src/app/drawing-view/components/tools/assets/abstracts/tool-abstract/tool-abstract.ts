@@ -1,7 +1,12 @@
+import { OnDestroy, OnInit } from '@angular/core';
 
-export class ToolAbstract {
-    constructor() {
-        // empty block
-    }
+export abstract class ToolAbstract implements OnInit, OnDestroy {
 
+  constructor() {
+    // empty body
+  }
+
+  abstract ngOnInit(): void;
+
+  abstract ngOnDestroy(): void;
 }

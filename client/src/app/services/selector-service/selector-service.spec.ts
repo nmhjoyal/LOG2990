@@ -69,16 +69,16 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.width).toEqual(drawing.x + drawing.width);
     expect(service.height).toEqual(ONE_HUNDRED);
-    drawing = { x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.topCornerX = FIFTY;
     service.topCornerY = FORTY;
     service.width = ONE_HUNDRED;
     service.height = FORTY;
     service.updateSelectorShape(drawing);
-    expect(service.topCornerX).toEqual(drawing.x);
+    expect(service.topCornerX).toEqual(drawing.x - drawing.width);
     expect(service.topCornerY).toEqual(FORTY);
     expect(service.width).toEqual(ONE_HUNDRED);
-    expect(service.height).toEqual(drawing.y + drawing.height);
+    expect(service.height).toEqual((drawing.y - drawing.height) + (drawing.height * TWICE));
   });
 
   it('should recalculate selector shape with list of selected items', () => {
@@ -126,6 +126,9 @@ describe('SelectorService', () => {
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '50,50 50,51 51,50 51,51' };
     expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
     expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
+    object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FIFTY / TWICE, height: FIFTY / TWICE, id: Id.ELLIPSE };
+    expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeFalsy();
+    expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeTruthy();
   });
 
   it('should confirm selection box intersects object', () => {
@@ -134,10 +137,14 @@ describe('SelectorService', () => {
     expect(service.objectInBox(object, box)).toBeFalsy();
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40' };
     expect(service.objectInBox(object, box)).toBeFalsy();
+    object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FORTY / TWICE, height: FORTY / TWICE, id: Id.ELLIPSE };
+    expect(service.objectInBox(object, box)).toBeFalsy();
     box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
     object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
     expect(service.objectInBox(object, box)).toBeTruthy();
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40 40,41 41,40 41,41' };
+    expect(service.objectInBox(object, box)).toBeTruthy();
+    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     expect(service.objectInBox(object, box)).toBeTruthy();
   });
 });

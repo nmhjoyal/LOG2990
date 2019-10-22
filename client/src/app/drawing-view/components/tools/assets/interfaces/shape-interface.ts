@@ -7,6 +7,10 @@ export interface IPreviewBox {
     height: number;
 }
 
+export interface IPolygon {
+    vertices?: string;
+}
+
 export interface IShape extends ITools {
     primaryColor: string;
     secondaryColor: string;

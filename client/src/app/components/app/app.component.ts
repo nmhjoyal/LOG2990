@@ -174,5 +174,4 @@ export class AppComponent implements OnInit {
       this.toolHandler.resetSelection();
     }
   }
-
 }
