@@ -31,7 +31,8 @@ describe('CanvasComponent', () => {
   const mockToolService: ToolHandlerService = new ToolHandlerService(mockColourService);
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
-  const testObject: IShape = { x: 1,
+  const testObject: IShape = {
+    x: 1,
     y: 1,
     width: 1,
     height: 1,
@@ -44,18 +45,18 @@ describe('CanvasComponent', () => {
   };
 
   const testLine: IDrawingTool = {
-      color: Strings.BLACK_HEX,
-      points: '',
-      strokeWidth: 0,
-      strokeLinecap: '',
-      strokeLinejoin: '',
-      fill: '',
-      filter: '',
-      id: Id.CRAYON,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
+    color: Strings.BLACK_HEX,
+    points: '',
+    strokeWidth: 0,
+    strokeLinecap: '',
+    strokeLinejoin: '',
+    fill: '',
+    filter: '',
+    id: Id.CRAYON,
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
   };
 
   beforeEach(async(() => {
