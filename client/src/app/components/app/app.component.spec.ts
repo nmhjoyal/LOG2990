@@ -14,11 +14,12 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let component: AppComponent;
+  let spyOpenDialogs: jasmine.Spy<InferableFunction>;
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
@@ -66,7 +67,7 @@ describe('AppComponent', () => {
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
-    toolHandlerMock.chooseCrayon.and.callThrough();
+    spyOpenDialogs
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
