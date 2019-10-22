@@ -3,6 +3,8 @@ export enum Id {
     POLYGON = 'polygon',
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
+    SELECTOR = 'selector',
+    ELLIPSE = 'ellipse',
 }
 
 export enum FilterURL {

@@ -69,16 +69,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       this.saveShape();
     }
 
-    this.mouseDown = false;
-    this.shape.height = 0;
-    this.shape.width = 0;
-    this.shape.vertices = '';
-    this.previewBox.height = 0;
-    this.previewBox.width = 0;
-    this.previewBox.x = 0;
-    this.previewBox.y = 0;
-    this.initialY = 0;
-    this.initialX = 0;
+    this.resetShape();
   }
 
   @HostListener('mouseleave') onMouseLeave(): void {
@@ -171,6 +162,18 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       fillOpacity: this.shape.fillOpacity,
     };
     this.toolService.drawings.push(currentDrawing);
+  }
+
+  protected resetShape(): void {
+    this.mouseDown = false;
+    this.shape.height = 0;
+    this.shape.width = 0;
+    this.previewBox.height = 0;
+    this.previewBox.width = 0;
+    this.previewBox.x = 0;
+    this.previewBox.y = 0;
+    this.initialY = 0;
+    this.initialX = 0;
   }
 
 }

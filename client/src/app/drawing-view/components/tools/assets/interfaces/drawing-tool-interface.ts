@@ -1,7 +1,10 @@
 import { ITools } from './itools';
 
+export interface Line {
+    points?: string;
+}
+
 export interface IDrawingTool extends ITools {
-    points: string;
     color: string;
     strokeWidth: number;
     fill: string;

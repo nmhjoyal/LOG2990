@@ -7,12 +7,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
+import { SelectorComponent } from './components/tools/selector/selector.component';
+import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 
@@ -24,6 +26,8 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     DrawingToolToolboxComponent,
     RectangleComponent,
     PolygonComponent,
+    SelectorComponent,
+    EllipseComponent,
   ],
 
   imports: [
@@ -50,7 +54,7 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     MatButtonModule,
   ],
 
-  providers: [AttributesService],
+  providers: [AttributesService, SelectorService],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })

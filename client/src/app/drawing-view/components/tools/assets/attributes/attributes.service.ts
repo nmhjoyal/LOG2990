@@ -12,13 +12,15 @@ export class AttributesService {
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
+  ellipseAttributes: IShapeOptions;
 
   constructor() {
     this.resetRectangleAttributes();
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
     this.resetPolygonAttributes();
-    }
+    this.resetEllipseAttributes();
+  }
 
     resetPolygonAttributes(): void {
       this.polygonAttributes = {
@@ -27,6 +29,10 @@ export class AttributesService {
         savedVerticesNumber: 0,
         savedStrokeWidth: ToolConstants.NULL,
         savedTraceMode: ToolConstants.NULL,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
       };
     }
 
@@ -36,6 +42,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetPaintbrushAttributes(): void {
@@ -44,6 +55,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetRectangleAttributes(): void {
@@ -52,6 +68,22 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
       savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+  resetEllipseAttributes(): void {
+    this.ellipseAttributes = {
+      id: ToolConstants.TOOL_ID.ELLIPSE,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
     };
   }
   resetSavedAttributes(): void {
@@ -66,6 +98,9 @@ export class AttributesService {
     }
     if (this.polygonAttributes.wasSaved) {
       this.resetPolygonAttributes();
+    }
+    if (this.ellipseAttributes.wasSaved) {
+      this.resetEllipseAttributes();
     }
   }
 }
