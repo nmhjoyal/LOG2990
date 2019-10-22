@@ -42,7 +42,9 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: 0,
       width: 0,
       height: 0,
-      primaryColor: this.colorService.color[0], // take values of the colorService. Make sure they are updated dynamically...
+      verticesNumber: 0,
+      vertices: '',
+      primaryColor: this.colorService.color[0],
       secondaryColor: this.colorService.color[1],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -114,13 +116,13 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case ToolConstants.TRACE_MODE.CONTOUR:
-        this.shape.secondaryColor = this.colorService.color[1]; // load from color service
+        this.shape.secondaryColor = this.colorService.color[1];
         this.shape.primaryColor = ToolConstants.NONE;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
-        this.shape.secondaryColor = this.shape.primaryColor; // If contour should not be discernable when not set.
+        this.shape.secondaryColor = this.shape.primaryColor;
         this.shape.primaryColor = this.colorService.color[0];
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
@@ -151,6 +153,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: this.shape.y,
       width: this.shape.width,
       height: this.shape.height,
+      verticesNumber: this.shape.verticesNumber,
+      vertices: this.shape.vertices,
       primaryColor: this.shape.primaryColor,
       secondaryColor: this.shape.secondaryColor,
       strokeOpacity: this.shape.strokeOpacity,

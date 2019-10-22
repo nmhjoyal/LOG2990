@@ -18,7 +18,7 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
     this.shape.id = ToolConstants.TOOL_ID.RECTANGLE;
   }
 
-  // Abstract&Overridden methods
+  // Abstract & Overridden methods
 
   ngOnInit(): void {
     if (this.attributesService.rectangleAttributes.wasSaved) {

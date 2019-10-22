@@ -32,12 +32,12 @@ describe('ColorService ', () => {
         expect(instance.alpha[1]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
     });
 
-    it('should have defalut primary color = white', () => {
-        expect(instance.color[0]).toEqual('#ffffffff');
+    it('should have defalut primary color = black', () => {
+        expect(instance.color[0]).toEqual('#000000ff');
     });
 
-    it('should have default secondary color = black', () => {
-        expect(instance.color[1]).toEqual('#000000ff');
+    it('should have default secondary color = white', () => {
+        expect(instance.color[1]).toEqual('#ffffffff');
     });
 
     it('should switch primary color with secondary color ', () => {
@@ -49,7 +49,7 @@ describe('ColorService ', () => {
         instance.setAlpha(0);
         instance.addColor();
         expect(instance.lastColors).toEqual(['#222222ff', '#444444ff', '#666666ff', '#888888ff',
-        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff', '#ffffff00']);
+        '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff', '#00000000']);
     });
 
     it('should add color to lastColors', () => {

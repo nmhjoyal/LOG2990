@@ -1,4 +1,3 @@
-
 import SpyObj = jasmine.SpyObj;
 import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';

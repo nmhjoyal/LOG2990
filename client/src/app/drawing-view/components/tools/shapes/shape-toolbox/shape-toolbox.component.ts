@@ -5,25 +5,25 @@ import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract
 import { ModeType, PointType } from '../../assets/tool-constants';
 
 @Component({
-  selector: 'app-drawing-tool-toolbox',
-  templateUrl: './drawing-tool-toolbox.component.html',
-  styleUrls: ['./drawing-tool-toolbox.component.scss'],
+  selector: 'app-shape-toolbox',
+  templateUrl: './shape-toolbox.component.html',
+  styleUrls: ['./shape-toolbox.component.scss'],
 })
-export class DrawingToolToolboxComponent implements OnInit {
+export class ShapeToolboxComponent implements OnInit {
 
   mode = ModeType;
-  pointMode = PointType;
+  point = PointType;
   @Input() canvas: CanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {
-    // empty block
+    // empty body
   }
 
-  ngOnInit() {
-    // empty block
+  ngOnInit(): void {
+    // empty body
   }
 
-  getComponent(): ToolAbstract {
+  getComponent(): ToolAbstract {  // change to parent of shapeAbstract so only one toolbox component can be used for all tools
     return this.canvas.activeTool;
   }
 
