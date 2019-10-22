@@ -40,11 +40,15 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
+    if(!this.dialog.openDialogs.length){
       this.toolHandler.chooseCrayon();
+    }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
+    if(!this.dialog.openDialogs.length){
       this.toolHandler.choosePaintbrush();
+    }
   }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
@@ -66,11 +70,15 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
+    if(!this.dialog.openDialogs.length){
       this.toolHandler.chooseRectangle();
+    }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
+    if(!this.dialog.openDialogs.length){
       this.toolHandler.chooseEllipse();
+    }
   }
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {
