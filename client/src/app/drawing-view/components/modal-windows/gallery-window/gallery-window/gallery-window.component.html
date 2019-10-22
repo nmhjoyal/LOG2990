@@ -1,7 +1,7 @@
 <div mat-dialog-container class='gallery_window'>
     <h1 mat-dialog-title id='gallery_window_title'>{{data.title}}</h1>
     <div mat-dialog-content>
-        <div>
+        <div *ngIf="isFinishedLoading; else elseBlock">
             <mat-form-field appearance="fill">
                 <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control"
                     placeholder="(Optionnel)." pattern="([\w\s])+" minlength="1">
@@ -41,7 +41,11 @@
 
                     </li>
                 </ul>
+            </div>
+
         </div>
+                    <ng-template #elseBlock><mat-spinner></mat-spinner></ng-template>
+
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
         <button id="submit" type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
     </div>

@@ -1,8 +1,8 @@
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig,
-  MatDialogRef, MatListModule, MatSidenavModule, MatToolbarModule, MatButtonToggleModule, MatMenuModule
+  MAT_DIALOG_DATA, MatButtonToggleModule, MatCheckboxModule,
+  MatDialogConfig, MatDialogRef, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatSidenavModule, MatToolbarModule
 } from '@angular/material';
 import { AppComponent } from './components/app/app.component';
 import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
@@ -15,9 +15,9 @@ import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { CanvasInformationService } from './services/canvas-information/canvas-information.service';
 import { ColorService } from './services/color_service/color.service';
+import { FilterTagsPipe } from './services/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
-import { FilterTagsPipe } from './services/filter-tags.pipe';
 
 @NgModule({
   declarations: [
@@ -42,11 +42,11 @@ import { FilterTagsPipe } from './services/filter-tags.pipe';
     MatMenuModule,
     FormsModule,
     MatButtonToggleModule,
-
+    MatProgressSpinnerModule,
   ],
   providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, ColorService,
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] },],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
   entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, ColorPickerComponent,
     NewDrawingWindowComponent, SaveWindowComponent, GalleryWindowComponent],

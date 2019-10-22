@@ -24,6 +24,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   private selectedDrawing: IDrawing;
   private drawingToOpen: IDrawing;
   @Input() filterBy: string[] = ['all'];
+  isFinishedLoading: boolean;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
@@ -35,6 +36,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     this.drawingsInGallery = [];
     this.selectedDrawing = {} as IDrawing;
     this.drawingToOpen = {} as IDrawing;
+    this.isFinishedLoading = false;
 
     this.index.getTags().subscribe(
       (response: ITag[]) => {
@@ -51,6 +53,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     this.index.getDrawings().subscribe(
       (response: IDrawing[]) => {
         this.drawingsInGallery = response;
+        this.isFinishedLoading = true;
       });
   }
 

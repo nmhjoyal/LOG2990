@@ -46,7 +46,7 @@ export class IndexService {
     }
 
     async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
-        if (!drawingToSave.name || (drawingToSave.tags && drawingToSave.tags.some((tag) => tag.name !== ' '))) {
+        if (!drawingToSave.name || (drawingToSave.tags && drawingToSave.tags.some((tag) => tag.name === ' '))) {
             return false;
         }
         if (drawingToSave.timestamp) {
