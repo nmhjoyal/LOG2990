@@ -4,6 +4,13 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { IStamp } from '../assets/interfaces/stamp-interface';
 import { FilterSelection, Id, ToolConstants } from '../assets/tool-constants';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+
+
+const DEFAULT_ANGLE = 90;
+const DEFAULT_DIMENSION = 24;
+const PATH_SLICER = 6;
+const DEFAULT_SCALE_FACTOR = 1;
 
 @Component({
   selector: 'app-tools-stamp',
@@ -21,12 +28,12 @@ export class StampComponent implements OnInit, OnDestroy {
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
-      angle: 90, // constant default angle 
-      scaleFactor: 1,
+      angle: DEFAULT_ANGLE,
+      scaleFactor: DEFAULT_SCALE_FACTOR,
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
-      width: 24,
-      height: 24,
+      width: DEFAULT_DIMENSION,
+      height: DEFAULT_DIMENSION,
     };
   }
 
@@ -44,24 +51,22 @@ export class StampComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
-    this.stamp.x = event.offsetX;
-    this.stamp.y = event.offsetY;
+    if (this.stamp.svgReference !== ''){
+      this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
+      this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
 
-    const createdStamp: IStamp = {
-      id: this.stamp.id,
-      svgReference: this.stamp.svgReference.slice(6),
-      x: this.stamp.x,
-      y: this.stamp.y,
-      width: this.stamp.width,
-      height: this.stamp.height,
-      angle: this.stamp.angle,
-      scaleFactor: this.stamp.scaleFactor,
-    }
-    
-    if (createdStamp.svgReference !== ''){
-      this.toolServiceRef.drawings.push(createdStamp);
-      console.log(createdStamp);
-      console.log(this.toolServiceRef.drawings);
+      const createdStamp: IStamp = {
+        id: this.stamp.id,
+        svgReference: this.stamp.svgReference.slice(PATH_SLICER),
+        x: this.stamp.x,
+        y: this.stamp.y,
+        width: this.stamp.width,
+        height: this.stamp.height,
+        angle: this.stamp.angle,
+        scaleFactor: this.stamp.scaleFactor,
+      }
+      
+        this.toolServiceRef.drawings.push(createdStamp);
     }
   }
 
