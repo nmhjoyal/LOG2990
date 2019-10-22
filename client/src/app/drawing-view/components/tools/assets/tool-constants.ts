@@ -56,4 +56,6 @@ export class ToolConstants {
     static DOTTED_POINT = '6';
     static PRIMARY_COLOUR_INDEX = 0;
     static SECONDARY_COLOUR_INDEX = 1;
+    static LEFT_CLICK_INDEX = 0;
+    static RIGHT_CLICK_INDEX = 2;
 }

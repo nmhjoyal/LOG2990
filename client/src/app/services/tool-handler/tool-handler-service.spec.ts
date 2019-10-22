@@ -53,6 +53,8 @@ describe('ToolHandlerService', () => {
       expect(service.primaryColorSelected).toBe(false);
       expect(service.ellipseSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
+      expect(service.pipetteSelected).toBe(false);
+
       expect(service.selectorSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
@@ -149,6 +151,14 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(service.secondaryColorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
+  });
+
+  it('#chooseEyedropper should call #resetSelection and select the ipette', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseEyedropper();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.pipetteSelected).toBe(true);
   });
 
   it('#chooseSelector should call #resetSelection and select the Selector', () => {

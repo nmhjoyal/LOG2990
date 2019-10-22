@@ -13,6 +13,7 @@ export class ToolHandlerService {
   noneSelected: boolean;
   rectangleSelected: boolean;
   colourApplicatorSelected: boolean;
+  pipetteSelected: boolean;
   crayonSelected: boolean;
   pinceauSelected: boolean;
   lineSelected: boolean;
@@ -42,6 +43,7 @@ export class ToolHandlerService {
     this.lineSelected = false;
     this.paintbrushSelected = false;
     this.selectorSelected = false;
+    this.pipetteSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
     this.ellipseSelected = false;
@@ -59,6 +61,7 @@ export class ToolHandlerService {
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
+    this.pipetteSelected = false;
     this.crayonSelected = false;
     this.pinceauSelected = false;
     this.lineSelected = false;
@@ -100,12 +103,18 @@ export class ToolHandlerService {
     this.resetSelection();
     this.lineSelected = true;
     this.noneSelected = false;
-}
+  }
+  
+  chooseEyedropper(): void {
+    this.resetSelection();
+    this.pipetteSelected = true;
+    this.noneSelected = false;
+  }
 ​
   chooseCrayon(): void {
-      this.resetSelection();
-      this.crayonSelected = true;
-      this.noneSelected = false;
+    this.resetSelection();
+    this.crayonSelected = true;
+    this.noneSelected = false;
   }
 ​
   choosePaintbrush(): void {

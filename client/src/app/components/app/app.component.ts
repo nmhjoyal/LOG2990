@@ -2,6 +2,7 @@ import { Component, HostListener, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
@@ -32,6 +33,26 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
       this.toolHandler.choosePaintbrush();
   }
+
+  @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseEyedropper();
+    }
+  }
+
+  @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+         this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
+    }
+  }
+
+  @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseSelector();
+    }
+  }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
