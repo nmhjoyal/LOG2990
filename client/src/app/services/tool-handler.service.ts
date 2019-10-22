@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
-import { AppConstants } from 'src/AppConstants';
+import { Strings } from 'src/AppConstants/Strings';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +35,8 @@ constructor() {
     this.crayonSelected = false;
     this.paintbrushSelected = false;
     this.pipetteSelected = false;
-    this.primaryColor = AppConstants.DEFAULT_PRIMARY_COLOUR;
-    this.secondaryColor = AppConstants.DEFAULT_SECONDARY_COLOUR;
+    this.primaryColor = Strings.BLACK_HEX;
+    this.secondaryColor = Strings.WHITE_HEX;
     this.crayonStrokeWidth = ToolConstants.DEFAULT_STROKE_WIDTH;
     this.paintbrushStrokeWidth = ToolConstants.DEFAULT_STROKE_WIDTH;
     this.paintbrushFilter = ToolConstants.NONE;
@@ -83,7 +83,7 @@ choosePaintbrush(): void {
     this.noneSelected = false;
 }
 
-choosePipette(): void {
+chooseEyedropper(): void {
   this.resetSelection();
   this.pipetteSelected = true;
   this.noneSelected = false;

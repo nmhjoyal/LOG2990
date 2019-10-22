@@ -92,7 +92,7 @@ chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
     this.colourApplicatorSelected = true;
     this.noneSelected = false;
 }
-choosePipette(): void {
+chooseEyedropper(): void {
   this.resetSelection();
   this.pipetteSelected = true;
   this.noneSelected = false;

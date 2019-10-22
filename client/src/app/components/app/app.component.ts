@@ -36,11 +36,11 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
     if (!this.dialog.openDialogs.length) {
-      this.toolHandler.choosePipette();
+      this.toolHandler.chooseEyedropper();
     }
   }
 
-  @HostListener('document:keydown.r', ['$event']) onKeydownrEvent(): void {
+  @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );

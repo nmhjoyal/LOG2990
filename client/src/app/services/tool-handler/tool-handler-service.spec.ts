@@ -132,9 +132,9 @@ describe('ToolHandlerService', () => {
     expect(service.noneSelected).toBe(false);
   });
 
-  it('#choosePipette should call #resetSelection and select the ipette', () => {
+  it('#chooseEyedropper should call #resetSelection and select the ipette', () => {
     const resetSpy = spyOn(service, 'resetSelection');
-    service.choosePipette();
+    service.chooseEyedropper();
 
     expect(resetSpy).toHaveBeenCalled();
     expect(service.pipetteSelected).toBe(true);
