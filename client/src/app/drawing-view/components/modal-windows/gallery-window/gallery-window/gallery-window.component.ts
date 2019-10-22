@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -10,13 +10,14 @@ import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
 import { SaveWindowComponent } from '../../save-window/save-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gallery-window',
   templateUrl: './gallery-window.component.html',
   styleUrls: ['./gallery-window.component.scss'],
 })
-export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
+export class GalleryWindowComponent extends ModalWindowComponent implements OnInit, OnDestroy {
 
   private gallerySubscription: Subscription;
   protected drawingsInGallery: IDrawing[];
@@ -54,7 +55,9 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   }
 
   ngOnDestroy(): void {
-    this.gallerySubscription.unsubscribe();
+    if (this.gallerySubscription) {
+      this.gallerySubscription.unsubscribe();
+    }
   }
 
   onSelect(drawing: IDrawing): void {
@@ -103,4 +106,12 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     console.log('new tags array: ' + this.filterBy);
   }
 
+  addTag(tag: string): void {
+    if (tag) {
+      this.tagSelected(tag);
+    }
+    if (!this.data.filterTags.some((currentTag) => currentTag.name === tag)) {
+      confirm('Il n\'y a pas de dessin avec cette étiquette');
+    }
+  }
 }

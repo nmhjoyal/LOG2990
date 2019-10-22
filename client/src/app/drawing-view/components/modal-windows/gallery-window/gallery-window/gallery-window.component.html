@@ -2,6 +2,19 @@
     <h1 mat-dialog-title id='gallery_window_title'>{{data.title}}</h1>
     <div mat-dialog-content>
         <div>
+            <mat-form-field appearance="fill">
+                <input #userTagInput matInput id="userTagInput" name="userTagInput" class="form-control"
+                    placeholder="(Optionnel)." pattern="([\w\s])+" minlength="1">
+                <div *ngIf="userTagInput.invalid && (userTagInput.dirty || userTagInput.touched)"
+                    class="alert alert-danger">
+                    <mat-error *ngIf="userTagInput.errors.pattern">
+                        Les étiquettes doivent être alphanumériques et non-nulles si présentes.
+                    </mat-error>
+                </div>
+            </mat-form-field>
+            <button id="add" type="button" mat-raised-button (click)="addTag(userTagInput.value)">Chercher cette
+                étiquette</button>
+
             <div class="row" style="margin-top:10px;margin-bottom: 10px;">
                 <mat-button-toggle selected="true" mat-raised-button class="btn btn-success"
                     (click)="tagSelected('all')">Tous</mat-button-toggle>
@@ -24,12 +37,10 @@
                                 <h3 id="header">{{tag.name}}</h3>
                             </div>
                         </mat-menu>
-
                         <app-preview-canvas width="100px" height="100px" [display]='drawing'></app-preview-canvas>
 
                     </li>
                 </ul>
-            </div>
         </div>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
         <button id="submit" type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>
