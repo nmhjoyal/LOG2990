@@ -5,27 +5,28 @@
             <div class="row" style="margin-top:10px;margin-bottom: 10px;">
                 <button mat-raised-button class="btn btn-success" (click)="filterBy='all'">Tous</button>
                 <mat-button-toggle-group #group="matButtonToggleGroup" multiple>
-                        <div *ngFor="let tag of data.filterTags">
-                            <mat-button-toggle mat-raised-button class="btn btn-success"
-                                (click)="filterBy=tag.name">{{tag.name}}</mat-button-toggle>
-                        </div>
+                    <div *ngFor="let tag of data.filterTags">
+                        <mat-button-toggle mat-raised-button class="btn btn-success" (click)="filterBy=tag.name">
+                            {{tag.name}}</mat-button-toggle>
+                    </div>
                 </mat-button-toggle-group>
             </div>
             <div class="row">
                 <ul>
-                    <li id="list-style" *ngFor="let drawing of drawingsInGallery" (click)="onSelect(drawing)"
-                        [class.selected]="drawing === selectedDrawing">
-                        <div *ngFor="let tag of (drawing.tags | filterTags: filterBy)">
-                            <h2>{{drawing.name}}</h2>
-                            <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
-                            <mat-menu #menu="matMenu">
+                    <li id="list-style" *ngFor="let drawing of (drawingsInGallery | filterTags: filterBy)"
+                        (click)="onSelect(drawing)" [class.selected]="drawing === selectedDrawing">
+                        <h2>{{drawing.name}}</h2>
+                        <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
+                        <mat-menu #menu="matMenu">
 
+
+                            <div *ngFor="let tag of drawing.tags">
                                 <div *ngFor="let tag of drawing.tags">
                                     <h3>{{tag.name}}</h3>
                                 </div>
+                            </div>
+                        </mat-menu>
 
-                            </mat-menu>
-                        </div>
                     </li>
                 </ul>
             </div>

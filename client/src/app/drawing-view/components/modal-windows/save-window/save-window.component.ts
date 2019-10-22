@@ -86,7 +86,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   addTag(newTag: string): void {
     if (newTag) {
-      this.data.displayedTags.push({ name: newTag, isSelected: true, numberOfTimesUsed: 1 });
+      this.data.displayedTags.push({ name: newTag, isSelected: true});
     }
   }
 
