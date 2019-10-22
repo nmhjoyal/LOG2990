@@ -13,16 +13,21 @@ describe('StampComponent', () => {
     const attributesServiceMock: AttributesService = new AttributesService();
 
     beforeEach(async(() => {
-    TestBed.configureTestingModule({
-        declarations: [StampComponent],
-        imports: [BrowserDynamicTestingModule],
-        providers: [
-        { provide: ToolHandlerService, useValue: toolServiceMock, },
-        { provide: AttributesService, useValue: attributesServiceMock, },
-        ],
-    })
-        .compileComponents();
+        TestBed.configureTestingModule({
+            declarations: [StampComponent],
+            imports: [BrowserDynamicTestingModule],
+            providers: [
+            { provide: ToolHandlerService, useValue: toolServiceMock, },
+            { provide: AttributesService, useValue: attributesServiceMock, },
+            ],
+        }).compileComponents();
     }));
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(StampComponent);
+        component = fixture.componentInstance;
+        attrService = TestBed.get(attributesServiceMock);
+    });
 
 
 });
