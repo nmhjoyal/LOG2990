@@ -61,14 +61,14 @@ export class CanvasComponent {
     const initialValue = Number(stringInitialValue);
     let newValue;
 
-    if (!(initialValue % NumericalValues.GRID_OFFSET)) {
+    if ((initialValue % NumericalValues.GRID_OFFSET) === 0) {
       newValue = initialValue + NumericalValues.GRID_OFFSET;
     } else {
       newValue = Math.ceil(initialValue / NumericalValues.GRID_OFFSET) * NumericalValues.GRID_OFFSET;
     }
     const stringNewValue = String(newValue);
 
-    if (sliderElement != null) {
+    if (sliderElement) {
       sliderElement.setAttribute('value', stringNewValue);
       this.gridService.setSize(stringNewValue);
     }
@@ -81,14 +81,14 @@ export class CanvasComponent {
     const stringInitialValue = sliderElement.value;
     const initialValue = Number(stringInitialValue);
     let newValue;
-    if (!(initialValue % NumericalValues.GRID_OFFSET)) {
+    if ((initialValue % NumericalValues.GRID_OFFSET) === 0) {
       newValue = initialValue - NumericalValues.GRID_OFFSET;
     } else {
       newValue = Math.floor(initialValue / NumericalValues.GRID_OFFSET) * NumericalValues.GRID_OFFSET;
     }
     const stringNewValue = String(newValue);
 
-    if (sliderElement != null) {
+    if (sliderElement) {
       sliderElement.setAttribute('value', stringNewValue);
       this.gridService.setSize(stringNewValue);
     }
