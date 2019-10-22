@@ -74,6 +74,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.choosePolygon;
+    }
+  }
+
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
       if (!this.toolHandler.drawings.length) {
