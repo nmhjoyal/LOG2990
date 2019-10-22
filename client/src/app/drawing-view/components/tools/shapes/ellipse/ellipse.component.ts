@@ -37,7 +37,6 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
   protected calculateDimensions(): void {
     super.calculateDimensions();
 
-    // tslint:disable:no-magic-numbers
     // horizontal radius
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ?
       (this.previewBox.width - this.shape.strokeWidth) / NumericalValues.TWO : 0;
@@ -46,7 +45,6 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
       (this.previewBox.height - this.shape.strokeWidth) / NumericalValues.TWO : 0;
     this.shape.x = this.previewBox.x + this.previewBox.width / NumericalValues.TWO;  // x coordinate for center
     this.shape.y = this.previewBox.y + this.previewBox.height / NumericalValues.TWO; // y coordinate for center
-    // tslint:enable:no-magic-numbers
 
     if (this.shiftDown ) {
       const minValue = Math.min(this.shape.height, this.shape.width);

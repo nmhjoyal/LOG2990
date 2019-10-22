@@ -5,7 +5,8 @@
     "types": []
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/app/services/grid/grid.service.ts"     // added because of some missing file error...
   ],
   "exclude": [
     "src/test.ts",

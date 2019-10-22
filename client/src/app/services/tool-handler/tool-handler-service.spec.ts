@@ -25,6 +25,7 @@ describe('ToolHandlerService', () => {
     expect(service.rectangleSelected).toBe(false);
     expect(service.ellipseSelected).toBe(false);
     expect(service.colourApplicatorSelected).toBe(false);
+    expect(service.polygonSelected).toBe(false);
     expect(service.selectorSelected).toBe(false);
     expect(service.primaryColor).toEqual(colorService.color[0]);
     expect(service.secondaryColor).toEqual(colorService.color[1]);
@@ -48,8 +49,12 @@ describe('ToolHandlerService', () => {
       expect(service.crayonSelected).toBe(false);
       expect(service.paintbrushSelected).toBe(false);
       expect(service.rectangleSelected).toBe(false);
+      expect(service.lineSelected).toBe(false);
+      expect(service.secondaryColorSelected).toBe(false);
+      expect(service.primaryColorSelected).toBe(false);
       expect(service.ellipseSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
+      expect(service.polygonSelected).toBe(false);
       expect(service.selectorSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
@@ -112,6 +117,15 @@ describe('ToolHandlerService', () => {
     expect(service.noneSelected).toBe(false);
   });
 
+  it('#chooseLine should call #resetSelection and select the crayon', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseLine();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.lineSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
+  });
+
   it('#choosePaintbrush should call #resetSelection and select the Paintbrush', () => {
     const resetSpy = spyOn(service, 'resetSelection');
     service.choosePaintbrush();
@@ -121,13 +135,38 @@ describe('ToolHandlerService', () => {
     expect(service.noneSelected).toBe(false);
   });
 
-  it('#chooseColourApplicator should call #resetSelection and select the Color applicator', () => {
+  it('#choosePrimaryColor should call #resetSelection and select the PrimaryColor', () => {
     const resetSpy = spyOn(service, 'resetSelection');
-    service.chooseColourApplicator(colorService.color[0], colorService.color[1]);
+    service.choosePrimaryColor();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.colourApplicatorSelected).toBe(true);
+    expect(service.primaryColorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
+  });
+
+  it('#chooseSecondaryColor should call #resetSelection and select the SecondaryColor', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseSecondaryColor();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.secondaryColorSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
+  });
+
+  it('#choosePolygon should call #resetSelection and select the polygon', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.choosePolygon();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.polygonSelected).toBe(true);
+  });
+
+  it('#chooseEyedropper should call #resetSelection and select the ipette', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseEyedropper();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.pipetteSelected).toBe(true);
   });
 
   it('#chooseSelector should call #resetSelection and select the Selector', () => {

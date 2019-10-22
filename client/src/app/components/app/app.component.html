@@ -18,7 +18,7 @@
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo" >
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau" >
+                    <img id="bucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
@@ -29,9 +29,15 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com//2k30ioP.png" title="Line">
+                </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
+                        <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png" title="Pipette">
+                    </a>
                 <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Shapes">
                     <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"></button>
@@ -39,22 +45,24 @@
                 <mat-menu #shapeMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>
                     <button mat-menu-item (click)='toolHandler.chooseEllipse()'>Ellipse</button>
+                    <button mat-menu-item (click)='toolHandler.choosePolygon()'>Polygon</button>
                 </mat-menu>
                 <a mat-list-item class="filter" (click)="sidenav2.toggle()">
+
                     <img id="details" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Détails">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille" (click)="menuTrigger.openMenu(); toggleGrid()" >
-                    <button mat-icon-button [matMenuTriggerFor]="gridMenu" #menuTrigger="matMenuTrigger"></button>
-                </a>
-                <mat-menu #gridMenu="matMenu">
-                    <input type="range" min="30" value="100" id="opacitySlider" name="Valeur d'opacité" style="width: 80px" (click)=setOpacity()>
-                    <input type="range" min="8" value="8" max="128" id="sizeSlider" name="Taille des carrés" style="width: 80px" (click)=setSize()>
-                </mat-menu>
-
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
+
+                <!-- Grid -->
+                <a mat-list-item class="filter">
+                    <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille" (click)=toggleGrid()>
+                    <input type="range" min="30" value="100" id="opacitySlider" name="Valeur d'opacité" style="width: 80px" (click)=setOpacity()>
+                    <input type="range" min="8" value="8" max="128" id="sizeSlider" name="Taille des carrés" style="width: 80px" (click)=setSize()>
+                </a>
+                <!-- End grid -->
+
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
@@ -74,20 +82,18 @@
             </mat-nav-list>
         </mat-sidenav>
 
-        <mat-sidenav #sidenav2 position="end">
             <app-canvas #myCanvas></app-canvas>
             <mat-sidenav #sidenav2 position="end">
             <mat-nav-list>
                 <a mat-list-item class="filter">
-                    <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs">
+                    <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs"
+                    (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">
                 </a>
-               <app-drawing-tool-toolbox [canvas]='myCanvas'></app-drawing-tool-toolbox>
+                <app-drawing-tool-toolbox [canvas]='myCanvas'></app-drawing-tool-toolbox>
             </mat-nav-list>
         </mat-sidenav>
-        </mat-sidenav>
-
     </mat-sidenav-container>
 </div>

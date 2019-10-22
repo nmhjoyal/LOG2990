@@ -12,8 +12,12 @@ export class ToolHandlerService {
   // Shape Handling attributes
   noneSelected: boolean;
   rectangleSelected: boolean;
+  polygonSelected: boolean;
   colourApplicatorSelected: boolean;
+  pipetteSelected: boolean;
   crayonSelected: boolean;
+  pinceauSelected: boolean;
+  lineSelected: boolean;
   paintbrushSelected: boolean;
   selectorSelected: boolean;
   ellipseSelected: boolean;
@@ -36,8 +40,12 @@ export class ToolHandlerService {
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
     this.crayonSelected = false;
+    this.pinceauSelected = false;
+    this.lineSelected = false;
     this.paintbrushSelected = false;
+    this.polygonSelected = false;
     this.selectorSelected = false;
+    this.pipetteSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
     this.ellipseSelected = false;
@@ -55,8 +63,12 @@ export class ToolHandlerService {
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
+    this.pipetteSelected = false;
     this.crayonSelected = false;
+    this.pinceauSelected = false;
+    this.lineSelected = false;
     this.paintbrushSelected = false;
+    this.polygonSelected = false;
     this.selectorSelected = false;
     this.ellipseSelected = false;
     this.resetSelectorBox();
@@ -76,25 +88,43 @@ export class ToolHandlerService {
     return (this.selection.width > 0 && this.selection.height > 0);
   }
 ​
-chooseRectangle(): void {
+  chooseRectangle(): void {
+      this.resetSelection();
+      this.rectangleSelected = true;
+      this.noneSelected = false;
+  }
+
+  choosePolygon(): void {
     this.resetSelection();
-    this.rectangleSelected = true;
+    this.polygonSelected = true;
     this.noneSelected = false;
 }
 ​
-chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
+  chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
     this.resetSelection();
     this.primaryColor = primaryColor;
     this.secondaryColor = secondaryColor;
     this.colourApplicatorSelected = true;
     this.noneSelected = false;
-}
+  }
+
+  chooseLine(): void {
+    this.resetSelection();
+    this.lineSelected = true;
+    this.noneSelected = false;
+  }
+
+  chooseEyedropper(): void {
+    this.resetSelection();
+    this.pipetteSelected = true;
+    this.noneSelected = false;
+  }
 ​
-chooseCrayon(): void {
+  chooseCrayon(): void {
     this.resetSelection();
     this.crayonSelected = true;
     this.noneSelected = false;
-}
+  }
 ​
   choosePaintbrush(): void {
       this.resetSelection();

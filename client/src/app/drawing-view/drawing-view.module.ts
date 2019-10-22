@@ -15,6 +15,8 @@ import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/dr
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
+import { LineComponent } from './components/tools/shapes/line/line.component';
+import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 
 @NgModule({
@@ -24,6 +26,8 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     PaintbrushComponent,
     DrawingToolToolboxComponent,
     RectangleComponent,
+    PolygonComponent,
+    LineComponent,
     SelectorComponent,
     EllipseComponent,
   ],

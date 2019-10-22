@@ -5,8 +5,8 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawin
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { GridService } from '../../services/grid_service/grid.service';
 import { AppComponent } from './app.component';
+import { Gridservice } from '../../services/grid/grid.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
@@ -15,19 +15,16 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let component: AppComponent;
-  let gridServiceMock: GridService;
+  let gridServiceMock: SpyObj<Gridservice>;
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-    gridServiceMock = jasmine.createSpyObj('GridService', ['']);
-
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, serviceMock, colorServiceMock, toolHandlerMock, gridServiceMock, dataMock);
+    component = new AppComponent(dialogMock, serviceMock, colorServiceMock, toolHandlerMock, dataMock, gridServiceMock);
 
   }));
 
@@ -71,7 +68,6 @@ describe('AppComponent', () => {
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
-    toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });

@@ -11,12 +11,12 @@
         left: inherit;
 
     }
-}
-
-#grid {
-    visibility: hidden;
 
     .controlPoint {
         pointer-events: none;
     }
+}
+
+#myGrid {
+    visibility: hidden;
 }
