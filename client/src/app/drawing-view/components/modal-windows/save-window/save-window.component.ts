@@ -54,6 +54,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
+        tag.isSelected = !tag.isSelected;
         if (!test.tags) {
           test.tags = [];
         }
