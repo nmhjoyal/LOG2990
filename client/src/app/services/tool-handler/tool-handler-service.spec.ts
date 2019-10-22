@@ -139,7 +139,7 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(service.pipetteSelected).toBe(true);
   });
-  
+
   it('#chooseSelector should call #resetSelection and select the Selector', () => {
     const resetSpy = spyOn(service, 'resetSelection');
     service.chooseSelector();

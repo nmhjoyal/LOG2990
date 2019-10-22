@@ -45,7 +45,6 @@ describe('CanvasComponent', () => {
 
   const testLine: IDrawingTool = {
       color: Strings.BLACK_HEX,
-      points: '',
       strokeWidth: 0,
       strokeLinecap: '',
       strokeLinejoin: '',
