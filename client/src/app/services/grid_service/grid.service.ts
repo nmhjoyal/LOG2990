@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +19,14 @@ export class GridService {
     }
   }
 
-  setOpacity(value: string): void {
+  setOpacity(): void {
+    let stringValue = (document.getElementById('opacitySlider') as HTMLInputElement).value;
+    const numberValue = Number(stringValue) / NumericalValues.GRID_MAX;      // Car 'slider' va de 0 à 100 pour plus de precision.
+    stringValue = String(numberValue);              // Remettre en String.
+
     const element = document.getElementById('grid');
     if (element != null) {
-      element.style.opacity = value;
+      element.style.opacity = stringValue;
     } else {alert('Valeur attendue entre 0 et 1');}
   }
 

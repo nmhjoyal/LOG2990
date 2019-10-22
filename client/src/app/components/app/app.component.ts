@@ -82,10 +82,7 @@ export class AppComponent implements OnInit {
   }
 
   setOpacity(): void {
-    let stringValue = (document.getElementById('opacitySlider') as HTMLInputElement).value;
-    const numberValue = Number(stringValue) / NumericalValues.GRID_MAX;      // Car 'slider' va de 0 à 100 pour plus de precision.
-    stringValue = String(numberValue);              // Remettre en String.
-    this.gridService.setOpacity(stringValue);
+    this.gridService.setOpacity();
   }
 
   setSize(): void {
