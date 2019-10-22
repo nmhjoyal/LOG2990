@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDrawingToolOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { ToolConstants } from '../tool-constants';
 
@@ -12,6 +12,7 @@ export class AttributesService {
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
+  lineAttributes: ILineOptions;
   ellipseAttributes: IShapeOptions;
 
   constructor() {
@@ -19,6 +20,7 @@ export class AttributesService {
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
     this.resetPolygonAttributes();
+    this.resetLineAttributes();
     this.resetEllipseAttributes();
   }
 
@@ -86,6 +88,22 @@ export class AttributesService {
       height: 0,
     };
   }
+
+  resetLineAttributes(): void {
+      this.lineAttributes = {
+        id: ToolConstants.TOOL_ID.LINE,
+        wasSaved: false,
+        savedTraceMode: '',
+        savedStrokeWidth: ToolConstants.NULL,
+        savedJunctionMode: '',
+        savedPointWidth: ToolConstants.NULL,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      };
+  }
+
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -98,6 +116,9 @@ export class AttributesService {
     }
     if (this.polygonAttributes.wasSaved) {
       this.resetPolygonAttributes();
+    }
+    if (this.lineAttributes.wasSaved) {
+      this.resetLineAttributes();
     }
     if (this.ellipseAttributes.wasSaved) {
       this.resetEllipseAttributes();

@@ -18,7 +18,7 @@
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo" >
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="fillBucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau" >
+                    <img id="bucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
@@ -29,9 +29,15 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com//2k30ioP.png" title="Line">
+                </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
+                        <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png" title="Pipette">
+                    </a>
                 <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Shapes">
                     <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"></button>
@@ -71,7 +77,8 @@
             <mat-sidenav #sidenav2 position="end">
             <mat-nav-list>
                 <a mat-list-item class="filter">
-                    <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs">
+                    <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs"
+                    (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
                 </a>
                 <a mat-list-item class="filter">
                     <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">

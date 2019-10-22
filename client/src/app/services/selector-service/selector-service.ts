@@ -128,7 +128,7 @@ export class SelectorService {
         cursorInObject = (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
             (object.y + object.height) >= positionY);
         break;
-      case Id.CRAYON: case Id.PAINTBRUSH:
+      case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
         const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
           svgIntersections.shape('polyline', selectorLine));
         intersectionPoints = lineIntersections.points;
@@ -160,7 +160,7 @@ export class SelectorService {
           svgIntersections.shape('rect', selectorBox));
         intersectionPoints = rectIntersections.points;
         break;
-      case Id.CRAYON: case Id.PAINTBRUSH:
+      case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
         const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
           svgIntersections.shape('rect', selectorBox));
         intersectionPoints = lineIntersections.points;
