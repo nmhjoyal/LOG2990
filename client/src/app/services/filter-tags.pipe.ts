@@ -14,12 +14,12 @@ export class FilterTagsPipe implements PipeTransform {
           for (let i = 0; i < item.tags.length; i++) {
             if (item.tags[i].name === tag) {
               console.log(tag + ' matches!!');
-
               return true;
-
             }
+            return false;
           };
         }
+        return false;
       });
     }
   }

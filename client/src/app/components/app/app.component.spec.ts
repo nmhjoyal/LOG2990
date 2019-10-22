@@ -21,11 +21,16 @@ describe('AppComponent', () => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
+    ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
   }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   it('should open dialog when storage returns true', () => {
     serviceMock.getShowAgain.and.returnValue(true);
@@ -60,6 +65,30 @@ describe('AppComponent', () => {
     toolHandlerMock.resetSelection.and.callThrough();
     component.switchColours();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
+  });
+
+  it('#chooseCrayon should be called when c is pressed', () => {
+    toolHandlerMock.chooseCrayon.and.callThrough();
+    component.onKeydownCEvent();
+    expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
+  });
+
+  it('#choosePaintbrush should be called when w is pressed', () => {
+    toolHandlerMock.choosePaintbrush.and.callThrough();
+    component.onKeydownWEvent();
+    expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
+  });
+
+  it('#chooseRectangle should be called when 1 is pressed', () => {
+    toolHandlerMock.chooseRectangle.and.callThrough();
+    component.onKeydown1();
+    expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
+  });
+
+  it('#chooseEllipse should be called when 2 is pressed', () => {
+    toolHandlerMock.chooseEllipse.and.callThrough();
+    component.onKeydown2();
+    expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });
 
 });

@@ -2,7 +2,7 @@ import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig,
-  MatDialogRef, MatListModule, MatSidenavModule, MatToolbarModule, MatButtonToggleModule
+  MatDialogRef, MatListModule, MatSidenavModule, MatToolbarModule, MatButtonToggleModule, MatMenuModule
 } from '@angular/material';
 import { AppComponent } from './components/app/app.component';
 import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
@@ -39,13 +39,14 @@ import { FilterTagsPipe } from './services/filter-tags.pipe';
     MatToolbarModule,
     MatCheckboxModule,
     MatSidenavModule,
+    MatMenuModule,
     FormsModule,
     MatButtonToggleModule,
 
   ],
   providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, ColorService,
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+    { provide: MAT_DIALOG_DATA, useValue: [] },],
   bootstrap: [AppComponent],
   entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, ColorPickerComponent,
     NewDrawingWindowComponent, SaveWindowComponent, GalleryWindowComponent],
