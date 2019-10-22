@@ -1,4 +1,5 @@
 import { ITools } from './itools';
+import { IPreviewBox } from './shape-interface';
 
 export interface Line {
     points?: string;
@@ -23,7 +24,7 @@ export interface ILineOptions extends ITools {
     savedPointWidth: number;
 }
 
-export interface IDrawingTool extends ITools {
+export interface IDrawingTool extends ITools, Line, IPreviewBox {
     color: string;
     strokeWidth: number;
     fill: string;

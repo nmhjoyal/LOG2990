@@ -45,10 +45,7 @@ describe('CanvasComponent', () => {
 
   const testLine: IDrawingTool = {
       color: Strings.BLACK_HEX,
-<<<<<<< HEAD
-=======
       points: '',
->>>>>>> parent of 3352883... JAV: Fixed indentation, and ux for line options
       strokeWidth: 0,
       strokeLinecap: '',
       strokeLinejoin: '',
