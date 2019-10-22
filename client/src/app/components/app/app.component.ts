@@ -62,9 +62,11 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen()) {
-      this.openGalleryWindow();
-    } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
-      this.openGalleryWindow();
+      if (!this.toolHandler.drawings.length) {
+        this.openGalleryWindow();
+      } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
+        this.openGalleryWindow();
+      }
     }
   }
 
