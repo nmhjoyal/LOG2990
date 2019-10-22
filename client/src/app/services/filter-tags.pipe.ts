@@ -5,19 +5,15 @@ import { IDrawing } from '../../../../common/drawing-information/IDrawing';
   name: 'filterTags',
 })
 export class FilterTagsPipe implements PipeTransform {
-  transform(items: IDrawing[], tag: string): IDrawing[] | boolean {
-    if (tag === 'all') {
+  transform(items: IDrawing[], selectedTags: string[]): IDrawing[] | boolean {
+    if (selectedTags.includes('all')) {
       return items;
     } else {
       return items.filter((item) => {
         if (item.tags) {
-          for (let i = 0; i < item.tags.length; i++) {
-            if (item.tags[i].name === tag) {
-              console.log(tag + ' matches!!');
-              return true;
-            }
-            return false;
-          };
+          return item.tags.some((tag) => {
+            return selectedTags.includes(tag.name);
+          });
         }
         return false;
       });

@@ -3,10 +3,11 @@
     <div mat-dialog-content>
         <div>
             <div class="row" style="margin-top:10px;margin-bottom: 10px;">
-                <button mat-raised-button class="btn btn-success" (click)="filterBy='all'">Tous</button>
+                <mat-button-toggle selected="true" mat-raised-button class="btn btn-success"
+                    (click)="tagSelected('all')">Tous</mat-button-toggle>
                 <mat-button-toggle-group #group="matButtonToggleGroup" multiple>
                     <div *ngFor="let tag of data.filterTags">
-                        <mat-button-toggle mat-raised-button class="btn btn-success" (click)="filterBy=tag.name">
+                        <mat-button-toggle mat-raised-button class="btn btn-success" (click)="tagSelected(tag.name)">
                             {{tag.name}}</mat-button-toggle>
                     </div>
                 </mat-button-toggle-group>
@@ -20,9 +21,7 @@
 
                         <mat-menu #menu="matMenu">
                             <div *ngFor="let tag of drawing.tags">
-                                <div *ngFor="let tag of drawing.tags">
-                                    <h3 id="header">{{tag.name}}</h3>
-                                </div>
+                                <h3 id="header">{{tag.name}}</h3>
                             </div>
                         </mat-menu>
 

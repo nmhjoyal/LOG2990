@@ -57,10 +57,14 @@ export class IndexService {
     }
 
     async saveTag(tagToSave: ITag): Promise<boolean> {
-        this.tags.push(tagToSave);
-        console.log('SAVING ' + tagToSave.name);
-        console.log(this.tags);
-        return true;
+        if (!this.tags.some((tag) => tag.name === tagToSave.name)) {
+            this.tags.push(tagToSave);
+            console.log('SAVING ' + tagToSave.name);
+            console.log(this.tags);
+            return true;
+        }
+
+        return false;
     }
 
     async getDrawings(): Promise<IDrawing[]> {

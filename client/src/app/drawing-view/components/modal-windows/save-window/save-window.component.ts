@@ -33,8 +33,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         } else {
           this.data.displayedTags = [];
         }
-      }
-    )
+      },
+    );
   }
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
@@ -56,7 +56,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
-        tag.isSelected = !tag.isSelected;
         if (!test.tags) {
           test.tags = [];
         }
@@ -87,7 +86,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   addTag(newTag: string): void {
     if (newTag) {
-      this.data.displayedTags.push({ name: newTag, isSelected: true });
+      if (!this.data.displayedTags.some((tag) => tag.name === newTag)) {
+        this.data.displayedTags.push({ name: newTag, isSelected: true });
+      }
     }
   }
 
