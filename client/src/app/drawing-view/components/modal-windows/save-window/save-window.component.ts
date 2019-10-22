@@ -42,8 +42,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   ngOnInit(): void {
-    // tslint:disable-next-line: no-any
-    this.preview = 'this is a drawing' as any;
     this.drawing = this.toolHandler.drawings;
   }
 

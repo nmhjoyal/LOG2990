@@ -72,15 +72,10 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         (response: IDrawing) => {
           if (response) {
             this.drawingToOpen = response;
-            // TODO: Open drawing
-            console.log('Opening drawing name: ' + this.drawingToOpen.name + ', timestamp: ' + this.drawingToOpen.timestamp + '.');
             this.toolHandler.drawings = this.drawingToOpen.shapes;
             this.canvasData.data = this.drawingToOpen.canvas;
           } else {
-            // TODO: Show the error to the user
-            console.error('Drawing not found (name: ' + this.selectedDrawing.name +
-              ', timestamp: ' + this.selectedDrawing.timestamp + ').');
-          }
+            confirm('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.')}
         });
     }
 
