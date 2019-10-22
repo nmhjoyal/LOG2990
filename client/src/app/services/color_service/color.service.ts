@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 
@@ -31,9 +32,9 @@ export class ColorService {
     }
 
     switchColors(): void {
-      const intermediateColor = this.color[0];
-      this.color[0] = this.color[1];
-      this.color[1] = intermediateColor;
+      const intermediateColor = this.color[ToolConstants.PRIMARY_COLOUR_INDEX];
+      this.color[ToolConstants.PRIMARY_COLOUR_INDEX] = this.color[ToolConstants.SECONDARY_COLOUR_INDEX];
+      this.color[ToolConstants.SECONDARY_COLOUR_INDEX] = intermediateColor;
     }
 
     rgbToHex(hue: number): string {

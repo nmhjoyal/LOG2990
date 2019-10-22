@@ -1,8 +1,8 @@
-
 export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
     RECTANGLE = 'rectangle',
+    SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
 }
 

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
@@ -34,13 +35,8 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
   }
 
   protected calculateDimensions(): void {
-    // tslint:disable-next-line:no-magic-numbers
-    const shapeOffset = this.shape.strokeWidth / 2;
-
-    this.previewBox.x = this.cursorX < this.initialX ? this.cursorX : this.initialX;
-    this.previewBox.y = this.cursorY < this.initialY ? this.cursorY : this.initialY;
-    this.previewBox.width = Math.abs(this.cursorX - this.initialX);
-    this.previewBox.height = Math.abs(this.cursorY - this.initialY);
+    super.calculateDimensions();
+    const shapeOffset = this.shape.strokeWidth / NumericalValues.TWO;
     this.shape.x =  this.previewBox.x + shapeOffset;
     this.shape.y =  this.previewBox.y + shapeOffset;
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
@@ -51,10 +47,12 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
       this.shape.height = minValue;
       this.shape.width = minValue;
       // Centrage du carré
-      // tslint:disable:no-magic-numbers
-      this.shape.x += this.previewBox.width / 2 - this.shape.width / 2 - this.shape.strokeWidth / 2;
-      this.shape.y += this.previewBox.height / 2 - this.shape.height / 2 - this.shape.strokeWidth / 2;
-      // tslint:enable:no-magic-numbers
+      this.shape.x += this.previewBox.width / NumericalValues.TWO -
+        this.shape.width / NumericalValues.TWO -
+        this.shape.strokeWidth / NumericalValues.TWO;
+      this.shape.y += this.previewBox.height / NumericalValues.TWO -
+        this.shape.height / NumericalValues.TWO -
+        this.shape.strokeWidth / NumericalValues.TWO;
     }
   }
 }
