@@ -102,6 +102,13 @@ export class AppComponent implements OnInit {
       this.toolHandler.chooseEllipse();
     }
   }
+
+@HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
+   if (this.isOnlyModalOpen()) {
+     this.toolHandler.choosePolygon();
+   }
+ }
+
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {
       if (!this.toolHandler.drawings.length) {

@@ -114,7 +114,7 @@
     </app-tools-rectangle>
 </div>
 <div *ngIf="toolHandler.polygonSelected">
-    <app-tools-polygon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-polygon>
+    <app-tools-polygon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-tools-polygon>
 </div>
 <div *ngIf="toolHandler.selectorSelected">
     <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
