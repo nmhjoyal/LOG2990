@@ -2,6 +2,7 @@ import { Component, HostListener, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
@@ -9,7 +10,6 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.r', ['$event']) onKeydownrEvent(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
-         this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX],);
+         this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
       this.toolHandler.chooseSelector();
     }
   }
-  
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();

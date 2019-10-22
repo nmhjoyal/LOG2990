@@ -83,8 +83,10 @@ export class CanvasComponent {
         return (event.offsetX <= shape.x + shape.strokeWidth || event.offsetY <= shape.y + shape.strokeWidth ||
           event.offsetX >= shape.x + shape.width - shape.strokeWidth || event.offsetY >= shape.y + shape.height - shape.strokeWidth);
       case(Id.ELLIPSE):
-        return (Math.pow(event.offsetX - shape.x, 2)/Math.pow(shape.width-shape.strokeWidth, 2) +
-          Math.pow(event.offsetY - shape.y, 2)/Math.pow(shape.height-shape.strokeWidth, 2)) >= 1;
+          // tslint:disable:no-magic-numbers
+        return (Math.pow(event.offsetX - shape.x, 2) / Math.pow(shape.width - shape.strokeWidth, 2) +
+          Math.pow(event.offsetY - shape.y, 2) / Math.pow(shape.height - shape.strokeWidth, 2)) >= 1;
+          // tslint:enable:no-magic-numbers
       default:
         return false;
     }
