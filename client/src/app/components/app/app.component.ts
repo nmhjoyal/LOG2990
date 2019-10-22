@@ -25,8 +25,6 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  
-
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
       this.toolHandler.chooseCrayon();
   }

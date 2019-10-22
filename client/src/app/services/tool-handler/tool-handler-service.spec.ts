@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
 
-describe('ToolHandlerServiceService', () => {
+describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
   beforeEach(() => {

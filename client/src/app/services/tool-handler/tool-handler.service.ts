@@ -33,6 +33,7 @@ drawings: ITools[] = [];
     this.paintbrushSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
+    this.ellipseSelected = false;
     this.primaryColor = this.colorService.color[0];
     this.secondaryColor = this.colorService.color[1];
   }
