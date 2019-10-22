@@ -102,10 +102,7 @@ describe('RectangleComponent', () => {
 
   it('#calculateDimensions should calculate calculate the radius of the invisible circle that holds the polygon', () => {
     component.onShiftDown(); // to call protected calculateDimensions()
-
-    // tslint:disable-next-line:no-magic-numbers
     const expectedResult = ((CURSOR_X - INITIAL_X) / 2) - component['shape'].strokeWidth;
-
     expect(component['shape'].height).toBe(expectedResult,
     'the radius stored in shape.width and height did not match test math-result expectation');
   });
@@ -148,16 +145,14 @@ describe('RectangleComponent', () => {
   });
 
   it('#saveShape not save if vertices were not generated', () => {
-    // tslint:disable-next-line:no-any
-    const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
+    const superSaveSpy = spyOn<ShapeAbstract>(ShapeAbstract.prototype, 'saveShape' as never);
     component.onMouseUp();
     expect(superSaveSpy).not.toHaveBeenCalled();
   });
 
   it('#saveShape not save if vertices were not generated', () => {
     component.onShiftUp();
-    // tslint:disable-next-line:no-any
-    const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
+    const superSaveSpy = spyOn<ShapeAbstract>(ShapeAbstract.prototype, 'saveShape' as never);
     component.onMouseUp();
     expect(superSaveSpy).toHaveBeenCalled();
   });
