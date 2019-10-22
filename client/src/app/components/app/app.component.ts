@@ -26,11 +26,15 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
+    if (this.toolHandler.crayonSelected) {
       this.toolHandler.chooseCrayon();
+    }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
+    if (this.toolHandler.paintbrushSelected) {
       this.toolHandler.choosePaintbrush();
+    }
   }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
@@ -38,11 +42,15 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
+    if (this.toolHandler.rectangleSelected) {
       this.toolHandler.chooseRectangle();
+    }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
+    if (this.toolHandler.ellipseSelected) {
       this.toolHandler.chooseEllipse();
+    }
   }
 
   confirmNewDrawing(): void {

@@ -4,6 +4,7 @@ export interface IStamp extends ITools {
     svgReference: string;
     angle: number;
     scaleFactor: number;
+    primaryColour: string;
 }
 
 export interface IStampOptions extends ITools {
