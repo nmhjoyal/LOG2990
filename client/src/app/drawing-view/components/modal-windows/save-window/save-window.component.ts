@@ -56,6 +56,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
+        tag.isSelected = !tag.isSelected;
         if (!test.tags) {
           test.tags = [];
         }
@@ -63,7 +64,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         this.index.saveTag(tag).subscribe(
           (response: boolean) => {
             if (response) {
-              console.log(tag.name + ' SAVED') ;
+              console.log(tag.name + ' SAVED');
             } else {
               console.error('FAILED TO SAVE ' + tag.name);
             }
@@ -86,7 +87,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   addTag(newTag: string): void {
     if (newTag) {
-      this.data.displayedTags.push({ name: newTag, isSelected: true});
+      this.data.displayedTags.push({ name: newTag, isSelected: true });
     }
   }
 
