@@ -40,6 +40,7 @@ export class ToolHandlerService {
     this.selectorSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
+    this.ellipseSelected = false;
     this.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
   }

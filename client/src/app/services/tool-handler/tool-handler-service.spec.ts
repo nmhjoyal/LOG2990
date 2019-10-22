@@ -3,7 +3,7 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
 
-describe('ToolHandlerServiceService', () => {
+describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
   const FIFTY = 50;
