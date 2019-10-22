@@ -51,7 +51,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnDe
   ngOnInit(): void {
     this.gallerySubscription = this.index.getDrawings().subscribe(
       (response: IDrawing[]) => {
-        console.log(response);
         this.drawingsInGallery = response;
       });
   }
