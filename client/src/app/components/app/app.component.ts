@@ -36,6 +36,13 @@ export class AppComponent implements OnInit {
       this.toolHandler.choosePaintbrush();
     }
   }
+
+  @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.choosePipette();
+    }
+  }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
