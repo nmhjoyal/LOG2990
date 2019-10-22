@@ -83,10 +83,12 @@ export class CanvasComponent {
   }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {
-    if(event.offsetX == shape.x){
-      return true;
+    switch (shape.id){
+      case (Id.RECTANGLE):
+        return (event.offsetX <= shape.x + shape.strokeWidth || event.offsetY <= shape.y + shape.strokeWidth || 
+          event.offsetX >= shape.x + shape.width - shape.strokeWidth || event.offsetY >= shape.y + shape.height - shape.strokeWidth);
+      default:
+        return false;
     }
-    return false;
-      
   }
 }
