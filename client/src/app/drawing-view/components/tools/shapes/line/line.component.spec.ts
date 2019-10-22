@@ -10,7 +10,6 @@ const INITIALX = 150;
 const INITIALY = 200;
 const CURSORX = 550;
 const CURSORY = 700;
-// const CURSOR_MOVE = 300;
 
 describe('LineComponent', () => {
   let component: LineComponent;
