@@ -15,4 +15,8 @@
 
 #myGrid {
     visibility: hidden;
+
+    .controlPoint {
+        pointer-events: none;
+    }
 }

@@ -2,25 +2,63 @@ import SpyObj = jasmine.SpyObj;
 
 import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef,
-  MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+         MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { ColorService } from 'src/app/services/color_service/color.service';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { Strings } from 'src/AppConstants/Strings';
+import { GridService } from '../../../services/grid_service/grid.service';
 import { DrawingViewModule } from '../../drawing-view.module';
+import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
+import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
-import { NewDrawingModalData } from '../NewDrawingModalData';
+import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
+import { IShape } from '../tools/assets/interfaces/shape-interface';
+import { Id, ToolConstants } from '../tools/assets/tool-constants';
 import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
-import { MygridService } from '../../../services/mygrid/mygrid.service';
 
 describe('CanvasComponent', () => {
-  let dataMock: SpyObj<NewDrawingModalData>;
-  let gridsvcMock: MygridService;
+  let dataMock: SpyObj<INewDrawingModalData>;
+  let gridServiceMock: GridService;
+  const colorServiceMock: ColorService = new ColorService();
+  const toolServiceMock: ToolHandlerService = new ToolHandlerService(colorServiceMock);
+  let component: CanvasComponent;
+  let fixture: ComponentFixture<CanvasComponent>;
+  const testObject: IShape = { x: 1,
+    y: 1,
+    width: 1,
+    height: 1,
+    primaryColor: Strings.BLACK_HEX,
+    secondaryColor: Strings.WHITE_HEX,
+    strokeOpacity: 1,
+    strokeWidth: 1,
+    fillOpacity: 1,
+    id: Id.RECTANGLE,
+  };
+
+  const testLine: IDrawingTool = {
+      color: Strings.BLACK_HEX,
+      points: '',
+      strokeWidth: 0,
+      strokeLinecap: '',
+      strokeLinejoin: '',
+      fill: '',
+      filter: '',
+      id: Id.CRAYON,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +67,7 @@ describe('CanvasComponent', () => {
         MatToolbarModule,
         MatCheckboxModule,
         MatSidenavModule,
+        MatMenuModule,
         FormsModule,
         DrawingViewModule,
         BrowserDynamicTestingModule,
@@ -38,57 +77,68 @@ describe('CanvasComponent', () => {
       declarations: [
         AppComponent,
         NewDrawingWindowComponent,
-        CanvasComponent,
         WelcomeWindowComponent,
         ModalWindowComponent as Type<ModalWindowComponent>,
+        ColorPaletteComponent,
+        ColorPickerComponent,
       ],
       providers: [  MatDialogConfig, LocalStorageService,
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
+        { provide: ToolHandlerService, useValue: toolServiceMock },
+        { provide: ColorService, useValue: colorServiceMock },
       ],
     }).compileComponents();
+    fixture = TestBed.createComponent(CanvasComponent);
+    component = fixture.componentInstance;
   }));
 
   beforeEach(async(() => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 
-  it('should have a defined injected data', () => {
-    const fixture = TestBed.createComponent(CanvasComponent);
-    const app = fixture.componentInstance;
-    app.ngOnInit();
-    expect(dataMock).toBeDefined();
+  it('should properly create the component', () => {
+    expect(component).toBeDefined();
+  });
+
+  it('should apply primary color to line', () => {
+    colorServiceMock.color[ToolConstants.PRIMARY_COLOUR_INDEX] = Strings.WHITE_HEX;
+    toolServiceMock.colourApplicatorSelected = true;
+    component.applyColourToLine(testLine);
+    expect(testLine.color).toEqual(Strings.WHITE_HEX);
+  });
+
+  it('should apply primary color to shape', () => {
+    colorServiceMock.color[ToolConstants.PRIMARY_COLOUR_INDEX] = Strings.WHITE_HEX;
+    toolServiceMock.colourApplicatorSelected = true;
+    component.applyColourToShape(testObject);
+    expect(testObject.primaryColor).toEqual(Strings.WHITE_HEX);
+  });
+
+  it('should apply secondary color to shape', () => {
+    colorServiceMock.color[ToolConstants.SECONDARY_COLOUR_INDEX] = Strings.BLACK_HEX;
+    toolServiceMock.colourApplicatorSelected = true;
+    component.applySecondaryColourToShape(new MouseEvent('contextmenu'), testObject);
+    expect(testObject.secondaryColor).toEqual(Strings.BLACK_HEX);
   });
 
   it('should show the grid when g is pressed', () => {
-    gridsvcMock = new MygridService();
-    let canvasTest = new CanvasComponent(dataMock, gridsvcMock);
-    canvasTest.onKeydownHandlerGrid(event = new KeyboardEvent('event', {key: 'g'}));
+    gridServiceMock = new GridService();
+    const canvasTest = new CanvasComponent(dataMock, toolServiceMock, colorServiceMock, gridServiceMock);
+    canvasTest.onKeydownHandlerGrid();
     if (canvasTest.gridElementC != null) {
       expect(canvasTest.gridElementC.style.visibility).toBe('visible');
     }
   });
 
   it('should hide the grid when g is pressed twice', () => {
-    gridsvcMock = new MygridService();
-    let canvasTest = new CanvasComponent(dataMock, gridsvcMock);
-    canvasTest.onKeydownHandlerGrid(event = new KeyboardEvent('event', {key: 'g'}));
-    canvasTest.onKeydownHandlerGrid(event = new KeyboardEvent('event', {key: 'g'}));
+    gridServiceMock = new GridService();
+    const canvasTest = new CanvasComponent(dataMock, toolServiceMock, colorServiceMock, gridServiceMock);
+    canvasTest.onKeydownHandlerGrid();
+    canvasTest.onKeydownHandlerGrid();
     if (canvasTest.gridElementC != null) {
       expect(canvasTest.gridElementC.style.visibility).toBe('hidden');
     }
   });
 
-  // TEST MARCHE PAS FOR UNKOWN REASONS. Same for decrease size
-  // it('should increase grid size to nearest multiple of 5', ()=> {
-  //   gridsvcMock = new MygridService();
-  //   let canvasTest = new CanvasComponent(dataMock, gridsvcMock);
-  //   canvasTest.onKeydownHandlerPlus(event = new KeyboardEvent('event', { shiftKey: true, key: '='}));
-  //   if (canvasTest.gridElementC != null && canvasTest.sliderElementC != null ) {
-  //     console.log(canvasTest.sliderElementC.value);
-  //     expect(canvasTest.sliderElementC.value).toBe('10');
-  //   }
-  // });
-
 });
-
