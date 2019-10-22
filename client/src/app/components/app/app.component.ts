@@ -64,16 +64,16 @@ export class AppComponent implements OnInit {
 
   setOpacity(): void {
     let stringValue = (document.getElementById('opacitySlider') as HTMLInputElement).value;
-    let numberValue = Number(stringValue)/100;      // Car 'slider' va de 0 à 100.
-    this.mygridsvc.setOpacity(numberValue);
+    let numberValue = Number(stringValue)/100;      // Car 'slider' va de 0 à 100 pour plus de precision.
+    stringValue = String(numberValue)               // Remettre en String.
+    this.mygridsvc.setOpacity(stringValue);
     console.log("value:" + numberValue);
   }
 
   setSize(): void {
     let stringValue = (document.getElementById('sizeSlider') as HTMLInputElement).value;
-    let numberValue = Number(stringValue);
-    this.mygridsvc.setSize(numberValue);
-    console.log("value:" + numberValue);
+    this.mygridsvc.setSize(stringValue);
+    console.log("value:" + stringValue);
 
   }
   

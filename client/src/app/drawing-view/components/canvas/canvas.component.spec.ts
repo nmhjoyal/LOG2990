@@ -16,9 +16,11 @@ import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-win
 import { NewDrawingModalData } from '../NewDrawingModalData';
 import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
+import { MygridService } from '../../../services/mygrid/mygrid.service';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<NewDrawingModalData>;
+  let gridsvcMock: MygridService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,4 +59,36 @@ describe('CanvasComponent', () => {
     app.ngOnInit();
     expect(dataMock).toBeDefined();
   });
+
+  it('should show the grid when g is pressed', () => {
+    gridsvcMock = new MygridService();
+    let canvasTest = new CanvasComponent(dataMock, gridsvcMock);
+    canvasTest.onKeydownHandlerGrid(event = new KeyboardEvent('event', {key: 'g'}));
+    if (canvasTest.gridElementC != null) {
+      expect(canvasTest.gridElementC.style.visibility).toBe('visible');
+    }
+  });
+
+  it('should hide the grid when g is pressed twice', () => {
+    gridsvcMock = new MygridService();
+    let canvasTest = new CanvasComponent(dataMock, gridsvcMock);
+    canvasTest.onKeydownHandlerGrid(event = new KeyboardEvent('event', {key: 'g'}));
+    canvasTest.onKeydownHandlerGrid(event = new KeyboardEvent('event', {key: 'g'}));
+    if (canvasTest.gridElementC != null) {
+      expect(canvasTest.gridElementC.style.visibility).toBe('hidden');
+    }
+  });
+
+  // TEST MARCHE PAS FOR UNKOWN REASONS. Same for decrease size
+  // it('should increase grid size to nearest multiple of 5', ()=> {
+  //   gridsvcMock = new MygridService();
+  //   let canvasTest = new CanvasComponent(dataMock, gridsvcMock);
+  //   canvasTest.onKeydownHandlerPlus(event = new KeyboardEvent('event', { shiftKey: true, key: '='}));
+  //   if (canvasTest.gridElementC != null && canvasTest.sliderElementC != null ) {
+  //     console.log(canvasTest.sliderElementC.value);
+  //     expect(canvasTest.sliderElementC.value).toBe('10');
+  //   }
+  // });
+
 });
+

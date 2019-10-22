@@ -4,18 +4,20 @@ import { MatDialog } from '@angular/material';
 import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
 import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
 import { AppComponent } from './app.component';
+import { MygridService } from '../../services/mygrid/mygrid.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<NewDrawingModalData>;
   let component: AppComponent;
+  let gridsvc: MygridService;
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, serviceMock, dataMock);
+    component = new AppComponent(dialogMock, serviceMock, dataMock, gridsvc);
   }));
 
   it('should open dialog when storage returns true', () => {
