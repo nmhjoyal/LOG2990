@@ -1,33 +1,30 @@
 <div *ngIf="!(toolHandler.noneSelected)">
     <div *ngIf="toolHandler.paintbrushSelected">
-        <button (click)="getComponent().setFilter(0)">Aucun filtre</button><br>
-        <button (click)="getComponent().setFilter(1)">Filtre 1</button><br>
-        <button (click)="getComponent().setFilter(2)">Filtre 2</button><br>
-        <button (click)="getComponent().setFilter(3)">Filtre 3</button><br>
-        <button (click)="getComponent().setFilter(4)">Filtre 4</button><br>
-        <button (click)="getComponent().setFilter(5)">Filtre 5</button><br>
+        <button (click)="getComponent().setFilter(0)">Aucun filtre</button>
+        <button (click)="getComponent().setFilter(1)">Filtre 1</button>
+        <button (click)="getComponent().setFilter(2)">Filtre 2</button>
+        <button (click)="getComponent().setFilter(3)">Filtre 3</button>
+        <button (click)="getComponent().setFilter(4)">Filtre 4</button>
+        <button (click)="getComponent().setFilter(5)">Filtre 5</button>
     </div>
     <div *ngIf="toolHandler.paintbrushSelected || toolHandler.crayonSelected || toolHandler.lineSelected">
-            Grandeur du trait: 
         <button (click)="getComponent().decreaseStrokeWidth()">-</button>
         {{getComponent().stroke.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
 
-    <div *ngIf="toolHandler.lineSelected">
-        Junction:
+    <p *ngIf="toolHandler.lineSelected">
         <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
         <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>
         <button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</button><br>
-        Trait: 
         <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">Continu</button>
         <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">Pointillé (trait)</button>
         <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">Pointillé (point)</button><br>
-        Grandeur du points: 
+
         <button (click)="getComponent().decreasePointWidth()">-</button>
         {{getComponent().stroke.pointWidth}}
         <button (click)="getComponent().increasePointWidth()">+</button>
-    </div>
+      </p>
       
 
     <div *ngIf="toolHandler.rectangleSelected">

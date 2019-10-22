@@ -104,7 +104,7 @@ export class ToolHandlerService {
     this.lineSelected = true;
     this.noneSelected = false;
   }
-  
+
   chooseEyedropper(): void {
     this.resetSelection();
     this.pipetteSelected = true;

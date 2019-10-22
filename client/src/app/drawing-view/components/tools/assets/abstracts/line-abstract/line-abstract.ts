@@ -115,6 +115,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   }
 
   // Functions
+  protected decreaseStrokeWidth(): void {
+    if (this.stroke.strokeWidth !== 0) {
+      this.stroke.strokeWidth--;
+    }
+  }
 
   protected saveSegment(): void {
     this.previewPoints.forEach((element) => {
@@ -195,20 +200,14 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     this.stroke.strokeWidth++;
   }
 
-  protected decreaseStrokeWidth(): void {
+  protected decreasePointWidth(): void {
     if (this.stroke.strokeWidth !== 0) {
-      this.stroke.strokeWidth--;
+      this.stroke.pointWidth--;
     }
   }
 
   protected increasePointWidth(): void {
     this.stroke.pointWidth++;
-  }
-
-  protected decreasePointWidth(): void {
-    if (this.stroke.pointWidth !== 0) {
-      this.stroke.pointWidth--;
-    }
   }
 
   protected getPositionAndDimensions(): void {
