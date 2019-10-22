@@ -39,6 +39,7 @@ export class ToolHandlerService {
     this.crayonSelected = false;
     this.paintbrushSelected = false;
     this.selectorSelected = false;
+    this.pipetteSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
     this.ellipseSelected = false;

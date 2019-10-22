@@ -26,14 +26,14 @@ export class CanvasComponent {
     if (this.toolHandler.colourApplicatorSelected) {
       this.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.pipetteSelected) {
-      this.colorService.color[0] = this.data.drawingColor;
+      this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = this.data.drawingColor;
     }
   }
 
   getColorFromCanvas(event: MouseEvent): void {
     event.preventDefault();
     if (this.toolHandler.pipetteSelected) {
-      this.colorService.color[1] = this.data.drawingColor;
+      this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = this.data.drawingColor;
     }
   }
 
@@ -41,14 +41,14 @@ export class CanvasComponent {
     if (this.toolHandler.colourApplicatorSelected) {
       line.color = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.pipetteSelected) {
-      this.colorService.color[0] = line.color;
+      this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = line.color;
     }
   }
 
   getColorFromLine(event: MouseEvent, line: IDrawingTool): void {
     event.preventDefault();
     if (this.toolHandler.pipetteSelected) {
-      this.colorService.color[1] = line.color;
+      this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = line.color;
     }
   }
 
@@ -56,7 +56,7 @@ export class CanvasComponent {
     if (this.toolHandler.colourApplicatorSelected && shape.primaryColor !== 'none') {
       shape.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.pipetteSelected) {
-      this.getColorFromShape(event, 0, shape);
+      this.getColorFromShape(event, ToolConstants.PRIMARY_COLOUR_INDEX, shape);
     }
   }
 
@@ -65,7 +65,7 @@ export class CanvasComponent {
     if (this.toolHandler.colourApplicatorSelected && shape.secondaryColor !== 'none') {
       shape.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
     } else if (this.toolHandler.pipetteSelected) {
-      this.getColorFromShape(event, 1, shape);
+      this.getColorFromShape(event, ToolConstants.SECONDARY_COLOUR_INDEX, shape);
     }
   }
 

@@ -9,6 +9,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 
 @Component({
   selector: 'app-root',
@@ -39,6 +40,19 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.r', ['$event']) onKeydownrEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+         this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX],);
+    }
+  }
+
+  @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseSelector();
+    }
+  }
+  
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
