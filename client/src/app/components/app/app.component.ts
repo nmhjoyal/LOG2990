@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.openWelcomeScreen();
-    this.openSaveWindow();
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
