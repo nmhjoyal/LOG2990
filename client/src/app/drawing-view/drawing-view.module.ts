@@ -15,6 +15,7 @@ import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/dr
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { PreviewCanvasComponent } from './components/modal-windows/gallery-window/preview-canvas/preview-canvas/preview-canvas.component';
 @NgModule({
   declarations: [
     CanvasComponent,
@@ -23,6 +24,7 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     DrawingToolToolboxComponent,
     RectangleComponent,
     EllipseComponent,
+    PreviewCanvasComponent,
 ],
 
   imports: [
@@ -38,6 +40,7 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
 
   exports: [
     DrawingToolToolboxComponent,
+    PreviewCanvasComponent,
     CanvasComponent,
     BrowserModule,
     HttpClientModule,
