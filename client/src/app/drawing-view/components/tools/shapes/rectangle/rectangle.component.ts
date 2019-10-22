@@ -34,7 +34,18 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
   }
 
   protected calculateDimensions(): void {
-    super.calculateDimensions();
+    // tslint:disable-next-line:no-magic-numbers
+    const shapeOffset = this.shape.strokeWidth / 2;
+
+    this.previewBox.x = this.cursorX < this.initialX ? this.cursorX : this.initialX;
+    this.previewBox.y = this.cursorY < this.initialY ? this.cursorY : this.initialY;
+    this.previewBox.width = Math.abs(this.cursorX - this.initialX);
+    this.previewBox.height = Math.abs(this.cursorY - this.initialY);
+    this.shape.x =  this.previewBox.x + shapeOffset;
+    this.shape.y =  this.previewBox.y + shapeOffset;
+    this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
+    this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height - this.shape.strokeWidth : 0;
+
     if (this.shiftDown ) {
       const minValue = Math.min(this.shape.height, this.shape.width);
       this.shape.height = minValue;

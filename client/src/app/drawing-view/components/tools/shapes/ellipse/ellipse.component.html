@@ -1,0 +1,17 @@
+<svg tabindex="0" class='ellipsePreviewZone' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
+
+    <ellipse [attr.cx]="shape.x"
+    [attr.cy]="shape.y"
+    [attr.rx]="shape.width" 
+    [attr.ry]="shape.height"
+    [style.stroke]="shape.secondaryColor" 
+    [style.stroke-opacity]="shape.strokeOpacity"
+    [style.fill]="shape.primaryColor"
+    [style.stroke-width]="shape.strokeWidth"
+    [style.fill-opacity]="shape.fillOpacity"
+    />
+  
+    <rect class="previewBox" [attr.x]="previewBox.x" [attr.y]="previewBox.y" [attr.width]="previewBox.width" [attr.height]="previewBox.height"/>
+    
+  </svg> 
+  
