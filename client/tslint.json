@@ -23,6 +23,6 @@
     "directive-class-suffix": true,
     "interface-name": false,
     "curly": true,
-    "no-magic-numbers": true
+    "no-magic-numbers": [true, {"allowed-numbers": [0, 1, 2]}]
   }
 }

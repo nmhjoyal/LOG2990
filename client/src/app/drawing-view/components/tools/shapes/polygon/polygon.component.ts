@@ -36,19 +36,15 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
   protected calculateDimensions(): void {
     super.calculateDimensions();
-
-    // tslint:disable:no-magic-numbers
     this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
     this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
 
     const imaginaryCircleRadius = (Math.min(this.previewBox.width, this.previewBox.height) / 2) - this.shape.strokeWidth;
-    // tslint:enable:no-magic-numbers
     this.shape.height = imaginaryCircleRadius;
     this.shape.width = imaginaryCircleRadius;
 
     this.shape.vertices = '';
     if (this.shape.verticesNumber !== undefined && (imaginaryCircleRadius - this.shape.strokeWidth) > 0) {
-      // tslint:disable-next-line:no-magic-numbers
       const angleBetweenVertices: number = 2 * Math.PI / this.shape.verticesNumber;
       let angleTracker = 0;
       let bufferX = 0;
