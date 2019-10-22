@@ -57,6 +57,9 @@ export class IndexController {
                 }).catch((err: Error) => {
                     res.json(err.message); // TODO: Send error messages - ex: Not found 
                 });
+                req.on('close', () => {
+                    
+                })
             });
 
         this.router.get('/gettags',

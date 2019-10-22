@@ -46,7 +46,9 @@ export class IndexService {
     }
 
     async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
-        // this.drawingsList.push(drawingToSave);
+        if (!drawingToSave.name || (drawingToSave.tags && drawingToSave.tags.some((tag) => tag.name !== ' '))) {
+            return false;
+        }
         if (drawingToSave.timestamp) {
             this.drawingsInGallery.set(this.dateToId(drawingToSave.timestamp), drawingToSave);
             console.log('Saving drawing with id: ' + this.dateToId(drawingToSave.timestamp));
@@ -83,7 +85,7 @@ export class IndexService {
     }
 
     // TODO: Move in a common to share with client/index.service
-private dateToId(date: string): string {
+    private dateToId(date: string): string {
         return date.replace(/[^0-9]/g, '');
     }
 }
