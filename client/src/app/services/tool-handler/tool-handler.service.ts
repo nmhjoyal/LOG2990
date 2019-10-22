@@ -67,7 +67,7 @@ chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
 }
 choosePipette(): void {
   this.resetSelection();
-  this.pipetteSelected = true;    
+  this.pipetteSelected = true;
   this.noneSelected = false;
 }
 ​

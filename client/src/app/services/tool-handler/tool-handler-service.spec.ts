@@ -42,6 +42,8 @@ describe('ToolHandlerServiceService', () => {
       expect(service.paintbrushSelected).toBe(false);
       expect(service.rectangleSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
+      expect(service.pipetteSelected).toBe(false);
+
   });
 
   it('#clearPage should call #resetSelection and empty the drawings array', () => {
@@ -85,6 +87,15 @@ describe('ToolHandlerServiceService', () => {
 
     expect(resetSpy).toHaveBeenCalled();
     expect(service.colourApplicatorSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
+  });
+
+  it('#choosePipette should call #resetSelection and select the ipette', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.choosePipette();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.pipetteSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
   });
 

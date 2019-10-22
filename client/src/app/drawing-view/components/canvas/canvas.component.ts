@@ -25,15 +25,14 @@ export class CanvasComponent {
   applyColourToCanvas(): void {
     if (this.toolHandler.colourApplicatorSelected) {
       this.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    }
-    else if(this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.pipetteSelected) {
       this.colorService.color[0] = this.data.drawingColor;
     }
   }
 
   getColorFromCanvas(event: MouseEvent): void {
     event.preventDefault();
-    if(this.toolHandler.pipetteSelected) {
+    if (this.toolHandler.pipetteSelected) {
       this.colorService.color[1] = this.data.drawingColor;
     }
   }
@@ -41,15 +40,14 @@ export class CanvasComponent {
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.colourApplicatorSelected) {
       line.color = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    }
-    else if(this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.pipetteSelected) {
       this.colorService.color[0] = line.color;
     }
   }
 
   getColorFromLine(event: MouseEvent, line: IDrawingTool): void {
     event.preventDefault();
-    if(this.toolHandler.pipetteSelected) {
+    if (this.toolHandler.pipetteSelected) {
       this.colorService.color[1] = line.color;
     }
   }
@@ -57,8 +55,7 @@ export class CanvasComponent {
   applyColourToShape(event: MouseEvent, shape: IShape): void {
     if (this.toolHandler.colourApplicatorSelected && shape.primaryColor !== 'none') {
       shape.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    }
-    else if(this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.pipetteSelected) {
       this.getColorFromShape(event, 0, shape);
     }
   }
@@ -67,25 +64,23 @@ export class CanvasComponent {
     event.preventDefault();
     if (this.toolHandler.colourApplicatorSelected && shape.secondaryColor !== 'none') {
       shape.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
-    }
-    else if(this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.pipetteSelected) {
       this.getColorFromShape(event, 1, shape);
     }
   }
 
   getColorFromShape(event: MouseEvent, colorIndex: number, shape: IShape): void {
-    if(this.isStroke(event, shape)) {
+    if (this.isStroke(event, shape)) {
       this.colorService.color[colorIndex] = shape.secondaryColor;
-    }
-    else {
+    } else {
       this.colorService.color[colorIndex] = shape.primaryColor;
     }
   }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {
-    switch (shape.id){
+    switch (shape.id) {
       case (Id.RECTANGLE):
-        return (event.offsetX <= shape.x + shape.strokeWidth || event.offsetY <= shape.y + shape.strokeWidth || 
+        return (event.offsetX <= shape.x + shape.strokeWidth || event.offsetY <= shape.y + shape.strokeWidth ||
           event.offsetX >= shape.x + shape.width - shape.strokeWidth || event.offsetY >= shape.y + shape.height - shape.strokeWidth);
       default:
         return false;

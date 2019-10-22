@@ -128,14 +128,14 @@ describe('CanvasComponent', () => {
   });
 
   it('should apply primary color from shape', () => {
-    testObject.primaryColor = Strings.WHITE_HEX;
+    testObject.secondaryColor = Strings.WHITE_HEX;
     mockToolService.pipetteSelected = true;
     component.getColorFromShape(new MouseEvent('click'), 0, testObject);
     expect(mockColourService.color[0]).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary color from shape', () => {
-    testObject.primaryColor = Strings.WHITE_HEX;
+    testObject.secondaryColor = Strings.WHITE_HEX;
     mockToolService.pipetteSelected = true;
     component.getColorFromShape(new MouseEvent('contextmenu'), 1, testObject);
     expect(mockColourService.color[1]).toEqual(Strings.WHITE_HEX);
