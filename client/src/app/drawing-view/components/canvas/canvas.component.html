@@ -53,9 +53,9 @@
             [style.stroke-width]="drawing.strokeWidth"
             [style.fill-opacity]="drawing.fillOpacity"/>
         </g>
-        <g *ngSwitchCase="toolEd.Stamp" (click)="applyColourToShape($event, drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
-                <image [attr.x]="stamp.x" [attr.y]="stamp.y" [attr.width]="stamp.width" [attr.height]="stamp.height"
-                [attr.href]="stamp.svgReference"/> 
+        <g *ngSwitchCase="toolId.STAMP" (click)="applyColourToShape($event, drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
+                [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+drawing.angle+','+drawing.centerX+','+drawing.centerY+')'"/> 
         </g>
     </g>
 </g>

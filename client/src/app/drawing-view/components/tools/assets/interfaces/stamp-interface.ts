@@ -5,6 +5,8 @@ export interface IStamp extends ITools {
     angle: number;
     scaleFactor: number;
     primaryColour: string;
+    centerX: number;
+    centerY: number;
 }
 
 export interface IStampOptions extends ITools {

@@ -33,6 +33,8 @@ export class StampComponent implements OnInit, OnDestroy {
       y: ToolConstants.NULL,
       width: StampConstants.DEFAULT_DIMENSION,
       height: StampConstants.DEFAULT_DIMENSION,
+      centerX : ToolConstants.NULL,
+      centerY: ToolConstants.NULL,
     };
   }
 
@@ -64,6 +66,8 @@ export class StampComponent implements OnInit, OnDestroy {
         height: this.stamp.height,
         angle: this.angle,
         scaleFactor: this.stamp.scaleFactor,
+        centerX: event.offsetX,
+        centerY: event.offsetY,
       };
       this.toolServiceRef.drawings.push(createdStamp);
     }
