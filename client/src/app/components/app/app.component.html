@@ -56,8 +56,9 @@
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
-                 <a mat-list-item class="filter" (click)='toolHandler.chooseStamp(); sidenav2.toggle();'>
-                    <img id='stamp' class="sideBarIcon" src="../../../assets/lateral-bar/sticker-face-ol-512.png" title="Étampe">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseStamp(); sidenav2.toggle();'>
+                    <img id='stamp' class="sideBarIcon" src="../../../assets/lateral-bar/sticker-face-ol-512.png"
+                        title="Étampe">
                 </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
@@ -85,11 +86,25 @@
                     <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png"
                         title="Palette de couleurs" (click)='toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
                 </a>
-                <a mat-list-item class="filter">
+                <a mat-list-item class="filter" (click)="openSaveWindow()">
                     <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png"
                         title="Sauvegarde dessin">
                 </a>
+                <a mat-list-item class="filter" (click)="openGalleryWindow()">
+                    <img id="openGallery" class="sideBarIcon" src="https://cdn.onlinewebfonts.com/svg/img_179885.png"
+                        title="Ouvrir la gallerie">
+                </a>
+
                 <app-drawing-tool-toolbox [canvas]='myCanvas'></app-drawing-tool-toolbox>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav #snav>
+            <mat-nav-list disabled='true'>
+                <app-color-picker #picker></app-color-picker>
+                <button type="button" (click)="snav.close()" mat-raised-button>Fermer</button>
+                <button id="accepter" type="button"
+                    (click)="storage.chooseColourApplicator(picker.color[0], picker.color[1]); snav.close()"
+                    mat-raised-button>Accepter</button>
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
