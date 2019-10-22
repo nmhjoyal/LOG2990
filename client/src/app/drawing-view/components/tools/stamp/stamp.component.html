@@ -1,4 +1,6 @@
-<svg tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-    <image [attr.x]="stamp.x" [attr.y]="stamp.y" [attr.width]="stamp.width" [attr.height]="stamp.height"
-            [attr.href]="stamp.svgReference"/>  
+<svg class='stampZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
+        <g *ngIf='stamp.x !== -1'>
+            <image [attr.x]="stamp.x" [attr.y]="stamp.y" [attr.width]="stamp.width" [attr.height]="stamp.height"
+            [attr.href]="stamp.svgReference"/> 
+        </g>
 </svg> 

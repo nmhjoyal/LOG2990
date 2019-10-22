@@ -3,7 +3,7 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { IStamp } from '../assets/interfaces/stamp-interface';
-import { FilterSelection, Id } from '../assets/tool-constants';
+import { FilterSelection, Id, ToolConstants } from '../assets/tool-constants';
 
 @Component({
   selector: 'app-tools-stamp',
@@ -21,16 +21,14 @@ export class StampComponent implements OnInit, OnDestroy {
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
-      angle: 90,
+      angle: 90, // constant default angle 
       scaleFactor: 1,
-      x: 0,
-      y: 0,
+      x: ToolConstants.NULL,
+      y: ToolConstants.NULL,
       width: 24,
       height: 24,
     };
   }
-
-  // Abstract&Overridden methods
 
   ngOnInit(): void {
     if (this.attributesServiceRef.stampAttributes.wasSaved) {
@@ -46,10 +44,25 @@ export class StampComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
-    event.preventDefault();
     this.stamp.x = event.offsetX;
     this.stamp.y = event.offsetY;
-    this.toolServiceRef.drawings.push(this.stamp);
+
+    const createdStamp: IStamp = {
+      id: this.stamp.id,
+      svgReference: this.stamp.svgReference.slice(6),
+      x: this.stamp.x,
+      y: this.stamp.y,
+      width: this.stamp.width,
+      height: this.stamp.height,
+      angle: this.stamp.angle,
+      scaleFactor: this.stamp.scaleFactor,
+    }
+    
+    if (createdStamp.svgReference !== ''){
+      this.toolServiceRef.drawings.push(createdStamp);
+      console.log(createdStamp);
+      console.log(this.toolServiceRef.drawings);
+    }
   }
 
   setStamp(stampIndex: number): void {
