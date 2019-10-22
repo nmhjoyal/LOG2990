@@ -2,22 +2,21 @@
 // tslint:disable: no-require-imports
 // tslint:disable: no-var-requires
 // tslint:disable: no-var-requires
-import { IndexService } from '../services/index.service';
 const server = require('../server');
-const assert = require('assert');
 const http = require('http');
 const chai = require('chai');
-import {expect} from 'chai';
+const chaiHttp = require('chai-http');
+const app = require('../server')
+import { expect } from 'chai';
 
+chai.use(chaiHttp);
+chai.should();
 
-// tslint:disable-next-line: no-implicit-dependencies
 describe('IndexController', () => {
-    let index: IndexService;
-
     describe('server', () => {
         before(() => {
             server.listen(3000);
-            index = new IndexService();
+
         });
 
         after(() => {
@@ -27,9 +26,8 @@ describe('IndexController', () => {
 
     describe('/', () => {
         it('should return 200', (done: Mocha.Done) => {
-            http.get('http://localhost:3000', (res: any) => {
-                assert.equal(200, res.statusCode);
-                chai.done();
+            chai.request(app).get('/').end((res: any) => {
+                res.should.have.status(200);
             });
         });
     });
@@ -37,7 +35,7 @@ describe('IndexController', () => {
     describe('/save', () => {
         it('call index.saveTag', (res: any) => {
             http.get('http://localhost:3000/save', (res: any) => {
-                assert.equal(res, index.saveTag({ name: 'string', isSelected: false }));
+                // assert.equal(res, index.saveTag({ name: 'string', isSelected: false }));
                 chai.done();
             });
         });
@@ -46,8 +44,18 @@ describe('IndexController', () => {
     describe('/tags', () => {
         it('call index.saveTag', (res: any) => {
             http.get('http://localhost:3000/tags', (res: any) => {
-               expect(res).to.be.a('ITag[]');
+                // tslint:disable-next-line: no-unused-expression
+                expect(res).to.be.true;
             });
+        });
+    });
+
+    describe('/gettags', () => {
+        it('call index.saveTag', (res: any) => {
+            chai.request(app).get('/gettags').end((res: any) => {
+                res.should.have.status(200);
+            });
+
         });
     });
 
