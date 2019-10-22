@@ -23,7 +23,14 @@
       ".ts"
     ],
     "exclude": [
-      "**/*.spec.ts"
+      "**/*.spec.ts",
+      "app/app.ts",
+      "app/www.ts",
+      "app/types.ts",
+      "app/inversify.config.ts",
+      "app/server.ts",
+      "app/controllers/date.controller.ts",
+      "app/services/date.service.ts"
     ],
     "require": [
       "ts-node/register"
