@@ -4,6 +4,7 @@ export enum Id {
     RECTANGLE = 'rectangle',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
+    STAMP = 'stamp',
 }
 
 export enum FilterURL {
@@ -22,6 +23,7 @@ export enum FilterSelection {
     FILTER4 = 4,
     FILTER5 = 5,
 }
+
 export enum ModeType {
     CONTOUR = 1,
     FILL = 2,

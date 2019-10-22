@@ -62,6 +62,10 @@
                 [style.stroke-width]="drawing.strokeWidth"
                 [style.fill-opacity]="drawing.fillOpacity"/>
             </g>
+            <g *ngSwitchCase="toolId.STAMP" (click)="applyColourToShape(drawing)">
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
+                [attr.src]="drawing.svgReference"></image>
+            </g>
         </g>
     </g>
     <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"
@@ -112,6 +116,9 @@
 </div>
 <div *ngIf="toolHandler.ellipseSelected">
     <app-ellipse #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-ellipse>
+</div>
+<div *ngIf="toolHandler.stampSelected">
+    <app-tools-stamp #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-stamp>
 </div>
 
 

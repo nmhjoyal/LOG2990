@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IDrawingToolOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
+import { IStampOptions } from '../interfaces/stamp-interface';
 import { ToolConstants } from '../tool-constants';
 
 @Injectable({
@@ -12,13 +13,15 @@ export class AttributesService {
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
   ellipseAttributes: IShapeOptions;
+  stampAttributes: IStampOptions;
 
   constructor() {
     this.resetRectangleAttributes();
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
     this.resetEllipseAttributes();
-    }
+    this.resetStampAttributes();
+  }
 
   resetCrayonAttributes(): void {
     this.crayonAttributes = {
@@ -70,6 +73,19 @@ export class AttributesService {
       height: 0,
     };
   }
+  resetStampAttributes(): void {
+    this.stampAttributes = {
+      id: ToolConstants.TOOL_ID.STAMP,
+      wasSaved: false,
+      savedAngle: ToolConstants.NULL,
+      savedScaleFactor: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -82,6 +98,9 @@ export class AttributesService {
     }
     if (this.ellipseAttributes.wasSaved) {
       this.resetEllipseAttributes();
+    }
+    if (this.stampAttributes.wasSaved) {
+      this.resetStampAttributes();
     }
   }
 }

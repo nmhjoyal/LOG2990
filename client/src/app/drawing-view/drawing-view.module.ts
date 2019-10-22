@@ -16,6 +16,7 @@ import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { StampComponent } from './components/tools/stamp/stamp.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { RectangleComponent } from './components/tools/shapes/rectangle/rectangl
     RectangleComponent,
     SelectorComponent,
     EllipseComponent,
+    StampComponent,
   ],
 
   imports: [
