@@ -76,6 +76,12 @@ describe('AppComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('#chooseLine should be called when l is pressed', () => {
+    const spy = spyOn(toolHandlerMock, 'chooseLine');
+    component.onKeydownWEvent();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('#chooseRectangle should be called when 1 is pressed', () => {
     const spy = spyOn(toolHandlerMock, 'chooseRectangle');
     component.onKeydown1();

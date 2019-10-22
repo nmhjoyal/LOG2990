@@ -7,13 +7,32 @@ export interface IPreviewBox {
     height: number;
 }
 
-export interface IShape extends ITools {
+export interface ILine extends ITools {
+    color: string;
+    strokeOpacity: number;
+    strokeWidth: number;
+    fill: string;
+    pointWidth: number;
+    strokeLinecap: string;
+    strokeLinejoin: string;
+    strokeDashArray: string;
+}
+
+export interface IShape extends IPreviewBox, ITools {
     primaryColor: string;
     secondaryColor: string;
     strokeOpacity: number;
     strokeWidth: number;
     fillOpacity: number;
     verticesNumber?: number;
+}
+
+export interface ILineOptions extends ITools {
+    wasSaved: boolean;
+    savedStrokeWidth: number;
+    savedTraceMode: string;
+    savedJunctionMode: string;
+    savedPointWidth: number;
 }
 
 export interface IShapeOptions extends ITools {

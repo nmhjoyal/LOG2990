@@ -14,6 +14,8 @@ export class ToolHandlerService {
   rectangleSelected: boolean;
   colourApplicatorSelected: boolean;
   crayonSelected: boolean;
+  pinceauSelected: boolean;
+  lineSelected: boolean;
   paintbrushSelected: boolean;
   selectorSelected: boolean;
   ellipseSelected: boolean;
@@ -34,9 +36,11 @@ export class ToolHandlerService {
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
     this.noneSelected = true;
     this.rectangleSelected = false;
-    this.colourApplicatorSelected = false;
     this.crayonSelected = false;
+    this.pinceauSelected = false;
+    this.lineSelected = false;
     this.paintbrushSelected = false;
+    this.colourApplicatorSelected = false;
     this.selectorSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
@@ -53,8 +57,10 @@ export class ToolHandlerService {
   resetSelection(): void {
     this.noneSelected = true;
     this.rectangleSelected = false;
-    this.colourApplicatorSelected = false;
     this.crayonSelected = false;
+    this.pinceauSelected = false;
+    this.colourApplicatorSelected = false;
+    this.lineSelected = false;
     this.paintbrushSelected = false;
     this.selectorSelected = false;
     this.ellipseSelected = false;
@@ -75,30 +81,35 @@ export class ToolHandlerService {
     return (this.selection.width > 0 && this.selection.height > 0);
   }
 ​
-chooseRectangle(): void {
+​
+  chooseRectangle(): void {
     this.resetSelection();
     this.rectangleSelected = true;
     this.noneSelected = false;
-}
-​
-chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
+  }
+
+  chooseLine(): void {
     this.resetSelection();
-    this.primaryColor = primaryColor;
-    this.secondaryColor = secondaryColor;
-    this.colourApplicatorSelected = true;
+    this.lineSelected = true;
     this.noneSelected = false;
-}
-​
-chooseCrayon(): void {
+  }
+  ​
+  chooseCrayon(): void {
     this.resetSelection();
     this.crayonSelected = true;
     this.noneSelected = false;
-}
+  }
+
+  chooseColourApplicator(): void {
+    this.resetSelection();
+    this.colourApplicatorSelected = true;
+    this.noneSelected = false;
+  }
 ​
   choosePaintbrush(): void {
-      this.resetSelection();
-      this.paintbrushSelected = true;
-      this.noneSelected = false;
+    this.resetSelection();
+    this.paintbrushSelected = true;
+    this.noneSelected = false;
   }
 
   chooseSelector(): void {

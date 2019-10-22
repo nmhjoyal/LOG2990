@@ -32,6 +32,10 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
       this.toolHandler.choosePaintbrush();
   }
+
+  @HostListener('document:keydown.l', ['$event']) onKeydownLEvent(): void {
+    this.toolHandler.chooseLine();
+}
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();

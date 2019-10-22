@@ -62,6 +62,17 @@
                 [style.stroke-width]="drawing.strokeWidth"
                 [style.fill-opacity]="drawing.fillOpacity"/>
             </g>
+            <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)">
+                <polyline
+                [attr.points] ="drawing.points"
+                [style.fill]="drawing.fill"
+                [style.stroke]="drawing.color" 
+                [style.stroke-opacity]="drawing.strokeOpacity"
+                [style.stroke-width]="drawing.strokeWidth"
+                [style.stroke-linecap]="drawing.strokeLinecap"
+                [style.stroke-linejoin]="drawing.strokeLinejoin" 
+                [style.stroke-dasharray] = "drawing.strokeDashArray" />
+            </g>
         </g>
     </g>
     <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"
@@ -98,11 +109,16 @@
         (mousedown)="activeTool.handleControlPoint()"/>
     </g>
 </svg>
+
+
 <div *ngIf="toolHandler.crayonSelected">
     <app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
 </div>
 <div *ngIf="toolHandler.paintbrushSelected">
     <app-paintbrush #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-paintbrush>
+</div>
+<div *ngIf="toolHandler.lineSelected">
+    <app-tools-line #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-line>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
     <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-rectangle>
