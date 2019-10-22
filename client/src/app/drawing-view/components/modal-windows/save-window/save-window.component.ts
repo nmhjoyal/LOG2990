@@ -74,10 +74,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
     this.index.saveDrawing(test).subscribe(
       (response: boolean) => {
-        if (response) {
-          console.log('Saved');
-        } else {
-          console.log('Failed to save');
+        if (!response) {
+         confirm('Il y a eu une erreur lors de la sauvegarde du dessin.')
         }
       });
 
