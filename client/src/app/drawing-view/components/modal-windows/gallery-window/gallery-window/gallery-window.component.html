@@ -16,7 +16,6 @@
                     <li id="list-style" *ngFor="let drawing of (drawingsInGallery | filterTags: filterBy)"
                         (click)="onSelect(drawing)" [class.selected]="drawing === selectedDrawing">
                         <h2>{{drawing.name}}</h2>
-                        <app-preview-canvas [display]='drawing' ></app-preview-canvas>
                         <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
 
                         <mat-menu #menu="matMenu">
@@ -26,6 +25,8 @@
                                 </div>
                             </div>
                         </mat-menu>
+
+                        <app-preview-canvas width="100px" height="100px" [display]='drawing'></app-preview-canvas>
 
                     </li>
                 </ul>
