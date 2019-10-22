@@ -82,8 +82,12 @@ export class CanvasComponent {
       case (Id.RECTANGLE):
         return (event.offsetX <= shape.x + shape.strokeWidth || event.offsetY <= shape.y + shape.strokeWidth ||
           event.offsetX >= shape.x + shape.width - shape.strokeWidth || event.offsetY >= shape.y + shape.height - shape.strokeWidth);
+      case(Id.ELLIPSE):
+        return (Math.pow(event.offsetX - shape.x, 2)/Math.pow(shape.width-shape.strokeWidth, 2) +
+          Math.pow(event.offsetY - shape.y, 2)/Math.pow(shape.height-shape.strokeWidth, 2)) >= 1;
       default:
         return false;
     }
   }
+
 }
