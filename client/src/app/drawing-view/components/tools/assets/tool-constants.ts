@@ -6,6 +6,7 @@ export enum Id {
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
+    STAMP = 'stamp',
 }
 
 export enum FilterURL {
@@ -25,6 +26,7 @@ export enum FilterSelection {
     FILTER4 = 4,
     FILTER5 = 5,
 }
+
 export enum ModeType {
     STRAIGHT =  1,
     DOTTED_LINE = 2,
@@ -63,3 +65,16 @@ export class ToolConstants {
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
 }
+
+// tslint:disable:max-classes-per-file
+export class StampConstants {
+    static DEFAULT_ANGLE = 90;
+    static DEFAULT_DIMENSION = 24;
+    static PATH_SLICER = 6;
+    static DEFAULT_SCALE_FACTOR = 1;
+    static DEFAULT_WIDTH = 24;
+    static DEFAULT_HEIGHT = 24;
+    static MAX_SCALE = 21;
+}
+
+// tslint:disable:max-classes-per-file
