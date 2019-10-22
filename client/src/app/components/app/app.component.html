@@ -29,37 +29,42 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
-                <a mat-list-item class="filter" >
-                    <img id='color' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com//2k30ioP.png" title="Line">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Rectangle" 
-                    (click)='toolHandler.chooseRectangle()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
+                    <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
-                <a mat-list-item class="filter">
-                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com//2k30ioP.png" title="Line" 
-                    (click)='toolHandler.chooseLine()'>
+                <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
+                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Shapes">
+                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"></button>
                 </a>
+                <mat-menu #shapeMenu="matMenu">
+                    <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>
+                    <button mat-menu-item (click)='toolHandler.chooseEllipse()'>Ellipse</button>
+                </mat-menu>
                 <a mat-list-item class="filter" (click)="sidenav2.toggle()">
                         <!-- this is supposed to toggle the right side sidenav with extra options; it doesn't work with new format -->
                     <img id="details" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Détails">
                 </a>
+                <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
+                    <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
+                </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
                     <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
                 </a>
-                <a mat-list-item >
+                <a mat-list-item (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Primary color" 
-                    [ngStyle]="{'background-color': colorService.color[0]} "
-                     (click) = 'toolHandler.choosePrimaryColor(); openChooseColorDialog()'></div>
+                    [ngStyle]="{'background-color': colorService.color[0]}">
+                    </div>
                 </a>
-                <a mat-list-item  class = "switchIcon" >
-                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors" 
-                    (click)='colorService.switchColors(); toolHandler.resetSelection()'>            
+                <a mat-list-item (click)='switchColours()'>
+                    <img  class="switchIcon" src = "./assets/switch.png" title = "Switch Colors">            
                 </a>
-                <a mat-list-item >
+                <a mat-list-item (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Secondary color"
-                    [ngStyle]="{'background-color': colorService.color[1]} "
-                    (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'></div>
+                    [ngStyle]="{'background-color': colorService.color[1]}">
+                    </div>
                  </a>
             </mat-nav-list>
         </mat-sidenav>

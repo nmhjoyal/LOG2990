@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IDrawingToolOptions } from '../interfaces/drawing-tool-interface';
-import { ILineOptions, IShapeOptions } from '../interfaces/shape-interface';
+import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
+import { IShapeOptions } from '../interfaces/shape-interface';
 import { ToolConstants } from '../tool-constants';
 
 @Injectable({
@@ -12,12 +12,14 @@ export class AttributesService {
   paintbrushAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
   lineAttributes: ILineOptions;
+  ellipseAttributes: IShapeOptions;
 
   constructor() {
     this.resetRectangleAttributes();
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
     this.resetLineAttributes();
+    this.resetEllipseAttributes();
     }
 
   resetCrayonAttributes(): void {
@@ -26,6 +28,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetPaintbrushAttributes(): void {
@@ -34,6 +41,11 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      points: '',
     };
   }
   resetRectangleAttributes(): void {
@@ -42,6 +54,22 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.NULL,
       savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+  resetEllipseAttributes(): void {
+    this.ellipseAttributes = {
+      id: ToolConstants.TOOL_ID.ELLIPSE,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
     };
   }
 
@@ -53,6 +81,10 @@ export class AttributesService {
         savedStrokeWidth: ToolConstants.NULL,
         savedJunctionMode: '',
         savedPointWidth: ToolConstants.NULL,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
       };
   }
 
@@ -68,6 +100,9 @@ export class AttributesService {
     }
     if (this.lineAttributes.wasSaved) {
       this.resetLineAttributes();
+    }
+    if (this.ellipseAttributes.wasSaved) {
+      this.resetEllipseAttributes();
     }
   }
 }

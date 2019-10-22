@@ -67,15 +67,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       this.saveShape();
     }
 
-    this.mouseDown = false;
-    this.shape.height = 0;
-    this.shape.width = 0;
-    this.previewBox.height = 0;
-    this.previewBox.width = 0;
-    this.previewBox.x = 0;
-    this.previewBox.y = 0;
-    this.initialY = 0;
-    this.initialX = 0;
+    this.resetShape();
   }
 
   @HostListener('mouseleave') onMouseLeave(): void {
@@ -146,17 +138,10 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   }
 
   protected calculateDimensions(): void {
-    // tslint:disable-next-line:no-magic-numbers
-    const shapeOffset = this.shape.strokeWidth / 2;
-
     this.previewBox.x = this.cursorX < this.initialX ? this.cursorX : this.initialX;
     this.previewBox.y = this.cursorY < this.initialY ? this.cursorY : this.initialY;
     this.previewBox.width = Math.abs(this.cursorX - this.initialX);
     this.previewBox.height = Math.abs(this.cursorY - this.initialY);
-    this.shape.x =  this.previewBox.x + shapeOffset;
-    this.shape.y =  this.previewBox.y + shapeOffset;
-    this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
-    this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height - this.shape.strokeWidth : 0;
   }
 
   protected saveShape(): void {
@@ -173,6 +158,18 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       fillOpacity: this.shape.fillOpacity,
     };
     this.toolService.drawings.push(currentDrawing);
+  }
+
+  protected resetShape(): void {
+    this.mouseDown = false;
+    this.shape.height = 0;
+    this.shape.width = 0;
+    this.previewBox.height = 0;
+    this.previewBox.width = 0;
+    this.previewBox.x = 0;
+    this.previewBox.y = 0;
+    this.initialY = 0;
+    this.initialX = 0;
   }
 
 }

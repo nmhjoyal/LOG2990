@@ -1,5 +1,5 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -39,6 +39,10 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     this.junctionMode = ToolConstants.POINT_MODE.ROUNDED;
     this.stroke  = {
       id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
       points: '',
       color: this.colorService.color[0],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY,
@@ -74,8 +78,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       this.initialX = event.offsetX;
       this.initialY = event.offsetY;
       this.started = true;
-      this.stroke.points = event.offsetX + ',' + event.offsetY;
-      this.previewPoints.push(event.offsetX + ',' + event.offsetY);
+      this.stroke.points = ' ' + event.offsetX + ',' + event.offsetY;
+      this.previewPoints.push(' ' + event.offsetX + ',' + event.offsetY);
     } else {
       this.addSegment();
     }
@@ -92,6 +96,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @HostListener('dblclick') onDoubleClick(): void {
     if (this.started) {
       this.addSegment();
+      this.getPositionAndDimensions();
       this.saveSegment();
     }
     this.stroke.points = '';
@@ -122,6 +127,10 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     });
     const currentDrawing: ILine = {
       id: this.stroke.id,
+      x: this.stroke.x,
+      y: this.stroke.y,
+      width: this.stroke.width,
+      height: this.stroke.height,
       points: this.stroke.points,
       color: this.stroke.color,
       strokeOpacity: this.stroke.strokeOpacity,
@@ -137,9 +146,9 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   protected addSegment(): void {
     if (this.shiftDown) {
-    this.previewPoints.push(this.initialX + ',' + this.initialY);
+      this.previewPoints.push(' ' + this.initialX + ',' + this.initialY);
     } else {
-      this.previewPoints.push(this.cursorX + ',' + this.cursorY);
+      this.previewPoints.push(' ' + this.cursorX + ',' + this.cursorY);
     }
   }
 
@@ -199,5 +208,26 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   protected increasePointWidth(): void {
     this.stroke.pointWidth++;
+  }
+
+  protected getPositionAndDimensions(): void {
+    if (this.stroke.points !== undefined) {
+      const pointsList = this.stroke.points.split(' ');
+      this.stroke.x = this.windowWidth;
+      this.stroke.y = this.windowHeight;
+      this.stroke.width = 0;
+      this.stroke.height = 0;
+      for (const point of pointsList) {
+        const coordinates = point.split(',');
+        if (coordinates.length > 1) {
+          this.stroke.x = Number(coordinates[0].trim()) < this.stroke.x ? Number(coordinates[0].trim()) : this.stroke.x;
+          this.stroke.width = Number(coordinates[0].trim()) > this.stroke.width ? Number(coordinates[0].trim()) : this.stroke.width;
+          this.stroke.y = Number(coordinates[1].trim()) < this.stroke.y ? Number(coordinates[1].trim()) : this.stroke.y;
+          this.stroke.height = Number(coordinates[1].trim()) > this.stroke.height ? Number(coordinates[1].trim()) : this.stroke.height;
+        }
+      }
+      this.stroke.width = this.stroke.width - this.stroke.x;
+      this.stroke.height = this.stroke.height - this.stroke.y;
+    }
   }
 }

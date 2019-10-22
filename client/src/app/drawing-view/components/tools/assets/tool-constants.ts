@@ -1,9 +1,10 @@
-
 export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
     RECTANGLE = 'rectangle',
     LINE = 'line',
+    SELECTOR = 'selector',
+    ELLIPSE = 'ellipse',
 }
 
 export enum FilterURL {
@@ -53,4 +54,6 @@ export class ToolConstants {
     static STRAIGHT =  '0';
     static DOTTED_LINE = '3';
     static DOTTED_POINT = '6';
+    static PRIMARY_COLOUR_INDEX = 0;
+    static SECONDARY_COLOUR_INDEX = 1;
 }
