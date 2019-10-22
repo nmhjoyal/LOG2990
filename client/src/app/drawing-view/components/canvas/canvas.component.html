@@ -1,5 +1,5 @@
-<svg tabindex="0" class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight"
-    [attr.fill]="data.drawingColor">
+<svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth" [attr.height]="canvasData.data.drawingHeight"
+    [attr.fill]="canvasData.data.drawingColor">
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"
         (contextmenu)="getColorFromCanvas()" />
 
@@ -106,13 +106,13 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
-    <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
+    <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-rectangle>
 </div>
 <div *ngIf="toolHandler.selectorSelected">
-    <app-tools-selector #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
+    <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-selector>
 </div>
 <div *ngIf="toolHandler.ellipseSelected">
-    <app-ellipse #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-ellipse>
+    <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
 </div>
