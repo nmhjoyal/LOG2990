@@ -21,11 +21,13 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   protected name: string;
   protected preview: ISVGPreview;
   private drawing: ITools[];
+  isFinishedSaving: boolean;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
     protected canvasData: CanvasInformationService, protected toolHandler: ToolHandlerService, protected index: IndexService) {
     super(dialogRef, data, canvasData, undefined, toolHandler, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
+    this.isFinishedSaving = true;
     this.index.getTags().subscribe(
       (response: ITag[]) => {
         if (response) {
@@ -47,11 +49,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   onAcceptClick(): void {
     let test: IDrawing;
-    // TODO: Make sure the Date formatting is the same everywhere cause this is what's
-    // used to retrieved drawings from the server (transformed in an id => removing non-digit char)
     const date = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
     test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing, canvas: this.canvasData.data };
-
+    this.isFinishedSaving = false;
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
         tag.isSelected = !tag.isSelected;
@@ -74,9 +74,10 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.index.saveDrawing(test).subscribe(
       (response: boolean) => {
         if (!response) {
-         confirm('Il y a eu une erreur lors de la sauvegarde du dessin.')
+          confirm('Il y a eu une erreur lors de la sauvegarde du dessin.')
         }
       });
+    this.isFinishedSaving = true;
 
     this.onClose();
   }
