@@ -94,6 +94,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         arr = [];
       }
       const index = arr.indexOf(tagSelected);
+      // tslint:disable-next-line: no-magic-numbers
       if (index > -1) {
         arr.splice(index, 1);
       } else {
