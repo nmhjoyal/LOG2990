@@ -1,52 +1,54 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatListModule, MatSidenavModule,
-  MatToolbarModule } from '@angular/material';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  MAT_DIALOG_DATA, MatButtonToggleModule, MatCheckboxModule,
+  MatDialogConfig, MatDialogRef, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatSidenavModule, MatToolbarModule
+} from '@angular/material';
 import { AppComponent } from './components/app/app.component';
 import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from './drawing-view/components/color-picker/color-picker.component';
-import { MockCanvasComponent } from './drawing-view/components/mock-canvas/mock-canvas.component';
-import { ModalWindowComponent } from './drawing-view/components/modal-window/modal-window.component';
-import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing-window/new-drawing-window.component';
-import { RectangleComponent } from './drawing-view/components/tools/shapes/rectangle/rectangle.component';
-import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
+import { GalleryWindowComponent } from './drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
+import { ModalWindowComponent } from './drawing-view/components/modal-windows/modal-window/modal-window.component';
+import { NewDrawingWindowComponent } from './drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
+import { SaveWindowComponent } from './drawing-view/components/modal-windows/save-window/save-window.component';
+import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
-import { LocalStorageService } from './services/local_storage/LocalStorageService';
+import { CanvasInformationService } from './services/canvas-information/canvas-information.service';
+import { ColorService } from './services/color_service/color.service';
+import { FilterTagsPipe } from './services/filter-tags.pipe';
+import { LocalStorageService } from './services/local_storage/local-storage-service';
+import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
+
 @NgModule({
   declarations: [
     AppComponent,
+    NewDrawingWindowComponent,
+    WelcomeWindowComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
+    SaveWindowComponent,
+    GalleryWindowComponent,
     WelcomeWindowComponent,
     NewDrawingWindowComponent,
     ColorPickerComponent,
     ColorPaletteComponent,
-    MockCanvasComponent,
-    RectangleComponent,
+    FilterTagsPipe,
   ],
   imports: [
     DrawingViewModule,
-    BrowserModule,
-    HttpClientModule,
     MatListModule,
     MatToolbarModule,
     MatCheckboxModule,
-    MatButtonModule,
     MatSidenavModule,
-    MatDialogModule,
+    MatMenuModule,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    BrowserAnimationsModule,
+    MatButtonToggleModule,
+    MatProgressSpinnerModule,
   ],
-  providers: [ MatDialogConfig, LocalStorageService, MockCanvasComponent,
+  providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, ColorService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>,
-    WelcomeWindowComponent, NewDrawingWindowComponent, ColorPickerComponent],
+  entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, ColorPickerComponent,
+    NewDrawingWindowComponent, SaveWindowComponent, GalleryWindowComponent],
 })
 export class AppModule { }

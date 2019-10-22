@@ -1,0 +1,13 @@
+.rectanglePreviewZone{
+    top: 0px;
+    left: 0px;
+    position:absolute; 
+    z-index:1;
+}
+
+.previewBox{
+    stroke: #000000; 
+    stroke-width: 2; 
+    stroke-dasharray:10; 
+    fill: none;
+}

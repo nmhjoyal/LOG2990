@@ -8,6 +8,8 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ColorService } from '../../../../services/color_service/color.service';
 
 @Component({
   selector: 'app-color-palette',
@@ -16,13 +18,15 @@ import {
 })
 export class ColorPaletteComponent implements AfterViewInit {
 
-  @Input() mainColor: boolean;
-  @Input() colors: string[];
-  @Input() alpha: number[];
+  @Input() private mainColor: boolean;
+  @Input() private alpha: number[];
+  @Input() lastColors: string[];
 
-  @Output() color1: EventEmitter<string> = new EventEmitter();
-  @Output() color2: EventEmitter<string> = new EventEmitter();
-  color = [this.color1, this.color2];
+  @Output() primaryColor: EventEmitter<string> = new EventEmitter();
+  @Output() secondaryColor: EventEmitter<string> = new EventEmitter();
+  color = [this.primaryColor, this.secondaryColor];
+
+  constructor(public colorService: ColorService) {}
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>;
@@ -33,73 +37,66 @@ export class ColorPaletteComponent implements AfterViewInit {
 
   selectedPosition: { x: number; y: number };
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.draw();
   }
 
-  draw() {
+  drawGradient(gradient: CanvasGradient, width: number, height: number): void {
+    this.ctx.beginPath();
+    this.ctx.rect(0, 0, width, height);
+    this.ctx.fillStyle = gradient;
+    this.ctx.fill();
+    this.ctx.closePath();
+  }
+
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
 
-    const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
+    const colorGradient = this.ctx.createLinearGradient(0, 0, 0, height);
 
+    let separatorFactor = 0;
     // vertical color grandient
-    gradient.addColorStop(0,    'rgba(255, 0, 0, 1)');
-    gradient.addColorStop(0.15, 'rgba(255, 102, 0, 1)');
-    gradient.addColorStop(0.3,  'rgba(255, 225, 55, 1)');
-    gradient.addColorStop(0.45, 'rgba(0, 200, 25, 1)');
-    gradient.addColorStop(0.60, 'rgba(0, 255, 255, 1)');
-    gradient.addColorStop(0.75, 'rgba(0, 0, 255, 1)');
-    gradient.addColorStop(0.9, 'rgba(255, 0, 255, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * separatorFactor, 'rgba(255, 0, 0, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 102, 0, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 225, 55, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 200, 25, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 255, 255, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 255, 1)');
+    colorGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 0, 255, 1)');
+    this.drawGradient(colorGradient, width, height);
 
-    this.ctx.beginPath();
-    this.ctx.rect(0, 0, width, height);
-    this.ctx.fillStyle = gradient;
-    this.ctx.fill();
-    this.ctx.closePath();
-
+    separatorFactor = 0;
     // horizontal greyscale gradient
-    const gradient2 = this.ctx.createLinearGradient( height, 0, 0, 0) ;
-    gradient2.addColorStop(0, 'rgba(0, 0, 0, 1)');
-    gradient2.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)');
-    gradient2.addColorStop(0.3, 'rgba(0, 0, 0, 0.25)');
-    gradient2.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-    gradient2.addColorStop(0.7, 'rgba(255, 255, 255, 0.25)');
-    gradient2.addColorStop(0.85, 'rgba(255, 255, 255, 0.5)');
-    gradient2.addColorStop(1, 'rgba(255, 255, 255, 1)');
-
-    this.ctx.beginPath();
-    this.ctx.rect(0, 0, width, height);
-    this.ctx.fillStyle = gradient2;
-    this.ctx.fill();
-    this.ctx.closePath();
+    const greyscaleGradient = this.ctx.createLinearGradient( height, 0, 0, 0) ;
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * separatorFactor, 'rgba(0, 0, 0, 1)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.5)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.25)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 255, 255, 0.25)');
+    greyscaleGradient.addColorStop(NumericalValues.COLOR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 255, 255, 0.5)');
+    greyscaleGradient.addColorStop(1, 'rgba(255, 255, 255, 1)');
+    this.drawGradient(greyscaleGradient, width, height);
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(evt: MouseEvent) {
+  onMouseUp(): void {
     this.mousedown = false;
-
-    const pos = this.selectedPosition;
-
-    if (this.getColorAtPosition(pos.x, pos.y) !== this.colors[9] ) {
-      this.colors.shift();
-      if (pos) {
-      this.colors.push(this.getColorAtPosition(pos.x, pos.y));
-      }
-    }
+    this.colorService.addColor();
   }
 
-  onMouseDown(evt: MouseEvent) {
+  onMouseDown(evt: MouseEvent): void {
     this.mousedown = true;
     this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
     this.draw();
     this.color[+this.mainColor].emit(this.getColorAtPosition(evt.offsetX, evt.offsetY));
   }
 
-  onMouseMove(evt: MouseEvent) {
+  onMouseMove(evt: MouseEvent): void {
     if (this.mousedown) {
       this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
       this.draw();
@@ -107,27 +104,18 @@ export class ColorPaletteComponent implements AfterViewInit {
     }
   }
 
-  emitColor(x: number, y: number) {
+  emitColor(x: number, y: number): void {
     const hexColor = this.getColorAtPosition(x, y);
     this.color[+this.mainColor].emit(hexColor);
   }
 
-  rgb2hex(hue: number) {
-    if (!hue) {
-      return '00';
-    } else if (hue < 16) {
-      return ('0' + hue.toString(16));
-    } else {
-      return hue.toString(16);
-    }
-  }
-
-  getColorAtPosition(x: number, y: number) {
+  getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, 1, 1).data;
-    const r = this.rgb2hex(imageData[0]);
-    const g = this.rgb2hex(imageData[1]);
-    const b = this.rgb2hex(imageData[2]);
-    const a = this.rgb2hex(Math.round(this.alpha[+this.mainColor] * 255));
+    let arrayIndex = 0;
+    const r = this.colorService.rgbToHex(imageData[arrayIndex]);
+    const g = this.colorService.rgbToHex(imageData[++arrayIndex]);
+    const b = this.colorService.rgbToHex(imageData[++arrayIndex]);
+    const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * NumericalValues.RGBTOHEX_FACTOR));
     return ( '#' + r + g + b + a );
   }
 }

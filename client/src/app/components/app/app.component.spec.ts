@@ -1,25 +1,36 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-window/modal-window.component';
-import { NewDrawingModalData } from 'src/app/drawing-view/components/NewDrawingModalData';
-import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
+import { MatDialog } from '@angular/material';
+import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ColorService } from 'src/app/services/color_service/color.service';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
+  let colorServiceMock: SpyObj<ColorService>;
+  let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
-  let dataMock: SpyObj<NewDrawingModalData>;
-  let dialogRefMock: SpyObj<MatDialogRef<ModalWindowComponent>>;
+  let dataMock: SpyObj<INewDrawingModalData>;
+  let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
 
   beforeEach(async(() => {
-    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']);
-    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-    dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
-    component = new AppComponent(dialogMock, dialogRefMock, serviceMock, dataMock);
+    serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
+    colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
+    ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
+    dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
+    canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
   }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   it('should open dialog when storage returns true', () => {
     serviceMock.getShowAgain.and.returnValue(true);
@@ -40,4 +51,43 @@ describe('AppComponent', () => {
     component.openNewDrawingDialog();
     expect(dialogMock.open).toHaveBeenCalled();
   });
+
+  it('should open a new color dialog', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    serviceMock.getShowAgain.and.returnValue(false);
+    component.ngOnInit();
+    component.openChooseColorDialog();
+    expect(dialogMock.open).toHaveBeenCalled();
+  });
+
+  it('should only resetSelection when colourApplicator not selected', () => {
+    toolHandlerMock.colourApplicatorSelected = true;
+    toolHandlerMock.resetSelection.and.callThrough();
+    component.switchColors();
+    expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
+  });
+
+  it('#chooseCrayon should be called when c is pressed', () => {
+    component.onKeydownCEvent();
+    expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
+  });
+
+  it('#choosePaintbrush should be called when w is pressed', () => {
+    toolHandlerMock.choosePaintbrush.and.callThrough();
+    component.onKeydownWEvent();
+    expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
+  });
+
+  it('#chooseRectangle should be called when 1 is pressed', () => {
+    toolHandlerMock.chooseRectangle.and.callThrough();
+    component.onKeydown1();
+    expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
+  });
+
+  it('#chooseEllipse should be called when 2 is pressed', () => {
+    toolHandlerMock.chooseEllipse.and.callThrough();
+    component.onKeydown2();
+    expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
+  });
+
 });
