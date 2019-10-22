@@ -25,17 +25,23 @@ export class AppComponent implements OnInit {
     this.data.drawingColor = Strings.WHITE_HEX;
   }
 
-  ngOnInit(): void {
-    this.openWelcomeScreen();
+  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.chooseCrayon();
+    }
   }
 
+  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.choosePaintbrush();
+    }
+  }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
   }
 
-  @HostListener('document:keydown.1', ['$event']) onKeydown1(event: KeyboardEvent) {
-    event.preventDefault();
+  @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseRectangle();
     }
@@ -58,6 +64,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    this.openWelcomeScreen();
+  }
+
   openWelcomeScreen(): void {
     const showAgain = this.storage.getShowAgain();
     if (showAgain) {
@@ -72,6 +82,13 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColorPickerComponent, {
       panelClass: 'choose-color-window',
     });
+  }
+
+  switchColours(): void {
+    this.colorService.switchColors();
+    if (!this.toolHandler.colourApplicatorSelected) {
+      this.toolHandler.resetSelection();
+    }
   }
 
 }
