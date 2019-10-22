@@ -1,12 +1,12 @@
 // tslint:disable: no-implicit-dependencies
 // tslint:disable: no-require-imports
 // tslint:disable: no-var-requires
-// tslint:disable: no-var-requires
+// tslint:disable: no-any
 const server = require('../server');
 const http = require('http');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../server')
+const app = require('../server');
 import { expect } from 'chai';
 
 chai.use(chaiHttp);
@@ -33,7 +33,7 @@ describe('IndexController', () => {
     });
 
     describe('/save', () => {
-        it('call index.saveTag', (res: any) => {
+        it('call index.saveTag', () => {
             http.get('http://localhost:3000/save', (res: any) => {
                 // assert.equal(res, index.saveTag({ name: 'string', isSelected: false }));
                 chai.done();
@@ -42,7 +42,7 @@ describe('IndexController', () => {
     });
 
     describe('/tags', () => {
-        it('call index.saveTag', (res: any) => {
+        it('call index.saveTag', () => {
             http.get('http://localhost:3000/tags', (res: any) => {
                 // tslint:disable-next-line: no-unused-expression
                 expect(res).to.be.true;
@@ -51,7 +51,7 @@ describe('IndexController', () => {
     });
 
     describe('/gettags', () => {
-        it('call index.saveTag', (res: any) => {
+        it('call index.saveTag', () => {
             chai.request(app).get('/gettags').end((res: any) => {
                 res.should.have.status(200);
             });

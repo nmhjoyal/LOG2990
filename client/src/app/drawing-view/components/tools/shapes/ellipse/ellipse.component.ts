@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/tool-constants';
@@ -34,18 +35,17 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
   }
 
   protected calculateDimensions(): void {
-    this.previewBox.x = this.cursorX < this.initialX ? this.cursorX : this.initialX;
-    this.previewBox.y = this.cursorY < this.initialY ? this.cursorY : this.initialY;
-    this.previewBox.width = Math.abs(this.cursorX - this.initialX);
-    this.previewBox.height = Math.abs(this.cursorY - this.initialY);
+    super.calculateDimensions();
 
     // tslint:disable:no-magic-numbers
     // horizontal radius
-    this.shape.width = this.previewBox.width > this.shape.strokeWidth ? (this.previewBox.width - this.shape.strokeWidth) / 2 : 0;
+    this.shape.width = this.previewBox.width > this.shape.strokeWidth ?
+      (this.previewBox.width - this.shape.strokeWidth) / NumericalValues.TWO : 0;
     // vertical radius
-    this.shape.height = this.previewBox.height > this.shape.strokeWidth ? (this.previewBox.height - this.shape.strokeWidth) / 2 : 0;
-    this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
-    this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
+    this.shape.height = this.previewBox.height > this.shape.strokeWidth ?
+      (this.previewBox.height - this.shape.strokeWidth) / NumericalValues.TWO : 0;
+    this.shape.x = this.previewBox.x + this.previewBox.width / NumericalValues.TWO;  // x coordinate for center
+    this.shape.y = this.previewBox.y + this.previewBox.height / NumericalValues.TWO; // y coordinate for center
     // tslint:enable:no-magic-numbers
 
     if (this.shiftDown ) {

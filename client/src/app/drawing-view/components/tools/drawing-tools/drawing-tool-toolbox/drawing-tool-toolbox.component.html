@@ -7,11 +7,25 @@
         <button (click)="getComponent().setFilter(4)">Filtre 4</button>
         <button (click)="getComponent().setFilter(5)">Filtre 5</button>
     </div>
-    <div *ngIf="toolHandler.paintbrushSelected || toolHandler.crayonSelected">
+    <div *ngIf="toolHandler.paintbrushSelected || toolHandler.crayonSelected || toolHandler.lineSelected">
         <button (click)="getComponent().decreaseStrokeWidth()">-</button>
         {{getComponent().stroke.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
+
+    <p *ngIf="toolHandler.lineSelected">
+        <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
+        <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>
+        <button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</button><br>
+        <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">Continu</button>
+        <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">Pointillé (trait)</button>
+        <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">Pointillé (point)</button><br>
+
+        <button (click)="getComponent().decreasePointWidth()">-</button>
+        {{getComponent().stroke.pointWidth}}
+        <button (click)="getComponent().increasePointWidth()">+</button>
+      </p>
+      
 
     <div *ngIf="toolHandler.rectangleSelected">
         <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>

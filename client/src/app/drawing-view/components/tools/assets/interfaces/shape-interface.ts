@@ -7,7 +7,7 @@ export interface IPreviewBox {
     height: number;
 }
 
-export interface IShape extends IPreviewBox, ITools {
+export interface IShape extends ITools {
     primaryColor: string;
     secondaryColor: string;
     strokeOpacity: number;
