@@ -1,7 +1,8 @@
 export enum Id {
+    RECTANGLE = 'rectangle',
+    POLYGON = 'polygon',
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
-    RECTANGLE = 'rectangle',
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
@@ -50,6 +51,8 @@ export class ToolConstants {
     static FILTER_SELECTION = FilterSelection;
     static NULL = -1;
     static TRACE_MODE = ModeType;
+    static MIN_VERTEX_NUMBER = 3;
+    static MAX_VERTEX_NUMBER = 12;
     static POINT_MODE = PointType;
     static STRAIGHT =  '0';
     static DOTTED_LINE = '3';

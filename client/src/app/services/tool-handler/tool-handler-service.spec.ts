@@ -25,6 +25,7 @@ describe('ToolHandlerService', () => {
     expect(service.rectangleSelected).toBe(false);
     expect(service.ellipseSelected).toBe(false);
     expect(service.colourApplicatorSelected).toBe(false);
+    expect(service.polygonSelected).toBe(false);
     expect(service.selectorSelected).toBe(false);
     expect(service.primaryColor).toEqual(colorService.color[0]);
     expect(service.secondaryColor).toEqual(colorService.color[1]);
@@ -53,8 +54,7 @@ describe('ToolHandlerService', () => {
       expect(service.primaryColorSelected).toBe(false);
       expect(service.ellipseSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
-      expect(service.pipetteSelected).toBe(false);
-
+      expect(service.polygonSelected).toBe(false);
       expect(service.selectorSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
@@ -151,6 +151,14 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(service.secondaryColorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
+  });
+
+  it('#choosePolygon should call #resetSelection and select the polygon', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.choosePolygon();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.polygonSelected).toBe(true);
   });
 
   it('#chooseEyedropper should call #resetSelection and select the ipette', () => {

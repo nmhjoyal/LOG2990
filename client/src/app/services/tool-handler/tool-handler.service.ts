@@ -12,6 +12,7 @@ export class ToolHandlerService {
   // Shape Handling attributes
   noneSelected: boolean;
   rectangleSelected: boolean;
+  polygonSelected: boolean;
   colourApplicatorSelected: boolean;
   pipetteSelected: boolean;
   crayonSelected: boolean;
@@ -42,6 +43,7 @@ export class ToolHandlerService {
     this.pinceauSelected = false;
     this.lineSelected = false;
     this.paintbrushSelected = false;
+    this.polygonSelected = false;
     this.selectorSelected = false;
     this.pipetteSelected = false;
     this.primaryColorSelected = false;
@@ -66,6 +68,7 @@ export class ToolHandlerService {
     this.pinceauSelected = false;
     this.lineSelected = false;
     this.paintbrushSelected = false;
+    this.polygonSelected = false;
     this.selectorSelected = false;
     this.ellipseSelected = false;
     this.resetSelectorBox();
@@ -91,6 +94,12 @@ export class ToolHandlerService {
       this.noneSelected = false;
   }
 
+  choosePolygon(): void {
+    this.resetSelection();
+    this.polygonSelected = true;
+    this.noneSelected = false;
+}
+​
   chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
     this.resetSelection();
     this.primaryColor = primaryColor;

@@ -1,32 +1,29 @@
-<svg tabindex="0" class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight"
-    [attr.fill]="data.drawingColor">
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"
-        (contextmenu)="getColorFromCanvas()" />
+<svg tabindex="0" class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
+    <filter id="filter1">
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
 
-    <g *ngFor="let drawing of toolHandler.drawings">
-        <filter id="filter1">
-            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
-            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R"
-                yChannelSelector="G" />
-        </filter>
+    <filter id="filter2">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
 
-        <filter id="filter2">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
-        </filter>
-
-        <filter id="filter3">
-            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blurOut" />
-            <feDisplacementMap in2="turbulence" in="blurOut" scale="10" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-
-        <filter id="filter4">
-            <feOffset result="offOut" in="StrokePaint" dx="0.05" dy="0.05" />
-            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
-            <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
-            <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
-            <feBlend in="blurOut" in2="blurOut2" mode="normal" />
-        </filter>
+    <filter id="filter3">
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blurOut"/>
+        <feDisplacementMap in2="turbulence" in="blurOut" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+        
+    <filter id="filter4">
+        <feOffset result="offOut" in="StrokePaint" dx="0.05" dy="0.05" />
+        <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1" />
+        <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
+        <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
+        <feBlend in="blurOut" in2="blurOut2" mode="normal" />
+    </filter>  
+    
+    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
+    <g *ngFor = "let drawing of toolHandler.drawings">
         <g [ngSwitch]="drawing.id">
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
@@ -63,7 +60,14 @@
                     [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
-            >>>>>>> client/src/app/drawing-view/components/canvas/canvas.component.html
+            <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape(drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
+                    <polygon [attr.points] = "drawing.vertices"
+                    [style.stroke]="drawing.secondaryColor" 
+                    [style.stroke-opacity]="drawing.strokeOpacity"
+                    [style.fill]="drawing.primaryColor"
+                    [style.stroke-width]="drawing.strokeWidth"
+                    [style.fill-opacity]="drawing.fillOpacity"/>  
+            </g>
         </g>
     </g>
     <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"
@@ -106,6 +110,9 @@
 <div *ngIf="toolHandler.rectangleSelected">
     <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
     </app-tools-rectangle>
+</div>
+<div *ngIf="toolHandler.polygonSelected">
+    <app-tools-polygon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-polygon>
 </div>
 <div *ngIf="toolHandler.selectorSelected">
     <app-tools-selector #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
