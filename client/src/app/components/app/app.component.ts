@@ -40,11 +40,15 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
+    if (this.isOnlyModalOpen()) {
       this.toolHandler.chooseCrayon();
+    }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
+    if (this.isOnlyModalOpen()) {
       this.toolHandler.choosePaintbrush();
+    }
   }
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
@@ -58,7 +62,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
-    if (!this.toolHandler.drawings.length) {
+    if (this.isOnlyModalOpen()) {
       this.openGalleryWindow();
     } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
       this.openGalleryWindow();
@@ -66,11 +70,15 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
+    if (this.isOnlyModalOpen()) {
       this.toolHandler.chooseRectangle();
+    }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
+    if (this.isOnlyModalOpen()) {
       this.toolHandler.chooseEllipse();
+    }
   }
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {

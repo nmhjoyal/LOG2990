@@ -16,10 +16,10 @@
                     <li id="list-style" *ngFor="let drawing of (drawingsInGallery | filterTags: filterBy)"
                         (click)="onSelect(drawing)" [class.selected]="drawing === selectedDrawing">
                         <h2>{{drawing.name}}</h2>
+                        <app-preview-canvas [display]='drawing' ></app-preview-canvas>
                         <button mat-button [matMenuTriggerFor]="menu">Étiquettes</button>
+
                         <mat-menu #menu="matMenu">
-
-
                             <div *ngFor="let tag of drawing.tags">
                                 <div *ngFor="let tag of drawing.tags">
                                     <h3 id="header">{{tag.name}}</h3>

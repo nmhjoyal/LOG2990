@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Input } from '@angular/core';
+import { Component, Inject, OnInit, Input, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -10,14 +10,16 @@ import { ModalWindowComponent } from '../../modal-window/modal-window.component'
 import { SaveWindowComponent } from '../../save-window/save-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
 import { ITag } from '../../../../../../../../common/drawing-information/ITag';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gallery-window',
   templateUrl: './gallery-window.component.html',
   styleUrls: ['./gallery-window.component.scss'],
 })
-export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
+export class GalleryWindowComponent extends ModalWindowComponent implements OnDestroy, OnInit {
 
+  private gallerySubscription: Subscription;
   protected drawingsInGallery: IDrawing[];
   private selectedDrawing: IDrawing;
   private drawingToOpen: IDrawing;
@@ -46,11 +48,15 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     )
   }
 
-  ngOnInit() {
-    this.index.getDrawings().subscribe(
+  ngOnInit(): void {
+    this.gallerySubscription = this.index.getDrawings().subscribe(
       (response: IDrawing[]) => {
         this.drawingsInGallery = response;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.gallerySubscription.unsubscribe();
   }
 
   onSelect(drawing: IDrawing): void {
