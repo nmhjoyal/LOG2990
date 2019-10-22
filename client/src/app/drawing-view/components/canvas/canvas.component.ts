@@ -17,7 +17,7 @@ import { Id, ToolConstants } from '../tools/assets/tool-constants';
 })
 export class CanvasComponent {
 
-  gridElementC = document.getElementById('myGrid');
+  gridElementC = document.getElementById('grid');
   sliderElementC: HTMLInputElement;
   toolId = Id;
   @ViewChild('activeTool', {static: false}) activeTool: ToolAbstract;
@@ -95,5 +95,4 @@ export class CanvasComponent {
 
     this.sliderElementC = sliderElement;
   }
-}
 }

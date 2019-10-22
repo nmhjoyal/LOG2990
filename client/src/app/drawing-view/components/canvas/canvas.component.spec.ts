@@ -13,7 +13,6 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
-import { GridService } from '../../../services/grid_service/grid.service';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
@@ -28,7 +27,6 @@ import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
-  let gridServiceMock: GridService;
   const colorServiceMock: ColorService = new ColorService();
   const toolServiceMock: ToolHandlerService = new ToolHandlerService(colorServiceMock);
   let component: CanvasComponent;
@@ -120,25 +118,6 @@ describe('CanvasComponent', () => {
     toolServiceMock.colourApplicatorSelected = true;
     component.applySecondaryColourToShape(new MouseEvent('contextmenu'), testObject);
     expect(testObject.secondaryColor).toEqual(Strings.BLACK_HEX);
-  });
-
-  it('should show the grid when g is pressed', () => {
-    gridServiceMock = new GridService();
-    const canvasTest = new CanvasComponent(dataMock, toolServiceMock, colorServiceMock, gridServiceMock);
-    canvasTest.onKeydownHandlerGrid();
-    if (canvasTest.gridElementC != null) {
-      expect(canvasTest.gridElementC.style.visibility).toBe('visible');
-    }
-  });
-
-  it('should hide the grid when g is pressed twice', () => {
-    gridServiceMock = new GridService();
-    const canvasTest = new CanvasComponent(dataMock, toolServiceMock, colorServiceMock, gridServiceMock);
-    canvasTest.onKeydownHandlerGrid();
-    canvasTest.onKeydownHandlerGrid();
-    if (canvasTest.gridElementC != null) {
-      expect(canvasTest.gridElementC.style.visibility).toBe('hidden');
-    }
   });
 
 });

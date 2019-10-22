@@ -10,8 +10,8 @@ import { NewDrawingWindowComponent } from './drawing-view/components/new-drawing
 import { WelcomeWindowComponent } from './drawing-view/components/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { ColorService } from './services/color_service/color.service';
+import { GridService } from './services/grid_service/grid.service';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
-import { GridService } from './services/grid_service/mygrid.service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
 
 @NgModule({
