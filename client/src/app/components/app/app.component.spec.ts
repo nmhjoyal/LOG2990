@@ -19,7 +19,8 @@ describe('AppComponent', () => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
-    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['resetSelection']);
+    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
+    ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     component = new AppComponent(dialogMock, serviceMock, colorServiceMock, toolHandlerMock, dataMock);
 
@@ -65,27 +66,27 @@ describe('AppComponent', () => {
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
-    const spy = spyOn(toolHandlerMock, 'chooseCrayon');
+    toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
-    expect(spy).toHaveBeenCalled();
+    expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
 
   it('#choosePaintbrush should be called when w is pressed', () => {
-    const spy = spyOn(toolHandlerMock, 'choosePaintbrush');
+    toolHandlerMock.choosePaintbrush.and.callThrough();
     component.onKeydownWEvent();
-    expect(spy).toHaveBeenCalled();
+    expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
   });
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
-    const spy = spyOn(toolHandlerMock, 'chooseRectangle');
+    toolHandlerMock.chooseRectangle.and.callThrough();
     component.onKeydown1();
-    expect(spy).toHaveBeenCalled();
+    expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
-    const spy = spyOn(toolHandlerMock, 'chooseEllipse');
+    toolHandlerMock.chooseEllipse.and.callThrough();
     component.onKeydown2();
-    expect(spy).toHaveBeenCalled();
+    expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });
 
 });

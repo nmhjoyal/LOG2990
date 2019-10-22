@@ -3,7 +3,7 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
 
-describe('ToolHandlerServiceService', () => {
+describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
   const FIFTY = 50;
@@ -50,6 +50,8 @@ describe('ToolHandlerServiceService', () => {
       expect(service.rectangleSelected).toBe(false);
       expect(service.ellipseSelected).toBe(false);
       expect(service.colourApplicatorSelected).toBe(false);
+      expect(service.pipetteSelected).toBe(false);
+
       expect(service.selectorSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
@@ -128,6 +130,14 @@ describe('ToolHandlerServiceService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(service.colourApplicatorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
+  });
+
+  it('#chooseEyedropper should call #resetSelection and select the ipette', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseEyedropper();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.pipetteSelected).toBe(true);
   });
 
   it('#chooseSelector should call #resetSelection and select the Selector', () => {

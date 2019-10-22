@@ -32,6 +32,9 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
                     <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
+                        <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png" title="Pipette">
+                    </a>
                 <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Shapes">
                     <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"></button>
@@ -58,8 +61,8 @@
                     [ngStyle]="{'background-color': colorService.color[0]}">
                     </div>
                 </a>
-                <a mat-list-item  class = "switchIcon" (click)='switchColours()'>
-                    <img height= 24px width= 24px src = "./assets/switch.png" title = "Switch Colors">            
+                <a mat-list-item (click)='switchColours()'>
+                    <img  class="switchIcon" src = "./assets/switch.png" title = "Switch Colors">            
                 </a>
                 <a mat-list-item (click) = 'toolHandler.chooseSecondaryColor(); openChooseColorDialog()'>
                     <div class = "color-preview" title = "Secondary color"
