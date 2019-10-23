@@ -55,21 +55,22 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     if (this.stamp.svgReference !== '') {
       this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
       this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
-
-      const createdStamp: IStamp = {
-        id: this.stamp.id,
-        svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
-        primaryColour: this.stamp.primaryColour,
-        x: this.stamp.x,
-        y: this.stamp.y,
-        width: this.stamp.width,
-        height: this.stamp.height,
-        angle: this.angle,
-        scaleFactor: this.stamp.scaleFactor,
-        centerX: event.offsetX,
-        centerY: event.offsetY,
-      };
-      this.toolServiceRef.drawings.push(createdStamp);
+      if (this.stamp.svgReference !== undefined) {
+        const createdStamp: IStamp = {
+          id: this.stamp.id,
+          svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
+          primaryColour: this.stamp.primaryColour,
+          x: this.stamp.x,
+          y: this.stamp.y,
+          width: this.stamp.width,
+          height: this.stamp.height,
+          angle: this.angle,
+          scaleFactor: this.stamp.scaleFactor,
+          centerX: event.offsetX,
+          centerY: event.offsetY,
+        };
+        this.toolServiceRef.drawings.push(createdStamp);
+      }
     }
   }
 
@@ -103,25 +104,15 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   increaseScaleFactor(): void {
     if (this.stamp.scaleFactor + 1 < StampConstants.MAX_SCALE) {
-      this.stamp.scaleFactor += 1;
+      this.stamp.scaleFactor++;
       this.multiplyScaleFactor();
     }
   }
 
   decreaseScaleFactor(): void {
     if (!(this.stamp.scaleFactor - 1 < 0)) {
-      this.stamp.scaleFactor -= 1;
+      this.stamp.scaleFactor--;
       this.multiplyScaleFactor();
-    }
-  }
-
-  increaseAngle(): void {
-    this.stamp.angle += 1;
-  }
-
-  decreaseAngle(): void {
-    if (!(this.stamp.angle - 1 < 0)) {
-      this.stamp.angle -= 1;
     }
   }
 }

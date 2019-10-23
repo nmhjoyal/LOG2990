@@ -36,8 +36,7 @@
                     [style.stroke-dasharray]="drawing.strokeDashArray" />
             </g>
 
-            <g *ngSwitchCase="toolId.STAMP" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)">
+            <g *ngSwitchCase="toolId.STAMP" (click)="applyColourToShape($event, drawing)">
                 <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
                     [attr.height]="drawing.height" [attr.href]="drawing.svgReference"
                     [attr.transform]="'rotate('+drawing.angle+','+drawing.centerX+','+drawing.centerY+')'" />

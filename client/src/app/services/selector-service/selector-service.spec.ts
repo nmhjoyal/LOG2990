@@ -129,6 +129,9 @@ describe('SelectorService', () => {
     object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FIFTY / TWICE, height: FIFTY / TWICE, id: Id.ELLIPSE };
     expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeFalsy();
     expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeTruthy();
+    object = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.STAMP };
+    expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
+    expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
   });
 
   it('should confirm selection box intersects object', () => {
@@ -139,12 +142,16 @@ describe('SelectorService', () => {
     expect(service.objectInBox(object, box)).toBeFalsy();
     object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FORTY / TWICE, height: FORTY / TWICE, id: Id.ELLIPSE };
     expect(service.objectInBox(object, box)).toBeFalsy();
+    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.STAMP };
+    expect(service.objectInBox(object, box)).toBeFalsy();
     box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
     object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
     expect(service.objectInBox(object, box)).toBeTruthy();
     object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40 40,41 41,40 41,41' };
     expect(service.objectInBox(object, box)).toBeTruthy();
     object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.ELLIPSE };
+    expect(service.objectInBox(object, box)).toBeTruthy();
+    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.STAMP };
     expect(service.objectInBox(object, box)).toBeTruthy();
   });
 });

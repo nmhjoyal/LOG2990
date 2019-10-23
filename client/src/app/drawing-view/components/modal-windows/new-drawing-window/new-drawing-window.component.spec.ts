@@ -72,6 +72,11 @@ describe('NewDrawingWindowComponent', () => {
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
     colorService = new ColorService();
     canvasDataMock = new CanvasInformationService();
+    canvasDataMock.data = {
+      drawingColor: '',
+      drawingWidth: 100,
+      drawingHeight: 100,
+    };
     component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, storageServiceMock, colorService);
     component.ngOnInit();
   }));

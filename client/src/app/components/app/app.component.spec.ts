@@ -26,6 +26,7 @@ describe('AppComponent', () => {
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
+    spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
   }));
 
   it('should create', () => {
@@ -68,6 +69,7 @@ describe('AppComponent', () => {
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
+    toolHandlerMock.crayonSelected = true;
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
@@ -80,12 +82,14 @@ describe('AppComponent', () => {
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
     toolHandlerMock.chooseRectangle.and.callThrough();
+    toolHandlerMock.rectangleSelected = true;
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
     toolHandlerMock.chooseEllipse.and.callThrough();
+    toolHandlerMock.ellipseSelected = true;
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });

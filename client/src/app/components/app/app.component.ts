@@ -92,19 +92,19 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
-    if (this.isOnlyModalOpen()) {
+    if (this.isOnlyModalOpen() && this.toolHandler.rectangleSelected) {
       this.toolHandler.chooseRectangle();
     }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
-    if (this.isOnlyModalOpen()) {
+    if (this.isOnlyModalOpen() && this.toolHandler.ellipseSelected) {
       this.toolHandler.chooseEllipse();
     }
   }
 
 @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
-   if (this.isOnlyModalOpen()) {
+   if (this.isOnlyModalOpen() && this.toolHandler.polygonSelected) {
      this.toolHandler.choosePolygon();
    }
  }
