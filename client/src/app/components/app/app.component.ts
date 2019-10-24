@@ -40,32 +40,32 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
-    if (this.isOnlyModalOpen()) {
+    if (this.isOnlyModalOpen() && this.toolHandler.crayonSelected) {
       this.toolHandler.chooseCrayon();
     }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
-    if (this.isOnlyModalOpen()) {
+    if (this.isOnlyModalOpen() && this.toolHandler.paintbrushSelected) {
       this.toolHandler.choosePaintbrush();
     }
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && this.toolHandler.pipetteSelected) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && this.toolHandler.colourApplicatorSelected) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && this.toolHandler.selectorSelected) {
       this.toolHandler.chooseSelector();
     }
   }
@@ -103,11 +103,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-@HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
-   if (this.isOnlyModalOpen() && this.toolHandler.polygonSelected) {
-     this.toolHandler.choosePolygon();
-   }
- }
+  @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
+    if (this.isOnlyModalOpen() && this.toolHandler.polygonSelected) {
+      this.toolHandler.choosePolygon();
+    }
+  }
 
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {

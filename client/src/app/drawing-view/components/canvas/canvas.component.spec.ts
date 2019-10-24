@@ -91,9 +91,6 @@ describe('CanvasComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
-  }));
-
-  beforeEach(async(() => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 

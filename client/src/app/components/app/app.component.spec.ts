@@ -70,26 +70,28 @@ describe('AppComponent', () => {
 
   it('#chooseCrayon should be called when c is pressed', () => {
     toolHandlerMock.crayonSelected = true;
+    toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
 
   it('#choosePaintbrush should be called when w is pressed', () => {
+    toolHandlerMock.paintbrushSelected = true;
     toolHandlerMock.choosePaintbrush.and.callThrough();
     component.onKeydownWEvent();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
   });
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
-    toolHandlerMock.chooseRectangle.and.callThrough();
     toolHandlerMock.rectangleSelected = true;
+    toolHandlerMock.chooseRectangle.and.callThrough();
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
-    toolHandlerMock.chooseEllipse.and.callThrough();
     toolHandlerMock.ellipseSelected = true;
+    toolHandlerMock.chooseEllipse.and.callThrough();
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });
