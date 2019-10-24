@@ -2,20 +2,18 @@ import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { IStamp } from '../assets/interfaces/stamp-interface';
-import { FilterSelection, Id, ToolConstants, StampConstants } from '../assets/tool-constants';
-
-
+import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/tool-constants';
 
 @Component({
   selector: 'app-tools-stamp',
   templateUrl: './stamp.component.html',
   styleUrls: ['./stamp.component.scss'],
 })
-export class StampComponent implements OnInit, OnDestroy {
+export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
-  
   @Input() windowHeight: number;
   @Input() windowWidth: number;
   stamp: IStamp;
@@ -23,6 +21,7 @@ export class StampComponent implements OnInit, OnDestroy {
 
   constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
     protected colorServiceRef: ColorService) {
+      super();
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
