@@ -34,7 +34,7 @@ describe('RectangleComponent', () => {
   // tslint:disable:no-string-literal
   beforeEach(() => {
     fixture = TestBed.createComponent(PolygonComponent);
-    attrService = TestBed.get(AttributesService); // could use a property spy...
+    attrService = TestBed.get(AttributesService); // could use a property spy?
     component = fixture.componentInstance;
     fixture.detectChanges();
 
@@ -145,14 +145,16 @@ describe('RectangleComponent', () => {
   });
 
   it('#saveShape not save if vertices were not generated', () => {
-    const superSaveSpy = spyOn<ShapeAbstract>(ShapeAbstract.prototype, 'saveShape' as never);
+    // tslint:disable-next-line:no-any
+    const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();
     expect(superSaveSpy).not.toHaveBeenCalled();
   });
 
   it('#saveShape not save if vertices were not generated', () => {
     component.onShiftUp();
-    const superSaveSpy = spyOn<ShapeAbstract>(ShapeAbstract.prototype, 'saveShape' as never);
+     // tslint:disable-next-line:no-any
+    const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();
     expect(superSaveSpy).toHaveBeenCalled();
   });

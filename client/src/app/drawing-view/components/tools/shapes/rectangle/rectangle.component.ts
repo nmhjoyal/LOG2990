@@ -55,4 +55,10 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
         this.shape.strokeWidth / NumericalValues.TWO;
     }
   }
+
+  protected resetShape(): void { // TEST THIS
+    super.resetShape();
+    this.shape.height = 0;
+    this.shape.width = 0;
+  }
 }

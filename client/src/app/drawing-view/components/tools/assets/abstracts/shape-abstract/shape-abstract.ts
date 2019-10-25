@@ -166,8 +166,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
 
   protected resetShape(): void {
     this.mouseDown = false;
-    this.shape.height = 0;
-    this.shape.width = 0;
     this.previewBox.height = 0;
     this.previewBox.width = 0;
     this.previewBox.x = 0;
