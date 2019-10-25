@@ -35,7 +35,7 @@
         
             <g *ngSwitchCase="toolId.STAMP" (click)="applyColourToShape($event, drawing)" (contextmenu)="applySecondaryColourToShape($event, drawing)">
                     <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
-                    [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+drawing.angle+','+drawing.centerX+','+drawing.centerY+')'"/> 
+                    [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
             </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"

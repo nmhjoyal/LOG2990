@@ -17,7 +17,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
   stamp: IStamp;
-  angle: number;
+  angleIncrement: number;
 
   constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
     protected colorServiceRef: ColorService) {
@@ -35,6 +35,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       centerX : ToolConstants.NULL,
       centerY: ToolConstants.NULL,
     };
+    this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
   }
 
   ngOnInit(): void {
@@ -54,6 +55,8 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     if (this.stamp.svgReference !== '') {
       this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
       this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
+      this.stamp.centerX = event.offsetX;
+      this.stamp.centerY = event.offsetY;
 
       const createdStamp: IStamp = {
         id: this.stamp.id,
@@ -63,13 +66,27 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         y: this.stamp.y,
         width: this.stamp.width,
         height: this.stamp.height,
-        angle: this.angle,
+        angle: this.stamp.angle,
         scaleFactor: this.stamp.scaleFactor,
-        centerX: event.offsetX,
-        centerY: event.offsetY,
+        centerX: this.stamp.centerX,
+        centerY: this.stamp.centerY,
       };
       this.toolServiceRef.drawings.push(createdStamp);
+      
+
     }
+  }
+
+  @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    let valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
+    this.stamp.angle += valueChange;
+  }
+
+  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+    this.angleIncrement = this.angleIncrement === StampConstants.ANGLE_INCREMENT_1 ?
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15 :
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
+    
   }
 
   setStamp(stampIndex: number): void {

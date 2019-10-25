@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
+import { Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatSidenav} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
@@ -18,6 +18,8 @@ import { ColorPickerComponent } from '../../drawing-view/components/color-picker
 })
 export class AppComponent implements OnInit {
 
+  @ViewChild('sidenavOptions', {static: false}) toolBox: MatSidenav;
+
   constructor(private dialog: MatDialog, private storage: LocalStorageService, public colorService: ColorService,
               protected toolHandler: ToolHandlerService,
               @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
@@ -27,32 +29,32 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.chooseCrayon();
     }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.choosePaintbrush();
     }
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.chooseSelector();
     }
   }
@@ -63,13 +65,13 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.chooseRectangle();
     }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (!this.dialog.openDialogs.length && !this.toolBox.opened) {
       this.toolHandler.chooseEllipse();
     }
   }

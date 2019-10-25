@@ -5,6 +5,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { StampComponent } from './stamp.component';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { StampConstants } from '../assets/tool-constants';
+import { ITools } from '../assets/interfaces/itools';
 
 const RANDOM_ANGLE = 77;
 const SCALE_FACTOR = 3;
@@ -50,7 +51,7 @@ describe('StampComponent', () => {
       });
     
       it('#ngOnInit should load strokewidth and trace mode if there are attributes saved in the service', () => {
-        attrService.stampAttributes.wasSaved = TextAttribute;
+        attrService.stampAttributes.wasSaved = true;
         attrService.stampAttributes.savedAngle = RANDOM_ANGLE;
         attrService.stampAttributes.savedScaleFactor = SCALE_FACTOR;
     
@@ -65,12 +66,20 @@ describe('StampComponent', () => {
     
       it('#ngOnDestroy should save the current attributes in the rectangleAttributes interface of the service', () => {
         component.ngOnDestroy();
-        expect(attrService.rectangleAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
+        expect(attrService.stampAttributes.savedScaleFactor).toEqual(StampConstants.DEFAULT_SCALE_FACTOR,
           'shape.strokeWidth was not successfully saved upon destruction');
-        expect(attrService.rectangleAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
+        expect(attrService.stampAttributes.savedAngle).toEqual(StampConstants.DEFAULT_ANGLE,
           'the traceMode was not successfully saved upon destruction');
-        expect(attrService.rectangleAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
+        expect(attrService.stampAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
     
+      });
+
+      it('#onLeftClick only saves the stamp when an sgReference was chosen for it', () => {
+        let savingSpy = spyOnProperty<ToolHandlerService>(component['toolServiceRef'], "drawings");
+        component.stamp.svgReference = '';
+        const clickEvent: MouseEvent = new MouseEvent('click');
+        component.onLeftClick(clickEvent);
+
       });
 
 
