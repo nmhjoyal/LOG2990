@@ -101,6 +101,7 @@
                 [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
                 (mousedown)="activeTool.handleControlPoint()" />
         </g>
+    </g>
 </svg>
 <div *ngIf="toolHandler.lineSelected">
     <app-tools-line #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-line>
