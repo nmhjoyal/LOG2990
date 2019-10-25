@@ -52,10 +52,4 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
       this.shape.width = minValue;
     }
   }
-
-  protected resetShape(): void { // TEST THIS
-    super.resetShape();
-    this.shape.height = 0;
-    this.shape.width = 0;
-  }
 }
