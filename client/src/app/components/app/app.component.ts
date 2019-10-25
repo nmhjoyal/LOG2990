@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
       this.toolHandler.choosePaintbrush();
     }
   }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     this.confirmNewDrawing();
@@ -153,5 +154,4 @@ export class AppComponent implements OnInit {
       this.toolHandler.resetSelection();
     }
   }
-
 }
