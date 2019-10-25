@@ -86,7 +86,6 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.angleIncrement = this.angleIncrement === StampConstants.ANGLE_INCREMENT_1 ?
       this.angleIncrement = StampConstants.ANGLE_INCREMENT_15 :
       this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
-    
   }
 
   setStamp(stampIndex: number): void {

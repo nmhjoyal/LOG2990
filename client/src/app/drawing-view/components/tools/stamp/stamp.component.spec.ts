@@ -5,10 +5,11 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { StampComponent } from './stamp.component';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { StampConstants } from '../assets/tool-constants';
-import { ITools } from '../assets/interfaces/itools';
+import { ColorService } from 'src/app/services/color_service/color.service';
 
 const RANDOM_ANGLE = 77;
 const SCALE_FACTOR = 3;
+const DUMMY_SVG = '<svg></svg>'
 
 describe('StampComponent', () => {
     let component: StampComponent;
@@ -16,6 +17,7 @@ describe('StampComponent', () => {
     let fixture: ComponentFixture<StampComponent>;
     const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
     const attributesServiceMock: AttributesService = new AttributesService();
+    const colorServiceMock: ColorService = jasmine.createSpyObj('ColorService', ['']);
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -24,6 +26,7 @@ describe('StampComponent', () => {
             providers: [
             { provide: ToolHandlerService, useValue: toolServiceMock, },
             { provide: AttributesService, useValue: attributesServiceMock, },
+            { provide: ColorService, useValue: colorServiceMock, },
             ],
         }).compileComponents();
     }));
@@ -36,6 +39,20 @@ describe('StampComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('#OnWheel should be called when the wheel of the mouse is turned', () => {
+      const onWheelSpy = spyOn(component, 'onWheel');
+      const wheelEvent: WheelEvent = new WheelEvent('wheel');
+      fixture.debugElement.triggerEventHandler('wheel', wheelEvent);
+      expect(onWheelSpy).toHaveBeenCalled();
+    });
+
+    it('#OnKeyDownAltEvent should be called when the ALT key is pressed', () => {
+      const onAltSpy = spyOn(component, 'onKeyDownAltEvent');
+      const keyDownEvent: KeyboardEvent = new KeyboardEvent('alt');
+      fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);
+      expect(onAltSpy).toHaveBeenCalled();
     });
 
     it('#ngOnInit should not load data if there are no attributes saved in the service', () => {
@@ -64,7 +81,7 @@ describe('StampComponent', () => {
     
       });
     
-      it('#ngOnDestroy should save the current attributes in the rectangleAttributes interface of the service', () => {
+      it('#ngOnDestroy should save the current attributes in the stampAttributes interface of the service', () => {
         component.ngOnDestroy();
         expect(attrService.stampAttributes.savedScaleFactor).toEqual(StampConstants.DEFAULT_SCALE_FACTOR,
           'shape.strokeWidth was not successfully saved upon destruction');
@@ -75,10 +92,15 @@ describe('StampComponent', () => {
       });
 
       it('#onLeftClick only saves the stamp when an sgReference was chosen for it', () => {
-        let savingSpy = spyOnProperty<ToolHandlerService>(component['toolServiceRef'], "drawings");
+        let savingSpy = spyOn(component['toolServiceRef'].drawings, "push");
         component.stamp.svgReference = '';
         const clickEvent: MouseEvent = new MouseEvent('click');
         component.onLeftClick(clickEvent);
+        expect(savingSpy).not.toHaveBeenCalled();
+
+        component.stamp.svgReference = DUMMY_SVG;
+        component.onLeftClick(clickEvent);
+        expect(savingSpy).toHaveBeenCalled();
 
       });
 
