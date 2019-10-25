@@ -19,7 +19,7 @@ export class IndexService {
         this.drawingsInGallery = new Map<string, IDrawing>();
         this.tags = [];
     }
-    
+
     async helloWorld(): Promise<Message> {
         return this.dateService.currentTime().then((timeMessage: Message) => {
             return {

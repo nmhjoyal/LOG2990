@@ -104,4 +104,37 @@ describe('AttributesService', () => {
     expect(rectangleAttribute).toEqual(unmodifiedRectAttr, 'rectangleAttributes took initial values but wasSaved was false');
 
   });
+
+  it('#resetSavedAttributes should set polygonAttributes back to its initial values if they were changed', () => {
+    service = TestBed.get(AttributesService);
+    const polygonAttributes = service.polygonAttributes;
+    const defaultPolygonAttribute = polygonAttributes;
+
+    polygonAttributes.wasSaved = true;
+    polygonAttributes.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
+    polygonAttributes.savedStrokeWidth = STROKEWIDTH;
+    polygonAttributes.savedVerticesNumber = ToolConstants.MAX_VERTEX_NUMBER;
+
+    service.resetSavedAttributes();
+
+    expect(polygonAttributes).toEqual(defaultPolygonAttribute, 'polygonAttributes did not take initial values after the expected reset');
+
+  });
+
+  it('#resetSavedAttributes should not set polygonAttributes back to its initial values if they were never changed', () => {
+    service = TestBed.get(AttributesService);
+    const polygonAttributes = service.polygonAttributes;
+
+    polygonAttributes.wasSaved = false;
+    polygonAttributes.savedTraceMode = ToolConstants.TRACE_MODE.FILL;
+    polygonAttributes.savedStrokeWidth = STROKEWIDTH;
+    polygonAttributes.savedVerticesNumber = ToolConstants.MAX_VERTEX_NUMBER;
+
+    const unmodifiedPolygonAttribute = polygonAttributes;
+
+    service.resetSavedAttributes();
+
+    expect(polygonAttributes).toEqual(unmodifiedPolygonAttribute, 'rectangleAttributes took initial values but wasSaved was false');
+
+  });
 });
