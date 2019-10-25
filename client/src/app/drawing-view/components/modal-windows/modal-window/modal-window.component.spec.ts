@@ -3,9 +3,11 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ModalWindowComponent } from './modal-window.component';
 
 describe('ModalWindowComponent', () => {
+  const serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,6 +22,7 @@ describe('ModalWindowComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: [] },
+        { provide: LocalStorageService, useValue: serviceMock },
       ],
     }).compileComponents();
   }));
