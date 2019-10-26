@@ -124,7 +124,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   decreaseScaleFactor(): void {
-    if (!(this.stamp.scaleFactor - 1 < 0)) {
+    if (!(this.stamp.scaleFactor === 0)) {
       this.stamp.scaleFactor -= 1;
       this.multiplyScaleFactor();
     }
@@ -135,7 +135,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   decreaseAngle(): void {
-    if (!(this.stamp.angle - 1 < 0)) {
+    if (!(this.stamp.angle === 0)) {
       this.stamp.angle -= 1;
     }
   }

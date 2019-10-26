@@ -16,43 +16,35 @@ describe('StampComponent', () => {
     let attrService: AttributesService;
     let fixture: ComponentFixture<StampComponent>;
     const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
-    const attributesServiceMock: AttributesService = new AttributesService();
+    const attributesService: AttributesService = new AttributesService();
     const colorServiceMock: ColorService = jasmine.createSpyObj('ColorService', ['']);
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [StampComponent],
-            imports: [BrowserDynamicTestingModule],
-            providers: [
-            { provide: ToolHandlerService, useValue: toolServiceMock, },
-            { provide: AttributesService, useValue: attributesServiceMock, },
-            { provide: ColorService, useValue: colorServiceMock, },
-            ],
-        }).compileComponents();
+      TestBed.configureTestingModule({
+        imports: [BrowserDynamicTestingModule],
+        declarations: [StampComponent],
+        providers: [
+        { provide: ToolHandlerService, useValue: toolServiceMock, },
+        { provide: AttributesService, useValue: attributesService, },
+        { provide: ColorService, useValue: colorServiceMock, },
+        ],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(StampComponent);
+        attrService = TestBed.get(AttributesService);
         component = fixture.componentInstance;
-        attrService = TestBed.get(attributesServiceMock);
+        fixture.detectChanges();
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+      attrService.resetSavedAttributes();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
-    });
-
-    it('#OnWheel should be called when the wheel of the mouse is turned', () => {
-      const onWheelSpy = spyOn(component, 'onWheel');
-      const wheelEvent: WheelEvent = new WheelEvent('wheel');
-      fixture.debugElement.triggerEventHandler('wheel', wheelEvent);
-      expect(onWheelSpy).toHaveBeenCalled();
-    });
-
-    it('#OnKeyDownAltEvent should be called when the ALT key is pressed', () => {
-      const onAltSpy = spyOn(component, 'onKeyDownAltEvent');
-      const keyDownEvent: KeyboardEvent = new KeyboardEvent('alt');
-      fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);
-      expect(onAltSpy).toHaveBeenCalled();
     });
 
     it('#ngOnInit should not load data if there are no attributes saved in the service', () => {
@@ -103,6 +95,41 @@ describe('StampComponent', () => {
         expect(savingSpy).toHaveBeenCalled();
 
       });
+
+    it('#OnWheel should be called when the wheel of the mouse is turned', () => {
+      const onWheelSpy = spyOn(component, 'onWheel');
+      const wheelEvent: WheelEvent = new WheelEvent('wheel');
+      fixture.debugElement.triggerEventHandler('wheel', wheelEvent);
+      expect(onWheelSpy).toHaveBeenCalled();
+    });
+
+    it('#OnKeyDownAltEvent should be called when the ALT key is pressed', () => {
+      const onAltSpy = spyOn(component, 'onKeyDownAltEvent');
+      const keyDownEvent: KeyboardEvent = new KeyboardEvent('keydown.alt');
+      fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);
+      expect(onAltSpy).toHaveBeenCalled();
+    });
+
+    // it('#multiplyScaleFactor should reassign the values of the stamp.width and stamp.height', () =>{
+
+    // });
+
+    
+    // it('#increaseScaleFactor should increment the value of stamp.scaleFactor', () =>{
+
+    // });
+
+    // it('#decreaseScaleFactor should decrement the value of stamp.scaleFactor if it is not already 0', () =>{
+
+    // });
+
+    // it('#increaseAngle should increment the value of stamp.angle', () =>{
+
+    // });
+  
+    // it('#decreaseAngle should decrement the value of stamp.angle if it is not already 0', () =>{
+
+    // });
 
 
 });
