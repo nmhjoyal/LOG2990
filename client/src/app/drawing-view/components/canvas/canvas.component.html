@@ -25,8 +25,8 @@
 
     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
         <defs>
-            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-                <path id="myPath" d="setGridSize()" fill="none" stroke="black" stroke-width="0.7" />
+            <pattern id="smallGrid" patternUnits="userSpaceOnUse" [ngStyle]="setSizePattern()">
+                <path id="myPath" fill="none" stroke="black" stroke-width="0.7" [ngStyle]="setSizePath()" />
             </pattern>
         </defs>   
         <rect id="myGrid" width="100%" height="100%" fill="url(#smallGrid)" [ngStyle]="setStyle()"/>

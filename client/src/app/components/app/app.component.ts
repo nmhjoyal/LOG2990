@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, Input} from '@angular/core';
+import { Component, HostListener, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
@@ -123,7 +123,12 @@ export class AppComponent implements OnInit {
   }
 
   setGridProperties(): void {
-    this.gridService.canvasStyleString = this.userInputOpacity;
-    this.gridService.canvasSizeString = this.userInputGridSize;
+    this.gridService.userInputOpacity = this.userInputOpacity;
+    this.gridService.userInputGridSize = this.userInputGridSize;
+  }
+
+// Functional but code smell size setter
+  setSizeSmell(): void {
+    this.gridService.setSizeSmell();
   }
 }

@@ -153,21 +153,17 @@ export class CanvasComponent {
   }
 
   setStyle(): object {
-    return {opacity: this.gridService.canvasStyleString,
+    return {opacity: this.gridService.userInputOpacity,
       visibility : this.gridService.status[this.gridService.i]};
   }
 
-  setGridSize(): string {
-    let quotedPathString: string;
-    this.gridService.setGridSize();
+  setSizePath(): object {
+    return this.gridService.ngPathObject();
+  }
 
-    if (this.gridService.pathString !== '') {
-      quotedPathString = '"' + this.gridService.pathString + '"';
-    } else {
-      quotedPathString = '"M8,0 L0,0 0,8"';
-    }
-
-    return quotedPathString;
+  setSizePattern(): object {
+    return {width: this.gridService.userInputGridSize,
+      height: this.gridService.userInputGridSize};
   }
 
   // End grid methods
