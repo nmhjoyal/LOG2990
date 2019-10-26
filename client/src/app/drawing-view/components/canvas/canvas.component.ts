@@ -1,13 +1,13 @@
-import { Component, Inject, ViewChild, HostListener } from '@angular/core';
+import { Component, HostListener, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { Gridservice } from '../../../services/grid/grid.service';
 import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { Id, ToolConstants } from '../tools/assets/tool-constants';
-import { Gridservice } from '../../../services/grid/grid.service';
 
 @Component({
   selector: 'app-canvas',
@@ -20,12 +20,12 @@ export class CanvasComponent {
   @ViewChild('activeTool', {static: false}) activeTool: ToolAbstract;
 
   // Grid declarations
-  gridElementC = document.getElementById('myGrid');
-  sliderElementC: HTMLInputElement;
+  gridSizePath: string;
+  multiple = 5;     // has to be rounded up to the nearest multiple of 5
   // End grid declarations
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-              public toolHandler: ToolHandlerService, public colorService: ColorService, private gridsvc: Gridservice) {
+              public toolHandler: ToolHandlerService, public colorService: ColorService, private gridService: Gridservice) {
 
               }
 
@@ -102,47 +102,72 @@ export class CanvasComponent {
   // Grid methods
 
   @HostListener('document:keydown.g', ['$event']) onKeydownHandlerGrid() {
-    this.gridsvc.toggleGrid();
+    this.gridService.toggleGrid();
+    this.setStyle();
   }
 
   @HostListener('document:keydown.shift.+', ['$event']) onKeydownHandlerPlus() {
-    const sliderElement = document.getElementById('sizeSlider') as HTMLInputElement;
-    const stringInitialValue = sliderElement.value;
-    const initialValue = Number(stringInitialValue);
-    let newValue;
-    if ((initialValue % 5) === 0) {
-      newValue = initialValue + 5;
-    } else {
-      newValue = Math.ceil(initialValue / 5) * 5;
-    }
-    const stringNewValue = String(newValue);
+    // let stringInitialValue;
+    // const sliderElement = document.getElementById('sizeSlider') as HTMLInputElement;
 
-    if (sliderElement) {
-      sliderElement.setAttribute('value', stringNewValue);
-      this.gridsvc.setSize();
-    }
+    // if (sliderElement) {
+    //   stringInitialValue = sliderElement.value;
+    // }
 
-    this.sliderElementC = sliderElement;
+    // const initialValue = Number(stringInitialValue);
+    // let newValue;
+    // if ((initialValue % this.multiple) === 0) {
+    //   newValue = initialValue + this.multiple;
+    // } else {
+    //   newValue = Math.ceil(initialValue / this.multiple) * this.multiple;
+    // }
+    // const stringNewValue = String(newValue);
+
+    // if (sliderElement) {
+    //   sliderElement.setAttribute('value', stringNewValue);
+    //   this.gridService.setSize();
+    // }
+
+    // this.sliderElementC = sliderElement;
+    // console.log('+');
   }
 
   @HostListener('document:keydown.-', ['$event']) onKeydownHandlerMinus() {
-    const sliderElement = document.getElementById('sizeSlider') as HTMLInputElement;
-    const stringInitialValue = sliderElement.value;
-    const initialValue = Number(stringInitialValue);
-    let newValue;
-    if ((initialValue % 5) === 0) {
-      newValue = initialValue - 5;
+    // const sliderElement = document.getElementById('sizeSlider') as HTMLInputElement;
+    // const stringInitialValue = sliderElement.value;
+    // const initialValue = Number(stringInitialValue);
+    // let newValue;
+    // if ((initialValue % this.multiple) === 0) {
+    //   newValue = initialValue - this.multiple;
+    // } else {
+    //   newValue = Math.floor(initialValue / this.multiple) * this.multiple;
+    // }
+    // const stringNewValue = String(newValue);
+
+    // if (sliderElement) {
+    //   sliderElement.setAttribute('value', stringNewValue);
+    //   this.gridService.setSize();
+    // }
+
+    // this.sliderElementC = sliderElement;
+  }
+
+  setStyle(): object {
+    return {opacity: this.gridService.canvasStyleString,
+      visibility : this.gridService.status[this.gridService.i]};
+  }
+
+  setGridSize(): string {
+    let quotedPathString: string;
+    this.gridService.setGridSize();
+
+    if (this.gridService.pathString !== '') {
+      quotedPathString = '"' + this.gridService.pathString + '"';
     } else {
-      newValue = Math.floor(initialValue / 5) * 5;
-    }
-    const stringNewValue = String(newValue);
-
-    if (sliderElement) {
-      sliderElement.setAttribute('value', stringNewValue);
-      this.gridsvc.setSize();
+      quotedPathString = '"M8,0 L0,0 0,8"';
     }
 
-    this.sliderElementC = sliderElement;
+    return quotedPathString;
   }
 
   // End grid methods

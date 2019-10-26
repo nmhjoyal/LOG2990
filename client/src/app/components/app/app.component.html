@@ -57,9 +57,11 @@
 
                 <!-- Grid -->
                 <a mat-list-item class="filter">
-                    <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille" (click)=toggleGrid()>
-                    <input type="range" min="30" value="100" id="opacitySlider" name="Valeur d'opacité" style="width: 80px" (click)=setOpacity()>
-                    <input type="range" min="8" value="8" max="128" id="sizeSlider" name="Taille des carrés" style="width: 80px" (click)=setSize()>
+                    <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille" (click)=setGridProperties()>
+                </a>
+                <a mat-list-item class="fliter">
+                    <input [(ngModel)]="userInputOpacity" id="opacityInput" name="Valeur d'opacité" style="width: 25px" (keyup.enter)=setGridProperties()>
+                    <input [(ngModel)]="userInputGridSize" id="sizeInput" name="Taille des carrés" style="width: 25px" (keyup.enter)=setGridProperties()>
                 </a>
                 <!-- End grid -->
 

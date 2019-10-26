@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit} from '@angular/core';
+import { Component, HostListener, Inject, OnInit, Input} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/new-drawing-window/new-drawing-window.component';
@@ -21,11 +21,14 @@ export class AppComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private storage: LocalStorageService, public colorService: ColorService,
               protected toolHandler: ToolHandlerService,
-              @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData, private mygridsvc: Gridservice) {
+              @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData, private gridService: Gridservice) {
     this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingColor = Strings.WHITE_HEX;
   }
+
+  userInputOpacity: string;
+  userInputGridSize: string;
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
     if (!this.dialog.openDialogs.length) {
@@ -119,16 +122,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  toggleGrid(): void {
-    this.mygridsvc.toggleGrid();
+  setGridProperties(): void {
+    this.gridService.canvasStyleString = this.userInputOpacity;
+    this.gridService.canvasSizeString = this.userInputGridSize;
   }
-
-  setOpacity(): void {
-    this.mygridsvc.setOpacity();
-  }
-
-  setSize(): void {
-    this.mygridsvc.setSize();
-  }
-  
 }
