@@ -1,6 +1,7 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
@@ -58,8 +59,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
-    this.initialX = event.offsetX;
-    this.initialY = event.offsetY;
+    this.initialX = ClickHelper.getXPosition(event);
+    this.initialY = ClickHelper.getYPosition(event);
     this.mouseDown = true;
   }
 
@@ -79,8 +80,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    this.cursorX = event.offsetX;
-    this.cursorY = event.offsetY;
+    this.cursorX = ClickHelper.getXPosition(event);
+    this.cursorY = ClickHelper.getYPosition(event);
 
     if (this.mouseDown) {
       this.calculateDimensions();

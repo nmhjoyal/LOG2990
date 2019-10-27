@@ -74,14 +74,6 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  @HostListener('document:keydown.escape') onEscape(): void {
-    this.resetShape();
-  }
-
-  handleControlPoint(): void {
-    return;
-  }
-
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
       this.isRightClick = false;

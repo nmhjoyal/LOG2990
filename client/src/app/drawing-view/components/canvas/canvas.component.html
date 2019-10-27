@@ -72,7 +72,7 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
 
-            <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape(drawing)"
+            <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColor"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"

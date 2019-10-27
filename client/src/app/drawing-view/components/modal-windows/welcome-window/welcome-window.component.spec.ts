@@ -72,4 +72,10 @@ describe('WelcomeWindowComponent', () => {
     component.onClose();
     expect(mockData.storage.setShowAgain).toHaveBeenCalled();
   });
+
+  it('should not update local storage when checkbox not clicked', () => {
+    component.isChecked = false;
+    component.onClose();
+    expect(mockData.storage.setShowAgain).not.toHaveBeenCalled();
+  });
 });

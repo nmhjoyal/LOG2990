@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
@@ -53,8 +54,8 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
     if (this.stamp.svgReference !== '') {
-      this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
-      this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
+      this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / NumericalValues.TWO;
+      this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / NumericalValues.TWO;
       if (this.stamp.svgReference !== undefined) {
         const createdStamp: IStamp = {
           id: this.stamp.id,
@@ -66,8 +67,8 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
           height: this.stamp.height,
           angle: this.angle,
           scaleFactor: this.stamp.scaleFactor,
-          centerX: event.offsetX,
-          centerY: event.offsetY,
+          centerX: ClickHelper.getXPosition(event),
+          centerY: ClickHelper.getYPosition(event),
         };
         this.toolServiceRef.drawings.push(createdStamp);
       }
