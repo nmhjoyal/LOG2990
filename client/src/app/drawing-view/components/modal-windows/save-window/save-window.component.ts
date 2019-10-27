@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { IndexService } from 'src/app/services/index/index.service';
@@ -37,10 +37,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         }
       },
     );
-  }
-
-  @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
-    event.preventDefault();
   }
 
   ngOnInit(): void {

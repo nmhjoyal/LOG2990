@@ -11,6 +11,8 @@ import { SaveWindowComponent } from './save-window.component';
 import { ISaveModalData } from './ISaveModalData';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { Strings } from 'src/AppConstants/Strings';
+// import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 
 describe('SaveWindowComponent', () => {
     let dialogRefMock: SpyObj<MatDialogRef<SaveWindowComponent>>;
@@ -20,6 +22,9 @@ describe('SaveWindowComponent', () => {
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
     const indexMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'saveTag']);
+    const tag = { name: 'tag', isSelected: true } as ITag;
+    const tag2 = { name: 'tag2', isSelected: false } as ITag;
+    // const httpClient: HttpClient = jasmine.createSpyObj('HttpClient', ['']);
 
     const dialogMock = {
         close: () => {
@@ -55,6 +60,8 @@ describe('SaveWindowComponent', () => {
         dialogRefMock = jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
         fixture = TestBed.createComponent(SaveWindowComponent);
         component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        component.data.displayedTags = [tag, tag2];
+        component['name'] = 'drawing';
         fixture.detectChanges();
     });
 
@@ -68,21 +75,16 @@ describe('SaveWindowComponent', () => {
     });
 
     it('#clickOnTag should properly invert tag selection status', () => {
-        const tag = { name: 'tag', isSelected: true } as ITag;
-        component.clickOnTag(tag);
-        expect(tag.isSelected).toBe(false);
+        const testTag1 = { name: 'tag', isSelected: true } as ITag;
+        component.clickOnTag(testTag1);
+        expect(testTag1.isSelected).toBe(false);
 
-        const tag2 = { name: 'tag2', isSelected: false } as ITag;
-        component.clickOnTag(tag2);
-        expect(tag2.isSelected).toBe(true);
+        const testTag2 = { name: 'tag2', isSelected: false } as ITag;
+        component.clickOnTag(testTag2);
+        expect(testTag2.isSelected).toBe(true);
     });
 
     it('#addTag should add the tag if it exists and is not in the list of tags', () => {
-        const tag = { name: 'tag', isSelected: true } as ITag;
-        const tag2 = { name: 'tag2', isSelected: false } as ITag;
-
-        component.data.displayedTags = [tag, tag2];
-
         component.addTag('');
         expect(component.data.displayedTags).toEqual([tag, tag2]);
 
@@ -93,5 +95,30 @@ describe('SaveWindowComponent', () => {
         expect(component.data.displayedTags).toEqual([tag, tag2, { name: 'tag3', isSelected: true }]);
     });
 
+    it('#onAcceptClick should properly save drawings and tags', async() => {
+        const closeSpy = spyOn(component, 'onClose');
+        // const mockDrawing = {
+        //     name: component['name'],
+        //     tags: [tag, tag2],
+        //     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
+        //     shapes: toolHandlerMock.drawings,
+        //     canvas: canvasDataMock.data,
+        // } as IDrawing;
 
+        // const service = new IndexService(httpClient);
+        // service.saveDrawing(mockDrawing).subscribe( response => {
+        //     expect(response).toBe(true);
+        // })
+        // const saveTagSpy = spyOn(service, 'saveTag')
+        component.onAcceptClick();
+        expect(component.isFinishedSaving).toBe(true);
+        // expect(saveTagSpy).toHaveBeenCalled();
+        expect(closeSpy).toHaveBeenCalled();
+    });
+
+    it('constructor should properly initialize', () => {
+        const newComponent = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        expect(newComponent.data.title).toBe(Strings.SAVE_WINDOW_TITLE);
+        expect(newComponent.isFinishedSaving).toBe(true);
+    })
 });

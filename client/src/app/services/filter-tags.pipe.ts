@@ -5,7 +5,7 @@ import { IDrawing } from '../../../../common/drawing-information/IDrawing';
   name: 'filterTags',
 })
 export class FilterTagsPipe implements PipeTransform {
-  transform(items: IDrawing[], selectedTags: string[]): IDrawing[] | boolean {
+  transform(items: IDrawing[], selectedTags: string[]): IDrawing[] {
     if (selectedTags.includes('all')) {
       return items;
     } else {
@@ -15,7 +15,7 @@ export class FilterTagsPipe implements PipeTransform {
             return selectedTags.includes(tag.name);
           });
         }
-        return false;
+        return;
       });
     }
   }
