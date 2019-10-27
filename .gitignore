@@ -9,3 +9,4 @@
 
 # Keep the package-lock.json !
 !package-lock.json
+client/karma.conf.js

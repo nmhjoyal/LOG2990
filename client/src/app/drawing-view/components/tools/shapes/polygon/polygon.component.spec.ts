@@ -144,7 +144,7 @@ describe('PolygonComponent', () => {
       '#decreaseVertexNumber modified shape.verticesNumber when it was already at 3');
   });
 
-  it('#saveShape not save if vertices were not generated', () => {
+  it('#saveShape should not save if vertices were not generated', () => {
     // tslint:disable-next-line:no-any
     const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();

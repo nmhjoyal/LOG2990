@@ -1,7 +1,8 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
-import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
+import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
+  let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
 
   beforeEach(async(() => {
@@ -22,8 +24,8 @@ describe('AppComponent', () => {
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, serviceMock, colorServiceMock, toolHandlerMock, dataMock);
-
+    canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
   }));
 
   it('should create', () => {
@@ -61,7 +63,7 @@ describe('AppComponent', () => {
   it('should only resetSelection when colourApplicator not selected', () => {
     toolHandlerMock.colourApplicatorSelected = true;
     toolHandlerMock.resetSelection.and.callThrough();
-    component.switchColours();
+    component.switchColors();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
   });
 

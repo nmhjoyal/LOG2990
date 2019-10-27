@@ -1,4 +1,4 @@
-<svg tabindex="0" class="canvas" [attr.width]="data.drawingWidth" [attr.height]="data.drawingHeight" [attr.fill]="data.drawingColor">
+<svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth" [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor">
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
@@ -108,30 +108,30 @@
     </g>
 </svg>
 <div *ngIf="toolHandler.lineSelected">
-    <app-tools-line #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-line>
+    <app-tools-line #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
 </div>
 <div *ngIf="toolHandler.crayonSelected">
-    <app-crayon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-crayon>
+    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    </app-crayon>
 </div>
 <div *ngIf="toolHandler.paintbrushSelected">
-    <app-paintbrush #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-paintbrush>
+    <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
-    <app-tools-rectangle #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
+    <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-rectangle>
 </div>
 <div *ngIf="toolHandler.polygonSelected">
-    <app-tools-polygon #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-polygon>
+    <app-tools-polygon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-tools-polygon>
 </div>
 <div *ngIf="toolHandler.selectorSelected">
-    <app-tools-selector #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight">
+    <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-selector>
 </div>
 <div *ngIf="toolHandler.ellipseSelected">
-    <app-ellipse #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-ellipse>
+    <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
 </div>
 <div *ngIf="toolHandler.stampSelected">
-    <app-tools-stamp #activeTool [windowWidth]="data.drawingWidth" [windowHeight]="data.drawingHeight"></app-tools-stamp>
+    <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
 </div>
-
-
