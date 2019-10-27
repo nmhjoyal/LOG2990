@@ -1,31 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreviewCanvasComponent } from './preview-canvas.component';
+// import { PreviewCanvasComponent } from './preview-canvas.component';
 
-describe('PreviewCanvasComponent', () => {
-  let component: PreviewCanvasComponent;
-  let fixture: ComponentFixture<PreviewCanvasComponent>;
+// describe('PreviewCanvasComponent', () => {
+//   let component: PreviewCanvasComponent;
+//   let fixture: ComponentFixture<PreviewCanvasComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PreviewCanvasComponent ],
-    })
-    .compileComponents();
-  }));
+//   beforeEach(async(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ PreviewCanvasComponent ],
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewCanvasComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(PreviewCanvasComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
 
-  it('#ngOnInit should initialize viewBoxCoordinates', () => {
-    component.ngOnInit();
-    expect(component.viewboxCoordinates).not.toEqual('', 'viewBoxCoordinates were NOT initialized');
-  });
+//   it('#ngOnInit should initialize viewBoxCoordinates', () => {
+//     component.ngOnInit();
+//     expect(component.viewboxCoordinates).not.toEqual('', 'viewBoxCoordinates were NOT initialized');
+//   });
 
-});
+// });

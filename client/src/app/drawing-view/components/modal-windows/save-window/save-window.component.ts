@@ -48,17 +48,17 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   onAcceptClick(): void {
-    let test: IDrawing;
+    let drawingToSave: IDrawing;
     const date = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-    test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing, canvas: this.canvasData.data };
+    drawingToSave = { name: this.name, timestamp: date, shapes: this.drawing, canvas: this.canvasData.data };
     this.isFinishedSaving = false;
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
-        tag.isSelected = !tag.isSelected;
-        if (!test.tags) {
-          test.tags = [];
+        this.clickOnTag(tag);
+        if (!drawingToSave.tags) {
+          drawingToSave.tags = [];
         }
-        test.tags.push(tag);
+        drawingToSave.tags.push(tag);
         this.index.saveTag(tag).subscribe(
           (response: boolean) => {
             if (!response) {
@@ -69,7 +69,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       }
     });
 
-    this.index.saveDrawing(test).subscribe(
+    this.index.saveDrawing(drawingToSave).subscribe(
       (response: boolean) => {
         if (!response) {
           confirm('Il y a eu une erreur lors de la sauvegarde du dessin.');

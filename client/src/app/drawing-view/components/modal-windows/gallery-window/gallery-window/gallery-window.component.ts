@@ -2,14 +2,12 @@ import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
-import { SaveWindowComponent } from '../../save-window/save-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
 
 @Component({
@@ -26,12 +24,12 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   @Input() filterBy: string[] = ['all'];
   isFinishedLoading: boolean;
 
-  constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
+  constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
     protected canvasData: CanvasInformationService,
-    protected drawingData: DrawingStorageService,
-    protected toolHandler: ToolHandlerService, protected index: IndexService) {
-    super(dialogRef, data, canvasData, undefined, toolHandler, drawingData, index);
+    protected toolHandler: ToolHandlerService,
+    protected index: IndexService) {
+    super(dialogRef, data, canvasData, undefined, toolHandler, index);
     this.data.title = Strings.GALLERY_WINDOW_TITLE;
     this.drawingsInGallery = [];
     this.selectedDrawing = {} as IDrawing;
