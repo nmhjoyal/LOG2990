@@ -78,6 +78,12 @@
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
+
+            <g *ngSwitchCase="toolId.TEXT">
+                <text [attr.x]="drawing.x" [attr.y]="drawing.y">
+                    <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor='let line of drawing.lines'>{{ line }}</tspan>
+                </text> 
+            </g>
         </g>
     </g>
 
@@ -142,4 +148,8 @@
 <div *ngIf="toolHandler.stampSelected">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
+</div>
+<div *ngIf="toolHandler.textSelected">
+    <app-tools-text #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-tools-text>
 </div>

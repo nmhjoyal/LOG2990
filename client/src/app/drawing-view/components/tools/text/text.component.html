@@ -1,0 +1,7 @@
+<svg class='stampZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
+    <g *ngIf='text.x !== -1'>
+        <text [attr.x]="text.x" [attr.y]="text.y">
+            <tspan [attr.x]="text.x" dy="1.2em" *ngFor='let line of text.lines'>{{ line }}</tspan>
+        </text> 
+    </g>
+</svg> 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
+import { ITextOptions } from '../interfaces/text-interface';
 import { ToolConstants } from '../tool-constants';
 
 @Injectable({
@@ -16,6 +17,7 @@ export class AttributesService {
   lineAttributes: ILineOptions;
   ellipseAttributes: IShapeOptions;
   stampAttributes: IStampOptions;
+  textAttributes: ITextOptions;
 
   constructor() {
     this.resetRectangleAttributes();
@@ -25,6 +27,7 @@ export class AttributesService {
     this.resetLineAttributes();
     this.resetEllipseAttributes();
     this.resetStampAttributes();
+    this.resetTextAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -104,19 +107,33 @@ export class AttributesService {
     };
   }
   resetLineAttributes(): void {
-      this.lineAttributes = {
-        id: ToolConstants.TOOL_ID.LINE,
-        wasSaved: false,
-        savedTraceMode: '',
-        savedStrokeWidth: ToolConstants.NULL,
-        savedJunctionMode: '',
-        savedPointWidth: ToolConstants.NULL,
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      };
+    this.lineAttributes = {
+      id: ToolConstants.TOOL_ID.LINE,
+      wasSaved: false,
+      savedTraceMode: '',
+      savedStrokeWidth: ToolConstants.NULL,
+      savedJunctionMode: '',
+      savedPointWidth: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
   }
+  resetTextAttributes(): void {
+    this.textAttributes = {
+      id: ToolConstants.TOOL_ID.LINE,
+      wasSaved: false,
+      savedText: [],
+      savedFontSize: 12,
+      savedIsItalic: false,
+      savedIsBold: false,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+}
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -138,6 +155,9 @@ export class AttributesService {
     }
     if (this.stampAttributes.wasSaved) {
       this.resetStampAttributes();
+    }
+    if (this.textAttributes.wasSaved) {
+      this.resetTextAttributes();
     }
   }
 }

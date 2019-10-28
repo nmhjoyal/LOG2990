@@ -72,6 +72,9 @@
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseText()'>
+                    <img id='text' class="sideBarIcon" src="../../../assets/lateral-bar/text_fields-24px.svg" title="Texte">
+                </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseStamp(); options.toggle();'>
                     <img id='stamp' class="sideBarIcon" src="../../../assets/lateral-bar/sticker-face-ol-512.png"
                         title="Étampe">

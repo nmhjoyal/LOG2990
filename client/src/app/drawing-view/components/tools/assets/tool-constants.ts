@@ -7,6 +7,7 @@ export enum Id {
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
     STAMP = 'stamp',
+    TEXT = 'text',
 }
 
 export enum FilterURL {
