@@ -94,13 +94,13 @@ describe('GalleryWindowComponent', () => {
         expect(component['selectedDrawing']).toEqual({} as IDrawing);
         expect(component['drawingToOpen']).toEqual({} as IDrawing);
         expect(component.isFinishedLoading).toEqual(false);
-    })
+    });
 
     it('should assign the server tags to the filterTags if they are present', () => {
         indexServiceMock.getTags.and.returnValue(of([tag, tag2]));
         component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, toolHandlerServiceMock, indexServiceMock);
         expect(component.data.filterTags).toEqual([tag, tag2]);
-    })
+    });
 
 
     it('should create a new array if there are no tags in the server', () => {
@@ -133,10 +133,9 @@ describe('GalleryWindowComponent', () => {
     });
 
     it('#tagsSelected should properly filter the drawings', () => {
-
         component.tagSelected('all');
         expect(component.filterBy).toEqual(['all']);
-        
+
         component.tagSelected('all, tag');
         expect(component.filterBy).toEqual(['all, tag']);
     });
@@ -146,9 +145,9 @@ describe('GalleryWindowComponent', () => {
         const confirmSpy = spyOn(window, 'confirm');
 
         indexServiceMock.getDrawing.and.returnValue(of(mockDrawing));
-        expect(component['drawingToOpen']).toEqual(mockDrawing);
-        expect(toolHandlerServiceMock.drawings).toEqual(mockDrawing.shapes);
-        expect(canvasInformationMock.data).toEqual(mockDrawing.canvas);
+        expect(component['drawingToOpen']).toEqual(mockDrawing, 'drawing to open did not equal mockdrawing');
+        expect(toolHandlerServiceMock.drawings).toEqual(mockDrawing.shapes, 'shapes did not equal drawings');
+        expect(canvasInformationMock.data).toEqual(mockDrawing.canvas, 'canvas.data did not get passed through');
 
         component.onAcceptClick();
         expect(closeSpy).toHaveBeenCalled();
@@ -157,6 +156,5 @@ describe('GalleryWindowComponent', () => {
         indexServiceMock.getDrawing.and.callThrough();
         expect(confirmSpy).toHaveBeenCalledWith('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.')
     })
-
 
 });

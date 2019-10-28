@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatButtonModule, MatDialogModule, MatDialogRef, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -119,4 +119,43 @@ describe('SaveWindowComponent', () => {
         expect(newComponent.data.title).toBe(Strings.SAVE_WINDOW_TITLE);
         expect(newComponent.isFinishedSaving).toBe(true);
     });
+
+    it('should properly retrieve tags from the server in the constructor', () => {
+        let indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags']);
+        const saveWindow = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexServiceMock);
+        indexServiceMock.getTags.and.returnValue(of([tag, tag2]));
+        expect(saveWindow.data.displayedTags).toEqual([tag, tag2])
+    });
+
+    
+    it('should properly retrieve tags from the server in the constructor', () => {
+        let indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags']);
+        const saveWindow = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexServiceMock);
+        indexServiceMock.getTags.and.returnValue(of([]));
+        expect(saveWindow.data.displayedTags).toEqual([tag, tag2])
+    });
+
+
+
+    it('save tags should open a confirm window on tag saving failure', () => {
+        const spy = spyOn(window, 'confirm');
+        let indexServiceMock = jasmine.createSpyObj('IndexService', ['saveTag']);
+        indexServiceMock.saveTag.and.returnValue(of(false));
+        component.onAcceptClick();
+        expect(spy).toHaveBeenCalledWith('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
+    });
+
+    // it('should properly retrieve tags from the server', () => {
+    //     let indexServiceMock2 = jasmine.createSpyObj('IndexService', ['saveTag']);
+    //     indexServiceMock2.getTags.and.returnValue(of([{ name: 'tag', isSelected: true }]));
+    //     expect(component.data.displayedTags).toEqual([{ name: 'tag', isSelected: true }])
+    // });
+
+    // it('should properly retrieve tags from the server', () => {
+    //     let indexServiceMock3 = jasmine.createSpyObj('IndexService', ['getTags']);
+    //     indexServiceMock3.getTags.and.returnValue(of([]));
+    //     expect(component.data.displayedTags).toEqual([])
+    // });
+
+
 });
