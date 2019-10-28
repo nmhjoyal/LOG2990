@@ -119,5 +119,44 @@ describe('GalleryWindowComponent', () => {
     it('#onSelect should properly assign the drawing', () => {
         component.onSelect(mockDrawing);
         expect(component['selectedDrawing']).toEqual(mockDrawing);
+    });
+
+    it('should properly search for user input tag', () => {
+        const spy = spyOn(component, 'tagSelected');
+        const spyWindow = spyOn(window, 'confirm')
+
+        component.data.filterTags = [tag, tag2];
+        component.addTag('tag');
+        expect(spy).toHaveBeenCalledWith('tag');
+        component.addTag('mockTag');
+        expect(spyWindow).toHaveBeenCalledWith('Il n\'y a pas de dessin avec cette étiquette');
+    });
+
+    it('#tagsSelected should properly filter the drawings', () => {
+
+        component.tagSelected('all');
+        expect(component.filterBy).toEqual(['all']);
+        
+        component.tagSelected('all, tag');
+        expect(component.filterBy).toEqual(['all, tag']);
+    });
+
+    it('should correctly call onAcceptClick', () => {
+        const closeSpy = spyOn(component, 'onClose');
+        const confirmSpy = spyOn(window, 'confirm');
+
+        indexServiceMock.getDrawing.and.returnValue(of(mockDrawing));
+        expect(component['drawingToOpen']).toEqual(mockDrawing);
+        expect(toolHandlerServiceMock.drawings).toEqual(mockDrawing.shapes);
+        expect(canvasInformationMock.data).toEqual(mockDrawing.canvas);
+
+        component.onAcceptClick();
+        expect(closeSpy).toHaveBeenCalled();
+        
+        component.onAcceptClick();
+        indexServiceMock.getDrawing.and.callThrough();
+        expect(confirmSpy).toHaveBeenCalledWith('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.')
     })
+
+
 });
