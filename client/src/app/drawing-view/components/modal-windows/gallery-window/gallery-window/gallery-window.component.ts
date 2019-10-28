@@ -1,6 +1,5 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Subscription } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -15,9 +14,8 @@ import { IGalleryModalData } from './IGalleryModalData';
   templateUrl: './gallery-window.component.html',
   styleUrls: ['./gallery-window.component.scss'],
 })
-export class GalleryWindowComponent extends ModalWindowComponent implements OnInit, OnDestroy {
+export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
 
-  private gallerySubscription: Subscription;
   protected drawingsInGallery: IDrawing[];
   private selectedDrawing: IDrawing;
   private drawingToOpen: IDrawing;
@@ -53,12 +51,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         this.drawingsInGallery = response;
         this.isFinishedLoading = true;
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.gallerySubscription) {
-      this.gallerySubscription.unsubscribe();
-    }
   }
 
   onSelect(drawing: IDrawing): void {

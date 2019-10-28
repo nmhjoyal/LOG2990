@@ -21,7 +21,7 @@ describe('SaveWindowComponent', () => {
     const dataMock: SpyObj<ISaveModalData> = jasmine.createSpyObj('ISaveModalData', ['']);
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
-    const indexMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'saveTag']);
+    const indexMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'saveTag', 'saveDrawing']);
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
     // const httpClient: HttpClient = jasmine.createSpyObj('HttpClient', ['']);
@@ -42,6 +42,7 @@ describe('SaveWindowComponent', () => {
     beforeEach(async(() => {
         indexMock.getTags.and.callFake(() => new Observable<ITag[]>());
         indexMock.saveTag.and.callFake(() => new Observable<boolean>());
+        indexMock.saveDrawing.and.callFake(() => new Observable<boolean>());
 
         TestBed.configureTestingModule({
             declarations: [SaveWindowComponent],
