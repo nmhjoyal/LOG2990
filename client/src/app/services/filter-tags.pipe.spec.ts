@@ -1,9 +1,9 @@
 import SpyObj = jasmine.SpyObj;
 
+import { IDrawing } from '../../../../common/drawing-information/IDrawing';
+import { CanvasInformationService } from './canvas-information/canvas-information.service';
 import { FilterTagsPipe } from './filter-tags.pipe';
 import { ToolHandlerService } from './tool-handler/tool-handler.service';
-import { CanvasInformationService } from './canvas-information/canvas-information.service';
-import { IDrawing } from '../../../../common/drawing-information/IDrawing';
 
 describe('FilterTagsPipe', () => {
   const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);

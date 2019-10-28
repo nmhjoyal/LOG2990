@@ -5,14 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatButtonModule, MatDialogModule, MatDialogRef, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs';
-import { IndexService } from 'src/app/services/index/index.service';
-import { ITag } from '../../../../../../../common/drawing-information/ITag';
-import { SaveWindowComponent } from './save-window.component';
-import { ISaveModalData } from './ISaveModalData';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
-// import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../../../../../common/drawing-information/ITag';
+import { ISaveModalData } from './ISaveModalData';
+import { SaveWindowComponent } from './save-window.component';
+import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 
 describe('SaveWindowComponent', () => {
     let dialogRefMock: SpyObj<MatDialogRef<SaveWindowComponent>>;
@@ -25,6 +25,13 @@ describe('SaveWindowComponent', () => {
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
     // const httpClient: HttpClient = jasmine.createSpyObj('HttpClient', ['']);
+    const mockDrawing = {
+        name: 'name',
+        tags: [tag, tag2],
+        timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
+        shapes: toolHandlerMock.drawings,
+        canvas: canvasDataMock.data,
+    } as IDrawing;
 
     const dialogMock = {
         close: () => {
@@ -34,6 +41,8 @@ describe('SaveWindowComponent', () => {
 
     beforeEach(async(() => {
         indexMock.getTags.and.callFake(() => new Observable<ITag[]>());
+        indexMock.saveTag.and.callFake(() => new Observable<boolean>());
+
         TestBed.configureTestingModule({
             declarations: [SaveWindowComponent],
             imports: [
@@ -62,6 +71,7 @@ describe('SaveWindowComponent', () => {
         component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
         component.data.displayedTags = [tag, tag2];
         component['name'] = 'drawing';
+        component.data.drawing = mockDrawing;
         fixture.detectChanges();
     });
 
@@ -95,24 +105,11 @@ describe('SaveWindowComponent', () => {
         expect(component.data.displayedTags).toEqual([tag, tag2, { name: 'tag3', isSelected: true }]);
     });
 
-    it('#onAcceptClick should properly save drawings and tags', async() => {
+    it('#onAcceptClick should properly save drawings and tags', async () => {
         const closeSpy = spyOn(component, 'onClose');
-        // const mockDrawing = {
-        //     name: component['name'],
-        //     tags: [tag, tag2],
-        //     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-        //     shapes: toolHandlerMock.drawings,
-        //     canvas: canvasDataMock.data,
-        // } as IDrawing;
 
-        // const service = new IndexService(httpClient);
-        // service.saveDrawing(mockDrawing).subscribe( response => {
-        //     expect(response).toBe(true);
-        // })
-        // const saveTagSpy = spyOn(service, 'saveTag')
         component.onAcceptClick();
         expect(component.isFinishedSaving).toBe(true);
-        // expect(saveTagSpy).toHaveBeenCalled();
         expect(closeSpy).toHaveBeenCalled();
     });
 
@@ -120,5 +117,5 @@ describe('SaveWindowComponent', () => {
         const newComponent = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
         expect(newComponent.data.title).toBe(Strings.SAVE_WINDOW_TITLE);
         expect(newComponent.isFinishedSaving).toBe(true);
-    })
+    });
 });

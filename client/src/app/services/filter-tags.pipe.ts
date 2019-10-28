@@ -15,7 +15,7 @@ export class FilterTagsPipe implements PipeTransform {
             return selectedTags.includes(tag.name);
           });
         }
-        return;
+        return undefined;
       });
     }
   }

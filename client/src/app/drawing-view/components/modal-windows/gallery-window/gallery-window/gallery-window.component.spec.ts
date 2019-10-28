@@ -1,73 +1,88 @@
-// import SpyObj = jasmine.SpyObj;
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import SpyObj = jasmine.SpyObj;
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { HttpClientModule } from '@angular/common/http';
-// import { FormsModule } from '@angular/forms';
-// import { MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatDialogModule, MatDialogRef, MatInputModule, MatMenuModule, MatProgressSpinnerModule } from '@angular/material';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-// import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-// import { ModalWindowComponent } from '../../modal-window/modal-window.component';
-// import { GalleryWindowComponent } from './gallery-window.component';
-// import { IGalleryModalData } from './IGalleryModalData';
-// import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas/preview-canvas.component';
-// import { FilterTagsPipe } from 'src/app/services/filter-tags.pipe';
-// import { IndexService } from 'src/app/services/index/index.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatDialogModule, MatDialogRef, MatInputModule, MatMenuModule, MatProgressSpinnerModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ModalWindowComponent } from '../../modal-window/modal-window.component';
+import { GalleryWindowComponent } from './gallery-window.component';
+import { IGalleryModalData } from './IGalleryModalData';
+import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas/preview-canvas.component';
+import { FilterTagsPipe } from 'src/app/services/filter-tags.pipe';
+import { IndexService } from 'src/app/services/index/index.service';
+import { Observable } from 'rxjs';
+import { ITag } from '../../../../../../../../common/drawing-information/ITag';
+import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
+import { Strings } from 'src/AppConstants/Strings';
 
-// // export class FilterTagsPipeMock { 
-// //   transform() {
+// export class FilterTagsPipeMock {
+//   transform() {
 
-// //   }
-// // }
+//   }
+// }
 
-// describe('GalleryWindowComponent', () => {
-//     let dialogRefMock: SpyObj<MatDialogRef<GalleryWindowComponent>>;
-//     const dataMock: SpyObj<IGalleryModalData> = jasmine.createSpyObj('IGalleryModalData', ['']);
-//     const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-//     const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
-//     const indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
+describe('GalleryWindowComponent', () => {
+    let dialogRefMock: SpyObj<MatDialogRef<GalleryWindowComponent>>;
+    const dataMock: SpyObj<IGalleryModalData> = jasmine.createSpyObj('IGalleryModalData', ['']);
+    const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
+    const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+    const indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
 
-//     let component: GalleryWindowComponent;
-//     let fixture: ComponentFixture<GalleryWindowComponent>;
+    let component: GalleryWindowComponent;
+    let fixture: ComponentFixture<GalleryWindowComponent>;
 
-//     beforeEach(async(() => {
-//         TestBed.configureTestingModule({
-//             imports: [
-//                 HttpClientModule,
-//                 MatDialogModule,
-//                 MatButtonModule,
-//                 MatButtonToggleModule,
-//                 MatInputModule,
-//                 BrowserAnimationsModule,
-//                 FormsModule,
-//                 MatMenuModule,
-//                 MatProgressSpinnerModule,
-//             ],
-//             declarations: [
-//                 GalleryWindowComponent,
-//                 ModalWindowComponent,
-//                 PreviewCanvasComponent,
-//                 FilterTagsPipe,
-//             ],
-//             providers: [
-//                 { provide: MatDialogRef, useValue: dialogRefMock },
-//                 { provide: MAT_DIALOG_DATA, useValue: dataMock },
-//                 { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
-//                 { provide: CanvasInformationService, useValue: canvasInformationMock },
-//                 { provide: IndexService, useValue: indexServiceMock }
-//             ],
-//         })
-//             .compileComponents();
-//     }));
+    beforeEach(async(() => {
+        indexServiceMock.getTags.and.callFake(() => new Observable<ITag[]>());
+        indexServiceMock.getDrawings.and.callFake(() => new Observable<IDrawing[]>())
 
-//     beforeEach(() => {
-//         fixture = TestBed.createComponent(GalleryWindowComponent);
-//         component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, toolHandlerServiceMock, indexServiceMock);
-//         component.ngOnInit();
-//         fixture.detectChanges();
-//     });
+        TestBed.configureTestingModule({
+            imports: [
+                HttpClientModule,
+                MatDialogModule,
+                MatButtonModule,
+                MatButtonToggleModule,
+                MatInputModule,
+                BrowserAnimationsModule,
+                FormsModule,
+                MatMenuModule,
+                MatProgressSpinnerModule,
+            ],
+            declarations: [
+                GalleryWindowComponent,
+                ModalWindowComponent,
+                PreviewCanvasComponent,
+                FilterTagsPipe,
+            ],
+            providers: [
+                { provide: MatDialogRef, useValue: dialogRefMock },
+                { provide: MAT_DIALOG_DATA, useValue: dataMock },
+                { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
+                { provide: CanvasInformationService, useValue: canvasInformationMock },
+                { provide: IndexService, useValue: indexServiceMock }
+            ],
+        })
+            .compileComponents();
+    }));
 
-//     it('should create', () => {
-//         expect(component).toBeTruthy();
-//     });
-// });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(GalleryWindowComponent);
+        component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, toolHandlerServiceMock, indexServiceMock);
+        component.ngOnInit();
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should have the appropriate constructor values', () => {
+        expect(component.data.title).toEqual(Strings.GALLERY_WINDOW_TITLE)
+        expect(component['drawingsInGallery']).not.toBeDefined();
+        expect(component['selectedDrawing']).not.toBeDefined();
+        expect(component['drawingToOpen']).not.toBeDefined()
+        expect(component.isFinishedLoading).toEqual(false)
+    })
+});
