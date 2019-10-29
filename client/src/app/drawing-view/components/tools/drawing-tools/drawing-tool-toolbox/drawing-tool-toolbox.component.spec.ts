@@ -26,7 +26,7 @@ describe('DrawingToolToolboxComponent', () => {
     component.canvas = mockCanvasComponent;
     fixture.detectChanges();
   });
-/*
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -35,5 +35,5 @@ describe('DrawingToolToolboxComponent', () => {
     const returned = component.getComponent();
     expect(returned).toEqual(component.canvas.activeTool);
   });
-  */
+
 });

@@ -1,3 +1,6 @@
+
+// tslint:disable:max-classes-per-file
+
 export enum Id {
     RECTANGLE = 'rectangle',
     POLYGON = 'polygon',
@@ -75,7 +78,6 @@ export class ToolConstants {
     static RIGHT_CLICK_INDEX = 2;
 }
 
-// tslint:disable:max-classes-per-file
 export class StampConstants {
     static STAMPS_PATHS = STAMPS;
     static DEFAULT_ANGLE = 0;
@@ -89,4 +91,3 @@ export class StampConstants {
     static ANGLE_INCREMENT_15 = 15;
 }
 
-// tslint:disable:max-classes-per-file
