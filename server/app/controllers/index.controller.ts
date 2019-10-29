@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { inject, injectable } from 'inversify';
 
-import { Message } from '../../../common/communication/message';
 import { IDrawing } from '../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../common/drawing-information/ITag';
 import { IndexService } from '../services/index.service';

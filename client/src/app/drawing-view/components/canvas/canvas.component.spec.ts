@@ -4,8 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef,
-  MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
+  MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
@@ -66,6 +66,8 @@ describe('CanvasComponent', () => {
         MatCheckboxModule,
         MatSidenavModule,
         MatMenuModule,
+        MatIconModule,
+        MatSelectModule,
         FormsModule,
         DrawingViewModule,
         BrowserDynamicTestingModule,
@@ -89,9 +91,6 @@ describe('CanvasComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
-  }));
-
-  beforeEach(async(() => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 

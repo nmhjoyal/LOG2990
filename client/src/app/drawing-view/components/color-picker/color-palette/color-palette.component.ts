@@ -118,5 +118,4 @@ export class ColorPaletteComponent implements AfterViewInit {
     const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * NumericalValues.RGBTOHEX_FACTOR));
     return ( '#' + r + g + b + a );
   }
-
 }

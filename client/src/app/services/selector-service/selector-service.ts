@@ -144,6 +144,13 @@ export class SelectorService {
           (((positionY - object.y) * (positionY - object.y)) / (object.height * object.height)) <= 1;
         intersectionPoints = polygonIntersections.points;
         break;
+      case Id.STAMP:
+        const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: (object.x + (object.width / 2)),
+          cy: (object.y + (object.height / 2)), r: object.width / 2 }),
+          svgIntersections.shape('polyline', selectorLine));
+        cursorInObject = (Math.pow((positionX - (object.x + (object.width / 2))), 2) +
+          Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
+        intersectionPoints = stampIntersections.points;
     }
     return (intersectionPoints.length > 0) || cursorInObject;
   }
@@ -185,6 +192,15 @@ export class SelectorService {
           && previewBox.width < ((object.width * 2) - previewBox.x + (object.x - object.width))
           && previewBox.height < ((object.height * 2) - previewBox.y + (object.y - object.height)));
         intersectionPoints = polygonIntersections.points;
+        break;
+      case Id.STAMP:
+        const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: (object.x + (object.width / 2)),
+          cy: (object.y + (object.height / 2)), r: object.width / 2 }),
+          svgIntersections.shape('rect', selectorBox));
+        boxIsInsideObject = (previewBox.x > object.x && previewBox.y > object.y
+          && previewBox.width < (object.width - previewBox.x + object.x)
+          && previewBox.height < (object.height - previewBox.y + object.y));
+        intersectionPoints = stampIntersections.points;
     }
     return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;
   }

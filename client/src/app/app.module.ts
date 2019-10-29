@@ -1,8 +1,8 @@
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MAT_DIALOG_DATA, MatButtonToggleModule, MatCheckboxModule,
-  MatDialogConfig, MatDialogRef, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatSidenavModule, MatToolbarModule
+  MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
+  MatListModule, MatMenuModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatToolbarModule
 } from '@angular/material';
 import { AppComponent } from './components/app/app.component';
 import { ColorPaletteComponent } from './drawing-view/components/color-picker/color-palette/color-palette.component';
@@ -35,9 +35,12 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
   ],
   imports: [
     DrawingViewModule,
+    MatButtonModule,
+    MatIconModule,
     MatListModule,
     MatToolbarModule,
     MatCheckboxModule,
+    MatSelectModule,
     MatSidenavModule,
     MatMenuModule,
     FormsModule,

@@ -1,5 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PreviewCanvasComponent } from './preview-canvas.component';
 
 describe('PreviewCanvasComponent', () => {
@@ -9,6 +11,11 @@ describe('PreviewCanvasComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PreviewCanvasComponent ],
+      imports: [
+        BrowserDynamicTestingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+      ],
     })
     .compileComponents();
   }));
@@ -16,16 +23,19 @@ describe('PreviewCanvasComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PreviewCanvasComponent);
     component = fixture.componentInstance;
+    component.previewedDrawing = {
+      name: '',
+      preview: {
+        image: new SVGElement(),
+      },
+      shapes: [],
+      timestamp: '',
+      canvas: {
+        drawingColor: '',
+        drawingWidth: 0,
+        drawingHeight: 0,
+      },
+    };
     fixture.detectChanges();
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('#ngOnInit should initialize viewBoxCoordinates', () => {
-    component.ngOnInit();
-    expect(component.viewboxCoordinates).not.toEqual('', 'viewBoxCoordinates were NOT initialized');
-  });
-
 });

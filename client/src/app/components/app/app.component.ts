@@ -22,7 +22,7 @@ import { ColorPickerComponent } from '../../drawing-view/components/color-picker
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('sidenav2', {static: false}) toolBox: MatSidenav;
+  @ViewChild('options', {static: false}) toolBox: MatSidenav;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,

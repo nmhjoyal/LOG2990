@@ -22,7 +22,8 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
     protected colorServiceRef: ColorService) {
-      super();
+    super();
+    this.angle = 0;
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
@@ -33,7 +34,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       y: ToolConstants.NULL,
       width: StampConstants.DEFAULT_DIMENSION,
       height: StampConstants.DEFAULT_DIMENSION,
-      centerX : ToolConstants.NULL,
+      centerX: ToolConstants.NULL,
       centerY: ToolConstants.NULL,
     };
     this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;

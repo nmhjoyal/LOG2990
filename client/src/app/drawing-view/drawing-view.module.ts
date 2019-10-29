@@ -32,6 +32,7 @@ import { StampComponent } from './components/tools/stamp/stamp.component';
     LineComponent,
     SelectorComponent,
     EllipseComponent,
+    PreviewCanvasComponent,
     StampComponent,
     PreviewCanvasComponent,
   ],

@@ -23,7 +23,7 @@ describe('FilterTagsPipe', () => {
 
   it('should return false if no tags are present with selected name', () => {
     selectedTags = ['none'];
-    expect(pipe.transform(items, selectedTags)).toEqual(false);
+    expect(pipe.transform(items, selectedTags)).toEqual([]);
   });
 
   it('should return tags with with selected name if they exist', () => {
