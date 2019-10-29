@@ -90,4 +90,3 @@ export class StampConstants {
     static ANGLE_INCREMENT_1 = 1;
     static ANGLE_INCREMENT_15 = 15;
 }
-

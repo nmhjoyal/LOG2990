@@ -8,7 +8,7 @@ export interface IStamp extends ITools {
     angle: number;
     scaleFactor: number;
     primaryColour: string;
-    svgReference : string;
+    svgReference: string;
     centerX: number;
     centerY: number;
 }

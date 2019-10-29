@@ -1,20 +1,20 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { OnDestroy, OnInit } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { DrawingToolToolboxComponent } from './drawing-tool-toolbox.component';
 import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract';
+import { DrawingToolToolboxComponent } from './drawing-tool-toolbox.component';
 
-
-class MockTool extends ToolAbstract {
+class MockTool extends ToolAbstract implements OnInit, OnDestroy {
   constructor() {
     super();
   }
 
   ngOnDestroy(): void {
-    //empty body
+    // empty body
   }
 
   ngOnInit(): void {
-    //empty body
+    // empty body
   }
 }
 
@@ -30,15 +30,15 @@ describe('DrawingToolToolboxComponent', () => {
         {provide: ToolHandlerService,
           useValue: MockToolHandler},
       ],
-    }).compileComponents().then(() =>{
+    }).compileComponents().then(() => {
       fixture = TestBed.createComponent(DrawingToolToolboxComponent);
       component = fixture.componentInstance;
 
       // tslint:disable-next-line:no-any
-      spyOn<any>(component.canvas, "activeTool").and.callFake(() => {
+      spyOn<any>(component.canvas, 'activeTool').and.callFake(() => {
         return new MockTool();
       });
-      
+
       fixture.detectChanges();
       });
   }));
