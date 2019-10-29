@@ -1,11 +1,14 @@
-        // tslint:disable: no-string-literal
+// tslint:disable: no-string-literal
 
 import SpyObj = jasmine.SpyObj;
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatDialogModule, MatDialogRef, MatInputModule, MatMenuModule, MatProgressSpinnerModule } from '@angular/material';
+import {
+    MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatDialogModule,
+    MatDialogRef, MatInputModule, MatMenuModule, MatProgressSpinnerModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -27,7 +30,8 @@ import { IGalleryModalData } from './IGalleryModalData';
 // }
 
 describe('GalleryWindowComponent', () => {
-    let dialogRefMock: SpyObj<MatDialogRef<GalleryWindowComponent>>;
+    const dialogRefMock: SpyObj<MatDialogRef<GalleryWindowComponent>> =
+        jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
     const dataMock: SpyObj<IGalleryModalData> = jasmine.createSpyObj('IGalleryModalData', ['']);
     const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
@@ -48,6 +52,7 @@ describe('GalleryWindowComponent', () => {
     beforeEach(async(() => {
         indexServiceMock.getTags.and.callFake(() => new Observable<ITag[]>());
         indexServiceMock.getDrawings.and.callFake(() => new Observable<IDrawing[]>());
+        indexServiceMock.getDrawing.and.callFake(() => new Observable<IDrawing>());
 
         TestBed.configureTestingModule({
             imports: [
@@ -123,7 +128,7 @@ describe('GalleryWindowComponent', () => {
 
     it('should properly search for user input tag', () => {
         const spy = spyOn(component, 'tagSelected');
-        const spyWindow = spyOn(window, 'confirm')
+        const spyWindow = spyOn(window, 'confirm');
 
         component.data.filterTags = [tag, tag2];
         component.addTag('tag');
@@ -138,6 +143,16 @@ describe('GalleryWindowComponent', () => {
 
         component.tagSelected('all, tag');
         expect(component.filterBy).toEqual(['all, tag']);
+    });
+
+    it('should properly call onAcceptClick', () => {
+        const spy = spyOn(component, 'onClose');
+        indexServiceMock.getDrawing.and.returnValue(of(mockDrawing));
+        component.onAcceptClick();
+        expect(component['drawingToOpen']).toEqual(mockDrawing);
+        expect(toolHandlerServiceMock.drawings).toEqual(mockDrawing.shapes);
+        expect(canvasInformationMock.data).toEqual(mockDrawing.canvas);
+        expect(spy).toHaveBeenCalled();
     });
 
 });
