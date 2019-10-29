@@ -1,5 +1,5 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from './click-helper';
 
 describe('ClickHelper', () => {

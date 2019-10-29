@@ -5,8 +5,9 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { StampConstants } from '../assets/constants/stamp-constants';
+import { FilterSelection, Id, ToolConstants } from '../assets/constants/tool-constants';
 import { IStamp } from '../assets/interfaces/stamp-interface';
-import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/tool-constants';
 
 @Component({
   selector: 'app-tools-stamp',

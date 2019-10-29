@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { RectangleComponent } from './rectangle.component';
 
 const STROKE_WIDTH = 10;

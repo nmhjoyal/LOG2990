@@ -25,7 +25,6 @@
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>
 
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
     <g *ngFor="let drawing of toolHandler.drawings">
         <g [ngSwitch]="drawing.id">
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
@@ -80,7 +79,12 @@
             </g>
 
             <g *ngSwitchCase="toolId.TEXT">
-                <text [attr.x]="drawing.x" [attr.y]="drawing.y">
+                <text [attr.x]="drawing.x" [attr.y]="drawing.y"
+                    [style.font-size]="drawing.fontSize + 'px'"
+                    [style.font-style]="drawing.italic"
+                    [style.font-weight]="drawing.bold"
+                    [style.font-family]="drawing.fontFamily"
+                    [attr.text-anchor]="drawing.align">
                     <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor='let line of drawing.lines'>{{ line }}</tspan>
                 </text> 
             </g>

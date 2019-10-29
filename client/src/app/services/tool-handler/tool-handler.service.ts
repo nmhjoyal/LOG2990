@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
 

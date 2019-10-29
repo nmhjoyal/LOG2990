@@ -1,6 +1,6 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 // tslint:disable-next-line: no-implicit-dependencies
 import * as svgIntersections from 'svg-intersections';
 

@@ -1,6 +1,6 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { SelectorService } from './selector-service';
 

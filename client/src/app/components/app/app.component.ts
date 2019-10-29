@@ -6,7 +6,7 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-wind
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';

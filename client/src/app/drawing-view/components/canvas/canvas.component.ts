@@ -6,9 +6,9 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
+import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { Id, ToolConstants } from '../tools/assets/tool-constants';
 
 @Component({
   selector: 'app-canvas',

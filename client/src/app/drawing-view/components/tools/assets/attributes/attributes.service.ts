@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { ToolConstants } from '../constants/tool-constants';
 import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
-import { ToolConstants } from '../tool-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -126,8 +126,10 @@ export class AttributesService {
       wasSaved: false,
       savedText: [],
       savedFontSize: 12,
-      savedIsItalic: false,
-      savedIsBold: false,
+      savedItalic: '',
+      savedBold: '',
+      savedAlign: 'left',
+      savedFontFamily: 'Arial, Helvetica, sans-serif',
       x: 0,
       y: 0,
       width: 0,

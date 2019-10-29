@@ -1,6 +1,15 @@
 <svg class='stampZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-    <g *ngIf='text.x !== -1'>
-        <text [attr.x]="text.x" [attr.y]="text.y">
+    <g *ngIf='text !== 0'>
+        <rect [attr.x]="initialX - 2" [attr.y]="text.y - 2" [attr.width]="maxWidth" [attr.height]="text.height + text.fontSize"
+        [style.stroke]="'#000'" 
+        [style.fill]="'none'"
+        [style.stroke-width]="2"></rect>
+        <text [attr.x]="text.x" [attr.y]="text.y"
+        [style.font-size]="text.fontSize + 'px'"
+        [style.font-style]="text.italic"
+        [style.font-weight]="text.bold"
+        [style.font-family]="fontFamilySelection"
+        [attr.text-anchor]="text.align">
             <tspan [attr.x]="text.x" dy="1.2em" *ngFor='let line of text.lines'>{{ line }}</tspan>
         </text> 
     </g>

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
