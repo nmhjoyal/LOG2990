@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
     if (this.isOnlyModalOpen() && !this.toolBox.opened) {
-      this.toolHandler.choosePolygon;
+      this.toolHandler.choosePolygon();
     }
   }
 
