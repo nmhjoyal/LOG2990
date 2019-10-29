@@ -21,6 +21,7 @@ export class ToolHandlerService {
   paintbrushSelected: boolean;
   selectorSelected: boolean;
   ellipseSelected: boolean;
+  eraserSelected: boolean;
   primaryColorSelected: boolean;
   secondaryColorSelected: boolean;
   stampSelected: boolean;
@@ -51,6 +52,7 @@ export class ToolHandlerService {
     this.secondaryColorSelected = false;
     this.stampSelected = false;
     this.ellipseSelected = false;
+    this.eraserSelected = false;
     this.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
@@ -73,6 +75,7 @@ export class ToolHandlerService {
     this.polygonSelected = false;
     this.selectorSelected = false;
     this.ellipseSelected = false;
+    this.eraserSelected = false;
     this.stampSelected = false;
     this.resetSelectorBox();
   }
@@ -164,6 +167,12 @@ export class ToolHandlerService {
   chooseStamp(): void {
     this.resetSelection();
     this.stampSelected = true;
+    this.noneSelected = false;
+  }
+
+  chooseEraser(): void {
+    this.resetSelection();
+    this.eraserSelected = true;
     this.noneSelected = false;
   }
 
