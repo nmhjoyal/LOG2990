@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IDrawing } from '../../../../common/drawing-information/IDrawing';
+import { IDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 @Pipe({
   name: 'filterTags',
@@ -15,7 +15,7 @@ export class FilterTagsPipe implements PipeTransform {
             return selectedTags.includes(tag.name);
           });
         }
-        return undefined;
+        return;
       });
     }
   }

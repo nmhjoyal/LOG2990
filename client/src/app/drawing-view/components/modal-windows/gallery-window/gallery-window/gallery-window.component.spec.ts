@@ -1,3 +1,5 @@
+        // tslint:disable: no-string-literal
+
 import SpyObj = jasmine.SpyObj;
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -5,18 +7,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatDialogModule, MatDialogRef, MatInputModule, MatMenuModule, MatProgressSpinnerModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { FilterTagsPipe } from 'src/app/services/filter-pipe/filter-tags.pipe';
+import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { Strings } from 'src/AppConstants/Strings';
+import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
+import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas/preview-canvas.component';
 import { GalleryWindowComponent } from './gallery-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
-import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas/preview-canvas.component';
-import { FilterTagsPipe } from 'src/app/services/filter-tags.pipe';
-import { IndexService } from 'src/app/services/index/index.service';
-import { Observable, of } from 'rxjs';
-import { ITag } from '../../../../../../../../common/drawing-information/ITag';
-import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
-import { Strings } from 'src/AppConstants/Strings';
 
 // export class FilterTagsPipeMock {
 //   transform() {
@@ -40,13 +42,12 @@ describe('GalleryWindowComponent', () => {
         canvas: canvasInformationMock.data,
     } as IDrawing;
 
-
     let component: GalleryWindowComponent;
     let fixture: ComponentFixture<GalleryWindowComponent>;
 
     beforeEach(async(() => {
         indexServiceMock.getTags.and.callFake(() => new Observable<ITag[]>());
-        indexServiceMock.getDrawings.and.callFake(() => new Observable<IDrawing[]>())
+        indexServiceMock.getDrawings.and.callFake(() => new Observable<IDrawing[]>());
 
         TestBed.configureTestingModule({
             imports: [
@@ -71,7 +72,7 @@ describe('GalleryWindowComponent', () => {
                 { provide: MAT_DIALOG_DATA, useValue: dataMock },
                 { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
                 { provide: CanvasInformationService, useValue: canvasInformationMock },
-                { provide: IndexService, useValue: indexServiceMock }
+                { provide: IndexService, useValue: indexServiceMock },
             ],
         })
             .compileComponents();
@@ -89,7 +90,7 @@ describe('GalleryWindowComponent', () => {
     });
 
     it('should have the appropriate constructor values', () => {
-        expect(component.data.title).toEqual(Strings.GALLERY_WINDOW_TITLE)
+        expect(component.data.title).toEqual(Strings.GALLERY_WINDOW_TITLE);
         expect(component['drawingsInGallery']).toEqual([]);
         expect(component['selectedDrawing']).toEqual({} as IDrawing);
         expect(component['drawingToOpen']).toEqual({} as IDrawing);
@@ -101,7 +102,6 @@ describe('GalleryWindowComponent', () => {
         component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, toolHandlerServiceMock, indexServiceMock);
         expect(component.data.filterTags).toEqual([tag, tag2]);
     });
-
 
     it('should create a new array if there are no tags in the server', () => {
         indexServiceMock.getTags.and.returnValue(of([]));
@@ -139,22 +139,5 @@ describe('GalleryWindowComponent', () => {
         component.tagSelected('all, tag');
         expect(component.filterBy).toEqual(['all, tag']);
     });
-
-    it('should correctly call onAcceptClick', () => {
-        const closeSpy = spyOn(component, 'onClose');
-        const confirmSpy = spyOn(window, 'confirm');
-
-        indexServiceMock.getDrawing.and.returnValue(of(mockDrawing));
-        expect(component['drawingToOpen']).toEqual(mockDrawing, 'drawing to open did not equal mockdrawing');
-        expect(toolHandlerServiceMock.drawings).toEqual(mockDrawing.shapes, 'shapes did not equal drawings');
-        expect(canvasInformationMock.data).toEqual(mockDrawing.canvas, 'canvas.data did not get passed through');
-
-        component.onAcceptClick();
-        expect(closeSpy).toHaveBeenCalled();
-        
-        component.onAcceptClick();
-        indexServiceMock.getDrawing.and.callThrough();
-        expect(confirmSpy).toHaveBeenCalledWith('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.')
-    })
 
 });

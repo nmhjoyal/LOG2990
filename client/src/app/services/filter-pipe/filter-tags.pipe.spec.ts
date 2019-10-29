@@ -1,9 +1,9 @@
 import SpyObj = jasmine.SpyObj;
 
-import { IDrawing } from '../../../../common/drawing-information/IDrawing';
-import { CanvasInformationService } from './canvas-information/canvas-information.service';
+import { IDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
+import { ToolHandlerService } from '../tool-handler/tool-handler.service';
 import { FilterTagsPipe } from './filter-tags.pipe';
-import { ToolHandlerService } from './tool-handler/tool-handler.service';
 
 describe('FilterTagsPipe', () => {
   const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
@@ -27,7 +27,6 @@ describe('FilterTagsPipe', () => {
 
   const mockDrawing3 = {
     name: 'name',
-    tags: [],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
     shapes: toolHandlerMock.drawings,
     canvas: canvasDataMock.data,
@@ -51,10 +50,13 @@ describe('FilterTagsPipe', () => {
     expect(returnedDrawing).toEqual([mockDrawing, mockDrawing2]);
   });
 
-  it('should return no items if selected tag is not present', () => {
+  it('should return undefined if there is no selected tag with the specified name', () => {
     const pipe = new FilterTagsPipe();
-    const returnedDrawing = pipe.transform([mockDrawing3], ['fakeTag']);
-    expect(returnedDrawing).toEqual([]);
+    const returnedValue = pipe.transform([mockDrawing3], ['fake']);
+    returnedValue.forEach((item) => {
+      expect(item.tags).toBeUndefined();
+    });
+    expect(returnedValue).toEqual([]);
   });
 
 });

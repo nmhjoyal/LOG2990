@@ -2,23 +2,23 @@ import SpyObj = jasmine.SpyObj;
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreviewCanvasComponent } from './preview-canvas.component';
-import { MatListModule, MatToolbarModule, MatCheckboxModule, MatSidenavModule, MatMenuModule, MatIconModule, MatSelectModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+import { Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
+import { MatCheckboxModule, MatIconModule, MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from 'src/app/components/app/app.component';
-import { NewDrawingWindowComponent } from '../../../new-drawing-window/new-drawing-window.component';
-import { WelcomeWindowComponent } from '../../../welcome-window/welcome-window.component';
-import { ModalWindowComponent } from '../../../modal-window/modal-window.component';
-import { Type } from '@angular/core';
 import { ColorPaletteComponent } from 'src/app/drawing-view/components/color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from 'src/app/drawing-view/components/color-picker/color-picker.component';
+import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawing } from '../../../../../../../../../common/drawing-information/IDrawing';
+import { ModalWindowComponent } from '../../../modal-window/modal-window.component';
+import { NewDrawingWindowComponent } from '../../../new-drawing-window/new-drawing-window.component';
+import { WelcomeWindowComponent } from '../../../welcome-window/welcome-window.component';
+import { PreviewCanvasComponent } from './preview-canvas.component';
 
 describe('PreviewCanvasComponent', () => {
 
@@ -26,7 +26,7 @@ describe('PreviewCanvasComponent', () => {
   let fixture: ComponentFixture<PreviewCanvasComponent>;
   const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
   const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
-  
+
   const mockDrawing = {
     name: 'name',
     tags: [{name: 'tag', isSelected: false}],
