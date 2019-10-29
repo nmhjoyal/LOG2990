@@ -19,13 +19,6 @@ export class IndexController {
     private configureRouter(): void {
         this.router = Router();
 
-        this.router.get('/',
-            async (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-                const time: Message = await this.indexService.helloWorld();
-                res.json(time);
-            });
-
         this.router.post('/save',
             async (req: Request, res: Response, next: NextFunction) => {
                 const success: boolean = await this.indexService.saveDrawing(req.body.drawingToSave);
