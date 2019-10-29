@@ -8,4 +8,12 @@ export class Strings {
     static FALSE = 'false';
     static SAVE_WINDOW_TITLE = 'Enregistrer un dessin.';
     static GALLERY_WINDOW_TITLE = 'Voir vos dessins';
+    static EXPORT_WINDOW_TITLE = 'Exporter un dessin';
+}
+
+export enum SaveAs {
+    SVG = 0,
+    PNG = 1,
+    JPG = 2,
+    BMP = 3,
 }

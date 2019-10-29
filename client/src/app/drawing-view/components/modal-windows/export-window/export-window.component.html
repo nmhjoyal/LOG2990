@@ -1,0 +1,32 @@
+<div mat-dialog-container class='export_window'>
+    <h1 mat-dialog-title id='export_window_title'>{{data.title}}</h1>
+    <div mat-dialog-content>
+        <h3 id="header-3">Veuillez entrer les informations nécessaires pour exporter le dessin.</h3>
+        <form (ngSubmit)="onAcceptClick()" #saveDrawingForm="ngForm">
+            <div class="form-group">
+                <label for="nameInput">Nom: </label>
+                <mat-form-field appearance="fill">
+                    <input matInput required id="nameInput" name="nameInput" class="form-control" [(ngModel)]="name"
+                        placeholder="Nom du dessin" #nameInput="ngModel">
+                    <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="alert alert-danger">
+                        <mat-error *ngIf="nameInput.errors.required">
+                            Le nom du dessin ne doit pas être nul.
+                        </mat-error>
+                    </div>
+                </mat-form-field>
+            </div>
+        </form>
+        <div>
+            <button id="export" type="button" mat-raised-button [matMenuTriggerFor]="exportMenu" #menuTrigger="matMenuTrigger"
+            (click)="menuTrigger.openMenu()">{{format}}</button>
+            <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)='chooseExportType(0)'>SVG</button>
+                <button mat-menu-item (click)='chooseExportType(1)'>PNG</button>
+                <button mat-menu-item (click)='chooseExportType(2)'>JPG</button>
+                <button mat-menu-item (click)='chooseExportType(3)'>BMP</button>
+            </mat-menu>
+        </div>
+        <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
+        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving" (click)="onAcceptClick()">Accepter</button>
+    </div>
+</div>

@@ -12,7 +12,6 @@ const INITIAL_Y = 200;
 const CURSOR_X = 550;
 const CURSOR_Y = 700;
 const CURSOR_MOVE = 300;
-const PREVIEWBOX_DIMENSIONS = 5;
 
 
 describe('EllipseComponent', () => {
@@ -132,19 +131,16 @@ describe('EllipseComponent', () => {
   it('#calculateDimensions should make the shape.width and shape.height equal to 0 if they are smaller than the stroke width', () => {
     component['shape'].strokeWidth = STROKE_WIDTH;
 
-    component['previewBox'].width = PREVIEWBOX_DIMENSIONS;
-    component['previewBox'].height = PREVIEWBOX_DIMENSIONS;
     component['initialX'] = INITIAL_X;
     component['initialY'] = INITIAL_Y;
     component['cursorX'] = INITIAL_X;
     component['cursorY'] = INITIAL_Y;
+
     component.onShiftUp();
 
     expect(component['shape'].width).toEqual(0, 'shape.width took minimal value');
     expect(component['shape'].height).toEqual(0, 'shape.height took minimal value');
 
-    component['previewBox'].width = CURSOR_X - INITIAL_X;
-    component['previewBox'].height = CURSOR_Y - INITIAL_Y;
     component['initialX'] = INITIAL_X;
     component['initialY'] = INITIAL_Y;
     component['cursorX'] = CURSOR_X;
@@ -155,12 +151,6 @@ describe('EllipseComponent', () => {
     expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH)/NumericalValues.TWO, 'shape.width took normal value');
     expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH)/NumericalValues.TWO, 'shape.height took normal value');
 
-    /*
-    if(component['previewBox'].width < component['shape'].strokeWidth || component['previewBox'].height < component['shape'].strokeWidth)
-      expect(component['shape'].width).toEqual(0, 'shape.width took minimal value');
-    else
-      expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH)/NumericalValues.TWO, 'shape.height took minimal value');
-    */
   });
 
 });

@@ -14,6 +14,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
 
 @Component({
   selector: 'app-root',
@@ -151,6 +152,18 @@ export class AppComponent implements OnInit {
           canvasData: CanvasInformationService.prototype.data,
         },
         panelClass: 'save-window',
+      });
+    }
+  }
+
+  openExportWindow(): void {
+    if (this.isOnlyModalOpen()) {
+      this.dialog.open(ExportWindowComponent, {
+        data: {
+          data: ExportWindowComponent.prototype.data,
+          canvasData: CanvasInformationService.prototype.data,
+        },
+        panelClass: 'export-window',
       });
     }
   }

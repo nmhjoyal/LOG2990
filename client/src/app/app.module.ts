@@ -18,6 +18,7 @@ import { ColorService } from './services/color_service/color.service';
 import { FilterTagsPipe } from './services/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
+import { ExportWindowComponent } from './drawing-view/components/modal-windows/export-window/export-window.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     WelcomeWindowComponent,
     ModalWindowComponent as Type<ModalWindowComponent>,
     SaveWindowComponent,
+    ExportWindowComponent,
     GalleryWindowComponent,
     WelcomeWindowComponent,
     NewDrawingWindowComponent,
@@ -52,6 +54,6 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
   entryComponents: [ModalWindowComponent as Type<ModalWindowComponent>, WelcomeWindowComponent, ColorPickerComponent,
-    NewDrawingWindowComponent, SaveWindowComponent, GalleryWindowComponent],
+    NewDrawingWindowComponent, SaveWindowComponent, GalleryWindowComponent, ExportWindowComponent],
 })
 export class AppModule { }
