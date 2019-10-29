@@ -72,27 +72,10 @@ export class CanvasComponent {
   }
 
   getColorFromShape(event: MouseEvent, colorIndex: number, shape: IShape): void {
-    if (this.isStroke(event, shape)) {
+    if (ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
       this.colorService.color[colorIndex] = shape.secondaryColor;
     } else {
       this.colorService.color[colorIndex] = shape.primaryColor;
-    }
-  }
-
-  isStroke(event: MouseEvent, shape: IShape): boolean {
-    switch (shape.id) {
-      case (Id.RECTANGLE):
-        return (ClickHelper.getXPosition(event) <= shape.x + shape.strokeWidth ||
-          ClickHelper.getYPosition(event) <= shape.y + shape.strokeWidth ||
-          ClickHelper.getXPosition(event) >= shape.x + shape.width - shape.strokeWidth ||
-          ClickHelper.getYPosition(event) >= shape.y + shape.height - shape.strokeWidth);
-      case (Id.ELLIPSE):
-        // tslint:disable:no-magic-numbers
-        return (Math.pow(ClickHelper.getXPosition(event) - shape.x, 2) / Math.pow(shape.width - shape.strokeWidth, 2) +
-          Math.pow(ClickHelper.getYPosition(event) - shape.y, 2) / Math.pow(shape.height - shape.strokeWidth, 2)) >= 1;
-      // tslint:enable:no-magic-numbers
-      default:
-        return false;
     }
   }
 
