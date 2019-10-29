@@ -15,15 +15,31 @@ export class EraserComponent {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
+  leftClicked: boolean;
 
-  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
-    for (const drawing of this.toolService.drawings) {
-      if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
-        const drawingIndex = this.toolService.drawings.indexOf(drawing);
+  eraseObject(): void {
+    for (let i = this.toolService.drawings.length - 1; i >= 0; i--) {
+      if (this.selectorService.cursorTouchesObject(
+        this.toolService.drawings[i], ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
+        const drawingIndex = this.toolService.drawings.indexOf(this.toolService.drawings[i]);
         this.toolService.drawings.splice(drawingIndex, 1);
+        break;
       }
     }
-
   }
 
+  @HostListener('mousedown', ['$event']) mouseDown(event: MouseEvent): void {
+    this.leftClicked = true;
+    this.eraseObject();
+  }
+
+  @HostListener('mouseup') mouseUp(): void {
+    this.leftClicked = false;
+  }
+
+  @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {
+    if (this.leftClicked) {
+      this.eraseObject();
+    }
+  }
 }
