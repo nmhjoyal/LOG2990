@@ -17,6 +17,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
   stamp: IStamp;
+  stampPaths = StampConstants.STAMPS_PATHS;
   angleIncrement: number;
 
   constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
@@ -72,13 +73,11 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         centerY: this.stamp.centerY,
       };
       this.toolServiceRef.drawings.push(createdStamp);
-      
-
     }
   }
 
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
-    let valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
+    const valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
     this.stamp.angle += valueChange;
   }
 
@@ -91,22 +90,22 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   setStamp(stampIndex: number): void {
     switch (stampIndex) {
       case (FilterSelection.FILTER0):
-        this.stamp.svgReference = '../../../../../../assets/stamps/grade-24px.svg';
+        this.stamp.svgReference = this.stampPaths.HEART;
         break;
       case (FilterSelection.FILTER1):
-        this.stamp.svgReference = '../../../../../../assets/stamps/pets-24px.svg';
+        this.stamp.svgReference = this.stampPaths.PAW;
         break;
       case (FilterSelection.FILTER2):
-        this.stamp.svgReference = '../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg';
+        this.stamp.svgReference = this.stampPaths.SMILEY;
         break;
       case (FilterSelection.FILTER3):
-        this.stamp.svgReference = '../../../../../../assets/stamps/favorite-24px.svg';
+        this.stamp.svgReference = this.stampPaths.STAR;
         break;
       case (FilterSelection.FILTER4):
-        this.stamp.svgReference = '../../../../../../assets/stamps/thumb_up-24px.svg';
+        this.stamp.svgReference = this.stampPaths.THUMB_UP;
         break;
       case (FilterSelection.FILTER5):
-        this.stamp.svgReference = '../../../../../../assets/stamps/brightness_5-24px.svg';
+        this.stamp.svgReference = this.stampPaths.SUN;
         break;
     }
   }
@@ -117,7 +116,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   increaseScaleFactor(): void {
-    if (this.stamp.scaleFactor + 1 < StampConstants.MAX_SCALE) {
+    if (this.stamp.scaleFactor < StampConstants.MAX_SCALE) {
       this.stamp.scaleFactor += 1;
       this.multiplyScaleFactor();
     }

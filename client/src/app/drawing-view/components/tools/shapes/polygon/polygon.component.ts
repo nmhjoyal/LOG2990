@@ -58,7 +58,7 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
         bufferX = this.shape.x + (imaginaryCircleRadius * Math.cos(angleTracker));
         bufferY = this.shape.y + (imaginaryCircleRadius * Math.sin(angleTracker));
         this.shape.vertices += (bufferX.toFixed(0) + ',' + bufferY.toFixed(0) + ' ');
-        
+
       }
     }
 

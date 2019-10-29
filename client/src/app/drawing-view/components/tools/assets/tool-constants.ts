@@ -41,6 +41,15 @@ export enum PointType {
     DOTTED = 3,
 }
 
+enum STAMPS {
+    HEART = '../../../../../../assets/stamps/grade-24px.svg',
+    SMILEY = '../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg',
+    PAW = '../../../../../../assets/stamps/pets-24px.svg',
+    STAR = '../../../../../../assets/stamps/favorite-24px.svg',
+    THUMB_UP = '../../../../../../assets/stamps/thumb_up-24px.svg',
+    SUN = '../../../../../../assets/stamps/brightness_5-24px.svg',
+}
+
 export class ToolConstants {
     static NONE = 'none';
     static ROUND = 'round';
@@ -68,6 +77,7 @@ export class ToolConstants {
 
 // tslint:disable:max-classes-per-file
 export class StampConstants {
+    static STAMPS_PATHS = STAMPS;
     static DEFAULT_ANGLE = 0;
     static DEFAULT_DIMENSION = 24;
     static PATH_SLICER = 6;

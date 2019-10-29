@@ -22,7 +22,6 @@ describe('GalleryWindowComponent', () => {
   dataMock = jasmine.createSpyObj('GalleryDrawingModalData', ['']);
   let galleryData: SpyObj<IGalleryModalData>;
 
-
     const dialogMock = {
       close: () => {
         confirm('MockDialog close');
