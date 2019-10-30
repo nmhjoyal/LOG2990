@@ -5,7 +5,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule, MatIconModule, MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import {
+  MatCheckboxModule, MatIconModule, MatListModule, MatMenuModule,
+  MatSelectModule, MatSidenavModule, MatToolbarModule
+} from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
@@ -29,11 +32,11 @@ describe('PreviewCanvasComponent', () => {
 
   const mockDrawing = {
     name: 'name',
-    tags: [{name: 'tag', isSelected: false}],
+    tags: [{ name: 'tag', isSelected: false }],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
     shapes: toolHandlerServiceMock.drawings,
-    canvas: canvasInformationMock.data = {drawingHeight: 200, drawingColor: '#ffffffff', drawingWidth: 200},
-} as IDrawing;
+    canvas: canvasInformationMock.data = { drawingHeight: 200, drawingColor: '#ffffffff', drawingWidth: 200 },
+  } as IDrawing;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
