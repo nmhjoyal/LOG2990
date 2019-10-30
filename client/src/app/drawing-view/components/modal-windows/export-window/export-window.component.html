@@ -27,6 +27,6 @@
             </mat-menu>
         </div>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving" (click)="onAcceptClick()">Accepter</button>
+        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving" (click)="onAcceptClick(nameInput.value)">Accepter</button>
     </div>
 </div>

@@ -19,7 +19,6 @@ import * as svg from 'save-svg-as-png';
 
 export class ExportWindowComponent extends ModalWindowComponent implements OnInit {
 
-  protected name: string;
   protected preview: ISVGPreview;
   isFinishedSaving: boolean;
   protected exportType: SaveAs;
@@ -40,7 +39,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     this.format = "Exporter au format"
   }
 
-  onAcceptClick(): void {
+  onAcceptClick(name:string): void {
     this.isFinishedSaving = false;
     svg.saveSvgAsPng(document.getElementById('canvas'), name + '.png');
     this.onClose();
