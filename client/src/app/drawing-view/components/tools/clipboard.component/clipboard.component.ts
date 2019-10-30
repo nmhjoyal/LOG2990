@@ -1,10 +1,10 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { ClickTypes } from 'src/AppConstants/ClickTypes';
+/*import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
-import { AttributesService } from '../assets/attributes/attributes.service';
+import { AttributesService } from '../assets/attributes/attributes.service';*/
 import { ITools } from '../assets/interfaces/itools';
 
 @Component({

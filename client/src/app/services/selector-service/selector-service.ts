@@ -30,8 +30,8 @@ export class SelectorService {
 
   copy(): void {
     this.clipboard.clear();
-    if (this.SelectedObjects) {
-        this.SelectedObjects.forEach((selectedObject) => {
+    if (this.selectedObjects) {
+        this.selectedObjects.forEach((selectedObject) => {
           this.clipboard.add(selectedObject);
       });
     }
@@ -39,7 +39,8 @@ export class SelectorService {
 
   paste(cursorX: number, cursorY: number): void {
     if (this.clipboard.size) {
-      this.clipboard.forEach((copiedObject) => {
+      const selection: Set<ITools> = this.clipboard;
+      selection.forEach((copiedObject) => {
         copiedObject.x = cursorX;
         copiedObject.y = cursorY;
         this.toolService.drawings.push(copiedObject);
@@ -52,15 +53,14 @@ export class SelectorService {
     for (let i = 0; i < this.selectedObjects.size; i++) {
       this.toolService.drawings.pop();
     }
-    this.resetSelectorService();
-    /*this.SelectedObjects.forEach((selectedObject) => {
+    /*this.selectedObjects.forEach((selectedObject) => {
       this.toolService.drawings.delete(selectedObject);
     });*/
   }
 
   duplicate(): void {
-    this.copy();
-    this.clipboard.forEach((copiedObject) => {
+    const selection: Set<ITools> = this.selectedObjects;
+    selection.forEach((copiedObject) => {
       copiedObject.x += NumericalValues.DUPLICATE_OFFSET;
       copiedObject.y += NumericalValues.DUPLICATE_OFFSET;
         this.toolService.drawings.push(copiedObject);
