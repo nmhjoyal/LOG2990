@@ -39,25 +39,4 @@ describe('EraserComponent', () => {
     component.mouseUp();
     expect(component.leftClicked).toBeFalsy();
   });
-
-  // it('should delete a drawing', () => {
-  //   colorservice = new ColorService();
-  //   toolHandlerservice = new ToolHandlerService(colorservice);
-  //   const mydrawing: IShape = {
-  //     id: 'myshape',
-  //     x: 50,
-  //     y: 50,
-  //     width: 50,
-  //     height: 50,
-  //     verticesNumber: 4,
-  //     vertices: '',
-  //     primaryColor: 'someColor',
-  //     secondaryColor: 'someColor',
-  //     strokeOpacity: 1,
-  //     strokeWidth: 1,
-  //     fillOpacity: 1,
-  //   };
-  //   toolHandlerservice.drawings.push(mydrawing);
-
-  // })
 });
