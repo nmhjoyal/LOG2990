@@ -28,13 +28,13 @@ export class IndexController {
 
         this.router.post('/save',
             async (req: Request, res: Response, next: NextFunction) => {
-                const success: boolean = await this.indexService.saveDrawing(req.body.drawingToSave);
+                const success: boolean | undefined = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);
             });
 
         this.router.post('/tags',
             async (req: Request, res: Response, next: NextFunction) => {
-                const success: boolean = await this.indexService.saveTag(req.body.tagToSave);
+                const success: boolean | undefined = await this.indexService.saveTag(req.body.tagToSave);
                 res.json(success);
             });
 
@@ -46,7 +46,7 @@ export class IndexController {
 
         this.router.get('/getdrawing/:id',
             async (req: Request, res: Response, next: NextFunction) => {
-                this.indexService.getDrawing(req.params.id).then((drawing: IDrawing) => {
+                this.indexService.getDrawing(req.params.id).then((drawing: IDrawing | undefined) => {
                     res.json(drawing);
                 }).catch((err: Error) => {
                     res.json(err.message); // TODO: Send error messages - ex: Not found

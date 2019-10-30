@@ -23,13 +23,13 @@ export class IndexService {
     );
   }
 
-  saveDrawing(drawing: IDrawing): Observable<boolean> {
-    return this.http.post<boolean>(this.BASE_URL + '/save', {drawingToSave: drawing}).pipe(
+  saveDrawing(drawing: IDrawing): Observable<boolean | undefined> {
+    return this.http.post<boolean>(this.BASE_URL + '/save', { drawingToSave: drawing }).pipe(
       catchError(this.handleError<boolean>('save')),
     );
   }
 
-   saveTag(tag: ITag): Observable<boolean> {
+  saveTag(tag: ITag): Observable<boolean|undefined> {
     return this.http.post<boolean>(this.BASE_URL + '/tags', { tagToSave: tag }).pipe(
       catchError(this.handleError<boolean>('tags')),
     );
@@ -47,8 +47,7 @@ export class IndexService {
     );
   }
 
-  // TODO: check what happens if returns undefined
-  getDrawing(selectedDrawing: IDrawing): Observable<IDrawing> {
+  getDrawing(selectedDrawing: IDrawing): Observable<IDrawing | undefined> {
     return this.http.get<IDrawing>(this.BASE_URL + '/getdrawing/' + this.dateToId(selectedDrawing.timestamp)).pipe(
       catchError(this.handleError<IDrawing>('getdrawing')),
     );
@@ -61,7 +60,6 @@ export class IndexService {
     };
   }
 
-  // TODO: Move to common to share with server/index.service.ts
   private dateToId(date: string): string {
     return date.replace(/[^0-9]/g, '');
   }

@@ -56,7 +56,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         }
         drawingToSave.tags.push(tag);
         this.index.saveTag(tag).subscribe(
-          (response: boolean) => {
+          (response: boolean | undefined) => {
             if (!response) {
               confirm('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
             }
@@ -66,7 +66,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     });
 
     this.index.saveDrawing(drawingToSave).subscribe(
-      (response: boolean) => {
+      (response: boolean | undefined) => {
         if (!response) {
           confirm('Il y a eu une erreur lors de la sauvegarde du dessin.');
         }

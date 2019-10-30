@@ -107,15 +107,6 @@ describe('SaveWindowComponent', () => {
         expect(component.data.displayedTags).toEqual([tag, tag2, { name: 'tag3', isSelected: true }]);
     });
 
-    // it('#onAcceptClick should properly save drawings and tags', async () => {
-    //     const closeSpy = spyOn(component, 'onClose');
-
-    //     component.onAcceptClick();
-    //     expect(component.data.displayedTags).toEqual([tag, tag2]);
-    //     expect(component.isFinishedSaving).toBe(true);
-    //     expect(closeSpy).toHaveBeenCalled();
-    // });
-
     it('constructor should properly initialize', () => {
         const newComponent = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
         newComponent.data.displayedTags = [{ name: 'tag', isSelected: true } as ITag];
@@ -128,6 +119,24 @@ describe('SaveWindowComponent', () => {
         indexMock.saveTag.and.returnValue(of(true));
         expect(component.isFinishedSaving).toEqual(true);
         expect(component.data.displayedTags).toEqual([tag, tag2]);
+    });
+
+    it('should call confirm window on undefined tag response in onAcceptClick', () => {
+        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        const spy = spyOn(component, 'onClose');
+        indexMock.saveTag.and.returnValue(of(undefined));
+        component.onAcceptClick();
+        expect(spy).toHaveBeenCalled();
+        expect(confirmSpy).toHaveBeenCalled();
+    });
+
+    it('should call confirm window on undefined drawing response in onAcceptClick', () => {
+        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        const spy = spyOn(component, 'onClose');
+        indexMock.saveDrawing.and.returnValue(of(undefined));
+        component.onAcceptClick();
+        expect(spy).toHaveBeenCalled();
+        expect(confirmSpy).toHaveBeenCalled();
     });
 
 });

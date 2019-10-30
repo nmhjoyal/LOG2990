@@ -36,7 +36,7 @@ export class IndexService {
         });
     }
 
-    async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
+    async saveDrawing(drawingToSave: IDrawing): Promise<boolean | undefined> {
         if (!drawingToSave.name || (drawingToSave.tags && drawingToSave.tags.some((tag) => tag.name === ' '))) {
             return false;
         }
@@ -47,7 +47,7 @@ export class IndexService {
         return false;
     }
 
-    async saveTag(tagToSave: ITag): Promise<boolean> {
+    async saveTag(tagToSave: ITag): Promise<boolean | undefined> {
         if (!this.tags.some((tag) => tag.name === tagToSave.name)) {
             this.tags.push(tagToSave);
             return true;

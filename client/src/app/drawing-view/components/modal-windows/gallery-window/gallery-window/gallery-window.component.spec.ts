@@ -155,4 +155,13 @@ describe('GalleryWindowComponent', () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it('should call confirm window on undefined response in onAcceptClick', () => {
+        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        const spy = spyOn(component, 'onClose');
+        indexServiceMock.getDrawing.and.returnValue(of(undefined));
+        component.onAcceptClick();
+        expect(spy).toHaveBeenCalled();
+        expect(confirmSpy).toHaveBeenCalled();
+    });
+
 });
