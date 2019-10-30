@@ -1,15 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ColorService } from '../../../../../services/color_service/color.service';
 import { SelectorService } from '../../../../../services/selector-service/selector-service';
-import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
 
 describe('EraserComponent', () => {
   let component: EraserComponent;
   let fixture: ComponentFixture<EraserComponent>;
-  let toolHandlerservice: ToolHandlerService;
-  let colorservice: ColorService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
