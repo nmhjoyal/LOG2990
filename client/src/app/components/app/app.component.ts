@@ -6,6 +6,7 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/welcome-window/welcome-window.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
@@ -18,12 +19,22 @@ import { ColorPickerComponent } from '../../drawing-view/components/color-picker
 })
 export class AppComponent implements OnInit {
 
+  protected cursorX: number;
+  protected cursorY: number;
+
   constructor(private dialog: MatDialog, private storage: LocalStorageService, public colorService: ColorService,
-              protected toolHandler: ToolHandlerService,
+              protected toolHandler: ToolHandlerService, protected selectorService: SelectorService,
               @Inject(MAT_DIALOG_DATA) private data: INewDrawingModalData) {
     this.data.drawingHeight = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
     this.data.drawingWidth = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingColor = Strings.WHITE_HEX;
+    this.cursorX = 0;
+    this.cursorY = 0;
+  }
+
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
+    this.cursorX = event.offsetX;
+    this.cursorY = event.offsetY;
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
@@ -54,6 +65,36 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.chooseSelector();
+    }
+  }
+
+  @HostListener('document:keydown.control.c', ['$event']) onKeydownCtrlC(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.selectorService.copy();
+    }
+  }
+
+  @HostListener('document:keydown.control.v', ['$event']) onKeydownCtrlV(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.selectorService.paste(this.cursorX, this.cursorY);
+    }
+  }
+
+  @HostListener('document:keydown.control.x', ['$event']) onKeydownCtrlX(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.selectorService.cut();
+    }
+  }
+
+  @HostListener('document:keydown.control.d', ['$event']) onKeydownCtrlD(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.selectorService.duplicate();
+    }
+  }
+
+  @HostListener('document:keydown.backspace', ['$event']) onKeydownBackspace(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.selectorService.delete();
     }
   }
 

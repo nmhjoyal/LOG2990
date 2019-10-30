@@ -1,23 +1,76 @@
+import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 // tslint:disable-next-line: no-implicit-dependencies
 import * as svgIntersections from 'svg-intersections';
+import { ToolHandlerService } from '../tool-handler/tool-handler.service';
+
+@Injectable({
+  providedIn: 'root',
+})
 
 export class SelectorService {
   selectedObjects: Set<ITools>;
+  clipboard: Set<ITools>;
   topCornerX: number;
   topCornerY: number;
   width: number;
   height: number;
 
-  constructor() {
+  constructor(protected toolService: ToolHandlerService) {
     this.selectedObjects = new Set<ITools>();
     this.topCornerX = 0;
     this.topCornerY = 0;
     this.width = 0;
     this.height = 0;
+    this.clipboard = new Set<ITools>();
+  }
+
+  copy(): void {
+    this.clipboard.clear();
+    if (this.SelectedObjects) {
+        this.SelectedObjects.forEach((selectedObject) => {
+          this.clipboard.add(selectedObject);
+      });
+    }
+  }
+
+  paste(cursorX: number, cursorY: number): void {
+    if (this.clipboard.size) {
+      this.clipboard.forEach((copiedObject) => {
+        copiedObject.x = cursorX;
+        copiedObject.y = cursorY;
+        this.toolService.drawings.push(copiedObject);
+      });
+    }
+  }
+
+  cut(): void {
+    this.copy();
+    for (let i = 0; i < this.selectedObjects.size; i++) {
+      this.toolService.drawings.pop();
+    }
+    this.resetSelectorService();
+    /*this.SelectedObjects.forEach((selectedObject) => {
+      this.toolService.drawings.delete(selectedObject);
+    });*/
+  }
+
+  duplicate(): void {
+    this.copy();
+    this.clipboard.forEach((copiedObject) => {
+      copiedObject.x += NumericalValues.DUPLICATE_OFFSET;
+      copiedObject.y += NumericalValues.DUPLICATE_OFFSET;
+        this.toolService.drawings.push(copiedObject);
+    });
+  }
+
+  delete(): void {
+    for (let i = 0; i < this.selectedObjects.size; i++) {
+      this.toolService.drawings.pop();
+    }
   }
 
   get MinWidth(): number {
