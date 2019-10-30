@@ -1,24 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
-  const FIFTY = 50;
+  let drawingServiceMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('drawingServiceMock',
+   ['saveDrawing', 'seeDrawings', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
+
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers:[
+        {provide: DrawingStorageService, useValue: drawingServiceMock, },
+      ],
+    });
     service = TestBed.get(ToolHandlerService);
     colorService = TestBed.get(ColorService);
+
   });
 
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
 
-    expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
-    expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
     expect(service.noneSelected).toBe(true);
     expect(service.crayonSelected).toBe(false);
     expect(service.paintbrushSelected).toBe(false);
@@ -59,35 +65,63 @@ describe('ToolHandlerService', () => {
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
 
-  it('#clearPage should call #resetSelection and empty the drawings array', () => {
-    const resetSpy = spyOn(service, 'resetSelection');
+  it('#clearPage should call #resetSelection and #emptyDrawings', () => {
+    const emptySpy = spyOn(service, 'emptyDrawings');
+    const resetSpy = spyOn(service, 'resetSelectorBox');
     service.clearPage();
 
+    expect(emptySpy).toHaveBeenCalled();
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.drawings.length).toEqual(0);
   });
 
-  it('#resetSelectorBox should reset selector property to default data', () => {
-    service.selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+  it('#saveDrawing should call the drawingStorage method', () => {
+    const dummyDrawing: ITools = {
+      id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+    service.saveDrawing(dummyDrawing);
+    expect(drawingServiceMock.saveDrawing).toHaveBeenCalled();
+  });
+
+  it('#seeDrawings should call the drawingStorage method', () => {
+    service.seeDrawings();
+    expect(drawingServiceMock.seeDrawings).toHaveBeenCalled();
+  });
+
+  it('#emptyDrawings should call the drawingStorage method', () => {
+    service.emptyDrawings();
+    expect(drawingServiceMock.emptyDrawings).toHaveBeenCalled();
+  });
+
+  it('#resetSelectorBox should call the drawingStorage method', () => {
     service.resetSelectorBox();
-    expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
+    expect(drawingServiceMock.resetSelectorBox).toHaveBeenCalled();
   });
 
-  it('#saveSelectorBox should set selector property to input data', () => {
-    const selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
-    service.saveSelectorBox(selection);
-    expect(service.selection).toEqual(selection);
+  it('#saveSelectorBox should call the drawingStorage method', () => {
+    const dummyIShape: IShape = {
+      id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      primaryColor: '',
+      secondaryColor: '',
+      strokeOpacity: 0,
+      strokeWidth: 0,
+      fillOpacity: 0,
+
+    };
+    service.saveSelectorBox(dummyIShape);
+    expect(drawingServiceMock.saveSelectorBox).toHaveBeenCalled();
   });
 
-  it('#selectorBoxExists should return false if height or width are 0 and true otherwise', () => {
-    expect(service.selectorBoxExists()).toBeFalsy();
-    const selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
-    service.saveSelectorBox(selection);
-    expect(service.selectorBoxExists()).toBeTruthy();
+  it('#selectorBoxExists should call the drawingStorage method', () => {
+    service.selectorBoxExists();
+    expect(drawingServiceMock.selectorBoxExists).toHaveBeenCalled();
   });
 
   it('#chooseRectangle should call #resetSelection and select the rectangle', () => {

@@ -57,7 +57,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.toolService.saveDrawing(currentDrawing);
   }
 
   // Event handling methods

@@ -8,6 +8,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { ITools } from '../assets/interfaces/itools';
 import { Id } from '../assets/tool-constants';
 import { SelectorComponent } from './selector.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -54,7 +55,7 @@ describe('SelectorComponent', () => {
     let selector: SelectorComponent;
     let selectorServiceMock: SelectorService;
     let fixture: ComponentFixture<SelectorComponent>;
-    const toolServiceMock: ToolHandlerService = new ToolHandlerService(new ColorService());
+    let toolServiceMock: ToolHandlerService;
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
                                                         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
@@ -64,7 +65,9 @@ describe('SelectorComponent', () => {
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],
             providers: [
-                { provide: ToolHandlerService, useValue: toolServiceMock},
+                ToolHandlerService,
+                DrawingStorageService,
+                ColorService,
                 { provide: AttributesService, useValue: attrServiceMock, },
             ],
         }).overrideComponent(SelectorComponent, {
@@ -77,6 +80,7 @@ describe('SelectorComponent', () => {
 
         fixture = TestBed.createComponent(SelectorComponent);
         fixture.detectChanges();
+        toolServiceMock = TestBed.get(ToolHandlerService);
         selector = fixture.componentInstance;
         spyOn(selectorServiceMock, 'resetSize');
         spyOn(selectorServiceMock, 'updateCorners');
@@ -187,7 +191,7 @@ describe('SelectorComponent', () => {
     });
 
     it('test leftclick simple', () => {
-        toolServiceMock.drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
+        TestBed.get(DrawingStorageService).drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         const leftRelease = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
@@ -197,7 +201,7 @@ describe('SelectorComponent', () => {
     });
 
     it('test rightclick simple', () => {
-        toolServiceMock.drawings = [drawing];
+        TestBed.get(DrawingStorageService).drawings = [drawing];
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         selector.onMouseDown(rightClick);
         const rightRelease = new MouseEvent('mouseup', { button: ClickTypes.RIGHT_CLICK });
@@ -211,7 +215,7 @@ describe('SelectorComponent', () => {
             id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1 };
         const drawing2 = { x: FORTY, y: FORTY, width: FORTY, height: FORTY, fillOpacity: 0,
             id: Id.RECTANGLE, primaryColor: 'black', secondaryColor: 'black', strokeOpacity: 0, strokeWidth: 1 };
-        toolServiceMock.drawings = [drawing1, drawing2];
+        TestBed.get(DrawingStorageService).drawings = [drawing1, drawing2];
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         const rightRelease = new MouseEvent('mouseup', { button: ClickTypes.RIGHT_CLICK });

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service'
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 @Injectable({
   providedIn: 'root',
@@ -27,15 +28,8 @@ export class ToolHandlerService {
   // Color service simulating attributes
   primaryColor: string;
   secondaryColor: string;
-  ​
-  // Shape Storage
-  drawings: ITools[];
-  selection: IShape;
 
-  constructor(public colorService: ColorService) {
-    this.drawings = [];
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
+  constructor(public colorService: ColorService, public drawingStorage: DrawingStorageService) {
     this.noneSelected = true;
     this.rectangleSelected = false;
     this.colourApplicatorSelected = false;
@@ -56,7 +50,7 @@ export class ToolHandlerService {
   // Tool Handling methods
   clearPage(): void {
     this.resetSelection();
-    this.drawings.length = 0;
+    this.emptyDrawings();
   }
   ​
   resetSelection(): void {
@@ -74,19 +68,33 @@ export class ToolHandlerService {
     this.resetSelectorBox();
   }
 
+  // Interface to the drawing storage
+
+  saveDrawing(drawing: ITools): void {
+    this.drawingStorage.saveDrawing(drawing);
+  }
+
+  seeDrawings(): ITools[] {
+    return this.drawingStorage.seeDrawings();
+  }
+  
+  emptyDrawings(): void {
+    this.drawingStorage.emptyDrawings();
+  }
+
   resetSelectorBox(): void {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
+    this.drawingStorage.resetSelectorBox();
   }
 
   saveSelectorBox(shape: IShape): void {
-    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColor: 'black', secondaryColor: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
+    this.drawingStorage.saveSelectorBox(shape);
   }
 
   selectorBoxExists(): boolean {
-    return (this.selection.width > 0 && this.selection.height > 0);
+    return this.drawingStorage.selectorBoxExists();
   }
+
+  // Tool selecting methods
 ​
   chooseRectangle(): void {
       this.resetSelection();

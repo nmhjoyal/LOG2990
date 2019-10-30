@@ -24,13 +24,14 @@ import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { Id, ToolConstants } from '../tools/assets/tool-constants';
 import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   const mockColourService: ColorService = new ColorService();
-  const mockToolService: ToolHandlerService = new ToolHandlerService(mockColourService);
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
+  let mockToolService: ToolHandlerService;
   const testObject: IShape = { x: 1,
     y: 1,
     width: 1,
@@ -80,10 +81,12 @@ describe('CanvasComponent', () => {
         ColorPaletteComponent,
         ColorPickerComponent,
       ],
-      providers: [  MatDialogConfig, LocalStorageService,
+      providers: [  MatDialogConfig, 
+        LocalStorageService, 
+        DrawingStorageService,
+        ToolHandlerService,
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
-        { provide: ToolHandlerService, useValue: mockToolService },
         { provide: ColorService, useValue: mockColourService },
       ],
     }).compileComponents();
@@ -93,6 +96,7 @@ describe('CanvasComponent', () => {
 
   beforeEach(async(() => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
+    mockToolService = TestBed.get(ToolHandlerService);
   }));
 
   it('should properly create the component', () => {

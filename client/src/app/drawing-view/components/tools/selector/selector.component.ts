@@ -102,7 +102,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       this.mouseMoved = true;
       this.selectorService.resetSize();
       this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.drawings, this.previewBox);
+      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.seeDrawings(), this.previewBox);
       if (this.isReverseSelection) {
         this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
       }
@@ -144,7 +144,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   protected leftClick(event: MouseEvent): void {
-    for (const drawing of this.toolService.drawings) {
+    for (const drawing of this.toolService.seeDrawings()) {
       if (this.selectorService.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
         this.selectorService.SelectedObjects.clear();
         this.selectorService.SelectedObjects.add(drawing);
@@ -159,7 +159,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   protected rightClick(event: MouseEvent): void {
-    for (const drawing of this.toolService.drawings) {
+    for (const drawing of this.toolService.seeDrawings()) {
       if (this.selectorService.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
         if (this.selectorService.SelectedObjects.has(drawing)) {
           this.selectorService.selectedObjects.delete(drawing);
