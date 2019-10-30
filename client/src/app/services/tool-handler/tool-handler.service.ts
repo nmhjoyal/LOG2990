@@ -86,6 +86,10 @@ export class ToolHandlerService {
     this.drawingStorage.resetSelectorBox();
   }
 
+  seeSelection(): IShape {
+    return this.drawingStorage.seeSelection();
+  }
+
   saveSelectorBox(shape: IShape): void {
     this.drawingStorage.saveSelectorBox(shape);
   }

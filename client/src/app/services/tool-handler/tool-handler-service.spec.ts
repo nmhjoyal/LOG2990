@@ -9,7 +9,7 @@ describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
   let drawingServiceMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('drawingServiceMock',
-   ['saveDrawing', 'seeDrawings', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
+   ['saveDrawing', 'seeDrawings', 'seeSelection', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,6 +99,11 @@ describe('ToolHandlerService', () => {
   it('#resetSelectorBox should call the drawingStorage method', () => {
     service.resetSelectorBox();
     expect(drawingServiceMock.resetSelectorBox).toHaveBeenCalled();
+  });
+
+  it('#seeDrawings should call the drawingStorage method', () => {
+    service.seeSelection();
+    expect(drawingServiceMock.seeSelection).toHaveBeenCalled();
   });
 
   it('#saveSelectorBox should call the drawingStorage method', () => {
