@@ -97,7 +97,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.dialogRef.close();
   }
 
-  saveDrawingToJson(): {drawings: ITools[], canvas: {}} {
+  saveDrawingToJson(): { drawings: ITools[], canvas: {} } {
     const json = {
       drawings: [] as ITools[],
       canvas: {} as ICanvasData,
@@ -114,7 +114,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "y": currentDrawing.y,
         "svgReference": currentDrawing.svgReference,
         "vertices": currentDrawing.vertices,
-      }).toString();
+      });
 
     });
 
@@ -124,13 +124,14 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       "drawingWidth": this.canvasData.data.drawingWidth,
     };
 
-    return JSON.stringify(json);
+    return json;
   }
 
-  saveToMachine()  {
+  saveToMachine(name: string) {
     let a = document.createElement('a');
-    a.setAttribute('href', 'data:text/plainl charset=utf-u' + encodeURIComponent(this.saveDrawingToJson()));
-    a.setAttribute('download', 'dessin.json');
+    a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(JSON.stringify(this.saveDrawingToJson())));
+    a.setAttribute('download', name + '.json');
+    a.click();
   }
 
 }
