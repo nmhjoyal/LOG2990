@@ -35,7 +35,11 @@
                 </ul>
             </div>
         </form>
+        <div>
+            <button mat-raised-button style="width: 40%; padding: 0 20 0 20;" (click)="saveToMachine()"> Sauvegarder localement </button>
+        </div>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving" (click)="onAcceptClick()">Accepter</button>
+        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving"
+            (click)="onAcceptClick()">Accepter</button>
     </div>
 </div>

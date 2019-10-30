@@ -10,6 +10,7 @@ import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ITools } from '../../tools/assets/interfaces/itools';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
+import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
@@ -94,6 +95,42 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  saveDrawingToJson(): {drawings: ITools[], canvas: {}} {
+    const json = {
+      drawings: [] as ITools[],
+      canvas: {} as ICanvasData,
+    };
+    // tslint:disable: quotemark
+
+    this.toolHandler.drawings.forEach((currentDrawing) => {
+      json.drawings.push({
+        "id": currentDrawing.id,
+        "points": currentDrawing.points,
+        "width": currentDrawing.width,
+        "height": currentDrawing.height,
+        "x": currentDrawing.x,
+        "y": currentDrawing.y,
+        "svgReference": currentDrawing.svgReference,
+        "vertices": currentDrawing.vertices,
+      }).toString();
+
+    });
+
+    json.canvas = {
+      "drawingColor": this.canvasData.data.drawingColor,
+      "drawingHeight": this.canvasData.data.drawingHeight,
+      "drawingWidth": this.canvasData.data.drawingWidth,
+    };
+
+    return JSON.stringify(json);
+  }
+
+  saveToMachine()  {
+    let a = document.createElement('a');
+    a.setAttribute('href', 'data:text/plainl charset=utf-u' + encodeURIComponent(this.saveDrawingToJson()));
+    a.setAttribute('download', 'dessin.json');
   }
 
 }
