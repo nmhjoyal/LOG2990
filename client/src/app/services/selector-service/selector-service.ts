@@ -50,12 +50,7 @@ export class SelectorService {
 
   cut(): void {
     this.copy();
-    for (let i = 0; i < this.selectedObjects.size; i++) {
-      this.toolService.drawings.pop();
-    }
-    /*this.selectedObjects.forEach((selectedObject) => {
-      this.toolService.drawings.delete(selectedObject);
-    });*/
+    this.delete();
   }
 
   duplicate(): void {
@@ -67,10 +62,16 @@ export class SelectorService {
     });
   }
 
-  delete(): void {
+  delete(): void {/*
     for (let i = 0; i < this.selectedObjects.size; i++) {
       this.toolService.drawings.pop();
-    }
+    }*/
+    this.selectedObjects.forEach((element) => {
+      const index = this.toolService.drawings.indexOf(element);
+      if (index !== -1) {
+        this.toolService.drawings.splice(index, 1);
+       }
+    });
   }
 
   get MinWidth(): number {
