@@ -57,15 +57,15 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // TODO: TEST THIS METHOD
-  @HostListener('document:keydown.z', ['$event']) onKeydownZEvent(event: KeyboardEvent): void {
-    if (!this.dialog.openDialogs.length && event.ctrlKey) {
-      if(event.shiftKey){
-        this.toolHandler.redo();
-      }
-      else{
-        this.toolHandler.undo();
-      }
+  @HostListener('document:keydown.control.z', ['$event']) onKeydownZEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.undo();
+    }
+  }
+
+  @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZEvent(): void {
+    if (!this.dialog.openDialogs.length) {
+      this.toolHandler.redo();
     }
   }
 
