@@ -57,8 +57,6 @@ export class ToolHandlerService {
     this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
 
-  // TODO: Test the undo and redo
-
   undo(): void {
     this.accessingUndoList = true;
     const poppedObject = this.drawings.pop();
@@ -77,7 +75,6 @@ export class ToolHandlerService {
     }
   }
 
-  // TODO: test this method
   saveDrawing(drawingData: ITools): void {
     this.drawings.push(drawingData);
     if (this.accessingUndoList) {

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
@@ -185,4 +186,88 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
   });
 
+  it('#undo should set accessingUndoList to true and transfer the last object from drawings' + 
+      'to undoList if it is not undefined', () => {
+    const drawingsSpy = spyOnProperty(service.drawings, "pop");
+    const undoListSpy = spyOnProperty(service.undoList, "push");
+    drawingsSpy.and.returnValue(undefined);
+    
+    service.undo();
+    
+    expect(service.accessingUndoList).toBe(true);
+    // tslint:disable-next-line:no-magic-numbers
+    expect(drawingsSpy.calls.count()).toBe(1);
+    expect(undoListSpy).not.toHaveBeenCalled();
+
+    service.accessingUndoList = false;
+    const dummyDrawing: ITools = {
+      id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    }
+    drawingsSpy.and.returnValue(dummyDrawing);
+    
+    service.undo();
+    
+    expect(service.accessingUndoList).toBe(true);
+    // tslint:disable-next-line:no-magic-numbers
+    expect(drawingsSpy.calls.count()).toBe(2);
+    expect(undoListSpy).toHaveBeenCalled();
+  });
+
+  it('#redo should transfer the last object from undoList' + 
+      'to drawings if it is not undefined', () => {
+    const drawingsSpy = spyOnProperty(service.drawings, "push");
+    const undoListSpy = spyOnProperty(service.undoList, "pop");
+    undoListSpy.and.returnValue(undefined);
+    
+    service.undo();
+
+    // tslint:disable-next-line:no-magic-numbers
+    expect(undoListSpy.calls.count()).toBe(1);
+    expect(drawingsSpy).not.toHaveBeenCalled();
+    
+    const dummyDrawing: ITools = {
+      id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    }
+
+    undoListSpy.and.returnValue(dummyDrawing);
+    
+    service.undo();
+    
+    // tslint:disable-next-line:no-magic-numbers
+    expect(drawingsSpy.calls.count()).toBe(2);
+    expect(undoListSpy).toHaveBeenCalled();
+  });
+
+  it('#saveDrawing should push a drawing into drawings and set accessingundoList to false and empty the undoList if it is true', () => {
+    const dummyDrawing: ITools = {
+      id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    }
+    const drawingsSpy = spyOnProperty(service.drawings, "push");
+    service.undoList = [dummyDrawing, dummyDrawing];
+    service.accessingUndoList = false;
+    
+    service.saveDrawing(dummyDrawing);
+    // tslint:disable:no-magic-numbers
+    expect(drawingsSpy.calls.count()).toBe(1);
+    expect(service.undoList.length).toBe(2);
+
+    service.accessingUndoList = true;
+    service.saveDrawing(dummyDrawing);
+    expect(drawingsSpy.calls.count()).toBe(2);
+    expect(service.undoList.length).toBe(0);
+    // tslint:enable:no-magic-numbers
+  });
 });
+

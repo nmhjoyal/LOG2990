@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   // TODO: test these methods
-  @HostListener('document:keydown.control.z', ['$event']) onKeydownZEvent(): void {
+  @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZEvent(): void {
     if (!this.dialog.openDialogs.length) {
       this.toolHandler.undo();
     }
