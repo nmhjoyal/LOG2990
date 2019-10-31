@@ -161,7 +161,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.toolService.saveDrawing(currentDrawing);
   }
 
   protected resetShape(): void {

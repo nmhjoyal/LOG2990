@@ -31,11 +31,13 @@ export class ToolHandlerService {
   // Shape Storage
   drawings: ITools[];
   undoList: ITools[];
+  accessingUndoList: boolean;
   selection: IShape;
 
   constructor(public colorService: ColorService) {
     this.drawings = [];
     this.undoList = [];
+    this.accessingUndoList = false;
     this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
     this.noneSelected = true;
@@ -58,6 +60,7 @@ export class ToolHandlerService {
   // TODO: Test the undo and redo
 
   undo(): void {
+    this.accessingUndoList = true;
     const poppedObject = this.drawings.pop();
     if ( poppedObject != undefined ){
       this.undoList.push(poppedObject);
@@ -71,8 +74,15 @@ export class ToolHandlerService {
     }
   }
 
-  // TODO: mthode that handles saving of IToolsInterface to allo centralized managing of boolean used to reset undoList
-​
+  // TODO: test this method
+  saveDrawing(drawingData: ITools): void {
+    this.drawings.push(drawingData);
+    if (this.accessingUndoList){
+      this.undoList.length = 0;
+      this.accessingUndoList = false;
+    }
+  }
+
   // Tool Handling methods
   clearPage(): void {
     this.resetSelection();
