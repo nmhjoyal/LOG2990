@@ -11,6 +11,12 @@
                     <img id="newDrawing" class="sideBarIcon" src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" 
                     title="Nouveau dessin">
                 </a>
+                <a *ngIf='toolHandler.drawings.length' mat-list-item class="filter" (click)="toolHandler.undo()">
+                    <img id="Annuler" class="sideBarIcon" src="../../../assets//lateral-bar//back-arrow.svg" title="Annuler">
+                </a>
+                <a *ngIf='toolHandler.undoList.length' mat-list-item class="filter" (click)="toolHandler.redo()">
+                    <img id="Refaire" class="sideBarIcon" src="../../../assets//lateral-bar//redo-arrow.svg" title="Refaire">
+                </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()' >
                     <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon" >
                 </a>
