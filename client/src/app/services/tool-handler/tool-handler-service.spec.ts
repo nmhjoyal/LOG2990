@@ -188,8 +188,8 @@ describe('ToolHandlerService', () => {
 
   it('#undo should set accessingUndoList to true and transfer the last object from drawings' + 
       'to undoList if it is not undefined', () => {
-    const drawingsSpy = spyOnProperty(service.drawings, "pop");
-    const undoListSpy = spyOnProperty(service.undoList, "push");
+    const drawingsSpy = spyOn(service.drawings, 'pop');
+    const undoListSpy = spyOn(service.undoList, 'push');
     drawingsSpy.and.returnValue(undefined);
     
     service.undo();
@@ -217,13 +217,13 @@ describe('ToolHandlerService', () => {
     expect(undoListSpy).toHaveBeenCalled();
   });
 
-  it('#redo should transfer the last object from undoList' + 
+  it('#redo should transfer the last object from undoList ' + 
       'to drawings if it is not undefined', () => {
-    const drawingsSpy = spyOnProperty(service.drawings, "push");
-    const undoListSpy = spyOnProperty(service.undoList, "pop");
+    const drawingsSpy = spyOn(service.drawings, 'push');
+    const undoListSpy = spyOn(service.undoList, 'pop');
     undoListSpy.and.returnValue(undefined);
     
-    service.undo();
+    service.redo();
 
     // tslint:disable-next-line:no-magic-numbers
     expect(undoListSpy.calls.count()).toBe(1);
@@ -239,14 +239,15 @@ describe('ToolHandlerService', () => {
 
     undoListSpy.and.returnValue(dummyDrawing);
     
-    service.undo();
+    service.redo();
     
     // tslint:disable-next-line:no-magic-numbers
-    expect(drawingsSpy.calls.count()).toBe(2);
-    expect(undoListSpy).toHaveBeenCalled();
+    expect(undoListSpy.calls.count()).toBe(2);
+    expect(drawingsSpy).toHaveBeenCalled();
   });
 
-  it('#saveDrawing should push a drawing into drawings and set accessingundoList to false and empty the undoList if it is true', () => {
+  it('#saveDrawing should push a drawing into drawings and set accessingundoList' + 
+      'to false and empty the undoList if it is true', () => {
     const dummyDrawing: ITools = {
       id: '',
       x: 0,
@@ -254,7 +255,7 @@ describe('ToolHandlerService', () => {
       width: 0,
       height: 0,
     }
-    const drawingsSpy = spyOnProperty(service.drawings, "push");
+    const drawingsSpy = spyOn(service.drawings, 'push');
     service.undoList = [dummyDrawing, dummyDrawing];
     service.accessingUndoList = false;
     
