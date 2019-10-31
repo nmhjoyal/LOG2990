@@ -70,6 +70,9 @@ export class ToolHandlerService {
   redo(): void {
     const poppedObject = this.undoList.pop();
     if ( poppedObject != undefined ){
+      /* TODO: Pour futur outils ou manipulations du dessins (efface, selector, paste),
+      * gérer ici les cas spéciaux, reconnaissables par les id du ITools recu par le pop.
+      * Si ça devient trop compliquer, une méthode appart pour gérer les redo peut être pertinente.*/
       this.drawings.push(poppedObject);
     }
   }
