@@ -48,7 +48,7 @@ export class IndexController {
                 this.indexService.getDrawing(req.params.id).then((drawing: IDrawing | undefined) => {
                     res.json(drawing);
                 }).catch((err: Error) => {
-                    res.json(err.message); 
+                    res.json(err.message);
                 });
             });
 
