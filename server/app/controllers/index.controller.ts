@@ -21,7 +21,6 @@ export class IndexController {
 
         this.router.get('/',
             async (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
                 const time: Message = await this.indexService.helloWorld();
                 res.json(time);
             });
@@ -49,7 +48,7 @@ export class IndexController {
                 this.indexService.getDrawing(req.params.id).then((drawing: IDrawing | undefined) => {
                     res.json(drawing);
                 }).catch((err: Error) => {
-                    res.json(err.message); // TODO: Send error messages - ex: Not found
+                    res.json(err.message); 
                 });
             });
 

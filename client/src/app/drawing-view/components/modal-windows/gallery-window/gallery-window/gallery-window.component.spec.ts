@@ -23,12 +23,6 @@ import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas/preview
 import { GalleryWindowComponent } from './gallery-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
 
-// export class FilterTagsPipeMock {
-//   transform() {
-
-//   }
-// }
-
 describe('GalleryWindowComponent', () => {
     const dialogRefMock: SpyObj<MatDialogRef<GalleryWindowComponent>> =
         jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
