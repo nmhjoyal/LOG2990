@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
@@ -54,25 +55,24 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
     if (this.stamp.svgReference !== '') {
-      this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
-      this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
-      this.stamp.centerX = event.offsetX;
-      this.stamp.centerY = event.offsetY;
-
-      const createdStamp: IStamp = {
-        id: this.stamp.id,
-        svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
-        primaryColour: this.stamp.primaryColour,
-        x: this.stamp.x,
-        y: this.stamp.y,
-        width: this.stamp.width,
-        height: this.stamp.height,
-        angle: this.stamp.angle,
-        scaleFactor: this.stamp.scaleFactor,
-        centerX: this.stamp.centerX,
-        centerY: this.stamp.centerY,
-      };
-      this.toolServiceRef.drawings.push(createdStamp);
+      this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / NumericalValues.TWO;
+      this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / NumericalValues.TWO;
+      if (this.stamp.svgReference !== undefined) {
+        const createdStamp: IStamp = {
+          id: this.stamp.id,
+          svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
+          primaryColour: this.stamp.primaryColour,
+          x: this.stamp.x,
+          y: this.stamp.y,
+          width: this.stamp.width,
+          height: this.stamp.height,
+          angle: 0,
+          scaleFactor: this.stamp.scaleFactor,
+          centerX: ClickHelper.getXPosition(event),
+          centerY: ClickHelper.getYPosition(event),
+        };
+        this.toolServiceRef.drawings.push(createdStamp);
+      }
     }
   }
 

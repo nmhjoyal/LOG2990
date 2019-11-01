@@ -22,7 +22,7 @@ import { ColorPickerComponent } from '../../drawing-view/components/color-picker
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('options', {static: false}) toolBox: MatSidenav;
+  @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
@@ -42,32 +42,32 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.chooseCrayon();
     }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.choosePaintbrush();
     }
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened) {
       this.toolHandler.chooseSelector();
     }
   }
@@ -98,19 +98,19 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.chooseRectangle();
     }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.chooseEllipse();
     }
   }
 
   @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.choosePolygon();
     }
   }
