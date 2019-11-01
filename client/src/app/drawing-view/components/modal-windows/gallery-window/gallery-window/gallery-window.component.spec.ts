@@ -166,13 +166,6 @@ describe('GalleryWindowComponent', () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it('should call not get a drawing in onAcceptClick if none is selected', () => {
-        const spy = spyOn(indexServiceMock, 'getDrawing').and.returnValue(of(false));
-        component['selectedDrawing'] = undefined;
-        component.onAcceptClick();
-        expect(spy).not.toHaveBeenCalled();
-    });
-
     it('should not call tagSelected if there is no tag', () => {
         spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'tagSelected');

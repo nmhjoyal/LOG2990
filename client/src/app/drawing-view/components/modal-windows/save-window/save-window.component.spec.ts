@@ -124,16 +124,6 @@ describe('SaveWindowComponent', () => {
         expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 
-    it('should call confirm window on undefined tag response in onAcceptClick', () => {
-        confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
-        const spy = spyOn(component, 'onClose');
-        component.data.displayedTags = [tag];
-        indexMock.saveTag.and.returnValue(of(undefined));
-        component.onAcceptClick();
-        expect(spy).toHaveBeenCalled();
-        expect(confirmSpy).toHaveBeenCalled();
-    });
-
     it('should NOT call confirm window on defined tag response in onAcceptClick', () => {
         confirmSpy  = spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'onClose');
