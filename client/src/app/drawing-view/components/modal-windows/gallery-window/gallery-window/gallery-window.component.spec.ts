@@ -171,6 +171,6 @@ describe('GalleryWindowComponent', () => {
         const spy = spyOn(component, 'tagSelected');
         component.addTag('');
         expect(spy).not.toHaveBeenCalled();
-    })
+    });
 
 });
