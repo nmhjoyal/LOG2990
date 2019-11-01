@@ -23,7 +23,8 @@ describe('SaveWindowComponent', () => {
     const dataMock: SpyObj<ISaveModalData> = jasmine.createSpyObj('ISaveModalData', ['']);
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
-    const indexMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['basicGet', 'getTags', 'saveTag', 'saveDrawing']);
+    let indexMock: SpyObj<IndexService>;
+    let confirmSpy;
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
 
@@ -42,6 +43,8 @@ describe('SaveWindowComponent', () => {
     };
 
     beforeEach(async(() => {
+        indexMock = jasmine.createSpyObj('IndexService', ['basicGet', 'getTags', 'saveTag', 'saveDrawing']);
+        confirmSpy = spyOn(window, 'confirm');
         indexMock.getTags.and.callFake(() => new Observable<ITag[]>());
         indexMock.saveTag.and.callFake(() => new Observable<boolean>());
         indexMock.saveDrawing.and.callFake(() => new Observable<boolean>());
@@ -68,14 +71,13 @@ describe('SaveWindowComponent', () => {
             .compileComponents();
     }));
 
-    beforeEach( async() => {
+    beforeEach(() => {
         fixture = TestBed.createComponent(SaveWindowComponent);
         component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
         component.data.displayedTags = [tag, tag2];
         component['name'] = 'drawing';
         component.data.drawing = mockDrawing;
         fixture.detectChanges();
-        fixture.whenStable();
     });
 
     it('should create', () => {
@@ -123,7 +125,7 @@ describe('SaveWindowComponent', () => {
     });
 
     it('should call confirm window on undefined tag response in onAcceptClick', () => {
-        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'onClose');
         component.data.displayedTags = [tag];
         indexMock.saveTag.and.returnValue(of(undefined));
@@ -133,7 +135,7 @@ describe('SaveWindowComponent', () => {
     });
 
     it('should NOT call confirm window on defined tag response in onAcceptClick', () => {
-        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        confirmSpy  = spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'onClose');
         component.data.displayedTags = [tag];
         indexMock.saveDrawing.and.returnValue(of(true));
@@ -144,7 +146,7 @@ describe('SaveWindowComponent', () => {
     });
 
     it('should call confirm window on undefined drawing response in onAcceptClick', () => {
-        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'onClose');
         indexMock.saveDrawing.and.returnValue(of(undefined));
         component.onAcceptClick();

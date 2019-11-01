@@ -160,7 +160,7 @@ describe('GalleryWindowComponent', () => {
     });
 
     it('should remove tags if they are duplicates', () => {
-        const spy = spyOn(Array.prototype, 'splice')
+        const spy = spyOn(Array.prototype, 'splice');
         component.filterBy = ['tag', 'tag2', 'tag3'];
         component.tagSelected('tag');
         expect(spy).toHaveBeenCalled();
@@ -172,5 +172,12 @@ describe('GalleryWindowComponent', () => {
         component.onAcceptClick();
         expect(spy).not.toHaveBeenCalled();
     });
+
+    it('should not call tagSelected if there is no tag', () => {
+        spyOn(window, 'confirm').and.returnValue(true);
+        const spy = spyOn(component, 'tagSelected');
+        component.addTag('');
+        expect(spy).not.toHaveBeenCalled();
+    })
 
 });
