@@ -16,6 +16,7 @@ import { ITools } from '../assets/interfaces/itools';
 export class ClipboardComponent implements OnInit, OnDestroy {
 
     clipboard: ITools[];
+    transforms: SVGGraphicsElement;
 
     constructor(protected toolService: ToolHandlerService, protected selectorService: SelectorService) {
       }

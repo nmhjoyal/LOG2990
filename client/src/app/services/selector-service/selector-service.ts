@@ -37,10 +37,14 @@ export class SelectorService {
     }
   }
 
+ // transforms: SVGGraphicsElement;
   paste(cursorX: number, cursorY: number): void {
     if (this.clipboard.size) {
       const selection: Set<ITools> = this.clipboard;
       selection.forEach((copiedObject) => {
+        this.toolService.drawings.push(copiedObject);
+        /*copiedObject.transform.baseval();
+        let trans = this.transforms.transform.baseVal;*/
         copiedObject.x = cursorX;
         copiedObject.y = cursorY;
         this.toolService.drawings.push(copiedObject);
@@ -55,23 +59,34 @@ export class SelectorService {
 
   duplicate(): void {
     const selection: Set<ITools> = this.selectedObjects;
-    selection.forEach((copiedObject) => {
+    selection.forEach((selectedObject) => {
+      const copiedObject: ITools = selectedObject;
+      this.toolService.drawings.push(selectedObject);
+      if (copiedObject.x + copiedObject.width > window.innerWidth) {
+        copiedObject.x -= 100;
+        copiedObject.y -= 100;
+      } else if (copiedObject.y + copiedObject.height > window.innerHeight) {
+        copiedObject.x -= 100;
+        copiedObject.y -= 100;
+      } else {
       copiedObject.x += NumericalValues.DUPLICATE_OFFSET;
       copiedObject.y += NumericalValues.DUPLICATE_OFFSET;
-        this.toolService.drawings.push(copiedObject);
+      }
+      this.selectedObjects.add(selectedObject);
+      this.toolService.drawings.push(selectedObject);
+      this.toolService.drawings.push(copiedObject);
     });
   }
 
-  delete(): void {/*
-    for (let i = 0; i < this.selectedObjects.size; i++) {
-      this.toolService.drawings.pop();
-    }*/
+  delete(): void {
     this.selectedObjects.forEach((element) => {
       const index = this.toolService.drawings.indexOf(element);
       if (index !== -1) {
         this.toolService.drawings.splice(index, 1);
        }
     });
+    this.resetSelectorService();
+    this.selectedObjects.clear();
   }
 
   get MinWidth(): number {
