@@ -58,7 +58,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         drawingToSave.tags!.push(tag);
         this.index.saveTag(tag).subscribe(
           (response: boolean | undefined) => {
-            if (!response) {
+            if (response === undefined) {
               confirm('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
             }
           },

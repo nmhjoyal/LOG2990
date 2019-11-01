@@ -134,6 +134,7 @@ describe('SaveWindowComponent', () => {
     it('should NOT call confirm window on defined tag response in onAcceptClick', () => {
         const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'onClose');
+        component.data.displayedTags = [tag];
         indexMock.saveDrawing.and.returnValue(of(true));
         indexMock.saveTag.and.returnValue(of(true));
         component.onAcceptClick();
