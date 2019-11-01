@@ -24,6 +24,7 @@ import { GalleryWindowComponent } from './gallery-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
 
 describe('GalleryWindowComponent', () => {
+    jasmine.getEnv().allowRespy(true);
     const dialogRefMock: SpyObj<MatDialogRef<GalleryWindowComponent>> =
         jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
     const dataMock: SpyObj<IGalleryModalData> = jasmine.createSpyObj('IGalleryModalData', ['']);
@@ -103,7 +104,7 @@ describe('GalleryWindowComponent', () => {
     });
 
     it('should create a new array if there are no tags in the server', () => {
-        indexServiceMock.getTags.and.returnValue(of([]));
+        indexServiceMock.getTags.and.returnValue(of(undefined));
         component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, toolHandlerServiceMock, indexServiceMock);
         expect(component.data.filterTags).toEqual([]);
     });
@@ -156,6 +157,20 @@ describe('GalleryWindowComponent', () => {
         component.onAcceptClick();
         expect(spy).toHaveBeenCalled();
         expect(confirmSpy).toHaveBeenCalled();
+    });
+
+    it('should remove tags if they are duplicates', () => {
+        const spy = spyOn(Array.prototype, 'splice')
+        component.filterBy = ['tag', 'tag2', 'tag3'];
+        component.tagSelected('tag');
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call not get a drawing in onAcceptClick if none is selected', () => {
+        const spy = spyOn(indexServiceMock, 'getDrawing').and.returnValue(of(false));
+        component['selectedDrawing'] = undefined;
+        component.onAcceptClick();
+        expect(spy).not.toHaveBeenCalled();
     });
 
 });

@@ -68,13 +68,14 @@ describe('SaveWindowComponent', () => {
             .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach( async() => {
         fixture = TestBed.createComponent(SaveWindowComponent);
         component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
         component.data.displayedTags = [tag, tag2];
         component['name'] = 'drawing';
         component.data.drawing = mockDrawing;
         fixture.detectChanges();
+        fixture.whenStable();
     });
 
     it('should create', () => {

@@ -17,7 +17,7 @@ import { IGalleryModalData } from './IGalleryModalData';
 export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
 
   protected drawingsInGallery: IDrawing[] | undefined;
-  private selectedDrawing: IDrawing;
+  private selectedDrawing: IDrawing | undefined;
   private drawingToOpen: IDrawing;
   @Input() filterBy: string[] = ['all'];
   isFinishedLoading: boolean;
@@ -58,7 +58,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   }
 
   onAcceptClick(): void {
-
     if (this.selectedDrawing) {
       this.index.getDrawing(this.selectedDrawing).subscribe(
         (response: IDrawing | undefined) => {
