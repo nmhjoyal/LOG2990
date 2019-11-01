@@ -26,6 +26,8 @@ describe('AppComponent', () => {
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
+    spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
+    component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
   }));
 
   it('should create', () => {
@@ -63,28 +65,37 @@ describe('AppComponent', () => {
   it('should only resetSelection when colourApplicator not selected', () => {
     toolHandlerMock.colourApplicatorSelected = true;
     toolHandlerMock.resetSelection.and.callThrough();
-    component.switchColours();
+    component.switchColors();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.crayonSelected = true;
+    toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
 
   it('#choosePaintbrush should be called when w is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.paintbrushSelected = true;
     toolHandlerMock.choosePaintbrush.and.callThrough();
     component.onKeydownWEvent();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
   });
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.rectangleSelected = true;
     toolHandlerMock.chooseRectangle.and.callThrough();
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.ellipseSelected = true;
     toolHandlerMock.chooseEllipse.and.callThrough();
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();

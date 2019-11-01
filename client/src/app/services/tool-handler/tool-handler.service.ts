@@ -23,6 +23,7 @@ export class ToolHandlerService {
   ellipseSelected: boolean;
   primaryColorSelected: boolean;
   secondaryColorSelected: boolean;
+  stampSelected: boolean;
 ​
   // Color service simulating attributes
   primaryColor: string;
@@ -48,6 +49,7 @@ export class ToolHandlerService {
     this.pipetteSelected = false;
     this.primaryColorSelected = false;
     this.secondaryColorSelected = false;
+    this.stampSelected = false;
     this.ellipseSelected = false;
     this.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
@@ -71,6 +73,7 @@ export class ToolHandlerService {
     this.polygonSelected = false;
     this.selectorSelected = false;
     this.ellipseSelected = false;
+    this.stampSelected = false;
     this.resetSelectorBox();
   }
 
@@ -155,6 +158,12 @@ export class ToolHandlerService {
   chooseEllipse(): void {
     this.resetSelection();
     this.ellipseSelected = true;
+    this.noneSelected = false;
+  }
+
+  chooseStamp(): void {
+    this.resetSelection();
+    this.stampSelected = true;
     this.noneSelected = false;
   }
 

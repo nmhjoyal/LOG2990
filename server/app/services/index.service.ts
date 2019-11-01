@@ -5,10 +5,8 @@ import { ITag } from '../../../common/drawing-information/ITag';
 
 @injectable()
 export class IndexService {
-    drawingsList: IDrawing[];
-    tags: ITag[];
-
     drawingsInGallery: Map<string, IDrawing>;
+    tags: ITag[];
 
     constructor() {
         this.drawingsInGallery = new Map<string, IDrawing>();
@@ -47,7 +45,7 @@ export class IndexService {
         return Array.from(this.tags.values());
     }
 
-    private dateToId(date: string): string {
+    dateToId(date: string): string {
         return date.replace(/[^0-9]/g, '');
     }
 }

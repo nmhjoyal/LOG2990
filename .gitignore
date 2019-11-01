@@ -7,6 +7,7 @@
 # ignoring node_module changes; these should be rebuilt locally and not cloned 
 /node_modules
 
-# Don't keep the package-lock.json !
+# Extra files to ignore
 package-lock.json
+stats.html
 yarn.lock

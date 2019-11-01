@@ -1,6 +1,5 @@
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor"
-    (click)="applyColourToCanvas()">
+    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor">
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
 
     <g *ngFor="let drawing of toolHandler.drawings">
@@ -66,7 +65,7 @@
                         [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
                         [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
                 </g>
-                <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape(drawing)"
+                <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
                     (contextmenu)="applySecondaryColourToShape($event, drawing)">
                     <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColor"
                         [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"
@@ -115,17 +114,20 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
-    <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-rectangle>
 </div>
 <div *ngIf="toolHandler.polygonSelected">
-    <app-tools-polygon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
-    </app-tools-polygon>
+    <app-tools-polygon #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-tools-polygon>
 </div>
 <div *ngIf="toolHandler.selectorSelected">
-    <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-selector>
 </div>
 <div *ngIf="toolHandler.ellipseSelected">
-    <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
+    <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
 </div>

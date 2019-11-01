@@ -7,5 +7,4 @@ import { ICanvasData } from './ICanvasData';
 
 export class CanvasInformationService {
   data: ICanvasData;
-
 }

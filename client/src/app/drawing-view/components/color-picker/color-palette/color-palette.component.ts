@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ColorService } from '../../../../services/color_service/color.service';
 
@@ -89,18 +90,18 @@ export class ColorPaletteComponent implements AfterViewInit {
     this.colorService.addColor();
   }
 
-  onMouseDown(evt: MouseEvent): void {
+  onMouseDown(event: MouseEvent): void {
     this.mousedown = true;
-    this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
+    this.selectedPosition = { x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event) };
     this.draw();
-    this.color[+this.mainColor].emit(this.getColorAtPosition(evt.offsetX, evt.offsetY));
+    this.color[+this.mainColor].emit(this.getColorAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event)));
   }
 
-  onMouseMove(evt: MouseEvent): void {
+  onMouseMove(event: MouseEvent): void {
     if (this.mousedown) {
-      this.selectedPosition = { x: evt.offsetX, y: evt.offsetY };
+      this.selectedPosition = { x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event) };
       this.draw();
-      this.emitColor(evt.offsetX, evt.offsetY);
+      this.emitColor(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     }
   }
 
@@ -118,5 +119,4 @@ export class ColorPaletteComponent implements AfterViewInit {
     const a = this.colorService.rgbToHex(Math.round(this.alpha[+this.mainColor] * NumericalValues.RGBTOHEX_FACTOR));
     return ( '#' + r + g + b + a );
   }
-
 }
