@@ -19,13 +19,7 @@ export class IndexController {
     private configureRouter(): void {
         this.router = Router();
 
-        this.router.get('/',
-            async (req: Request, res: Response, next: NextFunction) => {
-                const time: Message = await this.indexService.helloWorld();
-                res.json(time);
-            });
-
-        this.router.post('/save',
+        this.router.post('/drawubg',
             async (req: Request, res: Response, next: NextFunction) => {
                 const success: boolean | undefined = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);
@@ -37,13 +31,13 @@ export class IndexController {
                 res.json(success);
             });
 
-        this.router.get('/getdrawings',
+        this.router.get('/drawings',
             async (req: Request, res: Response, next: NextFunction) => {
-                const drawings: IDrawing[] = await this.indexService.getDrawings();
+                const drawings: IDrawing[] | undefined = await this.indexService.getDrawings();
                 res.json(drawings);
             });
 
-        this.router.get('/getdrawing/:id',
+        this.router.get('/drawing/:id',
             async (req: Request, res: Response, next: NextFunction) => {
                 this.indexService.getDrawing(req.params.id).then((drawing: IDrawing | undefined) => {
                     res.json(drawing);
@@ -52,9 +46,9 @@ export class IndexController {
                 });
             });
 
-        this.router.get('/gettags',
+        this.router.get('/tag',
             async (req: Request, res: Response, next: NextFunction) => {
-                const tags: ITag[] = await this.indexService.getTags();
+                const tags: ITag[] | undefined = await this.indexService.getTags();
                 res.json(tags);
             });
 

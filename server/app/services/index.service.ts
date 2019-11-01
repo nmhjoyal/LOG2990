@@ -1,10 +1,7 @@
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import 'reflect-metadata';
-import { Message } from '../../../common/communication/message';
 import { IDrawing } from '../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../common/drawing-information/ITag';
-import Types from '../types';
-import { DateService } from './date.service';
 
 @injectable()
 export class IndexService {
@@ -13,27 +10,9 @@ export class IndexService {
 
     drawingsInGallery: Map<string, IDrawing>;
 
-    constructor(
-        @inject(Types.DateService) private dateService: DateService,
-    ) {
+    constructor() {
         this.drawingsInGallery = new Map<string, IDrawing>();
         this.tags = [];
-    }
-
-    async helloWorld(): Promise<Message> {
-        return this.dateService.currentTime().then((timeMessage: Message) => {
-            return {
-                title: 'Hello world',
-                body: 'Time is ' + timeMessage.body,
-            };
-        }).catch((error: unknown) => {
-            console.error(`There was an error!!!`, error);
-
-            return {
-                title: `Error`,
-                body: error as string,
-            };
-        });
     }
 
     async saveDrawing(drawingToSave: IDrawing): Promise<boolean | undefined> {
@@ -56,7 +35,7 @@ export class IndexService {
         return false;
     }
 
-    async getDrawings(): Promise<IDrawing[]> {
+    async getDrawings(): Promise<IDrawing[] | undefined> {
         return Array.from(this.drawingsInGallery.values());
     }
 
@@ -64,7 +43,7 @@ export class IndexService {
         return this.drawingsInGallery.get(drawingTimestampID);
     }
 
-    async getTags(): Promise<ITag[]> {
+    async getTags(): Promise<ITag[] | undefined> {
         return Array.from(this.tags.values());
     }
 

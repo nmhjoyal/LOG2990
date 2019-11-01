@@ -29,7 +29,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.isFinishedSaving = true;
     this.index.getTags().subscribe(
-      (response: ITag[]) => {
+      (response: ITag[] | undefined) => {
         if (response) {
           this.data.displayedTags = response;
         } else {
@@ -44,17 +44,18 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   onAcceptClick(): void {
-    let drawingToSave: IDrawing;
     const date = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-    drawingToSave = { name: this.name, timestamp: date, shapes: this.drawing, canvas: this.canvasData.data };
+    const drawingToSave: IDrawing = {
+      name: this.name, timestamp: date,
+      shapes: this.drawing, canvas: this.canvasData.data, tags: [],
+    };
     this.isFinishedSaving = false;
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
         this.clickOnTag(tag);
-        if (!drawingToSave.tags) {
-          drawingToSave.tags = [];
-        }
-        drawingToSave.tags.push(tag);
+        // tags should never be undefined as they're initialized to a new empty array in drawingToSave declaration
+        // tslint:disable-next-line: no-non-null-assertion
+        drawingToSave.tags!.push(tag);
         this.index.saveTag(tag).subscribe(
           (response: boolean | undefined) => {
             if (!response) {

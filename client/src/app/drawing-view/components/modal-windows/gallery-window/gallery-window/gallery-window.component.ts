@@ -16,7 +16,7 @@ import { IGalleryModalData } from './IGalleryModalData';
 })
 export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
 
-  protected drawingsInGallery: IDrawing[];
+  protected drawingsInGallery: IDrawing[] | undefined;
   private selectedDrawing: IDrawing;
   private drawingToOpen: IDrawing;
   @Input() filterBy: string[] = ['all'];
@@ -35,7 +35,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     this.isFinishedLoading = false;
 
     this.index.getTags().subscribe(
-      (response: ITag[]) => {
+      (response: ITag[]|undefined) => {
         if (response) {
           this.data.filterTags = response;
         } else {
@@ -47,7 +47,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
 
   ngOnInit() {
     this.index.getDrawings().subscribe(
-      (response: IDrawing[]) => {
+      (response: IDrawing[] | undefined) => {
         this.drawingsInGallery = response;
         this.isFinishedLoading = true;
       });

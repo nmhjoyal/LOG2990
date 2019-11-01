@@ -124,10 +124,21 @@ describe('SaveWindowComponent', () => {
     it('should call confirm window on undefined tag response in onAcceptClick', () => {
         const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
         const spy = spyOn(component, 'onClose');
+        component.data.displayedTags = [tag];
         indexMock.saveTag.and.returnValue(of(undefined));
         component.onAcceptClick();
         expect(spy).toHaveBeenCalled();
         expect(confirmSpy).toHaveBeenCalled();
+    });
+
+    it('should NOT call confirm window on defined tag response in onAcceptClick', () => {
+        const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+        const spy = spyOn(component, 'onClose');
+        indexMock.saveDrawing.and.returnValue(of(true));
+        indexMock.saveTag.and.returnValue(of(true));
+        component.onAcceptClick();
+        expect(spy).toHaveBeenCalled();
+        expect(confirmSpy).not.toHaveBeenCalled();
     });
 
     it('should call confirm window on undefined drawing response in onAcceptClick', () => {
@@ -137,6 +148,24 @@ describe('SaveWindowComponent', () => {
         component.onAcceptClick();
         expect(spy).toHaveBeenCalled();
         expect(confirmSpy).toHaveBeenCalled();
+    });
+
+    it('should correctly get the tags from the server', () => {
+        indexMock.getTags.and.returnValue(of([tag, tag2]));
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        expect(component.data.displayedTags).toEqual([tag, tag2]);
+    });
+
+    it('should correctly get initialize an empty array if the response is undefined', () => {
+        indexMock.getTags.and.returnValue(of(undefined));
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        expect(component.data.displayedTags).toEqual([]);
+    });
+
+    it('should properly initialize tags to an empty array if they have no tags', () => {
+        indexMock.getTags.and.returnValue(of([tag, tag2]));
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 
 });
