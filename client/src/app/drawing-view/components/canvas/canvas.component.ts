@@ -87,10 +87,8 @@ export class CanvasComponent {
           ClickHelper.getXPosition(event) >= shape.x + shape.width - shape.strokeWidth ||
           ClickHelper.getYPosition(event) >= shape.y + shape.height - shape.strokeWidth);
       case (Id.ELLIPSE):
-        // tslint:disable:no-magic-numbers
         return (Math.pow(ClickHelper.getXPosition(event) - shape.x, 2) / Math.pow(shape.width - shape.strokeWidth, 2) +
           Math.pow(ClickHelper.getYPosition(event) - shape.y, 2) / Math.pow(shape.height - shape.strokeWidth, 2)) >= 1;
-      // tslint:enable:no-magic-numbers
       default:
         return false;
     }
