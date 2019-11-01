@@ -1,8 +1,9 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
+import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
@@ -19,21 +20,21 @@ export class CanvasComponent {
   @ViewChild('activeTool', {static: false}) activeTool: ToolAbstract;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-              public toolHandler: ToolHandlerService, public colorService: ColorService) {
+    public toolHandler: ToolHandlerService, protected canvasData: CanvasInformationService, public colorService: ColorService) {
   }
 
   applyColourToCanvas(): void {
     if (this.toolHandler.colourApplicatorSelected) {
-      this.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
+      this.canvasData.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.pipetteSelected) {
-      this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = this.data.drawingColor;
+      this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = this.canvasData.data.drawingColor;
     }
   }
 
   getColorFromCanvas(event: MouseEvent): void {
     event.preventDefault();
     if (this.toolHandler.pipetteSelected) {
-      this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = this.data.drawingColor;
+      this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColor;
     }
   }
 

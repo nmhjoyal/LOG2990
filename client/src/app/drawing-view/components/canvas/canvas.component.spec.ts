@@ -4,8 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef,
-  MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
+  MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
@@ -16,13 +16,13 @@ import { Strings } from 'src/AppConstants/Strings';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ColorPaletteComponent } from '../color-picker/color-palette/color-palette.component';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
-import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { INewDrawingModalData } from '../new-drawing-window/INewDrawingModalData';
-import { NewDrawingWindowComponent } from '../new-drawing-window/new-drawing-window.component';
+import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
+import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
+import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
+import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { Id, ToolConstants } from '../tools/assets/tool-constants';
-import { WelcomeWindowComponent } from '../welcome-window/welcome-window.component';
 import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {
@@ -66,6 +66,8 @@ describe('CanvasComponent', () => {
         MatCheckboxModule,
         MatSidenavModule,
         MatMenuModule,
+        MatIconModule,
+        MatSelectModule,
         FormsModule,
         DrawingViewModule,
         BrowserDynamicTestingModule,
@@ -89,9 +91,6 @@ describe('CanvasComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
-  }));
-
-  beforeEach(async(() => {
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   }));
 

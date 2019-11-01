@@ -1,36 +1,53 @@
-import {inject, injectable} from 'inversify';
+import { injectable } from 'inversify';
 import 'reflect-metadata';
-import {Message} from '../../../common/communication/message';
-import Types from '../types';
-import {DateService} from './date.service';
+import { IDrawing } from '../../../common/drawing-information/IDrawing';
+import { ITag } from '../../../common/drawing-information/ITag';
 
 @injectable()
 export class IndexService {
-    constructor(
-        @inject(Types.DateService) private dateService: DateService,
-    ) {
+    drawingsList: IDrawing[];
+    tags: ITag[];
+
+    drawingsInGallery: Map<string, IDrawing>;
+
+    constructor() {
+        this.drawingsInGallery = new Map<string, IDrawing>();
+        this.tags = [];
     }
 
-    about(): Message {
-        return {
-            title: 'This is merely a test',
-            body: 'Lorem ipsum........',
-        };
+    async saveDrawing(drawingToSave: IDrawing): Promise<boolean | undefined> {
+        if (!drawingToSave.name || (drawingToSave.tags && drawingToSave.tags.some((tag) => tag.name === ' '))) {
+            return false;
+        }
+        if (drawingToSave.timestamp) {
+            this.drawingsInGallery.set(this.dateToId(drawingToSave.timestamp), drawingToSave);
+            return true;
+        }
+        return false;
     }
 
-    async helloWorld(): Promise<Message> {
-        return this.dateService.currentTime().then((timeMessage: Message) => {
-            return {
-                title: 'Hello world',
-                body: 'Time is ' + timeMessage.body,
-            };
-        }).catch((error: unknown) => {
-            console.error(`There was an error!!!`, error);
+    async saveTag(tagToSave: ITag): Promise<boolean | undefined> {
+        if (!this.tags.some((tag) => tag.name === tagToSave.name)) {
+            this.tags.push(tagToSave);
+            return true;
+        }
 
-            return {
-                title: `Error`,
-                body: error as string,
-            };
-        });
+        return false;
+    }
+
+    async getDrawings(): Promise<IDrawing[] | undefined> {
+        return Array.from(this.drawingsInGallery.values());
+    }
+
+    async getDrawing(drawingTimestampID: string): Promise<IDrawing | undefined> {
+        return this.drawingsInGallery.get(drawingTimestampID);
+    }
+
+    async getTags(): Promise<ITag[] | undefined> {
+        return Array.from(this.tags.values());
+    }
+
+    private dateToId(date: string): string {
+        return date.replace(/[^0-9]/g, '');
     }
 }
