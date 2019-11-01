@@ -2,7 +2,7 @@ import SpyObj = jasmine.SpyObj;
 
 import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
   MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
@@ -58,7 +58,7 @@ describe('CanvasComponent', () => {
       height: 0,
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         MatListModule,
@@ -92,7 +92,7 @@ describe('CanvasComponent', () => {
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-  }));
+  });
 
   it('should properly create the component', () => {
     expect(component).toBeDefined();
