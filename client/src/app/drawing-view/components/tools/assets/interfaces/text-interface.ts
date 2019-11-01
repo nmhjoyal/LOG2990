@@ -7,6 +7,7 @@ export interface IText extends ITools {
     bold: string;
     align: string;
     fontFamily: string;
+    primaryColour: string;
 }
 
 export interface ITextOptions extends ITools {
@@ -17,4 +18,5 @@ export interface ITextOptions extends ITools {
     savedBold: string;
     savedAlign: string;
     savedFontFamily: string;
+    savedPrimaryColour: string;
 }

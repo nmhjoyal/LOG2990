@@ -31,21 +31,18 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.text = {
       id: Id.TEXT,
       lines: [''],
-      fontSize: 15,
+      fontSize: TextConstants.DEFAULT_FONT_SIZE,
       italic: '',
       bold: '',
-      align: 'start',
-      fontFamily: 'Arial, Helvetica, sans-serif',
+      align: Alignments.START,
+      fontFamily: FontFamilies.ARIAL,
+      primaryColour: colorServiceRef.color[ToolConstants.PRIMARY_COLOUR_INDEX],
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: 0,
       height: 0,
     };
-    this.fontFamilySelection = 'Arial, Helvetica, sans-serif';
-    this.isFirstClick = true;
-    this.currentLine = 0;
-    this.maxWidth = 0;
-    this.initialX = 0;
+    this.resetText();
   }
 
   ngOnInit(): void {
@@ -55,6 +52,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       this.text.italic = this.attributesServiceRef.textAttributes.savedItalic;
       this.text.bold = this.attributesServiceRef.textAttributes.savedBold;
       this.text.fontFamily = this.attributesServiceRef.textAttributes.savedFontFamily;
+      this.text.primaryColour = this.attributesServiceRef.textAttributes.savedPrimaryColour;
     }
   }
 
@@ -64,7 +62,9 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.attributesServiceRef.textAttributes.savedItalic = this.text.italic;
     this.attributesServiceRef.textAttributes.savedBold = this.text.bold;
     this.attributesServiceRef.textAttributes.savedFontFamily = this.text.fontFamily;
+    this.attributesServiceRef.textAttributes.savedPrimaryColour = this.text.primaryColour;
     this.attributesServiceRef.textAttributes.wasSaved = true;
+    this.saveText();
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
@@ -93,22 +93,22 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       if (this.currentLine >= 0 && this.text.lines[this.currentLine].length - 1 >= 0) {
         this.text.lines[this.currentLine] = this.text.lines[this.currentLine].slice(0, this.text.lines[this.currentLine].length - 1);
         if (this.maxWidth === this.text.width) {
-          this.maxWidth -= this.text.fontSize * (1 - this.getAspectRatio(this.fontFamilySelection));
+          this.maxWidth -= this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection));
         }
-        this.text.width -= this.text.fontSize * (1 - this.getAspectRatio(this.fontFamilySelection));
+        this.text.width -= this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection));
       } else {
         if (this.currentLine !== 0) {
           this.text.lines.pop();
           this.text.height -= this.text.fontSize;
           this.currentLine--;
           this.text.width = this.text.lines[this.currentLine].length *
-            (this.text.fontSize * (1 - this.getAspectRatio(this.fontFamilySelection)));
+            (this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection)));
           this.updateMaxWidth();
         }
       }
     } else if (event.key.length < 2) {
       this.text.lines[this.currentLine] += event.key;
-      this.text.width += this.text.fontSize * (1 - this.getAspectRatio(this.fontFamilySelection));
+      this.text.width += this.text.fontSize * (this.getAspectRatio(this.fontFamilySelection));
       if (this.text.width > this.maxWidth) {
         this.maxWidth = this.text.width;
       }
@@ -130,19 +130,11 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   protected toItalic(): void {
-    if (this.text.italic.includes('italic')) {
-      this.text.italic = '';
-    } else {
-      this.text.italic = 'italic';
-    }
+    this.text.italic = this.text.italic.includes(TextConstants.ITALIC) ? '' : TextConstants.ITALIC;
   }
 
   protected toBold(): void {
-    if (this.text.bold.includes('bold')) {
-      this.text.bold = '';
-    } else {
-      this.text.bold = 'bold';
-    }
+    this.text.bold = this.text.bold.includes(TextConstants.BOLD) ? '' : TextConstants.BOLD;
   }
 
   protected alignText(alignIndex: AlignmentType): void {
@@ -187,9 +179,10 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   protected updateMaxWidth(): void {
     this.maxWidth = 0;
     for (const line of this.text.lines) {
-      const width = line.length * (this.text.fontSize * (1 - this.getAspectRatio(this.fontFamilySelection)));
+      const width = line.length * (this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection)));
       this.maxWidth = width > this.maxWidth ? width : this.maxWidth;
     }
+    this.text.height = this.pointsToPixels(this.text.fontSize) * this.text.lines.length;
   }
 
   protected saveText(): void {
@@ -202,17 +195,54 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
         bold: this.text.bold,
         align: this.text.align,
         fontFamily: this.fontFamilySelection,
+        primaryColour: this.text.primaryColour,
         x: this.text.x,
         y: this.text.y,
-        width: this.text.width,
+        width: this.maxWidth,
         height: this.text.height,
       };
       this.toolServiceRef.drawings.push(createdText);
-      this.isFirstClick = true;
-      this.maxWidth = 0;
-      this.currentLine = 0;
-      this.text.lines = [''];
-      this.text.width = 0;
+      this.resetText();
     }
+  }
+
+  protected resetText(): void {
+    this.isFirstClick = true;
+    this.maxWidth = 0;
+    this.initialX = 0;
+    this.currentLine = 0;
+    this.text.lines = [''];
+    this.text.width = 0;
+    this.fontFamilySelection = FontFamilies.ARIAL;
+  }
+
+  protected pointsToPixels(points: number): number {
+    // tslint:disable: no-magic-numbers
+    switch (points) {
+      case 6: case 7:
+        return points + 2;
+      case 8: case 9: case 10:
+        return points + 3;
+      case 11: case 12: case 13:
+        return points + 4;
+      case 14:
+        return points + 5;
+      case 15: case 16: case 17: case 18: case 19: case 20: case 21:
+        return points + 6;
+      case 22: case 23:
+        return points + 7;
+      case 24: case 25:
+        return points + 8;
+      case 26: case 27: case 28: case 29:
+        return points + 9;
+      case 30: case 31: case 32: case 33:
+        return points + 10;
+      case 34: case 35:
+          return points + 11;
+      case 36:
+        return points + 12;
+    }
+    return points;
+    // tslint:enable: no-magic-numbers
   }
 }

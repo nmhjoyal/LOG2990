@@ -130,6 +130,7 @@ export class AttributesService {
       savedBold: '',
       savedAlign: 'left',
       savedFontFamily: 'Arial, Helvetica, sans-serif',
+      savedPrimaryColour: 'black',
       x: 0,
       y: 0,
       width: 0,

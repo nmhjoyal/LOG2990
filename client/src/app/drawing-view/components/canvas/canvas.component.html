@@ -77,15 +77,16 @@
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
-
             <g *ngSwitchCase="toolId.TEXT">
                 <text [attr.x]="drawing.x" [attr.y]="drawing.y"
-                    [style.font-size]="drawing.fontSize + 'px'"
+                    [style.color]='black'
+                    [style.font-size]="drawing.fontSize + 'pt'"
                     [style.font-style]="drawing.italic"
                     [style.font-weight]="drawing.bold"
                     [style.font-family]="drawing.fontFamily"
+                    [style.fill]="drawing.primaryColour"
                     [attr.text-anchor]="drawing.align">
-                    <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor='let line of drawing.lines'>{{ line }}</tspan>
+                    <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
                 </text> 
             </g>
         </g>

@@ -1,6 +1,9 @@
 export class TextConstants {
-    static MAX_FONT_SIZE = 51;
+    static MAX_FONT_SIZE = 37;
     static MIN_FONT_SIZE = 5;
+    static DEFAULT_FONT_SIZE = 12;
+    static ITALIC = 'italic';
+    static BOLD = 'bold';
 }
 
 export enum AlignmentType {
@@ -15,20 +18,8 @@ export enum Alignments {
     END = 'end',
 }
 
-export enum FontFamilyChoices {
-    ARIAL = 'Arial',
-    CAMBRIA = 'Cambria',
-    COURIER_NEW = 'Courier New',
-    CURSIVE = 'Cursive',
-    FRANKLIN_GOTHIC = 'Franklin Gothic',
-    GEORGIA = 'Georgia',
-    GILL_SANS = 'Gill Sans',
-    IMPACT = 'Impact',
-    LUCINDA_SANS = 'Lucinda Sans',
-    SEGOE_UI = 'Segoe UI',
-    TIMES_NEW_ROMAN = 'Times New Roman',
-    TREBUCHET_MS = 'Trebuchet MS',
-    VERDANA = 'Verdana',
+export enum AspectRatios {
+
 }
 
 export enum FontFamilies {
