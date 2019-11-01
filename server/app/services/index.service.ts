@@ -13,7 +13,7 @@ export class IndexService {
         this.tags = [];
     }
 
-    async saveDrawing(drawingToSave: IDrawing): Promise<boolean> {
+    async saveDrawing(drawingToSave: IDrawing): Promise<boolean | undefined> {
         if (!drawingToSave.name || (drawingToSave.tags && drawingToSave.tags.some((tag) => tag.name === ' '))) {
             return false;
         }
@@ -24,7 +24,7 @@ export class IndexService {
         return false;
     }
 
-    async saveTag(tagToSave: ITag): Promise<boolean> {
+    async saveTag(tagToSave: ITag): Promise<boolean | undefined> {
         if (!this.tags.some((tag) => tag.name === tagToSave.name)) {
             this.tags.push(tagToSave);
             return true;
@@ -33,7 +33,7 @@ export class IndexService {
         return false;
     }
 
-    async getDrawings(): Promise<IDrawing[]> {
+    async getDrawings(): Promise<IDrawing[] | undefined> {
         return Array.from(this.drawingsInGallery.values());
     }
 
@@ -41,7 +41,7 @@ export class IndexService {
         return this.drawingsInGallery.get(drawingTimestampID);
     }
 
-    async getTags(): Promise<ITag[]> {
+    async getTags(): Promise<ITag[] | undefined> {
         return Array.from(this.tags.values());
     }
 

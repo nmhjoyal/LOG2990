@@ -20,7 +20,6 @@ export enum FilterURL {
     FILTER4 = 'url(#filter4)',
     FILTER5 = 'url(#filter5)',
 }
-
 export enum FilterSelection {
     FILTER0 = 0,
     FILTER1 = 1,

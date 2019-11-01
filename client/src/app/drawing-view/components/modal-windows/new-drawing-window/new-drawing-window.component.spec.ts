@@ -22,7 +22,7 @@ describe('NewDrawingWindowComponent', () => {
   let canvasDataMock: CanvasInformationService;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
-  const storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+  const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
 
   const NEW_WINDOW_SIZE = 500;
@@ -53,7 +53,7 @@ describe('NewDrawingWindowComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: dataMock },
-        { provide: ToolHandlerService, useValue: storageServiceMock },
+        { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
       ],
     })
       .overrideComponent(NewDrawingWindowComponent, {
@@ -77,7 +77,7 @@ describe('NewDrawingWindowComponent', () => {
       drawingWidth: 100,
       drawingHeight: 100,
     };
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, storageServiceMock, colorService);
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerServiceMock, colorService);
     component.ngOnInit();
   }));
 
