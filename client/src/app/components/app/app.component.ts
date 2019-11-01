@@ -74,21 +74,21 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.confirmNewDrawing();
     }
   }
 
   @HostListener('document:keydown.control.s', ['$event']) onKeydownHandlerCtrlS(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.openSaveWindow();
     }
   }
 
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.toolBox.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       if (!this.toolHandler.drawings.length) {
         this.openGalleryWindow();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {

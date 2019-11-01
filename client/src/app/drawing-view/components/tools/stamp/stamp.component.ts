@@ -57,22 +57,20 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     if (this.stamp.svgReference !== '') {
       this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / NumericalValues.TWO;
       this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / NumericalValues.TWO;
-      if (this.stamp.svgReference !== undefined) {
-        const createdStamp: IStamp = {
-          id: this.stamp.id,
-          svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
-          primaryColour: this.stamp.primaryColour,
-          x: this.stamp.x,
-          y: this.stamp.y,
-          width: this.stamp.width,
-          height: this.stamp.height,
-          angle: 0,
-          scaleFactor: this.stamp.scaleFactor,
-          centerX: ClickHelper.getXPosition(event),
-          centerY: ClickHelper.getYPosition(event),
-        };
-        this.toolServiceRef.drawings.push(createdStamp);
-      }
+      const createdStamp: IStamp = {
+        id: this.stamp.id,
+        svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
+        primaryColour: this.stamp.primaryColour,
+        x: this.stamp.x,
+        y: this.stamp.y,
+        width: this.stamp.width,
+        height: this.stamp.height,
+        angle: 0,
+        scaleFactor: this.stamp.scaleFactor,
+        centerX: ClickHelper.getXPosition(event),
+        centerY: ClickHelper.getYPosition(event),
+      };
+      this.toolServiceRef.drawings.push(createdStamp);
     }
   }
 
