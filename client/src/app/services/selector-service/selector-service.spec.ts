@@ -1,16 +1,23 @@
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolHandlerService } from '../tool-handler.service';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
   let service: SelectorService;
+  let toolService: ToolHandlerService;
   const FIFTY = 50;
   const FORTY = 40;
   const ONE_HUNDRED = 100;
   const TWICE = 2;
 
   beforeEach(() => {
-    service = new SelectorService();
+    toolService = new ToolHandlerService();
+    service = new SelectorService(toolService);
+  });
+
+  it('should add items to clipboard', () => {
+
   });
 
   it('should be created with correct initialized values', () => {
@@ -18,8 +25,8 @@ describe('SelectorService', () => {
     expect(service.selectedObjects).toBeDefined();
     expect(service.topCornerX).toEqual(0);
     expect(service.topCornerY).toEqual(0);
-    expect(service.width).toEqual(0);
-    expect(service.height).toEqual(0);
+    expect(service.furthestX).toEqual(0);
+    expect(service.fursthestY).toEqual(0);
   });
 
   it('should create selector box as drawing', () => {
@@ -30,8 +37,8 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
-    expect(service.width).toEqual(drawing.x + drawing.width);
-    expect(service.height).toEqual(drawing.y + drawing.height);
+    expect(service.furthestX).toEqual(drawing.x + drawing.width);
+    expect(service.fursthestY).toEqual(drawing.y + drawing.height);
   });
 
   it('should check for items, add when not in reverse and delete if in reverse', () => {
@@ -62,23 +69,23 @@ describe('SelectorService', () => {
     drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.topCornerX = FORTY;
     service.topCornerY = FIFTY;
-    service.width = FORTY;
-    service.height = ONE_HUNDRED;
+    service.furthestX = FORTY;
+    service.fursthestY = ONE_HUNDRED;
     service.updateSelectorShape(drawing);
     expect(service.topCornerX).toEqual(FORTY);
     expect(service.topCornerY).toEqual(drawing.y);
-    expect(service.width).toEqual(drawing.x + drawing.width);
-    expect(service.height).toEqual(ONE_HUNDRED);
+    expect(service.furthestX).toEqual(drawing.x + drawing.width);
+    expect(service.fursthestY).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.topCornerX = FIFTY;
     service.topCornerY = FORTY;
-    service.width = ONE_HUNDRED;
-    service.height = FORTY;
+    service.furthestX = ONE_HUNDRED;
+    service.fursthestY = FORTY;
     service.updateSelectorShape(drawing);
     expect(service.topCornerX).toEqual(drawing.x - drawing.width);
     expect(service.topCornerY).toEqual(FORTY);
-    expect(service.width).toEqual(ONE_HUNDRED);
-    expect(service.height).toEqual((drawing.y - drawing.height) + (drawing.height * TWICE));
+    expect(service.furthestX).toEqual(ONE_HUNDRED);
+    expect(service.fursthestY).toEqual((drawing.y - drawing.height) + (drawing.height * TWICE));
   });
 
   it('should recalculate selector shape with list of selected items', () => {
@@ -91,30 +98,30 @@ describe('SelectorService', () => {
     service.recalculateShape(ONE_HUNDRED, ONE_HUNDRED);
     expect(service.topCornerX).toEqual(ONE_HUNDRED);
     expect(service.topCornerY).toEqual(ONE_HUNDRED);
-    expect(service.width).toEqual(0);
-    expect(service.height).toEqual(0);
+    expect(service.furthestX).toEqual(0);
+    expect(service.fursthestY).toEqual(0);
     expect(service.updateSelectorShape).toHaveBeenCalledTimes(TWICE);
   });
 
   it('should reset width and height of selector box', () => {
-    service.width = ONE_HUNDRED;
-    service.height = ONE_HUNDRED;
+    service.furthestX = ONE_HUNDRED;
+    service.fursthestY = ONE_HUNDRED;
     service.resetSize();
-    expect(service.width).toEqual(0);
-    expect(service.height).toEqual(0);
+    expect(service.furthestX).toEqual(0);
+    expect(service.fursthestY).toEqual(0);
   });
 
   it('should reset selection', () => {
-    service.width = ONE_HUNDRED;
-    service.height = ONE_HUNDRED;
+    service.furthestX = ONE_HUNDRED;
+    service.fursthestY = ONE_HUNDRED;
     service.topCornerX = ONE_HUNDRED;
     service.topCornerY = ONE_HUNDRED;
     const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.selectedObjects.add(drawing);
     service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
-    expect(service.width).toEqual(0);
-    expect(service.height).toEqual(0);
+    expect(service.furthestX).toEqual(0);
+    expect(service.fursthestY).toEqual(0);
     expect(service.topCornerX).toEqual(0);
     expect(service.topCornerY).toEqual(0);
   });

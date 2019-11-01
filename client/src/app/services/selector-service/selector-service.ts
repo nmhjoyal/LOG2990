@@ -16,39 +16,79 @@ export class SelectorService {
   clipboard: Set<ITools>;
   topCornerX: number;
   topCornerY: number;
-  width: number;
-  height: number;
+  furthestX: number;
+  fursthestY: number;
+  pasteOffset: number;
+  lastCursorX: number;
+  lastCursorY: number;
+  offScreen: boolean;
 
   constructor(protected toolService: ToolHandlerService) {
     this.selectedObjects = new Set<ITools>();
+    this.clipboard = new Set<ITools>();
     this.topCornerX = 0;
     this.topCornerY = 0;
-    this.width = 0;
-    this.height = 0;
-    this.clipboard = new Set<ITools>();
+    this.furthestX = 0;
+    this.fursthestY = 0;
+    this.pasteOffset = 0;
+    this.lastCursorX = 0;
+    this.lastCursorY = 0;
   }
 
   copy(): void {
     this.clipboard.clear();
     if (this.selectedObjects) {
         this.selectedObjects.forEach((selectedObject) => {
-          this.clipboard.add(selectedObject);
+          this.clipboard.add({...selectedObject});
       });
     }
   }
 
- // transforms: SVGGraphicsElement;
   paste(cursorX: number, cursorY: number): void {
     if (this.clipboard.size) {
-      const selection: Set<ITools> = this.clipboard;
-      selection.forEach((copiedObject) => {
-        this.toolService.drawings.push(copiedObject);
-        /*copiedObject.transform.baseval();
-        let trans = this.transforms.transform.baseVal;*/
-        copiedObject.x = cursorX;
-        copiedObject.y = cursorY;
-        this.toolService.drawings.push(copiedObject);
+      if (cursorX === this.lastCursorX && cursorY === this.lastCursorY) {
+        this.pasteOffset = + 20;
+      } else { this.pasteOffset = 0; }
+      this.clipboard.forEach((copiedObject) => {
+        copiedObject.x += cursorX - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset;
+        copiedObject.y += cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset;
+        if ((copiedObject.x + this.MinWidth) > window.innerWidth || (copiedObject.y + this.MinHeight) > window.innerHeight) {
+          copiedObject.x -= this.pasteOffset;
+          copiedObject.y -= this.pasteOffset;
+          this.pasteOffset = 0;
+        }
+        this.parsePolylinePoints(cursorX, cursorY, copiedObject);
+        this.toolService.drawings.push({...copiedObject});
+        this.SelectedObjects.clear();
+        this.setBoxToDrawing(copiedObject);
       });
+      this.lastCursorX = cursorX;
+      this.lastCursorY = cursorY;
+    }
+  }
+
+  parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools): void {
+    if (copiedObject.points) {
+      const splitPoints = copiedObject.points.split(/[ ,]+/).filter(Boolean);
+      let newPoints = '';
+      for (let i = 0; i < splitPoints.length; i += 2 ) {
+        newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset).toString();
+        newPoints += ',';
+        newPoints += (parseInt(splitPoints[i + 1], 10) + cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset).toString();
+        newPoints += ' ';
+      }
+      copiedObject.points = newPoints;
+    }
+    if (copiedObject.vertices) {
+      const splitPoints = copiedObject.vertices.split(/[ ,]+/).filter(Boolean);
+      let newPoints = '';
+      for (let i = 0; i < splitPoints.length; i += 2 ) {
+        newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset).toString();
+        newPoints += ',';
+        newPoints += (parseInt(splitPoints[i + 1], 10) + cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset).toString();
+        newPoints += ' ';
+      }
+      copiedObject.vertices = newPoints;
     }
   }
 
@@ -58,30 +98,25 @@ export class SelectorService {
   }
 
   duplicate(): void {
-    const selection: Set<ITools> = this.selectedObjects;
-    selection.forEach((selectedObject) => {
+    this.copy();
+    this.SelectedObjects.forEach((selectedObject) => {
+      this.paste(selectedObject.height + 20, selectedObject.width + 20 );/*
       const copiedObject: ITools = selectedObject;
-      this.toolService.drawings.push(selectedObject);
-      if (copiedObject.x + copiedObject.width > window.innerWidth) {
-        copiedObject.x -= 100;
-        copiedObject.y -= 100;
-      } else if (copiedObject.y + copiedObject.height > window.innerHeight) {
-        copiedObject.x -= 100;
-        copiedObject.y -= 100;
+      if (copiedObject.x + copiedObject.width > window.innerWidth || copiedObject.y + copiedObject.height > window.innerHeight ) {
+        copiedObject.x -= this.pasteOffset;
+        copiedObject.y -= this.pasteOffset;
       } else {
-      copiedObject.x += NumericalValues.DUPLICATE_OFFSET;
-      copiedObject.y += NumericalValues.DUPLICATE_OFFSET;
+        copiedObject.x += this.pasteOffset;
+        copiedObject.y += this.pasteOffset;
       }
-      this.selectedObjects.add(selectedObject);
-      this.toolService.drawings.push(selectedObject);
-      this.toolService.drawings.push(copiedObject);
+      this.toolService.drawings.push({...copiedObject});*/
     });
   }
 
   delete(): void {
     this.selectedObjects.forEach((element) => {
       const index = this.toolService.drawings.indexOf(element);
-      if (index !== -1) {
+      if (index !== - 1) {
         this.toolService.drawings.splice(index, 1);
        }
     });
@@ -90,11 +125,11 @@ export class SelectorService {
   }
 
   get MinWidth(): number {
-    return Math.abs(this.width - this.topCornerX);
+    return Math.abs(this.furthestX - this.topCornerX);
   }
 
   get MinHeight(): number {
-    return Math.abs(this.height - this.topCornerY);
+    return Math.abs(this.fursthestY - this.topCornerY);
   }
 
   get SelectedObjects(): Set<ITools> {
@@ -114,8 +149,8 @@ export class SelectorService {
     }
     this.topCornerX = x;
     this.topCornerY = y;
-    this.width = x + width;
-    this.height = y + height;
+    this.furthestX = x + width;
+    this.fursthestY = y + height;
   }
 
   checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
@@ -154,23 +189,23 @@ export class SelectorService {
     }
     this.topCornerX = x < this.topCornerX ? x : this.topCornerX;
     this.topCornerY = y < this.topCornerY ? y : this.topCornerY;
-    this.width = this.width < (x + width) ? (x + width) : this.width;
-    this.height = this.height < (y + height) ? (y + height) : this.height;
+    this.furthestX = this.furthestX < (x + width) ? (x + width) : this.furthestX;
+    this.fursthestY = this.fursthestY < (y + height) ? (y + height) : this.fursthestY;
   }
 
   recalculateShape(windowWidth: number, windowHeight: number): void {
     this.topCornerX = windowWidth;
     this.topCornerY = windowHeight;
-    this.width = 0;
-    this.height = 0;
+    this.furthestX = 0;
+    this.fursthestY = 0;
     for (const object of this.selectedObjects) {
       this.updateSelectorShape(object);
     }
   }
 
   resetSize(): void {
-    this.width = 0;
-    this.height = 0;
+    this.furthestX = 0;
+    this.fursthestY = 0;
   }
 
   resetSelectorService(): void {
