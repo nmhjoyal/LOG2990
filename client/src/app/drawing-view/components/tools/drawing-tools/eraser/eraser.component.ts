@@ -17,9 +17,12 @@ export class EraserComponent {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
+
   leftClicked: boolean;
   userInputWidth: number;
   userInputHeight: number;
+  xCoordinate: number;
+  yCoordinate: number;
 
   eraseObject(event: MouseEvent): void {
     for (let i = this.toolService.drawings.length - 1; i >= 0; i--) {
@@ -63,7 +66,8 @@ export class EraserComponent {
 
   @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {
     this.redOutline(event);
-
+    this.xCoordinate = ClickHelper.getXPosition(event);
+    this.yCoordinate = ClickHelper.getYPosition(event);
     if (this.leftClicked) {
       this.eraseObject(event);
     }
