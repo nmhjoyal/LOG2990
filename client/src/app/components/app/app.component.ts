@@ -37,6 +37,8 @@ export class AppComponent implements OnInit {
     };
   }
 
+  eraserSizeInput: number;
+
   ngOnInit(): void {
     this.openWelcomeScreen();
   }
