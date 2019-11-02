@@ -11,9 +11,9 @@ export class Strings {
     static EXPORT_WINDOW_TITLE = 'Exporter un dessin';
 }
 
-export enum SaveAs {
-    SVG = 0,
-    PNG = 1,
-    JPG = 2,
-    BMP = 3,
+export enum ExportAs {
+    SVG = 'SVG',
+    PNG = 'PNG',
+    JPG = 'JPG',
+    BMP = 'BMP',
 }
