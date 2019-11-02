@@ -33,27 +33,26 @@ describe('IndexController', () => {
     });
 
     describe('/save', () => {
-        it('call index.saveTag', () => {
-            http.get('http://localhost:3000/save', (res: any) => {
-                // assert.equal(res, index.saveTag({ name: 'string', isSelected: false }));
+        it('call index.saveTag', (res: any) => {
+            http.get('http://localhost:3000/save', (response: any) => {
                 chai.done();
             });
         });
     });
 
     describe('/tags', () => {
-        it('call index.saveTag', () => {
-            http.get('http://localhost:3000/tags', (res: any) => {
+        it('call index.saveTag', (res: any) => {
+            http.get('http://localhost:3000/tags', (response: any) => {
                 // tslint:disable-next-line: no-unused-expression
-                expect(res).to.be.true;
+                expect(response).to.be.true;
             });
         });
     });
 
     describe('/gettags', () => {
-        it('call index.saveTag', () => {
-            chai.request(app).get('/gettags').end((res: any) => {
-                res.should.have.status(200);
+        it('call index.saveTag', (res: any) => {
+            chai.request(app).get('/gettags').end((response: any) => {
+                response.should.have.status(200);
             });
 
         });

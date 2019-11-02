@@ -10,3 +10,4 @@
 # Extra files to ignore
 package-lock.json
 stats.html
+yarn.lock

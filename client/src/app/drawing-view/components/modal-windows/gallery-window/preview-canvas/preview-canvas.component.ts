@@ -20,8 +20,8 @@ export class PreviewCanvasComponent implements OnInit {
 
   ngOnInit() {
     this.viewboxCoordinates = '0 0 ' +
-    this.previewedDrawing.canvas.drawingWidth + ' ' +
-    this.previewedDrawing.canvas.drawingHeight;
+      this.previewedDrawing.canvas.drawingWidth + ' ' +
+      this.previewedDrawing.canvas.drawingHeight;
   }
 
 }
