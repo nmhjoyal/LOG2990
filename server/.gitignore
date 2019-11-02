@@ -18,6 +18,9 @@ coverage/
 *.js.map
 *.js
 
+# Fichiers à ignoré
+package-lock.json
+
 
 # Garder les fichiers necessaires pour les tests
 !systemjs.config.js

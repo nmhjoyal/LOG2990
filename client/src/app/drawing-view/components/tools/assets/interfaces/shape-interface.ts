@@ -20,7 +20,7 @@ export interface IShape extends ITools {
     verticesNumber?: number;
 }
 
-export interface IShapeOptions extends ITools {
+export interface IShapeOptions extends ITools, IPreviewBox {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedTraceMode: number;

@@ -48,4 +48,32 @@
         {{getComponent().shape.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
-</div> 
+    <div *ngIf="toolHandler.stampSelected">
+        <div class="filter" (click)="getComponent().setStamp(0)">
+            <img id="star" src="../../../../../../assets/stamps/grade-24px.svg" title="Étoile">
+        </div>
+        <div class="filter" (click)="getComponent().setStamp(1)">
+            <img id="paw" src="../../../../../../assets/stamps/pets-24px.svg" title="Animaux">
+        </div>
+        <div class="filter" (click)="getComponent().setStamp(2)">
+            <img id="smile" src="../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg" title="Bonhomme souriant">
+        </div>
+        <div class="filter" (click)="getComponent().setStamp(3)">
+            <img id="heart" src="../../../../../../assets/stamps/favorite-24px.svg" title="Coeur">
+        </div>
+        <div class="filter" (click)="getComponent().setStamp(4)">
+            <img id="thumbsup" src="../../../../../../assets/stamps/thumb_up-24px.svg" title="Thumbs up">
+        </div>
+        <div class="filter" (click)="getComponent().setStamp(5)">
+            <img id="sun" src="../../../../../../assets/stamps/brightness_5-24px.svg" title="Soleil">
+        </div>
+        <div style='padding: 8px'>
+            <p>Mise à l'échelle</p>
+            <button (click)="getComponent().decreaseScaleFactor()">-</button>
+            {{getComponent().stamp.scaleFactor}}
+            <button (click)="getComponent().increaseScaleFactor()">+</button>
+            <p>Angle</p>
+            <input type="number" name="angle" [(ngModel)]="getComponent().angle" size="3">
+        </div>
+    </div>
+</div>
