@@ -69,6 +69,8 @@ describe('ClickHelper', () => {
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
         object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.STAMP };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
+        object = { x: 0, y: 0, width: 0, height: 0, id: 'none' };
+        expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
         box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
         object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();

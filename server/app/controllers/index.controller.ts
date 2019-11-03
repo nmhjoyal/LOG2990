@@ -18,36 +18,36 @@ export class IndexController {
     private configureRouter(): void {
         this.router = Router();
 
-        this.router.post('/save',
+        this.router.post('/drawubg',
             async (req: Request, res: Response, next: NextFunction) => {
-                const success: boolean = await this.indexService.saveDrawing(req.body.drawingToSave);
+                const success: boolean | undefined = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);
             });
 
         this.router.post('/tags',
             async (req: Request, res: Response, next: NextFunction) => {
-                const success: boolean = await this.indexService.saveTag(req.body.tagToSave);
+                const success: boolean | undefined = await this.indexService.saveTag(req.body.tagToSave);
                 res.json(success);
             });
 
-        this.router.get('/getdrawings',
+        this.router.get('/drawings',
             async (req: Request, res: Response, next: NextFunction) => {
-                const drawings: IDrawing[] = await this.indexService.getDrawings();
+                const drawings: IDrawing[] | undefined = await this.indexService.getDrawings();
                 res.json(drawings);
             });
 
-        this.router.get('/getdrawing/:id',
+        this.router.get('/drawing/:id',
             async (req: Request, res: Response, next: NextFunction) => {
-                this.indexService.getDrawing(req.params.id).then((drawing: IDrawing) => {
+                this.indexService.getDrawing(req.params.id).then((drawing: IDrawing | undefined) => {
                     res.json(drawing);
                 }).catch((err: Error) => {
-                    res.json(err.message); // TODO: Send error messages - ex: Not found
+                    res.json(err.message);
                 });
             });
 
-        this.router.get('/gettags',
+        this.router.get('/tag',
             async (req: Request, res: Response, next: NextFunction) => {
-                const tags: ITag[] = await this.indexService.getTags();
+                const tags: ITag[] | undefined = await this.indexService.getTags();
                 res.json(tags);
             });
 

@@ -79,4 +79,22 @@ export class CanvasComponent {
     }
   }
 
+<<<<<<< HEAD
+=======
+  isStroke(event: MouseEvent, shape: IShape): boolean {
+    switch (shape.id) {
+      case (Id.RECTANGLE):
+        return (ClickHelper.getXPosition(event) <= shape.x + shape.strokeWidth ||
+          ClickHelper.getYPosition(event) <= shape.y + shape.strokeWidth ||
+          ClickHelper.getXPosition(event) >= shape.x + shape.width - shape.strokeWidth ||
+          ClickHelper.getYPosition(event) >= shape.y + shape.height - shape.strokeWidth);
+      case (Id.ELLIPSE):
+        return (Math.pow(ClickHelper.getXPosition(event) - shape.x, 2) / Math.pow(shape.width - shape.strokeWidth, 2) +
+          Math.pow(ClickHelper.getYPosition(event) - shape.y, 2) / Math.pow(shape.height - shape.strokeWidth, 2)) >= 1;
+      default:
+        return false;
+    }
+  }
+
+>>>>>>> dd86a2614bdb4cb0f25e44d53bdde33d0a039c3a
 }

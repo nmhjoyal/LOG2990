@@ -97,7 +97,6 @@ describe('EllipseComponent', () => {
 
     component.onShiftUp();
 
-    // tslint:disable:no-magic-numbers
     expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / 2,
     'width unchanged when shift is not pressed');
     expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2,

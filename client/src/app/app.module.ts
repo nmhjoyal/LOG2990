@@ -15,7 +15,7 @@ import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { CanvasInformationService } from './services/canvas-information/canvas-information.service';
 import { ColorService } from './services/color_service/color.service';
-import { FilterTagsPipe } from './services/filter-tags.pipe';
+import { FilterTagsPipe } from './services/filter-pipe/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
 import { ExportWindowComponent } from './drawing-view/components/modal-windows/export-window/export-window.component';
