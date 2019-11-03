@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
@@ -17,12 +18,12 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
   stamp: IStamp;
-  angle: number;
+  stampPaths = StampConstants.STAMPS_PATHS;
+  angleIncrement: number;
 
   constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
     protected colorServiceRef: ColorService) {
     super();
-    this.angle = 0;
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
@@ -36,6 +37,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       centerX: ToolConstants.NULL,
       centerY: ToolConstants.NULL,
     };
+    this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
   }
 
   ngOnInit(): void {
@@ -53,46 +55,55 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
     if (this.stamp.svgReference !== '') {
-      this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
-      this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
-      if (this.stamp.svgReference !== undefined) {
-        const createdStamp: IStamp = {
-          id: this.stamp.id,
-          svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
-          primaryColour: this.stamp.primaryColour,
-          x: this.stamp.x,
-          y: this.stamp.y,
-          width: this.stamp.width,
-          height: this.stamp.height,
-          angle: this.angle,
-          scaleFactor: this.stamp.scaleFactor,
-          centerX: event.offsetX,
-          centerY: event.offsetY,
-        };
-        this.toolServiceRef.drawings.push(createdStamp);
-      }
+      this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / NumericalValues.TWO;
+      this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / NumericalValues.TWO;
+      const createdStamp: IStamp = {
+        id: this.stamp.id,
+        svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
+        primaryColour: this.stamp.primaryColour,
+        x: this.stamp.x,
+        y: this.stamp.y,
+        width: this.stamp.width,
+        height: this.stamp.height,
+        angle: this.stamp.angle,
+        scaleFactor: this.stamp.scaleFactor,
+        centerX: ClickHelper.getXPosition(event),
+        centerY: ClickHelper.getYPosition(event),
+      };
+      this.toolServiceRef.drawings.push(createdStamp);
     }
+  }
+
+  @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    const valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
+    this.stamp.angle += valueChange;
+  }
+
+  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+    this.angleIncrement = this.angleIncrement === StampConstants.ANGLE_INCREMENT_1 ?
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15 :
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
   }
 
   setStamp(stampIndex: number): void {
     switch (stampIndex) {
       case (FilterSelection.FILTER0):
-        this.stamp.svgReference = '../../../../../../assets/stamps/grade-24px.svg';
+        this.stamp.svgReference = this.stampPaths.HEART;
         break;
       case (FilterSelection.FILTER1):
-        this.stamp.svgReference = '../../../../../../assets/stamps/pets-24px.svg';
+        this.stamp.svgReference = this.stampPaths.PAW;
         break;
       case (FilterSelection.FILTER2):
-        this.stamp.svgReference = '../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg';
+        this.stamp.svgReference = this.stampPaths.SMILEY;
         break;
       case (FilterSelection.FILTER3):
-        this.stamp.svgReference = '../../../../../../assets/stamps/favorite-24px.svg';
+        this.stamp.svgReference = this.stampPaths.STAR;
         break;
       case (FilterSelection.FILTER4):
-        this.stamp.svgReference = '../../../../../../assets/stamps/thumb_up-24px.svg';
+        this.stamp.svgReference = this.stampPaths.THUMB_UP;
         break;
       case (FilterSelection.FILTER5):
-        this.stamp.svgReference = '../../../../../../assets/stamps/brightness_5-24px.svg';
+        this.stamp.svgReference = this.stampPaths.SUN;
         break;
     }
   }
@@ -103,16 +114,26 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   increaseScaleFactor(): void {
-    if (this.stamp.scaleFactor + 1 < StampConstants.MAX_SCALE) {
-      this.stamp.scaleFactor++;
+    if (this.stamp.scaleFactor < StampConstants.MAX_SCALE) {
+      this.stamp.scaleFactor += 1;
       this.multiplyScaleFactor();
     }
   }
 
   decreaseScaleFactor(): void {
-    if (!(this.stamp.scaleFactor - 1 < 0)) {
-      this.stamp.scaleFactor--;
+    if (!(this.stamp.scaleFactor === 0)) {
+      this.stamp.scaleFactor -= 1;
       this.multiplyScaleFactor();
+    }
+  }
+
+  increaseAngle(): void {
+    this.stamp.angle += 1;
+  }
+
+  decreaseAngle(): void {
+    if (!(this.stamp.angle === 0)) {
+      this.stamp.angle -= 1;
     }
   }
 }

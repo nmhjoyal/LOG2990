@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
-import { IDrawing } from '../../../../../../../../../common/drawing-information/IDrawing';
+import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 
 @Component({
   selector: 'app-preview-canvas',
@@ -20,8 +20,8 @@ export class PreviewCanvasComponent implements OnInit {
 
   ngOnInit() {
     this.viewboxCoordinates = '0 0 ' +
-    this.previewedDrawing.canvas.drawingWidth + ' ' +
-    this.previewedDrawing.canvas.drawingHeight;
+      this.previewedDrawing.canvas.drawingWidth + ' ' +
+      this.previewedDrawing.canvas.drawingHeight;
   }
 
 }
