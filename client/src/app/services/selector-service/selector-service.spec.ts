@@ -2,43 +2,109 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from '../tool-handler/tool-handler.service';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
   let service: SelectorService;
   let toolService: ToolHandlerService;
+  let colorService: ColorService;
   const FIFTY = 50;
   const FORTY = 40;
+  const FOUR = 4;
   const ONE_HUNDRED = 100;
   const TWICE = 2;
 
   beforeEach(() => {
-    toolService = new ToolHandlerService();
+    colorService = new ColorService();
+    toolService = new ToolHandlerService(colorService);
     service = new SelectorService(toolService);
   });
 
-  it('should add items to clipboard', () => {
-
-  });
-
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
     expect(service.selectedObjects).toBeDefined();
+    expect(service.clipboard).toBeDefined();
     expect(service.topCornerX).toEqual(0);
     expect(service.topCornerY).toEqual(0);
     expect(service.furthestX).toEqual(0);
-    expect(service.fursthestY).toEqual(0);
+    expect(service.furthestY).toEqual(0);
+    expect(service.lastCursorX).toEqual(0);
+    expect(service.lastCursorY).toEqual(0);
+    expect(service.pasteOffset).toEqual(0);
   });
 
-  it('should be created with correct initialized values', () => {
-    expect(service).toBeTruthy();
-    expect(service.selectedObjects).toBeDefined();
-    expect(service.SelectedObjects).toEqual(service.selectedObjects);
-    expect(service.topCornerX).toEqual(0);
-    expect(service.topCornerY).toEqual(0);
-    expect(service.width).toEqual(0);
-    expect(service.height).toEqual(0);
+  it('should add items to clipboard on copy', () => {
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    service.selectedObjects.add(drawing);
+    service.copy();
+    expect(service.clipboard).not.toBeNull();
+  });
+
+  it('should add items to clipboard on cut', () => {
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    service.selectedObjects.add(drawing);
+    service.cut();
+    expect(service.clipboard).not.toBeNull();
+  });
+
+  it('should remove an item from drawing on delete', () => {
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    service.selectedObjects.add(drawing);
+    toolService.drawings.push(drawing);
+    service.delete();
+    expect(toolService.drawings.length).toEqual(0);
+  });
+
+  it('should remove an item from drawing on cut', () => {
+    let drawing: ITools;
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    service.selectedObjects.add(drawing);
+    toolService.drawings.push(drawing);
+    service.delete();
+    expect(toolService.drawings.length).toEqual(0);
+  });
+
+  it('should add drawing to canvas on paste', () => {
+    const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    toolService.drawings.push(drawing1);
+    toolService.drawings.push(drawing2);
+    service.selectedObjects.add(drawing1);
+    service.selectedObjects.add(drawing2);
+    service.paste(FIFTY, FIFTY);
+    expect(toolService.drawings.length).toEqual(FOUR);
+    expect(toolService.drawings[3].x).not.toEqual(FORTY);
+    expect(toolService.drawings[toolService.drawings.length - 1].y).not.toEqual(FORTY);
+  });
+
+  it('should add drawing with offset on paste', () => {
+    const drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    toolService.drawings.push(drawing);
+    service.selectedObjects.add(drawing);
+    service.lastCursorX = FIFTY;
+    service.lastCursorY = FORTY;
+    service.paste(FIFTY, FORTY);
+    expect(toolService.drawings.length).toEqual(2);
+    expect(toolService.drawings[1].x).toEqual(FIFTY + 20);
+    expect(toolService.drawings[toolService.drawings.length - 1].y).toEqual(FORTY + 20);
+  });
+
+  it('should add drawing to canvas on paste', () => {
+    const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.LINE };
+    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.POLYGON };
+    toolService.drawings.push(drawing1);
+    toolService.drawings.push(drawing2);
+    service.selectedObjects.add(drawing1);
+    service.selectedObjects.add(drawing2);
+    service.paste(FIFTY, FIFTY);
+    expect(toolService.drawings.length).toEqual(FOUR);
+    expect(toolService.drawings[3].x).not.toEqual(FORTY);
+    expect(toolService.drawings[toolService.drawings.length - 1].y).not.toEqual(FORTY);
   });
 
   it('should create selector box as drawing', () => {
@@ -49,21 +115,16 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
-<<<<<<< HEAD
     expect(service.furthestX).toEqual(drawing.x + drawing.width);
-    expect(service.fursthestY).toEqual(drawing.y + drawing.height);
-=======
-    expect(service.width).toEqual(drawing.x + drawing.width);
-    expect(service.height).toEqual(drawing.y + drawing.height);
+    expect(service.furthestY).toEqual(drawing.y + drawing.height);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.setBoxToDrawing(drawing);
     expect(service.topCornerX).toEqual(drawing.x - drawing.width);
     expect(service.topCornerY).toEqual(drawing.y - drawing.height);
     expect(service.MinWidth).toEqual(drawing.width * TWICE);
     expect(service.MinHeight).toEqual(drawing.height * TWICE);
-    expect(service.width).toEqual(drawing.x - drawing.width + (drawing.width * TWICE));
-    expect(service.height).toEqual(drawing.y - drawing.height + (drawing.height * TWICE));
->>>>>>> 63121d677c4d7bd4eff08ad52f71deb1dccd3f16
+    expect(service.furthestX).toEqual(drawing.x - drawing.width + (drawing.width * TWICE));
+    expect(service.furthestY).toEqual(drawing.y - drawing.height + (drawing.height * TWICE));
   });
 
   it('should check for items, add when not in reverse and delete if in reverse', () => {
@@ -102,22 +163,22 @@ describe('SelectorService', () => {
     service.topCornerX = FORTY;
     service.topCornerY = FIFTY;
     service.furthestX = FORTY;
-    service.fursthestY = ONE_HUNDRED;
+    service.furthestY = ONE_HUNDRED;
     service.updateSelectorShape(drawing);
     expect(service.topCornerX).toEqual(FORTY);
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.furthestX).toEqual(drawing.x + drawing.width);
-    expect(service.fursthestY).toEqual(ONE_HUNDRED);
+    expect(service.furthestY).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.topCornerX = FIFTY;
     service.topCornerY = FORTY;
     service.furthestX = ONE_HUNDRED;
-    service.fursthestY = FORTY;
+    service.furthestY = FORTY;
     service.updateSelectorShape(drawing);
     expect(service.topCornerX).toEqual(drawing.x - drawing.width);
     expect(service.topCornerY).toEqual(FORTY);
     expect(service.furthestX).toEqual(ONE_HUNDRED);
-    expect(service.fursthestY).toEqual((drawing.y - drawing.height) + (drawing.height * TWICE));
+    expect(service.furthestY).toEqual((drawing.y - drawing.height) + (drawing.height * TWICE));
   });
 
   it('should recalculate selector shape with list of selected items', () => {
@@ -131,21 +192,21 @@ describe('SelectorService', () => {
     expect(service.topCornerX).toEqual(ONE_HUNDRED);
     expect(service.topCornerY).toEqual(ONE_HUNDRED);
     expect(service.furthestX).toEqual(0);
-    expect(service.fursthestY).toEqual(0);
+    expect(service.furthestY).toEqual(0);
     expect(service.updateSelectorShape).toHaveBeenCalledTimes(TWICE);
   });
 
   it('should reset width and height of selector box', () => {
     service.furthestX = ONE_HUNDRED;
-    service.fursthestY = ONE_HUNDRED;
+    service.furthestY = ONE_HUNDRED;
     service.resetSize();
     expect(service.furthestX).toEqual(0);
-    expect(service.fursthestY).toEqual(0);
+    expect(service.furthestY).toEqual(0);
   });
 
   it('should reset selection', () => {
     service.furthestX = ONE_HUNDRED;
-    service.fursthestY = ONE_HUNDRED;
+    service.furthestY = ONE_HUNDRED;
     service.topCornerX = ONE_HUNDRED;
     service.topCornerY = ONE_HUNDRED;
     const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
@@ -153,7 +214,7 @@ describe('SelectorService', () => {
     service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
     expect(service.furthestX).toEqual(0);
-    expect(service.fursthestY).toEqual(0);
+    expect(service.furthestY).toEqual(0);
     expect(service.topCornerX).toEqual(0);
     expect(service.topCornerY).toEqual(0);
   });

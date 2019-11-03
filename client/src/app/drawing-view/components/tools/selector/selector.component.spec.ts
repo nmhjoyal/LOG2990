@@ -12,10 +12,13 @@ import { SelectorComponent } from './selector.component';
 const FIFTY = 50;
 const FORTY = 40;
 const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+
+const colorMock = new ColorService();
+const toolMock = new ToolHandlerService(colorMock);
 class SelectorServiceMock extends SelectorService {
 
     constructor() {
-      super();
+      super(toolMock);
     }
 
     get SelectedObjects(): Set<ITools> {

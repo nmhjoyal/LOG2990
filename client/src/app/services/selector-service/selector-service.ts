@@ -16,7 +16,7 @@ export class SelectorService {
   topCornerX: number;
   topCornerY: number;
   furthestX: number;
-  fursthestY: number;
+  furthestY: number;
   pasteOffset: number;
   lastCursorX: number;
   lastCursorY: number;
@@ -28,17 +28,17 @@ export class SelectorService {
     this.topCornerX = 0;
     this.topCornerY = 0;
     this.furthestX = 0;
-    this.fursthestY = 0;
+    this.furthestY = 0;
     this.pasteOffset = 0;
     this.lastCursorX = 0;
     this.lastCursorY = 0;
   }
 
   copy(): void {
-    this.clipboard.clear();
     if (this.selectedObjects) {
-        this.selectedObjects.forEach((selectedObject) => {
-          this.clipboard.add({...selectedObject});
+      this.clipboard.clear();
+      this.selectedObjects.forEach((selectedObject) => {
+        this.clipboard.add({...selectedObject});
       });
     }
   }
@@ -46,19 +46,19 @@ export class SelectorService {
   paste(cursorX: number, cursorY: number): void {
     if (this.clipboard.size) {
       if (cursorX === this.lastCursorX && cursorY === this.lastCursorY) {
-        this.pasteOffset = + 20;
+        this.pasteOffset += NumericalValues.DUPLICATE_OFFSET;
       } else { this.pasteOffset = 0; }
       this.clipboard.forEach((copiedObject) => {
-        copiedObject.x += cursorX - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset;
+        copiedObject.x += cursorX - this.topCornerX - this.MinWidth / 2 + this.pasteOffset;
         copiedObject.y += cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x + this.MinWidth) > window.innerWidth || (copiedObject.y + this.MinHeight) > window.innerHeight) {
-          copiedObject.x -= this.pasteOffset;
-          copiedObject.y -= this.pasteOffset;
+          copiedObject.x -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET / 2;
+          copiedObject.y -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET / 2;
           this.pasteOffset = 0;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
         this.toolService.drawings.push({...copiedObject});
-        this.SelectedObjects.clear();
+        // this.SelectedObjects.clear();
         this.setBoxToDrawing(copiedObject);
       });
       this.lastCursorX = cursorX;
@@ -98,8 +98,9 @@ export class SelectorService {
 
   duplicate(): void {
     this.copy();
-    this.SelectedObjects.forEach((selectedObject) => {
-      this.paste(selectedObject.height + 20, selectedObject.width + 20 );/*
+    this.paste(this.topCornerX + this.MinWidth / 2  + NumericalValues.DUPLICATE_OFFSET,
+               this.topCornerY + this.MinHeight / 2 + NumericalValues.DUPLICATE_OFFSET );
+    /*this.SelectedObjects.forEach((selectedObject) => {
       const copiedObject: ITools = selectedObject;
       if (copiedObject.x + copiedObject.width > window.innerWidth || copiedObject.y + copiedObject.height > window.innerHeight ) {
         copiedObject.x -= this.pasteOffset;
@@ -108,8 +109,8 @@ export class SelectorService {
         copiedObject.x += this.pasteOffset;
         copiedObject.y += this.pasteOffset;
       }
-      this.toolService.drawings.push({...copiedObject});*/
-    });
+      this.toolService.drawings.push({...copiedObject});
+    });*/
   }
 
   delete(): void {
@@ -128,7 +129,7 @@ export class SelectorService {
   }
 
   get MinHeight(): number {
-    return Math.abs(this.fursthestY - this.topCornerY);
+    return Math.abs(this.furthestY - this.topCornerY);
   }
 
   get SelectedObjects(): Set<ITools> {
@@ -149,7 +150,7 @@ export class SelectorService {
     this.topCornerX = x;
     this.topCornerY = y;
     this.furthestX = x + width;
-    this.fursthestY = y + height;
+    this.furthestY = y + height;
   }
 
   checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
@@ -189,14 +190,14 @@ export class SelectorService {
     this.topCornerX = x < this.topCornerX ? x : this.topCornerX;
     this.topCornerY = y < this.topCornerY ? y : this.topCornerY;
     this.furthestX = this.furthestX < (x + width) ? (x + width) : this.furthestX;
-    this.fursthestY = this.fursthestY < (y + height) ? (y + height) : this.fursthestY;
+    this.furthestY = this.furthestY < (y + height) ? (y + height) : this.furthestY;
   }
 
   recalculateShape(windowWidth: number, windowHeight: number): void {
     this.topCornerX = windowWidth;
     this.topCornerY = windowHeight;
     this.furthestX = 0;
-    this.fursthestY = 0;
+    this.furthestY = 0;
     for (const object of this.selectedObjects) {
       this.updateSelectorShape(object);
     }
@@ -204,7 +205,7 @@ export class SelectorService {
 
   resetSize(): void {
     this.furthestX = 0;
-    this.fursthestY = 0;
+    this.furthestY = 0;
   }
 
   resetSelectorService(): void {

@@ -5,12 +5,14 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-wind
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
-  let colorServiceMock: SpyObj<ColorService>;
+  let colorMock: SpyObj<ColorService>;
+  let selectorMock: SpyObj<SelectorService>;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -19,13 +21,14 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
-    colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
+    colorMock = jasmine.createSpyObj('ColorService', ['switchColors']);
+    selectorMock = jasmine.createSpyObj('SelectorService', ['copy', 'paste', 'cut', 'duplicate']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorMock, selectorMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
   }));
@@ -99,6 +102,14 @@ describe('AppComponent', () => {
     toolHandlerMock.chooseEllipse.and.callThrough();
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
+  });
+
+  it('#cut should be called when ctrl.X is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.selectorSelected = true;
+    selectorMock.cut.and.callThrough();
+    component.onKeydownCtrlX();
+    expect(selectorMock.cut).toHaveBeenCalled();
   });
 
 });
