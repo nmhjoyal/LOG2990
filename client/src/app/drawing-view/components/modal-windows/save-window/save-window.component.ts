@@ -102,8 +102,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       drawings: [] as ITools[],
       canvas: {} as ICanvasData,
     };
-    // tslint:disable: quotemark
-
+    // tslint:disable: quotemark object-literal-key-quotes
+    // need double quotes so it's a valid json 
     this.toolHandler.drawings.forEach((currentDrawing) => {
       json.drawings.push({
         "id": currentDrawing.id,
@@ -123,6 +123,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       "drawingHeight": this.canvasData.data.drawingHeight,
       "drawingWidth": this.canvasData.data.drawingWidth,
     };
+      // tslint:enable: quotemark object-literal-key-quotes
+
 
     return json;
   }

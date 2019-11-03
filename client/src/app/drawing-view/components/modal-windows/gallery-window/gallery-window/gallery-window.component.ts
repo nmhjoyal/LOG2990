@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
@@ -112,4 +112,23 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
       confirm('Il n\'y a pas de dessin avec cette étiquette');
     }
   }
+
+  loadFile(file: File) {
+    return new Observable((subscriber) => {
+      const fileLoader = new FileReader();
+      fileLoader.onload = () => {
+        subscriber.next(fileLoader.result);
+        subscriber.complete();
+      };
+      fileLoader.onerror = (error) => {
+        subscriber.error(error);
+      };
+      fileLoader.readAsText(file);
+    });
+  }
+
+  onFileLoad() {
+    
+  }
+
 }
