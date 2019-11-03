@@ -83,6 +83,11 @@ export class AppComponent implements OnInit {
     this.openSaveWindow();
   }
 
+  @HostListener('document:keydown.control.e', ['$event']) onKeydownHandlerCtrlE(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.openExportWindow();
+  }
+
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen()) {

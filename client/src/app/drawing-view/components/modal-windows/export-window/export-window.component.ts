@@ -55,9 +55,21 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
         this.onClose();
         break;
       case ExportAs.JPG:
+        var canvas = document.getElementById('canvas');
+        if(canvas != null){
+          var data = (new XMLSerializer()).serializeToString(canvas);
+          var blob = new Blob([data], {type:"image/jpeg+xml;charset=utf-8"});
+          this.download(name+'.jpeg', blob);
+        } 
         this.onClose();
         break;
       case ExportAs.BMP:
+        var canvas = document.getElementById('canvas');
+        if(canvas != null){
+          var data = (new XMLSerializer()).serializeToString(canvas);
+          var blob = new Blob([data], {type:"image/bmp+xml;charset=utf-8"});
+          this.download(name+'.bmp', blob);
+        } 
         this.onClose();
         break;
     }
