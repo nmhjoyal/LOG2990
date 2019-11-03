@@ -65,7 +65,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         y: this.stamp.y,
         width: this.stamp.width,
         height: this.stamp.height,
-        angle: 0,
+        angle: this.stamp.angle,
         scaleFactor: this.stamp.scaleFactor,
         centerX: ClickHelper.getXPosition(event),
         centerY: ClickHelper.getYPosition(event),
