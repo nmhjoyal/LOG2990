@@ -1,6 +1,12 @@
 <svg class='textZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
     <g>
-        <text [attr.x]="text.x" [attr.y]="text.y"
+        <rect [attr.x]="boxX" [attr.y]="text.y" [attr.width]="text.width" [attr.height]="text.height"
+        [style.stroke]="text.primaryColour" 
+        [style.stroke-opacity]="1"
+        [style.fill]="none"
+        [style.stroke-width]="2"
+        [style.fill-opacity]="0"></rect>
+        <text #textElement [attr.x]="text.x" [attr.y]="text.y"
         [style.font-size]="text.fontSize + 'pt'"
         [style.font-style]="text.italic"
         [style.font-weight]="text.bold"

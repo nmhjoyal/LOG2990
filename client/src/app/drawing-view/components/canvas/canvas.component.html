@@ -34,8 +34,6 @@
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
                     [style.stroke-dasharray]="drawing.strokeDashArray" />
             </g>
-        </g>
-        <g [ngSwitch]="drawing.id">
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.color"
@@ -68,18 +66,18 @@
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
-        </g>
-        <g *ngSwitchCase="toolId.TEXT">
-            <text [attr.x]="drawing.x" [attr.y]="drawing.y"
-                [style.color]='black'
-                [style.font-size]="drawing.fontSize + 'pt'"
-                [style.font-style]="drawing.italic"
-                [style.font-weight]="drawing.bold"
-                [style.font-family]="drawing.fontFamily"
-                [style.fill]="drawing.primaryColour"
-                [attr.text-anchor]="drawing.align">
-                <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
-            </text> 
+            <g *ngSwitchCase="toolId.TEXT">
+                <text [attr.x]="drawing.x" [attr.y]="drawing.y"
+                    [style.color]='black'
+                    [style.font-size]="drawing.fontSize + 'pt'"
+                    [style.font-style]="drawing.italic"
+                    [style.font-weight]="drawing.bold"
+                    [style.font-family]="drawing.fontFamily"
+                    [style.fill]="drawing.primaryColour"
+                    [attr.text-anchor]="drawing.align">
+                    <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
+                </text> 
+            </g>
         </g>
     </g>
     <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"

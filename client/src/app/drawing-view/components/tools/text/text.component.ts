@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -6,6 +6,7 @@ import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Alignments, AlignmentType, FontFamilies, TextConstants } from '../assets/constants/text-constants';
 import { Id, ToolConstants } from '../assets/constants/tool-constants';
+import { ITools } from '../assets/interfaces/itools';
 import { IText } from '../assets/interfaces/text-interface';
 
 @Component({
@@ -17,13 +18,14 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
+  @ViewChild('textElement', {static: false}) textElement: ElementRef;
 
   text: IText;
   isFirstClick: boolean;
   currentLine: number;
   fontFamilySelection: string;
-  maxWidth: number;
   initialX: number;
+  boxX: number;
 
   constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
     protected colorServiceRef: ColorService) {
@@ -47,7 +49,6 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.attributesServiceRef.textAttributes.wasSaved) {
-      this.text.lines = this.attributesServiceRef.textAttributes.savedText;
       this.text.fontSize = this.attributesServiceRef.textAttributes.savedFontSize;
       this.text.italic = this.attributesServiceRef.textAttributes.savedItalic;
       this.text.bold = this.attributesServiceRef.textAttributes.savedBold;
@@ -57,7 +58,6 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.attributesServiceRef.textAttributes.savedText = this.text.lines;
     this.attributesServiceRef.textAttributes.savedFontSize = this.text.fontSize;
     this.attributesServiceRef.textAttributes.savedItalic = this.text.italic;
     this.attributesServiceRef.textAttributes.savedBold = this.text.bold;
@@ -72,69 +72,65 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       this.text.x = ClickHelper.getXPosition(event);
       this.text.y = ClickHelper.getYPosition(event);
       this.initialX = this.text.x;
-      this.maxWidth = 1;
-      this.text.height = this.text.fontSize;
+      this.boxX = this.initialX;
+      this.text.width = 2;
+      this.text.height = this.text.fontSize * TextConstants.HEIGHT_FACTOR;
       this.isFirstClick = false;
       return;
     }
-    this.text.width = this.maxWidth;
-    if (!ClickHelper.cursorInsideObject(this.text, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
+    this.updateBoundingBox();
+    const boundingBox: ITools = { id: Id.RECTANGLE,
+      x: this.textElement.nativeElement.getBBox().x,
+      y: this.textElement.nativeElement.getBBox().y,
+      width: this.text.width,
+      height: this.text.height};
+    if (!ClickHelper.cursorInsideObject(boundingBox, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
       this.saveText();
     }
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key === TextConstants.ENTER && this.text.lines[this.currentLine].length > 0) {
       this.text.lines.push('');
-      this.text.height += this.text.fontSize;
       this.currentLine++;
-      this.text.width = 0;
-    } else if (event.key === 'Backspace') {
+    } else if (event.key === TextConstants.BACKSPACE) {
       if (this.currentLine >= 0 && this.text.lines[this.currentLine].length - 1 >= 0) {
         this.text.lines[this.currentLine] = this.text.lines[this.currentLine].slice(0, this.text.lines[this.currentLine].length - 1);
-        if (this.maxWidth === this.text.width) {
-          this.maxWidth -= this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection));
-        }
-        this.text.width -= this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection));
-      } else {
-        if (this.currentLine !== 0) {
-          this.text.lines.pop();
-          this.text.height -= this.text.fontSize;
-          this.currentLine--;
-          this.text.width = this.text.lines[this.currentLine].length *
-            (this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection)));
-          this.updateMaxWidth();
-        }
+      } else if (this.currentLine > 0) {
+        this.text.lines.pop();
+        this.currentLine--;
       }
     } else if (event.key.length < 2) {
-      this.text.lines[this.currentLine] += event.key;
-      this.text.width += this.text.fontSize * (this.getAspectRatio(this.fontFamilySelection));
-      if (this.text.width > this.maxWidth) {
-        this.maxWidth = this.text.width;
+      if ((event.key === ' ' && this.text.lines[this.currentLine].slice(this.text.lines[this.currentLine].length - 1) !== ' ')
+           || event.key !== ' ') {
+        this.text.lines[this.currentLine] += event.key;
       }
     }
+    this.updateBoundingBox();
   }
 
   protected decreaseFontSize(): void {
     if (this.text.fontSize - 1 > TextConstants.MIN_FONT_SIZE) {
       this.text.fontSize--;
-      this.updateMaxWidth();
+      this.updateBoundingBox();
     }
   }
 
   protected increaseFontSize(): void {
     if (this.text.fontSize + 1 < TextConstants.MAX_FONT_SIZE) {
       this.text.fontSize++;
-      this.updateMaxWidth();
+      this.updateBoundingBox();
     }
   }
 
   protected toItalic(): void {
     this.text.italic = this.text.italic.includes(TextConstants.ITALIC) ? '' : TextConstants.ITALIC;
+    this.updateBoundingBox();
   }
 
   protected toBold(): void {
     this.text.bold = this.text.bold.includes(TextConstants.BOLD) ? '' : TextConstants.BOLD;
+    this.updateBoundingBox();
   }
 
   protected alignText(alignIndex: AlignmentType): void {
@@ -145,44 +141,30 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
         break;
       case AlignmentType.CENTER:
         this.text.align = Alignments.CENTER;
-        this.text.x = this.initialX + (this.maxWidth / 2);
+        this.text.x = this.initialX + (this.text.width / 2);
         break;
       case AlignmentType.RIGHT:
         this.text.align = Alignments.END;
-        this.text.x = this.initialX + this.maxWidth;
+        this.text.x = this.initialX + this.text.width;
         break;
     }
+    this.updateMaxWidthAndHeight();
+    this.boxX = this.initialX;
   }
 
-  protected getAspectRatio(fontFamily: string): number {
-    switch (fontFamily) {
-      case FontFamilies.ARIAL: case FontFamilies.IMPACT:
-      case FontFamilies.FRANKLIN_GOTHIC: case FontFamilies.TREBUCHET_MS:
-        // tslint:disable: no-magic-numbers
-        return 0.52;
-      case FontFamilies.COURIER_NEW:
-        return 0.42;
-      case FontFamilies.GEORGIA: case FontFamilies.CAMBRIA:
-        return 0.48;
-      case FontFamilies.GILL_SANS:
-        return 0.47;
-      case FontFamilies.LUCINDA_SANS: case FontFamilies.SEGOE_UI: case FontFamilies.VERDANA:
-        return 0.58;
-      case FontFamilies.TIMES_NEW_ROMAN: case FontFamilies.CURSIVE:
-        return 0.45;
-      default:
-        return 0.52;
-      // tslint:enable: no-magic-numbers
-    }
+  protected updateBoundingBox(): void {
+    this.updateMaxWidthAndHeight();
+    this.updateBoxX();
   }
 
-  protected updateMaxWidth(): void {
-    this.maxWidth = 0;
-    for (const line of this.text.lines) {
-      const width = line.length * (this.pointsToPixels(this.text.fontSize) * (1 - this.getAspectRatio(this.fontFamilySelection)));
-      this.maxWidth = width > this.maxWidth ? width : this.maxWidth;
-    }
-    this.text.height = this.pointsToPixels(this.text.fontSize) * this.text.lines.length;
+  protected updateMaxWidthAndHeight(): void {
+    this.text.width = this.textElement.nativeElement.getBBox().width;
+    this.text.height = this.textElement.nativeElement.getBBox().height * TextConstants.HEIGHT_FACTOR;
+  }
+
+  protected updateBoxX(): void {
+    this.boxX = this.textElement.nativeElement.getBBox().x;
+    this.initialX = this.boxX;
   }
 
   protected saveText(): void {
@@ -198,7 +180,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
         primaryColour: this.text.primaryColour,
         x: this.text.x,
         y: this.text.y,
-        width: this.maxWidth,
+        width: this.text.width,
         height: this.text.height,
       };
       this.toolServiceRef.drawings.push(createdText);
@@ -208,41 +190,11 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   protected resetText(): void {
     this.isFirstClick = true;
-    this.maxWidth = 0;
     this.initialX = 0;
+    this.boxX = 0;
     this.currentLine = 0;
     this.text.lines = [''];
     this.text.width = 0;
     this.fontFamilySelection = FontFamilies.ARIAL;
-  }
-
-  protected pointsToPixels(points: number): number {
-    // tslint:disable: no-magic-numbers
-    switch (points) {
-      case 6: case 7:
-        return points + 2;
-      case 8: case 9: case 10:
-        return points + 3;
-      case 11: case 12: case 13:
-        return points + 4;
-      case 14:
-        return points + 5;
-      case 15: case 16: case 17: case 18: case 19: case 20: case 21:
-        return points + 6;
-      case 22: case 23:
-        return points + 7;
-      case 24: case 25:
-        return points + 8;
-      case 26: case 27: case 28: case 29:
-        return points + 9;
-      case 30: case 31: case 32: case 33:
-        return points + 10;
-      case 34: case 35:
-          return points + 11;
-      case 36:
-        return points + 12;
-    }
-    return points;
-    // tslint:enable: no-magic-numbers
   }
 }

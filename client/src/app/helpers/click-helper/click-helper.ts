@@ -30,7 +30,7 @@ export default class ClickHelper {
     static cursorTouchesObjectBorder(object: ITools, positionX: number, positionY: number): boolean {
         const selectorLine = { points: this.getClickAreaPoints(positionX, positionY) };
         switch (object.id) {
-            case (Id.RECTANGLE):
+            case Id.RECTANGLE: case Id.TEXT:
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect',
                     { x: object.x, y: object.y, width: object.width, height: object.height}),
                     svgIntersections.shape('polyline', selectorLine));
@@ -60,7 +60,7 @@ export default class ClickHelper {
 
     static cursorInsideObject(object: ITools, positionX: number, positionY: number): boolean {
         switch (object.id) {
-            case (Id.RECTANGLE):
+            case Id.RECTANGLE: case Id.TEXT:
                 return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
@@ -87,7 +87,7 @@ export default class ClickHelper {
             && previewBox.height > (object.height - previewBox.y + object.y));
         let boxIsInsideObject = false;
         switch (object.id) {
-            case (Id.RECTANGLE):
+            case Id.RECTANGLE: case Id.TEXT:
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: object.x, y: object.y,
                     width: object.width, height: object.height}),
                     svgIntersections.shape('rect', selectorBox));

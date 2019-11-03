@@ -4,6 +4,9 @@ export class TextConstants {
     static DEFAULT_FONT_SIZE = 12;
     static ITALIC = 'italic';
     static BOLD = 'bold';
+    static ENTER = 'Enter';
+    static BACKSPACE = 'Backspace';
+    static HEIGHT_FACTOR = 1.5;
 }
 
 export enum AlignmentType {
