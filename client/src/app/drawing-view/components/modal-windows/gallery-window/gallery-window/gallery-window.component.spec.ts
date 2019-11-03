@@ -168,6 +168,7 @@ describe('GalleryWindowComponent', () => {
 
     it('should not call tagSelected if there is no tag', () => {
         spyOn(window, 'confirm').and.returnValue(true);
+        dataMock.filterTags = [{ name: '', isSelected: false }];
         const spy = spyOn(component, 'tagSelected');
         component.addTag('');
         expect(spy).not.toHaveBeenCalled();

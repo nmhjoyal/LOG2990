@@ -1,6 +1,6 @@
 import SpyObj = jasmine.SpyObj;
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
@@ -38,7 +38,7 @@ describe('PreviewCanvasComponent', () => {
     canvas: canvasInformationMock.data = { drawingHeight: 200, drawingColor: '#ffffffff', drawingWidth: 200 },
   } as IDrawing;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       imports: [
         MatListModule,
@@ -65,14 +65,9 @@ describe('PreviewCanvasComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(PreviewCanvasComponent);
     component = fixture.componentInstance;
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewCanvasComponent);
-    component = fixture.componentInstance;
     component.previewedDrawing = mockDrawing;
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

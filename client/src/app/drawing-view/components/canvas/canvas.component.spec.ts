@@ -1,5 +1,4 @@
 import SpyObj = jasmine.SpyObj;
-
 import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -27,8 +26,8 @@ import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
-  const mockColourService: ColorService = new ColorService();
-  const mockToolService: ToolHandlerService = new ToolHandlerService(mockColourService);
+  let mockColourService: ColorService;
+  let mockToolService: ToolHandlerService;
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
   const testObject: IShape = { x: 1,
@@ -59,6 +58,8 @@ describe('CanvasComponent', () => {
   };
 
   beforeEach(() => {
+    mockColourService = new ColorService();
+    mockToolService = new ToolHandlerService(mockColourService);
     TestBed.configureTestingModule({
       imports: [
         MatListModule,
