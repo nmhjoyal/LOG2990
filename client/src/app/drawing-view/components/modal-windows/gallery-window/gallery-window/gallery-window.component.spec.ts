@@ -19,7 +19,7 @@ import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
-import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas/preview-canvas.component';
+import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas.component';
 import { GalleryWindowComponent } from './gallery-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
 
