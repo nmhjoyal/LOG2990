@@ -104,7 +104,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   }
 
   loadFile(file: File) {
-    return new Observable((subscriber) => {
+    return new Observable<string | ArrayBuffer | null>((subscriber) => {
       const fileLoader = new FileReader();
       fileLoader.onload = () => {
         subscriber.next(fileLoader.result);
@@ -118,7 +118,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   }
 
   onFileLoad() {
-
+    this.loadFile().subscribe()
   }
 
 }
