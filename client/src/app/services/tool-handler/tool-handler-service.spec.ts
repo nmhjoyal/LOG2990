@@ -202,4 +202,11 @@ describe('ToolHandlerService', () => {
     expect(service.colourApplicatorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
   });
+
+  it('#chooseText should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseText();
+
+    expect(resetSpy).toHaveBeenCalled();
+  });
 });

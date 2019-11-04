@@ -6,7 +6,7 @@ export class TextConstants {
     static BOLD = 'bold';
     static ENTER = 'Enter';
     static BACKSPACE = 'Backspace';
-    static HEIGHT_FACTOR = 1.5;
+    static HEIGHT_BUFFER = 8;
 }
 
 export enum AlignmentType {
@@ -19,10 +19,6 @@ export enum Alignments {
     START = 'start',
     CENTER = 'middle',
     END = 'end',
-}
-
-export enum AspectRatios {
-
 }
 
 export enum FontFamilies {

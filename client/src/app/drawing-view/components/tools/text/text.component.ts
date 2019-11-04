@@ -53,43 +53,28 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       this.text.italic = this.attributesServiceRef.textAttributes.savedItalic;
       this.text.bold = this.attributesServiceRef.textAttributes.savedBold;
       this.text.fontFamily = this.attributesServiceRef.textAttributes.savedFontFamily;
-      this.text.primaryColour = this.attributesServiceRef.textAttributes.savedPrimaryColour;
     }
   }
 
   ngOnDestroy(): void {
+    this.updateBoundingBox();
+    this.saveText();
     this.attributesServiceRef.textAttributes.savedFontSize = this.text.fontSize;
     this.attributesServiceRef.textAttributes.savedItalic = this.text.italic;
     this.attributesServiceRef.textAttributes.savedBold = this.text.bold;
     this.attributesServiceRef.textAttributes.savedFontFamily = this.text.fontFamily;
-    this.attributesServiceRef.textAttributes.savedPrimaryColour = this.text.primaryColour;
     this.attributesServiceRef.textAttributes.wasSaved = true;
-    this.saveText();
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
-    if (this.isFirstClick) {
-      this.text.x = ClickHelper.getXPosition(event);
-      this.text.y = ClickHelper.getYPosition(event);
-      this.initialX = this.text.x;
-      this.boxX = this.initialX;
-      this.text.width = 2;
-      this.text.height = this.text.fontSize * TextConstants.HEIGHT_FACTOR;
-      this.isFirstClick = false;
-      return;
-    }
-    this.updateBoundingBox();
-    const boundingBox: ITools = { id: Id.RECTANGLE,
-      x: this.textElement.nativeElement.getBBox().x,
-      y: this.textElement.nativeElement.getBBox().y,
-      width: this.text.width,
-      height: this.text.height};
-    if (!ClickHelper.cursorInsideObject(boundingBox, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
-      this.saveText();
-    }
+    this.handleLeftClickEvent(event);
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent): void {
+    this.handleKeydownEvent(event);
+  }
+
+  protected handleKeydownEvent(event: KeyboardEvent): void {
     if (event.key === TextConstants.ENTER && this.text.lines[this.currentLine].length > 0) {
       this.text.lines.push('');
       this.currentLine++;
@@ -107,6 +92,33 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       }
     }
     this.updateBoundingBox();
+  }
+
+  protected handleLeftClickEvent(event: MouseEvent): void {
+    if (this.isFirstClick) {
+      this.createNewTextBox(event);
+      return;
+    }
+    this.updateBoundingBox();
+    const boundingBox: ITools = { id: Id.RECTANGLE,
+      x: this.textElement.nativeElement.getBBox().x,
+      y: this.textElement.nativeElement.getBBox().y,
+      width: this.text.width,
+      height: this.text.height};
+    if (!ClickHelper.cursorInsideObject(boundingBox, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
+      this.saveText();
+      this.createNewTextBox(event);
+    }
+  }
+
+  protected createNewTextBox(event: MouseEvent): void {
+    this.text.x = ClickHelper.getXPosition(event);
+    this.text.y = ClickHelper.getYPosition(event);
+    this.initialX = this.text.x;
+    this.boxX = this.initialX;
+    this.text.width = 2;
+    this.text.height = this.text.fontSize + TextConstants.HEIGHT_BUFFER;
+    this.isFirstClick = false;
   }
 
   protected decreaseFontSize(): void {
@@ -159,7 +171,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   protected updateMaxWidthAndHeight(): void {
     this.text.width = this.textElement.nativeElement.getBBox().width;
-    this.text.height = this.textElement.nativeElement.getBBox().height * TextConstants.HEIGHT_FACTOR;
+    this.text.height = this.textElement.nativeElement.getBBox().height + TextConstants.HEIGHT_BUFFER;
   }
 
   protected updateBoxX(): void {
@@ -168,7 +180,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   protected saveText(): void {
-    if (this.text.lines.length > 0) {
+    if (this.text.lines[0].length > 0) {
       const createdText: IText = {
         id: this.text.id,
         lines: this.text.lines,
