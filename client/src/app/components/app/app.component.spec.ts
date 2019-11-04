@@ -7,6 +7,7 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
+import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
@@ -16,6 +17,7 @@ describe('AppComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
+  const toolId = Id;
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
@@ -63,7 +65,7 @@ describe('AppComponent', () => {
   });
 
   it('should only resetSelection when colourApplicator not selected', () => {
-    toolHandlerMock.colourApplicatorSelected = true;
+    toolHandlerMock.selectedTool = toolId.COLOUR_APPLICATOR;
     toolHandlerMock.resetSelection.and.callThrough();
     component.switchColors();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
@@ -71,7 +73,7 @@ describe('AppComponent', () => {
 
   it('#chooseCrayon should be called when c is pressed', () => {
     component.optionsSidebar.opened = false;
-    toolHandlerMock.crayonSelected = true;
+    toolHandlerMock.selectedTool = toolId.CRAYON;
     toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
@@ -79,7 +81,7 @@ describe('AppComponent', () => {
 
   it('#choosePaintbrush should be called when w is pressed', () => {
     component.optionsSidebar.opened = false;
-    toolHandlerMock.paintbrushSelected = true;
+    toolHandlerMock.selectedTool = toolId.PAINTBRUSH;
     toolHandlerMock.choosePaintbrush.and.callThrough();
     component.onKeydownWEvent();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
@@ -87,7 +89,7 @@ describe('AppComponent', () => {
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
     component.optionsSidebar.opened = false;
-    toolHandlerMock.rectangleSelected = true;
+    toolHandlerMock.selectedTool = toolId.RECTANGLE;
     toolHandlerMock.chooseRectangle.and.callThrough();
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
@@ -95,7 +97,7 @@ describe('AppComponent', () => {
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
     component.optionsSidebar.opened = false;
-    toolHandlerMock.ellipseSelected = true;
+    toolHandlerMock.selectedTool = toolId.ELLIPSE;
     toolHandlerMock.chooseEllipse.and.callThrough();
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();

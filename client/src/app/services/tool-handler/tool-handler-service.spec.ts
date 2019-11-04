@@ -5,6 +5,7 @@ import { ToolHandlerService } from './tool-handler.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 
 describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
@@ -26,14 +27,9 @@ describe('ToolHandlerService', () => {
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
 
-    expect(service.noneSelected).toBe(true);
-    expect(service.crayonSelected).toBe(false);
-    expect(service.paintbrushSelected).toBe(false);
-    expect(service.rectangleSelected).toBe(false);
-    expect(service.ellipseSelected).toBe(false);
-    expect(service.colourApplicatorSelected).toBe(false);
-    expect(service.polygonSelected).toBe(false);
-    expect(service.selectorSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
+    expect(service.primaryColorSelected).toBe(false);
+    expect(service.secondaryColorSelected).toBe(false);
     expect(service.primaryColor).toEqual(colorService.color[0]);
     expect(service.secondaryColor).toEqual(colorService.color[1]);
   });
@@ -52,17 +48,9 @@ describe('ToolHandlerService', () => {
       spyOn(service, 'resetSelectorBox').and.callThrough();
       service.resetSelection();
 
-      expect(service.noneSelected).toBe(true);
-      expect(service.crayonSelected).toBe(false);
-      expect(service.paintbrushSelected).toBe(false);
-      expect(service.rectangleSelected).toBe(false);
-      expect(service.lineSelected).toBe(false);
-      expect(service.secondaryColorSelected).toBe(false);
+      expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
       expect(service.primaryColorSelected).toBe(false);
-      expect(service.ellipseSelected).toBe(false);
-      expect(service.colourApplicatorSelected).toBe(false);
-      expect(service.polygonSelected).toBe(false);
-      expect(service.selectorSelected).toBe(false);
+      expect(service.secondaryColorSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
 
@@ -135,8 +123,7 @@ describe('ToolHandlerService', () => {
     service.chooseRectangle();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.rectangleSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.RECTANGLE);
   });
 
   it('#chooseEllipse should call #resetSelection and select the ellipse', () => {
@@ -144,8 +131,7 @@ describe('ToolHandlerService', () => {
     service.chooseEllipse();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.ellipseSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.ELLIPSE);
   });
 
   it('#chooseCrayon should call #resetSelection and select the crayon', () => {
@@ -153,8 +139,7 @@ describe('ToolHandlerService', () => {
     service.chooseCrayon();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.crayonSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.CRAYON);
   });
 
   it('#chooseLine should call #resetSelection and select the crayon', () => {
@@ -162,8 +147,7 @@ describe('ToolHandlerService', () => {
     service.chooseLine();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.lineSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.LINE);
   });
 
   it('#choosePaintbrush should call #resetSelection and select the Paintbrush', () => {
@@ -171,8 +155,7 @@ describe('ToolHandlerService', () => {
     service.choosePaintbrush();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.paintbrushSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PAINTBRUSH);
   });
 
   it('#choosePrimaryColor should call #resetSelection and select the PrimaryColor', () => {
@@ -181,7 +164,7 @@ describe('ToolHandlerService', () => {
 
     expect(resetSpy).toHaveBeenCalled();
     expect(service.primaryColorSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
 
   it('#chooseSecondaryColor should call #resetSelection and select the SecondaryColor', () => {
@@ -190,7 +173,7 @@ describe('ToolHandlerService', () => {
 
     expect(resetSpy).toHaveBeenCalled();
     expect(service.secondaryColorSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
 
   it('#choosePolygon should call #resetSelection and select the polygon', () => {
@@ -198,7 +181,7 @@ describe('ToolHandlerService', () => {
     service.choosePolygon();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.polygonSelected).toBe(true);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.POLYGON);
   });
 
   it('#chooseEyedropper should call #resetSelection and select the ipette', () => {
@@ -206,7 +189,7 @@ describe('ToolHandlerService', () => {
     service.chooseEyedropper();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.pipetteSelected).toBe(true);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PIPETTE);
   });
 
   it('#chooseSelector should call #resetSelection and select the Selector', () => {
@@ -214,8 +197,7 @@ describe('ToolHandlerService', () => {
     service.chooseSelector();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.selectorSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.SELECTOR);
   });
 
   it('#chooseOther should call #resetSelection', () => {
@@ -225,11 +207,12 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
   });
 
-  it('#chooseStamp should call #resetSelection', () => {
+  it('#chooseStamp should call #resetSelection and select the stamp', () => {
     const resetSpy = spyOn(service, 'resetSelection');
     service.chooseStamp();
 
     expect(resetSpy).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.STAMP);
   });
 
   it('#chooseColourApplicator should call #resetSelection', () => {
@@ -238,7 +221,6 @@ describe('ToolHandlerService', () => {
     expect(service.primaryColor).toEqual(Strings.WHITE_HEX);
     expect(service.secondaryColor).toEqual(Strings.BLACK_HEX);
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.colourApplicatorSelected).toBe(true);
-    expect(service.noneSelected).toBe(false);
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.COLOUR_APPLICATOR);
   });
 });

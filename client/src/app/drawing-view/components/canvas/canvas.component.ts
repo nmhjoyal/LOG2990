@@ -25,48 +25,48 @@ export class CanvasComponent {
   }
 
   applyColourToCanvas(): void {
-    if (this.toolHandler.colourApplicatorSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       this.canvasData.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = this.canvasData.data.drawingColor;
     }
   }
 
   getColorFromCanvas(event: MouseEvent): void {
     event.preventDefault();
-    if (this.toolHandler.pipetteSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColor;
     }
   }
 
   applyColourToLine(line: IDrawingTool): void {
-    if (this.toolHandler.colourApplicatorSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       line.color = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = line.color;
     }
   }
 
   getColorFromLine(event: MouseEvent, line: IDrawingTool): void {
     event.preventDefault();
-    if (this.toolHandler.pipetteSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = line.color;
     }
   }
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
-    if (this.toolHandler.colourApplicatorSelected && shape.primaryColor !== 'none') {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColor !== 'none') {
       shape.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColorFromShape(event, ToolConstants.PRIMARY_COLOUR_INDEX, shape);
     }
   }
 
   applySecondaryColourToShape(event: MouseEvent, shape: IShape): void {
     event.preventDefault();
-    if (this.toolHandler.colourApplicatorSelected && shape.secondaryColor !== 'none') {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.secondaryColor !== 'none') {
       shape.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColorFromShape(event, ToolConstants.SECONDARY_COLOUR_INDEX, shape);
     }
   }
