@@ -1,5 +1,5 @@
-import { Component, HostListener, Inject, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
@@ -21,6 +21,8 @@ import { ColorPickerComponent } from '../../drawing-view/components/color-picker
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
@@ -72,17 +74,21 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
-    this.confirmNewDrawing();
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.confirmNewDrawing();
+    }
   }
 
   @HostListener('document:keydown.control.s', ['$event']) onKeydownHandlerCtrlS(event: KeyboardEvent): void {
     event.preventDefault();
-    this.openSaveWindow();
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.openSaveWindow();
+    }
   }
 
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       if (!this.toolHandler.drawings.length) {
         this.openGalleryWindow();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {

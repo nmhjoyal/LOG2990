@@ -36,8 +36,10 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
   protected calculateDimensions(): void {
     super.calculateDimensions();
+    // tslint:disable:no-magic-number
     this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
     this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
+    // tslint:enable:no-magic-number
 
     const imaginaryCircleRadius = (Math.min(this.previewBox.width, this.previewBox.height) / 2) - this.shape.strokeWidth;
     this.shape.height = imaginaryCircleRadius;
@@ -45,8 +47,10 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
     this.shape.vertices = '';
     if (this.shape.verticesNumber !== undefined && (imaginaryCircleRadius - this.shape.strokeWidth) > 0) {
+      // tslint:disable:no-magic-number
       const angleBetweenVertices: number = 2 * Math.PI / this.shape.verticesNumber;
-      let angleTracker = 0;
+      let angleTracker = Math.PI / 2 - Math.PI / this.shape.verticesNumber;
+      // tslint:enable:no-magic-number
       let bufferX = 0;
       let bufferY = 0;
       for (let index = 0; index < this.shape.verticesNumber; index++) {
@@ -54,6 +58,7 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
         bufferX = this.shape.x + (imaginaryCircleRadius * Math.cos(angleTracker));
         bufferY = this.shape.y + (imaginaryCircleRadius * Math.sin(angleTracker));
         this.shape.vertices += (bufferX.toFixed(0) + ',' + bufferY.toFixed(0) + ' ');
+
       }
     }
 
