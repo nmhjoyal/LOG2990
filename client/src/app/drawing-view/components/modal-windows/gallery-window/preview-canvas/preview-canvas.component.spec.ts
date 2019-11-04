@@ -22,19 +22,19 @@ import { ModalWindowComponent } from '../../modal-window/modal-window.component'
 import { NewDrawingWindowComponent } from '../../new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from '../../welcome-window/welcome-window.component';
 import { PreviewCanvasComponent } from './preview-canvas.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('PreviewCanvasComponent', () => {
 
   let component: PreviewCanvasComponent;
   let fixture: ComponentFixture<PreviewCanvasComponent>;
   const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-  const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
 
   const mockDrawing = {
     name: 'name',
     tags: [{ name: 'tag', isSelected: false }],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-    shapes: toolHandlerServiceMock.drawings,
+    shapes: [],
     canvas: canvasInformationMock.data = { drawingHeight: 200, drawingColor: '#ffffffff', drawingWidth: 200 },
   } as IDrawing;
 
@@ -54,6 +54,10 @@ describe('PreviewCanvasComponent', () => {
         BrowserAnimationsModule,
         HttpClientModule,
       ],
+      providers: [
+        ToolHandlerService,
+        DrawingStorageService,
+      ],
       declarations: [
         AppComponent,
         NewDrawingWindowComponent,
@@ -66,6 +70,7 @@ describe('PreviewCanvasComponent', () => {
     fixture = TestBed.createComponent(PreviewCanvasComponent);
     component = fixture.componentInstance;
     component.previewedDrawing = mockDrawing;
+    mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
     fixture.detectChanges();
   }));
 

@@ -15,6 +15,7 @@ import { IDrawing } from '../../../../../../../common/drawing-information/IDrawi
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ISaveModalData } from './ISaveModalData';
 import { SaveWindowComponent } from './save-window.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('SaveWindowComponent', () => {
     const dialogRefMock: SpyObj<MatDialogRef<SaveWindowComponent>> = jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
@@ -22,7 +23,7 @@ describe('SaveWindowComponent', () => {
     let fixture: ComponentFixture<SaveWindowComponent>;
     const dataMock: SpyObj<ISaveModalData> = jasmine.createSpyObj('ISaveModalData', ['']);
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-    const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+    const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage', 'seeDrawings']);
     let indexMock: SpyObj<IndexService>;
     let confirmSpy;
     const tag = { name: 'tag', isSelected: true } as ITag;
@@ -32,7 +33,7 @@ describe('SaveWindowComponent', () => {
         name: 'name',
         tags: [tag, tag2],
         timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-        shapes: toolHandlerMock.drawings,
+        shapes: [],
         canvas: canvasDataMock.data,
     } as IDrawing;
 
@@ -61,6 +62,7 @@ describe('SaveWindowComponent', () => {
                 MatButtonModule,
             ],
             providers: [
+                DrawingStorageService,
                 { provide: MatDialogRef, useValue: { dialogMock } },
                 { provide: MAT_DIALOG_DATA, useValue: dataMock },
                 { provide: ToolHandlerService, useValue: toolHandlerMock },
@@ -76,6 +78,7 @@ describe('SaveWindowComponent', () => {
         component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
         component.data.displayedTags = [tag, tag2];
         component['name'] = 'drawing';
+        mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
         component.data.drawing = mockDrawing;
         fixture.detectChanges();
     });

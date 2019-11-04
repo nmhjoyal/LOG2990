@@ -22,6 +22,7 @@ import { ModalWindowComponent } from '../../modal-window/modal-window.component'
 import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas.component';
 import { GalleryWindowComponent } from './gallery-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('GalleryWindowComponent', () => {
     jasmine.getEnv().allowRespy(true);
@@ -29,17 +30,17 @@ describe('GalleryWindowComponent', () => {
         jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
     const dataMock: SpyObj<IGalleryModalData> = jasmine.createSpyObj('IGalleryModalData', ['']);
     const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-    const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+    const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage', 'seeDrawings']);
     const indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
-    const mockDrawing = {
+    const mockDrawing: IDrawing = {
         name: 'name',
         tags: [tag, tag2],
         timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-        shapes: toolHandlerServiceMock.drawings,
+        shapes: [],
         canvas: canvasInformationMock.data,
-    } as IDrawing;
+    };
 
     let component: GalleryWindowComponent;
     let fixture: ComponentFixture<GalleryWindowComponent>;
@@ -68,6 +69,7 @@ describe('GalleryWindowComponent', () => {
                 FilterTagsPipe,
             ],
             providers: [
+                DrawingStorageService,
                 { provide: MatDialogRef, useValue: dialogRefMock },
                 { provide: MAT_DIALOG_DATA, useValue: dataMock },
                 { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
@@ -80,6 +82,8 @@ describe('GalleryWindowComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(GalleryWindowComponent);
+        mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
+        toolHandlerServiceMock.seeDrawings.and.returnValue(TestBed.get(DrawingStorageService).drawings);
         component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, toolHandlerServiceMock, indexServiceMock);
         component.ngOnInit();
         fixture.detectChanges();
@@ -145,7 +149,7 @@ describe('GalleryWindowComponent', () => {
         indexServiceMock.getDrawing.and.returnValue(of(mockDrawing));
         component.onAcceptClick();
         expect(component['drawingToOpen']).toEqual(mockDrawing);
-        expect(toolHandlerServiceMock.drawings).toEqual(mockDrawing.shapes);
+        expect(toolHandlerServiceMock.seeDrawings).toEqual(mockDrawing.shapes);
         expect(canvasInformationMock.data).toEqual(mockDrawing.canvas);
         expect(spy).toHaveBeenCalled();
     });
