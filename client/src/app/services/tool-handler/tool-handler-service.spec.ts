@@ -270,6 +270,8 @@ describe('ToolHandlerService', () => {
     expect(drawingsSpy.calls.count()).toBe(2);
     expect(service.undoList.length).toBe(0);
     // tslint:enable:no-magic-numbers
+  });
+  
   it('#chooseStamp should call #resetSelection', () => {
     const resetSpy = spyOn(service, 'resetSelection');
     service.chooseStamp();
@@ -286,5 +288,5 @@ describe('ToolHandlerService', () => {
     expect(service.colourApplicatorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
   });
-});
 
+});
