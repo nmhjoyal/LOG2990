@@ -63,7 +63,7 @@
                     <img id='eraser' class="sideBarIcon" src="https://i.imgur.com/zAckfvX.png" title="Efface">
                 </a>
                 <a mat-list-item class="filter">
-                    <input size=1 [(ngModel)]="eraserSizeInput">
+                    <input size=1 [(ngModel)]="eraserSizeInput" (click)='toolHandler.chooseEraser()' (keyup.enter)= "setEraserSize()">
                 </a>
                 <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
