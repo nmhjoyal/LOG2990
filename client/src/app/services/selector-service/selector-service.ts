@@ -32,7 +32,7 @@ export class SelectorService {
   }
 
   setBoxToDrawing(drawing: ITools): void {
-    let x: number = drawing.x;
+    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
@@ -72,7 +72,7 @@ export class SelectorService {
   }
 
   updateSelectorShape(drawing: ITools): void {
-    let x: number = drawing.x;
+    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;

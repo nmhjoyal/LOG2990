@@ -1,5 +1,9 @@
 import { ITools } from './itools';
 
+export interface TextBox {
+    boxXPosition?: number;
+}
+
 export interface IText extends ITools {
     lines: string[];
     fontSize: number;
@@ -12,11 +16,9 @@ export interface IText extends ITools {
 
 export interface ITextOptions extends ITools {
     wasSaved: boolean;
-    savedText: string[];
     savedFontSize: number;
     savedItalic: string;
     savedBold: string;
-    savedAlign: string;
     savedFontFamily: string;
     savedPrimaryColour: string;
 }

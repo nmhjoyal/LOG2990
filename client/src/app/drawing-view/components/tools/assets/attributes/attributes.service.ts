@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Strings } from 'src/AppConstants/Strings';
+import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
 import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
@@ -122,15 +124,13 @@ export class AttributesService {
   }
   resetTextAttributes(): void {
     this.textAttributes = {
-      id: ToolConstants.TOOL_ID.LINE,
+      id: ToolConstants.TOOL_ID.TEXT,
       wasSaved: false,
-      savedText: [],
       savedFontSize: 12,
       savedItalic: '',
       savedBold: '',
-      savedAlign: 'left',
-      savedFontFamily: 'Arial, Helvetica, sans-serif',
-      savedPrimaryColour: 'black',
+      savedFontFamily: FontFamilies.ARIAL,
+      savedPrimaryColour: Strings.BLACK_HEX,
       x: 0,
       y: 0,
       width: 0,
