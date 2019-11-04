@@ -80,12 +80,7 @@ export class CanvasComponent {
   }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {
-    switch (shape.id) {
-      case Id.RECTANGLE: case Id.ELLIPSE: case Id.POLYGON:
-        return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
-      default:
-        return false;
-    }
+    return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
   }
 
 }
