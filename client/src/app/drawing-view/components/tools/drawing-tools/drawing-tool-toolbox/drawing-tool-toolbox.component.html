@@ -13,6 +13,19 @@
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
 
+    <div *ngIf="toolHandler.styloSelected">
+        <div>
+            <button (click)="getComponent().decreaseMinWidth()">-</button>
+            {{getComponent().minWidth}}
+            <button (click)="getComponent().increaseMinWidth()">+</button>
+        </div>
+        <div>
+            <button (click)="getComponent().decreaseMaxWidth()">-</button>
+            {{getComponent().maxWidth}}
+            <button (click)="getComponent().increaseMaxWidth()">+</button>
+        </div>
+    </div>
+
     <div *ngIf="toolHandler.lineSelected">
         <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
         <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>

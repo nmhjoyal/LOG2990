@@ -6,6 +6,7 @@ export enum Id {
     POLYGON = 'polygon',
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
+    STYLO = 'stylo',
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
@@ -59,6 +60,8 @@ export class ToolConstants {
     static SQUARE = 'square';
     static DEFAULT_OPACITY = 1;
     static DEFAULT_STROKE_WIDTH = 2;
+    static DEFAULT_MAX_WIDTH = 5;
+    static DEFAULT_MIN_WIDTH = 2;
     static DEFAULT_POINT_WIDTH = 2;
     static TOOL_ID = Id;
     static FILTER_ID = FilterURL;
