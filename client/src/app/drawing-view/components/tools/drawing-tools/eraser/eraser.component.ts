@@ -14,8 +14,8 @@ import { UserInputService } from '../../../../../services/user-input/user-input.
 })
 export class EraserComponent implements OnInit {
 
-  constructor(public toolService: ToolHandlerService, public selectorService: SelectorService, public colorService: ColorService, public inputService: UserInputService) {
-
+  constructor(public toolService: ToolHandlerService, public selectorService: SelectorService, public colorService: ColorService,
+    public inputService: UserInputService) {
   }
 
   @Input() windowHeight: number;
@@ -28,8 +28,7 @@ export class EraserComponent implements OnInit {
       x: 0,     // Coordinates next to eraser icon on UI
       y: 460,
       width: this.inputService.userInput,
-      height: this.inputService.userInput
-    };
+      height: this.inputService.userInput};
   }
 
   setEraserProperties(event: MouseEvent): void {
@@ -43,7 +42,7 @@ export class EraserComponent implements OnInit {
     let i: number;
     for (i = this.toolService.drawings.length - 1; i >= 0; i--) {
       if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[i], this.eraser)) {
-        this.toolService.drawings[i].id += 'Erased';  // Canvas doesn't display objects with id = erased
+        this.toolService.drawings[i].id += 'Erased';  // Canvas doesn't display objects with id containing 'Erased'
         break;
       }
     }
@@ -61,6 +60,7 @@ export class EraserComponent implements OnInit {
       }
       if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[i], this.eraser) && touchedFirstObject) {
         drawing.secondaryColor = 'red';
+        console.log('x: '+ drawing.x + ' y: ' + drawing.y);
         touchedFirstObject = false;
       }
     }
@@ -78,8 +78,6 @@ export class EraserComponent implements OnInit {
   @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {
     this.redOutline();
     this.setEraserProperties(event);
-    console.log(this.inputService.userInput);
-    console.log(this.eraser.height);
     if (this.leftClicked) {
       this.eraseObject();
     }
