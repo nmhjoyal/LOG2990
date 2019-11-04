@@ -2,10 +2,11 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import {inject, injectable} from 'inversify';
+import { inject, injectable } from 'inversify';
 import * as logger from 'morgan';
-import {DateController} from './controllers/date.controller';
-import {IndexController} from './controllers/index.controller';
+import * as serveFavicon from 'serve-favicon';
+import { DateController } from './controllers/date.controller';
+import { IndexController } from './controllers/index.controller';
 import Types from './types';
 
 @injectable()
@@ -15,8 +16,9 @@ export class Application {
     app: express.Application;
 
     constructor(@inject(Types.IndexController) private indexController: IndexController,
-                @inject(Types.DateController) private dateController: DateController) {
+        @inject(Types.DateController) private dateController: DateController) {
         this.app = express();
+        this.app.use(serveFavicon('app/assets/favicon.ico'));
 
         this.config();
 
@@ -27,7 +29,7 @@ export class Application {
         // Middlewares configuration
         this.app.use(logger('dev'));
         this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({extended: true}));
+        this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(cookieParser());
         this.app.use(cors());
     }
