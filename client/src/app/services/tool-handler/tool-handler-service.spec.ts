@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
@@ -224,4 +225,20 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
   });
 
+  it('#chooseStamp should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseStamp();
+
+    expect(resetSpy).toHaveBeenCalled();
+  });
+
+  it('#chooseColourApplicator should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseColourApplicator(Strings.WHITE_HEX, Strings.BLACK_HEX);
+    expect(service.primaryColor).toEqual(Strings.WHITE_HEX);
+    expect(service.secondaryColor).toEqual(Strings.BLACK_HEX);
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.colourApplicatorSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
+  });
 });

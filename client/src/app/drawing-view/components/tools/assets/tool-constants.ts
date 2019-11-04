@@ -1,3 +1,6 @@
+
+// tslint:disable:max-classes-per-file
+
 export enum Id {
     RECTANGLE = 'rectangle',
     POLYGON = 'polygon',
@@ -6,6 +9,7 @@ export enum Id {
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
+    STAMP = 'stamp',
 }
 
 export enum FilterURL {
@@ -24,6 +28,7 @@ export enum FilterSelection {
     FILTER4 = 4,
     FILTER5 = 5,
 }
+
 export enum ModeType {
     STRAIGHT =  1,
     DOTTED_LINE = 2,
@@ -36,6 +41,15 @@ export enum PointType {
     ANGLED = 1,
     ROUNDED = 2,
     DOTTED = 3,
+}
+
+enum STAMPS {
+    HEART = '../../../../../../assets/stamps/grade-24px.svg',
+    SMILEY = '../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg',
+    PAW = '../../../../../../assets/stamps/pets-24px.svg',
+    STAR = '../../../../../../assets/stamps/favorite-24px.svg',
+    THUMB_UP = '../../../../../../assets/stamps/thumb_up-24px.svg',
+    SUN = '../../../../../../assets/stamps/brightness_5-24px.svg',
 }
 
 export class ToolConstants {
@@ -61,4 +75,17 @@ export class ToolConstants {
     static SECONDARY_COLOUR_INDEX = 1;
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
+}
+
+export class StampConstants {
+    static STAMPS_PATHS = STAMPS;
+    static DEFAULT_ANGLE = 0;
+    static DEFAULT_DIMENSION = 24;
+    static PATH_SLICER = 6;
+    static DEFAULT_SCALE_FACTOR = 1;
+    static DEFAULT_WIDTH = 24;
+    static DEFAULT_HEIGHT = 24;
+    static MAX_SCALE = 21;
+    static ANGLE_INCREMENT_1 = 1;
+    static ANGLE_INCREMENT_15 = 15;
 }

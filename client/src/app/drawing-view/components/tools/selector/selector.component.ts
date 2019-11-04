@@ -1,4 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -73,14 +74,6 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  @HostListener('document:keydown.escape') onEscape(): void {
-    this.resetShape();
-  }
-
-  handleControlPoint(): void {
-    return;
-  }
-
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
       this.isRightClick = false;
@@ -145,7 +138,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected leftClick(event: MouseEvent): void {
     for (const drawing of this.toolService.seeDrawings()) {
-      if (this.selectorService.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
+      if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         this.selectorService.SelectedObjects.clear();
         this.selectorService.SelectedObjects.add(drawing);
         this.selectorService.setBoxToDrawing(drawing);
@@ -160,7 +153,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected rightClick(event: MouseEvent): void {
     for (const drawing of this.toolService.seeDrawings()) {
-      if (this.selectorService.cursorTouchesObject(drawing, event.offsetX, event.offsetY)) {
+      if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         if (this.selectorService.SelectedObjects.has(drawing)) {
           this.selectorService.selectedObjects.delete(drawing);
           this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);

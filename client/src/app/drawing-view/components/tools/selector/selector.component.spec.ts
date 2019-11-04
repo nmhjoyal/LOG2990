@@ -122,13 +122,23 @@ describe('SelectorComponent', () => {
         expect(spy).toHaveBeenCalledTimes(TWICE);
     });
 
-    it('#onEscape should be called when escape key pressed', () => {
-        const spy = spyOn(selector, 'onEscape').and.callFake(() => { return; });
-        const event = new KeyboardEvent('keydown', {
-            key: 'Escape',
-        });
-        document.dispatchEvent(event);
-        expect(spy).toHaveBeenCalled();
+    it('#onMouseUp should not save shape', () => {
+        selector.onMouseUp();
+        expect(toolServiceMock.saveSelectorBox).not.toHaveBeenCalled();
+    });
+
+    it('#onLeftClick should do nothing', () => {
+        const event = new MouseEvent('click');
+        spyOn(event, 'preventDefault').and.callThrough();
+        selector.onLeftClick(event);
+        expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('#onRightClick should do nothing', () => {
+        const event = new MouseEvent('contextmenu');
+        spyOn(event, 'preventDefault').and.callThrough();
+        selector.onRightClick(event);
+        expect(event.preventDefault).toHaveBeenCalled();
     });
 
     it('test leftclick', () => {
@@ -141,6 +151,14 @@ describe('SelectorComponent', () => {
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(false);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         selector.onMouseDown(rightClick);
+        expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
+    });
+
+    it('test other click', () => {
+        const wheelClick = new MouseEvent('mousedown', { button: ClickTypes.WHEEL_BUTTON });
+        selector.onMouseDown(wheelClick);
+        selector.onRelease(wheelClick);
+        expect(toolServiceMock.resetSelectorBox).toHaveBeenCalled();
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
 
@@ -167,6 +185,8 @@ describe('SelectorComponent', () => {
         expect(selectorServiceMock.checkForItems).toHaveBeenCalled();
         expect(selectorServiceMock.recalculateShape).toHaveBeenCalled();
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
+        selector.onRelease(new MouseEvent('mouseup'));
+        selector.onMouseMove(rightDrag);
     });
 
     it('test leftclick drag and release', () => {
@@ -198,6 +218,11 @@ describe('SelectorComponent', () => {
         selector.onRelease(leftRelease);
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();
+        toolServiceMock.drawings = [];
+        selector.onMouseDown(leftClick);
+        selector.onRelease(leftRelease);
+        expect(toolServiceMock.resetSelectorBox).toHaveBeenCalled();
+        expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
 
     it('test rightclick simple', () => {
@@ -208,6 +233,12 @@ describe('SelectorComponent', () => {
         selector.onRelease(rightRelease);
         expect(selectorServiceMock.recalculateShape).toHaveBeenCalled();
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
+        const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
+        selectorBoxExists.and.returnValue(false);
+        toolServiceMock.drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
+        selector.onMouseDown(rightClick);
+        selector.onRelease(rightRelease);
+        expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();
     });
 
     it('test rightclick reverse', () => {
