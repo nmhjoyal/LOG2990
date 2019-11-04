@@ -7,11 +7,11 @@ import * as svgIntersections from 'svg-intersections';
 export default class ClickHelper {
     // Adapt to Firefox
     static getXPosition(event: MouseEvent): number {
-        return event.layerX !== undefined ? event.layerX : event.offsetX;
+        return event.layerX > event.offsetX ? event.layerX : event.offsetX;
     }
 
     static getYPosition(event: MouseEvent): number {
-        return event.layerY !== undefined ? event.layerY : event.offsetX;
+        return event.layerY > event.offsetY ? event.layerY : event.offsetY;
     }
 
     static getClickAreaPoints(positionX: number, positionY: number): string {
@@ -45,7 +45,7 @@ export default class ClickHelper {
                     svgIntersections.shape('polyline', selectorLine));
                 return ellipseIntersections.points.length > 0;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
+                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polygon', { points: object.vertices }),
                     svgIntersections.shape('polyline', selectorLine));
                 return polygonIntersections.points.length > 0;
             case Id.STAMP:
