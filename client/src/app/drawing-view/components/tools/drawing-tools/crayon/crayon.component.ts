@@ -30,7 +30,7 @@ export class CrayonComponent extends StrokeAbstract implements OnInit, OnDestroy
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.saveAttribute();
   }
 

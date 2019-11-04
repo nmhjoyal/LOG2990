@@ -10,7 +10,7 @@ import { ToolAbstract } from '../tool-abstract/tool-abstract';
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
 
   protected stroke: IDrawingTool;
-  private mouseDown: boolean;
+  protected mouseDown: boolean;
   private x: number;
   private y: number;
 

@@ -28,6 +28,7 @@
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
     <g *ngFor="let drawing of toolHandler.drawings">
         <g [ngSwitch]="drawing.id">
+            
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.color"
@@ -120,7 +121,8 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
 </div>
 <div *ngIf="toolHandler.crayonSelected">
-    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" 
+    [windowHeight]="canvasData.data.drawingHeight">
     </app-crayon>
 </div>
 <div *ngIf="toolHandler.paintbrushSelected">
@@ -129,7 +131,8 @@
 </div>
 <div *ngIf="toolHandler.styloSelected">
     <app-stylo #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight"></app-stylo>
+        [windowHeight]="canvasData.data.drawingHeight">
+    </app-stylo>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
     <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"

@@ -40,3 +40,12 @@ export interface IDrawingToolOptions extends ITools {
     savedMaxWidth: number;
     savedMinWidth: number;
 }
+
+export interface IStylo {
+    speed: number;
+    lastTime: number;
+    lastPositionX: number;
+    lastPositionY: number;
+    maxWidth: number;
+    minWidth: number;
+}

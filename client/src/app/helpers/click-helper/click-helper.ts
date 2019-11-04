@@ -3,6 +3,8 @@ import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interf
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 // tslint:disable-next-line: no-implicit-dependencies
 import * as svgIntersections from 'svg-intersections';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { IStylo } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 
 export default class ClickHelper {
     // Adapt to Firefox
@@ -128,5 +130,11 @@ export default class ClickHelper {
                 intersectionPoints = stampIntersections.points;
         }
         return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;
+    }
+
+    static calculateSpeed(event: MouseEvent, stylo: IStylo, time: number): number {
+        var x = this.getXPosition(event);
+        var y = this.getYPosition(event);
+        return Math.sqrt(Math.pow(x - stylo.lastPositionX, NumericalValues.TWO) + Math.pow(y - stylo.lastPositionY, NumericalValues.TWO))/(time-stylo.lastTime);
     }
 }
