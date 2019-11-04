@@ -60,7 +60,6 @@ export class EraserComponent implements OnInit {
       }
       if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[i], this.eraser) && touchedFirstObject) {
         drawing.secondaryColor = 'red';
-        console.log('x: '+ drawing.x + ' y: ' + drawing.y);
         touchedFirstObject = false;
       }
     }
