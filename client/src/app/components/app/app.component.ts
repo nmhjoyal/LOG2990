@@ -188,6 +188,6 @@ export class AppComponent implements OnInit {
   }
 
   setEraserSize(): void {
-    this.inputService.yee(this.eraserSizeInput);
+    this.inputService.userInput = this.eraserSizeInput;
   }
 }
