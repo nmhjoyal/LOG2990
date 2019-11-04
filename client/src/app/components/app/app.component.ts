@@ -14,6 +14,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { UserInputService } from '../../services/user-input/user-input.service';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
     protected toolHandler: ToolHandlerService,
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
-    public colorService: ColorService) {
+    public colorService: ColorService, public inputService: UserInputService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -184,5 +185,9 @@ export class AppComponent implements OnInit {
     if (!this.toolHandler.colourApplicatorSelected) {
       this.toolHandler.resetSelection();
     }
+  }
+
+  setEraserSize(): void {
+    this.inputService.yee(this.eraserSizeInput);
   }
 }
