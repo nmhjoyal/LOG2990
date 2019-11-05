@@ -14,18 +14,21 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
+  let noOpenModalSpy: jasmine.Spy;
   let component: AppComponent;
+  
+// TODO: make a testbead in this file
 
   beforeEach(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    dialogMock = jasmine.createSpyObj('MatDialog', ['open']); // TODO: make a testbead in this file
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open']); 
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText', 'undo', 'redo']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
-    spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
+    noOpenModalSpy = spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     toolHandlerMock.textSelected = false;
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
@@ -88,31 +91,57 @@ describe('AppComponent', () => {
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
-  it('#chooseEllipse should be called when 2 is pressed', () => {
+  it('#chooseEllipse should be called when 2 is pressed and there are no open dialogs', () => {
     toolHandlerMock.chooseEllipse.and.callThrough();
+    noOpenModalSpy.and.returnValue(false);
+    component.onKeydown2();
+    expect(toolHandlerMock.chooseEllipse).not.toHaveBeenCalled();
+
+    noOpenModalSpy.and.returnValue(true);
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });
 
-  // TODO: add condition of opened toolbox
-  it('#undo should be called only when control+z are pressed and there are no opened dialogs', () => {
-    component['dialog'].openDialogs.length = 0;
+  it('#undo should be called only when control+z are pressed and there are no opened dialogs nor optionsBars opened', () => {
+    component.optionsSidebar.opened = true;
+    noOpenModalSpy.and.returnValue(false);
+    component.onKeydownCtrlZEvent();
+    expect(toolHandlerMock.undo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = false;
+    noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlZEvent();
     expect(toolHandlerMock.undo).not.toHaveBeenCalled();
     
-    // tslint:disable-next-line:no-magic-numbers
-    component['dialog'].openDialogs.length = 1;
+    component.optionsSidebar.opened = true;
+    noOpenModalSpy.and.returnValue(true);
+    component.onKeydownCtrlZEvent();
+    expect(toolHandlerMock.undo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = false;
+    noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlZEvent();
     expect(toolHandlerMock.undo).toHaveBeenCalled();
   });
 
   it('#redo should be called only when control+shift+z are pressed and there are no opened dialogs', () => {
-    component['dialog'].openDialogs.length = 0;
+    component.optionsSidebar.opened = false;
+    noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
     expect(toolHandlerMock.redo).not.toHaveBeenCalled();
     
-    // tslint:disable-next-line:no-magic-numbers
-    component['dialog'].openDialogs.length = 1;
+    component.optionsSidebar.opened = true;
+    noOpenModalSpy.and.returnValue(false);
+    component.onKeydownCtrlShiftZEvent();
+    expect(toolHandlerMock.redo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = true;
+    noOpenModalSpy.and.returnValue(true);
+    component.onKeydownCtrlShiftZEvent();
+    expect(toolHandlerMock.redo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = false;
+    noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlShiftZEvent();
     expect(toolHandlerMock.redo).toHaveBeenCalled();
   });

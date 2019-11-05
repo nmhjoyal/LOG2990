@@ -54,39 +54,39 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
       this.toolHandler.chooseSelector();
     }
   }
 
   // TODO: test the undo/redo hotkey handlers methods
   @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.undo();
     }
   }
 
   @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.toolHandler.redo();
     }
   }
 
   @HostListener('document:keydown.t', ['$event']) onKeydownTEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.textSelected) {
       this.toolHandler.chooseText();
     }
   }
