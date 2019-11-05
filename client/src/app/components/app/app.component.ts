@@ -7,6 +7,7 @@ import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColorService } from 'src/app/services/color_service/color.service';
@@ -49,8 +50,8 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    this.cursorX = event.offsetX;
-    this.cursorY = event.offsetY;
+    this.cursorX = ClickHelper.getXPosition(event);
+    this.cursorY = ClickHelper.getYPosition(event);
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
