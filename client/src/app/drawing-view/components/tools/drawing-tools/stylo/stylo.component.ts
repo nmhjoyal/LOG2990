@@ -79,7 +79,7 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
       this.stylo.lastPositionX = ClickHelper.getXPosition(event);
       this.stylo.lastPositionY = ClickHelper.getYPosition(event);
       var newWidth: number;
-      
+
       if(this.stylo.speed > ToolConstants.MAX_SPEED){
         newWidth = this.stylo.maxWidth;
       }
@@ -87,7 +87,7 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
         newWidth = this.stylo.minWidth;
       }
       else {
-        newWidth = Math.round(this.stroke.strokeWidth*(this.stylo.speed - ToolConstants.MIN_SPEED )/ToolConstants.MAX_SPEED);
+        newWidth = Math.round(this.stylo.maxWidth * (this.stylo.speed - ToolConstants.MIN_SPEED )/ToolConstants.MAX_SPEED);
       }
       if(newWidth != this.stroke.strokeWidth){
         this.saveShape();

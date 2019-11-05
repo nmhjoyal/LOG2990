@@ -60,10 +60,10 @@ export class ToolConstants {
     static SQUARE = 'square';
     static DEFAULT_OPACITY = 1;
     static DEFAULT_STROKE_WIDTH = 2;
-    static DEFAULT_MAX_WIDTH = 5;
+    static DEFAULT_MAX_WIDTH = 10;
     static DEFAULT_MIN_WIDTH = 2;
-    static MAX_SPEED = 1000;
-    static MIN_SPEED = 5;
+    static MAX_SPEED = 10;
+    static MIN_SPEED = 1;
     static DEFAULT_POINT_WIDTH = 2;
     static TOOL_ID = Id;
     static FILTER_ID = FilterURL;
