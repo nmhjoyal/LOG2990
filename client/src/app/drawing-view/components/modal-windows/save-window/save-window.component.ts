@@ -5,10 +5,9 @@ import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
-import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
+import { IDrawing, ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
-import { ITools } from '../../tools/assets/interfaces/itools';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
 @Component({
@@ -21,7 +20,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   protected name: string;
   protected preview: ISVGPreview;
-  private drawing: ITools[];
+  private drawing: ISavedDrawing[];
   isFinishedSaving: boolean;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
@@ -74,6 +73,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         }
       });
     this.isFinishedSaving = true;
+    console.log(drawingToSave.shapes);
 
     this.onClose();
   }
@@ -94,15 +94,15 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.dialogRef.close();
   }
 
-  saveDrawingToJson(): { drawings: ITools[], canvas: {} } {
+  saveDrawingToJson(): { shapes: ISavedDrawing[], canvas: {} } {
     const json = {
-      drawings: [] as ITools[],
+      shapes: [] as ISavedDrawing[],
       canvas: {} as ICanvasData,
     };
     // tslint:disable: quotemark object-literal-key-quotes
     // need double quotes so it's a valid json
     this.toolHandler.drawings.forEach((currentDrawing) => {
-      json.drawings.push({
+      json.shapes.push({
         "id": currentDrawing.id,
         "points": currentDrawing.points,
         "width": currentDrawing.width,
@@ -111,6 +111,22 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "y": currentDrawing.y,
         "svgReference": currentDrawing.svgReference,
         "vertices": currentDrawing.vertices,
+        "primaryColor": currentDrawing.primaryColor,
+        "secondaryColor": currentDrawing.secondaryColor,
+        "strokeOpacity": currentDrawing.strokeOpacity,
+        "strokeWidth": currentDrawing.strokeWidth,
+        "fillOpacity": currentDrawing.fillOpacity,
+        "verticesNumber": currentDrawing.verticesNumber,
+        "color": currentDrawing.color,
+        "fill": currentDrawing.fill,
+        "strokeLinecap": currentDrawing.strokeLinecap,
+        "strokeLinejoin": currentDrawing.strokeLinejoin,
+        "filter": currentDrawing.filter,
+        "angle": currentDrawing.angle,
+        "scaleFactor": currentDrawing.scaleFactor,
+        "primaryColour": currentDrawing.primaryColour,
+        "centerX": currentDrawing.centerX,
+        "centerY": currentDrawing.centerY,
       });
 
     });
@@ -120,7 +136,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       "drawingHeight": this.canvasData.data.drawingHeight,
       "drawingWidth": this.canvasData.data.drawingWidth,
     };
-      // tslint:enable: quotemark object-literal-key-quotes
+    // tslint:enable: quotemark object-literal-key-quotes
 
     return json;
   }

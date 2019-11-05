@@ -49,8 +49,8 @@
         </ng-template>
 
         <div>
-            <input type="file" mat-raised-button id="fileSelect" value="Sélectionner un ficher" />
-            <button mat-raised-button id="import" (click)="importSelectedFile()">Importer le fichier</button>
+            <input type="file" mat-raised-button id="fileSelect" value="Sélectionner un ficher" onload="handleFiles(this.files);" />
+            <button mat-raised-button id="import" (click)="importLocalFile();">Importer le fichier</button>
         </div>
 
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>

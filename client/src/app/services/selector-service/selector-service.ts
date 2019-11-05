@@ -3,6 +3,7 @@ import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interf
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 export class SelectorService {
   selectedObjects: Set<ITools>;
@@ -48,7 +49,7 @@ export class SelectorService {
     this.height = y + height;
   }
 
-  checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
+  checkForItems(isReverseSelection: boolean, drawings: ISavedDrawing[], previewBox: IPreviewBox): void {
     if (!isReverseSelection) {
       this.selectedObjects.clear();
     }

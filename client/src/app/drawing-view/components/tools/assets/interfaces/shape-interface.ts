@@ -1,4 +1,6 @@
+import { IDrawingTool } from './drawing-tool-interface';
 import { ITools } from './itools';
+import { IStamp } from './stamp-interface';
 
 export interface IPreviewBox {
     x: number;
@@ -26,3 +28,4 @@ export interface IShapeOptions extends ITools, IPreviewBox {
     savedTraceMode: number;
     savedVerticesNumber?: number;
 }
+

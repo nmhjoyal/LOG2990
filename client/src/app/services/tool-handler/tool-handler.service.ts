@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,7 @@ export class ToolHandlerService {
   secondaryColor: string;
   ​
   // Shape Storage
-  drawings: ITools[];
+  drawings: ISavedDrawing[];
   selection: IShape;
 
   constructor(public colorService: ColorService) {

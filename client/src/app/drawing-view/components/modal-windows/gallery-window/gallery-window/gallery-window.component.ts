@@ -22,6 +22,10 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   private drawingToOpen: IDrawing;
   @Input() filterBy: string[] = ['all'];
   isFinishedLoading: boolean;
+  file: Observable<string | ArrayBuffer | null>;
+  files: FileList;
+  fileList: FileList;
+  // inputElement: HTMLElement | null;
 
   constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
@@ -44,6 +48,8 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         }
       },
     );
+    // this.inputElement = document.getElementById('fileSelect')
+
   }
 
   ngOnInit() {
@@ -52,6 +58,8 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         this.drawingsInGallery = response;
         this.isFinishedLoading = true;
       });
+    // this.inputElement!.addEventListener("change", this.handleFiles);
+
   }
 
   onSelect(drawing: IDrawing): void {
@@ -66,13 +74,14 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
             this.drawingToOpen = response;
             this.toolHandler.drawings = this.drawingToOpen.shapes;
             this.canvasData.data = this.drawingToOpen.canvas;
+            this.onClose();
+
           } else {
             confirm('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.');
           }
         });
     }
 
-    this.onClose();
   }
 
   tagSelected(tagSelected: string): void {
@@ -107,6 +116,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     return new Observable<string | ArrayBuffer | null>((subscriber) => {
       const fileLoader = new FileReader();
       fileLoader.onload = () => {
+        console.log(file);
         subscriber.next(fileLoader.result);
         subscriber.complete();
       };
@@ -115,10 +125,31 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
       };
       fileLoader.readAsText(file);
     });
+
   }
 
-  onFileLoad() {
-    this.loadFile().subscribe()
+  importLocalFile() {
+    let files: FileList;
+    if (!!document.getElementById('fileSelect') && document.getElementById('fileSelect').files  ) {
+      files = document.getElementById('fileSelect').files;
+    }
+
+    this.loadFile(files[0]).subscribe((fileContent: string) => {
+      const data = JSON.parse(fileContent);
+      console.log(data.shapes);
+      console.log(data.canvas);
+
+      this.drawingToOpen = data;
+      this.toolHandler.drawings = data.shapes;
+      this.canvasData.data = this.drawingToOpen.canvas;
+    });
+
+    this.onClose();
+
+  }
+
+  handleFiles(files: FileList) {
+    this.fileList = files;
   }
 
 }
