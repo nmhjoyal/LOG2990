@@ -1,5 +1,4 @@
 import SpyObj = jasmine.SpyObj;
-import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -17,10 +16,10 @@ describe('AppComponent', () => {
   let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    dialogMock = spyOnAllFunctions( new MatDialog()); // TODO: make a testbead in this file
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open']); // TODO: make a testbead in this file
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'undo', 'redo']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
@@ -28,7 +27,7 @@ describe('AppComponent', () => {
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
