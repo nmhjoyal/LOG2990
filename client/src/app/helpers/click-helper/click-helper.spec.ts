@@ -1,5 +1,5 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from './click-helper';
 
 describe('ClickHelper', () => {
@@ -16,6 +16,9 @@ describe('ClickHelper', () => {
 
     it('should confirm cursor touches object border', () => {
         let object: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+        expect(ClickHelper.cursorTouchesObjectBorder(object, FIFTY, FIFTY)).toBeTruthy();
+        expect(ClickHelper.cursorTouchesObjectBorder(object, FORTY, FORTY)).toBeFalsy();
+        object = { boxXPosition: FIFTY, x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
         expect(ClickHelper.cursorTouchesObjectBorder(object, FIFTY, FIFTY)).toBeTruthy();
         expect(ClickHelper.cursorTouchesObjectBorder(object, FORTY, FORTY)).toBeFalsy();
         object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '50,50 50,51 51,50 51,51' };
@@ -39,6 +42,9 @@ describe('ClickHelper', () => {
         let object: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
         expect(ClickHelper.cursorInsideObject(object, FIFTY, FIFTY)).toBeTruthy();
         expect(ClickHelper.cursorInsideObject(object, FORTY, FORTY)).toBeFalsy();
+        object = { boxXPosition: FIFTY, x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
+        expect(ClickHelper.cursorInsideObject(object, FIFTY, FIFTY)).toBeTruthy();
+        expect(ClickHelper.cursorInsideObject(object, FORTY, FORTY)).toBeFalsy();
         object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '50,50 50,51 51,50 51,51' };
         expect(ClickHelper.cursorInsideObject(object, FIFTY, FIFTY)).toBeTruthy();
         expect(ClickHelper.cursorInsideObject(object, FORTY, FORTY)).toBeFalsy();
@@ -60,6 +66,8 @@ describe('ClickHelper', () => {
         let object: ITools = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
         let box = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: FORTY, height: FORTY };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
+        object = { boxXPosition: FIFTY, x: FORTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.TEXT };
+        expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
         object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40' };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
         object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FORTY / TWICE, height: FORTY / TWICE, id: Id.ELLIPSE };
@@ -73,6 +81,8 @@ describe('ClickHelper', () => {
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeFalsy();
         box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
         object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
+        expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();
+        object = { boxXPosition: FIFTY, x: FORTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.TEXT };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();
         object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40 40,41 41,40 41,41' };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();

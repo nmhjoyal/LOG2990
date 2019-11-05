@@ -1,0 +1,19 @@
+<svg class='textZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
+    <g>
+        <rect [attr.x]="boxX" [attr.y]="text.y" [attr.width]="text.width" [attr.height]="text.height"
+        [style.stroke]="text.primaryColour" 
+        [style.stroke-opacity]="1"
+        [style.fill]="none"
+        [style.stroke-width]="2"
+        [style.fill-opacity]="0"></rect>
+        <text #textElement [attr.x]="text.x" [attr.y]="text.y"
+        [style.font-size]="text.fontSize + 'pt'"
+        [style.font-style]="text.italic"
+        [style.font-weight]="text.bold"
+        [style.font-family]="fontFamilySelection"
+        [style.fill]="text.primaryColour"
+        [attr.text-anchor]="text.align">
+            <tspan [attr.x]="text.x" dy="1.2em" *ngFor='let line of text.lines'>{{ line }}</tspan>
+        </text> 
+    </g>
+</svg> 
