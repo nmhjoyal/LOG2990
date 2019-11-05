@@ -20,6 +20,7 @@ export class EraserComponent implements OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
+  defaultSize = 10;
   leftClicked: boolean;
   eraser: IPreviewBox;
 
@@ -27,8 +28,8 @@ export class EraserComponent implements OnInit {
     this.eraser = {
       x: 0,     // Coordinates next to eraser icon on UI
       y: 460,
-      width: this.inputService.userInput,
-      height: this.inputService.userInput};
+      width: this.defaultSize,
+      height: this.defaultSize};
   }
 
   setEraserProperties(event: MouseEvent): void {
@@ -46,7 +47,7 @@ export class EraserComponent implements OnInit {
         break;
       }
     }
-    return this.toolService.drawings[i]; // returns deleted element
+    return this.toolService.drawings[i];
   }
 
   redOutline(): void {
