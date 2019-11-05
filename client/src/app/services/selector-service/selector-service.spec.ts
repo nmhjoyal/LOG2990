@@ -1,6 +1,6 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { SelectorService } from './selector-service';
@@ -44,6 +44,16 @@ describe('SelectorService', () => {
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
     expect(service.width).toEqual(drawing.x + drawing.width);
+    expect(service.height).toEqual(drawing.y + drawing.height);
+    drawing = { boxXPosition: FIFTY, x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
+    service.setBoxToDrawing(drawing);
+    expect(service.topCornerY).toEqual(drawing.y);
+    expect(service.MinWidth).toEqual(drawing.width);
+    expect(service.MinHeight).toEqual(drawing.height);
+    if (drawing.boxXPosition !== undefined) {
+      expect(service.topCornerX).toEqual(drawing.boxXPosition);
+      expect(service.width).toEqual(drawing.boxXPosition + drawing.width);
+    }
     expect(service.height).toEqual(drawing.y + drawing.height);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.setBoxToDrawing(drawing);
@@ -96,6 +106,14 @@ describe('SelectorService', () => {
     expect(service.topCornerX).toEqual(FORTY);
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.width).toEqual(drawing.x + drawing.width);
+    expect(service.height).toEqual(ONE_HUNDRED);
+    drawing = { boxXPosition: FIFTY, x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
+    service.updateSelectorShape(drawing);
+    expect(service.topCornerX).toEqual(FORTY);
+    expect(service.topCornerY).toEqual(drawing.y);
+    if (drawing.boxXPosition !== undefined) {
+      expect(service.width).toEqual(drawing.boxXPosition + drawing.width);
+    }
     expect(service.height).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.topCornerX = FIFTY;

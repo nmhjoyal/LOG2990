@@ -1,5 +1,6 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
@@ -32,7 +33,7 @@ export class SelectorService {
   }
 
   setBoxToDrawing(drawing: ISavedDrawing): void {
-    let x: number = drawing.x;
+    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
@@ -72,7 +73,7 @@ export class SelectorService {
   }
 
   updateSelectorShape(drawing: ISavedDrawing): void {
-    let x: number = drawing.x;
+    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;

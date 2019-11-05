@@ -19,9 +19,9 @@ import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
+import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { Id, ToolConstants } from '../tools/assets/tool-constants';
 import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {

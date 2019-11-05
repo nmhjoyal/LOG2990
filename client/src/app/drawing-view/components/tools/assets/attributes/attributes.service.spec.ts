@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ToolConstants } from '../tool-constants';
+import { ToolConstants } from '../constants/tool-constants';
 import { AttributesService } from './attributes.service';
 
 const STROKEWIDTH = 10;
