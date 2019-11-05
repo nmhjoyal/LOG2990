@@ -200,17 +200,6 @@ describe('EraserComponent', () => {
 
   it('should initialize correct eraser properties', () => {
     const mouseeventMock = new MouseEvent('mousemove');
-    component.inputService.userInput = 10;
-    component.setEraserProperties(mouseeventMock);
-    expect(component.eraser.width).toBe(10);
-    expect(component.eraser.height).toBe(10);
-    expect(component.eraser.x).toBe(mouseeventMock.offsetX);
-    expect(component.eraser.y).toBe(mouseeventMock.offsetX);
-  });
-
-  it('should initialize correct eraser properties', () => {
-    const mouseeventMock = new MouseEvent('mousemove');
-    component.inputService.userInput = 10;
     component.setEraserProperties(mouseeventMock);
     expect(component.eraser.width).toBe(10);
     expect(component.eraser.height).toBe(10);
