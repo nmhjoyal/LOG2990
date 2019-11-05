@@ -1,7 +1,7 @@
-import { IDrawingTool } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { IStamp } from 'src/app/drawing-view/components/tools/assets/interfaces/stamp-interface';
+import { IDrawingTool } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { IShape } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { IStamp } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/stamp-interface';
 import { ICanvasData } from '../../client/src/app/services/canvas-information/ICanvasData';
 import { ITag } from './ITag';
 
