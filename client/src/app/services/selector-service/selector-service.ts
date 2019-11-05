@@ -1,4 +1,3 @@
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
@@ -6,14 +5,14 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 export class SelectorService {
-  selectedObjects: Set<ITools>;
+  selectedObjects: Set<ISavedDrawing>;
   topCornerX: number;
   topCornerY: number;
   width: number;
   height: number;
 
   constructor() {
-    this.selectedObjects = new Set<ITools>();
+    this.selectedObjects = new Set<ISavedDrawing>();
     this.topCornerX = 0;
     this.topCornerY = 0;
     this.width = 0;
@@ -28,11 +27,11 @@ export class SelectorService {
     return Math.abs(this.height - this.topCornerY);
   }
 
-  get SelectedObjects(): Set<ITools> {
+  get SelectedObjects(): Set<ISavedDrawing> {
     return this.selectedObjects;
   }
 
-  setBoxToDrawing(drawing: ITools): void {
+  setBoxToDrawing(drawing: ISavedDrawing): void {
     let x: number = drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
@@ -72,7 +71,7 @@ export class SelectorService {
     this.topCornerY = previewBoxY + bottomCornerY;
   }
 
-  updateSelectorShape(drawing: ITools): void {
+  updateSelectorShape(drawing: ISavedDrawing): void {
     let x: number = drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
@@ -111,12 +110,12 @@ export class SelectorService {
     this.topCornerY = 0;
   }
 
-  cursorTouchesObject(object: ITools, positionX: number, positionY: number): boolean {
+  cursorTouchesObject(object: ISavedDrawing, positionX: number, positionY: number): boolean {
     return ClickHelper.cursorTouchesObjectBorder(object, positionX, positionY) ||
       ClickHelper.cursorInsideObject(object, positionX, positionY);
   }
 
-  objectInBox(object: ITools, previewBox: IPreviewBox): boolean {
+  objectInBox(object: ISavedDrawing, previewBox: IPreviewBox): boolean {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
 }

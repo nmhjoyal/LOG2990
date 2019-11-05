@@ -1,7 +1,7 @@
 import { ITools } from './itools';
 
 export interface IStampReference {
-    svgReference: string;
+    svgReference?: string;
 }
 
 export interface IStamp extends ITools, IStampReference {
@@ -10,6 +10,7 @@ export interface IStamp extends ITools, IStampReference {
     primaryColour: string;
     centerX: number;
     centerY: number;
+    svgReference?: string;
 }
 
 export interface IStampOptions extends ITools {

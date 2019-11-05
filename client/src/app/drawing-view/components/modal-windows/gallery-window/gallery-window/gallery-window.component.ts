@@ -130,11 +130,11 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
 
   importLocalFile() {
     let files: FileList;
-    if (!!document.getElementById('fileSelect') && document.getElementById('fileSelect').files  ) {
-      files = document.getElementById('fileSelect').files;
+    if (!!document.getElementById('fileSelect') && document.getElementById('fileSelect')!.files  ) {
+      files = document.getElementById('fileSelect')!.files;
     }
 
-    this.loadFile(files[0]).subscribe((fileContent: string) => {
+    this.loadFile(files![0]).subscribe((fileContent: string) => {
       const data = JSON.parse(fileContent);
       console.log(data.shapes);
       console.log(data.canvas);

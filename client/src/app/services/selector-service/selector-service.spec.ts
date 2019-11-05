@@ -2,6 +2,7 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
@@ -35,7 +36,7 @@ describe('SelectorService', () => {
   });
 
   it('should create selector box as drawing', () => {
-    let drawing: ITools;
+    let drawing: ISavedDrawing;
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.setBoxToDrawing(drawing);
     expect(service.topCornerX).toEqual(drawing.x);
