@@ -8,9 +8,9 @@ import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windo
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
-import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colorService: ColorService,
-    public selectorService: SelectorService) {
+    public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -86,31 +86,31 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.c', ['$event']) onKeydownCtrlC(): void {
     if (!this.dialog.openDialogs.length) {
-      this.selectorService.copy();
+      this.clipboardService.copy();
     }
   }
 
   @HostListener('document:keydown.control.v', ['$event']) onKeydownCtrlV(): void {
     if (!this.dialog.openDialogs.length) {
-      this.selectorService.paste(this.cursorX, this.cursorY);
+      this.clipboardService.paste(this.cursorX, this.cursorY);
     }
   }
 
   @HostListener('document:keydown.control.x', ['$event']) onKeydownCtrlX(): void {
     if (!this.dialog.openDialogs.length) {
-      this.selectorService.cut();
+      this.clipboardService.cut();
     }
   }
 
   @HostListener('document:keydown.control.d', ['$event']) onKeydownCtrlD(): void {
     if (!this.dialog.openDialogs.length) {
-      this.selectorService.duplicate();
+      this.clipboardService.duplicate();
     }
   }
 
   @HostListener('document:keydown.backspace', ['$event']) onKeydownBackspace(): void {
     if (!this.dialog.openDialogs.length) {
-      this.selectorService.delete();
+      this.clipboardService.delete();
     }
   }
 

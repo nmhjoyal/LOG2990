@@ -40,19 +40,19 @@
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
                 <div *ngIf="toolHandler.selectorSelected">
-                <a mat-list-item class = "filter" (click) = 'selectorService.copy()'>
+                <a mat-list-item class = "filter" (click) = 'clipboardService.copy()'>
                     <img id = "copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title = "Copier">
                  </a>
-                 <a mat-list-item class = "filter" (click) = 'selectorService.paste()'>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.paste()'>
                     <img id = "paste" class="clipboardIcon" src="../../../assets/lateral-bar/paste.png" title = "Coller">
                  </a>
-                 <a mat-list-item class = "filter" (click) = 'selectorService.cut()'>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.cut()'>
                     <img id = "cut" class="clipboardIcon" src="../../../assets/lateral-bar/cut.png" title = "Couper">
                  </a>
-                 <a mat-list-item class = "filter" (click) = 'selectorService.duplicate()'>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.duplicate()'>
                     <img id = "duplicate" class="clipboardIcon" src="../../../assets/lateral-bar/duplicate.png" title = "Duppliquer">
                  </a>
-                 <a mat-list-item class = "filter" (click) = 'selectorService.delete()'>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.delete()'>
                     <img id = "delete" class="clipboardIcon" src="../../../assets/lateral-bar/delete.png" title = "Supprimer">
                  </a>
                 </div>

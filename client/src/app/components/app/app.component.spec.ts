@@ -3,16 +3,16 @@ import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
-import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let colorMock: SpyObj<ColorService>;
-  let selectorMock: SpyObj<SelectorService>;
+  let clipboardMock: SpyObj<ClipboardService>;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -22,13 +22,13 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    selectorMock = jasmine.createSpyObj('SelectorService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
+    clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorMock, selectorMock);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorMock, clipboardMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
   }));
@@ -107,41 +107,41 @@ describe('AppComponent', () => {
   it('#cut should be called when ctrl.X is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectorSelected = true;
-    selectorMock.cut.and.callThrough();
+    clipboardMock.cut.and.callThrough();
     component.onKeydownCtrlX();
-    expect(selectorMock.cut).toHaveBeenCalled();
+    expect(clipboardMock.cut).toHaveBeenCalled();
   });
 
   it('#copy should be called when ctrl.C is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectorSelected = true;
-    selectorMock.copy.and.callThrough();
+    clipboardMock.copy.and.callThrough();
     component.onKeydownCtrlC();
-    expect(selectorMock.copy).toHaveBeenCalled();
+    expect(clipboardMock.copy).toHaveBeenCalled();
   });
 
   it('#paste should be called when ctrl.V is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectorSelected = true;
-    selectorMock.paste.and.callThrough();
+    clipboardMock.paste.and.callThrough();
     component.onKeydownCtrlV();
-    expect(selectorMock.paste).toHaveBeenCalled();
+    expect(clipboardMock.paste).toHaveBeenCalled();
   });
 
   it('#duplicate should be called when ctrl.D is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectorSelected = true;
-    selectorMock.duplicate.and.callThrough();
+    clipboardMock.duplicate.and.callThrough();
     component.onKeydownCtrlD();
-    expect(selectorMock.duplicate).toHaveBeenCalled();
+    expect(clipboardMock.duplicate).toHaveBeenCalled();
   });
 
   it('#delete should be called when backspace is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectorSelected = true;
-    selectorMock.delete.and.callThrough();
+    clipboardMock.delete.and.callThrough();
     component.onKeydownBackspace();
-    expect(selectorMock.delete).toHaveBeenCalled();
+    expect(clipboardMock.delete).toHaveBeenCalled();
   });
 
 });
