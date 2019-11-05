@@ -1,5 +1,4 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';

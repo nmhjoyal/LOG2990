@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -15,7 +15,10 @@ import { IGalleryModalData } from './IGalleryModalData';
   templateUrl: './gallery-window.component.html',
   styleUrls: ['./gallery-window.component.scss'],
 })
+
 export class GalleryWindowComponent extends ModalWindowComponent implements OnInit {
+
+  @ViewChild('fileInput', { read: false, static: false }) fileInput: ElementRef;
 
   protected drawingsInGallery: IDrawing[] | undefined;
   private selectedDrawing: IDrawing | undefined;
@@ -23,9 +26,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   @Input() filterBy: string[] = ['all'];
   isFinishedLoading: boolean;
   file: Observable<string | ArrayBuffer | null>;
-  files: FileList;
   fileList: FileList;
-  // inputElement: HTMLElement | null;
 
   constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
@@ -48,8 +49,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         }
       },
     );
-    // this.inputElement = document.getElementById('fileSelect')
-
   }
 
   ngOnInit() {
@@ -58,8 +57,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         this.drawingsInGallery = response;
         this.isFinishedLoading = true;
       });
-    // this.inputElement!.addEventListener("change", this.handleFiles);
-
   }
 
   onSelect(drawing: IDrawing): void {
@@ -93,7 +90,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         arr = [];
       }
       const index = arr.indexOf(tagSelected);
-      // tslint:disable-next-line:no-magic-numbers
+      // tslint:disable-next-line: no-magic-numbers
       if (index > -1) {
         arr.splice(index, 1);
       } else {
@@ -116,7 +113,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     return new Observable<string | ArrayBuffer | null>((subscriber) => {
       const fileLoader = new FileReader();
       fileLoader.onload = () => {
-        console.log(file);
         subscriber.next(fileLoader.result);
         subscriber.complete();
       };
@@ -129,16 +125,9 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   }
 
   importLocalFile() {
-    let files: FileList;
-    if (!!document.getElementById('fileSelect') && document.getElementById('fileSelect')!.files  ) {
-      files = document.getElementById('fileSelect')!.files;
-    }
 
-    this.loadFile(files![0]).subscribe((fileContent: string) => {
+    this.loadFile(this.fileInput.nativeElement.files[0]).subscribe((fileContent: string) => {
       const data = JSON.parse(fileContent);
-      console.log(data.shapes);
-      console.log(data.canvas);
-
       this.drawingToOpen = data;
       this.toolHandler.drawings = data.shapes;
       this.canvasData.data = this.drawingToOpen.canvas;
