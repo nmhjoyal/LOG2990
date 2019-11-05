@@ -73,8 +73,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         }
       });
     this.isFinishedSaving = true;
-    console.log(drawingToSave.shapes);
-
     this.onClose();
   }
 
@@ -128,7 +126,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "centerX": currentDrawing.centerX,
         "centerY": currentDrawing.centerY,
       });
-
     });
 
     json.canvas = {
@@ -141,7 +138,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     return json;
   }
 
-  saveToMachine(name: string) {
+  saveToLocal(name: string) {
     const a = document.createElement('a');
     a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(JSON.stringify(this.saveDrawingToJson())));
     a.setAttribute('download', name + '.json');

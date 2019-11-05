@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -78,7 +78,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
           }
         });
     }
-
   }
 
   tagSelected(tagSelected: string): void {
