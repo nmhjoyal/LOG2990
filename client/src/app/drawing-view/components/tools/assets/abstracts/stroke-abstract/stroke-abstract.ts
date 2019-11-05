@@ -3,8 +3,8 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
+import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
-import { ToolConstants } from '../../tool-constants';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {

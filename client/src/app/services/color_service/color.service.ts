@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 

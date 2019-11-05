@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PaintbrushComponent } from './paintbrush.component';
 
 const INITIAL_X = 150;
