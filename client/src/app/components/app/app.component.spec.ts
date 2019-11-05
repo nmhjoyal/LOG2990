@@ -22,7 +22,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    selectorMock = jasmine.createSpyObj('SelectorService', ['copy', 'paste', 'cut', 'duplicate']);
+    selectorMock = jasmine.createSpyObj('SelectorService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
@@ -110,6 +110,38 @@ describe('AppComponent', () => {
     selectorMock.cut.and.callThrough();
     component.onKeydownCtrlX();
     expect(selectorMock.cut).toHaveBeenCalled();
+  });
+
+  it('#copy should be called when ctrl.C is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.selectorSelected = true;
+    selectorMock.copy.and.callThrough();
+    component.onKeydownCtrlC();
+    expect(selectorMock.copy).toHaveBeenCalled();
+  });
+
+  it('#paste should be called when ctrl.V is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.selectorSelected = true;
+    selectorMock.paste.and.callThrough();
+    component.onKeydownCtrlV();
+    expect(selectorMock.paste).toHaveBeenCalled();
+  });
+
+  it('#duplicate should be called when ctrl.D is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.selectorSelected = true;
+    selectorMock.duplicate.and.callThrough();
+    component.onKeydownCtrlD();
+    expect(selectorMock.duplicate).toHaveBeenCalled();
+  });
+
+  it('#delete should be called when backspace is pressed', () => {
+    component.optionsSidebar.opened = false;
+    toolHandlerMock.selectorSelected = true;
+    selectorMock.delete.and.callThrough();
+    component.onKeydownBackspace();
+    expect(selectorMock.delete).toHaveBeenCalled();
   });
 
 });

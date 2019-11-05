@@ -51,77 +51,65 @@ export class SelectorService {
       this.clipboard.forEach((copiedObject) => {
         copiedObject.x += cursorX - this.topCornerX - this.MinWidth / 2 + this.pasteOffset;
         copiedObject.y += cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset;
-        if ((copiedObject.x + this.MinWidth) > window.innerWidth || (copiedObject.y + this.MinHeight) > window.innerHeight) {
-          copiedObject.x -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET / 2;
-          copiedObject.y -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET / 2;
-          this.pasteOffset = 0;
+        if ((copiedObject.x - this.MinWidth) > window.innerWidth || (copiedObject.y - this.MinHeight) > window.innerHeight) {
+          copiedObject.x -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
+          copiedObject.y -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
+          this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
         this.toolService.drawings.push({...copiedObject});
-        // this.SelectedObjects.clear();
-        this.setBoxToDrawing(copiedObject);
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
+      this.copy();
     }
   }
 
   parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools): void {
-    if (copiedObject.points) {
-      const splitPoints = copiedObject.points.split(/[ ,]+/).filter(Boolean);
-      let newPoints = '';
-      for (let i = 0; i < splitPoints.length; i += 2 ) {
-        newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset).toString();
-        newPoints += ',';
-        newPoints += (parseInt(splitPoints[i + 1], 10) + cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset).toString();
-        newPoints += ' ';
-      }
+    let splitPoints: string[] = [];
+    if (copiedObject.hasOwnProperty('points')) {
+      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
+      splitPoints = copiedObject.points!.split(/[ ,]+/).filter(Boolean);
+    }
+    if (copiedObject.hasOwnProperty('vertices')) {
+      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
+      splitPoints = copiedObject.vertices!.split(/[ ,]+/).filter(Boolean);
+    }
+    let newPoints = '';
+    for (let i = 0; i < splitPoints.length; i += 2 ) {
+      newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset).toString()
+      + ','
+      + (parseInt(splitPoints[i + 1], 10) + cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset).toString()
+      + ' ';
+    }
+    if (copiedObject.hasOwnProperty('points')) {
       copiedObject.points = newPoints;
     }
-    if (copiedObject.vertices) {
-      const splitPoints = copiedObject.vertices.split(/[ ,]+/).filter(Boolean);
-      let newPoints = '';
-      for (let i = 0; i < splitPoints.length; i += 2 ) {
-        newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.topCornerX -  this.MinWidth / 2 + this.pasteOffset).toString();
-        newPoints += ',';
-        newPoints += (parseInt(splitPoints[i + 1], 10) + cursorY - this.topCornerY - this.MinHeight / 2 + this.pasteOffset).toString();
-        newPoints += ' ';
-      }
+    if (copiedObject.hasOwnProperty('vertices')) {
       copiedObject.vertices = newPoints;
     }
   }
 
   cut(): void {
-    this.copy();
-    this.delete();
+    if (this.SelectedObjects) {
+      this.copy();
+      this.delete();
+    }
   }
 
   duplicate(): void {
     this.copy();
     this.paste(this.topCornerX + this.MinWidth / 2  + NumericalValues.DUPLICATE_OFFSET,
                this.topCornerY + this.MinHeight / 2 + NumericalValues.DUPLICATE_OFFSET );
-    /*this.SelectedObjects.forEach((selectedObject) => {
-      const copiedObject: ITools = selectedObject;
-      if (copiedObject.x + copiedObject.width > window.innerWidth || copiedObject.y + copiedObject.height > window.innerHeight ) {
-        copiedObject.x -= this.pasteOffset;
-        copiedObject.y -= this.pasteOffset;
-      } else {
-        copiedObject.x += this.pasteOffset;
-        copiedObject.y += this.pasteOffset;
-      }
-      this.toolService.drawings.push({...copiedObject});
-    });*/
   }
 
   delete(): void {
     this.selectedObjects.forEach((element) => {
       const index = this.toolService.drawings.indexOf(element);
-      if (index !== - 1) {
+      if (index !== NumericalValues.NOT_VALID) {
         this.toolService.drawings.splice(index, 1);
-       }
+      }
     });
-    this.resetSelectorService();
-    this.selectedObjects.clear();
   }
 
   get MinWidth(): number {
