@@ -4,7 +4,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { FilterSelection, StampConstants } from '../assets/tool-constants';
+import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
 import { StampComponent } from './stamp.component';
 
 const RANDOM_ANGLE = 77;

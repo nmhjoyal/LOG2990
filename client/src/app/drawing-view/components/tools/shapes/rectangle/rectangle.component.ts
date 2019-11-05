@@ -3,7 +3,7 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 
 @Component({
   selector: 'app-tools-rectangle',

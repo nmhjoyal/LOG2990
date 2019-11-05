@@ -1,6 +1,6 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';

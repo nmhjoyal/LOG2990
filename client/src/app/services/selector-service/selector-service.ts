@@ -1,12 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-
-@Injectable({
-  providedIn: 'root',
-})
 
 export class SelectorService {
   selectedObjects: Set<ITools>;
@@ -36,7 +31,7 @@ export class SelectorService {
   }
 
   setBoxToDrawing(drawing: ITools): void {
-    let x: number = drawing.x;
+    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
@@ -76,7 +71,7 @@ export class SelectorService {
   }
 
   updateSelectorShape(drawing: ITools): void {
-    let x: number = drawing.x;
+    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
