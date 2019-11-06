@@ -7,7 +7,6 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
-import { UserInputService } from '../../services/user-input/user-input.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
@@ -17,8 +16,6 @@ describe('AppComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
-  let inputserviceMock: UserInputService;
-
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
@@ -27,7 +24,7 @@ describe('AppComponent', () => {
     ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock, inputserviceMock);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     toolHandlerMock.textSelected = false;
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
