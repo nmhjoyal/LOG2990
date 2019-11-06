@@ -5,7 +5,6 @@ import { SelectorService } from '../../../../../services/selector-service/select
 import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
 import { IShape, IPreviewBox } from '../../assets/interfaces/shape-interface';
 import { ITools } from '../../assets/interfaces/itools';
-import { UserInputService } from '../../../../../services/user-input/user-input.service';
 
 @Component({
   selector: 'app-eraser',
@@ -14,13 +13,12 @@ import { UserInputService } from '../../../../../services/user-input/user-input.
 })
 export class EraserComponent implements OnInit {
 
-  constructor(public toolService: ToolHandlerService, public selectorService: SelectorService, public colorService: ColorService,
-    public inputService: UserInputService) {
+  constructor(public toolService: ToolHandlerService, public selectorService: SelectorService, public colorService: ColorService) {
   }
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  defaultSize = 10;
+  size = 10;
   leftClicked: boolean;
   eraser: IPreviewBox;
 
@@ -28,13 +26,13 @@ export class EraserComponent implements OnInit {
     this.eraser = {
       x: 0,     // Coordinates next to eraser icon on UI
       y: 460,
-      width: this.defaultSize,
-      height: this.defaultSize};
+      width: this.size,
+      height: this.size};
   }
 
   setEraserProperties(event: MouseEvent): void {
-    this.eraser.height = this.inputService.userInput;
-    this.eraser.width = this.inputService.userInput;
+    this.eraser.height = this.size
+    this.eraser.width = this.size;
     this.eraser.x = ClickHelper.getXPosition(event);
     this.eraser.y = ClickHelper.getYPosition(event);
   }
@@ -68,6 +66,7 @@ export class EraserComponent implements OnInit {
 
   @HostListener('mousedown') mouseDown(): void {
     this.leftClicked = true;
+    console.log(this.toolService.eraserSelected);
     this.eraseObject();
   }
 
