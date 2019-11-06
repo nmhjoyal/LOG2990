@@ -57,11 +57,11 @@ export class ClipboardService {
 
   parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools): void {
     let splitPoints: string[] = [];
-    if (copiedObject.hasOwnProperty('points')) {
+    if ('points' in copiedObject) {
       // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
       splitPoints = copiedObject.points!.split(/[ ,]+/).filter(Boolean);
     }
-    if (copiedObject.hasOwnProperty('vertices')) {
+    if ('vertices' in copiedObject) {
       // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
       splitPoints = copiedObject.vertices!.split(/[ ,]+/).filter(Boolean);
     }

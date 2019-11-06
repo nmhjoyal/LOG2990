@@ -125,8 +125,10 @@ describe('AppComponent', () => {
   it('#duplicate should be called when ctrl.D is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectorSelected = true;
+    const event =  new KeyboardEvent('keydown.control.d');
+    spyOn(event, 'preventDefault');
     clipboardMock.duplicate.and.callThrough();
-    component.onKeydownCtrlD();
+    component.onKeydownCtrlD(event);
     expect(clipboardMock.duplicate).toHaveBeenCalled();
   });
 

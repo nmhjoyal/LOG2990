@@ -103,7 +103,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.control.d', ['$event']) onKeydownCtrlD(): void {
+  @HostListener('document:keydown.control.d', ['$event']) onKeydownCtrlD(event: KeyboardEvent): void {
+    event.preventDefault();
     if (!this.dialog.openDialogs.length) {
       this.clipboardService.duplicate();
     }
