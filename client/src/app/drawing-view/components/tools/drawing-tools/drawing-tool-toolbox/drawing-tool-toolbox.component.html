@@ -48,6 +48,10 @@
         {{getComponent().shape.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
+    <div *ngIf="toolHandler.eraserSelected">
+        <h3>Taille de l'efface</h3>
+        <input type="number" [(ngModel)]="eraserSizeInput" size="1" (click)="toolHandler.chooseEraser()" (keyup.enter)= "getComponent().size = eraserSizeInput; options.toggle()">
+    </div>
     <div *ngIf="toolHandler.stampSelected">
         <div class="filter" (click)="getComponent().setStamp(0)">
             <img id="star" src="../../../../../../assets/stamps/grade-24px.svg" title="Étoile">
