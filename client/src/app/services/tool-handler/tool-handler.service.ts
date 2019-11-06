@@ -175,6 +175,7 @@ export class ToolHandlerService {
   chooseEraser(): void {
     this.resetSelection();
     this.eraserSelected = true;
+    this.noneSelected = false;
   }
   chooseText(): void {
     this.resetSelection();
