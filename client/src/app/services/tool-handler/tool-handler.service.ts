@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
 
@@ -25,6 +25,7 @@ export class ToolHandlerService {
   primaryColorSelected: boolean;
   secondaryColorSelected: boolean;
   stampSelected: boolean;
+  textSelected: boolean;
 ​
   // Color service simulating attributes
   primaryColor: string;
@@ -52,7 +53,7 @@ export class ToolHandlerService {
     this.secondaryColorSelected = false;
     this.stampSelected = false;
     this.ellipseSelected = false;
-    this.eraserSelected = false;
+    this.textSelected = false;
     this.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
     this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
@@ -77,6 +78,7 @@ export class ToolHandlerService {
     this.ellipseSelected = false;
     this.eraserSelected = false;
     this.stampSelected = false;
+    this.textSelected = false;
     this.resetSelectorBox();
   }
 
@@ -173,6 +175,10 @@ export class ToolHandlerService {
   chooseEraser(): void {
     this.resetSelection();
     this.eraserSelected = true;
+  }
+  chooseText(): void {
+    this.resetSelection();
+    this.textSelected = true;
     this.noneSelected = false;
   }
 

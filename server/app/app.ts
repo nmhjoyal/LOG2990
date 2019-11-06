@@ -4,9 +4,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import { inject, injectable } from 'inversify';
 import * as logger from 'morgan';
-
-// tslint:disable: no-require-imports
-import serveFavicon = require('serve-favicon');
+import * as serveFavicon from 'serve-favicon';
 import { DateController } from './controllers/date.controller';
 import { IndexController } from './controllers/index.controller';
 import Types from './types';

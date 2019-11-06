@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
@@ -201,5 +201,12 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(service.colourApplicatorSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
+  });
+
+  it('#chooseText should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseText();
+
+    expect(resetSpy).toHaveBeenCalled();
   });
 });

@@ -3,7 +3,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PolygonComponent } from './polygon.component';
 
 const STROKE_WIDTH = 100;
@@ -13,7 +13,7 @@ const CURSOR_X = 550;
 const CURSOR_Y = 700;
 const VERTEX_NUMBER = 6;
 
-describe('RectangleComponent', () => {
+describe('PolygonComponent', () => {
   let component: PolygonComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<PolygonComponent>;
@@ -144,15 +144,17 @@ describe('RectangleComponent', () => {
       '#decreaseVertexNumber modified shape.verticesNumber when it was already at 3');
   });
 
-  it('#saveShape not save if vertices were not generated', () => {
-    const superSaveSpy = spyOn<ShapeAbstract>(ShapeAbstract.prototype, 'saveShape' as never);
+  it('#saveShape should not save if vertices were not generated', () => {
+    // tslint:disable-next-line:no-any
+    const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();
     expect(superSaveSpy).not.toHaveBeenCalled();
   });
 
   it('#saveShape not save if vertices were not generated', () => {
     component.onShiftUp();
-    const superSaveSpy = spyOn<ShapeAbstract>(ShapeAbstract.prototype, 'saveShape' as never);
+    // tslint:disable-next-line:no-any
+    const superSaveSpy = spyOn<any>(ShapeAbstract.prototype, 'saveShape');
     component.onMouseUp();
     expect(superSaveSpy).toHaveBeenCalled();
   });

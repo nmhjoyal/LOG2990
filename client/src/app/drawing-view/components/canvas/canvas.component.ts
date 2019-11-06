@@ -6,9 +6,9 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
+import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { Id, ToolConstants } from '../tools/assets/tool-constants';
 
 @Component({
   selector: 'app-canvas',
@@ -80,20 +80,7 @@ export class CanvasComponent {
   }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {
-    switch (shape.id) {
-      case (Id.RECTANGLE):
-        return (ClickHelper.getXPosition(event) <= shape.x + shape.strokeWidth ||
-          ClickHelper.getYPosition(event) <= shape.y + shape.strokeWidth ||
-          ClickHelper.getXPosition(event) >= shape.x + shape.width - shape.strokeWidth ||
-          ClickHelper.getYPosition(event) >= shape.y + shape.height - shape.strokeWidth);
-      case (Id.ELLIPSE):
-        // tslint:disable:no-magic-numbers
-        return (Math.pow(ClickHelper.getXPosition(event) - shape.x, 2) / Math.pow(shape.width - shape.strokeWidth, 2) +
-          Math.pow(ClickHelper.getYPosition(event) - shape.y, 2) / Math.pow(shape.height - shape.strokeWidth, 2)) >= 1;
-      // tslint:enable:no-magic-numbers
-      default:
-        return false;
-    }
+    return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
   }
 
 }

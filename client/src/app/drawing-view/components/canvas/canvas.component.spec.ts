@@ -1,8 +1,7 @@
 import SpyObj = jasmine.SpyObj;
-
 import { HttpClientModule } from '@angular/common/http';
 import { Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
   MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
@@ -20,15 +19,15 @@ import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
+import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { Id, ToolConstants } from '../tools/assets/tool-constants';
 import { CanvasComponent } from './canvas.component';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
-  const mockColourService: ColorService = new ColorService();
-  const mockToolService: ToolHandlerService = new ToolHandlerService(mockColourService);
+  let mockColourService: ColorService;
+  let mockToolService: ToolHandlerService;
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
   const testObject: IShape = { x: 1,
@@ -58,7 +57,9 @@ describe('CanvasComponent', () => {
       height: 0,
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
+    mockColourService = new ColorService();
+    mockToolService = new ToolHandlerService(mockColourService);
     TestBed.configureTestingModule({
       imports: [
         MatListModule,
@@ -92,7 +93,7 @@ describe('CanvasComponent', () => {
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
-  }));
+  });
 
   it('should properly create the component', () => {
     expect(component).toBeDefined();

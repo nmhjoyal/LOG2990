@@ -1,10 +1,10 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from '../../../../../../services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
-import { IPreviewBox, IShape } from '../../interfaces/shape-interface';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDestroy {

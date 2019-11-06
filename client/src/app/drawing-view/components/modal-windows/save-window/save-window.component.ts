@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { IndexService } from 'src/app/services/index/index.service';
@@ -29,7 +29,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.isFinishedSaving = true;
     this.index.getTags().subscribe(
-      (response: ITag[]) => {
+      (response: ITag[] | undefined) => {
         if (response) {
           this.data.displayedTags = response;
         } else {
@@ -39,29 +39,26 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     );
   }
 
-  @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
-    event.preventDefault();
-  }
-
   ngOnInit(): void {
     this.drawing = this.toolHandler.drawings;
   }
 
   onAcceptClick(): void {
-    let test: IDrawing;
     const date = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-    test = { name: this.name, preview: this.preview, timestamp: date, shapes: this.drawing, canvas: this.canvasData.data };
+    const drawingToSave: IDrawing = {
+      name: this.name, timestamp: date,
+      shapes: this.drawing, canvas: this.canvasData.data, tags: [],
+    };
     this.isFinishedSaving = false;
     this.data.displayedTags.forEach((tag) => {
       if (tag.isSelected) {
-        tag.isSelected = !tag.isSelected;
-        if (!test.tags) {
-          test.tags = [];
-        }
-        test.tags.push(tag);
+        this.clickOnTag(tag);
+        // tags should never be undefined as they're initialized to a new empty array in drawingToSave declaration
+        // tslint:disable-next-line: no-non-null-assertion
+        drawingToSave.tags!.push(tag);
         this.index.saveTag(tag).subscribe(
-          (response: boolean) => {
-            if (!response) {
+          (response: boolean | undefined) => {
+            if (response === undefined) {
               confirm('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
             }
           },
@@ -69,8 +66,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       }
     });
 
-    this.index.saveDrawing(test).subscribe(
-      (response: boolean) => {
+    this.index.saveDrawing(drawingToSave).subscribe(
+      (response: boolean | undefined) => {
         if (!response) {
           confirm('Il y a eu une erreur lors de la sauvegarde du dessin.');
         }
