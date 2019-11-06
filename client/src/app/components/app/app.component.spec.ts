@@ -1,12 +1,13 @@
 import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
-import { INewDrawingModalData } from 'src/app/drawing-view/components/new-drawing-window/INewDrawingModalData';
+import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { AppComponent } from './app.component';
 import { Gridservice } from '../../services/grid/grid.service';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
@@ -14,6 +15,7 @@ describe('AppComponent', () => {
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
+  let canvasMock: SpyObj<CanvasInformationService>;
   let component: AppComponent;
   let gridServiceMock: SpyObj<Gridservice>;
 
@@ -22,10 +24,14 @@ describe('AppComponent', () => {
     colorServiceMock = jasmine.createSpyObj('ColorService', ['switchColors']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
-    ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse']);
+    ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
-    component = new AppComponent(dialogMock, serviceMock, colorServiceMock, toolHandlerMock, dataMock, gridServiceMock);
-
+    canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorServiceMock, gridServiceMock);
+    spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
+    toolHandlerMock.textSelected = false;
+    component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
+    component.optionsSidebar.opened = false;
   }));
 
   it('should create', () => {
@@ -63,11 +69,12 @@ describe('AppComponent', () => {
   it('should only resetSelection when colourApplicator not selected', () => {
     toolHandlerMock.colourApplicatorSelected = true;
     toolHandlerMock.resetSelection.and.callThrough();
-    component.switchColours();
+    component.switchColors();
     expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
+    toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
@@ -88,6 +95,12 @@ describe('AppComponent', () => {
     toolHandlerMock.chooseEllipse.and.callThrough();
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
+  });
+
+  it('#chooseText should be called when t is pressed', () => {
+    toolHandlerMock.chooseText.and.callThrough();
+    component.onKeydownTEvent();
+    expect(toolHandlerMock.chooseText).toHaveBeenCalled();
   });
 
 });

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { RectangleComponent } from './rectangle.component';
 
 const STROKE_WIDTH = 10;
@@ -88,20 +88,6 @@ describe('RectangleComponent', () => {
       'the traceMode was not successfully saved upon destruction');
     expect(attrService.rectangleAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
 
-  });
-
-  it('#calculateDimensions should make shape.width and height 0 only if strokeWidth is too big', () => {
-    const enormousStrokeWidth = 1000;
-    component['shape'].strokeWidth = enormousStrokeWidth;
-    // Note: the previewBox.width/height is CURSOR_X/Y - INITIAL_X/Y, so 400/500
-    component.onShiftUp();
-    expect(component['shape'].width).toBe(0, 'shape.width != 0 when strokewidth is too big');
-    expect(component['shape'].height).toBe(0, 'shape.height != 0 when strokewidth is too big');
-
-    component['shape'].strokeWidth = STROKE_WIDTH;
-    component.onShiftUp();
-    expect(component['shape'].width).not.toBe(0, 'shape.width = 0 when strokewidth is not too big');
-    expect(component['shape'].height).not.toBe(0, 'shape.height = 0 when strokewidth is not too big');
   });
 
   it('#calculateDimensions should make both the width and height equals to the smallest of the two when shift is pressed', () => {

@@ -1,32 +1,25 @@
 import { Injectable } from '@angular/core';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class Gridservice {
 
-  i = 1;
-  status = ['visible', 'hidden'];
+  gridStatus: boolean;
+  gridOpacity: number;
+  gridSize: number;
 
-  // strings received from app component (user input)
-
-  userInputOpacity: string;
-  userInputGridSize: string;
+  constructor() {
+    this.gridStatus = false;
+    this.gridOpacity = 1;
+    this.gridSize = 1;
+  }
 
   toggleGrid(): void {
-    this.i = 1 - this.i;
+    this.gridStatus = !this.gridStatus;
   }
-
-  // Returns an object for [ngStyle]
-  ngPathObject(): object {
-      const pathString = '"M' + this.userInputGridSize + ',0 L0,0 0,' + this.userInputGridSize + '"';
-      const cssPath = 'path(' + pathString + ')';
-      return {d: cssPath};
-  }
-
-//
-
-//
 
 // Functional but code smell size setter
 
@@ -34,13 +27,41 @@ export class Gridservice {
     const gridElement = document.getElementById('smallGrid');
     const pathElement = document.getElementById('myPath');
     const value = (document.getElementById('sizeInput') as HTMLInputElement).value;
-    const pathValue = "M"+ value + ",0 L0,0 0," + value;
+    const pathValue = 'M' + value + ',0 L0,0 0,' + value;
 
     if (gridElement && pathElement) {
-      pathElement.setAttribute("d", pathValue);
-      gridElement.setAttribute("width", value);
-      gridElement.setAttribute("height", value);
+      pathElement.setAttribute('d', pathValue);
+      gridElement.setAttribute('width', value);
+      gridElement.setAttribute('height', value);
     }
 
   }
+
+  setStyle(): object {
+    return {opacity: this.gridOpacity,
+      visibility : this.gridStatus};
+  }
+/*
+  setSizePath(): object {
+    return this.ngPathObject();
+  }
+*/
+  setSizePattern(): object {
+    return {width: this.gridOpacity,
+      height: this.gridSize};
+  }
+
+  decreaseSize(): void {
+    if (this.gridSize > NumericalValues.MIN_GRID_SIZE) {
+      this.gridSize--;
+      }
+  }
+
+  increaseSize(): void {
+    if (this.gridSize < NumericalValues.MAX_GRID_SIZE) {
+      this.gridSize++;
+      }
+  }
+
+  // End grid methods
 }

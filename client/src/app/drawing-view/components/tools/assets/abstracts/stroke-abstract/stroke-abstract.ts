@@ -1,9 +1,10 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
+import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
-import { ToolConstants } from '../../tool-constants';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
@@ -64,21 +65,21 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     this.mouseDown = true;
-    this.stroke.points = event.offsetX + ',' + event.offsetY;
-    this.x = event.offsetX;
-    this.y = event.offsetY;
+    this.stroke.points = ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event);
+    this.x = ClickHelper.getXPosition(event);
+    this.y = ClickHelper.getYPosition(event);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
-      this.stroke.points += (' ' + event.offsetX + ',' + event.offsetY);
+      this.stroke.points += (' ' + ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event));
     }
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(event: MouseEvent): void {
 
-    if (this.x === event.offsetX && this.y === event.offsetY) {
-      this.stroke.points += (' ' + (event.offsetX) + ',' + (event.offsetY));
+    if (this.x === ClickHelper.getXPosition(event) && this.y === ClickHelper.getYPosition(event)) {
+      this.stroke.points += (' ' + (ClickHelper.getXPosition(event)) + ',' + (ClickHelper.getYPosition(event)));
     }
     this.getPositionAndDimensions();
     this.saveShape();

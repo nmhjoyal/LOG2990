@@ -1,6 +1,7 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../attributes/attributes.service';
@@ -66,8 +67,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
         this.cursorX = this.initialX;
         this.cursorY = this.initialY;
       } else {
-        this.cursorX = event.offsetX;
-        this.cursorY = event.offsetY;
+        this.cursorX = ClickHelper.getXPosition(event);
+        this.cursorY = ClickHelper.getYPosition(event);
       }
       this.stroke.points = this.previewPoints + ' ' + this.cursorX + ',' + this.cursorY;
     }
@@ -75,11 +76,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     if (!this.started) {
-      this.initialX = event.offsetX;
-      this.initialY = event.offsetY;
+      this.initialX = ClickHelper.getXPosition(event);
+      this.initialY = ClickHelper.getYPosition(event);
       this.started = true;
-      this.stroke.points = ' ' + event.offsetX + ',' + event.offsetY;
-      this.previewPoints.push(' ' + event.offsetX + ',' + event.offsetY);
+      this.stroke.points = ' ' + ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event);
+      this.previewPoints.push(' ' + ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event));
     } else {
       this.addSegment();
     }

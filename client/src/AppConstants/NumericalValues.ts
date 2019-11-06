@@ -7,4 +7,6 @@ export class NumericalValues {
     static HEX_LENGTH = 16;
     static HEX_NO_ALPHA = 7;
     static TWO = 2;
+    static MAX_GRID_SIZE = 10;
+    static MIN_GRID_SIZE = 1;
 }

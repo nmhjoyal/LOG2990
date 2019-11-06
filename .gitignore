@@ -1,0 +1,15 @@
+#ignoring .vscode folder but we keep some files for debuging
+/.vscode/chrome
+/.vs/
+/.vscode/
+/.idea/
+
+# ignoring node_module changes; these should be rebuilt locally and not cloned 
+/node_modules
+
+# Extra files to ignore
+package-lock.json
+client/karma.conf.js
+stats.html
+yarn.lock
+node_modules

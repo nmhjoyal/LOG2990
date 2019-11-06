@@ -1,5 +1,7 @@
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
@@ -22,6 +24,16 @@ describe('SelectorService', () => {
     expect(service.height).toEqual(0);
   });
 
+  it('should be created with correct initialized values', () => {
+    expect(service).toBeTruthy();
+    expect(service.selectedObjects).toBeDefined();
+    expect(service.SelectedObjects).toEqual(service.selectedObjects);
+    expect(service.topCornerX).toEqual(0);
+    expect(service.topCornerY).toEqual(0);
+    expect(service.width).toEqual(0);
+    expect(service.height).toEqual(0);
+  });
+
   it('should create selector box as drawing', () => {
     let drawing: ITools;
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
@@ -32,11 +44,30 @@ describe('SelectorService', () => {
     expect(service.MinHeight).toEqual(drawing.height);
     expect(service.width).toEqual(drawing.x + drawing.width);
     expect(service.height).toEqual(drawing.y + drawing.height);
+    drawing = { boxXPosition: FIFTY, x: FORTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
+    service.setBoxToDrawing(drawing);
+    expect(service.topCornerY).toEqual(drawing.y);
+    expect(service.MinWidth).toEqual(drawing.width);
+    expect(service.MinHeight).toEqual(drawing.height);
+    if (drawing.boxXPosition !== undefined) {
+      expect(service.topCornerX).toEqual(drawing.boxXPosition);
+      expect(service.width).toEqual(drawing.boxXPosition + drawing.width);
+    }
+    expect(service.height).toEqual(drawing.y + drawing.height);
+    drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
+    service.setBoxToDrawing(drawing);
+    expect(service.topCornerX).toEqual(drawing.x - drawing.width);
+    expect(service.topCornerY).toEqual(drawing.y - drawing.height);
+    expect(service.MinWidth).toEqual(drawing.width * TWICE);
+    expect(service.MinHeight).toEqual(drawing.height * TWICE);
+    expect(service.width).toEqual(drawing.x - drawing.width + (drawing.width * TWICE));
+    expect(service.height).toEqual(drawing.y - drawing.height + (drawing.height * TWICE));
   });
 
   it('should check for items, add when not in reverse and delete if in reverse', () => {
     spyOn(service, 'updateSelectorShape').and.callFake(() => { return; });
-    spyOn(service, 'objectInBox').and.returnValue(true);
+    const objectInBox = spyOn(service, 'objectInBox');
+    objectInBox.and.returnValue(true);
     const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     const drawings = [];
@@ -49,10 +80,16 @@ describe('SelectorService', () => {
     expect(service.selectedObjects.size).toEqual(0);
     service.checkForItems(false, drawings, box);
     expect(service.selectedObjects.size).toEqual(TWICE);
+    objectInBox.and.returnValue(false);
+    service.checkForItems(false, drawings, box);
+    expect(service.selectedObjects.size).toEqual(0);
   });
 
   it('should update corners depending on direction or drag', () => {
     service.updateCorners(FIFTY, FORTY, FORTY, FIFTY, ONE_HUNDRED, ONE_HUNDRED);
+    expect(service.topCornerX).toEqual(FIFTY + ONE_HUNDRED);
+    expect(service.topCornerY).toEqual(FIFTY + ONE_HUNDRED);
+    service.updateCorners(FORTY, FIFTY, FIFTY, FORTY, ONE_HUNDRED, ONE_HUNDRED);
     expect(service.topCornerX).toEqual(FIFTY + ONE_HUNDRED);
     expect(service.topCornerY).toEqual(FIFTY + ONE_HUNDRED);
   });
@@ -68,6 +105,14 @@ describe('SelectorService', () => {
     expect(service.topCornerX).toEqual(FORTY);
     expect(service.topCornerY).toEqual(drawing.y);
     expect(service.width).toEqual(drawing.x + drawing.width);
+    expect(service.height).toEqual(ONE_HUNDRED);
+    drawing = { boxXPosition: FIFTY, x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
+    service.updateSelectorShape(drawing);
+    expect(service.topCornerX).toEqual(FORTY);
+    expect(service.topCornerY).toEqual(drawing.y);
+    if (drawing.boxXPosition !== undefined) {
+      expect(service.width).toEqual(drawing.boxXPosition + drawing.width);
+    }
     expect(service.height).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.topCornerX = FIFTY;
@@ -119,32 +164,31 @@ describe('SelectorService', () => {
     expect(service.topCornerY).toEqual(0);
   });
 
-  it('should confirm cursor touches object', () => {
-    let object: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
-    expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
-    expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
-    object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '50,50 50,51 51,50 51,51' };
-    expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeTruthy();
-    expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeFalsy();
-    object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FIFTY / TWICE, height: FIFTY / TWICE, id: Id.ELLIPSE };
-    expect(service.cursorTouchesObject(object, FIFTY, FIFTY)).toBeFalsy();
-    expect(service.cursorTouchesObject(object, FORTY, FORTY)).toBeTruthy();
+  it('should return true if cursor click inside object or on border', () => {
+    const drawing: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    const cursorOnBorder = spyOn(ClickHelper, 'cursorTouchesObjectBorder');
+    const cursorInObject = spyOn(ClickHelper, 'cursorInsideObject');
+    cursorOnBorder.and.returnValue(true);
+    cursorInObject.and.returnValue(true);
+    expect(service.cursorTouchesObject(drawing, FIFTY, FIFTY)).toBeTruthy();
+    cursorOnBorder.and.returnValue(false);
+    cursorInObject.and.returnValue(true);
+    expect(service.cursorTouchesObject(drawing, FIFTY, FIFTY)).toBeTruthy();
+    cursorOnBorder.and.returnValue(true);
+    cursorInObject.and.returnValue(false);
+    expect(service.cursorTouchesObject(drawing, FIFTY, FIFTY)).toBeTruthy();
+    cursorOnBorder.and.returnValue(false);
+    cursorInObject.and.returnValue(false);
+    expect(service.cursorTouchesObject(drawing, FIFTY, FIFTY)).toBeFalsy();
   });
 
-  it('should confirm selection box intersects object', () => {
-    let object: ITools = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
-    let box = { x: ONE_HUNDRED, y: ONE_HUNDRED, width: FORTY, height: FORTY };
-    expect(service.objectInBox(object, box)).toBeFalsy();
-    object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40' };
-    expect(service.objectInBox(object, box)).toBeFalsy();
-    object = { x: FIFTY / TWICE, y: FIFTY / TWICE, width: FORTY / TWICE, height: FORTY / TWICE, id: Id.ELLIPSE };
-    expect(service.objectInBox(object, box)).toBeFalsy();
-    box = { x: FORTY, y: FORTY, width: ONE_HUNDRED, height: ONE_HUNDRED };
-    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.RECTANGLE };
-    expect(service.objectInBox(object, box)).toBeTruthy();
-    object = { x: 0, y: 0, width: 0, height: 0, id: Id.CRAYON, points: '40,40 40,41 41,40 41,41' };
-    expect(service.objectInBox(object, box)).toBeTruthy();
-    object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.ELLIPSE };
-    expect(service.objectInBox(object, box)).toBeTruthy();
+  it('should return true if object shares area with selector', () => {
+    const drawing: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    const previewBox: IPreviewBox = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY };
+    const objectSharesBox = spyOn(ClickHelper, 'objectSharesBoxArea');
+    objectSharesBox.and.returnValue(true);
+    expect(service.objectInBox(drawing, previewBox)).toBeTruthy();
+    objectSharesBox.and.returnValue(false);
+    expect(service.objectInBox(drawing, previewBox)).toBeFalsy();
   });
 });
