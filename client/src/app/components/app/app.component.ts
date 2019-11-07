@@ -16,6 +16,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
     protected toolHandler: ToolHandlerService,
+    protected drawingStorage: DrawingStorageService,
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colorService: ColorService,
@@ -139,7 +141,7 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      if (!this.toolHandler.seeDrawings().length) {
+      if (!this.drawingStorage.drawings.length) {
         this.openGalleryWindow();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openGalleryWindow();
@@ -167,7 +169,7 @@ export class AppComponent implements OnInit {
 
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
-      if (!this.toolHandler.seeDrawings().length) {
+      if (!this.drawingStorage.drawings.length) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openNewDrawingDialog();
@@ -234,7 +236,7 @@ export class AppComponent implements OnInit {
   switchColors(): void {
     this.colorService.switchColors();
     if (!(this.toolHandler.selectedTool === this.toolHandler.tools.COLOUR_APPLICATOR)) {
-      this.toolHandler.resetSelection();
+      this.toolHandler.resetToolSelection();
     }
   }
 }

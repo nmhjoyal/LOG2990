@@ -9,12 +9,14 @@ import { LocalStorageService } from 'src/app/services/local_storage/local-storag
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let colorMock: SpyObj<ColorService>;
   let clipboardMock: SpyObj<ClipboardService>;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let drawingStorageMock: SpyObj<DrawingStorageService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
@@ -27,10 +29,11 @@ describe('AppComponent', () => {
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
-    ['resetSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText']);
+    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText']);
+    drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'])
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, dataMock, canvasMock, colorMock, clipboardMock);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock, dataMock, canvasMock, colorMock, clipboardMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;

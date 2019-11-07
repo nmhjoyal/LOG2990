@@ -9,6 +9,7 @@ import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstr
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-canvas',
@@ -21,7 +22,7 @@ export class CanvasComponent {
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-    public toolHandler: ToolHandlerService, protected canvasData: CanvasInformationService, public colorService: ColorService) {
+    public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService, protected canvasData: CanvasInformationService, public colorService: ColorService) {
   }
 
   applyColourToCanvas(): void {

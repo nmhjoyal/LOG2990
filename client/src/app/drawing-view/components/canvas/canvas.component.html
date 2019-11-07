@@ -26,7 +26,7 @@
     </filter>  
     
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
-    <g *ngFor = "let drawing of toolHandler.seeDrawings()">
+    <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
