@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 
 @Injectable({
   providedIn: 'root'

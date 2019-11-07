@@ -69,7 +69,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         centerX: ClickHelper.getXPosition(event),
         centerY: ClickHelper.getYPosition(event),
       };
-      this.toolServiceRef.drawings.push(createdStamp);
+      this.toolServiceRef.saveDrawing(createdStamp);
     }
   }
 

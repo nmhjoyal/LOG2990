@@ -196,7 +196,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
         height: this.text.height,
         boxXPosition: this.boxX,
       };
-      this.toolServiceRef.drawings.push(createdText);
+      this.toolServiceRef.saveDrawing(createdText);
       this.resetText();
     }
   }

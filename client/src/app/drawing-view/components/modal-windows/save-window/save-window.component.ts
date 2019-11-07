@@ -40,7 +40,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   }
 
   ngOnInit(): void {
-    this.drawing = this.toolHandler.drawings;
+    this.drawing = this.toolHandler.seeDrawings();
   }
 
   onAcceptClick(): void {

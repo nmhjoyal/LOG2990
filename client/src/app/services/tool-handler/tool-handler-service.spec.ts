@@ -118,6 +118,12 @@ describe('ToolHandlerService', () => {
     expect(drawingServiceMock.selectorBoxExists).toHaveBeenCalled();
   });
 
+  it('#isUsingText should return true if text is selected', () => {
+    expect(service.isUsingText()).toBe(false);
+    service.selectedTool = service.tools.TEXT;
+    expect(service.isUsingText()).toBe(true);
+  });
+
   it('#chooseRectangle should call #resetSelection and select the rectangle', () => {
     const resetSpy = spyOn(service, 'resetSelection');
     service.chooseRectangle();

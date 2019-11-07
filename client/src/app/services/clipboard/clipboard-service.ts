@@ -47,7 +47,7 @@ export class ClipboardService {
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
-        this.toolService.drawings.push({...copiedObject});
+        this.toolService.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -97,9 +97,9 @@ export class ClipboardService {
 
   delete(): void {
     this.selectorService.selectedObjects.forEach((element) => {
-      const index = this.toolService.drawings.indexOf(element);
+      const index = this.toolService.seeDrawings().indexOf(element);
       if (index !== NumericalValues.NOT_VALID) {
-        this.toolService.drawings.splice(index, 1);
+        this.toolService.seeDrawings().splice(index, 1);
       }
     });
   }

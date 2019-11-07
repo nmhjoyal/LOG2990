@@ -50,6 +50,10 @@ export class ToolHandlerService {
   seeDrawings(): ITools[] {
     return this.drawingStorage.seeDrawings();
   }
+
+  setDrawings(array: ITools[]): void {
+    this.drawingStorage.drawings = array;
+  }
   
   emptyDrawings(): void {
     this.drawingStorage.emptyDrawings();
@@ -71,6 +75,10 @@ export class ToolHandlerService {
     return this.drawingStorage.selectorBoxExists();
   }
 
+  isUsingText() : boolean {
+    return this.selectedTool === this.tools.TEXT;
+  }
+  
   // Tool selecting methods
 ​
   chooseRectangle(): void {

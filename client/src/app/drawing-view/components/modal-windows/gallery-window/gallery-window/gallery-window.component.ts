@@ -63,7 +63,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         (response: IDrawing | undefined) => {
           if (response) {
             this.drawingToOpen = response;
-            this.toolHandler.drawings = this.drawingToOpen.shapes;
+            this.toolHandler.setDrawings(this.drawingToOpen.shapes);
             this.canvasData.data = this.drawingToOpen.canvas;
           } else {
             confirm('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.');
