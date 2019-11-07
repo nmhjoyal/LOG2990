@@ -51,6 +51,7 @@ class SelectorServiceMock extends SelectorService {
     }
   }
 
+  // tslint:disable:no-string-litterals
 describe('SelectorComponent', () => {
     const TWICE = 2;
     let selector: SelectorComponent;
@@ -219,7 +220,7 @@ describe('SelectorComponent', () => {
         selector.onRelease(leftRelease);
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();
-        toolServiceMock.drawings = [];
+        selector['drawingStorage'].drawings = [];
         selector.onMouseDown(leftClick);
         selector.onRelease(leftRelease);
         expect(toolServiceMock.resetSelectorBox).toHaveBeenCalled();
@@ -236,7 +237,7 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
         selectorBoxExists.and.returnValue(false);
-        toolServiceMock.drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
+        selector['drawingStorage'].drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
         selector.onMouseDown(rightClick);
         selector.onRelease(rightRelease);
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();

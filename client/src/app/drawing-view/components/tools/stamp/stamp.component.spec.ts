@@ -2,10 +2,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
 import { StampComponent } from './stamp.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const RANDOM_ANGLE = 77;
 const NUMBER_OF_STAMPS = 6; // number of elements in FilterSelection in assets/tool-constants
@@ -18,7 +18,7 @@ describe('StampComponent', () => {
     let component: StampComponent;
     let attrService: AttributesService;
     let fixture: ComponentFixture<StampComponent>;
-    const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
+    const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
     const attributesService: AttributesService = new AttributesService();
     const colorServiceMock: ColorService = jasmine.createSpyObj('ColorService', ['']);
 
@@ -27,7 +27,7 @@ describe('StampComponent', () => {
       imports: [BrowserDynamicTestingModule],
       declarations: [StampComponent],
       providers: [
-      { provide: ToolHandlerService, useValue: toolServiceMock, },
+      { provide: DrawingStorageService, useValue: drawingStorageMock, },
       { provide: AttributesService, useValue: attributesService, },
       { provide: ColorService, useValue: colorServiceMock, },
       ],
@@ -87,8 +87,8 @@ describe('StampComponent', () => {
   });
 
   it('#onLeftClick only saves the stamp when an svgReference was chosen for it', () => {
-    component['toolServiceRef'].drawings = [];
-    const savingSpy = spyOn(component['toolServiceRef'].drawings, 'push');
+    component['drawingStorage'].drawings = [];
+    const savingSpy = spyOn(component['drawingStorage'].drawings, 'push');
     component.stamp.svgReference = '';
     const clickEvent: MouseEvent = new MouseEvent('click');
     component.onLeftClick(clickEvent);

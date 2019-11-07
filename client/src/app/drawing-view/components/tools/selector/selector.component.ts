@@ -6,6 +6,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-tools-selector',
@@ -17,9 +18,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, protected colorService: ColorService,
+  constructor(public toolService: ToolHandlerService, drawingStorageRef: DrawingStorageService, attributesServiceRef: AttributesService, protected colorService: ColorService,
     protected selectorService: SelectorService) {
-    super(toolServiceRef, attributesServiceRef, colorService);
+    super(drawingStorageRef, attributesServiceRef, colorService);
     this.shape.strokeWidth = 1;
     this.shape.primaryColor = 'black';
     this.shape.fillOpacity = 0;
@@ -94,7 +95,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       this.mouseMoved = true;
       this.selectorService.resetSize();
       this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.seeDrawings(), this.previewBox);
+      this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
       if (this.isReverseSelection) {
         this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
       }
@@ -136,7 +137,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   protected leftClick(event: MouseEvent): void {
-    for (const drawing of this.toolService.seeDrawings()) {
+    for (const drawing of this.drawingStorage.drawings) {
       if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         this.selectorService.SelectedObjects.clear();
         this.selectorService.SelectedObjects.add(drawing);
@@ -151,7 +152,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   protected rightClick(event: MouseEvent): void {
-    for (const drawing of this.toolService.seeDrawings()) {
+    for (const drawing of this.drawingStorage.drawings) {
       if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         if (this.selectorService.SelectedObjects.has(drawing)) {
           this.selectorService.selectedObjects.delete(drawing);

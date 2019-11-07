@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { EllipseComponent } from './ellipse.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const STROKE_WIDTH = 10;
 const INITIAL_X = 150;
@@ -16,14 +16,14 @@ describe('EllipseComponent', () => {
   let component: EllipseComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<EllipseComponent>;
-  const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
+  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [EllipseComponent],
       providers: [
-        { provide: ToolHandlerService, useValue: toolServiceMock, },
+        { provide: DrawingStorageService, useValue: drawingStorageMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })
