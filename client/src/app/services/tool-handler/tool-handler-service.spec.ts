@@ -247,8 +247,8 @@ describe('ToolHandlerService', () => {
     expect(drawingsSpy).toHaveBeenCalled();
   });
 
-  it('#saveDrawing should push a drawing into drawings and set accessingundoList' + 
-      'to false and empty the undoList if it is true', () => {
+  it('#saveDrawing should push a drawing into drawings and set accessingundoList ' + 
+      'to false and empty the undoList if it was true', () => {
     const dummyDrawing: ITools = {
       id: '',
       x: 0,
