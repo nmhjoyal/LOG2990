@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service'
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,7 @@ export class ToolHandlerService {
   primaryColor: string;
   secondaryColor: string;
 
-  constructor(public colorService: ColorService, public drawingStorage: DrawingStorageService) {
+  constructor(public colorService: ColorService) {
     this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
     this.selectedTool = this.tools.NONE;

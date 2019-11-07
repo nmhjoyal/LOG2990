@@ -2,29 +2,29 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Alignments, AlignmentType, FontFamilies, TextConstants } from '../assets/constants/text-constants';
 import { TextComponent } from './text.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('TextComponent', () => {
     let textComponent: TextComponent;
     let attrService: AttributesService;
     let fixture: ComponentFixture<TextComponent>;
-    let toolServiceMock: ToolHandlerService;
+    let drawingStorageMock: DrawingStorageService;
     let attributesServiceMock: AttributesService;
     let colourServiceMock: ColorService;
 
     beforeEach((() => {
         attributesServiceMock = new AttributesService();
         colourServiceMock = new ColorService();
-        toolServiceMock = new ToolHandlerService(colourServiceMock);
+        drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
         TestBed.configureTestingModule({
             imports: [BrowserDynamicTestingModule],
             declarations: [TextComponent],
             providers: [
-            { provide: ToolHandlerService, useValue: toolServiceMock, },
+            { provide: DrawingStorageService, useValue: drawingStorageMock, },
             { provide: AttributesService, useValue: attributesServiceMock, },
             { provide: ColorService, useValue: colourServiceMock, },
             ],
@@ -93,13 +93,13 @@ describe('TextComponent', () => {
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(toolServiceMock.drawings.length).toEqual(1);
+        expect(drawingStorageMock.drawings.length).toEqual(1);
 
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(toolServiceMock.drawings.length).toEqual(1);
+        expect(drawingStorageMock.drawings.length).toEqual(1);
     });
 
     it('click inside of text box should not save text to drawings', () => {
@@ -112,7 +112,7 @@ describe('TextComponent', () => {
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(toolServiceMock.drawings.length).toEqual(0);
+        expect(drawingStorageMock.drawings.length).toEqual(0);
     });
 
     it('should create new line and pop to previous on backspace', () => {

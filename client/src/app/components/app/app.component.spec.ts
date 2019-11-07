@@ -73,9 +73,9 @@ describe('AppComponent', () => {
 
   it('should only resetSelection when colourApplicator not selected', () => {
     toolHandlerMock.selectedTool = toolId.COLOUR_APPLICATOR;
-    toolHandlerMock.resetSelection.and.callThrough();
+    toolHandlerMock.resetToolSelection.and.callThrough();
     component.switchColors();
-    expect(toolHandlerMock.resetSelection).not.toHaveBeenCalled();
+    expect(toolHandlerMock.resetToolSelection).not.toHaveBeenCalled();
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
