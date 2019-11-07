@@ -19,10 +19,19 @@ export class Gridservice {
 
   toggleGrid(): void {
     this.gridStatus = !this.gridStatus;
+    this.setGrid();
+  }
+
+  setGrid(): void {
+    if (this.gridStatus) {
+      this.gridOpacity = this.gridOpacity;
+    } else {
+      this.gridOpacity = 0;
+    }
   }
 
 // Functional but code smell size setter
-
+/*
   setSizeSmell(): void {
     const gridElement = document.getElementById('smallGrid');
     const pathElement = document.getElementById('myPath');
@@ -35,21 +44,7 @@ export class Gridservice {
       gridElement.setAttribute('height', value);
     }
 
-  }
-
-  setStyle(): object {
-    return {opacity: this.gridOpacity,
-      visibility : this.gridStatus};
-  }
-/*
-  setSizePath(): object {
-    return this.ngPathObject();
-  }
-*/
-  setSizePattern(): object {
-    return {width: this.gridOpacity,
-      height: this.gridSize};
-  }
+  }*/
 
   decreaseSize(): void {
     if (this.gridSize > NumericalValues.MIN_GRID_SIZE) {
@@ -63,5 +58,4 @@ export class Gridservice {
       }
   }
 
-  // End grid methods
 }

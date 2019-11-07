@@ -32,8 +32,28 @@
     <mat-sidenav-container class="main-container">
         <mat-sidenav #sidenav mode="side" opened fixedTopGap="56">
             <mat-nav-list>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()'>
-                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
+                <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
+                    <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
+                </a>
+                <div *ngIf="toolHandler.selectorSelected">
+                <a mat-list-item class = "filter" (click) = 'clipboardService.copy()'>
+                    <img id = "copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title = "Copier">
+                 </a>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.paste()'>
+                    <img id = "paste" class="clipboardIcon" src="../../../assets/lateral-bar/paste.png" title = "Coller">
+                 </a>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.cut()'>
+                    <img id = "cut" class="clipboardIcon" src="../../../assets/lateral-bar/cut.png" title = "Couper">
+                 </a>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.duplicate()'>
+                    <img id = "duplicate" class="clipboardIcon" src="../../../assets/lateral-bar/duplicate.png" title = "Duppliquer">
+                 </a>
+                 <a mat-list-item class = "filter" (click) = 'clipboardService.delete()'>
+                    <img id = "delete" class="clipboardIcon" src="../../../assets/lateral-bar/delete.png" title = "Supprimer">
+                 </a>
+                </div>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()' >
+                    <img id="pencil"  class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon" >
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
@@ -69,9 +89,6 @@
                     <button mat-menu-item (click)='toolHandler.chooseEllipse()'>Ellipse</button>
                     <button mat-menu-item (click)='toolHandler.choosePolygon()'>Polygon</button>
                 </mat-menu>
-                <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
-                    <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
-                </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseText()'>
                     <img id='text' class="sideBarIcon" src="../../../assets/lateral-bar/text_fields-24px.svg" title="Texte">
                 </a>
@@ -84,15 +101,18 @@
                         (click)="menuTrigger.openMenu()"></button>
                 </a>
                 <mat-menu #gridMenu="matMenu" class = "filter">
-                    
-                    <button mat-menu-item (click)='gridService.toggleGrid()'>Grid</button>
+                    <p class = "filter"> Grid: </p>
+                    <label class="switch" (click) = "$event.stopPropagation()">  
+                        <input type="checkbox" >
+                        <span class="slider" (change)="gridService.toggleGrid()"></span>
+                    </label>
                     <br>
-                    Opacité: 
-                    <input type="range" min="1" max="100" value="100" 
+                    <p class = "filter"> Opacité: </p>
+                    <input class = "filter" type="range" min="1" max="100" value="100" (click) = "$event.stopPropagation()"
                            [(ngModel)]="gridService.gridOpacity" id="opacityInput" title ="Valeur d'opacité"> 
                     <br>
-                    Taille:
-                    <input type="range" min="1" max="100" value="100" 
+                    <p class = "filter"> Taille: </p>
+                    <input class = "filter" type="range" min="1" max="100" value="100" (click) = "$event.stopPropagation()"
                            [(ngModel)]="gridService.gridSize" id="sizeInput" title ="Taille des carrés">
                 </mat-menu>
                 <a mat-list-item class="filter" (click)="options.toggle()">
