@@ -66,6 +66,9 @@ export class ToolHandlerService {
     const poppedObject = this.drawings.pop();
     if ( poppedObject !== undefined ) {
       this.undoList.push(poppedObject);
+      if (poppedObject.pasteOffset !== undefined && poppedObject.pasteOffset !== 0){
+        // reduce the pasteoffset of clipboardservice
+      }
     }
   }
 
@@ -76,6 +79,9 @@ export class ToolHandlerService {
       * gérer ici les cas spéciaux, reconnaissables par les id du ITools recu par le pop.
       * Si ça devient trop compliquer, une méthode appart pour gérer les redo peut être pertinente.*/
       this.drawings.push(poppedObject);
+      if (poppedObject.pasteOffset !== undefined){
+        // assign the pasteoffset of clipboardservice to that of the redid drawing
+      }
     }
   }
 

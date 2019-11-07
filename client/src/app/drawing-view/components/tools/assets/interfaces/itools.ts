@@ -5,4 +5,5 @@ import { TextBox } from './text-interface';
 
 export interface ITools extends IPreviewBox, ILinePoints, IPolygon, IStampReference, TextBox {
     id: string;
+    pasteOffset?: number;
 }

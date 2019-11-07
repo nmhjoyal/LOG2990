@@ -37,7 +37,7 @@ export class ClipboardService {
       if (cursorX === this.lastCursorX && cursorY === this.lastCursorY) {
         this.pasteOffset += NumericalValues.DUPLICATE_OFFSET;
       } else { this.pasteOffset = 0; }
-      this.clipboard.forEach((copiedObject) => {
+      this.clipboard.forEach((copiedObject) => { // the following messes up if the selector box is changed before the paste operation
         copiedObject.x += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
         copiedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x - this.selectorService.MinWidth) > window.innerWidth
@@ -47,7 +47,8 @@ export class ClipboardService {
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
-        this.toolService.drawings.push({...copiedObject});
+        copiedObject.pasteOffset = this.pasteOffset;
+        this.toolService.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -99,7 +100,7 @@ export class ClipboardService {
     this.selectorService.selectedObjects.forEach((element) => {
       const index = this.toolService.drawings.indexOf(element);
       if (index !== NumericalValues.NOT_VALID) {
-        this.toolService.drawings.splice(index, 1);
+        this.toolService.drawings.splice(index, 1); 
       }
     });
   }
