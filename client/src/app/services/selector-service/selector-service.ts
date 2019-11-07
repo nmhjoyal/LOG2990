@@ -2,29 +2,28 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 
 export class SelectorService {
   selectedObjects: Set<ITools>;
   topCornerX: number;
   topCornerY: number;
-  width: number;
-  height: number;
+  furthestX: number;
+  furthestY: number;
 
   constructor() {
     this.selectedObjects = new Set<ITools>();
     this.topCornerX = 0;
     this.topCornerY = 0;
-    this.width = 0;
-    this.height = 0;
+    this.furthestX = 0;
+    this.furthestY = 0;
   }
 
   get MinWidth(): number {
-    return Math.abs(this.width - this.topCornerX);
+    return Math.abs(this.furthestX - this.topCornerX);
   }
 
   get MinHeight(): number {
-    return Math.abs(this.height - this.topCornerY);
+    return Math.abs(this.furthestY - this.topCornerY);
   }
 
   get SelectedObjects(): Set<ITools> {
@@ -39,13 +38,13 @@ export class SelectorService {
     if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
       x = drawing.x - drawing.width;
       y = drawing.y - drawing.height;
-      width = drawing.width * NumericalValues.TWO;
-      height = drawing.height * NumericalValues.TWO;
+      width = drawing.width * 2;
+      height = drawing.height * 2;
     }
     this.topCornerX = x;
     this.topCornerY = y;
-    this.width = x + width;
-    this.height = y + height;
+    this.furthestX = x + width;
+    this.furthestY = y + height;
   }
 
   checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
@@ -79,28 +78,28 @@ export class SelectorService {
     if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
       x = drawing.x - drawing.width;
       y = drawing.y - drawing.height;
-      width = drawing.width * NumericalValues.TWO;
-      height = drawing.height * NumericalValues.TWO;
+      width = drawing.width * 2;
+      height = drawing.height * 2;
     }
     this.topCornerX = x < this.topCornerX ? x : this.topCornerX;
     this.topCornerY = y < this.topCornerY ? y : this.topCornerY;
-    this.width = this.width < (x + width) ? (x + width) : this.width;
-    this.height = this.height < (y + height) ? (y + height) : this.height;
+    this.furthestX = this.furthestX < (x + width) ? (x + width) : this.furthestX;
+    this.furthestY = this.furthestY < (y + height) ? (y + height) : this.furthestY;
   }
 
   recalculateShape(windowWidth: number, windowHeight: number): void {
     this.topCornerX = windowWidth;
     this.topCornerY = windowHeight;
-    this.width = 0;
-    this.height = 0;
+    this.furthestX = 0;
+    this.furthestY = 0;
     for (const object of this.selectedObjects) {
       this.updateSelectorShape(object);
     }
   }
 
   resetSize(): void {
-    this.width = 0;
-    this.height = 0;
+    this.furthestX = 0;
+    this.furthestY = 0;
   }
 
   resetSelectorService(): void {

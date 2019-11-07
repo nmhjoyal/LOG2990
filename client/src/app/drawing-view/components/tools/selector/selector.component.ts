@@ -4,7 +4,6 @@ import { ColorService } from 'src/app/services/color_service/color.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 
@@ -37,7 +36,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected calculateDimensions(): void {
     super.calculateDimensions();
-    const shapeOffset = this.shape.strokeWidth / NumericalValues.TWO;
+    const shapeOffset = this.shape.strokeWidth / 2;
     this.shape.x =  this.previewBox.x + shapeOffset;
     this.shape.y =  this.previewBox.y + shapeOffset;
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
