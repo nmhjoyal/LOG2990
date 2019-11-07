@@ -54,7 +54,6 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
             </g>
-
             <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <rect [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
@@ -62,7 +61,6 @@
                     [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
-
             <g *ngSwitchCase="toolId.ELLIPSE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <ellipse [attr.cx]="drawing.x" [attr.cy]="drawing.y" [attr.rx]="drawing.width"
@@ -70,12 +68,22 @@
                     [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
-
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColor"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
+            </g>
+            <g *ngSwitchCase="toolId.TEXT">
+                <text [attr.x]="drawing.x" [attr.y]="drawing.y"
+                    [style.font-size]="drawing.fontSize + 'pt'"
+                    [style.font-style]="drawing.italic"
+                    [style.font-weight]="drawing.bold"
+                    [style.font-family]="drawing.fontFamily"
+                    [style.fill]="drawing.primaryColour"
+                    [attr.text-anchor]="drawing.align">
+                    <tspan [attr.x]="drawing.x" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
+                </text> 
             </g>
         </g>
     </g>
@@ -137,6 +145,10 @@
 <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE">
     <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.TEXT">
+    <app-tools-text #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-tools-text>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"

@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
 import { ToolHandlerService } from './tool-handler.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 
 describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
@@ -222,5 +222,12 @@ describe('ToolHandlerService', () => {
     expect(service.secondaryColor).toEqual(Strings.BLACK_HEX);
     expect(resetSpy).toHaveBeenCalled();
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.COLOUR_APPLICATOR);
+  });
+
+  it('#chooseText should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.chooseText();
+
+    expect(resetSpy).toHaveBeenCalled();
   });
 });

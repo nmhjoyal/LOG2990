@@ -5,14 +5,15 @@ import { SelectorService } from 'src/app/services/selector-service/selector-serv
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
-import { Id } from '../assets/tool-constants';
 import { SelectorComponent } from './selector.component';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const FIFTY = 50;
 const FORTY = 40;
 const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+
 class SelectorServiceMock extends SelectorService {
 
     constructor() {

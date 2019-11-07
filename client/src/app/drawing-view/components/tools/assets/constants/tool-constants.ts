@@ -13,6 +13,7 @@ export enum Id {
     STAMP = 'stamp',
     COLOUR_APPLICATOR = 'colorApplicator',
     PIPETTE = 'pipette',
+    TEXT = 'text',
 }
 
 export enum FilterURL {

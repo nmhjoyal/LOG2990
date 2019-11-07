@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColorService } from '../color_service/color.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service'
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 @Injectable({
   providedIn: 'root',
@@ -135,6 +135,11 @@ export class ToolHandlerService {
   chooseStamp(): void {
     this.resetSelection();
     this.selectedTool = this.tools.STAMP;
+  }
+
+  chooseText(): void {
+    this.resetSelection();
+    this.selectedTool = this.tools.TEXT;
   }
 
   chooseOther(): void {// Place holder for unimplemented tools
