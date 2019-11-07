@@ -23,7 +23,8 @@ describe('SaveWindowComponent', () => {
     let fixture: ComponentFixture<SaveWindowComponent>;
     const dataMock: SpyObj<ISaveModalData> = jasmine.createSpyObj('ISaveModalData', ['']);
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-    const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage', 'seeDrawings']);
+    const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
+    const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'] )
     let indexMock: SpyObj<IndexService>;
     let confirmSpy;
     const tag = { name: 'tag', isSelected: true } as ITag;
@@ -66,6 +67,7 @@ describe('SaveWindowComponent', () => {
                 { provide: MatDialogRef, useValue: { dialogMock } },
                 { provide: MAT_DIALOG_DATA, useValue: dataMock },
                 { provide: ToolHandlerService, useValue: toolHandlerMock },
+                { provide: DrawingStorageService, useValue: drawingStorageMock },
                 { provide: CanvasInformationService, useValue: canvasDataMock },
                 { provide: IndexService, useValue: indexMock },
             ],
@@ -75,7 +77,7 @@ describe('SaveWindowComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(SaveWindowComponent);
-        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         component.data.displayedTags = [tag, tag2];
         component['name'] = 'drawing';
         mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
@@ -114,7 +116,7 @@ describe('SaveWindowComponent', () => {
     });
 
     it('constructor should properly initialize', () => {
-        const newComponent = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        const newComponent = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         newComponent.data.displayedTags = [{ name: 'tag', isSelected: true } as ITag];
         expect(newComponent.data.title).toBe(Strings.SAVE_WINDOW_TITLE);
         expect(newComponent.isFinishedSaving).toBe(true);
@@ -149,19 +151,19 @@ describe('SaveWindowComponent', () => {
 
     it('should correctly get the tags from the server', () => {
         indexMock.getTags.and.returnValue(of([tag, tag2]));
-        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 
     it('should correctly get initialize an empty array if the response is undefined', () => {
         indexMock.getTags.and.returnValue(of(undefined));
-        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         expect(component.data.displayedTags).toEqual([]);
     });
 
     it('should properly initialize tags to an empty array if they have no tags', () => {
         indexMock.getTags.and.returnValue(of([tag, tag2]));
-        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerMock, indexMock);
+        component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 

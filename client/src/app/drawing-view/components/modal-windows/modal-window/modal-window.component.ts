@@ -4,8 +4,9 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IModalData } from './IModalData';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 
 @Component({
   selector: 'app-modal-window',
@@ -20,6 +21,7 @@ export abstract class ModalWindowComponent {
     protected canvasData?: CanvasInformationService,
     protected storage?: LocalStorageService,
     protected toolHandler?: ToolHandlerService,
+    protected drawingStorage?: DrawingStorageService,
     protected index?: IndexService,
     protected color?: ColorService) {
 

@@ -7,6 +7,7 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-new-drawing-window',
@@ -22,9 +23,10 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData,
     protected canvasData: CanvasInformationService,
     protected toolHandler: ToolHandlerService,
+    protected drawingStorage: DrawingStorageService,
     public colorService: ColorService,
     ) {
-    super(dialogRef, data, canvasData, undefined, toolHandler);
+    super(dialogRef, data, canvasData, undefined, toolHandler, drawingStorage);
     this.data.title = Strings.MODAL_TITLE;
     this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingHeightPreview = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
@@ -54,7 +56,8 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
       : this.canvasData.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.canvasData.data.drawingColor = this.data.drawingColorInput :
       this.canvasData.data.drawingColor = Strings.WHITE_HEX;
-    this.toolHandler.clearPage();
+    this.toolHandler.resetToolSelection();
+    this.drawingStorage.emptyDrawings();
     this.dialogRef.close();
   }
 

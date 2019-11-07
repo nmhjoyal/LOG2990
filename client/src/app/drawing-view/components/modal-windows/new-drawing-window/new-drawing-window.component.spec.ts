@@ -14,6 +14,7 @@ import { ColorPaletteComponent } from '../../color-picker/color-palette/color-pa
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -22,7 +23,8 @@ describe('NewDrawingWindowComponent', () => {
   let canvasDataMock: CanvasInformationService;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
-  const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+  const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
+  const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
 
   const NEW_WINDOW_SIZE = 500;
@@ -77,7 +79,7 @@ describe('NewDrawingWindowComponent', () => {
       drawingWidth: 100,
       drawingHeight: 100,
     };
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerServiceMock, colorService);
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerServiceMock, drawingStorageMock, colorService);
     component.ngOnInit();
   }));
 
