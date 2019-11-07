@@ -58,9 +58,14 @@
 
             <g *ngSwitchCase="toolId.STYLO" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
-                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.color"
-                    [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
-                    [style.stroke-linejoin]="drawing.strokeLinejoin" />
+                <g *ngFor="let svgpath of drawing.paths">
+                    <path
+                        [attr.d]="svgpath.path"
+                        [style.stroke-width]="svgpath.strokeWidth"
+                        [style.stroke]="'black'"
+                        [style.fill]="'black'">
+                    </path>
+                </g>
             </g>
 
             <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape($event, drawing)"

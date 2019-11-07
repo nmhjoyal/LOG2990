@@ -1,10 +1,10 @@
 <svg tabindex = "0" class = "previewStylo" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
-    <polyline 
-        id="current"
-        [attr.points]="stroke.points"
-        [style.fill]="stroke.fill"
-        [style.stroke]="stroke.color"
-        [style.stroke-width]="stroke.strokeWidth"
-        [style.stroke-linecap]="stroke.strokeLinecap"
-        [style.stroke-linestroke]="stroke.strokeLinejoin" />
+    <g *ngFor="let svgpath of stylo.paths">
+        <path
+            [attr.d]="svgpath.path"
+            [style.stroke-width]="svgpath.strokeWidth"
+            [style.stroke]="'black'"
+            [style.fill]="'black'">
+        </path>
+    </g>
 </svg>

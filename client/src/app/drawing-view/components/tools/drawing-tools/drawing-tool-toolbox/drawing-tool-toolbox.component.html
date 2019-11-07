@@ -15,11 +15,13 @@
 
     <div *ngIf="toolHandler.styloSelected">
         <div>
+            <p>Épaisseur de trait minimale</p>
             <button (click)="getComponent().decreaseMinWidth()">-</button>
             {{getComponent().minWidth}}
             <button (click)="getComponent().increaseMinWidth()">+</button>
         </div>
         <div>
+            <p>Épaisseur de trait maximale</p>
             <button (click)="getComponent().decreaseMaxWidth()">-</button>
             {{getComponent().maxWidth}}
             <button (click)="getComponent().increaseMaxWidth()">+</button>

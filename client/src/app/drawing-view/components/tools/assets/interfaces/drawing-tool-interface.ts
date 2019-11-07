@@ -41,11 +41,12 @@ export interface IDrawingToolOptions extends ITools {
     savedMinWidth: number;
 }
 
-export interface IStylo {
-    speed: number;
-    lastTime: number;
-    lastPositionX: number;
-    lastPositionY: number;
-    maxWidth: number;
-    minWidth: number;
+export interface IStylo extends ITools {
+    paths: IPath[];
+}
+
+export interface IPath {
+    path: string;
+    strokeWidth: number;
+    strokeColour: string;
 }
