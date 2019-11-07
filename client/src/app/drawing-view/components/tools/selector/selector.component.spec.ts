@@ -12,6 +12,7 @@ import { SelectorComponent } from './selector.component';
 const FIFTY = 50;
 const FORTY = 40;
 const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+
 class SelectorServiceMock extends SelectorService {
 
     constructor() {
