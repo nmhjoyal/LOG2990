@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { SelectorService } from '../selector-service/selector-service';
-import { ToolHandlerService } from '../tool-handler/tool-handler.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class ClipboardService {
   lastCursorY: number;
   offScreen: boolean;
 
-  constructor(protected toolService: ToolHandlerService, protected selectorService: SelectorService) {
+  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
@@ -47,7 +47,7 @@ export class ClipboardService {
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
-        this.toolService.saveDrawing({...copiedObject});
+        this.drawingStorage.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -97,9 +97,9 @@ export class ClipboardService {
 
   delete(): void {
     this.selectorService.selectedObjects.forEach((element) => {
-      const index = this.toolService.seeDrawings().indexOf(element);
+      const index = this.drawingStorage.drawings.indexOf(element);
       if (index !== NumericalValues.NOT_VALID) {
-        this.toolService.seeDrawings().splice(index, 1);
+        this.drawingStorage.drawings.splice(index, 1);
       }
     });
   }
