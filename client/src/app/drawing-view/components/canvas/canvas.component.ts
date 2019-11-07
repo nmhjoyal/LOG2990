@@ -83,6 +83,9 @@ export class CanvasComponent {
       this.colorService.color[colorIndex] = shape.primaryColor;
     }
   }
+  drawGrid(): void {
+    this.gridService.drawGrid();
+  }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {
     return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));

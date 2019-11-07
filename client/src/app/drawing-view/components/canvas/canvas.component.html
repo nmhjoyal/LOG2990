@@ -1,7 +1,18 @@
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
     [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor">
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
-
+    <defs>
+            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+              <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
+            </pattern>
+            <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+              <rect width="80" height="80" fill="url(#smallGrid)"/>
+              <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1"/>
+            </pattern>
+          </defs>
+        
+          <rect width="100%" height="100%" fill="url(#grid)" />
+      
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
         <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
@@ -24,6 +35,15 @@
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>  
+     <defs>
+            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
+            </pattern>
+            <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                <rect width="80" height="80" fill="url(#smallGrid)"/>
+                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1"/>
+            </pattern>
+        </defs>
 
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
     <g *ngFor="let drawing of toolHandler.drawings">
@@ -141,11 +161,6 @@
         [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-selector>
 </div>
-<div *ngIf="toolHandler.gridSelected">
-    <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight">
-    </app-tools-selector>
-</div>
 <div *ngIf="toolHandler.ellipseSelected">
     <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
@@ -157,4 +172,7 @@
 <div *ngIf="toolHandler.stampSelected">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
+</div>
+<div *ngIf="toolHandler.gridSelected">
+       
 </div>
