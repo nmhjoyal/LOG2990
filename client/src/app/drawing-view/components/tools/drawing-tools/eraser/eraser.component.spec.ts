@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorService } from '../../../../../services/color_service/color.service';
-import { SelectorService } from '../../../../../services/selector-service/selector-service';
 import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
 import { ITools } from '../../assets/interfaces/itools';
 import { IShape } from '../../assets/interfaces/shape-interface';
@@ -11,12 +10,11 @@ describe('EraserComponent', () => {
   let fixture: ComponentFixture<EraserComponent>;
   let toolhandlerMock: ToolHandlerService;
   let colorserviceMock: ColorService;
-  let selectorserviceMock: SelectorService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EraserComponent ],
-      providers: [SelectorService]
+      providers: []
     })
     .compileComponents();
   }));
@@ -68,7 +66,6 @@ describe('EraserComponent', () => {
 
     // matching eraser services to mock services
     component.toolService = toolhandlerMock;
-    component.selectorService = selectorserviceMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -98,7 +95,6 @@ describe('EraserComponent', () => {
 
     // matching eraser services to mock services
     component.toolService = toolhandlerMock;
-    component.selectorService = selectorserviceMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -144,7 +140,6 @@ describe('EraserComponent', () => {
 
     // matching eraser services to mock services
     component.toolService = toolhandlerMock;
-    component.selectorService = selectorserviceMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -174,7 +169,6 @@ describe('EraserComponent', () => {
 
     // matching eraser services to mock services
     component.toolService = toolhandlerMock;
-    component.selectorService = selectorserviceMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -205,7 +199,6 @@ describe('EraserComponent', () => {
 
     // matching eraser services to mock services
     component.toolService = toolhandlerMock;
-    component.selectorService = selectorserviceMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
