@@ -91,7 +91,6 @@ export class Gridservice {
         ctx.stroke();
     }
 
-
     iCount = Math.floor(iHeight / lineOptions.separation);
 
     for (i = 1; i <= iCount; i++) {

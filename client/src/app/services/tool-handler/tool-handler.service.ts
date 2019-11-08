@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
-import { ColorService } from '../color_service/color.service';
+import { ColourService } from '../colour_service/colour.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,28 +13,28 @@ export class ToolHandlerService {
  selectedTool: string;
  selection: IShape;
 ​
-  // Color service related attributes
-  primaryColorSelected: boolean;
-  secondaryColorSelected: boolean;
-  primaryColor: string;
-  secondaryColor: string;
+  // Colour service related attributes
+  primaryColourSelected: boolean;
+  secondaryColourSelected: boolean;
+  primaryColour: string;
+  secondaryColour: string;
 
-  constructor(public colorService: ColorService) {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
+  constructor(public colourService: ColourService) {
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
     this.selectedTool = this.tools.NONE;
-    this.primaryColorSelected = false;
-    this.secondaryColorSelected = false;
-    this.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    this.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
+    this.primaryColourSelected = false;
+    this.secondaryColourSelected = false;
+    this.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
+    this.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
 ​
   // Tool Logic methods
   ​
   resetToolSelection(): void {
     this.selectedTool = this.tools.NONE;
-    this.primaryColorSelected = false;
-    this.secondaryColorSelected = false;
+    this.primaryColourSelected = false;
+    this.secondaryColourSelected = false;
     this.resetSelectorBox();
   }
 
@@ -45,12 +45,12 @@ export class ToolHandlerService {
   // Selector Tool Methods
 
   resetSelectorBox(): void {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
+    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
   }
 
   saveSelectorBox(shape: IShape): void {
-    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColor: 'black', secondaryColor: 'black',
+    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColour: 'black', secondaryColour: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
   }
 
@@ -70,10 +70,10 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.POLYGON;
 }
 ​
-  chooseColourApplicator(primaryColor: string, secondaryColor: string): void {
+  chooseColourApplicator(primaryColour: string, secondaryColour: string): void {
     this.resetToolSelection();
-    this.primaryColor = primaryColor;
-    this.secondaryColor = secondaryColor;
+    this.primaryColour = primaryColour;
+    this.secondaryColour = secondaryColour;
     this.selectedTool = this.tools.COLOUR_APPLICATOR;
   }
 
@@ -107,16 +107,16 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.GRID;
   }
 ​
-  choosePrimaryColor(): void {
+  choosePrimaryColour(): void {
     this.resetToolSelection();
-    this.primaryColorSelected = true;
-    this.colorService.chooseColor(false);
+    this.primaryColourSelected = true;
+    this.colourService.chooseColour(false);
   }  ​
 
-  chooseSecondaryColor(): void {
+  chooseSecondaryColour(): void {
     this.resetToolSelection();
-    this.secondaryColorSelected = true;
-    this.colorService.chooseColor(true);
+    this.secondaryColourSelected = true;
+    this.colourService.chooseColour(true);
   }  ​
 
   chooseEllipse(): void {

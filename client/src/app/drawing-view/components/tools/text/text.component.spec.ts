@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
@@ -14,11 +14,11 @@ describe('TextComponent', () => {
     let fixture: ComponentFixture<TextComponent>;
     let drawingStorageMock: DrawingStorageService;
     let attributesServiceMock: AttributesService;
-    let colourServiceMock: ColorService;
+    let colourServiceMock: ColourService;
 
     beforeEach((() => {
         attributesServiceMock = new AttributesService();
-        colourServiceMock = new ColorService();
+        colourServiceMock = new ColourService();
         drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
         TestBed.configureTestingModule({
             imports: [BrowserDynamicTestingModule],
@@ -26,7 +26,7 @@ describe('TextComponent', () => {
             providers: [
             { provide: DrawingStorageService, useValue: drawingStorageMock, },
             { provide: AttributesService, useValue: attributesServiceMock, },
-            { provide: ColorService, useValue: colourServiceMock, },
+            { provide: ColourService, useValue: colourServiceMock, },
             ],
         }).compileComponents();
 
