@@ -10,11 +10,11 @@ export enum Id {
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
-    ERASER = 'eraser',
     STAMP = 'stamp',
     COLOUR_APPLICATOR = 'colorApplicator',
     PIPETTE = 'pipette',
     TEXT = 'text',
+    ERASER = 'eraser',
 }
 
 export enum FilterURL {
