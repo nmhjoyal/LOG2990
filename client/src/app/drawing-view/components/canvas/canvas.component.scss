@@ -4,12 +4,18 @@
     -webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
     -moz-box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
     box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
+/*
+    display: grid;
+    justify-content: center;
+    grid-gap: 10px;
+    background-color: black;
+    padding: 10px;
+ */
 
     .rectangle {
         fill: inherit;
-        top:inherit;
+        top: inherit;
         left: inherit;
-
     }
 
     .controlPoint {
@@ -17,6 +23,6 @@
     }
 }
 
-#myGrid {
+.grid {
     visibility: hidden;
 }

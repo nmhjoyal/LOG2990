@@ -1,15 +1,42 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+       <defs>
+         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize">
+            <rect x="0" y="0" width="2" height="400" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+            <rect x="0" y="0" width="400" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+            
+            </pattern>
+         </defs>
+    
+      <rect fill="url(#Pattern)" stroke="black" width="100%" height="100%"/>
+    </svg>
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour">
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
+    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour" xmlns="http://www.w3.org/2000/svg">
     <defs>
-        <pattern id="grid" width="8" height="8" patternUnits="userSpaceOnUse">
-            <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
-        </pattern>
-        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-            <rect width="80" height="80" fill="url(#grid)"/>
-            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1"/>
-        </pattern>
-    </defs>
+         <pattern id="Pattern" x="0" y="0" width=".05" height=".05">
+            <rect x="0" y="0" width="2" height="400" fill="black"/>
+            <rect x="0" y="0" width="400" height="2" fill="black"/>
+            
+            </pattern>
+      </defs>
+    <rect width="100%" height="100%" (click)="applyColourToCanvas()" fill="url(#Pattern)" stroke="black" />
+    <defs>
+            <linearGradient id="Gradient1">
+              <stop offset="5%" stop-color="white"/>
+              <stop offset="95%" stop-color="blue"/>
+            </linearGradient>
+            <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="5%" stop-color="red"/>
+              <stop offset="95%" stop-color="orange"/>
+            </linearGradient>
+        
+            <pattern id="Pattern" x="0" y="0" width=".25" height=".25">
+              <rect x="0" y="0" width="50" height="50" fill="skyblue"/>
+              <rect x="0" y="0" width="25" height="25" fill="url(#Gradient2)"/>
+              <circle cx="25" cy="25" r="20" fill="url(#Gradient1)" fill-opacity="0.5"/>
+            </pattern>
+          </defs>
+        
+          <rect fill="url(#Pattern)" stroke="black" width="200" height="200"/>
       
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
@@ -33,15 +60,6 @@
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>  
-     <defs>
-        <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-            <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
-        </pattern>
-        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-            <rect width="80" height="80" fill="url(#smallGrid)"/>
-            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1"/>
-        </pattern>
-    </defs>
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
     <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">

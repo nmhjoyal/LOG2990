@@ -178,7 +178,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.-', ['$event']) onKeydownHandlerMinus() {
+  @HostListener('document:keydown.shift.-', ['$event']) onKeydownHandlerMinus() {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.decreaseSize();
     }

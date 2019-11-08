@@ -10,5 +10,7 @@ export class NumericalValues {
     static MIN_GRID_SIZE = 1;
     static DUPLICATE_OFFSET = 20;
     static NOT_VALID = -1;
-    static DEFAULT_GRID_SIZE = 50;
+    static DEFAULT_GRID_SIZE = 0.05;
+    static DEFAULT_OPACITY = 0.5;
+    static GRID_SIZE_STEP = 0.005;
 }
