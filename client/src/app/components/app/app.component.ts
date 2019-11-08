@@ -167,6 +167,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseEraser();
+    }
+  }
+
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
       if (!this.drawingStorage.drawings.length) {
