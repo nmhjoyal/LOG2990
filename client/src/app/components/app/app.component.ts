@@ -17,6 +17,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colorService: ColorService,
-    public clipboardService: ClipboardService) {
+    public clipboardService: ClipboardService,
+    public undoRedoService: UndoRedoService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -69,70 +71,69 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSelector();
     }
   }
 
-  // TODO: test the undo/redo hotkey handlers methods
   @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZEvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      this.toolHandler.undo();
+      this.undoRedoService.undo();
     }
   }
 
   @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZEvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      this.toolHandler.redo();
+      this.undoRedoService.redo();
     }
   }
   
   @HostListener('document:keydown.control.c', ['$event']) onKeydownCtrlC(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.copy();
     }
   }
 
   @HostListener('document:keydown.control.v', ['$event']) onKeydownCtrlV(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.paste(this.cursorX, this.cursorY);
     }
   }
 
   @HostListener('document:keydown.control.x', ['$event']) onKeydownCtrlX(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.cut();
     }
   }
 
   @HostListener('document:keydown.control.d', ['$event']) onKeydownCtrlD(event: KeyboardEvent): void {
     event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.duplicate();
     }
   }
 
   @HostListener('document:keydown.backspace', ['$event']) onKeydownBackspace(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.delete();
     }
   }
 
   @HostListener('document:keydown.t', ['$event']) onKeydownTEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseText();
     }
   }
@@ -181,7 +182,7 @@ export class AppComponent implements OnInit {
   }
 
   confirmNewDrawing(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       if (!this.drawingStorage.drawings.length) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
