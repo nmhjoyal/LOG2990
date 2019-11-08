@@ -2,6 +2,7 @@
 // tslint:disable:max-classes-per-file
 
 export enum Id {
+    NONE = 'none',
     RECTANGLE = 'rectangle',
     POLYGON = 'polygon',
     CRAYON = 'crayon',
@@ -10,7 +11,10 @@ export enum Id {
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
     STAMP = 'stamp',
+    COLOUR_APPLICATOR = 'colorApplicator',
+    PIPETTE = 'pipette',
     TEXT = 'text',
+    GRID = 'grid',
 }
 
 export enum FilterURL {

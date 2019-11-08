@@ -2,7 +2,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
 import { StampComponent } from './stamp.component';
@@ -18,7 +18,7 @@ describe('StampComponent', () => {
     let component: StampComponent;
     let attrService: AttributesService;
     let fixture: ComponentFixture<StampComponent>;
-    const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
+    const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
     const attributesService: AttributesService = new AttributesService();
     const colorServiceMock: ColorService = jasmine.createSpyObj('ColorService', ['']);
 
@@ -27,7 +27,7 @@ describe('StampComponent', () => {
       imports: [BrowserDynamicTestingModule],
       declarations: [StampComponent],
       providers: [
-      { provide: ToolHandlerService, useValue: toolServiceMock, },
+      { provide: DrawingStorageService, useValue: drawingStorageMock, },
       { provide: AttributesService, useValue: attributesService, },
       { provide: ColorService, useValue: colorServiceMock, },
       ],
@@ -87,8 +87,7 @@ describe('StampComponent', () => {
   });
 
   it('#onLeftClick only saves the stamp when an svgReference was chosen for it', () => {
-    component['toolServiceRef'].drawings = [];
-    const savingSpy = spyOn(component['toolServiceRef'].drawings, 'push');
+    const savingSpy = spyOn(component['drawingStorage'], 'saveDrawing');
     component.stamp.svgReference = '';
     const clickEvent: MouseEvent = new MouseEvent('click');
     component.onLeftClick(clickEvent);

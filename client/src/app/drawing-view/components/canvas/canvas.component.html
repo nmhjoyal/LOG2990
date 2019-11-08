@@ -36,17 +36,16 @@
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>  
      <defs>
-            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
-            </pattern>
-            <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                <rect width="80" height="80" fill="url(#smallGrid)"/>
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1"/>
-            </pattern>
-        </defs>
-
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
-    <g *ngFor="let drawing of toolHandler.drawings">
+        <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+            <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5"/>
+        </pattern>
+        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <rect width="80" height="80" fill="url(#smallGrid)"/>
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1"/>
+        </pattern>
+    </defs>
+    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
+    <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
@@ -107,7 +106,8 @@
             </g>
         </g>
     </g>
-    <g *ngIf="toolHandler.selectorSelected && toolHandler.selectorBoxExists()"
+
+    <g *ngIf="toolHandler.selectedTool === toolId.SELECTOR && toolHandler.selectorBoxExists()"
         [style.stroke]="toolHandler.selection.secondaryColor" [style.fill]="toolHandler.selection.primaryColor">
         <rect [attr.x]="toolHandler.selection.x" [attr.y]="toolHandler.selection.y"
             [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
@@ -135,41 +135,41 @@
             (mousedown)="activeTool.handleControlPoint()" />
     </g>
 </svg>
-<div *ngIf="toolHandler.lineSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.LINE">
     <app-tools-line #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
 </div>
-<div *ngIf="toolHandler.crayonSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.CRAYON">
     <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-crayon>
 </div>
-<div *ngIf="toolHandler.paintbrushSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
     <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
-<div *ngIf="toolHandler.rectangleSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE">
     <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-rectangle>
 </div>
-<div *ngIf="toolHandler.polygonSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.POLYGON">
     <app-tools-polygon #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-polygon>
 </div>
-<div *ngIf="toolHandler.selectorSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.SELECTOR">
     <app-tools-selector #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight">
     </app-tools-selector>
 </div>
-<div *ngIf="toolHandler.ellipseSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE">
     <app-ellipse #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-ellipse>
 </div>
-<div *ngIf="toolHandler.textSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.TEXT">
     <app-tools-text #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-text>
 </div>
-<div *ngIf="toolHandler.stampSelected">
+<div *ngIf="toolHandler.selectedTool === toolId.STAMP">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
 </div>

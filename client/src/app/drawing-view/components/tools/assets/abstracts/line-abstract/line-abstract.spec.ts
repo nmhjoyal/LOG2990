@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LineComponent } from '../../../shapes/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
 import { LineAbstract } from './line-abstract';
@@ -16,7 +16,7 @@ import { LineAbstract } from './line-abstract';
   })
 class LineTestComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService, colorInstance: ColorService) {
+  constructor(serviceInstance: DrawingStorageService, attributesInstance: AttributesService, colorInstance: ColorService) {
     super(serviceInstance, attributesInstance, colorInstance);
   }
 
@@ -46,18 +46,18 @@ describe('LineAbstract', () => {
   let component: LineComponent;
   let shapeTest: LineTestComponent;
   let hostElement: DebugElement;
-  let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let drawingServiceMock: SpyObj<DrawingStorageService>;
   let fixture: ComponentFixture<LineTestComponent>;
 
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
   beforeEach(() => {
-    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']); // eventually put service method that saves drawing operation
+    drawingServiceMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
 
     TestBed.configureTestingModule({
         imports: [BrowserDynamicTestingModule, DrawingViewModule],
         declarations: [LineTestComponent],
         providers: [
-          { provide: ToolHandlerService, useValue: toolHandlerMock, },
+          { provide: DrawingStorageService, useValue: drawingServiceMock, },
           { provide: AttributesService, useValue: attrServiceMock, },
         ],
       });
