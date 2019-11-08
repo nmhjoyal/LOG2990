@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { LineAbstract } from '../../assets/abstracts/line-abstract/line-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
@@ -12,8 +12,8 @@ import { ToolConstants } from '../../assets/constants/tool-constants';
 })
 export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(saveRef: SaveService, attributesService: AttributesService, colorService: ColorService) {
-    super(saveRef, attributesService, colorService);
+  constructor(saveRef: SaveService, attributesService: AttributesService, colourService: ColourService) {
+    super(saveRef, attributesService, colourService);
     this.stroke.id = ToolConstants.TOOL_ID.LINE;
   }
 

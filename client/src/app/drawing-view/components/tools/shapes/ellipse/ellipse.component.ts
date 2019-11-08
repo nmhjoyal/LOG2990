@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
@@ -12,8 +12,8 @@ import { ToolConstants } from '../../assets/constants/tool-constants';
 })
 export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  constructor(saveRef: SaveService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
-    super(saveRef, attributesServiceRef, colorServiceRef);
+  constructor(saveRef: SaveService, attributesServiceRef: AttributesService, colourServiceRef: ColourService) {
+    super(saveRef, attributesServiceRef, colourServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.ELLIPSE;
   }
 

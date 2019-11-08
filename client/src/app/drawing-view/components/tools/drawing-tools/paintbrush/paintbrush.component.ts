@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
@@ -14,8 +14,8 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
 
   constructor(saveRef: SaveService,
     attributeServiceRef: AttributesService,
-    colorServiceRef: ColorService) {
-    super(saveRef, attributeServiceRef, colorServiceRef);
+    colourServiceRef: ColourService) {
+    super(saveRef, attributeServiceRef, colourServiceRef);
     this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
   }
 
