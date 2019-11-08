@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';

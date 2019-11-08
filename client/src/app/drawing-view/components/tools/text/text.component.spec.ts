@@ -87,7 +87,8 @@ describe('TextComponent', () => {
 
     it('click outside of box should save text to drawings only if lines contain text', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(false);
-        const saveSpy = spyOn(textComponent.drawingStorage, 'saveDrawing');
+        // tslint:disable-next-line:no-string-literal
+        const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
         expect(textComponent.isFirstClick).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
@@ -107,7 +108,8 @@ describe('TextComponent', () => {
 
     it('click inside of text box should not save text to drawings', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(true);
-        const saveSpy = spyOn(textComponent.drawingStorage, 'saveDrawing');
+        // tslint:disable-next-line:no-string-literal
+        const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
         expect(textComponent.isFirstClick).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
