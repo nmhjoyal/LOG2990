@@ -4,6 +4,7 @@ import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
 import { IShape, IPreviewBox } from '../../assets/interfaces/shape-interface';
 import { ITools } from '../../assets/interfaces/itools';
+import { NumericalValues } from '../../../../../../AppConstants/NumericalValues'
 
 @Component({
   selector: 'app-eraser',
@@ -22,7 +23,7 @@ export class EraserComponent implements OnInit {
   eraser: IPreviewBox;
 
   ngOnInit() {
-    this.size = 10;
+    this.size = NumericalValues.DEFAULT_ERASER_SIZE;
     this.eraser = {
       x: 0,     // Coordinates next to eraser icon on UI
       y: 460,

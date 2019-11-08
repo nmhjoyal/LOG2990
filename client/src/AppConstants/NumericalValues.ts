@@ -8,4 +8,5 @@ export class NumericalValues {
     static HEX_NO_ALPHA = 7;
     static DUPLICATE_OFFSET = 20;
     static NOT_VALID = -1;
+    static DEFAULT_ERASER_SIZE = 10;
 }
