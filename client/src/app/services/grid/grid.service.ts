@@ -9,23 +9,22 @@ export class Gridservice {
 
   gridStatus: boolean;
   gridOpacity: number;
+  lastOpacity: number;
   gridSize: number;
 
   constructor() {
     this.gridStatus = false;
-    this.gridOpacity = NumericalValues.DEFAULT_OPACITY;
-   this.gridSize =  NumericalValues.DEFAULT_GRID_SIZE;
+    this.gridOpacity = 0;
+    this.gridSize =  NumericalValues.DEFAULT_GRID_SIZE;
+    this.lastOpacity = NumericalValues.DEFAULT_OPACITY;
   }
 
   toggleGrid(): void {
     this.gridStatus = !this.gridStatus;
-    this.setGrid();
-  }
-
-  setGrid(): void {
     if (this.gridStatus) {
-      this.gridOpacity = this.gridOpacity;
+      this.gridOpacity = this.lastOpacity;
     } else {
+      this.lastOpacity = this.gridOpacity;
       this.gridOpacity = 0;
     }
   }

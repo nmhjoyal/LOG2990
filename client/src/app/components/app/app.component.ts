@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
@@ -28,7 +28,9 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
+  math: Math;
 
+  @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
 
   constructor(private dialog: MatDialog,
@@ -168,8 +170,12 @@ export class AppComponent implements OnInit {
       this.toolHandler.choosePolygon();
     }
   }
+
   @HostListener('document:keydown.g', ['$event']) onKeydownHandlerGrid() {
-    this.gridService.toggleGrid();
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      const toggle: HTMLElement = this.toggle.nativeElement;
+      toggle.click();
+    }
   }
 
   @HostListener('document:keydown.shift.+', ['$event']) onKeydownHandlerPlus() {

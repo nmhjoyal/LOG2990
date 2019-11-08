@@ -104,18 +104,20 @@
                     <p class = "filter"> Grid: </p>
                     <label class="switch" (click) = "$event.stopPropagation()">  
                         <input type="checkbox" >
-                        <span class="slider" (change)="gridService.toggleGrid()"></span>
+                        <span #toggle class="slider" (click)="gridService.toggleGrid()"></span>
                     </label>
                     <br>
-                    <p class = "filter"> Opacité: </p>
-                    <input class = "filter" type="range" min="0.2" max="1" step = "0.05" (click) = "$event.stopPropagation()"
-                           [(ngModel)]="gridService.gridOpacity" id="opacityInput" title ="Valeur d'opacité"> 
-                           <label class="filter">{{gridService.gridOpacity}}%</label>
-                    <br>
-                    <p class = "filter"> Taille: </p>
-                    <input class = "filter" type="range" min="0.02" max="0.1" step ="0.005" (click) = "$event.stopPropagation()"
-                           [(ngModel)]="gridService.gridSize" id="sizeInput" title ="Taille des carrés">
-                           <label class="filter"> {{gridService.gridSize}}px</label>
+                    <div *ngIf="gridService.gridStatus">
+                        <p class = "filter"> Opacité: </p>
+                        <input class = "filter" type="range" min="0.2" max="1" step = "0.05" (click) = "$event.stopPropagation()"
+                            [(ngModel)]="gridService.gridOpacity" id="opacityInput" title ="Valeur d'opacité"> 
+                            <label class="filter">{{gridService.gridOpacity}}%</label>
+                        <br>
+                        <p class = "filter"> Taille: </p>
+                        <input class = "filter" type="range" min="0.02" max="0.1" step ="0.005" (click) = "$event.stopPropagation()"
+                            [(ngModel)]="gridService.gridSize" id="sizeInput" title ="Taille des carrés">
+                            <label class="filter"> {{1/gridService.gridSize | number:'1.0-0'}}u </label>
+                    </div>
                 </mat-menu>
                 <a mat-list-item class="filter" (click)="options.toggle()">
                     <img id="options" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Options">

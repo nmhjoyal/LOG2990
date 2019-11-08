@@ -6,8 +6,8 @@ export class NumericalValues {
     static COLOUR_PALETTE_SEPARATOR = 0.15;
     static HEX_LENGTH = 16;
     static HEX_NO_ALPHA = 7;
-    static MAX_GRID_SIZE = 10;
-    static MIN_GRID_SIZE = 1;
+    static MAX_GRID_SIZE = 0.1;
+    static MIN_GRID_SIZE = 0.02;
     static DUPLICATE_OFFSET = 20;
     static NOT_VALID = -1;
     static DEFAULT_GRID_SIZE = 0.05;
