@@ -9,8 +9,7 @@
             </mat-option>
             <mat-option class="filter" (click)="confirmNewDrawing()">
                 <img id="newDrawing" class="sideBarIcon"
-                    src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg"
-                    title="Nouveau dessin">
+                    src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" title="Nouveau dessin">
                 <a class='option'>Nouveau dessin</a>
             </mat-option>
             <mat-option class="filter" (click)="openSaveWindow()">
@@ -25,8 +24,7 @@
             </mat-option>
         </mat-select>
         <span class="filter" (click)="extras.toggle()">
-            <img id="openExtras" class="sideBarIcon" src="../../../assets/toolbar/dehaze-24px.svg"
-            title="Extras">
+            <img id="openExtras" class="sideBarIcon" src="../../../assets/toolbar/dehaze-24px.svg" title="Extras">
         </span>
     </mat-toolbar>
     <mat-sidenav-container class="main-container">
@@ -36,24 +34,27 @@
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
                 <div *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR">
-                <a mat-list-item class = "filter" (click) = 'clipboardService.copy()'>
-                    <img id = "copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title = "Copier">
-                 </a>
-                 <a mat-list-item class = "filter" (click) = 'clipboardService.paste(0,0)'>
-                    <img id = "paste" class="clipboardIcon" src="../../../assets/lateral-bar/paste.png" title = "Coller">
-                 </a>
-                 <a mat-list-item class = "filter" (click) = 'clipboardService.cut()'>
-                    <img id = "cut" class="clipboardIcon" src="../../../assets/lateral-bar/cut.png" title = "Couper">
-                 </a>
-                 <a mat-list-item class = "filter" (click) = 'clipboardService.duplicate()'>
-                    <img id = "duplicate" class="clipboardIcon" src="../../../assets/lateral-bar/duplicate.png" title = "Duppliquer">
-                 </a>
-                 <a mat-list-item class = "filter" (click) = 'clipboardService.delete()'>
-                    <img id = "delete" class="clipboardIcon" src="../../../assets/lateral-bar/delete.png" title = "Supprimer">
-                 </a>
+                    <a mat-list-item class="filter" (click)='clipboardService.copy()'>
+                        <img id="copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title="Copier">
+                    </a>
+                    <a mat-list-item class="filter" (click)='clipboardService.paste(0,0)'>
+                        <img id="paste" class="clipboardIcon" src="../../../assets/lateral-bar/paste.png"
+                            title="Coller">
+                    </a>
+                    <a mat-list-item class="filter" (click)='clipboardService.cut()'>
+                        <img id="cut" class="clipboardIcon" src="../../../assets/lateral-bar/cut.png" title="Couper">
+                    </a>
+                    <a mat-list-item class="filter" (click)='clipboardService.duplicate()'>
+                        <img id="duplicate" class="clipboardIcon" src="../../../assets/lateral-bar/duplicate.png"
+                            title="Duppliquer">
+                    </a>
+                    <a mat-list-item class="filter" (click)='clipboardService.delete()'>
+                        <img id="delete" class="clipboardIcon" src="../../../assets/lateral-bar/delete.png"
+                            title="Supprimer">
+                    </a>
                 </div>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()' >
-                    <img id="pencil"  class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon" >
+                <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()'>
+                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
@@ -71,54 +72,62 @@
                     <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
-                    <img id="line" class="sideBarIcon" src="../../../assets/lateral-bar/timeline-24px.svg" title="Ligne">
+                    <img id="line" class="sideBarIcon" src="../../../assets/lateral-bar/timeline-24px.svg"
+                        title="Ligne">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
-                    <img id='colourChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
+                    <img id='colourChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png"
+                        title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
-                    <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png" title="Pipette">
+                    <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png"
+                        title="Pipette">
                 </a>
-                <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
+                <a mat-list-item class="filter" (click)="shapesMenuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
-                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger"
-                        (click)="menuTrigger.openMenu()"></button>
+                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #shapesMenuTrigger="matMenuTrigger"
+                        (click)="shapesMenuTrigger.openMenu()"></button>
                 </a>
                 <mat-menu #shapeMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>
                     <button mat-menu-item (click)='toolHandler.chooseEllipse()'>Ellipse</button>
                     <button mat-menu-item (click)='toolHandler.choosePolygon()'>Polygon</button>
                 </mat-menu>
+
                 <a mat-list-item class="filter" (click)='toolHandler.chooseText()'>
-                    <img id='text' class="sideBarIcon" src="../../../assets/lateral-bar/text_fields-24px.svg" title="Texte">
+                    <img id='text' class="sideBarIcon" src="../../../assets/lateral-bar/text_fields-24px.svg"
+                        title="Texte">
                 </a>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
                     <img id="stamp" class="sideBarIcon" src="../../../assets/toolbar/stamp.svg" title="Stamp">
                 </a>
-                <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
+                <a mat-list-item class="filter" (click)="gridMenuTrigger.openMenu()">
                     <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille">
-                    <button mat-icon-button [matMenuTriggerFor]="gridMenu" #menuTrigger="matMenuTrigger"
-                        (click)="menuTrigger.openMenu()"></button>
+                    <button mat-icon-button [matMenuTriggerFor]="gridMenu" #gridMenuTrigger="matMenuTrigger"
+                        (click)="gridMenuTrigger.openMenu()"></button>
                 </a>
-                <mat-menu #gridMenu="matMenu" class = "filter">
-                    <p class = "filter"> Grid: </p>
-                    <label class="switch" (click) = "$event.stopPropagation()">  
-                        <input type="checkbox" >
+                <mat-menu #gridMenu="matMenu" class="filter">
+                    <p class="filter"> Grid: </p>
+                    <label class="switch" (click)="$event.stopPropagation()">
+                        <input type="checkbox">
                         <span #toggle class="slider" (click)="gridService.toggleGrid()"></span>
                     </label>
                     <br>
                     <div *ngIf="gridService.gridStatus">
-                        <p class = "filter"> Opacité: </p>
-                        <input class = "filter" type="range" min="0.2" max="1" step = "0.05" (click) = "$event.stopPropagation()"
-                            [(ngModel)]="gridService.gridOpacity" id="opacityInput" title ="Valeur d'opacité"> 
-                            <label class="filter">{{gridService.gridOpacity}}%</label>
+                        <p class="filter"> Opacité: </p>
+                        <input class="filter" type="range" min="0.2" max="1" step="0.05"
+                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridOpacity" id="opacityInput"
+                            title="Valeur d'opacité">
+                        <label class="filter">{{gridService.gridOpacity}}%</label>
                         <br>
-                        <p class = "filter"> Taille: </p>
-                        <input class = "filter" type="range" min="0.02" max="0.1" step ="0.005" (click) = "$event.stopPropagation()"
-                            [(ngModel)]="gridService.gridSize" id="sizeInput" title ="Taille des carrés">
-                            <label class="filter"> {{1/gridService.gridSize | number:'1.0-0'}}u </label>
+                        <p class="filter"> Taille: </p>
+                        <input class="filter" type="range" min="0.02" max="0.1" step="0.005"
+                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridSize" id="sizeInput"
+                            title="Taille des carrés">
+                        <label class="filter"> {{1/gridService.gridSize | number:'1.0-0'}}u </label>
                     </div>
                 </mat-menu>
+
                 <a mat-list-item class="filter" (click)="options.toggle()">
                     <img id="options" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Options">
                 </a>
