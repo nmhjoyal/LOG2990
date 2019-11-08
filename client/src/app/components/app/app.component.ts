@@ -18,11 +18,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
-<<<<<<< HEAD
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
-=======
-import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
->>>>>>> 5daf02be7a3a57248fd9a669cf29fd4a81df4e86
 import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 
 @Component({
