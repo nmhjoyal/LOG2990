@@ -2,13 +2,20 @@ import { TestBed } from '@angular/core/testing';
 
 import { UndoRedoService } from './undo-redo.service';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { SelectorService } from '../selector-service/selector-service';
 
 describe('UndoRedoService', () => {
   let service: UndoRedoService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: SelectorService },
+      ],
+    });
     service = TestBed.get(UndoRedoService);
+    let undoListSpy = spyOn(service.undoList, 'pop');
+    let drawingsSpy = spyOn(service.drawingStorage.drawings, 'pop');
   });
 
   it('should be created', () => {
