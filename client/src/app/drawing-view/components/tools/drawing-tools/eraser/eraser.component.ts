@@ -1,7 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
-import { SelectorService } from '../../../../../services/selector-service/selector-service';
 import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
 import { IShape, IPreviewBox } from '../../assets/interfaces/shape-interface';
 import { ITools } from '../../assets/interfaces/itools';
@@ -13,16 +12,17 @@ import { ITools } from '../../assets/interfaces/itools';
 })
 export class EraserComponent implements OnInit {
 
-  constructor(public toolService: ToolHandlerService, public selectorService: SelectorService, public colorService: ColorService) {
+  constructor(public toolService: ToolHandlerService, public colorService: ColorService) {
   }
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  size = 10;
+  size: number;
   leftClicked: boolean;
   eraser: IPreviewBox;
 
   ngOnInit() {
+    this.size = 10;
     this.eraser = {
       x: 0,     // Coordinates next to eraser icon on UI
       y: 460,
