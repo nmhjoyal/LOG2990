@@ -168,12 +168,8 @@ export class AppComponent implements OnInit {
       this.toolHandler.choosePolygon();
     }
   }
-
-   // Grid methods
-
   @HostListener('document:keydown.g', ['$event']) onKeydownHandlerGrid() {
     this.gridService.toggleGrid();
-    // this.gridService.setStyle(); // ?
   }
 
   @HostListener('document:keydown.shift.+', ['$event']) onKeydownHandlerPlus() {
@@ -260,15 +256,4 @@ export class AppComponent implements OnInit {
       this.toolHandler.resetToolSelection();
     }
   }
-/*
-  setGridProperties(): void {
-    this.gridService.gridOpacity = this.userInputOpacity;
-    this.gridService.gridSize = this.userInputGridSize;
-  }
-
-// Functional but code smell size setter
-  setSizeSmell(): void {
-    this.gridService.setSizeSmell();
-  }
-}*/
 }

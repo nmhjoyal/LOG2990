@@ -108,12 +108,14 @@
                     </label>
                     <br>
                     <p class = "filter"> Opacité: </p>
-                    <input class = "filter" type="range" min="1" max="100" value="100" (click) = "$event.stopPropagation()"
+                    <input class = "filter" type="range" min="1" max="100" value="50" (click) = "$event.stopPropagation()"
                            [(ngModel)]="gridService.gridOpacity" id="opacityInput" title ="Valeur d'opacité"> 
+                           <label class="filter">{{gridService.gridOpacity}}%</label>
                     <br>
                     <p class = "filter"> Taille: </p>
-                    <input class = "filter" type="range" min="1" max="100" value="100" (click) = "$event.stopPropagation()"
+                    <input class = "filter" type="range" min="5" max="100" value="50" step ="5" (click) = "$event.stopPropagation()"
                            [(ngModel)]="gridService.gridSize" id="sizeInput" title ="Taille des carrés">
+                           <label class="filter"> {{gridService.gridSize}}px</label>
                 </mat-menu>
                 <a mat-list-item class="filter" (click)="options.toggle()">
                     <img id="options" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Options">

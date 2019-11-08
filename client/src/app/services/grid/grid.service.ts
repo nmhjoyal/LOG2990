@@ -13,8 +13,8 @@ export class Gridservice {
 
   constructor() {
     this.gridStatus = false;
-    this.gridOpacity = 1;
-    this.gridSize = 1;
+    this.gridOpacity = 50;
+    this.gridSize = 50;
   }
 
   toggleGrid(): void {
@@ -45,6 +45,8 @@ export class Gridservice {
     }
 
   }*/
+
+  /*
   drawGrid(): void {
     var cnv = document.getElementById("cnv");
 
@@ -101,7 +103,7 @@ export class Gridservice {
 
     ctx.closePath();
 }
-
+*/
   decreaseSize(): void {
     if (this.gridSize > NumericalValues.MIN_GRID_SIZE) {
       this.gridSize--;
