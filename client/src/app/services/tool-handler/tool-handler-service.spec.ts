@@ -179,7 +179,7 @@ describe('ToolHandlerService', () => {
     expect(service.noneSelected).toBe(false);
   });
 
-  it('#chooseSelector should call #resetSelection and select the eraser', () => {
+  it('#chooseEraser should call #resetSelection and select the eraser', () => {
     const resetSpy = spyOn(service, 'resetSelection');
     service.chooseEraser();
 
