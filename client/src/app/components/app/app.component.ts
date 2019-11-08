@@ -16,12 +16,8 @@ import { LocalStorageService } from 'src/app/services/local_storage/local-storag
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
-<<<<<<< HEAD
-import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
-import { Gridservice } from '../../services/grid/grid.service';
-=======
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
->>>>>>> e0595ebc48991ce37fcc0da7b1d87720166a9be6
+import { Gridservice } from '../../services/grid/grid.service';
 
 @Component({
   selector: 'app-root',
@@ -41,12 +37,8 @@ export class AppComponent implements OnInit {
     protected drawingStorage: DrawingStorageService,
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
-<<<<<<< HEAD
-    public colorService: ColorService,
-    private gridService: Gridservice,
-=======
     public colourService: ColourService,
->>>>>>> e0595ebc48991ce37fcc0da7b1d87720166a9be6
+    private gridService: Gridservice,
     public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,

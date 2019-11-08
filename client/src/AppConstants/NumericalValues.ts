@@ -10,4 +10,5 @@ export class NumericalValues {
     static MIN_GRID_SIZE = 1;
     static DUPLICATE_OFFSET = 20;
     static NOT_VALID = -1;
+    static DEFAULT_GRID_SIZE = 50;
 }

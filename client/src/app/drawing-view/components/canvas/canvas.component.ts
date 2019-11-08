@@ -24,12 +24,8 @@ export class CanvasComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
-<<<<<<< HEAD
-    protected canvasData: CanvasInformationService, public colorService: ColorService,
+    protected canvasData: CanvasInformationService, public colourService: ColourService,
     protected gridService: Gridservice) {
-=======
-    protected canvasData: CanvasInformationService, public colourService: ColourService) {
->>>>>>> e0595ebc48991ce37fcc0da7b1d87720166a9be6
   }
 
   applyColourToCanvas(): void {

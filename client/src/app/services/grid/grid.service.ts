@@ -13,8 +13,8 @@ export class Gridservice {
 
   constructor() {
     this.gridStatus = false;
-    this.gridOpacity = 50;
-    this.gridSize = 50;
+    this.gridOpacity = NumericalValues.DEFAULT_GRID_SIZE;
+    this.gridSize =  NumericalValues.DEFAULT_GRID_SIZE;
   }
 
   toggleGrid(): void {
