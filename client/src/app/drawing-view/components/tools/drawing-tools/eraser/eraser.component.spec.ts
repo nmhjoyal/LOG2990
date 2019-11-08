@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorService } from '../../../../../services/color_service/color.service';
-import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
 import { ITools } from '../../assets/interfaces/itools';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
@@ -9,7 +8,6 @@ import { DrawingStorageService } from '../../../../../services/drawing-storage/d
 describe('EraserComponent', () => {
   let component: EraserComponent;
   let fixture: ComponentFixture<EraserComponent>;
-  let toolhandlerMock: ToolHandlerService;
   let colorserviceMock: ColorService;
   let rectangleMock: IShape;
   let drawingStorageMock: DrawingStorageService
@@ -51,7 +49,7 @@ describe('EraserComponent', () => {
 
   it('should delete object by changing its id', () => {
     colorserviceMock = new ColorService();
-    drawingStorageMock = new DrawingStorageService;
+    drawingStorageMock = new DrawingStorageService();
     rectangleMock = {
       id: 'rectangle',
       x: 0,
@@ -70,6 +68,7 @@ describe('EraserComponent', () => {
     drawingStorageMock.saveDrawing(rectangleMock);
 
     component.colorService = colorserviceMock;
+    component.drawingStorage = drawingStorageMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
 
@@ -78,7 +77,7 @@ describe('EraserComponent', () => {
 
   it('should not delete object if coordinates do not match', () => {
     colorserviceMock = new ColorService();
-    drawingStorageMock = new DrawingStorageService;
+    drawingStorageMock = new DrawingStorageService();
     rectangleMock = {
       id: 'rectangle',
       x: 50,
@@ -95,7 +94,7 @@ describe('EraserComponent', () => {
     };
 
     drawingStorageMock.saveDrawing(rectangleMock);
-
+    component.drawingStorage = drawingStorageMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -121,7 +120,7 @@ describe('EraserComponent', () => {
 
   it('should outline red on matching coordinates', () => {
     colorserviceMock = new ColorService();
-    drawingStorageMock = new DrawingStorageService;
+    drawingStorageMock = new DrawingStorageService();
     rectangleMock = {
       id: 'rectangle',
       x: 0,
@@ -138,7 +137,7 @@ describe('EraserComponent', () => {
     };
 
     drawingStorageMock.saveDrawing(rectangleMock);
-
+    component.drawingStorage = drawingStorageMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -148,7 +147,7 @@ describe('EraserComponent', () => {
 
   it('should not outline red if coordinates do not match', () => {
     colorserviceMock = new ColorService();
-    drawingStorageMock = new DrawingStorageService;
+    drawingStorageMock = new DrawingStorageService();
     rectangleMock = {
       id: 'rectangle',
       x: 20,
@@ -165,7 +164,7 @@ describe('EraserComponent', () => {
     };
 
     drawingStorageMock.saveDrawing(rectangleMock);
-
+    component.drawingStorage = drawingStorageMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -176,7 +175,7 @@ describe('EraserComponent', () => {
   it('should set object outline colour back to default when hovered off', () => {
     colorserviceMock = new ColorService();
     colorserviceMock.color[1] = 'black';
-    drawingStorageMock = new DrawingStorageService;
+    drawingStorageMock = new DrawingStorageService();
     rectangleMock = {
       id: 'rectangle',
       x: 20,
@@ -193,7 +192,7 @@ describe('EraserComponent', () => {
     };
 
     drawingStorageMock.saveDrawing(rectangleMock);
-
+    component.drawingStorage = drawingStorageMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
