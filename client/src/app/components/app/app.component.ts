@@ -224,13 +224,10 @@ export class AppComponent implements OnInit {
   }
 
   openExportWindow(): void {
-    this.exportData.data = { canvasElement: this.canvasElement }
+    // this.exportData.data = { canvasElement: this.canvasElement }
     if (this.isOnlyModalOpen()) {
       this.dialog.open(ExportWindowComponent, {
-        data: {
-          data: ExportWindowComponent.prototype.data,
-          exportData: ExportInformationService.prototype.data,
-        },
+        // data: this.exportData.data,
         panelClass: 'export-window',
       });
     }

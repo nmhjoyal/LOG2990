@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -10,21 +10,27 @@ import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstr
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class CanvasComponent {
+export class CanvasComponent implements AfterViewInit {
 
   toolId = Id;
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
   @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-    public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
+  private exportData: ExportInformationService, 
+  public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
     protected canvasData: CanvasInformationService, public colourService: ColourService) {
+  }
+
+  ngAfterViewInit() {
+    this.exportData.data = {canvasElement: this.canvasChildComponent};
   }
 
   applyColourToCanvas(): void {
