@@ -10,6 +10,7 @@ describe('EraserComponent', () => {
   let fixture: ComponentFixture<EraserComponent>;
   let toolhandlerMock: ToolHandlerService;
   let colorserviceMock: ColorService;
+  let rectangleMock: IShape;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -40,14 +41,16 @@ describe('EraserComponent', () => {
   });
 
   it('should have initial (0,460) x/y coordinates', () => {
-    expect(component.eraser.x).toBe(0);
-    expect(component.eraser.y).toBe(460);
+    const defaultX = 0;
+    const defaultY = 460;
+    expect(component.eraser.x).toBe(defaultX);
+    expect(component.eraser.y).toBe(defaultY);
   });
 
   it('should delete object by changing its id', () => {
     colorserviceMock = new ColorService();
     toolhandlerMock = new ToolHandlerService(colorserviceMock);
-    const rectangleMock: IShape = {
+    rectangleMock = {
       id: 'rectangle',
       x: 0,
       y: 0,
@@ -76,7 +79,7 @@ describe('EraserComponent', () => {
   it('should not delete object if coordinates do not match', () => {
     colorserviceMock = new ColorService();
     toolhandlerMock = new ToolHandlerService(colorserviceMock);
-    const rectangleMock: IShape = {
+    rectangleMock = {
       id: 'rectangle',
       x: 50,
       y: 50,
@@ -121,7 +124,7 @@ describe('EraserComponent', () => {
   it('should outline red on matching coordinates', () => {
     colorserviceMock = new ColorService();
     toolhandlerMock = new ToolHandlerService(colorserviceMock);
-    const rectangleMock: IShape = {
+    rectangleMock = {
       id: 'rectangle',
       x: 0,
       y: 0,
@@ -150,7 +153,7 @@ describe('EraserComponent', () => {
   it('should not outline red if coordinates do not match', () => {
     colorserviceMock = new ColorService();
     toolhandlerMock = new ToolHandlerService(colorserviceMock);
-    const rectangleMock: IShape = {
+    rectangleMock = {
       id: 'rectangle',
       x: 20,
       y: 20,
@@ -180,7 +183,7 @@ describe('EraserComponent', () => {
     colorserviceMock = new ColorService();
     colorserviceMock.color[1] = 'black';
     toolhandlerMock = new ToolHandlerService(colorserviceMock);
-    const rectangleMock: IShape = {
+    rectangleMock = {
       id: 'rectangle',
       x: 20,
       y: 20,
