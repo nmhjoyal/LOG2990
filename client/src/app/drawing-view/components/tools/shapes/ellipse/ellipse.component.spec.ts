@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { EllipseComponent } from './ellipse.component';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 
 const STROKE_WIDTH = 10;
 const INITIAL_X = 150;
@@ -12,7 +12,6 @@ const INITIAL_Y = 200;
 const CURSOR_X = 550;
 const CURSOR_Y = 700;
 const CURSOR_MOVE = 300;
-
 
 describe('EllipseComponent', () => {
   let component: EllipseComponent;
@@ -147,8 +146,8 @@ describe('EllipseComponent', () => {
 
     component.onShiftUp();
 
-    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH)/NumericalValues.TWO, 'shape.width took normal value');
-    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH)/NumericalValues.TWO, 'shape.height took normal value');
+    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / NumericalValues.TWO, 'shape.width took normal value');
+    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / NumericalValues.TWO, 'shape.height took normal value');
 
   });
 

@@ -1,16 +1,15 @@
 import SpyObj = jasmine.SpyObj;
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ExportWindowComponent } from './export-window.component';
-import { MatMenuModule, MatDialogModule, MatFormFieldModule, MatInputModule, 
-  MatButtonModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatButtonModule, MatDialogModule, MatDialogRef,
+  MatFormFieldModule, MatInputModule, MatMenuModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IndexService } from 'src/app/services/index/index.service';
+import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ISaveModalData } from '../save-window/ISaveModalData';
-
+import { ExportWindowComponent } from './export-window.component';
 
 describe('ExportWindowComponent', () => {
   const dialogRefMock: SpyObj<MatDialogRef<ExportWindowComponent>> = jasmine.createSpyObj('MatDialogRef<ExportWindowComponent>', ['close']);
@@ -26,13 +25,11 @@ describe('ExportWindowComponent', () => {
   const FORMAT_JPG = 'JPG';
   const FORMAT_PNG = 'PNG';
 
-
   const dialogMock = {
     close: () => {
         confirm('MockDialog close');
     },
-  }; 
-
+  };
 
   beforeEach(async(() => {
     indexMock = jasmine.createSpyObj('IndexService', ['basicGet', 'getTags', 'saveTag', 'saveDrawing']);
@@ -48,7 +45,7 @@ describe('ExportWindowComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        MatButtonModule,],
+        MatButtonModule, ],
 
       providers: [
         { provide: MatDialogRef, useValue: { dialogMock } },

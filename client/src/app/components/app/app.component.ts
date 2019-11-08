@@ -1,5 +1,6 @@
-import { Component, HostListener, Inject, OnInit, ViewChild, ElementRef} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatSidenav} from '@angular/material';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
+import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
@@ -17,7 +18,8 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
-import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
+import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 
 @Component({
   selector: 'app-root',
@@ -30,16 +32,17 @@ export class AppComponent implements OnInit {
   protected cursorY: number;
 
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
-  @ViewChild('canvas', {static: false }) canvasElement: ElementRef;
+  @ViewChild('myCanvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
     protected toolHandler: ToolHandlerService,
     protected drawingStorage: DrawingStorageService,
-    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
+  @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
-    public clipboardService: ClipboardService) {
+    public clipboardService: ClipboardService,
+    public exportData: ExportInformationService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -79,7 +82,7 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator(this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
-         this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX], );
+        this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX]);
     }
   }
 
@@ -221,12 +224,12 @@ export class AppComponent implements OnInit {
   }
 
   openExportWindow(): void {
+    this.exportData.data = { canvasElement: this.canvasElement }
     if (this.isOnlyModalOpen()) {
       this.dialog.open(ExportWindowComponent, {
         data: {
           data: ExportWindowComponent.prototype.data,
-          canvasData: this.canvasElement,
-          
+          exportData: ExportInformationService.prototype.data,
         },
         panelClass: 'export-window',
       });

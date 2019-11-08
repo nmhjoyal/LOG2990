@@ -1,5 +1,5 @@
-<svg id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor">
+<svg #canvas id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
+    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour">
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" 
     (contextmenu)="getColorFromCanvas($event)"  />
 

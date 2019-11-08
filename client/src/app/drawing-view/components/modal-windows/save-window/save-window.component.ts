@@ -64,7 +64,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
           },
         );
       }
-    }); 
+    });
 
     this.index.saveDrawing(drawingToSave).subscribe(
       (response: boolean | undefined) => {

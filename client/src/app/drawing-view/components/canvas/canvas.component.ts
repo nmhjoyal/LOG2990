@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild} from '@angular/core';
+import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -20,6 +20,7 @@ export class CanvasComponent {
 
   toolId = Id;
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
+  @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,

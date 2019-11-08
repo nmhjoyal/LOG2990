@@ -7,6 +7,7 @@ import { IndexService } from 'src/app/services/index/index.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IModalData } from './IModalData';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 
 @Component({
   selector: 'app-modal-window',
@@ -23,7 +24,8 @@ export abstract class ModalWindowComponent {
     protected toolHandler?: ToolHandlerService,
     protected drawingStorage?: DrawingStorageService,
     protected index?: IndexService,
-    protected colour?: ColourService) {
+    protected colour?: ColourService,
+    protected exportInformation?: ExportInformationService) {
 
   }
 

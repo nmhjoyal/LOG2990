@@ -17,8 +17,8 @@
             </div>
         </form>
         <div>
-            <button id="export" type="button" mat-raised-button [matMenuTriggerFor]="exportMenu" #menuTrigger="matMenuTrigger"
-            (click)="menuTrigger.openMenu()">{{format}}</button>
+            <button id="export" type="button" mat-raised-button [matMenuTriggerFor]="exportMenu"
+                #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">{{format}}</button>
             <mat-menu #exportMenu="matMenu">
                 <button mat-menu-item (click)='chooseExportType("SVG")'>SVG</button>
                 <button mat-menu-item (click)='chooseExportType("PNG")'>PNG</button>
@@ -27,6 +27,7 @@
             </mat-menu>
         </div>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !formatSelected" (click)="onAcceptClick(nameInput.value)">Accepter</button>
+        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !formatSelected"
+            (click)="onAcceptClick(nameInput.value)">Accepter</button>
     </div>
 </div>
