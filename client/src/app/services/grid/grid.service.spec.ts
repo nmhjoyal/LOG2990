@@ -21,9 +21,21 @@ describe('GridService', () => {
     expect(service.gridSize).toBeLessThan(NumericalValues.DEFAULT_GRID_SIZE);
   });
 
+  it('should not decrease rectangle size on #decreaseSize when at min', () => {
+    service.gridSize = NumericalValues.MIN_GRID_SIZE;
+    service.decreaseSize();
+    expect(service.gridSize).toEqual(NumericalValues.MIN_GRID_SIZE);
+  });
+
   it('should increase rectangle size on #increaseSize', () => {
     service.increaseSize();
     expect(service.gridSize).toBeGreaterThan(NumericalValues.DEFAULT_GRID_SIZE);
+  });
+
+  it('should not increase rectangle size on #increaseSize when at max', () => {
+    service.gridSize = NumericalValues.MAX_GRID_SIZE;
+    service.increaseSize();
+    expect(service.gridSize).toEqual(NumericalValues.MAX_GRID_SIZE);
   });
 
   it('should put grid visibility to 0 on #toggleGrid when grid is on', () => {

@@ -38,12 +38,13 @@ describe('AppComponent', () => {
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-    gridServiceMock = jasmine.createSpyObj('GridService', ['']);
+    gridServiceMock = jasmine.createSpyObj('GridService', ['increaseSize', 'decreaseSize', 'toggleGrid']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
                                 dataMock, canvasMock, colourMock, gridServiceMock, clipboardMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
+    component.toggle = jasmine.createSpyObj('ElementRef<HTMLElement>', ['']);
   }));
 
   it('should create', () => {
@@ -163,6 +164,24 @@ describe('AppComponent', () => {
     toolHandlerMock.chooseText.and.callThrough();
     component.onKeydownTEvent();
     expect(toolHandlerMock.chooseText).toHaveBeenCalled();
+  });
+
+  it('#toggleGrid should be called when g is pressed', () => {
+    const toggle: HTMLElement = component.toggle.nativeElement;
+    spyOn(toggle, 'click');
+    component.onKeydownG();
+    expect(toggle.click).toHaveBeenCalled();
+    expect(gridServiceMock.toggleGrid).toHaveBeenCalled();
+  });
+
+  it('#increaseSize should be called when Shift+ is pressed', () => {
+    component.onKeydownShiftPlus();
+    expect(gridServiceMock.increaseSize).toHaveBeenCalled();
+  });
+
+  it('#decreaseSize should be called when Shift- is pressed', () => {
+    component.onKeydownShiftMinus();
+    expect(gridServiceMock.decreaseSize).toHaveBeenCalled();
   });
 
 });

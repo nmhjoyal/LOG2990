@@ -171,20 +171,20 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.g', ['$event']) onKeydownHandlerGrid() {
+  @HostListener('document:keydown.g', ['$event']) onKeydownG() {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       const toggle: HTMLElement = this.toggle.nativeElement;
       toggle.click();
     }
   }
 
-  @HostListener('document:keydown.shift.+', ['$event']) onKeydownHandlerPlus() {
+  @HostListener('document:keydown.shift.+', ['$event']) onKeydownShiftPlus() {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.increaseSize();
     }
   }
 
-  @HostListener('document:keydown.shift.-', ['$event']) onKeydownHandlerMinus() {
+  @HostListener('document:keydown.shift.-', ['$event']) onKeydownShiftMinus() {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.decreaseSize();
     }

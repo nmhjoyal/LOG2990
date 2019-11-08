@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.97% </span>
+        <span class="strong">97% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>96/99</span>
+        <span class='fraction'>97/100</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">82.35% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>17/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.94% </span>
+        <span class="strong">96.97% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>95/98</span>
+        <span class='fraction'>96/99</span>
       </div>
     </div>
     <p class="quiet">
@@ -237,7 +237,10 @@
 <a name='L189'></a><a href='#L189'>189</a>
 <a name='L190'></a><a href='#L190'>190</a>
 <a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -256,6 +259,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-yes">34x</span>
@@ -430,7 +434,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
@@ -447,11 +452,12 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
 &nbsp;
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, protected colorService: ColorService,
+  constructor(public toolService: ToolHandlerService, drawingStorageRef: DrawingStorageService,
+      attributesServiceRef: AttributesService, protected colourService: ColourService,
     protected selectorService: SelectorService) {
-    super(toolServiceRef, attributesServiceRef, colorService);
+    super(drawingStorageRef, attributesServiceRef, colourService);
     this.shape.strokeWidth = 1;
-    this.shape.primaryColor = 'black';
+    this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
     this.mouseMoved = false;
   }
@@ -524,7 +530,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       this.mouseMoved = true;
       this.selectorService.resetSize();
       this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.toolService.drawings, this.previewBox);
+      this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
       if (this.isReverseSelection) {
         this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
       }
@@ -566,7 +572,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 &nbsp;
   protected leftClick(event: MouseEvent): void {
-    for (const drawing of this.toolService.drawings) {
+    for (const drawing of this.drawingStorage.drawings) {
       <span class="missing-if-branch" title="else path not taken" >E</span>if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         this.selectorService.SelectedObjects.clear();
         this.selectorService.SelectedObjects.add(drawing);
@@ -581,7 +587,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 &nbsp;
   protected rightClick(event: MouseEvent): void {
-    for (const drawing of this.toolService.drawings) {
+    for (const drawing of this.drawingStorage.drawings) {
       <span class="missing-if-branch" title="else path not taken" >E</span>if (this.selectorService.cursorTouchesObject(drawing, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         if (this.selectorService.SelectedObjects.has(drawing)) {
           this.selectorService.selectedObjects.delete(drawing);
@@ -625,7 +631,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Nov 05 2019 20:02:23 GMT-0500 (Eastern Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Nov 08 2019 17:35:06 GMT-0500 (Eastern Standard Time)
 </div>
 </div>
 <script src="..\..\..\..\..\..\prettify.js"></script>
