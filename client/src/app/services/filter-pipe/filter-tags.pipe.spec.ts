@@ -2,18 +2,18 @@ import SpyObj = jasmine.SpyObj;
 
 import { IDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
-import { ToolHandlerService } from '../tool-handler/tool-handler.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { FilterTagsPipe } from './filter-tags.pipe';
 
 describe('FilterTagsPipe', () => {
-  const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+  const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawing']);
   const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
 
   const mockDrawing = {
     name: 'name',
     tags: [{ name: 'tag', isSelected: true }, { name: 'tag2', isSelected: false }],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-    shapes: toolHandlerMock.drawings,
+    shapes: drawingStorageMock.drawings,
     canvas: canvasDataMock.data,
   } as IDrawing;
 
@@ -21,14 +21,14 @@ describe('FilterTagsPipe', () => {
     name: 'name',
     tags: [{ name: 'tag', isSelected: true }, { name: 'tag3', isSelected: false }],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-    shapes: toolHandlerMock.drawings,
+    shapes: drawingStorageMock.drawings,
     canvas: canvasDataMock.data,
   } as IDrawing;
 
   const mockDrawing3 = {
     name: 'name',
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-    shapes: toolHandlerMock.drawings,
+    shapes: drawingStorageMock.drawings,
     canvas: canvasDataMock.data,
   } as IDrawing;
 

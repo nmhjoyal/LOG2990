@@ -1,7 +1,7 @@
     // tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { CrayonComponent } from './crayon.component';
@@ -13,7 +13,7 @@ describe('CrayonComponent', () => {
   let component: CrayonComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<CrayonComponent>;
-  const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
+  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
 
   beforeEach(async(() => {
@@ -21,7 +21,7 @@ describe('CrayonComponent', () => {
       declarations: [CrayonComponent],
       imports: [BrowserAnimationsModule],
       providers: [
-        { provide: ToolHandlerService, useValue: toolServiceMock, },
+        { provide: DrawingStorageService, useValue: drawingStorageMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })
