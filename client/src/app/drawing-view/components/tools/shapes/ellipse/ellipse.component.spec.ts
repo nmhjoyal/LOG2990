@@ -4,7 +4,6 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { EllipseComponent } from './ellipse.component';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 
 const STROKE_WIDTH = 10;
 const INITIAL_X = 150;
@@ -147,8 +146,8 @@ describe('EllipseComponent', () => {
 
     component.onShiftUp();
 
-    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH)/NumericalValues.TWO, 'shape.width took normal value');
-    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH)/NumericalValues.TWO, 'shape.height took normal value');
+    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / 2, 'shape.width took normal value');
+    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2, 'shape.height took normal value');
 
   });
 

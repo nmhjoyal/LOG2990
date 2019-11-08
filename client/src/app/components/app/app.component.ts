@@ -18,6 +18,7 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
 import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
+import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
   protected cursorY: number;
 
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
-  @ViewChild('canvas', {static: false }) canvasElement: ElementRef;
+  @ViewChild('myCanvas', {static: false }) canvasElement: ElementRef<CanvasComponent>;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
