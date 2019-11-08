@@ -87,8 +87,7 @@ describe('StampComponent', () => {
   });
 
   it('#onLeftClick only saves the stamp when an svgReference was chosen for it', () => {
-    component['drawingStorage'].drawings = [];
-    const savingSpy = spyOn(component['drawingStorage'].drawings, 'push');
+    const savingSpy = spyOn(component['drawingStorage'], 'saveDrawing');
     component.stamp.svgReference = '';
     const clickEvent: MouseEvent = new MouseEvent('click');
     component.onLeftClick(clickEvent);

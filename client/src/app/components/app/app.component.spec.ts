@@ -29,7 +29,10 @@ describe('AppComponent', () => {
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
-    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText']);
+    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText', 
+    'isUsingText']);
+    toolHandlerMock.isUsingText.and.callThrough();
+    toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'])
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);

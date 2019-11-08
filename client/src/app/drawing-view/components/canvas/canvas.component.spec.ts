@@ -86,12 +86,14 @@ describe('CanvasComponent', () => {
         LocalStorageService, 
         DrawingStorageService,
         ToolHandlerService,
+        ColorService,
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
+    mockColourService = TestBed.get(ColorService);
     mockToolService = TestBed.get(ToolHandlerService);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   });

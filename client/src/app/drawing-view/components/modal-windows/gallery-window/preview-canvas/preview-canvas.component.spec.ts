@@ -70,7 +70,7 @@ describe('PreviewCanvasComponent', () => {
     fixture = TestBed.createComponent(PreviewCanvasComponent);
     component = fixture.componentInstance;
     component.previewedDrawing = mockDrawing;
-    mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
+    mockDrawing.shapes = TestBed.get(DrawingStorageService).drawings;
     fixture.detectChanges();
   }));
 

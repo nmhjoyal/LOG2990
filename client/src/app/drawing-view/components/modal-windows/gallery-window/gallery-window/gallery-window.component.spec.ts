@@ -84,7 +84,7 @@ describe('GalleryWindowComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(GalleryWindowComponent);
-        mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
+        mockDrawing.shapes = TestBed.get(DrawingStorageService).drawings;
         component = new GalleryWindowComponent(dialogRefMock, dataMock, canvasInformationMock, drawingStorageMock, indexServiceMock);
         component.ngOnInit();
         fixture.detectChanges();

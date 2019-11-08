@@ -31,9 +31,11 @@ describe('TextComponent', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TextComponent);
-        attrService = TestBed.get(AttributesService);
-        textComponent = fixture.componentInstance;
         fixture.detectChanges();
+        attrService = TestBed.get(AttributesService);
+        TestBed.get(DrawingStorageService).drawings = [];
+        textComponent = fixture.componentInstance;
+        
     }));
 
     afterEach(() => {
@@ -85,6 +87,7 @@ describe('TextComponent', () => {
 
     it('click outside of box should save text to drawings only if lines contain text', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(false);
+        const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
         expect(textComponent.isFirstClick).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
@@ -93,17 +96,18 @@ describe('TextComponent', () => {
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(drawingStorageMock.drawings.length).toEqual(1);
+        expect(saveSpy.calls.count()).toEqual(1);
 
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(drawingStorageMock.drawings.length).toEqual(1);
+        expect(saveSpy.calls.count()).toEqual(1);
     });
 
     it('click inside of text box should not save text to drawings', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(true);
+        const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
         expect(textComponent.isFirstClick).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
@@ -112,7 +116,7 @@ describe('TextComponent', () => {
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(drawingStorageMock.drawings.length).toEqual(0);
+        expect(saveSpy.calls.count()).toEqual(0);
     });
 
     it('should create new line and pop to previous on backspace', () => {

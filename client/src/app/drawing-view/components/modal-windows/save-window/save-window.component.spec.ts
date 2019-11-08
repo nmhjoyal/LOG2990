@@ -80,7 +80,7 @@ describe('SaveWindowComponent', () => {
         component = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         component.data.displayedTags = [tag, tag2];
         component['name'] = 'drawing';
-        mockDrawing.shapes = TestBed.get(DrawingStorageService).seeDrawings();
+        mockDrawing.shapes = TestBed.get(DrawingStorageService).drawings;
         component.data.drawing = mockDrawing;
         fixture.detectChanges();
     });
