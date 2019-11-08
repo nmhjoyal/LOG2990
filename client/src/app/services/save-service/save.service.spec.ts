@@ -49,7 +49,7 @@ describe('SaveService', () => {
     // tslint:disable-next-line:no-magic-numbers
     expect(drawingStorageMock.saveDrawing.calls.count).toBe(2);
     expect(undoListSpy).toBe(0);
-    expect(accessingUndospy.accessingUndoList).toBe(false); // don,t think that works
+    expect(accessingUndospy).toBe(false);
 
   });
 });

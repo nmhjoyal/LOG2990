@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { RectangleComponent } from './rectangle.component';

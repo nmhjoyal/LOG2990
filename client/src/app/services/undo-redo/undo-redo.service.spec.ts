@@ -82,29 +82,4 @@ describe('UndoRedoService', () => {
     expect(drawingsSpy).toHaveBeenCalled();
   });
 
-  // it('#saveDrawing should push a drawing into drawings and set accessingundoList ' + 
-  //     'to false and empty the undoList if it was true', () => {
-  //   const dummyDrawing: ITools = {
-  //     id: '',
-  //     x: 0,
-  //     y: 0,
-  //     width: 0,
-  //     height: 0,
-  //   }
-  //   const drawingsSpy = spyOn(service.drawingStorage.drawings, 'push');
-  //   service.undoList = [dummyDrawing, dummyDrawing];
-  //   service.accessingUndoList = false;
-    
-  //   service.saveDrawing(dummyDrawing);
-  //   // tslint:disable:no-magic-numbers
-  //   expect(drawingsSpy.calls.count()).toBe(1);
-  //   expect(service.undoList.length).toBe(2);
-
-  //   service.accessingUndoList = true;
-  //   service.saveDrawing(dummyDrawing);
-  //   expect(drawingsSpy.calls.count()).toBe(2);
-  //   expect(service.undoList.length).toBe(0);
-  //   // tslint:enable:no-magic-numbers
-  // });
-
 });
