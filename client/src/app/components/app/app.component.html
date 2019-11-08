@@ -42,7 +42,7 @@
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
-                <div *ngIf="toolHandler.selectorSelected">
+                <div *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR">
                 <a mat-list-item class = "filter" (click) = 'clipboardService.copy()'>
                     <img id = "copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title = "Copier">
                  </a>

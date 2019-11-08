@@ -2,6 +2,7 @@ import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@ang
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
@@ -22,9 +23,10 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
     @Inject(MAT_DIALOG_DATA) public data: INewDrawingModalData,
     protected canvasData: CanvasInformationService,
     protected toolHandler: ToolHandlerService,
+    protected drawingStorage: DrawingStorageService,
     public colorService: ColorService,
     ) {
-    super(dialogRef, data, canvasData, undefined, toolHandler);
+    super(dialogRef, data, canvasData, undefined, toolHandler, drawingStorage);
     this.data.title = Strings.MODAL_TITLE;
     this.data.drawingWidthPreview = window.innerWidth - NumericalValues.SIDEBAR_WIDTH;
     this.data.drawingHeightPreview = window.innerHeight - NumericalValues.TITLEBAR_WIDTH;
@@ -54,7 +56,8 @@ export class NewDrawingWindowComponent extends ModalWindowComponent implements O
       : this.canvasData.data.drawingWidth = this.data.drawingWidthPreview;
     this.data.drawingColorInput ? this.canvasData.data.drawingColor = this.data.drawingColorInput :
       this.canvasData.data.drawingColor = Strings.WHITE_HEX;
-    this.toolHandler.clearPage();
+    this.toolHandler.resetToolSelection();
+    this.drawingStorage.emptyDrawings();
     this.dialogRef.close();
   }
 

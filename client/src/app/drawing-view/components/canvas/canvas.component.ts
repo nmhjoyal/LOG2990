@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
@@ -21,52 +22,53 @@ export class CanvasComponent {
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-    public toolHandler: ToolHandlerService, protected canvasData: CanvasInformationService, public colorService: ColorService) {
+    public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
+    protected canvasData: CanvasInformationService, public colorService: ColorService) {
   }
 
   applyColourToCanvas(): void {
-    if (this.toolHandler.colourApplicatorSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       this.canvasData.data.drawingColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = this.canvasData.data.drawingColor;
     }
   }
 
   getColorFromCanvas(event: MouseEvent): void {
     event.preventDefault();
-    if (this.toolHandler.pipetteSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColor;
     }
   }
 
   applyColourToLine(line: IDrawingTool): void {
-    if (this.toolHandler.colourApplicatorSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       line.color = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = line.color;
     }
   }
 
   getColorFromLine(event: MouseEvent, line: IDrawingTool): void {
     event.preventDefault();
-    if (this.toolHandler.pipetteSelected) {
+    if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = line.color;
     }
   }
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
-    if (this.toolHandler.colourApplicatorSelected && shape.primaryColor !== 'none') {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColor !== 'none') {
       shape.primaryColor = this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColorFromShape(event, ToolConstants.PRIMARY_COLOUR_INDEX, shape);
     }
   }
 
   applySecondaryColourToShape(event: MouseEvent, shape: IShape): void {
     event.preventDefault();
-    if (this.toolHandler.colourApplicatorSelected && shape.secondaryColor !== 'none') {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.secondaryColor !== 'none') {
       shape.secondaryColor = this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX];
-    } else if (this.toolHandler.pipetteSelected) {
+    } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColorFromShape(event, ToolConstants.SECONDARY_COLOUR_INDEX, shape);
     }
   }

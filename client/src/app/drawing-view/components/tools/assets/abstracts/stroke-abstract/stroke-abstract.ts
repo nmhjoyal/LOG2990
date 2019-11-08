@@ -1,7 +1,7 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
@@ -17,7 +17,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService,
+  constructor(protected drawingStorage: DrawingStorageService,
               protected attributesService: AttributesService,
               protected colorService: ColorService) {
     super();
@@ -58,7 +58,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
     };
-    this.toolService.saveDrawing(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   // Event handling methods
