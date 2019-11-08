@@ -106,36 +106,20 @@ describe('EraserComponent', () => {
     expect((toolhandlerMock.drawings[0] as ITools).id).toBe('rectangle');
   });
 
-  it('should not delete object if leftClicked is false', () => {
-    colorserviceMock = new ColorService();
-    toolhandlerMock = new ToolHandlerService(colorserviceMock);
-    const rectangleMock: IShape = {
-      id: 'rectangle',
-      x: 0,
-      y: 0,
-      width: 20,
-      height: 20,
-      verticesNumber: 4,
-      vertices: '',
-      primaryColor: '',
-      secondaryColor: '',
-      strokeOpacity: 1,
-      strokeWidth: 1,
-      fillOpacity: 1,
-    };
-
-    toolhandlerMock.drawings.push(rectangleMock);
-
-    // matching eraser services to mock services
-    component.toolService = toolhandlerMock;
-    component.selectorService = selectorserviceMock;
-    component.colorService = colorserviceMock;
-    component.eraser.x = 0;
-    component.eraser.y = 0;
-    const mouseeventMock = new MouseEvent('mousemove');
+  it('should not call eraseObject if leftClicked is false', () => {
     component.leftClicked = false;
+    const mouseeventMock = new MouseEvent('mousemove');
+    spyOn(component, 'eraseObject');
     component.mouseMove(mouseeventMock);
-    expect((toolhandlerMock.drawings[0] as ITools).id).toBe('rectangle');
+    expect(component.eraseObject).not.toHaveBeenCalled();
+  });
+
+  it('should call eraseObject if leftClicked is true', () => {
+    component.leftClicked = true;
+    const mouseeventMock = new MouseEvent('mousemove');
+    spyOn(component, 'eraseObject');
+    component.mouseMove(mouseeventMock);
+    expect(component.eraseObject).toHaveBeenCalled();
   });
 
   it('should outline red on matching coordinates', () => {
@@ -196,6 +180,37 @@ describe('EraserComponent', () => {
     component.eraser.y = 0;
     component.redOutline();
     expect(rectangleMock.secondaryColor).toBe('secondary');
+  });
+
+  it('should set object outline colour back to default when hovered off', () => {
+    colorserviceMock = new ColorService();
+    colorserviceMock.color[1] = 'black';
+    toolhandlerMock = new ToolHandlerService(colorserviceMock);
+    const rectangleMock: IShape = {
+      id: 'rectangle',
+      x: 20,
+      y: 20,
+      width: 20,
+      height: 20,
+      verticesNumber: 4,
+      vertices: '',
+      primaryColor: '',
+      secondaryColor: 'red',      // on hover, outline is set to red
+      strokeOpacity: 1,
+      strokeWidth: 1,
+      fillOpacity: 1,
+    };
+
+    toolhandlerMock.drawings.push(rectangleMock);
+
+    // matching eraser services to mock services
+    component.toolService = toolhandlerMock;
+    component.selectorService = selectorserviceMock;
+    component.colorService = colorserviceMock;
+    component.eraser.x = 0;
+    component.eraser.y = 0;
+    component.redOutline();
+    expect(rectangleMock.secondaryColor).toBe('black');
   });
 
   it('should initialize correct eraser properties', () => {
