@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
@@ -11,22 +11,21 @@ import { NumericalValues } from '../../../../../../AppConstants/NumericalValues'
   templateUrl: './eraser.component.html',
   styleUrls: ['./eraser.component.scss'],
 })
-export class EraserComponent implements OnInit {
-
-  constructor(public toolService: ToolHandlerService, public colorService: ColorService) {
-  }
+export class EraserComponent {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
   size: number;
   leftClicked: boolean;
   eraser: IPreviewBox;
+  defaultX = 0;
+  defaultY = 460;
 
-  ngOnInit() {
+  constructor(public toolService: ToolHandlerService, public colorService: ColorService) {
     this.size = NumericalValues.DEFAULT_ERASER_SIZE;
     this.eraser = {
-      x: 0,     // Coordinates next to eraser icon on UI
-      y: 460,
+      x: this.defaultX,
+      y: this.defaultY,
       width: this.size,
       height: this.size};
   }
@@ -39,19 +38,17 @@ export class EraserComponent implements OnInit {
   }
 
   eraseObject(): ITools {
-    let i: number;
-    for (i = this.toolService.drawings.length - 1; i >= 0; i--) {
-      if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[i], this.eraser)) {
-        this.toolService.drawings[i].id += 'Erased';  // Canvas doesn't display objects with id containing 'Erased'
+    let objectIndex: number;
+    for (objectIndex = this.toolService.drawings.length - 1; objectIndex >= 0; objectIndex--) {
+      if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[objectIndex], this.eraser)) {
+        this.toolService.drawings[objectIndex].id += 'Erased';
         break;
       }
     }
-    return this.toolService.drawings[i];
+    return this.toolService.drawings[objectIndex];
   }
 
-  redOutline(): void {
-
-    // As soon as the cursor hovers on an object, this is set false to exit 'if' to prevent multiple red outlines
+  toggleRedOutline(): void {
     let touchedFirstObject = true;
     for (let i = this.toolService.drawings.length - 1; i >= 0; i--) {
       const drawing = this.toolService.drawings[i] as IShape;
@@ -67,7 +64,6 @@ export class EraserComponent implements OnInit {
 
   @HostListener('mousedown') mouseDown(): void {
     this.leftClicked = true;
-    console.log(this.toolService.eraserSelected);
     this.eraseObject();
   }
 
@@ -76,7 +72,7 @@ export class EraserComponent implements OnInit {
   }
 
   @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {
-    this.redOutline();
+    this.toggleRedOutline();
     this.setEraserProperties(event);
     if (this.leftClicked) {
       this.eraseObject();

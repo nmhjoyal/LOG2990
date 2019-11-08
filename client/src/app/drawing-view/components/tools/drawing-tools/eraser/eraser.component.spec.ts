@@ -67,7 +67,6 @@ describe('EraserComponent', () => {
 
     toolhandlerMock.drawings.push(rectangleMock);
 
-    // matching eraser services to mock services
     component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
@@ -96,7 +95,6 @@ describe('EraserComponent', () => {
 
     toolhandlerMock.drawings.push(rectangleMock);
 
-    // matching eraser services to mock services
     component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
@@ -141,12 +139,11 @@ describe('EraserComponent', () => {
 
     toolhandlerMock.drawings.push(rectangleMock);
 
-    // matching eraser services to mock services
     component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
-    component.redOutline();
+    component.toggleRedOutline();
     expect(rectangleMock.secondaryColor).toBe('red');
   });
 
@@ -170,12 +167,11 @@ describe('EraserComponent', () => {
 
     toolhandlerMock.drawings.push(rectangleMock);
 
-    // matching eraser services to mock services
     component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
-    component.redOutline();
+    component.toggleRedOutline();
     expect(rectangleMock.secondaryColor).toBe('secondary');
   });
 
@@ -192,7 +188,7 @@ describe('EraserComponent', () => {
       verticesNumber: 4,
       vertices: '',
       primaryColor: '',
-      secondaryColor: 'red',      // on hover, outline is set to red
+      secondaryColor: 'red',
       strokeOpacity: 1,
       strokeWidth: 1,
       fillOpacity: 1,
@@ -200,12 +196,11 @@ describe('EraserComponent', () => {
 
     toolhandlerMock.drawings.push(rectangleMock);
 
-    // matching eraser services to mock services
     component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
-    component.redOutline();
+    component.toggleRedOutline();
     expect(rectangleMock.secondaryColor).toBe('black');
   });
 
