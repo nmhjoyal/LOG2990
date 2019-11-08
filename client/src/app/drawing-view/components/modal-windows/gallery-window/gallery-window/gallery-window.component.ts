@@ -124,14 +124,20 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   importLocalFile() {
 
     this.loadFile(this.fileInput.nativeElement.files[0]).subscribe((fileContent: string) => {
-      const data = JSON.parse(fileContent);
-      this.drawingToOpen = data;
-      this.drawingStorage.drawings = this.drawingToOpen.shapes;
-      this.canvasData.data = this.drawingToOpen.canvas;
+      try {
+        const data = JSON.parse(fileContent);
+        this.drawingToOpen = data;
+        this.drawingStorage.drawings = this.drawingToOpen.shapes;
+        this.canvasData.data = this.drawingToOpen.canvas;
+        this.onClose();
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          alert('Veuillez choisir un fichier JSON valide.');
+        } else {
+          alert('Il y a eu une erreur lors du chargement d\'un fichier local. Veuillez réessayer.')
+        }
+      }
     });
-
-    this.onClose();
-
   }
 
 }
