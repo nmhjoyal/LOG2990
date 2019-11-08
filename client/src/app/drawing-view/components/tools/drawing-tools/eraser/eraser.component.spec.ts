@@ -4,6 +4,7 @@ import { ToolHandlerService } from '../../../../../services/tool-handler/tool-ha
 import { ITools } from '../../assets/interfaces/itools';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
+import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 
 describe('EraserComponent', () => {
   let component: EraserComponent;
@@ -11,6 +12,7 @@ describe('EraserComponent', () => {
   let toolhandlerMock: ToolHandlerService;
   let colorserviceMock: ColorService;
   let rectangleMock: IShape;
+  let drawingStorageMock: DrawingStorageService
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,7 +51,7 @@ describe('EraserComponent', () => {
 
   it('should delete object by changing its id', () => {
     colorserviceMock = new ColorService();
-    toolhandlerMock = new ToolHandlerService(colorserviceMock);
+    drawingStorageMock = new DrawingStorageService;
     rectangleMock = {
       id: 'rectangle',
       x: 0,
@@ -65,9 +67,8 @@ describe('EraserComponent', () => {
       fillOpacity: 1,
     };
 
-    toolhandlerMock.drawings.push(rectangleMock);
+    drawingStorageMock.saveDrawing(rectangleMock);
 
-    component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -77,7 +78,7 @@ describe('EraserComponent', () => {
 
   it('should not delete object if coordinates do not match', () => {
     colorserviceMock = new ColorService();
-    toolhandlerMock = new ToolHandlerService(colorserviceMock);
+    drawingStorageMock = new DrawingStorageService;
     rectangleMock = {
       id: 'rectangle',
       x: 50,
@@ -93,14 +94,13 @@ describe('EraserComponent', () => {
       fillOpacity: 1,
     };
 
-    toolhandlerMock.drawings.push(rectangleMock);
+    drawingStorageMock.saveDrawing(rectangleMock);
 
-    component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
     component.eraseObject();
-    expect((toolhandlerMock.drawings[0] as ITools).id).toBe('rectangle');
+    expect((drawingStorageMock.drawings[0] as ITools).id).toBe('rectangle');
   });
 
   it('should not call eraseObject if leftClicked is false', () => {
@@ -121,7 +121,7 @@ describe('EraserComponent', () => {
 
   it('should outline red on matching coordinates', () => {
     colorserviceMock = new ColorService();
-    toolhandlerMock = new ToolHandlerService(colorserviceMock);
+    drawingStorageMock = new DrawingStorageService;
     rectangleMock = {
       id: 'rectangle',
       x: 0,
@@ -137,9 +137,8 @@ describe('EraserComponent', () => {
       fillOpacity: 1,
     };
 
-    toolhandlerMock.drawings.push(rectangleMock);
+    drawingStorageMock.saveDrawing(rectangleMock);
 
-    component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -149,7 +148,7 @@ describe('EraserComponent', () => {
 
   it('should not outline red if coordinates do not match', () => {
     colorserviceMock = new ColorService();
-    toolhandlerMock = new ToolHandlerService(colorserviceMock);
+    drawingStorageMock = new DrawingStorageService;
     rectangleMock = {
       id: 'rectangle',
       x: 20,
@@ -165,9 +164,8 @@ describe('EraserComponent', () => {
       fillOpacity: 1,
     };
 
-    toolhandlerMock.drawings.push(rectangleMock);
+    drawingStorageMock.saveDrawing(rectangleMock);
 
-    component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
@@ -178,7 +176,7 @@ describe('EraserComponent', () => {
   it('should set object outline colour back to default when hovered off', () => {
     colorserviceMock = new ColorService();
     colorserviceMock.color[1] = 'black';
-    toolhandlerMock = new ToolHandlerService(colorserviceMock);
+    drawingStorageMock = new DrawingStorageService;
     rectangleMock = {
       id: 'rectangle',
       x: 20,
@@ -194,9 +192,8 @@ describe('EraserComponent', () => {
       fillOpacity: 1,
     };
 
-    toolhandlerMock.drawings.push(rectangleMock);
+    drawingStorageMock.saveDrawing(rectangleMock);
 
-    component.toolService = toolhandlerMock;
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;

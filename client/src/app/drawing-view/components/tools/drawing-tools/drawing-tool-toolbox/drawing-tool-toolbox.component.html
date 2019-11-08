@@ -1,5 +1,5 @@
-<div *ngIf="!(toolHandler.noneSelected)">
-    <div *ngIf="toolHandler.paintbrushSelected">
+<div *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
+    <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
         <button (click)="getComponent().setFilter(0)">Aucun filtre</button>
         <button (click)="getComponent().setFilter(1)">Filtre 1</button>
         <button (click)="getComponent().setFilter(2)">Filtre 2</button>
@@ -7,13 +7,13 @@
         <button (click)="getComponent().setFilter(4)">Filtre 4</button>
         <button (click)="getComponent().setFilter(5)">Filtre 5</button>
     </div>
-    <div *ngIf="toolHandler.paintbrushSelected || toolHandler.crayonSelected || toolHandler.lineSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
         <button (click)="getComponent().decreaseStrokeWidth()">-</button>
         {{getComponent().stroke.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
 
-    <div *ngIf="toolHandler.lineSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.LINE">
         <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
         <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>
         <button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</button><br>
@@ -27,7 +27,7 @@
     </div>
       
 
-    <div *ngIf="toolHandler.rectangleSelected || toolHandler.polygonSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE || toolHandler.selectedTool === toolId.POLYGON">
         <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
         <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
         <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
@@ -40,7 +40,7 @@
             <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
         </div>
     </div>
-    <div *ngIf="toolHandler.ellipseSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE">
         <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
         <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
         <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
@@ -48,11 +48,11 @@
         {{getComponent().shape.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
-    <div *ngIf="toolHandler.eraserSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
         <h3>Taille de l'efface</h3>
         <input type="number" [(ngModel)]="getComponent().size">
     </div>
-    <div *ngIf="toolHandler.stampSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
         <div class="filter" (click)="getComponent().setStamp(0)">
             <img id="star" src="../../../../../../assets/stamps/grade-24px.svg" title="Étoile">
         </div>
@@ -80,7 +80,7 @@
             <input type="number" name="angle" [(ngModel)]="getComponent().stamp.angle" size="3">
         </div>
     </div>
-    <div *ngIf="toolHandler.textSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.TEXT">
         <div style='padding: 8px'>
             <p>Taille du texte</p>
             <button (click)="getComponent().decreaseFontSize()">-</button>

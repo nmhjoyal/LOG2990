@@ -9,6 +9,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
@@ -58,8 +59,6 @@ describe('CanvasComponent', () => {
   };
 
   beforeEach(() => {
-    mockColourService = new ColorService();
-    mockToolService = new ToolHandlerService(mockColourService);
     TestBed.configureTestingModule({
       imports: [
         MatListModule,
@@ -83,15 +82,19 @@ describe('CanvasComponent', () => {
         ColorPaletteComponent,
         ColorPickerComponent,
       ],
-      providers: [  MatDialogConfig, LocalStorageService,
+      providers: [  MatDialogConfig,
+        LocalStorageService,
+        DrawingStorageService,
+        ToolHandlerService,
+        ColorService,
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
-        { provide: ToolHandlerService, useValue: mockToolService },
-        { provide: ColorService, useValue: mockColourService },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(CanvasComponent);
     component = fixture.componentInstance;
+    mockColourService = TestBed.get(ColorService);
+    mockToolService = TestBed.get(ToolHandlerService);
     dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
   });
 
@@ -101,49 +104,49 @@ describe('CanvasComponent', () => {
 
   it('should apply primary color to line', () => {
     mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = Strings.WHITE_HEX;
-    mockToolService.colourApplicatorSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.COLOUR_APPLICATOR;
     component.applyColourToLine(testLine);
     expect(testLine.color).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply primary color to shape', () => {
     mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX] = Strings.WHITE_HEX;
-    mockToolService.colourApplicatorSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.COLOUR_APPLICATOR;
     component.applyColourToShape(new MouseEvent('contextmenu'), testObject);
     expect(testObject.primaryColor).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary color to shape', () => {
     mockColourService.color[ToolConstants.SECONDARY_COLOUR_INDEX] = Strings.BLACK_HEX;
-    mockToolService.colourApplicatorSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.COLOUR_APPLICATOR;
     component.applySecondaryColourToShape(new MouseEvent('contextmenu'), testObject);
     expect(testObject.secondaryColor).toEqual(Strings.BLACK_HEX);
   });
 
   it('should apply primary color from line', () => {
     testLine.color = Strings.WHITE_HEX;
-    mockToolService.pipetteSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.applyColourToLine(testLine);
     expect(mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX]).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary color from line', () => {
     testLine.color = Strings.WHITE_HEX;
-    mockToolService.pipetteSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.getColorFromLine(new MouseEvent('contextmenu'), testLine);
     expect(mockColourService.color[ToolConstants.SECONDARY_COLOUR_INDEX]).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply primary color from shape', () => {
     testObject.secondaryColor = Strings.WHITE_HEX;
-    mockToolService.pipetteSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.getColorFromShape(new MouseEvent('click'), ToolConstants.PRIMARY_COLOUR_INDEX, testObject);
     expect(mockColourService.color[ToolConstants.PRIMARY_COLOUR_INDEX]).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary color from shape', () => {
     testObject.secondaryColor = Strings.WHITE_HEX;
-    mockToolService.pipetteSelected = true;
+    mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.getColorFromShape(new MouseEvent('contextmenu'), ToolConstants.SECONDARY_COLOUR_INDEX, testObject);
     expect(mockColourService.color[ToolConstants.SECONDARY_COLOUR_INDEX]).toEqual(Strings.WHITE_HEX);
   });

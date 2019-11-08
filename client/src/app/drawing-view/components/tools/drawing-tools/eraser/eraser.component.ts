@@ -1,7 +1,7 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
-import { ToolHandlerService } from '../../../../../services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { IShape, IPreviewBox } from '../../assets/interfaces/shape-interface';
 import { ITools } from '../../assets/interfaces/itools';
 import { NumericalValues } from '../../../../../../AppConstants/NumericalValues'
@@ -21,7 +21,7 @@ export class EraserComponent {
   defaultX = 0;
   defaultY = 460;
 
-  constructor(public toolService: ToolHandlerService, public colorService: ColorService) {
+  constructor(public colorService: ColorService, public drawingStorage: DrawingStorageService) {
     this.size = NumericalValues.DEFAULT_ERASER_SIZE;
     this.eraser = {
       x: this.defaultX,
@@ -39,23 +39,23 @@ export class EraserComponent {
 
   eraseObject(): ITools {
     let objectIndex: number;
-    for (objectIndex = this.toolService.drawings.length - 1; objectIndex >= 0; objectIndex--) {
-      if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[objectIndex], this.eraser)) {
-        this.toolService.drawings[objectIndex].id += 'Erased';
+    for (objectIndex = this.drawingStorage.drawings.length - 1; objectIndex >= 0; objectIndex--) {
+      if (ClickHelper.objectSharesBoxArea(this.drawingStorage.drawings[objectIndex], this.eraser)) {
+        this.drawingStorage.drawings[objectIndex].id += 'Erased';
         break;
       }
     }
-    return this.toolService.drawings[objectIndex];
+    return this.drawingStorage.drawings[objectIndex];
   }
 
   toggleRedOutline(): void {
     let touchedFirstObject = true;
-    for (let i = this.toolService.drawings.length - 1; i >= 0; i--) {
-      const drawing = this.toolService.drawings[i] as IShape;
+    for (let i = this.drawingStorage.drawings.length - 1; i >= 0; i--) {
+      const drawing = this.drawingStorage.drawings[i] as IShape;
       if (drawing.secondaryColor === 'red') {
         drawing.secondaryColor = this.colorService.color[1];
       }
-      if (ClickHelper.objectSharesBoxArea(this.toolService.drawings[i], this.eraser) && touchedFirstObject) {
+      if (ClickHelper.objectSharesBoxArea(this.drawingStorage.drawings[i], this.eraser) && touchedFirstObject) {
         drawing.secondaryColor = 'red';
         touchedFirstObject = false;
       }
