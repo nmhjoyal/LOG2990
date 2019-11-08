@@ -57,7 +57,7 @@ export class EraserComponent {
         drawing.id += 'Erased';
         (drawing as IShape).secondaryColor = this.colorService.color[1];
         this.drawingStorage.drawings.push(this.erasedDrawing);
-        break;
+        return this.erasedDrawing;
       }
     }
     return this.erasedDrawing;
