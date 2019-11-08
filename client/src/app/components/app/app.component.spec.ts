@@ -9,12 +9,14 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
+import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let colorMock: SpyObj<ColorService>;
   let clipboardMock: SpyObj<ClipboardService>;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let undoRedoService: SpyObj<UndoRedoService>;
   let drawingStorageMock: SpyObj<DrawingStorageService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -31,13 +33,14 @@ describe('AppComponent', () => {
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText',
     'isUsingText']);
+    undoRedoService = jasmine.createSpyObj('UndoRedoService', ['undo', 'redo']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
-      dataMock, canvasMock, colorMock, clipboardMock);
+      dataMock, canvasMock, colorMock, clipboardMock, undoRedoService);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
@@ -123,44 +126,44 @@ describe('AppComponent', () => {
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlZEvent();
-    expect(toolHandlerMock.undo).not.toHaveBeenCalled();
+    expect(undoRedoService.undo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlZEvent();
-    expect(toolHandlerMock.undo).not.toHaveBeenCalled();
+    expect(undoRedoService.undo).not.toHaveBeenCalled();
     
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlZEvent();
-    expect(toolHandlerMock.undo).not.toHaveBeenCalled();
+    expect(undoRedoService.undo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlZEvent();
-    expect(toolHandlerMock.undo).toHaveBeenCalled();
+    expect(undoRedoService.undo).toHaveBeenCalled();
   });
 
   it('#redo should be called only when control+shift+z are pressed and there are no opened dialogs', () => {
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
-    expect(toolHandlerMock.redo).not.toHaveBeenCalled();
+    expect(undoRedoService.redo).not.toHaveBeenCalled();
     
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
-    expect(toolHandlerMock.redo).not.toHaveBeenCalled();
+    expect(undoRedoService.redo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlShiftZEvent();
-    expect(toolHandlerMock.redo).not.toHaveBeenCalled();
+    expect(undoRedoService.redo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlShiftZEvent();
-    expect(toolHandlerMock.redo).toHaveBeenCalled();
+    expect(undoRedoService.redo).toHaveBeenCalled();
   });
   
   it('#cut should be called when ctrl.X is pressed', () => {
