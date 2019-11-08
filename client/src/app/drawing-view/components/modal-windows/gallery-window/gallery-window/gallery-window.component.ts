@@ -72,7 +72,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
             this.onClose();
 
           } else {
-            confirm('Le dessin n\'a pu être ouvert. Veuillez en sélectionner un autre.');
+            confirm('Le dessin sélectionné n\'a pu être ouvert. Veuillez en sélectionner un autre.');
           }
         });
     }

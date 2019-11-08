@@ -149,6 +149,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(JSON.stringify(this.saveDrawingToJson())));
     a.setAttribute('download', name + '.json');
     a.click();
+    this.onClose();
   }
 
 }
