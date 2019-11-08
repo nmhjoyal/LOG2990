@@ -30,7 +30,7 @@ describe('SaveWindowComponent', () => {
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
 
-    toolHandlerMock.drawings = [{
+    drawingStorageMock.drawings = [{
         id: '',
         points: '',
         width: 0,
@@ -39,26 +39,25 @@ describe('SaveWindowComponent', () => {
         y: 0,
         svgReference: '',
         vertices: '',
-        primaryColor: '',
-        secondaryColor: '',
+        primaryColour: '',
+        secondaryColour: '',
         strokeOpacity: 0,
         strokeWidth: 0,
         fillOpacity: 0,
         verticesNumber: 0,
-        color: '',
+        colour: '',
         fill: '',
         strokeLinecap: '',
         strokeLinejoin: '',
         filter: '',
         angle: 0,
         scaleFactor: 0,
-        primaryColour: '',
         centerX: 0,
         centerY: 0,
     }];
 
     canvasDataMock.data = {
-        drawingColor: '',
+        drawingColour: '',
         drawingHeight: 0,
         drawingWidth: 0,
     };

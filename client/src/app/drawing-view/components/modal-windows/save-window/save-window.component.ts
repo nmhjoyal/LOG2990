@@ -109,20 +109,19 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "y": currentDrawing.y,
         "svgReference": currentDrawing.svgReference,
         "vertices": currentDrawing.vertices,
-        "primaryColor": currentDrawing.primaryColor,
-        "secondaryColor": currentDrawing.secondaryColor,
+        "primaryColour": currentDrawing.primaryColour,
+        "secondaryColour": currentDrawing.secondaryColour,
         "strokeOpacity": currentDrawing.strokeOpacity,
         "strokeWidth": currentDrawing.strokeWidth,
         "fillOpacity": currentDrawing.fillOpacity,
         "verticesNumber": currentDrawing.verticesNumber,
-        "color": currentDrawing.color,
+        "colour": currentDrawing.colour,
         "fill": currentDrawing.fill,
         "strokeLinecap": currentDrawing.strokeLinecap,
         "strokeLinejoin": currentDrawing.strokeLinejoin,
         "filter": currentDrawing.filter,
         "angle": currentDrawing.angle,
         "scaleFactor": currentDrawing.scaleFactor,
-        "primaryColour": currentDrawing.primaryColour,
         "centerX": currentDrawing.centerX,
         "centerY": currentDrawing.centerY,
         "lines": currentDrawing.lines,
@@ -135,7 +134,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     });
 
     json.canvas = {
-      "drawingColor": this.canvasData.data.drawingColor,
+      "drawingColour": this.canvasData.data.drawingColour,
       "drawingHeight": this.canvasData.data.drawingHeight,
       "drawingWidth": this.canvasData.data.drawingWidth,
     };
