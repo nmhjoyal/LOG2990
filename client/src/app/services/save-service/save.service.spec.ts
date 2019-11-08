@@ -4,25 +4,22 @@ import { SaveService } from './save.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { SelectorService } from '../selector-service/selector-service';
 
 const DUMMY_LENGTH = 3;
 
 describe('SaveService', () => {
   let service: SaveService;
-  let undoListSpy: jasmine.Spy<InferableFunction>;
-  let accessingUndospy: jasmine.Spy<InferableFunction>;
   const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UndoRedoService,
+        SelectorService,
         { provide: DrawingStorageService, useValue: drawingStorageMock }
       ],
     });
     service = TestBed.get(SaveService);
-    undoListSpy = spyOnProperty(TestBed.get(UndoRedoService).undoList, 'length');
-    accessingUndospy = spyOnProperty(TestBed.get(UndoRedoService), 'accessingUndoList');
-
   });
 
   it('should be created', () => {
@@ -30,8 +27,7 @@ describe('SaveService', () => {
   });
 
   it('#saveDrawing should call the savedrawing of drawingstorage and conditionally empty undolist', () => {
-    accessingUndospy.and.returnValue(false);
-    service.undoRedo.undoList.length = DUMMY_LENGTH;
+    service.undoRedo.accessingUndoList = false;
     const dummyDrawing: ITools = {
       id: 'dummy',
       x: 0,
@@ -39,17 +35,18 @@ describe('SaveService', () => {
       width: 0,
       height: 0,
     }
+    service.undoRedo.undoList = [dummyDrawing, dummyDrawing, dummyDrawing];
     service.saveDrawing(dummyDrawing);
     // tslint:disable-next-line:no-magic-numbers
-    expect(drawingStorageMock.saveDrawing.calls.count).toBe(1);
-    expect(undoListSpy).toBe(DUMMY_LENGTH);
+    expect(drawingStorageMock.saveDrawing.calls.count()).toBe(1);
+    expect(service.undoRedo.undoList.length).toBe(DUMMY_LENGTH);
 
-    accessingUndospy.and.returnValue(true);
+    service.undoRedo.accessingUndoList = true;
     service.saveDrawing(dummyDrawing);
     // tslint:disable-next-line:no-magic-numbers
-    expect(drawingStorageMock.saveDrawing.calls.count).toBe(2);
-    expect(undoListSpy).toBe(0);
-    expect(accessingUndospy).toBe(false);
+    expect(drawingStorageMock.saveDrawing.calls.count()).toBe(2);
+    expect(service.undoRedo.undoList.length).toBe(0);
+    expect(service.undoRedo.accessingUndoList).toBe(false);
 
   });
 });

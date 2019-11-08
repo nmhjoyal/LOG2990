@@ -3,6 +3,8 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
+import { SaveService } from '../save-service/save.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,8 @@ export class ClipboardService {
   lastCursorY: number;
   offScreen: boolean;
 
-  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService) {
+  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService, 
+      public undoRedoService: UndoRedoService, public saveService: SaveService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
@@ -48,7 +51,7 @@ export class ClipboardService {
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
         copiedObject.pasteOffset = this.pasteOffset;
-        this.drawingStorage.saveDrawing({...copiedObject});
+        this.saveService.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -103,5 +106,23 @@ export class ClipboardService {
         this.drawingStorage.drawings.splice(index, 1);
       }
     });
+  }
+
+  undo(): void {
+    let undoneOperation: ITools|undefined = this.undoRedoService.undo();
+    if(undoneOperation) {
+      if (undoneOperation.pasteOffset !== undefined && undoneOperation.pasteOffset !== 0){
+        this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
+      } 
+    }
+  }
+
+  redo(): void {
+    let redoneOperation: ITools|undefined = this.undoRedoService.redo();
+    if(redoneOperation){
+      if (redoneOperation.pasteOffset !== undefined){
+        this.pasteOffset = redoneOperation.pasteOffset;
+      }
+    }
   }
 }

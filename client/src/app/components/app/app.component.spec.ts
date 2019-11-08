@@ -9,14 +9,12 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
-import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
   let colorMock: SpyObj<ColorService>;
   let clipboardMock: SpyObj<ClipboardService>;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
-  let undoRedoService: SpyObj<UndoRedoService>;
   let drawingStorageMock: SpyObj<DrawingStorageService>;
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -28,19 +26,18 @@ describe('AppComponent', () => {
   beforeEach(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colorMock = jasmine.createSpyObj('ColorService', ['switchColors']);
-    clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
+    clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete', 'undo', 'redo']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText',
     'isUsingText']);
-    undoRedoService = jasmine.createSpyObj('UndoRedoService', ['undo', 'redo']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
-      dataMock, canvasMock, colorMock, clipboardMock, undoRedoService);
+      dataMock, canvasMock, colorMock, clipboardMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
@@ -126,44 +123,44 @@ describe('AppComponent', () => {
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlZEvent();
-    expect(undoRedoService.undo).not.toHaveBeenCalled();
+    expect(clipboardMock.undo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlZEvent();
-    expect(undoRedoService.undo).not.toHaveBeenCalled();
+    expect(clipboardMock.undo).not.toHaveBeenCalled();
     
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlZEvent();
-    expect(undoRedoService.undo).not.toHaveBeenCalled();
+    expect(clipboardMock.undo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlZEvent();
-    expect(undoRedoService.undo).toHaveBeenCalled();
+    expect(clipboardMock.undo).toHaveBeenCalled();
   });
 
   it('#redo should be called only when control+shift+z are pressed and there are no opened dialogs', () => {
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
-    expect(undoRedoService.redo).not.toHaveBeenCalled();
+    expect(clipboardMock.redo).not.toHaveBeenCalled();
     
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
-    expect(undoRedoService.redo).not.toHaveBeenCalled();
+    expect(clipboardMock.redo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlShiftZEvent();
-    expect(undoRedoService.redo).not.toHaveBeenCalled();
+    expect(clipboardMock.redo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlShiftZEvent();
-    expect(undoRedoService.redo).toHaveBeenCalled();
+    expect(clipboardMock.redo).toHaveBeenCalled();
   });
   
   it('#cut should be called when ctrl.X is pressed', () => {

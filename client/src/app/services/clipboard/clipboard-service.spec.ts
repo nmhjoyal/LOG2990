@@ -4,11 +4,15 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { ClipboardService } from './clipboard-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
+import { SaveService } from '../save-service/save.service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
   let selectorService: SelectorService;
   let drawingStorage: DrawingStorageService;
+  let undoRedoService: UndoRedoService;
+  let saveService: SaveService;
   const FIFTY = 50;
   const FORTY = 40;
   const FOUR = 4;
@@ -17,7 +21,9 @@ describe('ClipboardService', () => {
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
     selectorService = new SelectorService();
-    service = new ClipboardService(drawingStorage, selectorService);
+    undoRedoService = new UndoRedoService(drawingStorage);
+    saveService = new SaveService(drawingStorage, undoRedoService);
+    service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
   });
 
   it('should be created with correct initialized values', () => {
@@ -157,5 +163,7 @@ describe('ClipboardService', () => {
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).not.toEqual(FORTY);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).not.toEqual(FORTY);
   });
+
+  // AJOUTER TESTS POUR UNDO() ET REDO()
 
 });

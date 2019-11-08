@@ -17,7 +17,6 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
-import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 
 @Component({
   selector: 'app-root',
@@ -38,8 +37,7 @@ export class AppComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colorService: ColorService,
-    public clipboardService: ClipboardService,
-    public undoRedoService: UndoRedoService) {
+    public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -91,13 +89,13 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZEvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      this.undoRedoService.undo();
+      this.clipboardService.undo();
     }
   }
 
   @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZEvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      this.undoRedoService.redo();
+      this.clipboardService.redo();
     }
   }
   
