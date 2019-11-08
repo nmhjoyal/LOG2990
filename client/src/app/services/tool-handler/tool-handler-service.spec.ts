@@ -12,7 +12,7 @@ describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
   const drawingServiceMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('drawingServiceMock',
-   ['saveDrawing', 'seeDrawings', 'seeSelection', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
+   ['saveDrawing', 'seeDrawings', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,11 +69,6 @@ describe('ToolHandlerService', () => {
     service.resetSelectorBox();
     expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColor: 'black', secondaryColor: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
-  });
-
-  it('#seeSelection should return the selection IShape', () => {
-    const returnedIShape: IShape = service.seeSelection();
-    expect(returnedIShape).toBe(service.selection);
   });
 
   it('#saveSelectorBox should set selector property to input data', () => {

@@ -49,10 +49,6 @@ export class ToolHandlerService {
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
   }
 
-  seeSelection(): IShape {
-    return this.selection;
-  }
-
   saveSelectorBox(shape: IShape): void {
     this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColor: 'black', secondaryColor: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
