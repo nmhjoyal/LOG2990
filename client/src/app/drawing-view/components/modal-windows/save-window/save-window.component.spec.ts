@@ -28,6 +28,39 @@ describe('SaveWindowComponent', () => {
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
 
+    toolHandlerMock.drawings = [{
+        id: '',
+        points: '',
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0,
+        svgReference: '',
+        vertices: '',
+        primaryColor: '',
+        secondaryColor: '',
+        strokeOpacity: 0,
+        strokeWidth: 0,
+        fillOpacity: 0,
+        verticesNumber: 0,
+        color: '',
+        fill: '',
+        strokeLinecap: '',
+        strokeLinejoin: '',
+        filter: '',
+        angle: 0,
+        scaleFactor: 0,
+        primaryColour: '',
+        centerX: 0,
+        centerY: 0,
+    }];
+
+    canvasDataMock.data = {
+        drawingColor: '',
+        drawingHeight: 0,
+        drawingWidth: 0,
+    };
+
     const mockDrawing = {
         name: 'name',
         tags: [tag, tag2],
@@ -162,4 +195,9 @@ describe('SaveWindowComponent', () => {
         expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 
+    it('should save locally', () => {
+        const clickSpy = spyOn(HTMLElement.prototype, 'click');
+        component.saveToLocal('mock');
+        expect(clickSpy).toHaveBeenCalled();
+    });
 });

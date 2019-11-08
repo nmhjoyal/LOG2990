@@ -152,10 +152,8 @@ describe('GalleryWindowComponent', () => {
 
     it('should call confirm window on undefined response in onAcceptClick', () => {
         const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
-        const spy = spyOn(component, 'onClose');
         indexServiceMock.getDrawing.and.returnValue(of(undefined));
         component.onAcceptClick();
-        expect(spy).toHaveBeenCalled();
         expect(confirmSpy).toHaveBeenCalled();
     });
 
@@ -173,5 +171,34 @@ describe('GalleryWindowComponent', () => {
         component.addTag('');
         expect(spy).not.toHaveBeenCalled();
     });
+
+    it('should import local file', () => {
+        const fileContent = '{"shapes": {}, "canvas": {}}';
+        const data = new Blob([fileContent], { type: 'text/plain' });
+        const arrayOfBlob = new Array<Blob>();
+        arrayOfBlob.push(data);
+        const file = new File(arrayOfBlob, 'mock.txt');
+        component.fileInput = {
+            nativeElement: {
+                files: [file],
+            },
+        };
+        const spyClose = spyOn(component, 'onClose');
+        component.importLocalFile();
+        expect(spyClose).toHaveBeenCalled();
+    });
+
+    it('should handle file list', () => {
+        const blob = new Blob([''], { type: 'text/html' });
+        const file = blob as File;
+        const fileList = {
+            0: file,
+            1: file,
+            length: 2,
+            item: () => file,
+        };
+        component.handleFiles(fileList);
+        expect(component.fileList).toEqual(fileList);
+     });
 
 });
