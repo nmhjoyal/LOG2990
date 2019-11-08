@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
@@ -12,8 +12,8 @@ import { ToolConstants } from '../../assets/constants/tool-constants';
 })
 export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
-    super(toolServiceRef, attributesServiceRef, colorServiceRef);
+  constructor(drawingStorageRef: DrawingStorageService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
+    super(drawingStorageRef, attributesServiceRef, colorServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.POLYGON;
     this.shape.verticesNumber = ToolConstants.MIN_VERTEX_NUMBER;
   }

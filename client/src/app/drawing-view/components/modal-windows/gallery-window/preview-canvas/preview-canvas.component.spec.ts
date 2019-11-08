@@ -16,6 +16,7 @@ import { ColorPaletteComponent } from 'src/app/drawing-view/components/color-pic
 import { ColorPickerComponent } from 'src/app/drawing-view/components/color-picker/color-picker.component';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
@@ -28,13 +29,12 @@ describe('PreviewCanvasComponent', () => {
   let component: PreviewCanvasComponent;
   let fixture: ComponentFixture<PreviewCanvasComponent>;
   const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-  const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
 
   const mockDrawing = {
     name: 'name',
     tags: [{ name: 'tag', isSelected: false }],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-    shapes: toolHandlerServiceMock.drawings,
+    shapes: [],
     canvas: canvasInformationMock.data = { drawingHeight: 200, drawingColor: '#ffffffff', drawingWidth: 200 },
   } as IDrawing;
 
@@ -54,6 +54,10 @@ describe('PreviewCanvasComponent', () => {
         BrowserAnimationsModule,
         HttpClientModule,
       ],
+      providers: [
+        ToolHandlerService,
+        DrawingStorageService,
+      ],
       declarations: [
         AppComponent,
         NewDrawingWindowComponent,
@@ -66,6 +70,7 @@ describe('PreviewCanvasComponent', () => {
     fixture = TestBed.createComponent(PreviewCanvasComponent);
     component = fixture.componentInstance;
     component.previewedDrawing = mockDrawing;
+    mockDrawing.shapes = TestBed.get(DrawingStorageService).drawings;
     fixture.detectChanges();
   }));
 

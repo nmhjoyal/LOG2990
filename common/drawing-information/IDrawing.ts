@@ -1,3 +1,4 @@
+import { IText } from 'src/app/drawing-view/components/tools/assets/interfaces/text-interface';
 import { IDrawingTool } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IShape } from '../../client/src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
@@ -13,7 +14,7 @@ export interface IDrawing {
     canvas: ICanvasData;
 }
 
-export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape> {
+export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape>, Partial<IText> {
     id: string;
     x: number;
     y: number;

@@ -2,8 +2,8 @@ import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angula
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../../../../../../common/drawing-information/ITag';
@@ -29,9 +29,9 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
     protected canvasData: CanvasInformationService,
-    protected toolHandler: ToolHandlerService,
+    protected drawingStorage: DrawingStorageService,
     protected index: IndexService) {
-    super(dialogRef, data, canvasData, undefined, toolHandler, index);
+    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, index);
     this.data.title = Strings.GALLERY_WINDOW_TITLE;
     this.drawingsInGallery = [];
     this.selectedDrawing = {} as IDrawing;
@@ -67,7 +67,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
         (response: IDrawing | undefined) => {
           if (response) {
             this.drawingToOpen = response;
-            this.toolHandler.drawings = this.drawingToOpen.shapes;
+            this.drawingStorage.drawings = this.drawingToOpen.shapes;
             this.canvasData.data = this.drawingToOpen.canvas;
             this.onClose();
 
@@ -126,7 +126,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     this.loadFile(this.fileInput.nativeElement.files[0]).subscribe((fileContent: string) => {
       const data = JSON.parse(fileContent);
       this.drawingToOpen = data;
-      this.toolHandler.drawings = data.shapes;
+      this.drawingStorage.drawings = this.drawingToOpen.shapes;
       this.canvasData.data = this.drawingToOpen.canvas;
     });
 
