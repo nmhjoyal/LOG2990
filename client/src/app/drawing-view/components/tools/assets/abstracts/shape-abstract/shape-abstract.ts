@@ -3,9 +3,9 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDestroy {
   protected initialX: number;

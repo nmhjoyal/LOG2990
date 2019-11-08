@@ -2,10 +2,10 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
-import { SelectorService } from '../selector-service/selector-service';
-import { ClipboardService } from './clipboard-service';
-import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { SaveService } from '../save-service/save.service';
+import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
+import { ClipboardService } from './clipboard-service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
@@ -166,7 +166,7 @@ describe('ClipboardService', () => {
 
   // AJOUTER TESTS POUR UNDO() ET REDO()
   it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {
-    let redoSpy = spyOn(service.undoRedoService, 'redo');
+    const redoSpy = spyOn(service.undoRedoService, 'redo');
     redoSpy.and.returnValue(undefined);
     service.pasteOffset = FORTY;
     // tslint:disable:no-magic-numbers
@@ -174,7 +174,7 @@ describe('ClipboardService', () => {
     expect(redoSpy.calls.count()).toBe(1);
     expect(service.pasteOffset).toBe(FORTY);
 
-    let dummyOperation: ITools = {
+    const dummyOperation: ITools = {
       id: 'dummy',
       x: 0,
       y: 0,
@@ -198,7 +198,7 @@ describe('ClipboardService', () => {
   });
 
   it('#undo should reduce the pasteoffset only if the undone operation is defined and it has a defined pasteOffset != 0', () => {
-    let undoSpy = spyOn(service.undoRedoService, 'undo');
+    const undoSpy = spyOn(service.undoRedoService, 'undo');
     undoSpy.and.returnValue(undefined);
     service.pasteOffset = FORTY;
     // tslint:disable:no-magic-numbers
@@ -206,7 +206,7 @@ describe('ClipboardService', () => {
     expect(undoSpy.calls.count()).toBe(1);
     expect(service.pasteOffset).toBe(FORTY);
 
-    let dummyOperation: ITools = {
+    const dummyOperation: ITools = {
       id: 'dummy',
       x: 0,
       y: 0,

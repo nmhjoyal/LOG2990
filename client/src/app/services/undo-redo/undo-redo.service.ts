@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UndoRedoService {
 

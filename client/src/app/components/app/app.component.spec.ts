@@ -129,7 +129,7 @@ describe('AppComponent', () => {
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlZEvent();
     expect(clipboardMock.undo).not.toHaveBeenCalled();
-    
+
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(true);
     component.onKeydownCtrlZEvent();
@@ -146,7 +146,7 @@ describe('AppComponent', () => {
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
     expect(clipboardMock.redo).not.toHaveBeenCalled();
-    
+
     component.optionsSidebar.opened = true;
     noOpenModalSpy.and.returnValue(false);
     component.onKeydownCtrlShiftZEvent();
@@ -162,7 +162,7 @@ describe('AppComponent', () => {
     component.onKeydownCtrlShiftZEvent();
     expect(clipboardMock.redo).toHaveBeenCalled();
   });
-  
+
   it('#cut should be called when ctrl.X is pressed', () => {
     component.optionsSidebar.opened = false;
     toolHandlerMock.selectedTool = toolId.SELECTOR;

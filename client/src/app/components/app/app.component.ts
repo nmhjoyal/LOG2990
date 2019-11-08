@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
       this.clipboardService.redo();
     }
   }
-  
+
   @HostListener('document:keydown.control.c', ['$event']) onKeydownCtrlC(): void {
     if (this.isOnlyModalOpen()) {
       this.clipboardService.copy();

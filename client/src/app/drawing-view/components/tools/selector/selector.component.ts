@@ -2,12 +2,12 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-tools-selector',
@@ -19,7 +19,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
 
-  constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService, 
+  constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colorService: ColorService,
     protected selectorService: SelectorService) {
     super(saveRef, attributesServiceRef, colorService);

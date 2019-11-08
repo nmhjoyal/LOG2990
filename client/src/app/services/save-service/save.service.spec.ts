@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SaveService } from './save.service';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
-import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
+import { SaveService } from './save.service';
 
 const DUMMY_LENGTH = 3;
 
@@ -16,7 +16,7 @@ describe('SaveService', () => {
       providers: [
         UndoRedoService,
         SelectorService,
-        { provide: DrawingStorageService, useValue: drawingStorageMock }
+        { provide: DrawingStorageService, useValue: drawingStorageMock },
       ],
     });
     service = TestBed.get(SaveService);
@@ -34,7 +34,7 @@ describe('SaveService', () => {
       y: 0,
       width: 0,
       height: 0,
-    }
+    };
     service.undoRedo.undoList = [dummyDrawing, dummyDrawing, dummyDrawing];
     service.saveDrawing(dummyDrawing);
     // tslint:disable-next-line:no-magic-numbers

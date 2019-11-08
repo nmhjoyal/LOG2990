@@ -41,7 +41,7 @@ export class ToolHandlerService {
   isUsingText(): boolean {
     return this.selectedTool === this.tools.TEXT;
   }
-  
+
   // Selector Tool Methods
 
   resetSelectorBox(): void {

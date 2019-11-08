@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-crayon',

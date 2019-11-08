@@ -2,6 +2,7 @@ import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
@@ -9,7 +10,6 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 const FIFTY = 50;
 const FORTY = 40;

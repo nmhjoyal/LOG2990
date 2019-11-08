@@ -1,10 +1,10 @@
     // tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PaintbrushComponent } from './paintbrush.component';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 const INITIAL_X = 150;
 const INITIAL_Y = 200;

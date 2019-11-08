@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SaveService {
 
@@ -12,7 +12,7 @@ export class SaveService {
 
   saveDrawing(drawing: ITools): void {
     this.drawingStorage.saveDrawing(drawing);
-    if(this.undoRedo.accessingUndoList){
+    if (this.undoRedo.accessingUndoList) {
       this.undoRedo.undoList.length = 0;
     }
     this.undoRedo.accessingUndoList = false;

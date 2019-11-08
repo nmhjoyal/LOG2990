@@ -5,10 +5,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { LineComponent } from '../../../shapes/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
 import { LineAbstract } from './line-abstract';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
     selector: 'test-line-abstract',
