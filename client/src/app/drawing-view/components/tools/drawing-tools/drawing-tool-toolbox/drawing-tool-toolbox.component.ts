@@ -13,7 +13,6 @@ export class DrawingToolToolboxComponent implements OnInit {
 
   mode = ModeType;
   pointMode = PointType;
-  eraserSizeInput = 10;
   @Input() canvas: CanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {

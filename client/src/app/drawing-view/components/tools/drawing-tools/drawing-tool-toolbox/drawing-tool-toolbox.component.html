@@ -50,7 +50,7 @@
     </div>
     <div *ngIf="toolHandler.eraserSelected">
         <h3>Taille de l'efface</h3>
-        <input type="number" [(ngModel)]="eraserSizeInput" size="1" (click)="toolHandler.chooseEraser()" (keyup.enter)= "getComponent().size = eraserSizeInput; options.toggle()">
+        <input type="number" [(ngModel)]="getComponent().size">
     </div>
     <div *ngIf="toolHandler.stampSelected">
         <div class="filter" (click)="getComponent().setStamp(0)">
