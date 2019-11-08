@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 
 @Component({
   selector: 'app-ellipse',
@@ -13,8 +12,8 @@ import { ToolConstants } from '../../assets/tool-constants';
 })
 export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  constructor(toolServiceRef: ToolHandlerService, attributesServiceRef: AttributesService, colorServiceRef: ColorService) {
-    super(toolServiceRef, attributesServiceRef, colorServiceRef);
+  constructor(drawingStorageRef: DrawingStorageService, attributesServiceRef: AttributesService, colourServiceRef: ColourService) {
+    super(drawingStorageRef, attributesServiceRef, colourServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.ELLIPSE;
   }
 
@@ -39,12 +38,12 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
 
     // horizontal radius
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ?
-      (this.previewBox.width - this.shape.strokeWidth) / NumericalValues.TWO : 0;
+      (this.previewBox.width - this.shape.strokeWidth) / 2 : 0;
     // vertical radius
     this.shape.height = this.previewBox.height > this.shape.strokeWidth ?
-      (this.previewBox.height - this.shape.strokeWidth) / NumericalValues.TWO : 0;
-    this.shape.x = this.previewBox.x + this.previewBox.width / NumericalValues.TWO;  // x coordinate for center
-    this.shape.y = this.previewBox.y + this.previewBox.height / NumericalValues.TWO; // y coordinate for center
+      (this.previewBox.height - this.shape.strokeWidth) / 2 : 0;
+    this.shape.x = this.previewBox.x + this.previewBox.width / 2;  // x coordinate for center
+    this.shape.y = this.previewBox.y + this.previewBox.height / 2; // y coordinate for center
 
     if (this.shiftDown ) {
       const minValue = Math.min(this.shape.height, this.shape.width);
