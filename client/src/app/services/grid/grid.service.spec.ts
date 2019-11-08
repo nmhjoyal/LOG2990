@@ -1,51 +1,41 @@
-// import SpyObj = jasmine.SpyObj;
-import { TestBed } from '@angular/core/testing';
-// import { By } from '@angular/platform-browser';
-// import { CanvasComponent } from '../../drawing-view/components/canvas/canvas.component';
-// import { NewDrawingModalData } from '../../drawing-view/components/NewDrawingModalData';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Gridservice } from './grid.service';
-// import { AppComponent } from '../../components/app/app.component';
-// import { LocalStorageService } from 'src/app/services/local_storage/LocalStorageService';
-// import { MatDialog } from '@angular/material';
 
+describe('GridService', () => {
+  let service: Gridservice;
 
-describe('Gridservice', () => {
+  beforeEach(() => {
+    service = new Gridservice();
+  });
 
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  let gridServiceMock: Gridservice;
-
-
-
-  it('should be created', () => {
-    const service: Gridservice = TestBed.get(Gridservice);
+  it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
+    expect(service.gridStatus).toEqual(false);
+    expect(service.gridOpacity).toEqual(0);
+    expect(service.gridSize).toEqual(NumericalValues.DEFAULT_GRID_SIZE);
+    expect(service.lastOpacity).toEqual(NumericalValues.DEFAULT_OPACITY);
   });
 
-  it('should have a hidden grid initially', () => {
-    gridServiceMock = new Gridservice();
-    if (gridServiceMock.gridElement != null) {
-      expect(gridServiceMock.gridElement.style.visibility).toBe('hidden');
-    }
+  it('should decrease rectangle size on #decreaseSize', () => {
+    service.decreaseSize();
+    expect(service.gridSize).toBeLessThan(NumericalValues.DEFAULT_GRID_SIZE);
   });
 
-  it('should have status set to visible after toggle call', () => {
-    gridServiceMock = new Gridservice();
-    gridServiceMock.toggleGrid();
-
-    if (gridServiceMock.gridElement != null) {
-      expect(gridServiceMock.gridElement.style.visibility).toBe('visible');
-    }
+  it('should increase rectangle size on #increaseSize', () => {
+    service.increaseSize();
+    expect(service.gridSize).toBeGreaterThan(NumericalValues.DEFAULT_GRID_SIZE);
   });
 
-  it('should have the correct opacity after setOpacity call', () => {
-    gridServiceMock = new Gridservice();
-    gridServiceMock.setOpacityManual('0.8');
+  it('should put grid visibility to 0 on #toggleGrid when grid is on', () => {
+    service.gridStatus = true;
+    service.toggleGrid();
+    expect(service.gridOpacity).toEqual(0);
+  });
 
-    if (gridServiceMock.gridElement != null) {
-      expect(gridServiceMock.gridElement.style.opacity).toBe('0.8');
-    }
+  it('should put grid visibility to lastOpacity on #toggleGrid when grid is off', () => {
+    service.gridStatus = false;
+    service.toggleGrid();
+    expect(service.gridSize).toEqual(NumericalValues.DEFAULT_GRID_SIZE);
   });
 
 });
-
