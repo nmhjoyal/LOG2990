@@ -25,8 +25,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   private drawingToOpen: IDrawing;
   @Input() filterBy: string[] = ['all'];
   isFinishedLoading: boolean;
-  file: Observable<string | ArrayBuffer | null>;
-  fileList: FileList;
 
   constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
@@ -134,10 +132,6 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
 
     this.onClose();
 
-  }
-
-  handleFiles(files: FileList) {
-    this.fileList = files;
   }
 
 }

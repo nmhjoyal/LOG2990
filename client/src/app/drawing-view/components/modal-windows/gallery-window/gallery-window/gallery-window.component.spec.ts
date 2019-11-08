@@ -188,17 +188,4 @@ describe('GalleryWindowComponent', () => {
         expect(spyClose).toHaveBeenCalled();
     });
 
-    it('should handle file list', () => {
-        const blob = new Blob([''], { type: 'text/html' });
-        const file = blob as File;
-        const fileList = {
-            0: file,
-            1: file,
-            length: 2,
-            item: () => file,
-        };
-        component.handleFiles(fileList);
-        expect(component.fileList).toEqual(fileList);
-     });
-
 });
