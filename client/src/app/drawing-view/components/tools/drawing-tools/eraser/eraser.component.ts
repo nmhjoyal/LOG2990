@@ -1,10 +1,11 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { NumericalValues } from '../../../../../../AppConstants/NumericalValues';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
-import { IShape, IPreviewBox } from '../../assets/interfaces/shape-interface';
+import { IErased } from '../../assets/interfaces/ierased';
 import { ITools } from '../../assets/interfaces/itools';
-import { NumericalValues } from '../../../../../../AppConstants/NumericalValues'
+import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
 
 @Component({
   selector: 'app-eraser',
@@ -20,6 +21,8 @@ export class EraserComponent {
   eraser: IPreviewBox;
   defaultX = 0;
   defaultY = 460;
+  defaultIndex = 0;
+  erasedDrawing: IErased;
 
   constructor(public colorService: ColorService, public drawingStorage: DrawingStorageService) {
     this.size = NumericalValues.DEFAULT_ERASER_SIZE;
@@ -31,7 +34,7 @@ export class EraserComponent {
   }
 
   setEraserProperties(event: MouseEvent): void {
-    this.eraser.height = this.size
+    this.eraser.height = this.size;
     this.eraser.width = this.size;
     this.eraser.x = ClickHelper.getXPosition(event);
     this.eraser.y = ClickHelper.getYPosition(event);
@@ -40,12 +43,24 @@ export class EraserComponent {
   eraseObject(): ITools {
     let objectIndex: number;
     for (objectIndex = this.drawingStorage.drawings.length - 1; objectIndex >= 0; objectIndex--) {
-      if (ClickHelper.objectSharesBoxArea(this.drawingStorage.drawings[objectIndex], this.eraser)) {
-        this.drawingStorage.drawings[objectIndex].id += 'Erased';
+      const drawing = this.drawingStorage.drawings[objectIndex];
+        this.erasedDrawing = {
+          id: drawing.id,
+          index: objectIndex,
+          erasedObject: drawing,
+          x: this.defaultX,
+          y: this.defaultY,
+          width: this.size,
+          height: this.size,
+        };
+      if (ClickHelper.objectSharesBoxArea(drawing, this.eraser)) {
+        drawing.id += 'Erased';
+        (drawing as IShape).secondaryColor = this.colorService.color[1];
+        this.drawingStorage.drawings.push(this.erasedDrawing);
         break;
       }
     }
-    return this.drawingStorage.drawings[objectIndex];
+    return this.erasedDrawing;
   }
 
   toggleRedOutline(): void {

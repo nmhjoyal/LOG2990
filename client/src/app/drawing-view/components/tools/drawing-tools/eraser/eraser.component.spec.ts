@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorService } from '../../../../../services/color_service/color.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
-import { ITools } from '../../assets/interfaces/itools';
+import { IErased } from '../../assets/interfaces/ierased';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
 
@@ -64,22 +64,22 @@ describe('EraserComponent', () => {
     };
 
     drawingStorageMock.saveDrawing(rectangleMock);
-
     component.colorService = colorserviceMock;
     component.drawingStorage = drawingStorageMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
 
-    expect(component.eraseObject().id).toBe('rectangleErased');
+    component.eraseObject();
+    expect((component.drawingStorage.drawings.pop() as IErased).erasedObject.id).toBe('rectangleErased');
   });
 
-  it('should not delete object if coordinates do not match', () => {
+  it('should not affect object with non-sharing area', () => {
     rectangleMock = {
       id: 'rectangle',
-      x: 50,
-      y: 50,
-      width: 20,
-      height: 20,
+      x: 330,
+      y: 330,
+      width: 10,
+      height: 10,
       verticesNumber: 4,
       vertices: '',
       primaryColor: '',
@@ -94,8 +94,8 @@ describe('EraserComponent', () => {
     component.colorService = colorserviceMock;
     component.eraser.x = 0;
     component.eraser.y = 0;
-    component.eraseObject();
-    expect((component.drawingStorage.drawings.pop() as ITools).id).toBe('rectangle');
+    const returnedObject = component.eraseObject();
+    expect(returnedObject.id).toBe('rectangle' || 'rectangleErased');
   });
 
   it('should not call eraseObject if leftClicked is false', () => {
