@@ -1,5 +1,5 @@
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColor">
+    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour">
     <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
 
     <filter id="filter1">
@@ -29,8 +29,8 @@
     <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColorFromLine($event, drawing)">
-                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.color"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.stroke-width]="drawing.strokeWidth"
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
                     [style.stroke-dasharray]="drawing.strokeDashArray" />
@@ -42,36 +42,36 @@
             </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColorFromLine($event, drawing)">
-                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.color"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" />
             </g>
 
             <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColorFromLine($event, drawing)">
-                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.color"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
             </g>
             <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <rect [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
-                    [attr.height]="drawing.height" [style.stroke]="drawing.secondaryColor"
-                    [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
+                    [attr.height]="drawing.height" [style.stroke]="drawing.secondaryColour"
+                    [style.fill]="drawing.primaryColour" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.ELLIPSE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <ellipse [attr.cx]="drawing.x" [attr.cy]="drawing.y" [attr.rx]="drawing.width"
-                    [attr.ry]="drawing.height" [style.stroke]="drawing.secondaryColor"
-                    [style.fill]="drawing.primaryColor" [style.stroke-opacity]="drawing.strokeOpacity"
+                    [attr.ry]="drawing.height" [style.stroke]="drawing.secondaryColour"
+                    [style.fill]="drawing.primaryColour" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
-                <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColor"
-                    [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColor"
+                <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColour"
+                    [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColour"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.TEXT">
@@ -89,7 +89,7 @@
     </g>
 
     <g *ngIf="toolHandler.selectedTool === toolId.SELECTOR && toolHandler.selectorBoxExists()"
-        [style.stroke]="toolHandler.selection.secondaryColor" [style.fill]="toolHandler.selection.primaryColor">
+        [style.stroke]="toolHandler.selection.secondaryColour" [style.fill]="toolHandler.selection.primaryColour">
         <rect [attr.x]="toolHandler.selection.x" [attr.y]="toolHandler.selection.y"
             [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
             [style.stroke-opacity]="1" [style.stroke-width]="1" [style.fill-opacity]="0" />

@@ -5,7 +5,7 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-wind
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
-  let colorMock: SpyObj<ColorService>;
+  let colourMock: SpyObj<ColourService>;
   let clipboardMock: SpyObj<ClipboardService>;
   let toolHandlerMock: SpyObj<ToolHandlerService>;
   let drawingStorageMock: SpyObj<DrawingStorageService>;
@@ -25,7 +25,7 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
-    colorMock = jasmine.createSpyObj('ColorService', ['switchColors']);
+    colourMock = jasmine.createSpyObj('ColourService', ['switchColours']);
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
@@ -37,7 +37,7 @@ describe('AppComponent', () => {
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
-      dataMock, canvasMock, colorMock, clipboardMock);
+      dataMock, canvasMock, colourMock, clipboardMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
@@ -67,18 +67,18 @@ describe('AppComponent', () => {
     expect(dialogMock.open).toHaveBeenCalled();
   });
 
-  it('should open a new color dialog', () => {
+  it('should open a new colour dialog', () => {
     spyOn(window, 'confirm').and.returnValue(true);
     serviceMock.getShowAgain.and.returnValue(false);
     component.ngOnInit();
-    component.openChooseColorDialog();
+    component.openChooseColourDialog();
     expect(dialogMock.open).toHaveBeenCalled();
   });
 
   it('should only resetSelection when colourApplicator not selected', () => {
     toolHandlerMock.selectedTool = toolId.COLOUR_APPLICATOR;
     toolHandlerMock.resetToolSelection.and.callThrough();
-    component.switchColors();
+    component.switchColours();
     expect(toolHandlerMock.resetToolSelection).not.toHaveBeenCalled();
   });
 

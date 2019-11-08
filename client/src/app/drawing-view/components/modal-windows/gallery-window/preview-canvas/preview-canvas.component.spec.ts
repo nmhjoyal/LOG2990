@@ -12,8 +12,8 @@ import {
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
-import { ColorPaletteComponent } from 'src/app/drawing-view/components/color-picker/color-palette/color-palette.component';
-import { ColorPickerComponent } from 'src/app/drawing-view/components/color-picker/color-picker.component';
+import { ColourPaletteComponent } from 'src/app/drawing-view/components/colour-picker/colour-palette/colour-palette.component';
+import { ColourPickerComponent } from 'src/app/drawing-view/components/colour-picker/colour-picker.component';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -35,7 +35,7 @@ describe('PreviewCanvasComponent', () => {
     tags: [{ name: 'tag', isSelected: false }],
     timestamp: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
     shapes: [],
-    canvas: canvasInformationMock.data = { drawingHeight: 200, drawingColor: '#ffffffff', drawingWidth: 200 },
+    canvas: canvasInformationMock.data = { drawingHeight: 200, drawingColour: '#ffffffff', drawingWidth: 200 },
   } as IDrawing;
 
   beforeEach((() => {
@@ -63,8 +63,8 @@ describe('PreviewCanvasComponent', () => {
         NewDrawingWindowComponent,
         WelcomeWindowComponent,
         ModalWindowComponent as Type<ModalWindowComponent>,
-        ColorPaletteComponent,
-        ColorPickerComponent,
+        ColourPaletteComponent,
+        ColourPickerComponent,
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(PreviewCanvasComponent);
