@@ -4,7 +4,6 @@ import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from './tool-handler.service';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 
 const FIFTY = 50;
 
@@ -175,93 +174,6 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
   });
 
-  it('#undo should set accessingUndoList to true and transfer the last object from drawings' + 
-      'to undoList if it is not undefined', () => {
-    const drawingsSpy = spyOn(service.drawings, 'pop');
-    const undoListSpy = spyOn(service.undoList, 'push');
-    drawingsSpy.and.returnValue(undefined);
-    
-    service.undo();
-    
-    expect(service.accessingUndoList).toBe(true);
-    // tslint:disable-next-line:no-magic-numbers
-    expect(drawingsSpy.calls.count()).toBe(1);
-    expect(undoListSpy).not.toHaveBeenCalled();
-
-    service.accessingUndoList = false;
-    const dummyDrawing: ITools = {
-      id: '',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    }
-    drawingsSpy.and.returnValue(dummyDrawing);
-    
-    service.undo();
-    
-    expect(service.accessingUndoList).toBe(true);
-    // tslint:disable-next-line:no-magic-numbers
-    expect(drawingsSpy.calls.count()).toBe(2);
-    expect(undoListSpy).toHaveBeenCalled();
-  });
-
-  it('#redo should transfer the last object from undoList ' + 
-      'to drawings if it is not undefined', () => {
-    const drawingsSpy = spyOn(service.drawings, 'push');
-    const undoListSpy = spyOn(service.undoList, 'pop');
-    undoListSpy.and.returnValue(undefined);
-    
-    service.redo();
-
-    // tslint:disable-next-line:no-magic-numbers
-    expect(undoListSpy.calls.count()).toBe(1);
-    expect(drawingsSpy).not.toHaveBeenCalled();
-    
-    const dummyDrawing: ITools = {
-      id: '',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    }
-
-    undoListSpy.and.returnValue(dummyDrawing);
-    
-    service.redo();
-    
-    // tslint:disable-next-line:no-magic-numbers
-    expect(undoListSpy.calls.count()).toBe(2);
-    expect(drawingsSpy).toHaveBeenCalled();
-  });
-
-  it('#saveDrawing should push a drawing into drawings and set accessingundoList ' + 
-      'to false and empty the undoList if it was true', () => {
-    const dummyDrawing: ITools = {
-      id: '',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    }
-    const drawingsSpy = spyOn(service.drawings, 'push');
-    service.undoList = [dummyDrawing, dummyDrawing];
-    service.accessingUndoList = false;
-    
-    service.saveDrawing(dummyDrawing);
-    // tslint:disable:no-magic-numbers
-    expect(drawingsSpy.calls.count()).toBe(1);
-    expect(service.undoList.length).toBe(2);
-
-    service.accessingUndoList = true;
-    service.saveDrawing(dummyDrawing);
-    expect(drawingsSpy.calls.count()).toBe(2);
-    expect(service.undoList.length).toBe(0);
-    // tslint:enable:no-magic-numbers
-  });
-  
-  it('#chooseStamp should call #resetSelection', () => {
-    const resetSpy = spyOn(service, 'resetSelection');
   it('#chooseStamp should call #resetToolSelection and select the stamp', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseStamp();

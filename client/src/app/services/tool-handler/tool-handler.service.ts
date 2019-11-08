@@ -42,6 +42,38 @@ export class ToolHandlerService {
     return this.selectedTool === this.tools.TEXT;
   }
 
+  undo(): void {
+    this.accessingUndoList = true;
+    const poppedObject = this.drawings.pop();
+    if ( poppedObject !== undefined ) {
+      this.undoList.push(poppedObject);
+      if (poppedObject.pasteOffset !== undefined && poppedObject.pasteOffset !== 0){
+        // reduce the pasteoffset of clipboardservice
+      }
+    }
+  }
+
+  redo(): void {
+    const poppedObject = this.undoList.pop();
+    if ( poppedObject !== undefined ) {
+      /* TODO: Pour futur outils ou manipulations du dessins (efface, selector, paste),
+      * gérer ici les cas spéciaux, reconnaissables par les id du ITools recu par le pop.
+      * Si ça devient trop compliquer, une méthode appart pour gérer les redo peut être pertinente.*/
+      this.drawings.push(poppedObject);
+      if (poppedObject.pasteOffset !== undefined){
+        // assign the pasteoffset of clipboardservice to that of the redid drawing
+      }
+    }
+  }
+
+  saveDrawing(drawingData: ITools): void {
+    this.drawings.push(drawingData);
+    if (this.accessingUndoList) {
+      this.undoList.length = 0;
+      this.accessingUndoList = false;
+    }
+  }
+  
   // Selector Tool Methods
 
   resetSelectorBox(): void {
