@@ -38,7 +38,7 @@ describe('AppComponent', () => {
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
       dataMock, canvasMock, colorMock, clipboardMock);
-    spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
+    noOpenModalSpy = spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
   });

@@ -165,5 +165,8 @@ describe('ClipboardService', () => {
   });
 
   // AJOUTER TESTS POUR UNDO() ET REDO()
+  it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {});
+
+  it('#undo should reduce the pasteoffset only if the undone operation is defined and it has a defined pasteOffset != 0', () => {});
 
 });
