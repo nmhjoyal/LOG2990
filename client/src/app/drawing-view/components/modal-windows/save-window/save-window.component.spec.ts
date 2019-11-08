@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatButtonModule, MatDialogModule, MatDialogRef, MatFor
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
@@ -15,7 +16,6 @@ import { IDrawing } from '../../../../../../../common/drawing-information/IDrawi
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ISaveModalData } from './ISaveModalData';
 import { SaveWindowComponent } from './save-window.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('SaveWindowComponent', () => {
     const dialogRefMock: SpyObj<MatDialogRef<SaveWindowComponent>> = jasmine.createSpyObj('MatDialogRef<SaveWindowComponent>', ['close']);
@@ -24,7 +24,7 @@ describe('SaveWindowComponent', () => {
     const dataMock: SpyObj<ISaveModalData> = jasmine.createSpyObj('ISaveModalData', ['']);
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
-    const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'] )
+    const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'] );
     let indexMock: SpyObj<IndexService>;
     let confirmSpy;
     const tag = { name: 'tag', isSelected: true } as ITag;

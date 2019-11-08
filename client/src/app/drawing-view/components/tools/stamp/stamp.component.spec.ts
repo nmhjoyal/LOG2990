@@ -2,10 +2,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
 import { StampComponent } from './stamp.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const RANDOM_ANGLE = 77;
 const NUMBER_OF_STAMPS = 6; // number of elements in FilterSelection in assets/tool-constants

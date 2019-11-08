@@ -12,6 +12,7 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { FilterTagsPipe } from 'src/app/services/filter-pipe/filter-tags.pipe';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -22,7 +23,6 @@ import { ModalWindowComponent } from '../../modal-window/modal-window.component'
 import { PreviewCanvasComponent } from '../preview-canvas/preview-canvas.component';
 import { GalleryWindowComponent } from './gallery-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('GalleryWindowComponent', () => {
     jasmine.getEnv().allowRespy(true);

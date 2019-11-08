@@ -3,13 +3,13 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-canvas',
@@ -22,7 +22,8 @@ export class CanvasComponent {
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-    public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService, protected canvasData: CanvasInformationService, public colorService: ColorService) {
+    public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
+    protected canvasData: CanvasInformationService, public colorService: ColorService) {
   }
 
   applyColourToCanvas(): void {

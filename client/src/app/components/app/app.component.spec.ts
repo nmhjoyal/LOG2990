@@ -2,14 +2,14 @@ import SpyObj = jasmine.SpyObj;
 import { async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
-import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
@@ -29,14 +29,15 @@ describe('AppComponent', () => {
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
-    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText', 
+    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText',
     'isUsingText']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
-    drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'])
+    drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock, dataMock, canvasMock, colorMock, clipboardMock);
+    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
+      dataMock, canvasMock, colorMock, clipboardMock);
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;

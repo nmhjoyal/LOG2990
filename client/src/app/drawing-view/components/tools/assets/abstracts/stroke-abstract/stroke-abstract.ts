@@ -1,11 +1,11 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
 

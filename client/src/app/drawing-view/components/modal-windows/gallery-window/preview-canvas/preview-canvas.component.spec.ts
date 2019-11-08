@@ -16,13 +16,13 @@ import { ColorPaletteComponent } from 'src/app/drawing-view/components/color-pic
 import { ColorPickerComponent } from 'src/app/drawing-view/components/color-picker/color-picker.component';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from '../../new-drawing-window/new-drawing-window.component';
 import { WelcomeWindowComponent } from '../../welcome-window/welcome-window.component';
 import { PreviewCanvasComponent } from './preview-canvas.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('PreviewCanvasComponent', () => {
 

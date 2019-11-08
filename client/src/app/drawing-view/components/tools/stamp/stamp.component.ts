@@ -1,11 +1,11 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/constants/tool-constants';
 import { IStamp } from '../assets/interfaces/stamp-interface';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-tools-stamp',

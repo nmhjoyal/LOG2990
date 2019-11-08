@@ -10,7 +10,7 @@ export class ToolHandlerService {
 
   // Drawings Handling attributes
  tools = Id;
- selectedTool: String;
+ selectedTool: string;
  selection: IShape;
 ​
   // Color service related attributes
@@ -38,10 +38,10 @@ export class ToolHandlerService {
     this.resetSelectorBox();
   }
 
-  isUsingText() : boolean {
+  isUsingText(): boolean {
     return this.selectedTool === this.tools.TEXT;
   }
-  
+
   // Selector Tool Methods
 
   resetSelectorBox(): void {

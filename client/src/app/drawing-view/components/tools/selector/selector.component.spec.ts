@@ -1,6 +1,7 @@
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
@@ -8,7 +9,6 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -220,7 +220,7 @@ describe('SelectorComponent', () => {
         selector.onRelease(leftRelease);
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();
-        selector['drawingStorage'].drawings = [];
+        selector.drawingStorage.drawings = [];
         selector.onMouseDown(leftClick);
         selector.onRelease(leftRelease);
         expect(toolServiceMock.resetSelectorBox).toHaveBeenCalled();
@@ -237,7 +237,7 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
         selectorBoxExists.and.returnValue(false);
-        selector['drawingStorage'].drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
+        selector.drawingStorage.drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
         selector.onMouseDown(rightClick);
         selector.onRelease(rightRelease);
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();

@@ -2,8 +2,8 @@ import SpyObj = jasmine.SpyObj;
 
 import { IDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
-import { FilterTagsPipe } from './filter-tags.pipe';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { FilterTagsPipe } from './filter-tags.pipe';
 
 describe('FilterTagsPipe', () => {
   const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawing']);

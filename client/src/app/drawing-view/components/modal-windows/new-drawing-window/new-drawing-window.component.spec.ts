@@ -8,13 +8,13 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ColorPaletteComponent } from '../../color-picker/color-palette/color-palette.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -79,7 +79,8 @@ describe('NewDrawingWindowComponent', () => {
       drawingWidth: 100,
       drawingHeight: 100,
     };
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, toolHandlerServiceMock, drawingStorageMock, colorService);
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock,
+      toolHandlerServiceMock, drawingStorageMock, colorService);
     component.ngOnInit();
   }));
 

@@ -4,9 +4,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ShapeAbstract } from './shape-abstract';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
     selector: 'test-shape-abstract',
@@ -44,8 +44,7 @@ describe('ShapeAbstract', () => {
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
 
   beforeEach(() => {
-    drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']); // eventually put service method that saves drawing operation
-
+    drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
     TestBed.configureTestingModule({
         imports: [BrowserDynamicTestingModule, DrawingViewModule],
         declarations: [ShapeTestComponent],

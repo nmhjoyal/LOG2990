@@ -1,13 +1,13 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../../modal-window/modal-window.component';
 import { IGalleryModalData } from './IGalleryModalData';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-gallery-window',

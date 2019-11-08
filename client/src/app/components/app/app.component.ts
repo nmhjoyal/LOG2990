@@ -11,12 +11,12 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 @Component({
   selector: 'app-root',

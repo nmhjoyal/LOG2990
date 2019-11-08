@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { DrawingStorageService } from './drawing-storage.service';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { DrawingStorageService } from './drawing-storage.service';
 
 const LOOP_ITERATIONS = 3;
 
@@ -13,12 +13,12 @@ describe('DrawingStorageService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    
+
     expect(Array.isArray(service.drawings) && !(service.drawings.length)).toBeTruthy();
   });
 
   it('#saveDrawing should add the drawing information to the drawings array', () => {
-    let callCounter: number = 0;
+    let callCounter = 0;
     const myDrawing: ITools = {
       id: '',
       x: 0,

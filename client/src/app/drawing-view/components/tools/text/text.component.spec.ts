@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Alignments, AlignmentType, FontFamilies, TextConstants } from '../assets/constants/text-constants';
 import { TextComponent } from './text.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('TextComponent', () => {
     let textComponent: TextComponent;
@@ -35,7 +35,7 @@ describe('TextComponent', () => {
         attrService = TestBed.get(AttributesService);
         TestBed.get(DrawingStorageService).drawings = [];
         textComponent = fixture.componentInstance;
-        
+
     }));
 
     afterEach(() => {
@@ -87,7 +87,7 @@ describe('TextComponent', () => {
 
     it('click outside of box should save text to drawings only if lines contain text', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(false);
-        const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
+        const saveSpy = spyOn(textComponent.drawingStorage, 'saveDrawing');
         expect(textComponent.isFirstClick).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
@@ -107,7 +107,7 @@ describe('TextComponent', () => {
 
     it('click inside of text box should not save text to drawings', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(true);
-        const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
+        const saveSpy = spyOn(textComponent.drawingStorage, 'saveDrawing');
         expect(textComponent.isFirstClick).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);

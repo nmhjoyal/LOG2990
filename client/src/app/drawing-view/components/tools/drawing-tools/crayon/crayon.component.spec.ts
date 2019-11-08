@@ -1,10 +1,10 @@
     // tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { CrayonComponent } from './crayon.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 const INITIAL_X = 150;
 const INITIAL_Y = 200;

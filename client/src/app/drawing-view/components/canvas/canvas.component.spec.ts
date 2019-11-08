@@ -9,6 +9,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
 import { ColorService } from 'src/app/services/color_service/color.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
@@ -23,7 +24,6 @@ import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { CanvasComponent } from './canvas.component';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
@@ -82,8 +82,8 @@ describe('CanvasComponent', () => {
         ColorPaletteComponent,
         ColorPickerComponent,
       ],
-      providers: [  MatDialogConfig, 
-        LocalStorageService, 
+      providers: [  MatDialogConfig,
+        LocalStorageService,
         DrawingStorageService,
         ToolHandlerService,
         ColorService,

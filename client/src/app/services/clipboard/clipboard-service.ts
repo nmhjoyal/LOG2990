@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
-import { SelectorService } from '../selector-service/selector-service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SelectorService } from '../selector-service/selector-service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColorService } from '../color_service/color.service';
-import { ToolHandlerService } from './tool-handler.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { ToolHandlerService } from './tool-handler.service';
 
 const FIFTY = 50;
 
 describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colorService: ColorService;
-  let drawingServiceMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('drawingServiceMock',
+  const drawingServiceMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('drawingServiceMock',
    ['saveDrawing', 'seeDrawings', 'seeSelection', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers:[
+      providers: [
         {provide: DrawingStorageService, useValue: drawingServiceMock, },
       ],
     });
