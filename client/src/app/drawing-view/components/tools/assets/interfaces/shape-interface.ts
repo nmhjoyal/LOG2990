@@ -12,8 +12,8 @@ export interface IPolygon {
 }
 
 export interface IShape extends ITools {
-    primaryColor: string;
-    secondaryColor: string;
+    primaryColour: string;
+    secondaryColour: string;
     strokeOpacity: number;
     strokeWidth: number;
     fillOpacity: number;

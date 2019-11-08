@@ -4,7 +4,7 @@ import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LineComponent } from '../../../shapes/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
@@ -16,8 +16,8 @@ import { LineAbstract } from './line-abstract';
   })
 class LineTestComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(serviceInstance: DrawingStorageService, attributesInstance: AttributesService, colorInstance: ColorService) {
-    super(serviceInstance, attributesInstance, colorInstance);
+  constructor(serviceInstance: DrawingStorageService, attributesInstance: AttributesService, colourInstance: ColourService) {
+    super(serviceInstance, attributesInstance, colourInstance);
   }
 
   // mock of abstract methods

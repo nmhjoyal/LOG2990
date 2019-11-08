@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
@@ -15,8 +15,8 @@ export class CrayonComponent extends StrokeAbstract implements OnInit, OnDestroy
 
   constructor(drawingStorageRef: DrawingStorageService,
               attributesServiceRef: AttributesService,
-              colorServiceRef: ColorService) {
-    super(drawingStorageRef, attributesServiceRef, colorServiceRef);
+              colourServiceRef: ColourService) {
+    super(drawingStorageRef, attributesServiceRef, colourServiceRef);
     this.stroke.id = ToolConstants.TOOL_ID.CRAYON;
   }
 

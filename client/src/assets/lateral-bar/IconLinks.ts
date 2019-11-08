@@ -6,7 +6,7 @@ export class IconLinks {
     static brush = 'https://i.imgur.com/QcePo5S.png';
     static feather = 'https://i.imgur.com/xwBu4Rd.png';
     static sprayCan = 'https://i.imgur.com/4rxfzhH.png';
-    static color = 'https://i.imgur.com/r64kf3H.png';
+    static colour = 'https://i.imgur.com/r64kf3H.png';
     static shapes = 'https://i.imgur.com/K6wI9it.png';
     static details = 'https://i.imgur.com/W0T8AVA.png';
 
