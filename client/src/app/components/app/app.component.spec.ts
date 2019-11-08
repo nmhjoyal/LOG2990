@@ -25,7 +25,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
-    colourMock = jasmine.createSpyObj('ColorService', ['switchColors']);
+    colourMock = jasmine.createSpyObj('ColourService', ['switchColours']);
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete', 'undo', 'redo']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',

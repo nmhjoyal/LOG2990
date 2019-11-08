@@ -3,8 +3,8 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { AttributesService } from '../../attributes/attributes.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
+import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDestroy {
