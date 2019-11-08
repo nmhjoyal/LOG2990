@@ -1,13 +1,12 @@
-import { Component, HostListener, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings, ExportAs } from 'src/AppConstants/Strings';
 import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
-import { ISaveModalData } from '../save-window/ISaveModalData';
 import * as svg from 'save-svg-as-png';
+import { IExportData } from './IExportData';
 
 
 @Component({
@@ -21,12 +20,13 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
 
   protected preview: ISVGPreview;
   formatSelected: boolean;
-  protected exportType: ExportAs;
+  exportType: ExportAs;
   format: string;
 
-  constructor(dialogRef: MatDialogRef<ExportWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
-    protected canvasData: CanvasInformationService, protected toolHandler: ToolHandlerService, protected index: IndexService) {
-    super(dialogRef, data, canvasData, undefined, toolHandler, index);
+
+  constructor(dialogRef: MatDialogRef<ExportWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: IExportData,
+    protected toolHandler: ToolHandlerService, protected index: IndexService) {
+    super(dialogRef, data);
     this.data.title = Strings.EXPORT_WINDOW_TITLE;
     this.formatSelected = false;
   }
@@ -42,31 +42,30 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
   onAcceptClick(name:string): void {
     switch(this.exportType){
       case ExportAs.PNG:
-        svg.saveSvgAsPng(document.getElementById('canvas'), name + '.png');
+        if(this.data.canvasElement.nativeElement.innerHTML != null){
+          svg.saveSvgAsPng(this.data.canvasElement.nativeElement.innerHTML, name + '.png');
+        }
         this.onClose();
         break;
       case ExportAs.SVG:
-        var canvas = document.getElementById('canvas');
-        if(canvas != null){
-          var data = (new XMLSerializer()).serializeToString(canvas);
+        if(this.data.canvasElement.nativeElement.innerHTML != null){
+          var data = (new XMLSerializer()).serializeToString(this.data.canvasElement.nativeElement.innerHTML);
           var blob = new Blob([data], {type:"image/svg+xml;charset=utf-8"});
           this.download(name+'.svg', blob);
         } 
         this.onClose();
         break;
       case ExportAs.JPG:
-        var canvas = document.getElementById('canvas');
-        if(canvas != null){
-          var data = (new XMLSerializer()).serializeToString(canvas);
-          var blob = new Blob([data], {type:"image/jpeg+xml;charset=utf-8"});
+        if(this.data.canvasElement.nativeElement.innerHTML != null){
+          var data = (new XMLSerializer()).serializeToString(this.data.canvasElement.nativeElement.innerHTML);
+          var blob = new Blob([data], {type:"image/jpeg"});
           this.download(name+'.jpeg', blob);
         } 
         this.onClose();
         break;
       case ExportAs.BMP:
-        var canvas = document.getElementById('canvas');
-        if(canvas != null){
-          var data = (new XMLSerializer()).serializeToString(canvas);
+        if(this.data.canvasElement.nativeElement.innerHTML != null){
+          var data = (new XMLSerializer()).serializeToString(this.data.canvasElement.nativeElement.innerHTML);
           var blob = new Blob([data], {type:"image/bmp+xml;charset=utf-8"});
           this.download(name+'.bmp', blob);
         } 

@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, HostListener, Inject, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav} from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
@@ -24,6 +24,7 @@ import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-win
 export class AppComponent implements OnInit {
 
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
+  @ViewChild('canvas', {static: false }) canvasElement: ElementRef;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
@@ -89,7 +90,9 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.control.e', ['$event']) onKeydownHandlerCtrlE(event: KeyboardEvent): void {
     event.preventDefault();
-    this.openExportWindow();
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.openExportWindow();
+    }
   }
 
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
@@ -170,7 +173,8 @@ export class AppComponent implements OnInit {
       this.dialog.open(ExportWindowComponent, {
         data: {
           data: ExportWindowComponent.prototype.data,
-          canvasData: CanvasInformationService.prototype.data,
+          canvasData: this.canvasElement,
+          
         },
         panelClass: 'export-window',
       });
