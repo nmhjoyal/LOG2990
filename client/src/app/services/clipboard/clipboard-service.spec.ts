@@ -165,8 +165,41 @@ describe('ClipboardService', () => {
   });
 
   // AJOUTER TESTS POUR UNDO() ET REDO()
-  it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {});
+  it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {
+    
+  });
 
-  it('#undo should reduce the pasteoffset only if the undone operation is defined and it has a defined pasteOffset != 0', () => {});
+  it('#undo should reduce the pasteoffset only if the undone operation is defined and it has a defined pasteOffset != 0', () => {
+    let undoSpy = spyOn(service.undoRedoService, 'undo');
+    undoSpy.and.returnValue(undefined);
+    service.pasteOffset = FORTY;
+    // tslint:disable:no-magic-numbers
+    service.redo();
+    expect(undoSpy.calls.count()).toBe(1);
+    expect(service.pasteOffset).toBe(FORTY);
+
+    let dummyOperation: ITools = {
+      id: 'dummy',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      pasteOffset: undefined,
+    };
+    undoSpy.and.returnValue(dummyOperation);
+    expect(undoSpy.calls.count()).toBe(2);
+    expect(service.pasteOffset).toBe(FORTY);
+
+    dummyOperation.pasteOffset = 0;
+    undoSpy.and.returnValue(dummyOperation);
+    expect(undoSpy.calls.count()).toBe(3);
+    expect(service.pasteOffset).toBe(FORTY);
+
+    dummyOperation.pasteOffset = FORTY;
+    undoSpy.and.returnValue(dummyOperation);
+    expect(undoSpy.calls.count()).toBe(3);
+    expect(service.pasteOffset).toBe(FORTY - NumericalValues.DUPLICATE_OFFSET);
+
+  });
 
 });
