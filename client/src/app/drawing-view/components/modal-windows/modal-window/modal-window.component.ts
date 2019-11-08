@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
@@ -23,7 +23,7 @@ export abstract class ModalWindowComponent {
     protected toolHandler?: ToolHandlerService,
     protected drawingStorage?: DrawingStorageService,
     protected index?: IndexService,
-    protected color?: ColorService) {
+    protected colour?: ColourService) {
 
   }
 

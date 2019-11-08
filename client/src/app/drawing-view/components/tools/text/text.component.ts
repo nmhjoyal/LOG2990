@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
@@ -28,7 +28,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   boxX: number;
 
   constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
-    protected colorServiceRef: ColorService) {
+    protected colourServiceRef: ColourService) {
     super();
     this.text = {
       id: Id.TEXT,
@@ -38,7 +38,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       bold: '',
       align: Alignments.START,
       fontFamily: FontFamilies.ARIAL,
-      primaryColour: colorServiceRef.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: 0,
