@@ -30,7 +30,7 @@ describe('SaveService', () => {
   });
 
   it('#saveDrawing should call the savedrawing of drawingstorage and conditionally empty undolist', () => {
-    accessingUndospy.accessingUndoList = false;
+    accessingUndospy.and.returnValue(false);
     service.undoRedo.undoList.length = DUMMY_LENGTH;
     const dummyDrawing: ITools = {
       id: 'dummy',
@@ -44,12 +44,12 @@ describe('SaveService', () => {
     expect(drawingStorageMock.saveDrawing.calls.count).toBe(1);
     expect(undoListSpy).toBe(DUMMY_LENGTH);
 
-    accessingUndospy.accessingUndoList = true;
+    accessingUndospy.and.returnValue(true);
     service.saveDrawing(dummyDrawing);
     // tslint:disable-next-line:no-magic-numbers
     expect(drawingStorageMock.saveDrawing.calls.count).toBe(2);
     expect(undoListSpy).toBe(0);
-    expect(accessingUndospy.accessingUndoList).toBe(false);
+    expect(accessingUndospy.accessingUndoList).toBe(false); // don,t think that works
 
   });
 });

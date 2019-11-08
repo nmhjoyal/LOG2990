@@ -4,6 +4,7 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { EllipseComponent } from './ellipse.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 const STROKE_WIDTH = 10;
 const INITIAL_X = 150;
@@ -16,14 +17,14 @@ describe('EllipseComponent', () => {
   let component: EllipseComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<EllipseComponent>;
-  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
+  const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [EllipseComponent],
       providers: [
-        { provide: DrawingStorageService, useValue: drawingStorageMock, },
+        { provide: SaveService, useValue: saveServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })

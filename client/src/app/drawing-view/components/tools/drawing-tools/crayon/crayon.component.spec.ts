@@ -5,6 +5,7 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { CrayonComponent } from './crayon.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 const INITIAL_X = 150;
 const INITIAL_Y = 200;
@@ -13,7 +14,7 @@ describe('CrayonComponent', () => {
   let component: CrayonComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<CrayonComponent>;
-  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
+  const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
 
   beforeEach(async(() => {
@@ -21,7 +22,7 @@ describe('CrayonComponent', () => {
       declarations: [CrayonComponent],
       imports: [BrowserAnimationsModule],
       providers: [
-        { provide: DrawingStorageService, useValue: drawingStorageMock, },
+        { provide: SaveService, useValue: saveServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })

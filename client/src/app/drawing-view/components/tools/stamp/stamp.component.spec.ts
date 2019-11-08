@@ -2,10 +2,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
 import { StampComponent } from './stamp.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 const RANDOM_ANGLE = 77;
 const NUMBER_OF_STAMPS = 6; // number of elements in FilterSelection in assets/tool-constants
@@ -18,7 +18,7 @@ describe('StampComponent', () => {
     let component: StampComponent;
     let attrService: AttributesService;
     let fixture: ComponentFixture<StampComponent>;
-    const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
+    const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
     const attributesService: AttributesService = new AttributesService();
     const colorServiceMock: ColorService = jasmine.createSpyObj('ColorService', ['']);
 
@@ -27,7 +27,7 @@ describe('StampComponent', () => {
       imports: [BrowserDynamicTestingModule],
       declarations: [StampComponent],
       providers: [
-      { provide: DrawingStorageService, useValue: drawingStorageMock, },
+      { provide: SaveService, useValue: saveServiceMock, },
       { provide: AttributesService, useValue: attributesService, },
       { provide: ColorService, useValue: colorServiceMock, },
       ],

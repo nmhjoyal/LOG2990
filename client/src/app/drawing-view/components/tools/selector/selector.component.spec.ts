@@ -9,6 +9,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -68,6 +69,7 @@ describe('SelectorComponent', () => {
             providers: [
                 ToolHandlerService,
                 DrawingStorageService,
+                SaveService,
                 ColorService,
                 { provide: AttributesService, useValue: attrServiceMock, },
             ],

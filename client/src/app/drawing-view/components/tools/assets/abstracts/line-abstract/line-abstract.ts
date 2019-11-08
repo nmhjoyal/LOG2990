@@ -3,9 +3,9 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDestroy {
   protected initialX: number;
@@ -24,7 +24,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected drawingStorage: DrawingStorageService,
+  constructor(protected saveService: SaveService,
               protected attributesService: AttributesService,
               protected colorService: ColorService) {
     super();
@@ -142,7 +142,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeLinejoin: this.stroke.strokeLinejoin,
       strokeDashArray: this.stroke.strokeDashArray,
     };
-    this.drawingStorage.saveDrawing(currentDrawing);
+    this.saveService.saveDrawing(currentDrawing);
   }
 
   protected addSegment(): void {

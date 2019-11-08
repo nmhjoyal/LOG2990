@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PolygonComponent } from './polygon.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 const STROKE_WIDTH = 100;
 const INITIAL_X = 150;
@@ -17,14 +17,14 @@ describe('PolygonComponent', () => {
   let component: PolygonComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<PolygonComponent>;
-  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
+  const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [PolygonComponent],
       providers: [
-        { provide: DrawingStorageService, useValue: drawingStorageMock, },
+        { provide: SaveService, useValue: saveServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })

@@ -7,6 +7,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-tools-selector',
@@ -18,10 +19,10 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
 
-  constructor(public toolService: ToolHandlerService, drawingStorageRef: DrawingStorageService,
-      attributesServiceRef: AttributesService, protected colorService: ColorService,
+  constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService, 
+    saveRef: SaveService, attributesServiceRef: AttributesService, protected colorService: ColorService,
     protected selectorService: SelectorService) {
-    super(drawingStorageRef, attributesServiceRef, colorService);
+    super(saveRef, attributesServiceRef, colorService);
     this.shape.strokeWidth = 1;
     this.shape.primaryColor = 'black';
     this.shape.fillOpacity = 0;

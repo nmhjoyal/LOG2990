@@ -1,11 +1,11 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/constants/tool-constants';
 import { IStamp } from '../assets/interfaces/stamp-interface';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-tools-stamp',
@@ -20,7 +20,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   stampPaths = StampConstants.STAMPS_PATHS;
   angleIncrement: number;
 
-  constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
+  constructor(protected drawingStorage: SaveService, protected attributesServiceRef: AttributesService,
     protected colorServiceRef: ColorService) {
     super();
     this.stamp = {
