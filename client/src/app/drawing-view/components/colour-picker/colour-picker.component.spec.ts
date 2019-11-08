@@ -5,12 +5,12 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Strings } from 'src/AppConstants/Strings';
-import { ColorPaletteComponent } from './color-palette.component';
+import { ColourPaletteComponent } from './colour-palette/colour-palette.component';
+import { ColourPickerComponent } from './colour-picker.component';
 
-describe('ColorPaletteComponent', () => {
-    let component: ColorPaletteComponent;
-    let fixture: ComponentFixture<ColorPaletteComponent>;
+describe('ColourPickerComponent', () => {
+    let component: ColourPickerComponent;
+    let fixture: ComponentFixture<ColourPickerComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -25,7 +25,8 @@ describe('ColorPaletteComponent', () => {
             MatButtonModule,
         ],
         declarations: [
-            ColorPaletteComponent,
+            ColourPickerComponent,
+            ColourPaletteComponent,
         ],
         providers: [
             { provide: MatDialogRef, useValue: {} },
@@ -35,23 +36,12 @@ describe('ColorPaletteComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ColorPaletteComponent);
+        fixture = TestBed.createComponent(ColourPickerComponent);
         component = fixture.componentInstance;
-        component.lastColors = [Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX,
-                                Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX];
-        fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
-    });
-
-    it('should define canvas', () => {
-        expect(component.canvas).toBeDefined();
-    });
-
-    it('should change color on click of palette', () => {
-        expect(component.color[0]).toBeDefined('setColor()');
     });
 
 });

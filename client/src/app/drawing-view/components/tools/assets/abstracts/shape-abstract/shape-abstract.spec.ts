@@ -3,8 +3,8 @@ import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ShapeAbstract } from './shape-abstract';
 
@@ -14,8 +14,8 @@ import { ShapeAbstract } from './shape-abstract';
   })
 class ShapeTestComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService, colorInstance: ColorService) {
-    super(serviceInstance, attributesInstance, colorInstance);
+  constructor(serviceInstance: DrawingStorageService, attributesInstance: AttributesService, colourInstance: ColourService) {
+    super(serviceInstance, attributesInstance, colourInstance);
   }
 
   // mock of abstract methods
@@ -39,18 +39,17 @@ class ShapeTestComponent extends ShapeAbstract implements OnInit, OnDestroy {
 describe('ShapeAbstract', () => {
   let shapeTest: ShapeTestComponent;
   let hostElement: DebugElement;
-  let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let drawingStorageMock: SpyObj<DrawingStorageService>;
   let fixture: ComponentFixture<ShapeTestComponent>;
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
 
   beforeEach(() => {
-    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']); // eventually put service method that saves drawing operation
-
+    drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
     TestBed.configureTestingModule({
         imports: [BrowserDynamicTestingModule, DrawingViewModule],
         declarations: [ShapeTestComponent],
         providers: [
-          { provide: ToolHandlerService, useValue: toolHandlerMock, },
+          { provide: DrawingStorageService, useValue: drawingStorageMock, },
           { provide: AttributesService, useValue: attrServiceMock, },
         ],
       });

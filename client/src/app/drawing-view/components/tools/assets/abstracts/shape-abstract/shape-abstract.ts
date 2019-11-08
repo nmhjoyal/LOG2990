@@ -1,9 +1,9 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
@@ -21,9 +21,9 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService,
+  constructor(protected drawingStorage: DrawingStorageService,
               protected attributesService: AttributesService,
-              protected colorService: ColorService) {
+              protected colourService: ColourService) {
     super();
     this.mouseDown = false;
     this.shiftDown = false;
@@ -45,11 +45,11 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       height: 0,
       verticesNumber: 0,
       vertices: '',
-      primaryColor: this.colorService.color[0],
-      secondaryColor: this.colorService.color[1],
-      strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from color service
+      primaryColour: this.colourService.colour[0],
+      secondaryColour: this.colourService.colour[1],
+      strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from colour service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from color service */ };
+      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from colour service */ };
   }
 
   abstract ngOnInit(): void;
@@ -117,20 +117,20 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case ToolConstants.TRACE_MODE.CONTOUR:
-        this.shape.secondaryColor = this.colorService.color[1];
-        this.shape.primaryColor = ToolConstants.NONE;
+        this.shape.secondaryColour = this.colourService.colour[1];
+        this.shape.primaryColour = ToolConstants.NONE;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
-        this.shape.secondaryColor = this.shape.primaryColor;
-        this.shape.primaryColor = this.colorService.color[0];
+        this.shape.secondaryColour = this.shape.primaryColour;
+        this.shape.primaryColour = this.colourService.colour[0];
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.secondaryColor = this.colorService.color[1];
-        this.shape.primaryColor = this.colorService.color[0];
+        this.shape.secondaryColour = this.colourService.colour[1];
+        this.shape.primaryColour = this.colourService.colour[0];
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 
@@ -156,13 +156,13 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       height: this.shape.height,
       verticesNumber: this.shape.verticesNumber,
       vertices: this.shape.vertices,
-      primaryColor: this.shape.primaryColor,
-      secondaryColor: this.shape.secondaryColor,
+      primaryColour: this.shape.primaryColour,
+      secondaryColour: this.shape.secondaryColour,
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   protected resetShape(): void {
