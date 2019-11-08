@@ -14,8 +14,8 @@ describe('UndoRedoService', () => {
       ],
     });
     service = TestBed.get(UndoRedoService);
-    let undoListSpy = spyOn(service.undoList, 'pop');
-    let drawingsSpy = spyOn(service.drawingStorage.drawings, 'pop');
+    // let undoListSpy = spyOn(service.undoList, 'pop');
+    // let drawingsSpy = spyOn(service.drawingStorage.drawings, 'pop');
   });
 
   it('should be created', () => {
