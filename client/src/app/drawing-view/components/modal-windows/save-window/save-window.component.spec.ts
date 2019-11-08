@@ -76,7 +76,7 @@ describe('SaveWindowComponent', () => {
     };
 
     beforeEach(async(() => {
-        indexMock = jasmine.createSpyObj('IndexService', ['basicGet', 'getTags', 'saveTag', 'saveDrawing']);
+        indexMock = jasmine.createSpyObj('IndexService', ['getTags', 'saveTag', 'saveDrawing']);
         confirmSpy = spyOn(window, 'confirm');
         indexMock.getTags.and.callFake(() => new Observable<ITag[]>());
         indexMock.saveTag.and.callFake(() => new Observable<boolean>());
