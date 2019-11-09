@@ -177,12 +177,28 @@ describe('GalleryWindowComponent', () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-    it('should import local file', () => {
+    it('should not alert if the file is correct', () => {
         const fileContent = '{"shapes": {}, "canvas": {}}';
         const data = new Blob([fileContent], { type: 'text/plain' });
         const arrayOfBlob = new Array<Blob>();
         arrayOfBlob.push(data);
-        const file = new File(arrayOfBlob, 'mock.txt');
+        const file = new File(arrayOfBlob, 'mock.json');
+        component.fileInput = {
+            nativeElement: {
+                files: [file],
+            },
+        };
+        const spyAlert = spyOn(window, 'alert');
+        component.importLocalFile();
+        expect(spyAlert).not.toHaveBeenCalled();
+    });
+
+    it('should not close the window if there is an error', () => {
+        const fileContent = 'fake file content!';
+        const data = new Blob([fileContent], { type: 'image/png' });
+        const arrayOfBlob = new Array<Blob>();
+        arrayOfBlob.push(data);
+        const file = new File(arrayOfBlob, 'mockFile.png ');
         component.fileInput = {
             nativeElement: {
                 files: [file],
@@ -190,7 +206,7 @@ describe('GalleryWindowComponent', () => {
         };
         const spyClose = spyOn(component, 'onClose');
         component.importLocalFile();
-        expect(spyClose).toHaveBeenCalled();
+        expect(spyClose).not.toHaveBeenCalled();
     });
 
 });
