@@ -63,7 +63,7 @@ export default class ClickHelper {
             case Id.RECTANGLE:
                 return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.STYLO:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
             case Id.ELLIPSE:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +

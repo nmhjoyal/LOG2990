@@ -14,13 +14,13 @@ import { AttributesService } from './components/tools/assets/attributes/attribut
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
+import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { LineComponent } from './components/tools/shapes/line/line.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
-import { StyloComponent } from './components/tools/drawing-tools/stylo/stylo.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { StyloComponent } from './components/tools/drawing-tools/stylo/stylo.com
     PreviewCanvasComponent,
     StampComponent,
     PreviewCanvasComponent,
-    StyloComponent,
+    PenComponent,
   ],
 
   imports: [

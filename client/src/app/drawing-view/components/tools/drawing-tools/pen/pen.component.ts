@@ -1,21 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColorService } from 'src/app/services/color_service/color.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { IPath } from '../../assets/interfaces/drawing-tool-interface';
+import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interface';
 import { ToolConstants } from '../../assets/tool-constants';
 
 @Component({
-  selector: 'app-stylo',
-  templateUrl: './stylo.component.html',
-  styleUrls: ['./stylo.component.scss'],
+  selector: 'app-pen',
+  templateUrl: './pen.component.html',
+  styleUrls: ['./pen.component.scss'],
 })
-export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy {
+export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
-  stylo: ITools;
+  pen: IPen;
   speed: number;
   lastX: number;
   lastY: number;
@@ -28,9 +27,11 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
               attributesServiceRef: AttributesService,
               colorServiceRef: ColorService) {
     super(toolServiceRef, attributesServiceRef, colorServiceRef);
-    this.stylo = {
-      id: ToolConstants.TOOL_ID.STYLO,
+    this.pen = {
+      id: ToolConstants.TOOL_ID.PEN,
       paths: [],
+      colour: this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+      strokeLinecap: ToolConstants.ROUND,
       x: 0,
       y: 0,
       width: 0,
@@ -46,10 +47,10 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   ngOnInit(): void {
-    if (this.attributesService.styloAttributes.wasSaved) {
-      this.maxWidth = this.attributesService.styloAttributes.savedMaxWidth;
-      this.minWidth = this.attributesService.styloAttributes.savedMinWidth;
-      this.newWidth = this.attributesService.styloAttributes.savedMaxWidth;
+    if (this.attributesService.penAttributes.wasSaved) {
+      this.maxWidth = this.attributesService.penAttributes.savedMaxWidth;
+      this.minWidth = this.attributesService.penAttributes.savedMinWidth;
+      this.newWidth = this.attributesService.penAttributes.savedMaxWidth;
     }
   }
 
@@ -58,9 +59,9 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   saveAttribute(): void {
-    this.attributesService.styloAttributes.wasSaved = true;
-    this.attributesService.styloAttributes.savedMaxWidth = this.maxWidth;
-    this.attributesService.styloAttributes.savedMinWidth = this.minWidth;
+    this.attributesService.penAttributes.wasSaved = true;
+    this.attributesService.penAttributes.savedMaxWidth = this.maxWidth;
+    this.attributesService.penAttributes.savedMinWidth = this.minWidth;
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -68,10 +69,10 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.lastTime = Date.now();
     this.lastX = ClickHelper.getXPosition(event);
     this.lastY = ClickHelper.getYPosition(event);
-    this.stylo.x = this.lastX;
-    this.stylo.y = this.lastY;
-    this.stylo.width = 0;
-    this.stylo.height = 0;
+    this.pen.x = this.lastX;
+    this.pen.y = this.lastY;
+    this.pen.width = 0;
+    this.pen.height = 0;
   }
 
   onMouseMove(event: MouseEvent): void {
@@ -87,15 +88,11 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
                             (this.maxWidth - this.minWidth);
         const midWidth = (this.maxWidth - this.minWidth) / 2;
         if (interpolation < midWidth) {
-          if (interpolation > this.maxWidth) {
-            this.newWidth = this.maxWidth;
-          } else if (this.newWidth - ToolConstants.STROKE_INCREMENT >= this.minWidth) {
+          if (this.newWidth - ToolConstants.STROKE_INCREMENT >= this.minWidth) {
             this.newWidth -= ToolConstants.STROKE_INCREMENT;
           }
         } else if (interpolation > midWidth) {
-          if (interpolation < this.minWidth) {
-            this.newWidth = this.minWidth;
-          } else if (this.newWidth + ToolConstants.STROKE_INCREMENT <= this.maxWidth) {
+          if (this.newWidth + ToolConstants.STROKE_INCREMENT <= this.maxWidth) {
             this.newWidth += ToolConstants.STROKE_INCREMENT;
           }
         }
@@ -110,7 +107,7 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
   onMouseUp(): void {
     this.saveShape();
     this.mouseDown = false;
-    this.stylo.paths = [];
+    this.pen.paths = [];
   }
 
   protected decreaseMinWidth(): void {
@@ -142,28 +139,27 @@ export class StyloComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   protected addPath(x: number, y: number) {
-    this.stylo.x = x < this.stylo.x ? x : this.stylo.x;
-    this.stylo.y = y < this.stylo.y ? y : this.stylo.y;
-    this.stylo.width = x > this.stylo.width ? x : this.stylo.width;
-    this.stylo.height = y > this.stylo.height ? y : this.stylo.height;
-    const path: IPath = {
-      path: 'M ' + this.lastX + ' ' + this.lastY + ' L ' + x + ' ' + y,
-      strokeWidth: this.newWidth,
-      strokeColour: 'black',
+    this.pen.x = x < this.pen.x ? x : this.pen.x;
+    this.pen.y = y < this.pen.y ? y : this.pen.y;
+    this.pen.width = x > this.pen.width ? x : this.pen.width;
+    this.pen.height = y > this.pen.height ? y : this.pen.height;
+    const path: IComplexPath = {
+      path: 'M' + this.lastX + ' ' + this.lastY + 'L' + x + ' ' + y,
+      pathWidth: this.newWidth,
     };
-    if (this.stylo.paths !== undefined) {
-      this.stylo.paths.push(path);
-    }
+    this.pen.paths.push(path);
   }
 
   protected saveShape(): void {
-    const currentDrawing: ITools = {
-      id: this.stylo.id,
-      paths: this.stylo.paths,
-      x: this.stylo.x,
-      y: this.stylo.y,
-      width: this.stylo.width - this.stylo.x,
-      height: this.stylo.height - this.stylo.y,
+    const currentDrawing: IPen = {
+      id: this.pen.id,
+      paths: this.pen.paths,
+      colour: this.pen.colour,
+      strokeLinecap: this.pen.strokeLinecap,
+      x: this.pen.x,
+      y: this.pen.y,
+      width: this.pen.width - this.pen.x,
+      height: this.pen.height - this.pen.y,
     };
     this.toolService.drawings.push(currentDrawing);
   }

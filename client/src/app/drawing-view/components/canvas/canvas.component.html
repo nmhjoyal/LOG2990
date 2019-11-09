@@ -56,15 +56,14 @@
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
             </g>
 
-            <g *ngSwitchCase="toolId.STYLO" (click)="applyColourToLine(drawing)"
+            <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColorFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths">
                     <path
                         [attr.d]="svgpath.path"
-                        [style.stroke-width]="svgpath.strokeWidth"
-                        [style.stroke-linecap]="'round'"
-                        [style.stroke]="'black'"
-                        [style.fill]="'black'">
+                        [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour"
+                        [style.stroke-linecap]="drawing.strokeLinecap">
                     </path>
                 </g>
             </g>
@@ -135,10 +134,10 @@
     <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
-<div *ngIf="toolHandler.styloSelected">
-    <app-stylo #activeTool [windowWidth]="canvasData.data.drawingWidth"
+<div *ngIf="toolHandler.penSelected">
+    <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight">
-    </app-stylo>
+    </app-pen>
 </div>
 <div *ngIf="toolHandler.rectangleSelected">
     <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"

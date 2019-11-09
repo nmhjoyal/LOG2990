@@ -11,7 +11,7 @@ export class AttributesService {
 
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
-  styloAttributes: IDrawingToolOptions;
+  penAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
   lineAttributes: ILineOptions;
@@ -26,7 +26,7 @@ export class AttributesService {
     this.resetLineAttributes();
     this.resetEllipseAttributes();
     this.resetStampAttributes();
-    this.resetStyloAttributes();
+    this.resetPenAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -71,9 +71,9 @@ export class AttributesService {
       height: 0,
     };
   }
-  resetStyloAttributes(): void {
-    this.styloAttributes = {
-      id: ToolConstants.TOOL_ID.STYLO,
+  resetPenAttributes(): void {
+    this.penAttributes = {
+      id: ToolConstants.TOOL_ID.PEN,
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
@@ -157,8 +157,8 @@ export class AttributesService {
     if (this.stampAttributes.wasSaved) {
       this.resetStampAttributes();
     }
-    if (this.styloAttributes.wasSaved) {
-      this.resetStyloAttributes();
+    if (this.penAttributes.wasSaved) {
+      this.resetPenAttributes();
     }
   }
 }
