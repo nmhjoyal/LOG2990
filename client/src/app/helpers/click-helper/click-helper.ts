@@ -30,7 +30,7 @@ export default class ClickHelper {
     static cursorTouchesObjectBorder(object: ITools, positionX: number, positionY: number): boolean {
         const selectorLine = { points: this.getClickAreaPoints(positionX, positionY) };
         switch (object.id) {
-            case (Id.RECTANGLE):
+            case Id.RECTANGLE:
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect',
                     { x: object.x, y: object.y, width: object.width, height: object.height}),
                     svgIntersections.shape('polyline', selectorLine));
@@ -60,10 +60,10 @@ export default class ClickHelper {
 
     static cursorInsideObject(object: ITools, positionX: number, positionY: number): boolean {
         switch (object.id) {
-            case (Id.RECTANGLE):
+            case Id.RECTANGLE:
                 return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.STYLO:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
             case Id.ELLIPSE:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
@@ -87,7 +87,7 @@ export default class ClickHelper {
             && previewBox.height > (object.height - previewBox.y + object.y));
         let boxIsInsideObject = false;
         switch (object.id) {
-            case (Id.RECTANGLE):
+            case Id.RECTANGLE:
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: object.x, y: object.y,
                     width: object.width, height: object.height}),
                     svgIntersections.shape('rect', selectorBox));
@@ -126,6 +126,7 @@ export default class ClickHelper {
                     && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = stampIntersections.points;
+                break;
         }
         return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;
     }

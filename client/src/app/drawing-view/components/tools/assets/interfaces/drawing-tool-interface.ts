@@ -41,8 +41,8 @@ export interface IDrawingToolOptions extends ITools {
     savedMinWidth: number;
 }
 
-export interface IStylo extends ITools {
-    paths: IPath[];
+export interface IStylo {
+    paths?: IPath[];
 }
 
 export interface IPath {
