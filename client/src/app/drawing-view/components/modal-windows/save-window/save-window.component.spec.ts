@@ -30,6 +30,38 @@ describe('SaveWindowComponent', () => {
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
 
+    drawingStorageMock.drawings = [{
+        id: '',
+        points: '',
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0,
+        svgReference: '',
+        vertices: '',
+        primaryColour: '',
+        secondaryColour: '',
+        strokeOpacity: 0,
+        strokeWidth: 0,
+        fillOpacity: 0,
+        verticesNumber: 0,
+        colour: '',
+        fill: '',
+        strokeLinecap: '',
+        strokeLinejoin: '',
+        filter: '',
+        angle: 0,
+        scaleFactor: 0,
+        centerX: 0,
+        centerY: 0,
+    }];
+
+    canvasDataMock.data = {
+        drawingColour: '',
+        drawingHeight: 0,
+        drawingWidth: 0,
+    };
+
     const mockDrawing = {
         name: 'name',
         tags: [tag, tag2],
@@ -45,7 +77,7 @@ describe('SaveWindowComponent', () => {
     };
 
     beforeEach(async(() => {
-        indexMock = jasmine.createSpyObj('IndexService', ['basicGet', 'getTags', 'saveTag', 'saveDrawing']);
+        indexMock = jasmine.createSpyObj('IndexService', ['getTags', 'saveTag', 'saveDrawing']);
         confirmSpy = spyOn(window, 'confirm');
         indexMock.getTags.and.callFake(() => new Observable<ITag[]>());
         indexMock.saveTag.and.callFake(() => new Observable<boolean>());
@@ -167,4 +199,9 @@ describe('SaveWindowComponent', () => {
         expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 
+    it('should save locally', () => {
+        const clickSpy = spyOn(HTMLElement.prototype, 'click');
+        component.saveToLocal('mock');
+        expect(clickSpy).toHaveBeenCalled();
+    });
 });

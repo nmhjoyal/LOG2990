@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DrawingStorageService {
 
-  drawings: ITools[];
+  drawings: ISavedDrawing[];
 
   constructor() {
     this.drawings = [];
   }
 
-  saveDrawing(drawing: ITools): void {
+  saveDrawing(drawing: ISavedDrawing): void {
     this.drawings.push(drawing);
   }
 

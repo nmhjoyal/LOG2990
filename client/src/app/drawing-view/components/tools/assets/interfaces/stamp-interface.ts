@@ -4,13 +4,13 @@ export interface IStampReference {
     svgReference?: string;
 }
 
-export interface IStamp extends ITools {
+export interface IStamp extends ITools, IStampReference {
     angle: number;
     scaleFactor: number;
     primaryColour: string;
-    svgReference: string;
     centerX: number;
     centerY: number;
+    svgReference?: string;
 }
 
 export interface IStampOptions extends ITools {

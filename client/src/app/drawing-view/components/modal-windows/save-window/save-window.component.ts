@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { IndexService } from 'src/app/services/index/index.service';
 import { Strings } from 'src/AppConstants/Strings';
-import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
+import { IDrawing, ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
-import { ITools } from '../../tools/assets/interfaces/itools';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
 @Component({
@@ -20,7 +20,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   protected name: string;
   protected preview: ISVGPreview;
-  private drawing: ITools[];
+  private drawing: ISavedDrawing[];
   isFinishedSaving: boolean;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
@@ -73,7 +73,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         }
       });
     this.isFinishedSaving = true;
-
     this.onClose();
   }
 
@@ -91,6 +90,65 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  saveDrawingToJson(): { shapes: ISavedDrawing[], canvas: {} } {
+    const json = {
+      shapes: [] as ISavedDrawing[],
+      canvas: {} as ICanvasData,
+    };
+    // tslint:disable: quotemark object-literal-key-quotes
+    // need double quotes so it's a valid json
+    this.drawingStorage.drawings.forEach((currentDrawing: ISavedDrawing) => {
+      json.shapes.push({
+        "id": currentDrawing.id,
+        "points": currentDrawing.points,
+        "width": currentDrawing.width,
+        "height": currentDrawing.height,
+        "x": currentDrawing.x,
+        "y": currentDrawing.y,
+        "svgReference": currentDrawing.svgReference,
+        "vertices": currentDrawing.vertices,
+        "primaryColour": currentDrawing.primaryColour,
+        "secondaryColour": currentDrawing.secondaryColour,
+        "strokeOpacity": currentDrawing.strokeOpacity,
+        "strokeWidth": currentDrawing.strokeWidth,
+        "fillOpacity": currentDrawing.fillOpacity,
+        "verticesNumber": currentDrawing.verticesNumber,
+        "colour": currentDrawing.colour,
+        "fill": currentDrawing.fill,
+        "strokeLinecap": currentDrawing.strokeLinecap,
+        "strokeLinejoin": currentDrawing.strokeLinejoin,
+        "filter": currentDrawing.filter,
+        "angle": currentDrawing.angle,
+        "scaleFactor": currentDrawing.scaleFactor,
+        "centerX": currentDrawing.centerX,
+        "centerY": currentDrawing.centerY,
+        "lines": currentDrawing.lines,
+        "fontSize": currentDrawing.fontSize,
+        "italic": currentDrawing.italic,
+        "bold": currentDrawing.bold,
+        "align": currentDrawing.align,
+        "fontFamily": currentDrawing.fontFamily,
+      });
+    });
+
+    json.canvas = {
+      "drawingColour": this.canvasData.data.drawingColour,
+      "drawingHeight": this.canvasData.data.drawingHeight,
+      "drawingWidth": this.canvasData.data.drawingWidth,
+    };
+    // tslint:enable: quotemark object-literal-key-quotes
+
+    return json;
+  }
+
+  saveToLocal(name: string) {
+    const a = document.createElement('a');
+    a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(JSON.stringify(this.saveDrawingToJson())));
+    a.setAttribute('download', name + '.json');
+    a.click();
+    this.onClose();
   }
 
 }

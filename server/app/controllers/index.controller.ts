@@ -18,7 +18,7 @@ export class IndexController {
     private configureRouter(): void {
         this.router = Router();
 
-        this.router.post('/drawubg',
+        this.router.post('/drawing',
             async (req: Request, res: Response, next: NextFunction) => {
                 const success: boolean | undefined = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);
