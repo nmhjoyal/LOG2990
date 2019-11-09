@@ -12,7 +12,7 @@ import { expect } from 'chai';
 chai.use(chaiHttp);
 chai.should();
 
-describe('IndexController', () => {
+describe('ServerStorageController', () => {
     describe('server', () => {
         before(() => {
             server.listen(3000);
