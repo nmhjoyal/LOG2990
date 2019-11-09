@@ -23,8 +23,12 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   private drawing: ISavedDrawing[];
   isFinishedSaving: boolean;
 
-  constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
-    protected canvasData: CanvasInformationService, protected drawingStorage: DrawingStorageService, protected index: ClientStorageService) {
+  constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
+    protected canvasData: CanvasInformationService,
+    protected drawingStorage: DrawingStorageService,
+    protected index: ClientStorageService,
+  ) {
     super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.isFinishedSaving = true;
