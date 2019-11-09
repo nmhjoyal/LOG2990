@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { FilterTagsPipe } from 'src/app/services/filter-pipe/filter-tags.pipe';
-import { IndexService } from 'src/app/services/index/index.service';
+import { ClientStorageService } from 'src/app/services/index/client-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
@@ -32,7 +32,7 @@ describe('GalleryWindowComponent', () => {
     const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
     const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawing']);
-    const indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
+    const indexServiceMock: SpyObj<ClientStorageService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
     const mockDrawing: IDrawing = {
@@ -76,7 +76,7 @@ describe('GalleryWindowComponent', () => {
                 { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
                 { provide: DrawingStorageService, useValue: drawingStorageMock },
                 { provide: CanvasInformationService, useValue: canvasInformationMock },
-                { provide: IndexService, useValue: indexServiceMock },
+                { provide: ClientStorageService, useValue: indexServiceMock },
             ],
         })
             .compileComponents();

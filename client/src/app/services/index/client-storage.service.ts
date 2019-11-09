@@ -8,7 +8,7 @@ import { ITag } from '../../../../../common/drawing-information/ITag';
 @Injectable({
   providedIn: 'root',
 })
-export class IndexService {
+export class ClientStorageService {
 
   private readonly BASE_URL: string = 'http://localhost:3000/api/index';
 
