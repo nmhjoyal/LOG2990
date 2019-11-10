@@ -80,7 +80,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       const x = ClickHelper.getXPosition(event);
       const y = ClickHelper.getYPosition(event);
       if (x !== this.lastX || y !== this.lastY) {
-         this.speed = this.calculateSpeed(x, y, Date.now());
+        this.speed = this.calculateSpeed(x, y, Date.now());
         this.lastTime = Date.now();
 
         const interpolation = ((ToolConstants.MAX_SPEED - this.speed) /
@@ -91,7 +91,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
           if (this.newWidth - ToolConstants.STROKE_INCREMENT >= this.minWidth) {
             this.newWidth -= ToolConstants.STROKE_INCREMENT;
           }
-        } else if (interpolation > midWidth) {
+        } else {
           if (this.newWidth + ToolConstants.STROKE_INCREMENT <= this.maxWidth) {
             this.newWidth += ToolConstants.STROKE_INCREMENT;
           }
@@ -99,7 +99,6 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
         this.addPath(x, y);
         this.lastX = x;
         this.lastY = y;
-        super.onMouseMove(event);
       }
     }
   }
@@ -139,15 +138,19 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
   }
 
   protected addPath(x: number, y: number) {
-    this.pen.x = x < this.pen.x ? x : this.pen.x;
-    this.pen.y = y < this.pen.y ? y : this.pen.y;
-    this.pen.width = x > this.pen.width ? x : this.pen.width;
-    this.pen.height = y > this.pen.height ? y : this.pen.height;
     const path: IComplexPath = {
       path: 'M' + this.lastX + ' ' + this.lastY + 'L' + x + ' ' + y,
       pathWidth: this.newWidth,
     };
     this.pen.paths.push(path);
+    this.updatePositionAndDimensions(x, y);
+  }
+
+  protected updatePositionAndDimensions(x: number, y: number) {
+    this.pen.x = x < this.pen.x ? x : this.pen.x;
+    this.pen.y = y < this.pen.y ? y : this.pen.y;
+    this.pen.width = x > this.pen.width ? x : this.pen.width;
+    this.pen.height = y > this.pen.height ? y : this.pen.height;
   }
 
   protected saveShape(): void {

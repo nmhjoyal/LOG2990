@@ -57,6 +57,7 @@ describe('ToolHandlerService', () => {
       expect(service.colourApplicatorSelected).toBe(false);
       expect(service.polygonSelected).toBe(false);
       expect(service.selectorSelected).toBe(false);
+      expect(service.penSelected).toBe(false);
       expect(service.resetSelectorBox).toHaveBeenCalled();
   });
 
@@ -200,6 +201,14 @@ describe('ToolHandlerService', () => {
     expect(service.secondaryColor).toEqual(Strings.BLACK_HEX);
     expect(resetSpy).toHaveBeenCalled();
     expect(service.colourApplicatorSelected).toBe(true);
+    expect(service.noneSelected).toBe(false);
+  });
+
+  it('#choosePen should call #resetSelection', () => {
+    const resetSpy = spyOn(service, 'resetSelection');
+    service.choosePen();
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.penSelected).toBe(true);
     expect(service.noneSelected).toBe(false);
   });
 });
