@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
-import { IndexService } from 'src/app/services/index/index.service';
+import { ClientStorageService } from 'src/app/services/index/client-storage.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing, ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
@@ -23,8 +23,12 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   private drawing: ISavedDrawing[];
   isFinishedSaving: boolean;
 
-  constructor(dialogRef: MatDialogRef<SaveWindowComponent>, @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
-    protected canvasData: CanvasInformationService, protected drawingStorage: DrawingStorageService, protected index: IndexService) {
+  constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
+    protected canvasData: CanvasInformationService,
+    protected drawingStorage: DrawingStorageService,
+    protected index: ClientStorageService,
+  ) {
     super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.isFinishedSaving = true;

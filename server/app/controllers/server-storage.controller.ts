@@ -3,11 +3,11 @@ import { inject, injectable } from 'inversify';
 
 import { IDrawing } from '../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../common/drawing-information/ITag';
-import { IndexService } from '../services/index.service';
+import { IndexService } from '../services/server-storage.service';
 import Types from '../types';
 
 @injectable()
-export class IndexController {
+export class ServerStorageController {
 
     router: Router;
 

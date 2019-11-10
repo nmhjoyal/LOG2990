@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
-import { IndexService } from 'src/app/services/index/index.service';
+import { ClientStorageService } from 'src/app/services/index/client-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../common/drawing-information/IDrawing';
@@ -25,7 +25,7 @@ describe('SaveWindowComponent', () => {
     const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
     const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings'] );
-    let indexMock: SpyObj<IndexService>;
+    let indexMock: SpyObj<ClientStorageService>;
     let confirmSpy;
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
@@ -101,7 +101,7 @@ describe('SaveWindowComponent', () => {
                 { provide: ToolHandlerService, useValue: toolHandlerMock },
                 { provide: DrawingStorageService, useValue: drawingStorageMock },
                 { provide: CanvasInformationService, useValue: canvasDataMock },
-                { provide: IndexService, useValue: indexMock },
+                { provide: ClientStorageService, useValue: indexMock },
             ],
         })
             .compileComponents();
