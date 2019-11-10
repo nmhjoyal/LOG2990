@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Id } from 'src/app/drawing-view/components/tools/assets/tool-constants';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
 
 @Component({

@@ -5,7 +5,7 @@ export interface ILinePoints {
 }
 
 export interface ILine extends ITools {
-    color: string;
+    colour: string;
     strokeOpacity: number;
     strokeWidth: number;
     fill: string;
@@ -24,7 +24,7 @@ export interface ILineOptions extends ITools {
 }
 
 export interface IDrawingTool extends ITools {
-    color: string;
+    colour: string;
     strokeWidth: number;
     fill: string;
     strokeLinecap: string;

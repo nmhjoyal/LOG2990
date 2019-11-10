@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { CanvasComponent } from '../../../canvas/canvas.component';
 import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract';
-import { ModeType, PointType } from '../../assets/tool-constants';
+import { Id, ModeType, PointType } from '../../assets/constants/tool-constants';
 
 @Component({
   selector: 'app-drawing-tool-toolbox',
@@ -13,6 +13,7 @@ export class DrawingToolToolboxComponent implements OnInit {
 
   mode = ModeType;
   pointMode = PointType;
+  toolId = Id;
   @Input() canvas: CanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {

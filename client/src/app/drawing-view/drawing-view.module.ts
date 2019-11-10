@@ -21,6 +21,7 @@ import { LineComponent } from './components/tools/shapes/line/line.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
+import { TextComponent } from './components/tools/text/text.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { StampComponent } from './components/tools/stamp/stamp.component';
     SelectorComponent,
     EllipseComponent,
     PreviewCanvasComponent,
+    TextComponent,
     StampComponent,
     PreviewCanvasComponent,
     PenComponent,

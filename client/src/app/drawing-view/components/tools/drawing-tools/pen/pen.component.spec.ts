@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ToolConstants } from '../../assets/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PenComponent } from './pen.component';
 
 const MIN_STROKE_WIDTH = 3;
@@ -14,7 +13,7 @@ describe('StyloComponent', () => {
   let penComponent: PenComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<PenComponent>;
-  const toolServiceMock: ToolHandlerService = new ToolHandlerService(new ColorService());
+  const drawingServiceMock: DrawingStorageService = new DrawingStorageService();
   const attributesServiceMock: AttributesService = new AttributesService();
 
   beforeEach(async(() => {
@@ -22,7 +21,7 @@ describe('StyloComponent', () => {
       declarations: [PenComponent],
       imports: [BrowserAnimationsModule],
       providers: [
-        { provide: ToolHandlerService, useValue: toolServiceMock, },
+        { provide: DrawingStorageService, useValue: drawingServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })
@@ -33,7 +32,7 @@ describe('StyloComponent', () => {
     fixture = TestBed.createComponent(PenComponent);
     attrService = TestBed.get(AttributesService);
     penComponent = fixture.componentInstance;
-    toolServiceMock.drawings = [];
+    drawingServiceMock.emptyDrawings();
   });
 
   afterEach(() => {
@@ -174,9 +173,9 @@ describe('StyloComponent', () => {
       width: 2,
       height: 2,
     };
-    expect(toolServiceMock.drawings.length).toEqual(0);
+    expect(drawingServiceMock.drawings.length).toEqual(0);
     penComponent.onMouseUp();
-    expect(toolServiceMock.drawings.length).toEqual(1);
+    expect(drawingServiceMock.drawings.length).toEqual(1);
     expect(penComponent.pen.paths.length).toEqual(0);
     penComponent.onMouseMove(new MouseEvent('mousemove'));
     expect(penComponent.pen.paths.length).toEqual(0);

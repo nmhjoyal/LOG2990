@@ -1,10 +1,10 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
+import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
-import { ToolConstants } from '../../tool-constants';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
@@ -17,9 +17,9 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService,
+  constructor(protected drawingStorage: DrawingStorageService,
               protected attributesService: AttributesService,
-              protected colorService: ColorService) {
+              protected colourService: ColourService) {
     super();
     this.stroke = {
     id: '',
@@ -28,7 +28,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     width: 0,
     height: 0,
     points: '',
-    color: colorService.color[0],
+    colour: colourService.colour[0],
     strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     fill: ToolConstants.NONE,
     strokeLinecap: ToolConstants.ROUND,
@@ -51,14 +51,14 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       y: this.stroke.y,
       width: this.stroke.width,
       height: this.stroke.height,
-      color: this.stroke.color,
+      colour: this.stroke.colour,
       strokeWidth: this.stroke.strokeWidth,
       fill: this.stroke.fill,
       strokeLinecap: this.stroke.strokeLinecap,
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   // Event handling methods

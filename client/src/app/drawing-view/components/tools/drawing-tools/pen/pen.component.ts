@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interface';
-import { ToolConstants } from '../../assets/tool-constants';
 
 @Component({
   selector: 'app-pen',
@@ -23,14 +23,14 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
   minWidth: number;
   newWidth: number;
 
-  constructor(toolServiceRef: ToolHandlerService,
+  constructor(drawingServiceRef: DrawingStorageService,
               attributesServiceRef: AttributesService,
-              colorServiceRef: ColorService) {
-    super(toolServiceRef, attributesServiceRef, colorServiceRef);
+              colourServiceRef: ColourService) {
+    super(drawingServiceRef, attributesServiceRef, colourServiceRef);
     this.pen = {
       id: ToolConstants.TOOL_ID.PEN,
       paths: [],
-      colour: this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+      colour: this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
       strokeLinecap: ToolConstants.ROUND,
       x: 0,
       y: 0,
@@ -164,6 +164,6 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       width: this.pen.width - this.pen.x,
       height: this.pen.height - this.pen.y,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 }
