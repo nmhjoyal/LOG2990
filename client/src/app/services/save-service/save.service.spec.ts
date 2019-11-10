@@ -11,6 +11,14 @@ const DUMMY_LENGTH = 3;
 describe('SaveService', () => {
   let service: SaveService;
   const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
+  const dummyDrawing: ITools = {
+    id: 'dummy',
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  };
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -28,22 +36,13 @@ describe('SaveService', () => {
 
   it('#saveDrawing should call the savedrawing of drawingstorage and conditionally empty undolist', () => {
     service.undoRedo.accessingUndoList = false;
-    const dummyDrawing: ITools = {
-      id: 'dummy',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
     service.undoRedo.undoList = [dummyDrawing, dummyDrawing, dummyDrawing];
     service.saveDrawing(dummyDrawing);
-    // tslint:disable-next-line:no-magic-numbers
     expect(drawingStorageMock.saveDrawing.calls.count()).toBe(1);
     expect(service.undoRedo.undoList.length).toBe(DUMMY_LENGTH);
 
     service.undoRedo.accessingUndoList = true;
     service.saveDrawing(dummyDrawing);
-    // tslint:disable-next-line:no-magic-numbers
     expect(drawingStorageMock.saveDrawing.calls.count()).toBe(2);
     expect(service.undoRedo.undoList.length).toBe(0);
     expect(service.undoRedo.accessingUndoList).toBe(false);

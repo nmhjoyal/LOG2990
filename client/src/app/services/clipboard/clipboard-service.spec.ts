@@ -13,6 +13,7 @@ describe('ClipboardService', () => {
   let drawingStorage: DrawingStorageService;
   let undoRedoService: UndoRedoService;
   let saveService: SaveService;
+  let dummyOperation: ITools;
   const FIFTY = 50;
   const FORTY = 40;
   const FOUR = 4;
@@ -24,6 +25,15 @@ describe('ClipboardService', () => {
     undoRedoService = new UndoRedoService(drawingStorage);
     saveService = new SaveService(drawingStorage, undoRedoService);
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
+    
+    dummyOperation = {
+      id: 'dummy',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      pasteOffset: undefined,
+    };
   });
 
   it('should be created with correct initialized values', () => {
@@ -164,24 +174,15 @@ describe('ClipboardService', () => {
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).not.toEqual(FORTY);
   });
 
-  // AJOUTER TESTS POUR UNDO() ET REDO()
   it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {
     const redoSpy = spyOn(service.undoRedoService, 'redo');
     redoSpy.and.returnValue(undefined);
     service.pasteOffset = FORTY;
-    // tslint:disable:no-magic-numbers
+
     service.redo();
     expect(redoSpy.calls.count()).toBe(1);
     expect(service.pasteOffset).toBe(FORTY);
 
-    const dummyOperation: ITools = {
-      id: 'dummy',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      pasteOffset: undefined,
-    };
     redoSpy.and.returnValue(dummyOperation);
 
     service.redo();
@@ -192,6 +193,7 @@ describe('ClipboardService', () => {
     redoSpy.and.returnValue(dummyOperation);
 
     service.redo();
+    // tslint:disable-next-line:no-magic-numbers
     expect(redoSpy.calls.count()).toBe(3);
     expect(service.pasteOffset).toBe(0);
 
@@ -201,19 +203,11 @@ describe('ClipboardService', () => {
     const undoSpy = spyOn(service.undoRedoService, 'undo');
     undoSpy.and.returnValue(undefined);
     service.pasteOffset = FORTY;
-    // tslint:disable:no-magic-numbers
+
     service.undo();
     expect(undoSpy.calls.count()).toBe(1);
     expect(service.pasteOffset).toBe(FORTY);
 
-    const dummyOperation: ITools = {
-      id: 'dummy',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      pasteOffset: undefined,
-    };
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
@@ -224,6 +218,7 @@ describe('ClipboardService', () => {
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
+    // tslint:disable-next-line:no-magic-numbers
     expect(undoSpy.calls.count()).toBe(3);
     expect(service.pasteOffset).toBe(FORTY);
 

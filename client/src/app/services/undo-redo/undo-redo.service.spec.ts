@@ -6,6 +6,13 @@ import { UndoRedoService } from './undo-redo.service';
 
 describe('UndoRedoService', () => {
   let service: UndoRedoService;
+  const dummyDrawing: ITools = {
+    id: '',
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,8 +21,6 @@ describe('UndoRedoService', () => {
       ],
     });
     service = TestBed.get(UndoRedoService);
-    // let undoListSpy = spyOn(service.undoList, 'pop');
-    // let drawingsSpy = spyOn(service.drawingStorage.drawings, 'pop');
   });
 
   it('should be created', () => {
@@ -31,24 +36,15 @@ describe('UndoRedoService', () => {
     service.undo();
 
     expect(service.accessingUndoList).toBe(true);
-    // tslint:disable-next-line:no-magic-numbers
     expect(drawingsSpy.calls.count()).toBe(1);
     expect(undoListSpy).not.toHaveBeenCalled();
 
     service.accessingUndoList = false;
-    const dummyDrawing: ITools = {
-      id: '',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
     drawingsSpy.and.returnValue(dummyDrawing);
 
     service.undo();
 
     expect(service.accessingUndoList).toBe(true);
-    // tslint:disable-next-line:no-magic-numbers
     expect(drawingsSpy.calls.count()).toBe(2);
     expect(undoListSpy).toHaveBeenCalled();
   });
@@ -61,23 +57,13 @@ describe('UndoRedoService', () => {
 
     service.redo();
 
-    // tslint:disable-next-line:no-magic-numbers
     expect(undoListSpy.calls.count()).toBe(1);
     expect(drawingsSpy).not.toHaveBeenCalled();
-
-    const dummyDrawing: ITools = {
-      id: '',
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
 
     undoListSpy.and.returnValue(dummyDrawing);
 
     service.redo();
 
-    // tslint:disable-next-line:no-magic-numbers
     expect(undoListSpy.calls.count()).toBe(2);
     expect(drawingsSpy).toHaveBeenCalled();
   });
