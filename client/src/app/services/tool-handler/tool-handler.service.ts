@@ -42,6 +42,10 @@ export class ToolHandlerService {
     return this.selectedTool === this.tools.TEXT;
   }
 
+  isUsingColourApplicator(): boolean {
+    return this.selectedTool === this.tools.COLOUR_APPLICATOR;
+  }
+
   // Selector Tool Methods
 
   resetSelectorBox(): void {
