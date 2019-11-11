@@ -1,9 +1,9 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
 import { NumericalValues } from '../../../../../../AppConstants/NumericalValues';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
+import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
-import { IErased } from '../../assets/interfaces/ierased';
+import { IErased } from '../../assets/interfaces/erased-interface';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
 
@@ -19,16 +19,16 @@ export class EraserComponent {
   size: number;
   leftClicked: boolean;
   eraser: IPreviewBox;
-  defaultX = 0;
-  defaultY = 460;
+  DEFAULT_X = 0;
+  DEFAULT_Y = 460;
   defaultIndex = 0;
   erasedDrawing: IErased;
 
-  constructor(public colorService: ColorService, public drawingStorage: DrawingStorageService) {
+  constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
     this.size = NumericalValues.DEFAULT_ERASER_SIZE;
     this.eraser = {
-      x: this.defaultX,
-      y: this.defaultY,
+      x: this.DEFAULT_X,
+      y: this.DEFAULT_Y,
       width: this.size,
       height: this.size};
   }
@@ -48,14 +48,14 @@ export class EraserComponent {
           id: drawing.id,
           index: objectIndex,
           erasedObject: drawing,
-          x: this.defaultX,
-          y: this.defaultY,
+          x: this.DEFAULT_X,
+          y: this.DEFAULT_Y,
           width: this.size,
           height: this.size,
         };
       if (ClickHelper.objectSharesBoxArea(drawing, this.eraser)) {
         drawing.id += 'Erased';
-        (drawing as IShape).secondaryColor = this.colorService.color[1];
+        (drawing as IShape).secondaryColour = this.colourService.colour[1];
         this.drawingStorage.drawings.push(this.erasedDrawing);
         return this.erasedDrawing;
       }
@@ -67,11 +67,11 @@ export class EraserComponent {
     let touchedFirstObject = true;
     for (let i = this.drawingStorage.drawings.length - 1; i >= 0; i--) {
       const drawing = this.drawingStorage.drawings[i] as IShape;
-      if (drawing.secondaryColor === 'red') {
-        drawing.secondaryColor = this.colorService.color[1];
+      if (drawing.secondaryColour === 'red') {
+        drawing.secondaryColour = this.colourService.colour[1];
       }
       if (ClickHelper.objectSharesBoxArea(this.drawingStorage.drawings[i], this.eraser) && touchedFirstObject) {
-        drawing.secondaryColor = 'red';
+        drawing.secondaryColour = 'red';
         touchedFirstObject = false;
       }
     }
