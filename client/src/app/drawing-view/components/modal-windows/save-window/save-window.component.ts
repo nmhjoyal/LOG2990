@@ -21,7 +21,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   protected name: string;
   protected preview: ISVGPreview;
   private drawing: ISavedDrawing[];
-  isFinishedSaving: boolean;
+  protected isFinishedSaving: boolean;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
@@ -147,7 +147,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     return json;
   }
 
-  saveToLocal(name: string) {
+  saveToLocal(name: string): void {
     const a = document.createElement('a');
     a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(JSON.stringify(this.saveDrawingToJson())));
     a.setAttribute('download', name + '.json');
