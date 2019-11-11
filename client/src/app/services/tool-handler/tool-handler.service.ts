@@ -61,8 +61,8 @@ export class ToolHandlerService {
   // Tool selecting methods
 ​
   chooseRectangle(): void {
-      this.resetToolSelection();
-      this.selectedTool = this.tools.RECTANGLE;
+    this.resetToolSelection();
+    this.selectedTool = this.tools.RECTANGLE;
   }
 
   choosePolygon(): void {
@@ -93,8 +93,8 @@ export class ToolHandlerService {
   }
 ​
   choosePaintbrush(): void {
-      this.resetToolSelection();
-      this.selectedTool = this.tools.PAINTBRUSH;
+    this.resetToolSelection();
+    this.selectedTool = this.tools.PAINTBRUSH;
   }
 
   chooseSelector(): void {
@@ -103,13 +103,11 @@ export class ToolHandlerService {
   }
 ​
   choosePrimaryColour(): void {
-    this.resetToolSelection();
     this.primaryColourSelected = true;
     this.colourService.chooseColour(false);
   }  ​
 
   chooseSecondaryColour(): void {
-    this.resetToolSelection();
     this.secondaryColourSelected = true;
     this.colourService.chooseColour(true);
   }  ​
@@ -130,6 +128,6 @@ export class ToolHandlerService {
   }
 
   chooseOther(): void {// Place holder for unimplemented tools
-      this.resetToolSelection();
+    this.resetToolSelection();
   }
 }

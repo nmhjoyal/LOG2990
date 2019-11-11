@@ -230,6 +230,8 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColourPickerComponent, {
       panelClass: 'choose-colour-window',
     });
+    this.toolHandler.primaryColour = this.colourService.colour[0];
+    this.toolHandler.secondaryColour = this.colourService.colour[1];
   }
 
   switchColours(): void {

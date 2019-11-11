@@ -72,5 +72,10 @@
       {{ 100 * colourService.alpha[+colourService.mainColour] | number:'1.0-0' }}%
     </div>
   </div>
+
+  <div>
+    <button class="closeButton" type="button" (click)="dialogRef.close()">Fermer</button>
+  </div>
+
 </div>
 
