@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { ColourConstants, Rainbow, Transparancy } from '../../tools/assets/constants/colour-constants';
+import { ColourConstants, Rainbow, Transparancy } from '../../../tools/assets/constants/colour-constants';
 
 @Component({
   selector: 'app-colour-palette',
