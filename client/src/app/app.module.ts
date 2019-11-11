@@ -6,7 +6,7 @@ import {
 } from '@angular/material';
 import { AppComponent } from './components/app/app.component';
 import { ColourPaletteComponent } from './drawing-view/components/colour-picker/colour-palette/colour-palette.component';
-import { ColourPickerComponent } from './drawing-view/components/colour-picker/colour-picker.component';
+import { ColourPickerComponent } from './drawing-view/components/colour-picker/colour-picker/colour-picker.component';
 import { GalleryWindowComponent } from './drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-windows/modal-window/modal-window.component';
 import { NewDrawingWindowComponent } from './drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';

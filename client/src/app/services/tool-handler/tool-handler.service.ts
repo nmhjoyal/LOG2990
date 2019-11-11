@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColourService } from '../colour_service/colour.service';
 
@@ -25,8 +25,8 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.NONE;
     this.primaryColourSelected = false;
     this.secondaryColourSelected = false;
-    this.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
-    this.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
+    this.primaryColour = this.colourService.colour[0];
+    this.secondaryColour = this.colourService.colour[1];
   }
 ​
   // Tool Logic methods

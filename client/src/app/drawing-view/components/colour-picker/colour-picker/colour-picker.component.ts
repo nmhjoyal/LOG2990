@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ColourService } from '../../../services/colour_service/colour.service';
-import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
+import { ColourService } from '../../../../services/colour_service/colour.service';
+import { ModalWindowComponent } from '../../modal-windows/modal-window/modal-window.component';
 import { IColourPickerModalData } from './IColourPickerModalData';
 
 @Component({

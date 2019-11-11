@@ -38,7 +38,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       align: Alignments.START,
       alignX: ToolConstants.NULL,
       fontFamily: FontFamilies.ARIAL,
-      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.colour[0],
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: 0,

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ColourConstants, GrayScale } from 'src/app/drawing-view/components/tools/assets/constants/colour-constants';
 import { Strings } from 'src/AppConstants/Strings';
 
 @Injectable({
@@ -14,11 +13,11 @@ export class ColourService {
   mainColour: boolean ;
 
   constructor() {
-    this.lastColours = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
-                       '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-    this.mainColour = false;
+    this.lastColours = [GrayScale.BLACK, GrayScale.GREY1, GrayScale.GREY2, GrayScale.GREY3, GrayScale.GREY4,
+                        GrayScale.GREY5, GrayScale.GREY6, GrayScale.GREY7, GrayScale.GREY8, GrayScale.WHITE ];
     this.colour = [Strings.BLACK_HEX, Strings.WHITE_HEX];
-    this.alpha = [NumericalValues.INITIAL_TRANSPARENCY, NumericalValues.INITIAL_TRANSPARENCY];
+    this.alpha = [ColourConstants.INITIAL_TRANSPARENCY, ColourConstants.INITIAL_TRANSPARENCY];
+    this.mainColour = false;
   }
 
     chooseColour(primary: boolean): void  {
@@ -32,20 +31,20 @@ export class ColourService {
     }
 
     switchColours(): void {
-      const intermediateColour = this.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
-      this.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = this.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
-      this.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = intermediateColour;
+      const intermediateColour = this.colour[0];
+      this.colour[0] = this.colour[1];
+      this.colour[1] = intermediateColour;
     }
 
     rgbToHex(hue: number): string {
       if (!hue) {return '00';
-      } else if (hue < NumericalValues.HEX_LENGTH) {return ('0' + hue.toString(NumericalValues.HEX_LENGTH));
-      } else {return hue.toString(NumericalValues.HEX_LENGTH); }
+      } else if (hue < ColourConstants.HEX_LENGTH) {return ('0' + hue.toString(ColourConstants.HEX_LENGTH));
+      } else {return hue.toString(ColourConstants.HEX_LENGTH); }
     }
 
     setAlpha(alpha: number): void  {
-      this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, NumericalValues.HEX_NO_ALPHA)
-                                    + (this.rgbToHex(Math.round(alpha * NumericalValues.RGBTOHEX_FACTOR)));
+      this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, ColourConstants.HEX_NO_ALPHA)
+                                    + (this.rgbToHex(Math.round(alpha * ColourConstants.RGBTOHEX_FACTOR)));
     }
 
     addColour( ): void  {
@@ -55,7 +54,7 @@ export class ColourService {
           newColour = false;
         }
       });
-      if (newColour === true) {
+      if (newColour) {
         this.lastColours.shift();
         this.lastColours.push(this.colour[+this.mainColour]);
       }

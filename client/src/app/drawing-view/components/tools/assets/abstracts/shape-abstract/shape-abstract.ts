@@ -47,9 +47,9 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       vertices: '',
       primaryColour: this.colourService.colour[0],
       secondaryColour: this.colourService.colour[1],
-      strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from colour service
+      strokeOpacity: this.colourService.alpha[1],
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from colour service */ };
+      fillOpacity: this.colourService.alpha[0], };
   }
 
   abstract ngOnInit(): void;

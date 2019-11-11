@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ColourConstants, Rainbow, Transparancy } from '../../tools/assets/constants/colour-constants';
 
 @Component({
   selector: 'app-colour-palette',
@@ -61,26 +61,26 @@ export class ColourPaletteComponent implements AfterViewInit {
 
     let separatorFactor = 0;
     // vertical colour grandient
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * separatorFactor, 'rgba(255, 0, 0, 1)');
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 102, 0, 1)');
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 225, 55, 1)');
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 200, 25, 1)');
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 255, 255, 1)');
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 255, 1)');
-    colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 0, 255, 1)');
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * separatorFactor, Rainbow.RED);
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.ORANGE);
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.YELLOW);
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.GREEN);
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.TEAL);
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.BLUE);
+    colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.VIOLET);
     this.drawGradient(colourGradient, width, height);
 
     separatorFactor = 0;
     // horizontal greyscale gradient
     const greyscaleGradient = this.ctx.createLinearGradient( height, 0, 0, 0) ;
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * separatorFactor, 'rgba(0, 0, 0, 1)');
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.5)');
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.25)');
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0)');
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0)');
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 255, 255, 0.25)');
-    greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(255, 255, 255, 0.5)');
-    greyscaleGradient.addColorStop(1, 'rgba(255, 255, 255, 1)');
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * separatorFactor, Transparancy.FULL);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.HALF);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.QUARTER);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.NONE);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.NONE);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.QUARTER_BLACK);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.HALF_BLACK);
+    greyscaleGradient.addColorStop(1, Transparancy.FULL_BLACK);
     this.drawGradient(greyscaleGradient, width, height);
   }
 
@@ -116,7 +116,7 @@ export class ColourPaletteComponent implements AfterViewInit {
     const r = this.colourService.rgbToHex(imageData[arrayIndex]);
     const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
     const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
-    const a = this.colourService.rgbToHex(Math.round(this.alpha[+this.mainColour] * NumericalValues.RGBTOHEX_FACTOR));
+    const a = this.colourService.rgbToHex(Math.round(this.alpha[+this.mainColour] * ColourConstants.RGBTOHEX_FACTOR));
     return ( '#' + r + g + b + a );
   }
 }

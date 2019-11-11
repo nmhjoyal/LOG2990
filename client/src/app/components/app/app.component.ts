@@ -6,7 +6,6 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-wind
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
@@ -16,7 +15,7 @@ import { LocalStorageService } from 'src/app/services/local_storage/local-storag
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
-import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
+import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker/colour-picker.component';
 
 @Component({
   selector: 'app-root',
@@ -76,8 +75,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseColourApplicator(this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
-         this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX], );
+      this.toolHandler.chooseColourApplicator(this.colourService.colour[0],
+         this.colourService.colour[1], );
     }
   }
 

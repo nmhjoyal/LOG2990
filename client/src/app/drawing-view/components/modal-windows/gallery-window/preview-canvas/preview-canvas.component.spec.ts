@@ -13,7 +13,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'src/app/components/app/app.component';
 import { ColourPaletteComponent } from 'src/app/drawing-view/components/colour-picker/colour-palette/colour-palette.component';
-import { ColourPickerComponent } from 'src/app/drawing-view/components/colour-picker/colour-picker.component';
+import { ColourPickerComponent } from 'src/app/drawing-view/components/colour-picker/colour-picker/colour-picker.component';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';

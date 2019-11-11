@@ -1,4 +1,4 @@
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ColourConstants } from 'src/app/drawing-view/components/tools/assets/constants/colour-constants';
 import { ColourService } from './colour.service';
 
 describe('ColourService ', () => {
@@ -21,16 +21,16 @@ describe('ColourService ', () => {
     });
 
     it('should turn a value of <16 into string 0 + hex value', () => {
-        expect(instance.rgbToHex(NumericalValues.HEX_LENGTH - 1)).toBe('0f');
+        expect(instance.rgbToHex(ColourConstants.HEX_LENGTH - 1)).toBe('0f');
     });
 
     it('should turn a value of >15 into string hex value', () => {
-        expect(instance.rgbToHex(NumericalValues.HEX_LENGTH)).toBe('10');
+        expect(instance.rgbToHex(ColourConstants.HEX_LENGTH)).toBe('10');
     });
 
     it('should have default alpha = 1', () => {
-        expect(instance.alpha[0]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
-        expect(instance.alpha[1]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
+        expect(instance.alpha[0]).toEqual(ColourConstants.INITIAL_TRANSPARENCY);
+        expect(instance.alpha[1]).toEqual(ColourConstants.INITIAL_TRANSPARENCY);
     });
 
     it('should have defalut primary colour = black', () => {
