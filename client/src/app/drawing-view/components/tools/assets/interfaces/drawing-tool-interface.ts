@@ -41,15 +41,15 @@ export interface IDrawingToolOptions extends ITools {
 }
 
 export interface IPen extends ITools {
-    paths: IComplexPath[];
     colour: string;
     strokeLinecap: string;
 }
 
 export interface IComplexPath extends IPath {
+    path: string;
     pathWidth: number;
 }
 
 export interface IPath {
-    path?: string;
+    paths?: IComplexPath[];
 }

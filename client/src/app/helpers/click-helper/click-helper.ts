@@ -36,7 +36,7 @@ export default class ClickHelper {
                     { x: xPos, y: object.y, width: object.width, height: object.height}),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
                 const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
                     svgIntersections.shape('polyline', selectorLine));
                 return lineIntersections.points.length > 0;
@@ -65,7 +65,7 @@ export default class ClickHelper {
                 const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
                 return (xPos <= positionX && object.y <= positionY && (xPos + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
             case Id.ELLIPSE:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
@@ -99,7 +99,7 @@ export default class ClickHelper {
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = rectIntersections.points;
                 break;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
                 const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
                     svgIntersections.shape('rect', selectorBox));
                 intersectionPoints = lineIntersections.points;

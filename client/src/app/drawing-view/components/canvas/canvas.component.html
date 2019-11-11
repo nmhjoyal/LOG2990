@@ -57,7 +57,7 @@
             </g>
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColorFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths">
                     <path
                         [attr.d]="svgpath.path"

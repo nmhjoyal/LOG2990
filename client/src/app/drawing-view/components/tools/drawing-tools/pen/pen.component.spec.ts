@@ -176,9 +176,11 @@ describe('StyloComponent', () => {
     expect(drawingServiceMock.drawings.length).toEqual(0);
     penComponent.onMouseUp();
     expect(drawingServiceMock.drawings.length).toEqual(1);
-    expect(penComponent.pen.paths.length).toEqual(0);
-    penComponent.onMouseMove(new MouseEvent('mousemove'));
-    expect(penComponent.pen.paths.length).toEqual(0);
+    if (penComponent.pen.paths) {
+      expect(penComponent.pen.paths.length).toEqual(0);
+      penComponent.onMouseMove(new MouseEvent('mousemove'));
+      expect(penComponent.pen.paths.length).toEqual(0);
+    }
   });
 
   it('should increment/decrement minWidth when increase/decreaseMinWidth called', () => {

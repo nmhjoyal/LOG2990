@@ -36,6 +36,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       y: 0,
       width: 0,
       height: 0,
+      points: '',
     };
     this.speed = 0;
     this.lastX = 0;
@@ -73,6 +74,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
     this.pen.y = this.lastY;
     this.pen.width = 0;
     this.pen.height = 0;
+    this.pen.points = this.lastX + ',' + this.lastY;
   }
 
   onMouseMove(event: MouseEvent): void {
@@ -107,6 +109,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
     this.saveShape();
     this.mouseDown = false;
     this.pen.paths = [];
+    this.pen.points = '';
   }
 
   protected decreaseMinWidth(): void {
@@ -142,7 +145,10 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       path: 'M' + this.lastX + ' ' + this.lastY + 'L' + x + ' ' + y,
       pathWidth: this.newWidth,
     };
-    this.pen.paths.push(path);
+    this.pen.points += ' ' + x + ',' + y;
+    if (this.pen.paths) {
+      this.pen.paths.push(path);
+    }
     this.updatePositionAndDimensions(x, y);
   }
 
@@ -163,6 +169,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       y: this.pen.y,
       width: this.pen.width - this.pen.x,
       height: this.pen.height - this.pen.y,
+      points: this.pen.points,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }
