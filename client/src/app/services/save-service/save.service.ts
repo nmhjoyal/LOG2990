@@ -14,7 +14,8 @@ export class SaveService {
     this.drawingStorage.saveDrawing(drawing);
     if (this.undoRedo.accessingUndoList) {
       this.undoRedo.undoList.length = 0;
+      this.undoRedo.accessingUndoList = false;
     }
-    this.undoRedo.accessingUndoList = false;
+    
   }
 }

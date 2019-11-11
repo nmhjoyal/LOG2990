@@ -40,7 +40,7 @@ export class ClipboardService {
       if (cursorX === this.lastCursorX && cursorY === this.lastCursorY) {
         this.pasteOffset += NumericalValues.DUPLICATE_OFFSET;
       } else { this.pasteOffset = 0; }
-      this.clipboard.forEach((copiedObject) => { // the following messes up if the selector box is changed before the paste operation
+      this.clipboard.forEach((copiedObject) => {
         copiedObject.x += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
         copiedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x - this.selectorService.MinWidth) > window.innerWidth
@@ -110,19 +110,15 @@ export class ClipboardService {
 
   undo(): void {
     const undoneOperation: ITools|undefined = this.undoRedoService.undo();
-    if (undoneOperation) {
-      if (undoneOperation.pasteOffset !== undefined && undoneOperation.pasteOffset !== 0) {
+    if (undoneOperation && undoneOperation.pasteOffset) {
         this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
-      }
     }
   }
 
   redo(): void {
     const redoneOperation: ITools|undefined = this.undoRedoService.redo();
-    if (redoneOperation) {
-      if (redoneOperation.pasteOffset !== undefined) {
+    if (redoneOperation && redoneOperation.pasteOffset !== undefined) {
         this.pasteOffset = redoneOperation.pasteOffset;
-      }
     }
   }
 }
