@@ -12,7 +12,7 @@ import { expect } from 'chai';
 chai.use(chaiHttp);
 chai.should();
 
-describe('IndexController', () => {
+describe('ServerStorageController', () => {
     describe('server', () => {
         before(() => {
             server.listen(3000);
@@ -49,9 +49,9 @@ describe('IndexController', () => {
         });
     });
 
-    describe('/gettags', () => {
+    describe('/tags', () => {
         it('call index.saveTag', (res: any) => {
-            chai.request(app).get('/gettags').end((response: any) => {
+            chai.request(app).get('/tags').end((response: any) => {
                 response.should.have.status(200);
             });
 

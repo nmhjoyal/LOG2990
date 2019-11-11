@@ -41,10 +41,16 @@ export class ClipboardService {
         this.pasteOffset += NumericalValues.DUPLICATE_OFFSET;
       } else { this.pasteOffset = 0; }
       this.clipboard.forEach((copiedObject) => {
+        if (copiedObject.alignX) {
+          copiedObject.alignX += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
+        }
         copiedObject.x += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
         copiedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x - this.selectorService.MinWidth) > window.innerWidth
         || (copiedObject.y - this.selectorService.MinHeight) > window.innerHeight) {
+          if (copiedObject.alignX) {
+            copiedObject.alignX -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
+          }
           copiedObject.x -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
           copiedObject.y -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;

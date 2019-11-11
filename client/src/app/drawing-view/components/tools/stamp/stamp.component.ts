@@ -53,7 +53,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
-    if (this.stamp.svgReference !== '') {
+    if (this.stamp.svgReference && this.stamp.svgReference !== '') {
       this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / 2;
       this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / 2;
       const createdStamp: IStamp = {
