@@ -25,6 +25,10 @@ describe('AppComponent', () => {
   let gridServiceMock: SpyObj<Gridservice>;
   const toolId = Id;
 
+  const elementRefMock = {
+    nativeElement: jasmine.createSpyObj('HTMLElement', ['click']),
+  };
+
   beforeEach(async(() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colourMock = jasmine.createSpyObj('ColourService', ['switchColours']);
@@ -166,12 +170,11 @@ describe('AppComponent', () => {
     expect(toolHandlerMock.chooseText).toHaveBeenCalled();
   });
 
-  it('#toggleGrid should be called when g is pressed', () => {
-    const toggle: HTMLElement = component.toggle.nativeElement;
-    spyOn(toggle, 'click');
+  it('#toggle.click should be called when g is pressed', () => {
+    elementRefMock.nativeElement.click.and.callFake(() => { return; });
+    component.toggle = elementRefMock;
     component.onKeydownG();
-    expect(toggle.click).toHaveBeenCalled();
-    expect(gridServiceMock.toggleGrid).toHaveBeenCalled();
+    expect(elementRefMock.nativeElement.click).toHaveBeenCalled();
   });
 
   it('#increaseSize should be called when Shift+ is pressed', () => {
