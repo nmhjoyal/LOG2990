@@ -11,7 +11,7 @@ export enum Id {
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
     STAMP = 'stamp',
-    COLOUR_APPLICATOR = 'colorApplicator',
+    COLOUR_APPLICATOR = 'colourApplicator',
     PIPETTE = 'pipette',
     TEXT = 'text',
     ERASER = 'eraser',

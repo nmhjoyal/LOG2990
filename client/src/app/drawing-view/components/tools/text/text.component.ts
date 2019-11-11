@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
@@ -25,10 +25,9 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   currentLine: number;
   fontFamilySelection: string;
   initialX: number;
-  boxX: number;
 
   constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
-    protected colorServiceRef: ColorService) {
+    protected colourServiceRef: ColourService) {
     super();
     this.text = {
       id: Id.TEXT,
@@ -37,8 +36,9 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       italic: '',
       bold: '',
       align: Alignments.START,
+      alignX: ToolConstants.NULL,
       fontFamily: FontFamilies.ARIAL,
-      primaryColour: colorServiceRef.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: 0,
@@ -104,7 +104,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       x: this.textElement.nativeElement.getBBox().x,
       y: this.textElement.nativeElement.getBBox().y,
       width: this.text.width,
-      height: this.text.height};
+      height: this.text.height };
     if (!ClickHelper.cursorInsideObject(boundingBox, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
       this.saveText();
       this.createNewTextBox(event);
@@ -115,7 +115,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.text.x = ClickHelper.getXPosition(event);
     this.text.y = ClickHelper.getYPosition(event);
     this.initialX = this.text.x;
-    this.boxX = this.initialX;
+    this.text.alignX = this.initialX;
     this.text.width = 2;
     this.text.height = this.text.fontSize + TextConstants.HEIGHT_BUFFER;
     this.isFirstClick = false;
@@ -149,19 +149,19 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
     switch (alignIndex) {
       case AlignmentType.LEFT:
         this.text.align = Alignments.START;
-        this.text.x = this.initialX;
+        this.text.alignX = this.initialX;
         break;
       case AlignmentType.CENTER:
         this.text.align = Alignments.CENTER;
-        this.text.x = this.initialX + (this.text.width / 2);
+        this.text.alignX = this.initialX + (this.text.width / 2);
         break;
       case AlignmentType.RIGHT:
         this.text.align = Alignments.END;
-        this.text.x = this.initialX + this.text.width;
+        this.text.alignX = this.initialX + this.text.width;
         break;
     }
     this.updateMaxWidthAndHeight();
-    this.boxX = this.initialX;
+    this.text.x = this.initialX;
   }
 
   protected updateBoundingBox(): void {
@@ -175,8 +175,8 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   protected updateBoxX(): void {
-    this.boxX = this.textElement.nativeElement.getBBox().x;
-    this.initialX = this.boxX;
+    this.text.x = this.textElement.nativeElement.getBBox().x;
+    this.initialX = this.text.x;
   }
 
   protected saveText(): void {
@@ -188,13 +188,13 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
         italic: this.text.italic,
         bold: this.text.bold,
         align: this.text.align,
+        alignX: this.text.alignX,
         fontFamily: this.fontFamilySelection,
         primaryColour: this.text.primaryColour,
         x: this.text.x,
         y: this.text.y,
         width: this.text.width,
         height: this.text.height,
-        boxXPosition: this.boxX,
       };
       this.drawingStorage.saveDrawing(createdText);
       this.resetText();
@@ -204,7 +204,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   protected resetText(): void {
     this.isFirstClick = true;
     this.initialX = 0;
-    this.boxX = 0;
+    this.text.alignX = 0;
     this.currentLine = 0;
     this.text.lines = [''];
     this.text.width = 0;

@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { FilterTagsPipe } from 'src/app/services/filter-pipe/filter-tags.pipe';
-import { IndexService } from 'src/app/services/index/index.service';
+import { ClientStorageService } from 'src/app/services/index/client-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
@@ -32,7 +32,7 @@ describe('GalleryWindowComponent', () => {
     const canvasInformationMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
     const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
     const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawing']);
-    const indexServiceMock: SpyObj<IndexService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
+    const indexServiceMock: SpyObj<ClientStorageService> = jasmine.createSpyObj('IndexService', ['getTags', 'getDrawings', 'getDrawing']);
     const tag = { name: 'tag', isSelected: true } as ITag;
     const tag2 = { name: 'tag2', isSelected: false } as ITag;
     const mockDrawing: IDrawing = {
@@ -76,7 +76,7 @@ describe('GalleryWindowComponent', () => {
                 { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
                 { provide: DrawingStorageService, useValue: drawingStorageMock },
                 { provide: CanvasInformationService, useValue: canvasInformationMock },
-                { provide: IndexService, useValue: indexServiceMock },
+                { provide: ClientStorageService, useValue: indexServiceMock },
             ],
         })
             .compileComponents();
@@ -157,10 +157,8 @@ describe('GalleryWindowComponent', () => {
 
     it('should call confirm window on undefined response in onAcceptClick', () => {
         const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
-        const spy = spyOn(component, 'onClose');
         indexServiceMock.getDrawing.and.returnValue(of(undefined));
         component.onAcceptClick();
-        expect(spy).toHaveBeenCalled();
         expect(confirmSpy).toHaveBeenCalled();
     });
 
@@ -177,6 +175,38 @@ describe('GalleryWindowComponent', () => {
         const spy = spyOn(component, 'tagSelected');
         component.addTag('');
         expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should not alert if the file is correct', () => {
+        const fileContent = '{"shapes": {}, "canvas": {}}';
+        const data = new Blob([fileContent], { type: 'text/plain' });
+        const arrayOfBlob = new Array<Blob>();
+        arrayOfBlob.push(data);
+        const file = new File(arrayOfBlob, 'mock.json');
+        component.fileInput = {
+            nativeElement: {
+                files: [file],
+            },
+        };
+        const spyAlert = spyOn(window, 'alert');
+        component.importLocalFile();
+        expect(spyAlert).not.toHaveBeenCalled();
+    });
+
+    it('should not close the window if there is an error', () => {
+        const fileContent = 'fake file content!';
+        const data = new Blob([fileContent], { type: 'image/png' });
+        const arrayOfBlob = new Array<Blob>();
+        arrayOfBlob.push(data);
+        const file = new File(arrayOfBlob, 'mockFile.png ');
+        component.fileInput = {
+            nativeElement: {
+                files: [file],
+            },
+        };
+        const spyClose = spyOn(component, 'onClose');
+        component.importLocalFile();
+        expect(spyClose).not.toHaveBeenCalled();
     });
 
 });

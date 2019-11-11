@@ -10,13 +10,13 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
-import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
 
 @Component({
   selector: 'app-root',
@@ -36,12 +36,12 @@ export class AppComponent implements OnInit {
     protected drawingStorage: DrawingStorageService,
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
-    public colorService: ColorService,
+    public colourService: ColourService,
     public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
-      drawingColor: Strings.WHITE_HEX,
+      drawingColour: Strings.WHITE_HEX,
     };
     this.cursorX = 0;
     this.cursorY = 0;
@@ -76,8 +76,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseColourApplicator(this.colorService.color[ToolConstants.PRIMARY_COLOUR_INDEX],
-         this.colorService.color[ToolConstants.SECONDARY_COLOUR_INDEX], );
+      this.toolHandler.chooseColourApplicator(this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
+         this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
@@ -233,14 +233,14 @@ export class AppComponent implements OnInit {
     return !this.dialog.openDialogs.length;
   }
 
-  openChooseColorDialog(): void {
-    this.dialog.open(ColorPickerComponent, {
-      panelClass: 'choose-color-window',
+  openChooseColourDialog(): void {
+    this.dialog.open(ColourPickerComponent, {
+      panelClass: 'choose-colour-window',
     });
   }
 
-  switchColors(): void {
-    this.colorService.switchColors();
+  switchColours(): void {
+    this.colourService.switchColours();
     if (!(this.toolHandler.selectedTool === this.toolHandler.tools.COLOUR_APPLICATOR)) {
       this.toolHandler.resetToolSelection();
     }
