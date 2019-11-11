@@ -3,11 +3,11 @@ import { inject, injectable } from 'inversify';
 
 import { IDrawing } from '../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../common/drawing-information/ITag';
-import { IndexService } from '../services/index.service';
+import { IndexService } from '../services/server-storage.service';
 import Types from '../types';
 
 @injectable()
-export class IndexController {
+export class ServerStorageController {
 
     router: Router;
 
@@ -18,7 +18,7 @@ export class IndexController {
     private configureRouter(): void {
         this.router = Router();
 
-        this.router.post('/drawubg',
+        this.router.post('/drawing',
             async (req: Request, res: Response, next: NextFunction) => {
                 const success: boolean | undefined = await this.indexService.saveDrawing(req.body.drawingToSave);
                 res.json(success);

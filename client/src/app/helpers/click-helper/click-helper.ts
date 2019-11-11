@@ -31,9 +31,8 @@ export default class ClickHelper {
         const selectorLine = { points: this.getClickAreaPoints(positionX, positionY) };
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect',
-                    { x: xPos, y: object.y, width: object.width, height: object.height}),
+                    { x: object.x, y: object.y, width: object.width, height: object.height}),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
@@ -62,8 +61,7 @@ export default class ClickHelper {
     static cursorInsideObject(object: ITools, positionX: number, positionY: number): boolean {
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
-                return (xPos <= positionX && object.y <= positionY && (xPos + object.width) >= positionX &&
+                return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
@@ -83,19 +81,18 @@ export default class ClickHelper {
 
     static objectSharesBoxArea(object: ITools, previewBox: IPreviewBox): boolean {
         let intersectionPoints = [];
-        const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
         const selectorBox = { x: previewBox.x, y: previewBox.y, width: previewBox.width, height: previewBox.height };
-        const objectIsInsideBox = (previewBox.x < xPos && previewBox.y < object.y
-            && previewBox.width > (object.width - previewBox.x + xPos)
+        const objectIsInsideBox = (previewBox.x < object.x && previewBox.y < object.y
+            && previewBox.width > (object.width - previewBox.x + object.x)
             && previewBox.height > (object.height - previewBox.y + object.y));
         let boxIsInsideObject = false;
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: xPos, y: object.y,
+                const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: object.x, y: object.y,
                     width: object.width, height: object.height}),
                     svgIntersections.shape('rect', selectorBox));
-                    boxIsInsideObject = (previewBox.x > xPos && previewBox.y > object.y
-                    && previewBox.width < (object.width - previewBox.x + xPos)
+                    boxIsInsideObject = (previewBox.x > object.x && previewBox.y > object.y
+                    && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = rectIntersections.points;
                 break;

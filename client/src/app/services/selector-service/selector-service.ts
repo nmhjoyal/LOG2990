@@ -1,17 +1,17 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 export class SelectorService {
-  selectedObjects: Set<ITools>;
+  selectedObjects: Set<ISavedDrawing>;
   topCornerX: number;
   topCornerY: number;
   furthestX: number;
   furthestY: number;
 
   constructor() {
-    this.selectedObjects = new Set<ITools>();
+    this.selectedObjects = new Set<ISavedDrawing>();
     this.topCornerX = 0;
     this.topCornerY = 0;
     this.furthestX = 0;
@@ -26,12 +26,12 @@ export class SelectorService {
     return Math.abs(this.furthestY - this.topCornerY);
   }
 
-  get SelectedObjects(): Set<ITools> {
+  get SelectedObjects(): Set<ISavedDrawing> {
     return this.selectedObjects;
   }
 
-  setBoxToDrawing(drawing: ITools): void {
-    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
+  setBoxToDrawing(drawing: ISavedDrawing): void {
+    let x: number = drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
@@ -47,7 +47,7 @@ export class SelectorService {
     this.furthestY = y + height;
   }
 
-  checkForItems(isReverseSelection: boolean, drawings: ITools[], previewBox: IPreviewBox): void {
+  checkForItems(isReverseSelection: boolean, drawings: ISavedDrawing[], previewBox: IPreviewBox): void {
     if (!isReverseSelection) {
       this.selectedObjects.clear();
     }
@@ -70,8 +70,8 @@ export class SelectorService {
     this.topCornerY = previewBoxY + bottomCornerY;
   }
 
-  updateSelectorShape(drawing: ITools): void {
-    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
+  updateSelectorShape(drawing: ISavedDrawing): void {
+    let x: number = drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
@@ -109,12 +109,12 @@ export class SelectorService {
     this.topCornerY = 0;
   }
 
-  cursorTouchesObject(object: ITools, positionX: number, positionY: number): boolean {
+  cursorTouchesObject(object: ISavedDrawing, positionX: number, positionY: number): boolean {
     return ClickHelper.cursorTouchesObjectBorder(object, positionX, positionY) ||
       ClickHelper.cursorInsideObject(object, positionX, positionY);
   }
 
-  objectInBox(object: ITools, previewBox: IPreviewBox): boolean {
+  objectInBox(object: ISavedDrawing, previewBox: IPreviewBox): boolean {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
 }

@@ -1,7 +1,7 @@
 import { ITools } from './itools';
 
 export interface TextBox {
-    boxXPosition?: number;
+    alignX?: number;
 }
 
 export interface IText extends ITools {
