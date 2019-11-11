@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/constants/tool-constants';
@@ -20,15 +20,15 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   stampPaths = StampConstants.STAMPS_PATHS;
   angleIncrement: number;
 
-  constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
-    protected colorServiceRef: ColorService) {
+  constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
+    protected colourServiceRef: ColourService) {
     super();
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
       angle: StampConstants.DEFAULT_ANGLE,
       scaleFactor: StampConstants.DEFAULT_SCALE_FACTOR,
-      primaryColour: colorServiceRef.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: StampConstants.DEFAULT_DIMENSION,
@@ -53,7 +53,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
-    if (this.stamp.svgReference !== '') {
+    if (this.stamp.svgReference && this.stamp.svgReference !== '') {
       this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / 2;
       this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / 2;
       const createdStamp: IStamp = {
@@ -69,7 +69,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         centerX: ClickHelper.getXPosition(event),
         centerY: ClickHelper.getYPosition(event),
       };
-      this.toolServiceRef.drawings.push(createdStamp);
+      this.drawingStorage.saveDrawing(createdStamp);
     }
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SelectorService } from '../selector-service/selector-service';
-import { ToolHandlerService } from '../tool-handler/tool-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class ClipboardService {
   lastCursorY: number;
   offScreen: boolean;
 
-  constructor(protected toolService: ToolHandlerService, protected selectorService: SelectorService) {
+  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
@@ -38,16 +38,22 @@ export class ClipboardService {
         this.pasteOffset += NumericalValues.DUPLICATE_OFFSET;
       } else { this.pasteOffset = 0; }
       this.clipboard.forEach((copiedObject) => {
+        if (copiedObject.alignX) {
+          copiedObject.alignX += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
+        }
         copiedObject.x += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
         copiedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x - this.selectorService.MinWidth) > window.innerWidth
         || (copiedObject.y - this.selectorService.MinHeight) > window.innerHeight) {
+          if (copiedObject.alignX) {
+            copiedObject.alignX -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
+          }
           copiedObject.x -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
           copiedObject.y -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
-        this.toolService.drawings.push({...copiedObject});
+        this.drawingStorage.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -97,9 +103,9 @@ export class ClipboardService {
 
   delete(): void {
     this.selectorService.selectedObjects.forEach((element) => {
-      const index = this.toolService.drawings.indexOf(element);
+      const index = this.drawingStorage.drawings.indexOf(element);
       if (index !== NumericalValues.NOT_VALID) {
-        this.toolService.drawings.splice(index, 1);
+        this.drawingStorage.drawings.splice(index, 1);
       }
     });
   }

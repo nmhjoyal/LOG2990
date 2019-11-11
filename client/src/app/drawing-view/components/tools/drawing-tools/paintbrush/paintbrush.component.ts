@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { FilterSelection, ToolConstants } from '../../assets/constants/tool-constants';
@@ -12,10 +12,10 @@ import { FilterSelection, ToolConstants } from '../../assets/constants/tool-cons
 })
 export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
-  constructor(toolServiceRef: ToolHandlerService,
+  constructor(drawingStorageRef: DrawingStorageService,
     attributeServiceRef: AttributesService,
-    colorServiceRef: ColorService) {
-    super(toolServiceRef, attributeServiceRef, colorServiceRef);
+    colourServiceRef: ColourService) {
+    super(drawingStorageRef, attributeServiceRef, colourServiceRef);
     this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
   }
 

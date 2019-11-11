@@ -8,7 +8,7 @@ import { ITag } from '../../../../../common/drawing-information/ITag';
 @Injectable({
   providedIn: 'root',
 })
-export class IndexService {
+export class ClientStorageService {
 
   private readonly BASE_URL: string = 'http://localhost:3000/api/index';
 
@@ -16,8 +16,8 @@ export class IndexService {
   }
 
   saveDrawing(drawing: IDrawing): Observable<boolean | undefined> {
-    return this.http.post<boolean>(this.BASE_URL + '/save', { drawingToSave: drawing }).pipe(
-      catchError(this.handleError<boolean>('save')),
+    return this.http.post<boolean>(this.BASE_URL + '/drawing', { drawingToSave: drawing }).pipe(
+      catchError(this.handleError<boolean>('drawing')),
     );
   }
 
@@ -28,20 +28,20 @@ export class IndexService {
   }
 
   getTags(): Observable<ITag[] | undefined> {
-    return this.http.get<ITag[]>(this.BASE_URL + '/gettags').pipe(
-      catchError(this.handleError<ITag[]>('gettags')),
+    return this.http.get<ITag[]>(this.BASE_URL + '/tag').pipe(
+      catchError(this.handleError<ITag[]>('tag')),
     );
   }
 
   getDrawings(): Observable<IDrawing[] | undefined> {
-    return this.http.get<IDrawing[]>(this.BASE_URL + '/getdrawings').pipe(
-      catchError(this.handleError<IDrawing[]>('getdrawings')),
+    return this.http.get<IDrawing[]>(this.BASE_URL + '/drawings').pipe(
+      catchError(this.handleError<IDrawing[]>('drawings')),
     );
   }
 
   getDrawing(selectedDrawing: IDrawing): Observable<IDrawing | undefined> {
-    return this.http.get<IDrawing>(this.BASE_URL + '/getdrawing/' + this.dateToId(selectedDrawing.timestamp)).pipe(
-      catchError(this.handleError<IDrawing>('getdrawing')),
+    return this.http.get<IDrawing>(this.BASE_URL + '/drawing/' + this.dateToId(selectedDrawing.timestamp)).pipe(
+      catchError(this.handleError<IDrawing>('drawing')),
     );
   }
 

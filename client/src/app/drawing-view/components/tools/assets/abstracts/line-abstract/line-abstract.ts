@@ -2,8 +2,8 @@ import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
@@ -24,9 +24,9 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService,
+  constructor(protected drawingStorage: DrawingStorageService,
               protected attributesService: AttributesService,
-              protected colorService: ColorService) {
+              protected colourService: ColourService) {
     super();
     this.mouseDown = false;
     this.shiftDown = false;
@@ -45,7 +45,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       width: 0,
       height: 0,
       points: '',
-      color: this.colorService.color[0],
+      colour: this.colourService.colour[0],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
@@ -133,7 +133,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       width: this.stroke.width,
       height: this.stroke.height,
       points: this.stroke.points,
-      color: this.stroke.color,
+      colour: this.stroke.colour,
       strokeOpacity: this.stroke.strokeOpacity,
       strokeWidth: this.stroke.strokeWidth,
       fill: this.stroke.fill,
@@ -142,7 +142,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeLinejoin: this.stroke.strokeLinejoin,
       strokeDashArray: this.stroke.strokeDashArray,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   protected addSegment(): void {

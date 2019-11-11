@@ -1,9 +1,9 @@
 <div>
-    <mat-toolbar color="secondary" class="alignRight">
+    <mat-toolbar colour="secondary" class="alignRight">
         <h1 class="app-name">POLYDESSIN</h1>
         <mat-select #extras style="visibility: hidden;">
-            <mat-option class="filter" (click)='toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
-                <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png"
+            <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                <img id="colourPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png"
                     title="Palette de couleurs">
                 <a class='option'>Choisir les couleurs</a>
             </mat-option>
@@ -35,7 +35,7 @@
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>
-                <div *ngIf="toolHandler.selectorSelected">
+                <div *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR">
                 <a mat-list-item class = "filter" (click) = 'clipboardService.copy()'>
                     <img id = "copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title = "Copier">
                  </a>
@@ -74,7 +74,7 @@
                     <img id="line" class="sideBarIcon" src="../../../assets/lateral-bar/timeline-24px.svg" title="Ligne">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
-                    <img id='colorChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
+                    <img id='colourChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png" title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
                     <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png" title="Pipette">
@@ -98,17 +98,17 @@
                 <a mat-list-item class="filter" (click)="options.toggle()">
                     <img id="options" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Options">
                 </a>
-                <a mat-list-item (click)='toolHandler.choosePrimaryColor(); openChooseColorDialog()'>
-                    <div class="color-preview" title="Couleur principale"
-                        [ngStyle]="{'background-color': colorService.color[0]}">
+                <a mat-list-item (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                    <div class="colour-preview" title="Couleur principale"
+                        [ngStyle]="{'background-color': colourService.colour[0]}">
                     </div>
                 </a>
-                <a mat-list-item (click)="switchColors()">
+                <a mat-list-item (click)="switchColours()">
                     <img class="switchIcon" src="./assets/switch.png" title="Changer couleurs">
                 </a>
-                <a mat-list-item (click)='toolHandler.chooseSecondaryColor(); openChooseColorDialog()'>
-                    <div class="color-preview" title="Couleur secondaire"
-                        [ngStyle]="{'background-color': colorService.color[1]}">
+                <a mat-list-item (click)='toolHandler.chooseSecondaryColour(); openChooseColourDialog()'>
+                    <div class="colour-preview" title="Couleur secondaire"
+                        [ngStyle]="{'background-color': colourService.colour[1]}">
                     </div>
                 </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">

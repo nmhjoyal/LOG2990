@@ -1,8 +1,8 @@
 // tslint:disable: no-string-literal
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
 import { StampComponent } from './stamp.component';
@@ -11,29 +11,29 @@ const RANDOM_ANGLE = 77;
 const NUMBER_OF_STAMPS = 6; // number of elements in FilterSelection in assets/tool-constants
 const SCALE_FACTOR = 3;
 const DUMMY_SVG = '<svg></svg>';
-const COLOR_ARRAY = ['color1', 'color2'];
+const COLOUR_ARRAY = ['colour1', 'colour2'];
 const DELTA_VALUE = 20;
 
 describe('StampComponent', () => {
     let component: StampComponent;
     let attrService: AttributesService;
     let fixture: ComponentFixture<StampComponent>;
-    const toolServiceMock: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
+    const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
     const attributesService: AttributesService = new AttributesService();
-    const colorServiceMock: ColorService = jasmine.createSpyObj('ColorService', ['']);
+    const colourServiceMock: ColourService = jasmine.createSpyObj('ColourService', ['']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [StampComponent],
       providers: [
-      { provide: ToolHandlerService, useValue: toolServiceMock, },
+      { provide: DrawingStorageService, useValue: drawingStorageMock, },
       { provide: AttributesService, useValue: attributesService, },
-      { provide: ColorService, useValue: colorServiceMock, },
+      { provide: ColourService, useValue: colourServiceMock, },
       ],
     });
 
-    colorServiceMock.color = COLOR_ARRAY;
+    colourServiceMock.colour = COLOUR_ARRAY;
     fixture = TestBed.createComponent(StampComponent);
     attrService = TestBed.get(AttributesService);
     component = fixture.componentInstance;
@@ -87,8 +87,7 @@ describe('StampComponent', () => {
   });
 
   it('#onLeftClick only saves the stamp when an svgReference was chosen for it', () => {
-    component['toolServiceRef'].drawings = [];
-    const savingSpy = spyOn(component['toolServiceRef'].drawings, 'push');
+    const savingSpy = spyOn(component['drawingStorage'], 'saveDrawing');
     component.stamp.svgReference = '';
     const clickEvent: MouseEvent = new MouseEvent('click');
     component.onLeftClick(clickEvent);
