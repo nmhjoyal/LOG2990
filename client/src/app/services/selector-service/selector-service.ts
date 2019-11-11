@@ -31,7 +31,7 @@ export class SelectorService {
   }
 
   setBoxToDrawing(drawing: ISavedDrawing): void {
-    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
+    let x: number = drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
@@ -71,7 +71,7 @@ export class SelectorService {
   }
 
   updateSelectorShape(drawing: ISavedDrawing): void {
-    let x: number = drawing.boxXPosition !== undefined ? drawing.boxXPosition : drawing.x;
+    let x: number = drawing.x;
     let y: number = drawing.y;
     let width: number = drawing.width;
     let height: number = drawing.height;
