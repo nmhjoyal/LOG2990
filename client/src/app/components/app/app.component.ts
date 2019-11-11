@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/services/local_storage/local-storag
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
-import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker.component';
+import { ColorPickerComponent } from '../../drawing-view/components/color-picker/color-picker/color-picker.component';
 
 @Component({
   selector: 'app-root',
