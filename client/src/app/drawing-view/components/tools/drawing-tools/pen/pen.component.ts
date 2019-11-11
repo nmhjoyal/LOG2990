@@ -140,7 +140,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
     return Math.sqrt(Math.pow(x - this.lastX, 2) + Math.pow(y - this.lastY, 2)) / (time - this.lastTime);
   }
 
-  protected addPath(x: number, y: number) {
+  protected addPath(x: number, y: number): void {
     const path: IComplexPath = {
       path: 'M' + this.lastX + ' ' + this.lastY + 'L' + x + ' ' + y,
       pathWidth: this.newWidth,
@@ -152,7 +152,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
     this.updatePositionAndDimensions(x, y);
   }
 
-  protected updatePositionAndDimensions(x: number, y: number) {
+  protected updatePositionAndDimensions(x: number, y: number): void {
     this.pen.x = x < this.pen.x ? x : this.pen.x;
     this.pen.y = y < this.pen.y ? y : this.pen.y;
     this.pen.width = x > this.pen.width ? x : this.pen.width;
