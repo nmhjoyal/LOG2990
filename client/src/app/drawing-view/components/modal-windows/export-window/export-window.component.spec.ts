@@ -9,10 +9,9 @@ import {
   MatFormFieldModule, MatInputModule, MatMenuModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IExportData } from './IExportData';
 import { ExportAs } from 'src/AppConstants/Strings';
 import { ExportWindowComponent } from './export-window.component';
-
+import { IExportData } from './IExportData';
 
 describe('ExportWindowComponent', () => {
   const dialogRefMock: SpyObj<MatDialogRef<ExportWindowComponent>> = jasmine.createSpyObj('MatDialogRef<ExportWindowComponent>', ['close']);
@@ -46,11 +45,11 @@ describe('ExportWindowComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        MatButtonModule,],
+        MatButtonModule, ],
 
       providers: [
         { provide: MatDialogRef, useValue: { dialogMock } },
-        { provide: MAT_DIALOG_DATA, useValue: dataMock },],
+        { provide: MAT_DIALOG_DATA, useValue: dataMock }, ],
     })
       .compileComponents();
   }));

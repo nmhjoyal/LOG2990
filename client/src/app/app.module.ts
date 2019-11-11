@@ -16,10 +16,10 @@ import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
 import { CanvasInformationService } from './services/canvas-information/canvas-information.service';
 import { ColourService } from './services/colour_service/colour.service';
+import { ExportInformationService } from './services/export-information/export-information.service';
 import { FilterTagsPipe } from './services/filter-pipe/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
-import { ExportInformationService } from './services/export-information/export-information.service';
 
 @NgModule({
   declarations: [

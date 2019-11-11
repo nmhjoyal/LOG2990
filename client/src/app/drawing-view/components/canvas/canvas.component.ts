@@ -1,16 +1,16 @@
-import { Component, Inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
-import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 
 @Component({
   selector: 'app-canvas',
@@ -24,7 +24,7 @@ export class CanvasComponent implements AfterViewInit {
   @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
-  private exportData: ExportInformationService, 
+  private exportData: ExportInformationService,
   public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
     protected canvasData: CanvasInformationService, public colourService: ColourService) {
   }

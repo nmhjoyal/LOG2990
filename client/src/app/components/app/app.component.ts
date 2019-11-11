@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
+import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
@@ -13,13 +14,12 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
-import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
-import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 
 @Component({
   selector: 'app-root',

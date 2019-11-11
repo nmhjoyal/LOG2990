@@ -34,13 +34,15 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     this.format = 'Exporter au format';
   }
 
+  // cloudconvert api
+
   onAcceptClick(name: string): void {
     switch (this.exportType) {
       case ExportAs.PNG:
         if (this.exportInformation.data.canvasElement.nativeElement) {
-          const data = (new XMLSerializer())
-            .serializeToString(this.exportInformation.data.canvasElement.nativeElement);
-          const blob = new Blob([data], { type: 'image/png+xml;charset=utf-8' });
+          const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement);
+          const encodedData = window.btoa(data);
+          const blob = new Blob([encodedData], { type: 'image/svg+xml;base64' });
 
           this.download(name + '.png', blob);
         }
@@ -80,7 +82,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
 
   download(filename: string, blob: Blob) {
     const elem = document.createElement('a');
-    elem.href = URL.createObjectURL(blob);
+    elem.href = window.URL.createObjectURL(blob);
     elem.download = filename;
     document.body.appendChild(elem);
     elem.click();
