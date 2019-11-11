@@ -64,7 +64,7 @@ describe('ClipboardService', () => {
 
   it('should add drawing to canvas on paste', () => {
     const drawing1 = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
-    const drawing2 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    const drawing2 = { alignX: FORTY, x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
     drawingStorage.drawings.push(drawing1);
     drawingStorage.drawings.push(drawing2);
     selectorService.selectedObjects.add(drawing1);
@@ -129,9 +129,12 @@ describe('ClipboardService', () => {
   });
 
   it('should return drawing to initial value if outside of screen', () => {
-    const drawing = { x: window.innerWidth, y: window.innerHeight, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    const drawing = { alignX: window.innerWidth, x: window.innerWidth, y: window.innerHeight, width: FIFTY, height: FIFTY, id: Id.TEXT };
+    const drawing2 = { x: window.innerWidth, y: window.innerHeight, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     drawingStorage.drawings.push(drawing);
+    drawingStorage.drawings.push(drawing2);
     selectorService.selectedObjects.add(drawing);
+    selectorService.selectedObjects.add(drawing2);
     service.duplicate();
     expect(service.pasteOffset).toEqual(NumericalValues.DUPLICATE_OFFSET / 2);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).not.toEqual(window.innerWidth);
