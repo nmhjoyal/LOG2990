@@ -1,16 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ColorService } from '../../../../../services/color_service/color.service';
+import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
-import { IErased } from '../../assets/interfaces/ierased';
+import { IErased } from '../../assets/interfaces/erased-interface';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
 
 describe('EraserComponent', () => {
   let component: EraserComponent;
   let fixture: ComponentFixture<EraserComponent>;
-  const colorserviceMock = new ColorService();
+  const colourserviceMock = new ColourService();
   let rectangleMock: IShape;
   const drawingStorageMock = new DrawingStorageService();
+  const INITIAL_COORDINATE = 0;
+  const UNMATCHING_COORDINATE = 20;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,6 +25,25 @@ describe('EraserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EraserComponent);
     component = fixture.componentInstance;
+    component.colourService = colourserviceMock;
+    component.drawingStorage = drawingStorageMock;
+    component.drawingStorage.emptyDrawings();
+
+    rectangleMock = {
+      id: 'rectangle',
+      x: INITIAL_COORDINATE,
+      y: INITIAL_COORDINATE,
+      width: 20,
+      height: 20,
+      verticesNumber: 4,
+      vertices: '',
+      primaryColour: '',
+      secondaryColour: '',
+      strokeOpacity: 1,
+      strokeWidth: 1,
+      fillOpacity: 1,
+    };
+
     fixture.detectChanges();
   });
 
@@ -41,31 +62,24 @@ describe('EraserComponent', () => {
   });
 
   it('should have initial (0,460) x/y coordinates', () => {
-    const defaultX = 0;
-    const defaultY = 460;
-    expect(component.eraser.x).toBe(defaultX);
-    expect(component.eraser.y).toBe(defaultY);
+    const DEFAULT_X = 0;
+    const DEFAULT_Y = 460;
+    expect(component.eraser.x).toBe(DEFAULT_X);
+    expect(component.eraser.y).toBe(DEFAULT_Y);
+  });
+
+  it('should initialize correct eraser properties', () => {
+    const DEFAULT_SIZE = 10;
+    const mouseeventMock = new MouseEvent('mousemove');
+    component.setEraserProperties(mouseeventMock);
+    expect(component.eraser.width).toBe(DEFAULT_SIZE);
+    expect(component.eraser.height).toBe(DEFAULT_SIZE);
+    expect(component.eraser.x).toBe(mouseeventMock.offsetX);
+    expect(component.eraser.y).toBe(mouseeventMock.offsetX);
   });
 
   it('should delete object by changing its id', () => {
-    rectangleMock = {
-      id: 'rectangle',
-      x: 0,
-      y: 0,
-      width: 20,
-      height: 20,
-      verticesNumber: 4,
-      vertices: '',
-      primaryColor: '',
-      secondaryColor: '',
-      strokeOpacity: 1,
-      strokeWidth: 1,
-      fillOpacity: 1,
-    };
-
-    drawingStorageMock.saveDrawing(rectangleMock);
-    component.colorService = colorserviceMock;
-    component.drawingStorage = drawingStorageMock;
+    component.drawingStorage.saveDrawing(rectangleMock);
     component.eraser.x = 0;
     component.eraser.y = 0;
 
@@ -74,28 +88,15 @@ describe('EraserComponent', () => {
   });
 
   it('should not affect object with non-sharing area', () => {
-    rectangleMock = {
-      id: 'rectangle',
-      x: 330,
-      y: 330,
-      width: 10,
-      height: 10,
-      verticesNumber: 4,
-      vertices: '',
-      primaryColor: '',
-      secondaryColor: '',
-      strokeOpacity: 1,
-      strokeWidth: 1,
-      fillOpacity: 1,
-    };
+    rectangleMock.x = UNMATCHING_COORDINATE;
+    rectangleMock.y = UNMATCHING_COORDINATE;
 
-    drawingStorageMock.saveDrawing(rectangleMock);
-    component.drawingStorage = drawingStorageMock;
-    component.colorService = colorserviceMock;
-    component.eraser.x = 0;
-    component.eraser.y = 0;
-    const returnedObject = component.eraseObject();
-    expect(returnedObject.id).toBe('rectangle' || 'rectangleErased');
+    component.drawingStorage.saveDrawing(rectangleMock);
+
+    component.eraser.x = INITIAL_COORDINATE;
+    component.eraser.y = INITIAL_COORDINATE;
+    const rectangleId = component.drawingStorage.drawings[0].id;
+    expect(rectangleId).toBe('rectangle');
   });
 
   it('should not call eraseObject if leftClicked is false', () => {
@@ -115,88 +116,38 @@ describe('EraserComponent', () => {
   });
 
   it('should outline red on matching coordinates', () => {
-    rectangleMock = {
-      id: 'rectangle',
-      x: 0,
-      y: 0,
-      width: 20,
-      height: 20,
-      verticesNumber: 4,
-      vertices: '',
-      primaryColor: '',
-      secondaryColor: '',
-      strokeOpacity: 1,
-      strokeWidth: 1,
-      fillOpacity: 1,
-    };
-
-    drawingStorageMock.saveDrawing(rectangleMock);
-    component.drawingStorage = drawingStorageMock;
-    component.colorService = colorserviceMock;
-    component.eraser.x = 0;
-    component.eraser.y = 0;
+    component.drawingStorage.saveDrawing(rectangleMock);
+    component.eraser.x = INITIAL_COORDINATE;
+    component.eraser.y = INITIAL_COORDINATE;
     component.toggleRedOutline();
-    expect(rectangleMock.secondaryColor).toBe('red');
+    expect(rectangleMock.secondaryColour).toBe('red');
   });
 
   it('should not outline red if coordinates do not match', () => {
-    rectangleMock = {
-      id: 'rectangle',
-      x: 20,
-      y: 20,
-      width: 20,
-      height: 20,
-      verticesNumber: 4,
-      vertices: '',
-      primaryColor: '',
-      secondaryColor: 'secondary',
-      strokeOpacity: 1,
-      strokeWidth: 1,
-      fillOpacity: 1,
-    };
+    rectangleMock.x = UNMATCHING_COORDINATE;
+    rectangleMock.y = UNMATCHING_COORDINATE;
+    rectangleMock.secondaryColour = 'secondary';
 
-    drawingStorageMock.saveDrawing(rectangleMock);
-    component.drawingStorage = drawingStorageMock;
-    component.colorService = colorserviceMock;
-    component.eraser.x = 0;
-    component.eraser.y = 0;
+    component.drawingStorage.saveDrawing(rectangleMock);
+    component.eraser.x = INITIAL_COORDINATE;
+    component.eraser.y = INITIAL_COORDINATE;
     component.toggleRedOutline();
-    expect(rectangleMock.secondaryColor).toBe('secondary');
+    expect(rectangleMock.secondaryColour).toBe('secondary');
   });
 
   it('should set object outline colour back to default when hovered off', () => {
-    colorserviceMock.color[1] = 'black';
-    rectangleMock = {
-      id: 'rectangle',
-      x: 20,
-      y: 20,
-      width: 20,
-      height: 20,
-      verticesNumber: 4,
-      vertices: '',
-      primaryColor: '',
-      secondaryColor: 'red',
-      strokeOpacity: 1,
-      strokeWidth: 1,
-      fillOpacity: 1,
-    };
+    colourserviceMock.colour[1] = 'black';
+    rectangleMock.x = UNMATCHING_COORDINATE;
+    rectangleMock.y = UNMATCHING_COORDINATE;
+    rectangleMock.secondaryColour = 'red';
 
     drawingStorageMock.saveDrawing(rectangleMock);
     component.drawingStorage = drawingStorageMock;
-    component.colorService = colorserviceMock;
-    component.eraser.x = 0;
-    component.eraser.y = 0;
+    component.colourService = colourserviceMock;
+    component.eraser.x = INITIAL_COORDINATE;
+    component.eraser.y = INITIAL_COORDINATE;
     component.toggleRedOutline();
-    expect(rectangleMock.secondaryColor).toBe('black');
+    expect(rectangleMock.secondaryColour).toBe('black');
   });
 
-  it('should initialize correct eraser properties', () => {
-    const defaultSize = 10;
-    const mouseeventMock = new MouseEvent('mousemove');
-    component.setEraserProperties(mouseeventMock);
-    expect(component.eraser.width).toBe(defaultSize);
-    expect(component.eraser.height).toBe(defaultSize);
-    expect(component.eraser.x).toBe(mouseeventMock.offsetX);
-    expect(component.eraser.y).toBe(mouseeventMock.offsetX);
-  });
 });
