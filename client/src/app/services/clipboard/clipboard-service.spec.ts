@@ -25,7 +25,7 @@ describe('ClipboardService', () => {
     undoRedoService = new UndoRedoService(drawingStorage);
     saveService = new SaveService(drawingStorage, undoRedoService);
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
-    
+
     dummyOperation = {
       id: 'dummy',
       x: 0,
@@ -200,8 +200,7 @@ describe('ClipboardService', () => {
     redoSpy.and.returnValue(dummyOperation);
 
     service.redo();
-    // tslint:disable-next-line:no-magic-numbers
-    expect(redoSpy.calls.count()).toBe(3);
+    expect(redoSpy.calls.count()).toBe(THREE);
     expect(service.pasteOffset).toBe(0);
 
   });
@@ -225,15 +224,14 @@ describe('ClipboardService', () => {
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
-    // tslint:disable-next-line:no-magic-numbers
-    expect(undoSpy.calls.count()).toBe(3);
+    expect(undoSpy.calls.count()).toBe(THREE);
     expect(service.pasteOffset).toBe(FORTY);
 
     dummyOperation.pasteOffset = FORTY;
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
-    expect(undoSpy.calls.count()).toBe(4);
+    expect(undoSpy.calls.count()).toBe(FOUR);
     expect(service.pasteOffset).toBe(FORTY - NumericalValues.DUPLICATE_OFFSET);
 
   });

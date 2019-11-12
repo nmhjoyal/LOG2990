@@ -18,7 +18,7 @@ describe('SaveService', () => {
     width: 0,
     height: 0,
   };
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

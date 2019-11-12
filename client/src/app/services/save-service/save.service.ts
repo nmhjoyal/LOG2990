@@ -16,6 +16,5 @@ export class SaveService {
       this.undoRedo.undoList.length = 0;
       this.undoRedo.accessingUndoList = false;
     }
-    
   }
 }

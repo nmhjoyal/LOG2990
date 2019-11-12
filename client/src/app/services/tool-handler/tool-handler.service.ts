@@ -42,6 +42,10 @@ export class ToolHandlerService {
     return this.selectedTool === this.tools.TEXT;
   }
 
+  isUsingColourApplicator(): boolean {
+    return this.selectedTool === this.tools.COLOUR_APPLICATOR;
+  }
+
   // Selector Tool Methods
 
   resetSelectorBox(): void {
@@ -129,6 +133,10 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.STAMP;
   }
 
+  chooseEraser(): void {
+    this.resetToolSelection();
+    this.selectedTool = this.tools.ERASER;
+  }
   chooseText(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.TEXT;
