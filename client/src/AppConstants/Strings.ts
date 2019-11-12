@@ -13,7 +13,7 @@ export class Strings {
 
 export enum ExportAs {
     SVG = 'SVG',
-    PNG = 'PNG',
-    JPG = 'JPG',
+    PNG = 'png',
+    JPG = 'jpeg',
     BMP = 'BMP',
 }

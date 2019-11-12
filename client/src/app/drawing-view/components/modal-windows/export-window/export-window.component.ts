@@ -15,18 +15,19 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 export class ExportWindowComponent extends ModalWindowComponent implements OnInit {
 
   formatSelected: boolean;
-  protected exportType: ExportAs;
+  exportTypeEnum = ExportAs;
+  protected exportType: string;
   format: string;
   width: number;
   height: number;
   myCanvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D | null;
-
-
+  name: string;
 
   constructor(dialogRef: MatDialogRef<ExportWindowComponent>,
-    public exportInformation: ExportInformationService, public cavasData: CanvasInformationService) {
+    public exportInformation: ExportInformationService, public canvasData: CanvasInformationService) {
     super(dialogRef, {});
+    this.exportType = '';
     this.data.title = Strings.EXPORT_WINDOW_TITLE;
     this.formatSelected = false;
     if(this.canvasData){
@@ -48,7 +49,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
 
   // cloudconvert api
 
-  onAcceptClick(name: string): void {
+  onAcceptClick(): void {
     switch (this.exportType) {
       case ExportAs.PNG:
         if (this.exportInformation.data.canvasElement.nativeElement) {
@@ -62,7 +63,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
           const data = (new XMLSerializer())
             .serializeToString(this.exportInformation.data.canvasElement.nativeElement);
           const blob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
-          this.download(name + '.svg', blob);
+          this.download(this.name + '.svg', blob);
         }
         this.onClose();
         break;
@@ -92,20 +93,20 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     return 'data:image/svg+xml;base64,' + window.btoa(data);
   }
 
-  drawImage(data: string) {
+  drawImage(data: string): void {
     let img = new Image();
     img.width = this.width;
     img.height = this.height;
-    img.onload = () => {
+    img.src = data;
+    img.addEventListener('load', () => {
       if(this.ctx){
         this.ctx.drawImage(img, 0, 0);
         const a = document.createElement('a');
-        a.download = name + '.' + this.exportType;
+        a.download = this.name + '.' + this.exportType;
         a.href = this.myCanvas.toDataURL('image/' + this.exportType, 1.0);
         a.click();
       }
-    };
-    img.src = data;
+    });
   }
 
   download(filename: string, blob: Blob) {

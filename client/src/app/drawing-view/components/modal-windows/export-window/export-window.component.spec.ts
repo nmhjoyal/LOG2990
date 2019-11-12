@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExportAs } from 'src/AppConstants/Strings';
 import { ExportWindowComponent } from './export-window.component';
 import { IExportData } from './IExportData';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 
 describe('ExportWindowComponent', () => {
   const dialogRefMock: SpyObj<MatDialogRef<ExportWindowComponent>> = jasmine.createSpyObj('MatDialogRef<ExportWindowComponent>', ['close']);
@@ -23,8 +24,6 @@ describe('ExportWindowComponent', () => {
   const FORMAT_SVG = ExportAs.SVG;
   const FORMAT_JPG = ExportAs.JPG;
   const FORMAT_PNG = ExportAs.PNG;
-
-  const NAME = 'drawing';
 
   const dialogMock = {
     close: () => {
@@ -48,6 +47,7 @@ describe('ExportWindowComponent', () => {
         MatButtonModule, ],
 
       providers: [
+        CanvasInformationService,
         { provide: MatDialogRef, useValue: { dialogMock } },
         { provide: MAT_DIALOG_DATA, useValue: dataMock }, ],
     })
@@ -56,7 +56,7 @@ describe('ExportWindowComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExportWindowComponent);
-    component = new ExportWindowComponent(dialogRefMock, dataMock);
+    component = fixture.componentInstance
     component['formatSelected'] = false;
     component['exportType'] = ExportAs.SVG;
 
@@ -85,7 +85,7 @@ describe('ExportWindowComponent', () => {
 
   it('#onAcceptClick should call download if the format is selected', () => {
     const spy = spyOn(component, 'download');
-    component.onAcceptClick(NAME);
+    component.onAcceptClick();
     expect(spy).toHaveBeenCalled();
   });
 });
