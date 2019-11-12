@@ -21,22 +21,22 @@ export class ColourPaletteComponent implements AfterViewInit {
 
   @Input() private mainColour: boolean;
   @Input() private alpha: number[];
-  @Input() lastColours: string[];
+  @Input() protected lastColours: string[];
 
-  @Output() primaryColour: EventEmitter<string> = new EventEmitter();
-  @Output() secondaryColour: EventEmitter<string> = new EventEmitter();
-  colour = [this.primaryColour, this.secondaryColour];
+  @Output() protected primaryColour: EventEmitter<string> = new EventEmitter();
+  @Output() protected secondaryColour: EventEmitter<string> = new EventEmitter();
+  private colour = [this.primaryColour, this.secondaryColour];
 
-  constructor(public colourService: ColourService) {}
+  constructor(public colourService: ColourService) { }
 
-  @ViewChild('canvas', {static: false})
-  canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvas', { static: false })
+  protected canvas: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
 
   private mousedown = false;
 
-  selectedPosition: { x: number; y: number };
+  protected selectedPosition: { x: number; y: number };
 
   ngAfterViewInit(): void {
     this.draw();
@@ -72,7 +72,7 @@ export class ColourPaletteComponent implements AfterViewInit {
 
     separatorFactor = 0;
     // horizontal greyscale gradient
-    const greyscaleGradient = this.ctx.createLinearGradient( height, 0, 0, 0) ;
+    const greyscaleGradient = this.ctx.createLinearGradient(height, 0, 0, 0);
     greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * separatorFactor, 'rgba(0, 0, 0, 1)');
     greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.5)');
     greyscaleGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, 'rgba(0, 0, 0, 0.25)');
@@ -117,6 +117,6 @@ export class ColourPaletteComponent implements AfterViewInit {
     const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
     const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
     const a = this.colourService.rgbToHex(Math.round(this.alpha[+this.mainColour] * NumericalValues.RGBTOHEX_FACTOR));
-    return ( '#' + r + g + b + a );
+    return ('#' + r + g + b + a);
   }
 }
