@@ -9,9 +9,9 @@ import { Strings } from 'src/AppConstants/Strings';
 export class ColourService {
 
   colour: string[] ;
-  lastColours: string[] ;
-  alpha: number[] ;
-  mainColour: boolean ;
+  protected lastColours: string[] ;
+  protected alpha: number[] ;
+  protected mainColour: boolean ;
 
   constructor() {
     this.lastColours = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
