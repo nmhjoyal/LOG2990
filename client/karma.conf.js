@@ -29,6 +29,9 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     singleRun: true,
+    proxies: {
+      '/assets/': '/assets/',
+    },
     browsers: ['Chrome', 'ChromeHeadlessNoSandbox', 'Firefox', 'FirefoxHeadless'],
     customLaunchers: {
       FirefoxHeadless: {

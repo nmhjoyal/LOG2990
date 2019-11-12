@@ -40,6 +40,12 @@ export class ToolHandlerService {
     return this.selectedTool === this.tools.TEXT;
   }
 
+  isUsingColourApplicator(): boolean {
+    return this.selectedTool === this.tools.COLOUR_APPLICATOR;
+  }
+
+  // Selector Tool Methods
+
   resetSelectorBox(): void {
     this.selection = {
       x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
