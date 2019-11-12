@@ -10,6 +10,7 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { AppComponent } from './app.component';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 
 describe('AppComponent', () => {
   let serviceMock: SpyObj<LocalStorageService>;
@@ -20,6 +21,7 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
+  let exportMock: SpyObj<ExportInformationService>;
   let component: AppComponent;
   const toolId = Id;
 
@@ -35,9 +37,12 @@ describe('AppComponent', () => {
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
+    exportMock = jasmine.createSpyObj('ExportInformationService', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
+
     component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
-      dataMock, canvasMock, colourMock, clipboardMock);
+      dataMock, canvasMock, colourMock, clipboardMock, exportMock);
+
     spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
     component.optionsSidebar = jasmine.createSpyObj('MatSidenav', ['']);
     component.optionsSidebar.opened = false;
