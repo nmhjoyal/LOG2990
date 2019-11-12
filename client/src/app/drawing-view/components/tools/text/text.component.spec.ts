@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
@@ -24,9 +26,9 @@ describe('TextComponent', () => {
             imports: [BrowserDynamicTestingModule],
             declarations: [TextComponent],
             providers: [
-            { provide: DrawingStorageService, useValue: drawingStorageMock, },
-            { provide: AttributesService, useValue: attributesServiceMock, },
-            { provide: ColourService, useValue: colourServiceMock, },
+                { provide: DrawingStorageService, useValue: drawingStorageMock, },
+                { provide: AttributesService, useValue: attributesServiceMock, },
+                { provide: ColourService, useValue: colourServiceMock, },
             ],
         }).compileComponents();
 
@@ -48,20 +50,20 @@ describe('TextComponent', () => {
     });
 
     it('should create with previously saved attributes', () => {
-        expect(textComponent.text.fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE);
-        expect(textComponent.text.fontFamily).toEqual(FontFamilies.ARIAL);
-        expect(textComponent.text.italic).toEqual('');
-        expect(textComponent.text.bold).toEqual('');
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE);
+        expect(textComponent['text'].fontFamily).toEqual(FontFamilies.ARIAL);
+        expect(textComponent['text'].italic).toEqual('');
+        expect(textComponent['text'].bold).toEqual('');
         attributesServiceMock.textAttributes.wasSaved = true;
         attributesServiceMock.textAttributes.savedFontSize = TextConstants.MAX_FONT_SIZE;
         attributesServiceMock.textAttributes.savedFontFamily = FontFamilies.CAMBRIA;
         attributesServiceMock.textAttributes.savedItalic = TextConstants.ITALIC;
         attributesServiceMock.textAttributes.savedBold = TextConstants.BOLD;
         textComponent.ngOnInit();
-        expect(textComponent.text.fontSize).toEqual(TextConstants.MAX_FONT_SIZE);
-        expect(textComponent.text.fontFamily).toEqual(FontFamilies.CAMBRIA);
-        expect(textComponent.text.italic).toEqual(TextConstants.ITALIC);
-        expect(textComponent.text.bold).toEqual(TextConstants.BOLD);
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.MAX_FONT_SIZE);
+        expect(textComponent['text'].fontFamily).toEqual(FontFamilies.CAMBRIA);
+        expect(textComponent['text'].italic).toEqual(TextConstants.ITALIC);
+        expect(textComponent['text'].bold).toEqual(TextConstants.BOLD);
     });
 
     it('#onLeftClick should be called when left or right mouse button is pressed', () => {
@@ -73,27 +75,27 @@ describe('TextComponent', () => {
 
     it('#onKeyDown should be called when key pressed', () => {
         const spy = spyOn(textComponent, 'onKeyDown');
-        const keydown = new KeyboardEvent('keydown', { key: 'a'});
+        const keydown = new KeyboardEvent('keydown', { key: 'a' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         expect(spy).toHaveBeenCalled();
     });
 
     it('first click should create new text box', () => {
-        expect(textComponent.isFirstClick).toBe(true);
+        expect(textComponent['isFirstClick']).toBe(true);
         const leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(textComponent.isFirstClick).toBe(false);
+        expect(textComponent['isFirstClick']).toBe(false);
     });
 
     it('click outside of box should save text to drawings only if lines contain text', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(false);
         // tslint:disable-next-line:no-string-literal
         const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
-        expect(textComponent.isFirstClick).toBe(true);
+        expect(textComponent['isFirstClick']).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(textComponent.isFirstClick).toBe(false);
-        const keydown = new KeyboardEvent('keydown', { key: 'a'});
+        expect(textComponent['isFirstClick']).toBe(false);
+        const keydown = new KeyboardEvent('keydown', { key: 'a' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
@@ -110,11 +112,11 @@ describe('TextComponent', () => {
         spyOn(ClickHelper, 'cursorInsideObject').and.returnValue(true);
         // tslint:disable-next-line:no-string-literal
         const saveSpy = spyOn(textComponent['drawingStorage'], 'saveDrawing');
-        expect(textComponent.isFirstClick).toBe(true);
+        expect(textComponent['isFirstClick']).toBe(true);
         let leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(textComponent.isFirstClick).toBe(false);
-        const keydown = new KeyboardEvent('keydown', { key: 'a'});
+        expect(textComponent['isFirstClick']).toBe(false);
+        const keydown = new KeyboardEvent('keydown', { key: 'a' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
@@ -124,78 +126,78 @@ describe('TextComponent', () => {
     it('should create new line and pop to previous on backspace', () => {
         const leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        expect(textComponent.isFirstClick).toBe(false);
-        expect(textComponent.text.lines.length).toEqual(1);
-        expect(textComponent.currentLine).toEqual(0);
-        let keydown = new KeyboardEvent('keydown', { key: 'a'});
+        expect(textComponent['isFirstClick']).toBe(false);
+        expect(textComponent['text'].lines.length).toEqual(1);
+        expect(textComponent['currentLine']).toEqual(0);
+        let keydown = new KeyboardEvent('keydown', { key: 'a' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
-        expect(textComponent.text.lines.length).toEqual(1);
-        expect(textComponent.currentLine).toEqual(0);
-        keydown = new KeyboardEvent('keydown', { key: 'Enter'});
+        expect(textComponent['text'].lines.length).toEqual(1);
+        expect(textComponent['currentLine']).toEqual(0);
+        keydown = new KeyboardEvent('keydown', { key: 'Enter' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
-        expect(textComponent.text.lines.length).toEqual(2);
-        expect(textComponent.currentLine).toEqual(1);
-        keydown = new KeyboardEvent('keydown', { key: 'Backspace'});
+        expect(textComponent['text'].lines.length).toEqual(2);
+        expect(textComponent['currentLine']).toEqual(1);
+        keydown = new KeyboardEvent('keydown', { key: 'Backspace' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         fixture.debugElement.triggerEventHandler('keydown', keydown);
-        expect(textComponent.text.lines.length).toEqual(1);
-        expect(textComponent.currentLine).toEqual(0);
+        expect(textComponent['text'].lines.length).toEqual(1);
+        expect(textComponent['currentLine']).toEqual(0);
     });
 
     it('should count multiple spaces as 1', () => {
         const leftClick = new MouseEvent('click', { button: ClickTypes.LEFT_CLICK });
         fixture.debugElement.triggerEventHandler('click', leftClick);
-        let keydown = new KeyboardEvent('keydown', { key: 'a'});
+        let keydown = new KeyboardEvent('keydown', { key: 'a' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
-        keydown = new KeyboardEvent('keydown', { key: 'Delete'});
+        keydown = new KeyboardEvent('keydown', { key: 'Delete' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
-        keydown = new KeyboardEvent('keydown', { key: ' '});
+        keydown = new KeyboardEvent('keydown', { key: ' ' });
         fixture.debugElement.triggerEventHandler('keydown', keydown);
         fixture.debugElement.triggerEventHandler('keydown', keydown);
-        expect(textComponent.text.lines[textComponent.currentLine]).toEqual('a ');
+        expect(textComponent['text'].lines[textComponent['currentLine']]).toEqual('a ');
     });
 
     it('should change the alignment when alignText called', () => {
         // tslint:disable: no-any
-        expect(textComponent.text.align).toEqual(Alignments.START);
+        expect(textComponent['text'].align).toEqual(Alignments.START);
         (textComponent as any).alignText(AlignmentType.CENTER);
-        expect(textComponent.text.align).toEqual(Alignments.CENTER);
+        expect(textComponent['text'].align).toEqual(Alignments.CENTER);
         (textComponent as any).alignText(AlignmentType.RIGHT);
-        expect(textComponent.text.align).toEqual(Alignments.END);
+        expect(textComponent['text'].align).toEqual(Alignments.END);
         (textComponent as any).alignText(AlignmentType.LEFT);
-        expect(textComponent.text.align).toEqual(Alignments.START);
+        expect(textComponent['text'].align).toEqual(Alignments.START);
         (textComponent as any).alignText(0 - 1);
     });
 
     it('should make text italic when toItalic called', () => {
-        expect(textComponent.text.italic).toEqual('');
+        expect(textComponent['text'].italic).toEqual('');
         (textComponent as any).toItalic();
-        expect(textComponent.text.italic).toEqual(TextConstants.ITALIC);
+        expect(textComponent['text'].italic).toEqual(TextConstants.ITALIC);
         (textComponent as any).toItalic();
-        expect(textComponent.text.italic).toEqual('');
+        expect(textComponent['text'].italic).toEqual('');
     });
 
     it('should make text bold when toBold called', () => {
-        expect(textComponent.text.bold).toEqual('');
+        expect(textComponent['text'].bold).toEqual('');
         (textComponent as any).toBold();
-        expect(textComponent.text.bold).toEqual(TextConstants.BOLD);
+        expect(textComponent['text'].bold).toEqual(TextConstants.BOLD);
         (textComponent as any).toBold();
-        expect(textComponent.text.bold).toEqual('');
+        expect(textComponent['text'].bold).toEqual('');
     });
 
     it('should increment/decrement fontSize when increase/decreaseFontSize called', () => {
-        expect(textComponent.text.fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE);
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE);
         (textComponent as any).increaseFontSize();
-        expect(textComponent.text.fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE + 1);
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE + 1);
         (textComponent as any).decreaseFontSize();
-        expect(textComponent.text.fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE);
-        textComponent.text.fontSize = TextConstants.MAX_FONT_SIZE;
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.DEFAULT_FONT_SIZE);
+        textComponent['text'].fontSize = TextConstants.MAX_FONT_SIZE;
         (textComponent as any).increaseFontSize();
-        expect(textComponent.text.fontSize).toEqual(TextConstants.MAX_FONT_SIZE);
-        textComponent.text.fontSize = TextConstants.MIN_FONT_SIZE;
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.MAX_FONT_SIZE);
+        textComponent['text'].fontSize = TextConstants.MIN_FONT_SIZE;
         (textComponent as any).decreaseFontSize();
-        expect(textComponent.text.fontSize).toEqual(TextConstants.MIN_FONT_SIZE);
+        expect(textComponent['text'].fontSize).toEqual(TextConstants.MIN_FONT_SIZE);
         // tslint:enable: no-any
     });
 });
