@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
-import { IErased } from '../../assets/interfaces/erased-interface';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
 
@@ -85,7 +84,10 @@ describe('EraserComponent', () => {
     component.eraser.y = 0;
 
     component.eraseObject();
-    expect((component.drawingStorage.drawings.pop() as IErased).erasedObject.id).toBe('rectangleErased');
+    const poppedObject = component.drawingStorage.drawings.pop();
+    if (poppedObject && poppedObject.objects && poppedObject.objects[0]) {
+      expect(poppedObject.objects[0].id).toBe('rectangleErased');
+    }
   });
 
   it('should not affect object with non-sharing area', () => {
