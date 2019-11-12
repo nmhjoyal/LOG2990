@@ -4,6 +4,7 @@ import { ExportInformationService } from 'src/app/services/export-information/ex
 import { ExportAs, Strings } from 'src/AppConstants/Strings';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { CanvasToBMP } from './canvas-to-bmp';
 
 @Component({
   selector: 'app-export-window',
@@ -106,12 +107,9 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
         if(this.exportType === this.exportTypeEnum.JPG || this.exportType === this.exportTypeEnum.PNG) {
           a.href = this.myCanvas.toDataURL('image/' + this.exportType, 1.0);
         } else if (this.exportType === this.exportTypeEnum.BMP) {
-          //const bitMap = this.ctx.getImageData(0, 0, this.width, this.height).data;
-          a.href = URL.createObjectURL(async () => {
-              return await createImageBitmap(img);
-            });// non fonctionel.
+            const bmpUrlProvider = new CanvasToBMP();
+            a.href = bmpUrlProvider.toDataURL(this.myCanvas);
           }
-        console.log(a);
         a.click();
       }
     });
