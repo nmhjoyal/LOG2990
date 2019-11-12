@@ -20,9 +20,9 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
-import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { GridService } from '../../services/grid/grid.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -36,7 +36,11 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
-  let exportMock: SpyObj<ExportInformationService>;
+  let gridServiceMock: SpyObj<GridService>;
+  const elementRefMock = {
+    nativeElement: jasmine.createSpyObj('HTMLElement', ['click']),
+  };
+
   let onlyModalOpenSpy: jasmine.Spy;
 
   beforeEach((() => {
@@ -52,13 +56,8 @@ describe('AppComponent', () => {
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings', 'isEmpty']);
     dataMock = jasmine.createSpyObj('INewDrawingModalData', ['']);
-    exportMock = jasmine.createSpyObj('ExportInformationService', ['']);
     canvasMock = jasmine.createSpyObj('CanvasInformationService', ['']);
-
-    component = new AppComponent(dialogMock, serviceMock, toolHandlerMock, drawingStorageMock,
-      dataMock, canvasMock, colourMock, clipboardMock, exportMock);
-
-    spyOn(component, 'isOnlyModalOpen').and.returnValue(true);
+    gridServiceMock = jasmine.createSpyObj('Gridservice', ['increaseSize', 'decreaseSize', 'toggleGrid']);
     TestBed.configureTestingModule({
       imports: [
         MatDialogModule,
@@ -89,6 +88,7 @@ describe('AppComponent', () => {
         { provide: ToolHandlerService, useValue: toolHandlerMock },
         { provide: ColourService, useValue: colourMock },
         { provide: CanvasInformationService, useValue: canvasMock },
+        { provide: GridService, useValue: gridServiceMock },
         { provide: ClipboardService, useValue: clipboardMock },
         { provide: MatDialog, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
@@ -324,6 +324,23 @@ describe('AppComponent', () => {
     onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownTEvent();
     expect(toolHandlerMock.chooseText).toHaveBeenCalled();
+  });
+
+  it('#toggleGrid should be called when g is pressed', () => {
+    elementRefMock.nativeElement.click.and.callFake(() => { return; });
+    component.toggle = elementRefMock;
+    component.onKeydownG();
+    expect(elementRefMock.nativeElement.click).toHaveBeenCalled();
+  });
+
+  it('#increaseSize should be called when Shift+ is pressed', () => {
+    component.onKeydownShiftPlus();
+    expect(gridServiceMock.increaseSize).toHaveBeenCalled();
+  });
+
+  it('#decreaseSize should be called when Shift- is pressed', () => {
+    component.onKeydownShiftMinus();
+    expect(gridServiceMock.decreaseSize).toHaveBeenCalled();
   });
 
   it('#choosePen should be called when y is pressed', () => {
