@@ -6,6 +6,7 @@ import { EraserConstants } from '../../assets/constants/eraser-constants';
 import { Id } from '../../assets/constants/tool-constants';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-eraser',
@@ -24,7 +25,7 @@ export class EraserComponent {
   defaultIndex = 0;
   erasedDrawing: ITools;
 
-  constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
+  constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService, public saveService: SaveService) {
     this.size = EraserConstants.DEFAULT_ERASER_SIZE;
     this.eraser = {
       x: EraserConstants.DEFAULT_X,
@@ -93,7 +94,7 @@ export class EraserComponent {
 
   @HostListener('mouseup') mouseUp(): void {
     this.leftClicked = false;
-    this.drawingStorage.drawings.push(this.erasedDrawing);
+    this.saveService.saveDrawing(this.erasedDrawing);
   }
 
   @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {
