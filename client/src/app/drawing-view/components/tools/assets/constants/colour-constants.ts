@@ -1,9 +1,9 @@
-export class ColourConstants {
-    static INITIAL_TRANSPARENCY = 1;
-    static RGBTOHEX_FACTOR = 255;
-    static COLOUR_PALETTE_SEPARATOR = 0.15;
-    static HEX_LENGTH = 16;
-    static HEX_NO_ALPHA = 7;
+export enum ColourConstants {
+    INITIAL_TRANSPARENCY = 1,
+    RGBTOHEX_FACTOR = 255,
+    COLOUR_PALETTE_SEPARATOR = 0.15,
+    HEX_LENGTH = 16,
+    HEX_NO_ALPHA = 7,
 }
 
 export enum GrayScale {

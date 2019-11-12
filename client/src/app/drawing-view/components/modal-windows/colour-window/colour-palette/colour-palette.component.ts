@@ -23,20 +23,23 @@ export class ColourPaletteComponent implements AfterViewInit {
   @Input() private alpha: number[];
   @Input() lastColours: string[];
 
-  @Output() primaryColour: EventEmitter<string> = new EventEmitter();
-  @Output() secondaryColour: EventEmitter<string> = new EventEmitter();
-  colour = [this.primaryColour, this.secondaryColour];
+  @Output() primaryColour: EventEmitter<string>;
+  @Output() secondaryColour: EventEmitter<string>;
 
-  constructor(public colourService: ColourService) {}
+  colour: EventEmitter<string>[];
+  private ctx: CanvasRenderingContext2D;
+  private mousedown: boolean;
+  selectedPosition: { x: number; y: number };
+
+  constructor(public colourService: ColourService) {
+    this.colour = [this.primaryColour, this.secondaryColour];
+    this.primaryColour  = new EventEmitter();
+    this.secondaryColour = new EventEmitter();
+    this.mousedown = false;
+  }
 
   @ViewChild('canvas', {static: false})
   canvas: ElementRef<HTMLCanvasElement>;
-
-  private ctx: CanvasRenderingContext2D;
-
-  private mousedown = false;
-
-  selectedPosition: { x: number; y: number };
 
   ngAfterViewInit(): void {
     this.draw();
@@ -85,6 +88,7 @@ export class ColourPaletteComponent implements AfterViewInit {
   }
 
   @HostListener('window:mouseup', ['$event'])
+
   onMouseUp(): void {
     this.mousedown = false;
     this.colourService.addColour();

@@ -43,9 +43,9 @@ export class CanvasComponent {
 
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      line.colour = this.colourService.colour[1];
+      line.colour = this.colourService.colour[0];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[1] = line.colour;
+      this.colourService.colour[0] = line.colour;
     }
   }
 

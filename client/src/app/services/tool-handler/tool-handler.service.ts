@@ -103,11 +103,13 @@ export class ToolHandlerService {
   }
 ​
   choosePrimaryColour(): void {
+    this.resetToolSelection();
     this.primaryColourSelected = true;
     this.colourService.chooseColour(false);
   }  ​
 
   chooseSecondaryColour(): void {
+    this.resetToolSelection();
     this.secondaryColourSelected = true;
     this.colourService.chooseColour(true);
   }  ​
