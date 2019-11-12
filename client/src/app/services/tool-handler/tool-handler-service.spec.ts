@@ -157,7 +157,7 @@ describe('ToolHandlerService', () => {
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.POLYGON);
   });
 
-  it('#chooseEyedropper should call #resetToolSelection and select the ipette', () => {
+  it('#chooseEyedropper should call #resetToolSelection and select the pipette', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseEyedropper();
 

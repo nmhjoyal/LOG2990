@@ -83,7 +83,10 @@
                     <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png"
                         title="Pipette">
                 </a>
-                <a mat-list-item class="filter" (click)="shapesMenuTrigger.openMenu()">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseEraser()'>
+                    <img id='eraser' class="sideBarIcon" src="https://i.imgur.com/zAckfvX.png" title="Efface">
+                </a>
+                <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
                     <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #shapesMenuTrigger="matMenuTrigger"
                         (click)="shapesMenuTrigger.openMenu()"></button>

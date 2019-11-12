@@ -16,6 +16,7 @@ export enum Id {
     PIPETTE = 'pipette',
     TEXT = 'text',
     GRID = 'grid',
+    ERASER = 'eraser',
 }
 
 export enum FilterURL {
@@ -88,6 +89,8 @@ export class ToolConstants {
     static SECONDARY_COLOUR_INDEX = 1;
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
+    static DEFAULT_ERASER_SIZE = 10;
+    static MAX_ERASER_SIZE = 40;
 }
 
 export class StampConstants {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { GridConstants } from '../'
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +15,8 @@ export class Gridservice {
   constructor() {
     this.gridStatus = false;
     this.gridOpacity = 0;
-    this.gridSize =  NumericalValues.DEFAULT_GRID_SIZE;
-    this.lastOpacity = NumericalValues.DEFAULT_OPACITY;
+    this.gridSize =  GridConstants.DEFAULT_GRID_SIZE;
+    this.lastOpacity = GridConstants.DEFAULT_OPACITY;
   }
 
   toggleGrid(): void {
@@ -30,14 +30,14 @@ export class Gridservice {
   }
 
   decreaseSize(): void {
-    if (this.gridSize > NumericalValues.MIN_GRID_SIZE) {
-      this.gridSize -= NumericalValues.GRID_SIZE_STEP;
+    if (this.gridSize > GridConstants.MIN_GRID_SIZE) {
+      this.gridSize -= GridConstants.GRID_SIZE_STEP;
       }
   }
 
   increaseSize(): void {
-    if (this.gridSize < NumericalValues.MAX_GRID_SIZE) {
-      this.gridSize += NumericalValues.GRID_SIZE_STEP;
+    if (this.gridSize < GridConstants.MAX_GRID_SIZE) {
+      this.gridSize += GridConstants.GRID_SIZE_STEP;
       }
   }
 

@@ -138,6 +138,10 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.STAMP;
   }
 
+  chooseEraser(): void {
+    this.resetToolSelection();
+    this.selectedTool = this.tools.ERASER;
+  }
   chooseText(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.TEXT;
