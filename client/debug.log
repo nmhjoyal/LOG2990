@@ -1,3 +1,0 @@
-[1112/140639.468:ERROR:file_io_win.cc(161)] CreateFile C:\Users\apple\AppData\Local\Temp\karma-19256681\Crashpad\settings.dat: The system cannot find the path specified. (0x3)
-[1112/140639.468:ERROR:file_io_win.cc(170)] CreateFile C:\Users\apple\AppData\Local\Temp\karma-19256681\Crashpad\reports\66b9d8d3-6eaf-4c58-94e9-07ea65ab2af8.dmp: The system cannot find the path specified. (0x3)
-[1112/140639.468:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed
