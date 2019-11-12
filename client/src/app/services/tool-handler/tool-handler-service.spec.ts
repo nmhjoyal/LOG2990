@@ -62,6 +62,12 @@ describe('ToolHandlerService', () => {
     expect(service.isUsingText()).toBe(true);
   });
 
+  it('#isUsingColourApplicator should return true if colourApplicator is selected', () => {
+    expect(service.isUsingColourApplicator()).toBe(false);
+    service.selectedTool = service.tools.COLOUR_APPLICATOR;
+    expect(service.isUsingColourApplicator()).toBe(true);
+  });
+
   it('#resetSelectorBox should reset selector property to default data', () => {
     service.selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
     fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
@@ -194,7 +200,12 @@ describe('ToolHandlerService', () => {
   it('#chooseText should call #resetToolSelection', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseText();
+    expect(resetSpy).toHaveBeenCalled();
+  });
 
+  it('#chooseGrid should call #resetToolSelection', () => {
+    const resetSpy = spyOn(service, 'resetToolSelection');
+    service.chooseGrid();
     expect(resetSpy).toHaveBeenCalled();
   });
 

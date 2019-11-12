@@ -1,7 +1,14 @@
 <svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
     [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour">
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
-
+    <rect width="100%" height="100%" (click)="applyColourToCanvas()" fill="url(#Pattern)" stroke="black" />
+      
+    <defs>
+         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize">
+            <rect x="0" y="0" width="2" height="400" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+            <rect x="0" y="0" width="400" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+        </pattern>
+    </defs>
+        
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
         <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
@@ -24,8 +31,6 @@
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>  
-    
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
     <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
             
@@ -172,4 +177,7 @@
 <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
+</div>
+<div *ngIf="toolHandler.gridSelected">
+       
 </div>

@@ -15,6 +15,7 @@ export enum Id {
     COLOUR_APPLICATOR = 'colourApplicator',
     PIPETTE = 'pipette',
     TEXT = 'text',
+    GRID = 'grid',
 }
 
 export enum FilterURL {

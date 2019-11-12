@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
@@ -17,6 +17,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
+import { Gridservice } from '../../services/grid/grid.service';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,9 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
+  math: Math;
 
+  @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
 
   constructor(private dialog: MatDialog,
@@ -37,6 +40,7 @@ export class AppComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
+    private gridService: Gridservice,
     public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
@@ -173,6 +177,25 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.g', ['$event']) onKeydownG() {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      const toggle: HTMLElement = this.toggle.nativeElement;
+      toggle.click();
+    }
+  }
+
+  @HostListener('document:keydown.shift.+', ['$event']) onKeydownShiftPlus() {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.gridService.increaseSize();
+    }
+  }
+
+  @HostListener('document:keydown.shift.-', ['$event']) onKeydownShiftMinus() {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.gridService.decreaseSize();
+    }
+  }
+
   confirmNewDrawing(): void {
     if (!this.dialog.openDialogs.length) {
       if (!this.drawingStorage.drawings.length) {
@@ -241,7 +264,7 @@ export class AppComponent implements OnInit {
 
   switchColours(): void {
     this.colourService.switchColours();
-    if (!(this.toolHandler.selectedTool === this.toolHandler.tools.COLOUR_APPLICATOR)) {
+    if (!this.toolHandler.isUsingColourApplicator()) {
       this.toolHandler.resetToolSelection();
     }
   }
