@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
-  math: Math;
 
   @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
