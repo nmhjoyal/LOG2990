@@ -133,11 +133,15 @@ describe('ClipboardService', () => {
   it('should change points of drawing on parsePolylinePoints', () => {
     const drawing1: ITools = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, points: '0,100 50,20', id: Id.LINE };
     const drawing2: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, vertices: '0,0 1,1 0,0', id: Id.POLYGON };
+    const drawing3: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, paths: [{ path: 'M1 4L5 6', pathWidth: 2 },
+                             { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN };
 
     service.parsePolylinePoints(FIFTY, FIFTY, drawing1);
     expect(drawing1.points).not.toEqual('0,100 50,20');
     service.parsePolylinePoints(FIFTY, FIFTY, drawing2);
     expect(drawing2.vertices).not.toEqual('0,0 1,1 0,0');
+    service.parsePolylinePoints(FIFTY, FIFTY, drawing3);
+    expect(drawing2.paths).not.toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }, { path: 'M7 8L9 10', pathWidth: 2 }]);
   });
 
   it('should return drawing to initial value if outside of screen', () => {

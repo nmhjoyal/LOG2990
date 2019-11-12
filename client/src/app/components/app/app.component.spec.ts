@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText',
-    'isUsingText']);
+    'isUsingText', 'choosePen']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
@@ -83,32 +83,24 @@ describe('AppComponent', () => {
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {
-    component.optionsSidebar.opened = false;
-    toolHandlerMock.selectedTool = toolId.CRAYON;
     toolHandlerMock.chooseCrayon.and.callThrough();
     component.onKeydownCEvent();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
 
   it('#choosePaintbrush should be called when w is pressed', () => {
-    component.optionsSidebar.opened = false;
-    toolHandlerMock.selectedTool = toolId.PAINTBRUSH;
     toolHandlerMock.choosePaintbrush.and.callThrough();
     component.onKeydownWEvent();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
   });
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
-    component.optionsSidebar.opened = false;
-    toolHandlerMock.selectedTool = toolId.RECTANGLE;
     toolHandlerMock.chooseRectangle.and.callThrough();
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
-    component.optionsSidebar.opened = false;
-    toolHandlerMock.selectedTool = toolId.ELLIPSE;
     toolHandlerMock.chooseEllipse.and.callThrough();
     noOpenModalSpy.and.returnValue(false);
     component.onKeydown2();
@@ -164,7 +156,6 @@ describe('AppComponent', () => {
   });
 
   it('#cut should be called when ctrl.X is pressed', () => {
-    component.optionsSidebar.opened = false;
     toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.cut.and.callThrough();
     component.onKeydownCtrlX();
@@ -172,7 +163,6 @@ describe('AppComponent', () => {
   });
 
   it('#copy should be called when ctrl.C is pressed', () => {
-    component.optionsSidebar.opened = false;
     toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.copy.and.callThrough();
     component.onKeydownCtrlC();
@@ -180,7 +170,6 @@ describe('AppComponent', () => {
   });
 
   it('#paste should be called when ctrl.V is pressed', () => {
-    component.optionsSidebar.opened = false;
     toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.paste.and.callThrough();
     component.onKeydownCtrlV();
@@ -188,7 +177,6 @@ describe('AppComponent', () => {
   });
 
   it('#duplicate should be called when ctrl.D is pressed', () => {
-    component.optionsSidebar.opened = false;
     toolHandlerMock.selectedTool = toolId.SELECTOR;
     const event =  new KeyboardEvent('keydown.control.d');
     spyOn(event, 'preventDefault');
@@ -198,7 +186,6 @@ describe('AppComponent', () => {
   });
 
   it('#delete should be called when backspace is pressed', () => {
-    component.optionsSidebar.opened = false;
     toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.delete.and.callThrough();
     component.onKeydownBackspace();
@@ -209,6 +196,12 @@ describe('AppComponent', () => {
     toolHandlerMock.chooseText.and.callThrough();
     component.onKeydownTEvent();
     expect(toolHandlerMock.chooseText).toHaveBeenCalled();
+  });
+
+  it('#choosePen should be called when y is pressed', () => {
+    toolHandlerMock.choosePen.and.callThrough();
+    component.onKeydownYEvent();
+    expect(toolHandlerMock.choosePen).toHaveBeenCalled();
   });
 
 });

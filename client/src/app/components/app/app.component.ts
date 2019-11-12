@@ -136,6 +136,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.y', ['$event']) onKeydownYEvent(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.choosePen();
+    }
+  }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
