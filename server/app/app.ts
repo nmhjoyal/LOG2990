@@ -4,11 +4,9 @@ import * as cors from 'cors';
 import * as express from 'express';
 import { inject, injectable } from 'inversify';
 import * as logger from 'morgan';
-
-// tslint:disable: no-require-imports
-import serveFavicon = require('serve-favicon');
+import * as serveFavicon from 'serve-favicon';
 import { DateController } from './controllers/date.controller';
-import { IndexController } from './controllers/index.controller';
+import { ServerStorageController } from './controllers/server-storage.controller';
 import Types from './types';
 
 @injectable()
@@ -17,7 +15,7 @@ export class Application {
     private readonly internalError: number = 500;
     app: express.Application;
 
-    constructor(@inject(Types.IndexController) private indexController: IndexController,
+    constructor(@inject(Types.IndexController) private indexController: ServerStorageController,
         @inject(Types.DateController) private dateController: DateController) {
         this.app = express();
         this.app.use(serveFavicon('app/assets/favicon.ico'));

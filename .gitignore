@@ -7,5 +7,9 @@
 # ignoring node_module changes; these should be rebuilt locally and not cloned 
 /node_modules
 
-# Keep the package-lock.json !
-!package-lock.json
+# Extra files to ignore
+package-lock.json
+client/karma.conf.js
+stats.html
+yarn.lock
+debug.log

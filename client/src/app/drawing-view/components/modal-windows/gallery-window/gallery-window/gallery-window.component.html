@@ -44,7 +44,14 @@
             </div>
 
         </div>
-                    <ng-template #elseBlock><mat-spinner></mat-spinner></ng-template>
+        <ng-template #elseBlock>
+            <mat-spinner></mat-spinner>
+        </ng-template>
+
+        <div>
+            <input #fileInput type="file" mat-raised-button id="fileInput" value="Sélectionner un ficher" />
+            <button mat-raised-button id="import" (click)="importLocalFile();">Importer le fichier</button>
+        </div>
 
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
         <button id="submit" type="submit" mat-raised-button (click)="onAcceptClick()">Accepter</button>

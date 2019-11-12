@@ -1,11 +1,11 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/constants/tool-constants';
 import { IStamp } from '../assets/interfaces/stamp-interface';
-import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/tool-constants';
 
 @Component({
   selector: 'app-tools-stamp',
@@ -14,21 +14,21 @@ import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/to
 })
 export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  stamp: IStamp;
-  angle: number;
+  @Input() protected windowHeight: number;
+  @Input() protected windowWidth: number;
+  private stamp: IStamp;
+  private stampPaths = StampConstants.STAMPS_PATHS;
+  private angleIncrement: number;
 
-  constructor(protected toolServiceRef: ToolHandlerService, protected attributesServiceRef: AttributesService,
-    protected colorServiceRef: ColorService) {
+  constructor(protected drawingStorage: SaveService, protected attributesServiceRef: AttributesService,
+    protected colourServiceRef: ColourService) {
     super();
-    this.angle = 0;
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
       angle: StampConstants.DEFAULT_ANGLE,
       scaleFactor: StampConstants.DEFAULT_SCALE_FACTOR,
-      primaryColour: colorServiceRef.color[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: StampConstants.DEFAULT_DIMENSION,
@@ -36,6 +36,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       centerX: ToolConstants.NULL,
       centerY: ToolConstants.NULL,
     };
+    this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
   }
 
   ngOnInit(): void {
@@ -52,10 +53,9 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {
-    if (this.stamp.svgReference !== '') {
-      this.stamp.x = event.offsetX - this.stamp.width / NumericalValues.TWO;
-      this.stamp.y = event.offsetY - this.stamp.height / NumericalValues.TWO;
-
+    if (this.stamp.svgReference && this.stamp.svgReference !== '') {
+      this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / 2;
+      this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / 2;
       const createdStamp: IStamp = {
         id: this.stamp.id,
         svgReference: this.stamp.svgReference.slice(StampConstants.PATH_SLICER),
@@ -64,34 +64,45 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         y: this.stamp.y,
         width: this.stamp.width,
         height: this.stamp.height,
-        angle: this.angle,
+        angle: this.stamp.angle,
         scaleFactor: this.stamp.scaleFactor,
-        centerX: event.offsetX,
-        centerY: event.offsetY,
+        centerX: ClickHelper.getXPosition(event),
+        centerY: ClickHelper.getYPosition(event),
       };
-      this.toolServiceRef.drawings.push(createdStamp);
+      this.drawingStorage.saveDrawing(createdStamp);
     }
+  }
+
+  @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    const valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
+    this.stamp.angle += valueChange;
+  }
+
+  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+    this.angleIncrement = this.angleIncrement === StampConstants.ANGLE_INCREMENT_1 ?
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15 :
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
   }
 
   setStamp(stampIndex: number): void {
     switch (stampIndex) {
       case (FilterSelection.FILTER0):
-        this.stamp.svgReference = '../../../../../../assets/stamps/grade-24px.svg';
+        this.stamp.svgReference = this.stampPaths.HEART;
         break;
       case (FilterSelection.FILTER1):
-        this.stamp.svgReference = '../../../../../../assets/stamps/pets-24px.svg';
+        this.stamp.svgReference = this.stampPaths.PAW;
         break;
       case (FilterSelection.FILTER2):
-        this.stamp.svgReference = '../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg';
+        this.stamp.svgReference = this.stampPaths.SMILEY;
         break;
       case (FilterSelection.FILTER3):
-        this.stamp.svgReference = '../../../../../../assets/stamps/favorite-24px.svg';
+        this.stamp.svgReference = this.stampPaths.STAR;
         break;
       case (FilterSelection.FILTER4):
-        this.stamp.svgReference = '../../../../../../assets/stamps/thumb_up-24px.svg';
+        this.stamp.svgReference = this.stampPaths.THUMB_UP;
         break;
       case (FilterSelection.FILTER5):
-        this.stamp.svgReference = '../../../../../../assets/stamps/brightness_5-24px.svg';
+        this.stamp.svgReference = this.stampPaths.SUN;
         break;
     }
   }
@@ -102,14 +113,14 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   increaseScaleFactor(): void {
-    if (this.stamp.scaleFactor + 1 < StampConstants.MAX_SCALE) {
+    if (this.stamp.scaleFactor < StampConstants.MAX_SCALE) {
       this.stamp.scaleFactor += 1;
       this.multiplyScaleFactor();
     }
   }
 
   decreaseScaleFactor(): void {
-    if (!(this.stamp.scaleFactor - 1 < 0)) {
+    if (!(this.stamp.scaleFactor === 0)) {
       this.stamp.scaleFactor -= 1;
       this.multiplyScaleFactor();
     }
@@ -120,7 +131,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   decreaseAngle(): void {
-    if (!(this.stamp.angle - 1 < 0)) {
+    if (!(this.stamp.angle === 0)) {
       this.stamp.angle -= 1;
     }
   }

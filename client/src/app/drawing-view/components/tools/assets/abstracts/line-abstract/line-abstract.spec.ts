@@ -4,8 +4,8 @@ import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { LineComponent } from '../../../shapes/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
 import { LineAbstract } from './line-abstract';
@@ -16,8 +16,8 @@ import { LineAbstract } from './line-abstract';
   })
 class LineTestComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(serviceInstance: ToolHandlerService, attributesInstance: AttributesService, colorInstance: ColorService) {
-    super(serviceInstance, attributesInstance, colorInstance);
+  constructor(serviceInstance: SaveService, attributesInstance: AttributesService, colourInstance: ColourService) {
+    super(serviceInstance, attributesInstance, colourInstance);
   }
 
   // mock of abstract methods
@@ -46,18 +46,18 @@ describe('LineAbstract', () => {
   let component: LineComponent;
   let shapeTest: LineTestComponent;
   let hostElement: DebugElement;
-  let toolHandlerMock: SpyObj<ToolHandlerService>;
+  let saveServiceMock: SpyObj<SaveService>;
   let fixture: ComponentFixture<LineTestComponent>;
 
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
   beforeEach(() => {
-    toolHandlerMock = jasmine.createSpyObj('ToolHandlerService', ['']); // eventually put service method that saves drawing operation
+    saveServiceMock = jasmine.createSpyObj('SaveService', ['saveDrawing']);
 
     TestBed.configureTestingModule({
         imports: [BrowserDynamicTestingModule, DrawingViewModule],
         declarations: [LineTestComponent],
         providers: [
-          { provide: ToolHandlerService, useValue: toolHandlerMock, },
+          { provide: SaveService, useValue: saveServiceMock, },
           { provide: AttributesService, useValue: attrServiceMock, },
         ],
       });

@@ -1,21 +1,26 @@
+// tslint:disable: no-string-literal
+
+import SpyObj = jasmine.SpyObj;
 import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { IModalData } from '../modal-window/IModalData';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { WelcomeWindowComponent } from './welcome-window.component';
+
+export interface IWelcomeWindowDataMock extends IModalData {
+  storage: SpyObj<LocalStorageService>;
+}
 
 describe('WelcomeWindowComponent', () => {
   let component: WelcomeWindowComponent;
   let fixture: ComponentFixture<WelcomeWindowComponent>;
-  const mockLocalStorage = jasmine.createSpyObj('LocalStorageService',  ['getShowAgain', 'setShowAgain']);
-  const mockData = {
-    storage: jasmine.createSpyObj('LocalStorageService',  ['getShowAgain', 'setShowAgain']),
-  };
+  let mockData: IWelcomeWindowDataMock;
 
   const dialogMock = {
     close: () => {
@@ -24,6 +29,9 @@ describe('WelcomeWindowComponent', () => {
   };
 
   beforeEach(async(() => {
+    mockData = {
+      storage: jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']),
+    };
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
@@ -39,37 +47,43 @@ describe('WelcomeWindowComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: mockData },
-        { provide: LocalStorageService, useValue: mockLocalStorage },
+        LocalStorageService,
       ],
     })
-    .overrideComponent(WelcomeWindowComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default },
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+      .overrideComponent(WelcomeWindowComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(WelcomeWindowComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update the property if the checkbox is clicked', async(() => {
+  it('should update the property if the checkbox is clicked', fakeAsync(() => {
     const checkbox = fixture.debugElement.query(By.css('#chbx-showAgain')).nativeElement;
+    fixture.detectChanges();
     checkbox.click();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(component.isChecked).toEqual(true);
-    });
+    tick();
+    fixture.detectChanges();
+    expect(component['isChecked']).toEqual(true);
+    checkbox.click();
+    tick();
+    fixture.detectChanges();
+    expect(component['isChecked']).toEqual(false);
   }));
 
   it('should update local storage when checkbox clicked', () => {
-    component.isChecked = true;
+    component.reverseCheckboxClicked();
     component.onClose();
     expect(mockData.storage.setShowAgain).toHaveBeenCalled();
   });
+
+  it('should not update local storage when checkbox not clicked', () => {
+    component.onClose();
+    expect(mockData.storage.setShowAgain).not.toHaveBeenCalled();
+  });
+
 });

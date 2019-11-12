@@ -7,22 +7,24 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
-import { ColorService } from 'src/app/services/color_service/color.service';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
-import { ColorPaletteComponent } from '../../color-picker/color-palette/color-palette.component';
+import { ColourPaletteComponent } from '../../colour-picker/colour-palette/colour-palette.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
 
 describe('NewDrawingWindowComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
-  let colorService: ColorService;
+  let colourService: ColourService;
   let dialogRefMock: SpyObj<MatDialogRef<NewDrawingWindowComponent>>;
   let canvasDataMock: CanvasInformationService;
   let component: NewDrawingWindowComponent;
   let fixture: ComponentFixture<NewDrawingWindowComponent>;
-  const storageServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['clearPage']);
+  const toolHandlerServiceMock: SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['resetToolSelection']);
+  const drawingStorageMock: SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
   dataMock = jasmine.createSpyObj('NewDrawingModalData', ['']);
 
   const NEW_WINDOW_SIZE = 500;
@@ -48,12 +50,12 @@ describe('NewDrawingWindowComponent', () => {
       declarations: [
         ModalWindowComponent,
         NewDrawingWindowComponent,
-        ColorPaletteComponent,
+        ColourPaletteComponent,
       ],
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: dataMock },
-        { provide: ToolHandlerService, useValue: storageServiceMock },
+        { provide: ToolHandlerService, useValue: toolHandlerServiceMock },
       ],
     })
       .overrideComponent(NewDrawingWindowComponent, {
@@ -70,9 +72,15 @@ describe('NewDrawingWindowComponent', () => {
 
   beforeEach(async(() => {
     dialogRefMock = jasmine.createSpyObj('MatDialogRef<NewDrawingWindowComponent>', ['close']);
-    colorService = new ColorService();
+    colourService = new ColourService();
     canvasDataMock = new CanvasInformationService();
-    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock, storageServiceMock, colorService);
+    canvasDataMock.data = {
+      drawingColour: '',
+      drawingWidth: 100,
+      drawingHeight: 100,
+    };
+    component = new NewDrawingWindowComponent(dialogRefMock, dataMock, canvasDataMock,
+      toolHandlerServiceMock, drawingStorageMock, colourService);
     component.ngOnInit();
   }));
 
@@ -82,7 +90,7 @@ describe('NewDrawingWindowComponent', () => {
 
   it('should set all input variables to undefined on reinitializing -- not keep values for next modal window', () => {
     component.reinitializeDrawingVariables();
-    expect(dataMock.drawingColorInput).toBeUndefined();
+    expect(dataMock.drawingColourInput).toBeUndefined();
     expect(dataMock.drawingHeightInput).toBeUndefined();
     expect(dataMock.drawingWidthInput).toBeUndefined();
   });
@@ -102,7 +110,7 @@ describe('NewDrawingWindowComponent', () => {
 
   it('should prompt the user before closing if there are values in the dialog, and then close it', () => {
     spyOn(window, 'confirm').and.returnValue(true);
-    dataMock.drawingColorInput = '#ffaaaaff';
+    dataMock.drawingColourInput = '#ffaaaaff';
     component.onClose();
     expect(window.confirm).toHaveBeenCalled();
     expect(dialogRefMock.close).toHaveBeenCalled();
@@ -110,7 +118,7 @@ describe('NewDrawingWindowComponent', () => {
 
   it('should not close if the user refuses the prompt', () => {
     spyOn(window, 'confirm').and.returnValue(false);
-    dataMock.drawingColorInput = '#ffaaaaff';
+    dataMock.drawingColourInput = '#ffaaaaff';
     component.onClose();
     expect(window.confirm).toHaveBeenCalled();
     expect(dialogRefMock.close).not.toHaveBeenCalled();
@@ -119,17 +127,17 @@ describe('NewDrawingWindowComponent', () => {
   it('should assign default values to canvas parameters if inputs are empty', () => {
     component.reinitializeDrawingVariables();
     component.onAcceptClick();
-    expect(canvasDataMock.data.drawingColor).toBe('#ffffffff');
+    expect(canvasDataMock.data.drawingColour).toBe('#ffffffff');
     expect(canvasDataMock.data.drawingHeight).toBe(window.innerHeight - NumericalValues.TITLEBAR_WIDTH);
     expect(canvasDataMock.data.drawingWidth).toBe(window.innerWidth - NumericalValues.SIDEBAR_WIDTH);
   });
 
   it('should properly pass user input to canvas parameters', () => {
-    dataMock.drawingColorInput = '#ffaaaaff';
+    dataMock.drawingColourInput = '#ffaaaaff';
     dataMock.drawingHeightInput = NEW_WINDOW_SIZE;
     dataMock.drawingWidthInput = NEW_WINDOW_SIZE;
     component.onAcceptClick();
-    expect(canvasDataMock.data.drawingColor).toBe(dataMock.drawingColorInput);
+    expect(canvasDataMock.data.drawingColour).toBe(dataMock.drawingColourInput);
     expect(canvasDataMock.data.drawingHeight).toBe(dataMock.drawingHeightInput);
     expect(canvasDataMock.data.drawingWidth).toBe(dataMock.drawingWidthInput);
   });

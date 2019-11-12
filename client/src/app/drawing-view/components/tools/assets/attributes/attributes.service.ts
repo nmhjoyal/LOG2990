@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Strings } from 'src/AppConstants/Strings';
+import { FontFamilies } from '../constants/text-constants';
+import { ToolConstants } from '../constants/tool-constants';
 import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
-import { ToolConstants } from '../tool-constants';
+import { ITextOptions } from '../interfaces/text-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +14,13 @@ export class AttributesService {
 
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
+  penAttributes: IDrawingToolOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
   lineAttributes: ILineOptions;
   ellipseAttributes: IShapeOptions;
   stampAttributes: IStampOptions;
+  textAttributes: ITextOptions;
 
   constructor() {
     this.resetRectangleAttributes();
@@ -25,6 +30,8 @@ export class AttributesService {
     this.resetLineAttributes();
     this.resetEllipseAttributes();
     this.resetStampAttributes();
+    this.resetPenAttributes();
+    this.resetTextAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -47,11 +54,12 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      savedMaxWidth: 0,
+      savedMinWidth: 0,
       x: 0,
       y: 0,
       width: 0,
       height: 0,
-      points: '',
     };
   }
   resetPaintbrushAttributes(): void {
@@ -60,11 +68,26 @@ export class AttributesService {
       wasSaved: false,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedFilter: ToolConstants.NONE,
+      savedMaxWidth: 0,
+      savedMinWidth: 0,
       x: 0,
       y: 0,
       width: 0,
       height: 0,
-      points: '',
+    };
+  }
+  resetPenAttributes(): void {
+    this.penAttributes = {
+      id: ToolConstants.TOOL_ID.PEN,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedFilter: ToolConstants.NONE,
+      savedMaxWidth: 0,
+      savedMinWidth: 0,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
     };
   }
   resetRectangleAttributes(): void {
@@ -104,19 +127,34 @@ export class AttributesService {
     };
   }
   resetLineAttributes(): void {
-      this.lineAttributes = {
-        id: ToolConstants.TOOL_ID.LINE,
-        wasSaved: false,
-        savedTraceMode: '',
-        savedStrokeWidth: ToolConstants.NULL,
-        savedJunctionMode: '',
-        savedPointWidth: ToolConstants.NULL,
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      };
+    this.lineAttributes = {
+      id: ToolConstants.TOOL_ID.LINE,
+      wasSaved: false,
+      savedTraceMode: '',
+      savedStrokeWidth: ToolConstants.NULL,
+      savedJunctionMode: '',
+      savedPointWidth: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
   }
+  resetTextAttributes(): void {
+    this.textAttributes = {
+      id: ToolConstants.TOOL_ID.TEXT,
+      wasSaved: false,
+      savedFontSize: 12,
+      savedItalic: '',
+      savedBold: '',
+      savedFontFamily: FontFamilies.ARIAL,
+      savedPrimaryColour: Strings.BLACK_HEX,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+}
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -138,6 +176,12 @@ export class AttributesService {
     }
     if (this.stampAttributes.wasSaved) {
       this.resetStampAttributes();
+    }
+    if (this.penAttributes.wasSaved) {
+      this.resetPenAttributes();
+    }
+    if (this.textAttributes.wasSaved) {
+      this.resetTextAttributes();
     }
   }
 }

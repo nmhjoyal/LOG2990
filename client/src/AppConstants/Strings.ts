@@ -1,11 +1,20 @@
-export class Strings {
-    static WHITE_HEX = '#ffffffff';
-    static BLACK_HEX = '#000000ff';
-    static MODAL_TITLE = 'Créer un nouveau dessin';
-    static NEW_DRAWING_CONFIRM = 'Êtes-vous certain.e de vouloir quitter et perdre vos changements?';
-    static WELCOME_WINDOW_KEY = 'showAgain';
-    static TRUE = 'true';
-    static FALSE = 'false';
-    static SAVE_WINDOW_TITLE = 'Enregistrer un dessin.';
-    static GALLERY_WINDOW_TITLE = 'Voir vos dessins';
+export enum Strings {
+    WHITE_HEX = '#ffffffff',
+    BLACK_HEX = '#000000ff',
+    MODAL_TITLE = 'Créer un nouveau dessin',
+    NEW_DRAWING_CONFIRM = 'Êtes-vous certain.e de vouloir quitter et perdre vos changements?',
+    WELCOME_WINDOW_KEY = 'showAgain',
+    TRUE = 'true',
+    FALSE = 'false',
+    SAVE_WINDOW_TITLE = 'Enregistrer un dessin.',
+    GALLERY_WINDOW_TITLE = 'Voir vos dessins',
+    EXPORT_WINDOW_TITLE = 'Exporter un dessin',
+    EXPORT_TO_FORMAT = 'Exporter au format',
+}
+
+export enum ExportAs {
+    SVG = 'svg',
+    PNG = 'png',
+    JPG = 'jpg',
+    BMP = 'bmp',
 }

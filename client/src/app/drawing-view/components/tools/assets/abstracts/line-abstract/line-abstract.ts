@@ -1,8 +1,9 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/tool-constants';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
@@ -23,9 +24,9 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService,
+  constructor(protected saveService: SaveService,
               protected attributesService: AttributesService,
-              protected colorService: ColorService) {
+              protected colourService: ColourService) {
     super();
     this.mouseDown = false;
     this.shiftDown = false;
@@ -44,11 +45,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       width: 0,
       height: 0,
       points: '',
-      color: this.colorService.color[0],
+      colour: this.colourService.colour[0],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
-      pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
+      pointWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND,
       strokeDashArray: ToolConstants.STRAIGHT,
@@ -66,8 +67,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
         this.cursorX = this.initialX;
         this.cursorY = this.initialY;
       } else {
-        this.cursorX = event.offsetX;
-        this.cursorY = event.offsetY;
+        this.cursorX = ClickHelper.getXPosition(event);
+        this.cursorY = ClickHelper.getYPosition(event);
       }
       this.stroke.points = this.previewPoints + ' ' + this.cursorX + ',' + this.cursorY;
     }
@@ -75,11 +76,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     if (!this.started) {
-      this.initialX = event.offsetX;
-      this.initialY = event.offsetY;
+      this.initialX = ClickHelper.getXPosition(event);
+      this.initialY = ClickHelper.getYPosition(event);
       this.started = true;
-      this.stroke.points = ' ' + event.offsetX + ',' + event.offsetY;
-      this.previewPoints.push(' ' + event.offsetX + ',' + event.offsetY);
+      this.stroke.points = ' ' + ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event);
+      this.previewPoints.push(' ' + ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event));
     } else {
       this.addSegment();
     }
@@ -132,7 +133,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       width: this.stroke.width,
       height: this.stroke.height,
       points: this.stroke.points,
-      color: this.stroke.color,
+      colour: this.stroke.colour,
       strokeOpacity: this.stroke.strokeOpacity,
       strokeWidth: this.stroke.strokeWidth,
       fill: this.stroke.fill,
@@ -141,7 +142,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeLinejoin: this.stroke.strokeLinejoin,
       strokeDashArray: this.stroke.strokeDashArray,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.saveService.saveDrawing(currentDrawing);
   }
 
   protected addSegment(): void {

@@ -9,17 +9,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
-import { PreviewCanvasComponent } from './components/modal-windows/gallery-window/preview-canvas/preview-canvas/preview-canvas.component';
+import { PreviewCanvasComponent } from './components/modal-windows/gallery-window/preview-canvas/preview-canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
+import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
+import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { LineComponent } from './components/tools/shapes/line/line.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
+import { TextComponent } from './components/tools/text/text.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,11 @@ import { StampComponent } from './components/tools/stamp/stamp.component';
     SelectorComponent,
     EllipseComponent,
     PreviewCanvasComponent,
+    TextComponent,
     StampComponent,
+    EraserComponent,
+    PreviewCanvasComponent,
+    PenComponent,
   ],
 
   imports: [

@@ -1,24 +1,25 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
-import { ColorService } from 'src/app/services/color_service/color.service';
-import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../attributes/attributes.service';
+import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
-import { ToolConstants } from '../../tool-constants';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
 export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnDestroy {
 
   protected stroke: IDrawingTool;
-  private mouseDown: boolean;
+  protected mouseDown: boolean;
   private x: number;
   private y: number;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected toolService: ToolHandlerService,
+  constructor(protected drawingStorage: SaveService,
               protected attributesService: AttributesService,
-              protected colorService: ColorService) {
+              protected colourService: ColourService) {
     super();
     this.stroke = {
     id: '',
@@ -27,7 +28,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     width: 0,
     height: 0,
     points: '',
-    color: colorService.color[0],
+    colour: colourService.colour[0],
     strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     fill: ToolConstants.NONE,
     strokeLinecap: ToolConstants.ROUND,
@@ -50,35 +51,35 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       y: this.stroke.y,
       width: this.stroke.width,
       height: this.stroke.height,
-      color: this.stroke.color,
+      colour: this.stroke.colour,
       strokeWidth: this.stroke.strokeWidth,
       fill: this.stroke.fill,
       strokeLinecap: this.stroke.strokeLinecap,
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
     };
-    this.toolService.drawings.push(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   // Event handling methods
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     this.mouseDown = true;
-    this.stroke.points = event.offsetX + ',' + event.offsetY;
-    this.x = event.offsetX;
-    this.y = event.offsetY;
+    this.stroke.points = ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event);
+    this.x = ClickHelper.getXPosition(event);
+    this.y = ClickHelper.getYPosition(event);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
-      this.stroke.points += (' ' + event.offsetX + ',' + event.offsetY);
+      this.stroke.points += (' ' + ClickHelper.getXPosition(event) + ',' + ClickHelper.getYPosition(event));
     }
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(event: MouseEvent): void {
 
-    if (this.x === event.offsetX && this.y === event.offsetY) {
-      this.stroke.points += (' ' + (event.offsetX) + ',' + (event.offsetY));
+    if (this.x === ClickHelper.getXPosition(event) && this.y === ClickHelper.getYPosition(event)) {
+      this.stroke.points += (' ' + (ClickHelper.getXPosition(event)) + ',' + (ClickHelper.getYPosition(event)));
     }
     this.getPositionAndDimensions();
     this.saveShape();

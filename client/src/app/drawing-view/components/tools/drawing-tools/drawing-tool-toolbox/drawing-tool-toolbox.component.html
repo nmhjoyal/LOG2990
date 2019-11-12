@@ -1,5 +1,5 @@
-<div *ngIf="!(toolHandler.noneSelected)">
-    <div *ngIf="toolHandler.paintbrushSelected">
+<div *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
+    <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
         <button (click)="getComponent().setFilter(0)">Aucun filtre</button>
         <button (click)="getComponent().setFilter(1)">Filtre 1</button>
         <button (click)="getComponent().setFilter(2)">Filtre 2</button>
@@ -7,13 +7,28 @@
         <button (click)="getComponent().setFilter(4)">Filtre 4</button>
         <button (click)="getComponent().setFilter(5)">Filtre 5</button>
     </div>
-    <div *ngIf="toolHandler.paintbrushSelected || toolHandler.crayonSelected || toolHandler.lineSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
         <button (click)="getComponent().decreaseStrokeWidth()">-</button>
         {{getComponent().stroke.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
 
-    <div *ngIf="toolHandler.lineSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.PEN">
+        <div>
+            <p>Épaisseur de trait minimale</p>
+            <button (click)="getComponent().decreaseMinWidth()">-</button>
+            {{getComponent().minWidth}}
+            <button (click)="getComponent().increaseMinWidth()">+</button>
+        </div>
+        <div>
+            <p>Épaisseur de trait maximale</p>
+            <button (click)="getComponent().decreaseMaxWidth()">-</button>
+            {{getComponent().maxWidth}}
+            <button (click)="getComponent().increaseMaxWidth()">+</button>
+        </div>
+    </div>
+
+    <div *ngIf="toolHandler.selectedTool === toolId.LINE">
         <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
         <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>
         <button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</button><br>
@@ -27,20 +42,20 @@
     </div>
       
 
-    <div *ngIf="toolHandler.rectangleSelected || toolHandler.polygonSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE || toolHandler.selectedTool === toolId.POLYGON">
         <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
         <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
         <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
         <button (click)="getComponent().decreaseStrokeWidth()">-</button>
         {{getComponent().shape.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
-        <div *ngIf="toolHandler.polygonSelected">
+        <div *ngIf="toolHandler.selectedTool === toolId.POLYGON">
             <button (click)="getComponent().decreaseVertexNumber()">-1 Sommet</button>
             {{getComponent().shape.verticesNumber}}
             <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
         </div>
     </div>
-    <div *ngIf="toolHandler.ellipseSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE">
         <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
         <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
         <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
@@ -48,7 +63,11 @@
         {{getComponent().shape.strokeWidth}}
         <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
-    <div *ngIf="toolHandler.stampSelected">
+    <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
+        <h3>Taille de l'efface</h3>
+        <input type="number" [(ngModel)]="getComponent().size" min="1" max="40" (change)="getComponent().validateSize()">
+    </div>
+    <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
         <div class="filter" (click)="getComponent().setStamp(0)">
             <img id="star" src="../../../../../../assets/stamps/grade-24px.svg" title="Étoile">
         </div>
@@ -73,15 +92,48 @@
             {{getComponent().stamp.scaleFactor}}
             <button (click)="getComponent().increaseScaleFactor()">+</button>
             <p>Angle</p>
-            <input type="number" [(ngModel)]="getComponent().angle" size="3">
+            <input type="number" name="angle" [(ngModel)]="getComponent().stamp.angle" size="3">
         </div>
     </div>
-</div> 
-<div *ngIf="(toolHandler.noneSelected)">
-    <div class="filter">
-        <img id="colorPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png" title="Palette de couleurs">
-    </div>
-    <div class="filter">
-        <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png" title="Sauvegarde dessin">
+    <div *ngIf="toolHandler.selectedTool === toolId.TEXT">
+        <div style='padding: 8px'>
+            <p>Taille du texte</p>
+            <button (click)="getComponent().decreaseFontSize()">-</button>
+            {{getComponent().text.fontSize}}
+            <button (click)="getComponent().increaseFontSize()">+</button>
+            <p>Police du texte</p>
+            <select name='fontFamilySelection' [(ngModel)]="getComponent().fontFamilySelection">
+                <option value='Arial, Helvetica, sans-serif' style="font-family: Arial, Helvetica, sans-serif;">Arial</option>
+                <option value='Cambria, Cochin, Georgia, Times, "Times New Roman", serif' style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Cambria</option>
+                <option value='"Courier New", Courier, monospace' style="font-family:'Courier New', Courier, monospace;">Courier New</option>
+                <option value='cursive' style="font-family: cursive;">Cursive</option>
+                <option value='"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif' style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Franklin Gothic</option>
+                <option value='Georgia, serif' style="font-family: Georgia, serif;">Georgia</option>
+                <option value='"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif' style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Gill Sans</option>
+                <option value='Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif' style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Impact</option>
+                <option value='"Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif' style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Lucinda Sans</option>
+                <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Segoe UI</option>
+                <option value='"Times New Roman", Times, serif' style="font-family: 'Times New Roman', Times, serif;">Times New Roman</option>
+                <option value='"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif' style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Trebuchet MS</option>
+                <option value='Verdana, Geneva, Tahoma, sans-serif' style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Verdana</option>
+            </select>
+        </div>
+        <div style='padding: 8px'>
+            <a class="filter" (click)="getComponent().toItalic()">
+                <img id="italic" src="../../../../../../assets/text-options/format_italic-24px.svg" title="Italique">
+            </a>
+            <a class="filter" (click)="getComponent().toBold()">
+                <img id="bold" src="../../../../../../assets/text-options/format_bold-24px.svg" title="Gras">
+            </a><br>
+            <a class="filter" (click)="getComponent().alignText(0)">
+                <img id="left" src="../../../../../../assets/text-options/format_align_left-24px.svg" title="Gauche">
+            </a>
+            <a class="filter" (click)="getComponent().alignText(1)">
+                <img id="center" src="../../../../../../assets/text-options/format_align_center-24px.svg" title="Centré">
+            </a>
+            <a class="filter" (click)="getComponent().alignText(2)">
+                <img id="right" src="../../../../../../assets/text-options/format_align_right-24px.svg" title="Droite">
+            </a>
+        </div>
     </div>
 </div>
