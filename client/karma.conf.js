@@ -32,7 +32,7 @@ module.exports = function (config) {
     proxies: {
       '/assets/': '/assets/',
     },
-    browsers: ['Chrome', 'ChromeHeadlessNoSandbox', 'Firefox', 'FirefoxHeadless'],
+    browsers: ['ChromeHeadless'],
     customLaunchers: {
       FirefoxHeadless: {
         base: 'Firefox',

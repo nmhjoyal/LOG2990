@@ -40,10 +40,6 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     this.canvas.height = this.height;
   }
 
-  @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
-    event.preventDefault();
-  }
-
   ngOnInit(): void {
     this.format = Strings.EXPORT_TO_FORMAT;
   }

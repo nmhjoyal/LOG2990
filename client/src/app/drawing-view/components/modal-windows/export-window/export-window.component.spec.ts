@@ -13,6 +13,7 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { ExportAs } from 'src/AppConstants/Strings';
 import { ExportWindowComponent } from './export-window.component';
+import { CanvasToBMP } from './canvas-to-bmp';
 
 describe('ExportWindowComponent', () => {
   const dialogRefMock: SpyObj<MatDialogRef<ExportWindowComponent>> = jasmine.createSpyObj('MatDialogRef<ExportWindowComponent>', ['close']);
@@ -128,7 +129,8 @@ describe('ExportWindowComponent', () => {
 
   it('#onAcceptClick should call drawImage if PNG is selected', () => {
     const spyXML = spyOn(component, 'xmlToBase64').and.callFake(() => {
-      return 'data:image/svg+xml;base64,'; });
+      return 'data:image/svg+xml;base64,';
+    });
     const spyDrawImage = spyOn(component, 'drawImage');
     const spyClose = spyOn(component, 'onClose');
 
@@ -141,7 +143,8 @@ describe('ExportWindowComponent', () => {
 
   it('#onAcceptClick should call drawImage if JPG is selected', () => {
     const spyXML = spyOn(component, 'xmlToBase64').and.callFake(() => {
-      return 'data:image/svg+xml;base64,'; });
+      return 'data:image/svg+xml;base64,';
+    });
     const spyDrawImage = spyOn(component, 'drawImage');
     const spyClose = spyOn(component, 'onClose');
 
@@ -154,7 +157,8 @@ describe('ExportWindowComponent', () => {
 
   it('#onAcceptClick should call drawImage if BMP is selected', () => {
     const spyXML = spyOn(component, 'xmlToBase64').and.callFake(() => {
-      return 'data:image/svg+xml;base64,'; });
+      return 'data:image/svg+xml;base64,';
+    });
     const spyDrawImage = spyOn(component, 'drawImage');
     const spyClose = spyOn(component, 'onClose');
 
@@ -163,34 +167,6 @@ describe('ExportWindowComponent', () => {
     expect(spyXML).toHaveBeenCalled();
     expect(spyDrawImage).toHaveBeenCalled();
     expect(spyClose).toHaveBeenCalled();
-  });
-
-  it('#drawImage should retrieve attributes properly', () => {
-    const spyContext = spyOn(component, 'drawImage');
-    component['context'] = mockContext;
-    const img = new Image();
-    component['exportType'] = component['exportTypeEnum'].JPG;
-    const a = document.createElement('a');
-    component.drawImage('mock');
-    expect(img.width).toEqual(component['width']);
-    expect(img.height).toEqual(component['height']);
-    expect(img.src).toBeDefined();
-    expect(spyContext).toHaveBeenCalled();
-    expect(a.href).toBeDefined();
-  });
-
-  it('#drawImage should retrieve attributes properly', () => {
-    // const spyContext = spyOn(, 'CanvasToBmp');
-    component['context'] = mockContext;
-    const img = new Image();
-    component['exportType'] = component['exportTypeEnum'].BMP;
-    const a = document.createElement('a');
-    component.drawImage('mock');
-    expect(img.width).toEqual(component['width']);
-    expect(img.height).toEqual(component['height']);
-    expect(img.src).toBeDefined();
-    // expect(spyContext).toHaveBeenCalled();
-    expect(a.href).toBeDefined();
   });
 
   it('#download should properly create', () => {
