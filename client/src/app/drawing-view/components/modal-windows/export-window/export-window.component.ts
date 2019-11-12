@@ -15,15 +15,15 @@ import { CanvasToBMP } from './canvas-to-bmp';
 
 export class ExportWindowComponent extends ModalWindowComponent implements OnInit {
 
-  formatSelected: boolean;
-  exportTypeEnum = ExportAs;
+  protected formatSelected: boolean;
+  protected exportTypeEnum = ExportAs;
   protected exportType: string;
-  format: string;
-  width: number;
-  height: number;
-  myCanvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D | null;
-  name: string;
+  protected format: string;
+  private width: number;
+  private height: number;
+  private myCanvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D | null;
+  protected name: string;
 
   constructor(dialogRef: MatDialogRef<ExportWindowComponent>,
     public exportInformation: ExportInformationService, public canvasData: CanvasInformationService) {
