@@ -48,8 +48,6 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     this.format = 'Exporter au format';
   }
 
-  // cloudconvert api
-
   onAcceptClick(): void {
     switch (this.exportType) {
       case ExportAs.PNG:

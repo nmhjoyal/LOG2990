@@ -151,7 +151,7 @@ describe('ToolHandlerService', () => {
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.POLYGON);
   });
 
-  it('#chooseEyedropper should call #resetToolSelection and select the ipette', () => {
+  it('#chooseEyedropper should call #resetToolSelection and select the pipette', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseEyedropper();
 
@@ -196,5 +196,12 @@ describe('ToolHandlerService', () => {
     service.chooseText();
 
     expect(resetSpy).toHaveBeenCalled();
+  });
+
+  it('#choosePen should call #resetToolSelection', () => {
+    const resetSpy = spyOn(service, 'resetToolSelection');
+    service.choosePen();
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PEN);
   });
 });

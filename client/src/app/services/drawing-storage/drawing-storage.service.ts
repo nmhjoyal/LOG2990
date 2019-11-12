@@ -20,4 +20,8 @@ export class DrawingStorageService {
     this.drawings.length = 0;
   }
 
+  isEmpty(): boolean {
+    return !this.drawings.length;
+  }
+
 }

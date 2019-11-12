@@ -1,15 +1,16 @@
 // tslint:disable:no-magic-numbers
+// tslint:disable:no-bitwise
 export class CanvasToBMP {
     // Source : https://stackoverflow.com/questions/29652307/canvas-unable-to-generate-bmp-image-dataurl-in-chrome
 
-    private view : DataView = new DataView(new ArrayBuffer(0));
+    private view: DataView = new DataView(new ArrayBuffer(0));
     private pos = 0;
 
-    toArrayBuffer(canvas: HTMLCanvasElement): ArrayBuffer{
+    toArrayBuffer(canvas: HTMLCanvasElement): ArrayBuffer {
         const w = canvas.width;
         const h = canvas.height;
-        const w4 = w*4;
-        const idata = (canvas.getContext("2d") as CanvasRenderingContext2D).getImageData(0, 0, w, h);
+        const w4 = w * 4;
+        const idata = (canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(0, 0, w, h);
         const data32 = new Uint32Array(idata.data.buffer); // 32-bit representation of canvas
 
         const stride = Math.floor((32 * w + 31) / 32) * 4; // row length incl. padding
@@ -47,7 +48,6 @@ export class CanvasToBMP {
         this.setU32(0xff000000);      // alpha channel mask
         this.setU32(0x57696e20);      // " win" color space
 
-
         // bitmap data, change order of ABGR to BGRA
         while (y < h) {
             p = 0x7a + y * stride; // offset + stride x height
@@ -65,23 +65,24 @@ export class CanvasToBMP {
     }
 
     // helper method to move current buffer position
-    private setU16(data:number) {this.view.setUint16(this.pos, data, true); this.pos += 2}
-    private setU32(data:number) {this.view.setUint32(this.pos, data, true); this.pos += 4}
+    private setU16(data: number) {this.view.setUint16(this.pos, data, true); this.pos += 2; }
+    private setU32(data: number) {this.view.setUint32(this.pos, data, true); this.pos += 4; }
 
-    toBlob(canvas: HTMLCanvasElement):Blob {
+    toBlob(canvas: HTMLCanvasElement): Blob {
         return new Blob([this.toArrayBuffer(canvas)], {
-        type: "image/bmp"
+        type: 'image/bmp',
         });
     }
 
-    toDataURL(canvas:HTMLCanvasElement):string {
-        var buffer = new Uint8Array(this.toArrayBuffer(canvas));
-        let bs = "";
+    toDataURL(canvas: HTMLCanvasElement): string {
+        const buffer = new Uint8Array(this.toArrayBuffer(canvas));
+        let bs = '';
         let i = 0;
-        let length = buffer.length;
-        while (i < length){
+        const length = buffer.length;
+        while (i < length) {
             bs += String.fromCharCode(buffer[i++]);
         }
-        return "data:image/bmp;base64," + btoa(bs);
+        return 'data:image/bmp;base64,' + btoa(bs);
     }
 }
+// tslint:enable:no-bitwise
