@@ -188,55 +188,55 @@ describe('ClipboardService', () => {
   it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {
     const redoSpy = spyOn(service.undoRedoService, 'redo');
     redoSpy.and.returnValue(undefined);
-    service.pasteOffset = FORTY;
+    service['pasteOffset'] = FORTY;
 
     service.redo();
     expect(redoSpy.calls.count()).toBe(1);
-    expect(service.pasteOffset).toBe(FORTY);
+    expect(service['pasteOffset']).toBe(FORTY);
 
     redoSpy.and.returnValue(dummyOperation);
 
     service.redo();
     expect(redoSpy.calls.count()).toBe(2);
-    expect(service.pasteOffset).toBe(FORTY);
+    expect(service['pasteOffset']).toBe(FORTY);
 
-    dummyOperation.pasteOffset = 0;
+    dummyOperation['pasteOffset'] = 0;
     redoSpy.and.returnValue(dummyOperation);
 
     service.redo();
     expect(redoSpy.calls.count()).toBe(THREE);
-    expect(service.pasteOffset).toBe(0);
+    expect(service['pasteOffset']).toBe(0);
 
   });
 
   it('#undo should reduce the pasteoffset only if the undone operation is defined and it has a defined pasteOffset != 0', () => {
     const undoSpy = spyOn(service.undoRedoService, 'undo');
     undoSpy.and.returnValue(undefined);
-    service.pasteOffset = FORTY;
+    service['pasteOffset'] = FORTY;
 
     service.undo();
     expect(undoSpy.calls.count()).toBe(1);
-    expect(service.pasteOffset).toBe(FORTY);
+    expect(service['pasteOffset']).toBe(FORTY);
 
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
     expect(undoSpy.calls.count()).toBe(2);
-    expect(service.pasteOffset).toBe(FORTY);
+    expect(service['pasteOffset']).toBe(FORTY);
 
-    dummyOperation.pasteOffset = 0;
+    dummyOperation['pasteOffset'] = 0;
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
     expect(undoSpy.calls.count()).toBe(THREE);
-    expect(service.pasteOffset).toBe(FORTY);
+    expect(service['pasteOffset']).toBe(FORTY);
 
-    dummyOperation.pasteOffset = FORTY;
+    dummyOperation['pasteOffset'] = FORTY;
     undoSpy.and.returnValue(dummyOperation);
 
     service.undo();
     expect(undoSpy.calls.count()).toBe(FOUR);
-    expect(service.pasteOffset).toBe(FORTY - NumericalValues.DUPLICATE_OFFSET);
+    expect(service['pasteOffset']).toBe(FORTY - NumericalValues.DUPLICATE_OFFSET);
 
   });
 
