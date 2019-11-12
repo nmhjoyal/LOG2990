@@ -75,7 +75,8 @@ export class CanvasToBMP {
     }
 
     toDataURL(canvas: HTMLCanvasElement): string {
-        const buffer = new Uint8Array(this.toArrayBuffer(canvas));
+        let buffer: Uint8Array;
+        buffer = new Uint8Array(this.toArrayBuffer(canvas));
         let bs = '';
         let i = 0;
         const length = buffer.length;

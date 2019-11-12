@@ -26,6 +26,8 @@ describe('ExportWindowComponent', () => {
   const FORMAT_JPG = ExportAs.JPG;
   const FORMAT_PNG = ExportAs.PNG;
 
+  const INITIAL_FORMAT = 'Exporter au format';
+
   const dialogMock = {
     close: () => {
       confirm('MockDialog close');
@@ -71,13 +73,17 @@ describe('ExportWindowComponent', () => {
     component['formatSelected'] = false;
     component['exportType'] = '';
     exportDataMock.data.canvasElement = jasmine.createSpyObj('ElementRef<SVGElement>', ['']);
-    exportDataMock.data.canvasElement.nativeElement = jasmine.createSpyObj('SVGElement as Node', ['']);
 
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('#ngOnInit should assign right value to format', () => {
+    component.ngOnInit();
+    expect(component['format']).toEqual(INITIAL_FORMAT);
   });
 
   it('#onClose should call dialogRef.close', () => {
@@ -106,14 +112,14 @@ describe('ExportWindowComponent', () => {
   it('#onAcceptClick should do nothing if the format isnt selected', () => {
     const spy1 = spyOn(component, 'download');
     const spy2 = spyOn(component, 'drawImage');
-    component.chooseExportType(FORMAT_SVG);
     component.onAcceptClick();
     expect(spy1).not.toHaveBeenCalled();
     expect(spy2).not.toHaveBeenCalled();
   });
 
   it('#onAcceptClick should call download if SVG is selected', () => {
-    const spy = spyOn(component, 'download');
+    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+      return 'data:image/svg+xml;base64,'; });
 
     component.chooseExportType(FORMAT_SVG);
     component.onAcceptClick();
@@ -121,7 +127,8 @@ describe('ExportWindowComponent', () => {
   });
 
   it('#onAcceptClick should call drawImage if PNG is selected', () => {
-    const spy = spyOn(component, 'drawImage');
+    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+      return 'data:image/svg+xml;base64,'; });
 
     component.chooseExportType(FORMAT_PNG);
     component.onAcceptClick();
@@ -129,7 +136,8 @@ describe('ExportWindowComponent', () => {
   });
 
   it('#onAcceptClick should call drawImage if JPG is selected', () => {
-    const spy = spyOn(component, 'drawImage');
+    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+      return 'data:image/svg+xml;base64,'; });
 
     component.chooseExportType(FORMAT_JPG);
     component.onAcceptClick();
@@ -137,21 +145,11 @@ describe('ExportWindowComponent', () => {
   });
 
   it('#onAcceptClick should call drawImage if BMP is selected', () => {
-    const spy = spyOn(component, 'drawImage');
+    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+      return 'data:image/svg+xml;base64,'; });
 
     component.chooseExportType(FORMAT_BMP);
     component.onAcceptClick();
     expect(spy).toHaveBeenCalled();
   });
-
-  it('#drawImage should retrieve attributes properly', () => {
-    const spyImage = spyOn(window, 'addEventListener');
-    const img = new Image();
-    component.drawImage('mock');
-    expect(img.width).toEqual(component['width']);
-    expect(img.height).toEqual(component['height']);
-    expect(img.src).toEqual('mock');
-    expect(spyImage).toHaveBeenCalled();
-  })
-
 });

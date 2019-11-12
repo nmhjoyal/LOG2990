@@ -98,7 +98,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
           a.href = this.canvas.toDataURL('image/' + this.exportType, 1.0);
         } else if (this.exportType === this.exportTypeEnum.BMP) {
           const bmpUrlProvider = new CanvasToBMP();
-          a.href = bmpUrlProvider.toDataURL(this.canvas);
+          a.href = URL.createObjectURL(bmpUrlProvider.toBlob(this.canvas));
         }
         a.click();
       }
