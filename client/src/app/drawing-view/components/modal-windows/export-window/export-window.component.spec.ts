@@ -127,30 +127,42 @@ describe('ExportWindowComponent', () => {
   });
 
   it('#onAcceptClick should call drawImage if PNG is selected', () => {
-    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+    const spyXML = spyOn(component, 'xmlToBase64').and.callFake(() => {
       return 'data:image/svg+xml;base64,'; });
+    const spyDrawImage = spyOn(component, 'drawImage');
+    const spyClose = spyOn(component, 'onClose');
 
     component.chooseExportType(FORMAT_PNG);
     component.onAcceptClick();
-    expect(spy).toHaveBeenCalled();
+    expect(spyXML).toHaveBeenCalled();
+    expect(spyDrawImage).toHaveBeenCalled();
+    expect(spyClose).toHaveBeenCalled();
   });
 
   it('#onAcceptClick should call drawImage if JPG is selected', () => {
-    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+    const spyXML = spyOn(component, 'xmlToBase64').and.callFake(() => {
       return 'data:image/svg+xml;base64,'; });
+    const spyDrawImage = spyOn(component, 'drawImage');
+    const spyClose = spyOn(component, 'onClose');
 
     component.chooseExportType(FORMAT_JPG);
     component.onAcceptClick();
-    expect(spy).toHaveBeenCalled();
+    expect(spyXML).toHaveBeenCalled();
+    expect(spyDrawImage).toHaveBeenCalled();
+    expect(spyClose).toHaveBeenCalled();
   });
 
   it('#onAcceptClick should call drawImage if BMP is selected', () => {
-    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
+    const spyXML = spyOn(component, 'xmlToBase64').and.callFake(() => {
       return 'data:image/svg+xml;base64,'; });
+    const spyDrawImage = spyOn(component, 'drawImage');
+    const spyClose = spyOn(component, 'onClose');
 
     component.chooseExportType(FORMAT_BMP);
     component.onAcceptClick();
-    expect(spy).toHaveBeenCalled();
+    expect(spyXML).toHaveBeenCalled();
+    expect(spyDrawImage).toHaveBeenCalled();
+    expect(spyClose).toHaveBeenCalled();
   });
 
   it('#drawImage should retrieve attributes properly', () => {
