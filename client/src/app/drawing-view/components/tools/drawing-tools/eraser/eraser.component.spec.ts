@@ -1,13 +1,13 @@
 // tslint:disable: no-string-literal
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SaveService } from 'src/app/services/save-service/save.service';
+import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { EraserConstants } from '../../assets/constants/eraser-constants';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
-import { SaveService } from 'src/app/services/save-service/save.service';
-import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 
 describe('EraserComponent', () => {
   let component: EraserComponent;

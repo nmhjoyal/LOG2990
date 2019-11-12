@@ -1,4 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
@@ -6,7 +7,6 @@ import { EraserConstants } from '../../assets/constants/eraser-constants';
 import { Id } from '../../assets/constants/tool-constants';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-eraser',
@@ -55,7 +55,7 @@ export class EraserComponent {
         if (this.erasedDrawing.objects && this.erasedDrawing.indexes && !this.erasedDrawing.objects.includes(drawing)) {
           this.erasedDrawing.objects.push({...drawing});
           this.erasedDrawing.indexes.push(objectIndex);
-          this.drawingStorage.drawings.splice(objectIndex,1);
+          this.drawingStorage.drawings.splice(objectIndex, 1);
         }
         (drawing as IShape).secondaryColour = this.colourService.colour[1];
         return this.erasedDrawing;
