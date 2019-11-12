@@ -3,7 +3,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
-import { ToolConstants } from '../../assets/constants/tool-constants';
+import { EraserConstants } from '../../assets/constants/eraser-constants';
 import { IErased } from '../../assets/interfaces/erased-interface';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
