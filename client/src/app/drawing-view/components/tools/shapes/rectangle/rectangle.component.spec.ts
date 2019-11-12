@@ -123,4 +123,29 @@ describe('RectangleComponent', () => {
 
   });
 
+  it('#calculateDimensions should make the shape.width and shape.height equal to 0 if they are smaller than the stroke width', () => {
+    component['shape'].strokeWidth = STROKE_WIDTH;
+
+    component['initialX'] = INITIAL_X;
+    component['initialY'] = INITIAL_Y;
+    component['cursorX'] = INITIAL_X;
+    component['cursorY'] = INITIAL_Y;
+
+    component.onShiftUp();
+
+    expect(component['shape'].width).toEqual(0, 'shape.width took minimal value');
+    expect(component['shape'].height).toEqual(0, 'shape.height took minimal value');
+
+    component['initialX'] = INITIAL_X;
+    component['initialY'] = INITIAL_Y;
+    component['cursorX'] = CURSOR_X;
+    component['cursorY'] = CURSOR_Y;
+
+    component.onShiftUp();
+
+    expect(component['shape'].width).toEqual(component['previewBox'].width - STROKE_WIDTH, 'shape.width took normal value');
+    expect(component['shape'].height).toEqual(component['previewBox'].height - STROKE_WIDTH, 'shape.height took normal value');
+
+  });
+
 });

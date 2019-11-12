@@ -1,5 +1,7 @@
 import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
+import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
+import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
@@ -11,6 +13,7 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
@@ -30,14 +33,16 @@ export class AppComponent implements OnInit {
 
   @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
+  @ViewChild('myCanvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
     protected toolHandler: ToolHandlerService,
     protected drawingStorage: DrawingStorageService,
-    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
+  @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
+    public exportData: ExportInformationService,
     private gridService: GridService,
     public clipboardService: ClipboardService) {
     this.canvasData.data = {
@@ -164,6 +169,13 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.control.e', ['$event']) onKeydownHandlerCtrlE(event: KeyboardEvent): void {
+    event.preventDefault();
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.openExportWindow();
+    }
+  }
+
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
@@ -258,6 +270,14 @@ export class AppComponent implements OnInit {
           canvasData: CanvasInformationService.prototype.data,
         },
         panelClass: 'save-window',
+      });
+    }
+  }
+
+  openExportWindow(): void {
+    if (this.isOnlyModalOpen()) {
+      this.dialog.open(ExportWindowComponent, {
+        panelClass: 'export-window',
       });
     }
   }

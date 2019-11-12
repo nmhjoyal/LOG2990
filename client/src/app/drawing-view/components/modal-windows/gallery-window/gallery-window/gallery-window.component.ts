@@ -31,7 +31,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
     protected canvasData: CanvasInformationService,
     protected drawingStorage: DrawingStorageService,
     protected index: ClientStorageService) {
-    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, index);
+    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, undefined, undefined, index);
     this.data.title = Strings.GALLERY_WINDOW_TITLE;
     this.drawingsInGallery = [];
     this.selectedDrawing = {} as IDrawing;

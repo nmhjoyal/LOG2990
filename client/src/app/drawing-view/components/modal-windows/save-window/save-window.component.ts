@@ -29,7 +29,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     protected drawingStorage: DrawingStorageService,
     protected index: ClientStorageService,
   ) {
-    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, index);
+    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, undefined, undefined, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
     this.isFinishedSaving = true;
     this.index.getTags().subscribe(
