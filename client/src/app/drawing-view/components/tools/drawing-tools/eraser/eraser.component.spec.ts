@@ -154,12 +154,12 @@ describe('EraserComponent', () => {
   });
 
   it('should validate size on change', () => {
-    component['size'] = ToolConstants.DEFAULT_ERASER_SIZE;
+    component['size'] = EraserConstants.DEFAULT_ERASER_SIZE;
     component.validateSize();
-    expect(component['size']).toEqual(ToolConstants.DEFAULT_ERASER_SIZE);
-    component['size'] = ToolConstants.MAX_ERASER_SIZE + 1;
+    expect(component['size']).toEqual(EraserConstants.DEFAULT_ERASER_SIZE);
+    component['size'] = EraserConstants.MAX_ERASER_SIZE + 1;
     component.validateSize();
-    expect(component['size']).toEqual(ToolConstants.MAX_ERASER_SIZE);
+    expect(component['size']).toEqual(EraserConstants.MAX_ERASER_SIZE);
     component['size'] = 0;
     component.validateSize();
     expect(component['size']).toEqual(1);
