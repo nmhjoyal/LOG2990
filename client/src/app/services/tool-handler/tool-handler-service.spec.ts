@@ -69,19 +69,19 @@ describe('ToolHandlerService', () => {
   it('#resetSelectorBox should reset selector property to default data', () => {
     service['selection'] = {
       x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
-      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
     };
     service.resetSelectorBox();
     expect(service['selection']).toEqual({
       x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
-      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
     });
   });
 
   it('#saveSelectorBox should set selector property to input data', () => {
     const selection = {
       x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
-      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
     };
     service.saveSelectorBox(selection);
     expect(service['selection']).toEqual(selection);
@@ -91,7 +91,7 @@ describe('ToolHandlerService', () => {
     expect(service.selectorBoxExists()).toBeFalsy();
     const selection = {
       x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
-      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
     };
     service.saveSelectorBox(selection);
     expect(service.selectorBoxExists()).toBeTruthy();

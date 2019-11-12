@@ -121,7 +121,7 @@ describe('ClipboardService', () => {
     const drawing2: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, vertices: '0,0 1,1 0,0', id: Id.POLYGON };
     const drawing3: ITools = {
       x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, paths: [{ path: 'M1 4L5 6', pathWidth: 2 },
-      { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN
+      { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN,
     };
 
     service.parsePolylinePoints(FIFTY, FIFTY, drawing1);
