@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.31% </span>
+        <span class="strong">98.21% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>58/59</span>
+        <span class='fraction'>55/56</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.89% </span>
+        <span class="strong">87.72% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>56/63</span>
+        <span class='fraction'>50/57</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">98.31% </span>
+        <span class="strong">98.21% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>58/59</span>
+        <span class='fraction'>55/56</span>
       </div>
     </div>
     <p class="quiet">
@@ -178,10 +178,7 @@
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
 <a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -214,7 +211,6 @@
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -246,7 +242,6 @@
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
@@ -265,7 +260,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">26x</span>
@@ -349,9 +343,8 @@ export default class ClickHelper {
         const selectorLine = { points: this.getClickAreaPoints(positionX, positionY) };
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect',
-                    { x: xPos, y: object.y, width: object.width, height: object.height}),
+                    { x: object.x, y: object.y, width: object.width, height: object.height}),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length &gt; 0;
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
@@ -380,8 +373,7 @@ export default class ClickHelper {
     static cursorInsideObject(object: ITools, positionX: number, positionY: number): boolean {
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
-                return (xPos &lt;= positionX &amp;&amp; object.y &lt;= positionY &amp;&amp; (xPos + object.width) &gt;= positionX &amp;&amp;
+                return (object.x &lt;= positionX &amp;&amp; object.y &lt;= positionY &amp;&amp; (object.x + object.width) &gt;= positionX &amp;&amp;
                     (object.y + object.height) &gt;= positionY);
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
@@ -401,19 +393,18 @@ export default class ClickHelper {
 &nbsp;
     static objectSharesBoxArea(object: ITools, previewBox: IPreviewBox): boolean {
         let intersectionPoints = [];
-        const xPos: number = object.boxXPosition !== undefined ? object.boxXPosition : object.x;
         const selectorBox = { x: previewBox.x, y: previewBox.y, width: previewBox.width, height: previewBox.height };
-        const objectIsInsideBox = (previewBox.x &lt; xPos &amp;&amp; previewBox.y &lt; object.y
-            &amp;&amp; previewBox.width &gt; (object.width - previewBox.x + xPos)
+        const objectIsInsideBox = (previewBox.x &lt; object.x &amp;&amp; previewBox.y &lt; object.y
+            &amp;&amp; previewBox.width &gt; (object.width - previewBox.x + object.x)
             &amp;&amp; previewBox.height &gt; (object.height - previewBox.y + object.y));
         let boxIsInsideObject = false;
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: xPos, y: object.y,
+                const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: object.x, y: object.y,
                     width: object.width, height: object.height}),
                     svgIntersections.shape('rect', selectorBox));
-                    boxIsInsideObject = (previewBox.x &gt; xPos &amp;&amp; previewBox.y &gt; object.y
-                    &amp;&amp; previewBox.width &lt; (object.width - previewBox.x + xPos)
+                    boxIsInsideObject = (previewBox.x &gt; object.x &amp;&amp; previewBox.y &gt; object.y
+                    &amp;&amp; previewBox.width &lt; (object.width - previewBox.x + object.x)
                     &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >previewBox.height &lt; (object.height - previewBox.y + object.y))</span>;
                 intersectionPoints = rectIntersections.points;
                 break;
@@ -457,7 +448,7 @@ export default class ClickHelper {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Nov 08 2019 17:35:06 GMT-0500 (Eastern Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 11 2019 21:46:14 GMT-0500 (Eastern Standard Time)
 </div>
 </div>
 <script src="..\..\..\..\prettify.js"></script>
