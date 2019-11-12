@@ -49,9 +49,13 @@ export default class ClickHelper {
                     svgIntersections.shape('polyline', selectorLine));
                 return ellipseIntersections.points.length > 0;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
-                    svgIntersections.shape('polyline', selectorLine));
-                return polygonIntersections.points.length > 0;
+                let polygonIntersections;
+                if (object.vertices) {
+                    polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
+                        svgIntersections.shape('polyline', selectorLine));
+                    return polygonIntersections.points.length > 0;
+                }
+                return false;
             case Id.STAMP:
                 const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle',
                     { cx: (object.x + (object.width / 2)), cy: (object.y + (object.height / 2)), r: object.width / 2 }),
@@ -118,12 +122,15 @@ export default class ClickHelper {
                 intersectionPoints = ellipseIntersections.points;
                 break;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
-                svgIntersections.shape('rect', selectorBox));
+                let polygonIntersections;
+                if (object.vertices) {
+                    polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
+                        svgIntersections.shape('rect', selectorBox));
+                    intersectionPoints = polygonIntersections.points;
+                }
                 boxIsInsideObject = (previewBox.x > (object.x - object.width) && previewBox.y > (object.y - object.height)
                     && previewBox.width < ((object.width * 2) - previewBox.x + (object.x - object.width))
                     && previewBox.height < ((object.height * 2) - previewBox.y + (object.y - object.height)));
-                intersectionPoints = polygonIntersections.points;
                 break;
             case Id.STAMP:
                 const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle',
