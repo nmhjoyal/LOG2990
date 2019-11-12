@@ -27,6 +27,9 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
+    proxies: {
+      '/assets/': '/assets/',
+    },
     autoWatch: true,
     singleRun: true,
     browsers: ['Chrome', 'ChromeHeadlessNoSandbox', 'Firefox', 'FirefoxHeadless'],
