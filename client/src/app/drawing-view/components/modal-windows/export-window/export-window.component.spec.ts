@@ -119,8 +119,7 @@ describe('ExportWindowComponent', () => {
   });
 
   it('#onAcceptClick should call download if SVG is selected', () => {
-    const spy = spyOn(component, 'xmlToBase64').and.callFake(() => {
-      return 'data:image/svg+xml;base64,'; });
+    const spy = spyOn(XMLSerializer.prototype, 'serializeToString').and.callFake(() => '');
 
     component.chooseExportType(FORMAT_SVG);
     component.onAcceptClick();
