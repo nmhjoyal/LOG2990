@@ -72,7 +72,8 @@ describe('ExportWindowComponent', () => {
     component = new ExportWindowComponent(dialogRefMock, exportDataMock, canvasDataMock);
     component['formatSelected'] = false;
     component['exportType'] = '';
-    exportDataMock.data.canvasElement = jasmine.createSpyObj('SVGElement', ['']);
+    exportDataMock.data.canvasElement = jasmine.createSpyObj('ElementRef<SVGElement>', ['']);
+    exportDataMock.data.canvasElement.nativeElement = jasmine.createSpyObj('SVGElement as Node', ['']);
 
     fixture.detectChanges();
   });
@@ -113,7 +114,6 @@ describe('ExportWindowComponent', () => {
     expect(spy2).not.toHaveBeenCalled();
   });
 
-  /*
   it('#onAcceptClick should call download if SVG is selected', () => {
     const spy = spyOn(component, 'download');
 
@@ -145,5 +145,15 @@ describe('ExportWindowComponent', () => {
     component.onAcceptClick();
     expect(spy).toHaveBeenCalled();
   });
-  */
+
+  it('#drawImage should retrieve attributes properly', () => {
+    const spyImage = spyOn(window, 'addEventListener');
+    const img = new Image();
+    component.drawImage('mock');
+    expect(img.width).toEqual(component.width);
+    expect(img.height).toEqual(component.height);
+    expect(img.src).toEqual('mock');
+    expect(spyImage).toHaveBeenCalled();
+  })
+
 });

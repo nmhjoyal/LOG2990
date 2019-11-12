@@ -51,33 +51,25 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
   onAcceptClick(): void {
     switch (this.exportType) {
       case ExportAs.PNG:
-        if (this.exportInformation.data.canvasElement.nativeElement) {
-          const data = this.xmlToBase64();
-          this.drawImage(data);
-        }
+        const dataPNG = this.xmlToBase64();
+        this.drawImage(dataPNG);
         this.onClose();
         break;
       case ExportAs.SVG:
-        if (this.exportInformation.data.canvasElement.nativeElement) {
-          const data = (new XMLSerializer())
-            .serializeToString(this.exportInformation.data.canvasElement.nativeElement);
-          const blob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
-          this.download(this.name + '.svg', blob);
-        }
+        const dataSVG = (new XMLSerializer())
+          .serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
+        const blob = new Blob([dataSVG], { type: 'image/svg+xml;charset=utf-8' });
+        this.download(this.name + '.svg', blob);
         this.onClose();
         break;
       case ExportAs.JPG:
-        if (this.exportInformation.data.canvasElement.nativeElement) {
-          const data = this.xmlToBase64();
-          this.drawImage(data);
-        }
+        const dataJPG = this.xmlToBase64();
+        this.drawImage(dataJPG);
         this.onClose();
         break;
       case ExportAs.BMP:
-        if (this.exportInformation.data.canvasElement.nativeElement) {
-          const data = this.xmlToBase64();
-          this.drawImage(data);
-        }
+        const dataBMP = this.xmlToBase64();
+        this.drawImage(dataBMP);
         this.onClose();
         break;
     }
@@ -88,7 +80,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     const img = new Image();
     img.width = this.width;
     img.height = this.height;
-    const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement);
+    const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
     return 'data:image/svg+xml;base64,' + window.btoa(data);
   }
 
@@ -105,9 +97,9 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
         if (this.exportType === this.exportTypeEnum.JPG || this.exportType === this.exportTypeEnum.PNG) {
           a.href = this.myCanvas.toDataURL('image/' + this.exportType, 1.0);
         } else if (this.exportType === this.exportTypeEnum.BMP) {
-            const bmpUrlProvider = new CanvasToBMP();
-            a.href = bmpUrlProvider.toDataURL(this.myCanvas);
-          }
+          const bmpUrlProvider = new CanvasToBMP();
+          a.href = bmpUrlProvider.toDataURL(this.myCanvas);
+        }
         a.click();
       }
     });
