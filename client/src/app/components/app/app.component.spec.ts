@@ -36,6 +36,7 @@ describe('AppComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
   let gridServiceMock: SpyObj<Gridservice>;
+  const toolId = Id;
 
   const elementRefMock = {
     nativeElement: jasmine.createSpyObj('HTMLElement', ['click']),
@@ -48,7 +49,7 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText',
-    'isUsingText', 'isUsingColourApplicator']);
+    'isUsingText', 'isUsingColourApplicator', 'choosePen']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
@@ -161,24 +162,28 @@ describe('AppComponent', () => {
   });
 
   it('#cut should be called when ctrl.X is pressed', () => {
+    toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.cut.and.callThrough();
     component.onKeydownCtrlX();
     expect(clipboardMock.cut).toHaveBeenCalled();
   });
 
   it('#copy should be called when ctrl.C is pressed', () => {
+    toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.copy.and.callThrough();
     component.onKeydownCtrlC();
     expect(clipboardMock.copy).toHaveBeenCalled();
   });
 
   it('#paste should be called when ctrl.V is pressed', () => {
+    toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.paste.and.callThrough();
     component.onKeydownCtrlV();
     expect(clipboardMock.paste).toHaveBeenCalled();
   });
 
   it('#duplicate should be called when ctrl.D is pressed', () => {
+    toolHandlerMock.selectedTool = toolId.SELECTOR;
     const event =  new KeyboardEvent('keydown.control.d');
     spyOn(event, 'preventDefault');
     clipboardMock.duplicate.and.callThrough();
@@ -187,6 +192,7 @@ describe('AppComponent', () => {
   });
 
   it('#delete should be called when backspace is pressed', () => {
+    toolHandlerMock.selectedTool = toolId.SELECTOR;
     clipboardMock.delete.and.callThrough();
     component.onKeydownBackspace();
     expect(clipboardMock.delete).toHaveBeenCalled();
@@ -213,6 +219,12 @@ describe('AppComponent', () => {
   it('#decreaseSize should be called when Shift- is pressed', () => {
     component.onKeydownShiftMinus();
     expect(gridServiceMock.decreaseSize).toHaveBeenCalled();
+  });
+
+  it('#choosePen should be called when y is pressed', () => {
+    toolHandlerMock.choosePen.and.callThrough();
+    component.onKeydownYEvent();
+    expect(toolHandlerMock.choosePen).toHaveBeenCalled();
   });
 
 });
