@@ -26,8 +26,6 @@ describe('ExportWindowComponent', () => {
   const FORMAT_JPG = ExportAs.JPG;
   const FORMAT_PNG = ExportAs.PNG;
 
-  // const NAME = 'drawing';
-
   const dialogMock = {
     close: () => {
       confirm('MockDialog close');
