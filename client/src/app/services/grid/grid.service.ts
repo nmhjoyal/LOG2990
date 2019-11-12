@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { GridConstants } from '../'
+import { GridConstants } from '../../drawing-view/components/tools/assets/constants/grid-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 
-export class Gridservice {
+export class GridService {
 
-  gridStatus: boolean;
-  gridOpacity: number;
-  lastOpacity: number;
-  gridSize: number;
+  private gridStatus: boolean;
+  protected gridOpacity: number;
+  protected lastOpacity: number;
+  protected gridSize: number;
 
   constructor() {
     this.gridStatus = false;

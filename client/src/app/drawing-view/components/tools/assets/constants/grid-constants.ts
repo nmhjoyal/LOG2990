@@ -1,4 +1,3 @@
-
 export enum GridConstants {
     MAX_GRID_SIZE = 0.1,
     MIN_GRID_SIZE = 0.02,

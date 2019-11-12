@@ -16,7 +16,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
-import { Gridservice } from '../../services/grid/grid.service';
+import { GridService } from '../../services/grid/grid.service';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
-  math: Math;
 
   @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
@@ -39,7 +38,7 @@ export class AppComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
-    private gridService: Gridservice,
+    private gridService: GridService,
     public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,

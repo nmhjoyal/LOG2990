@@ -5,7 +5,7 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { Gridservice } from '../../../services/grid/grid.service';
+import { GridService } from '../../../services/grid/grid.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
@@ -25,7 +25,7 @@ export class CanvasComponent {
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
     protected canvasData: CanvasInformationService, public colourService: ColourService,
-    protected gridService: Gridservice) {
+    protected gridService: GridService) {
   }
 
   applyColourToCanvas(): void {
@@ -82,10 +82,6 @@ export class CanvasComponent {
       this.colourService.colour[colourIndex] = shape.primaryColour;
     }
   }
-  /*
-  drawGrid(): void {
-    this.gridService.drawGrid();
-  }*/
 
   isStroke(event: MouseEvent, shape: IShape): boolean {
     return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));

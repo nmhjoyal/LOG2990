@@ -1,53 +1,55 @@
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
-import { Gridservice } from './grid.service';
+import { GridConstants } from '../../drawing-view/components/tools/assets/constants/grid-constants';
+import { GridService } from './grid.service';
+// tslint:disable: no-any
 
 describe('GridService', () => {
-  let service: Gridservice;
+  let service: GridService;
 
   beforeEach(() => {
-    service = new Gridservice();
+    service = new GridService();
   });
 
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
-    expect(service.gridStatus).toEqual(false);
-    expect(service.gridOpacity).toEqual(0);
-    expect(service.gridSize).toEqual(NumericalValues.DEFAULT_GRID_SIZE);
-    expect(service.lastOpacity).toEqual(NumericalValues.DEFAULT_OPACITY);
+    expect((service as any).gridStatus).toEqual(false);
+    expect((service as any).gridOpacity).toEqual(0);
+    expect((service as any).gridSize).toEqual(GridConstants.DEFAULT_GRID_SIZE);
+    expect((service as any).lastOpacity).toEqual(GridConstants.DEFAULT_OPACITY);
   });
 
   it('should decrease rectangle size on #decreaseSize', () => {
     service.decreaseSize();
-    expect(service.gridSize).toBeLessThan(NumericalValues.DEFAULT_GRID_SIZE);
+    expect((service as any).gridSize).toBeLessThan(GridConstants.DEFAULT_GRID_SIZE);
   });
 
   it('should not decrease rectangle size on #decreaseSize when at min', () => {
-    service.gridSize = NumericalValues.MIN_GRID_SIZE;
+    (service as any).gridSize = GridConstants.MIN_GRID_SIZE;
     service.decreaseSize();
-    expect(service.gridSize).toEqual(NumericalValues.MIN_GRID_SIZE);
+    expect((service as any).gridSize).toEqual(GridConstants.MIN_GRID_SIZE);
   });
 
   it('should increase rectangle size on #increaseSize', () => {
     service.increaseSize();
-    expect(service.gridSize).toBeGreaterThan(NumericalValues.DEFAULT_GRID_SIZE);
+    expect((service as any).gridSize).toBeGreaterThan(GridConstants.DEFAULT_GRID_SIZE);
   });
 
   it('should not increase rectangle size on #increaseSize when at max', () => {
-    service.gridSize = NumericalValues.MAX_GRID_SIZE;
+    (service as any).gridSize = GridConstants.MAX_GRID_SIZE;
     service.increaseSize();
-    expect(service.gridSize).toEqual(NumericalValues.MAX_GRID_SIZE);
+    expect((service as any).gridSize).toEqual(GridConstants.MAX_GRID_SIZE);
   });
 
   it('should put grid visibility to 0 on #toggleGrid when grid is on', () => {
-    service.gridStatus = true;
+    (service as any).gridStatus = true;
     service.toggleGrid();
-    expect(service.gridOpacity).toEqual(0);
+    expect((service as any).gridOpacity).toEqual(0);
   });
 
   it('should put grid visibility to lastOpacity on #toggleGrid when grid is off', () => {
-    service.gridStatus = false;
+    (service as any).lastOpacity = 1;
+    (service as any).gridStatus = false;
     service.toggleGrid();
-    expect(service.gridSize).toEqual(NumericalValues.DEFAULT_GRID_SIZE);
+    expect((service as any).gridOpacity).toEqual((service as any).lastOpacity);
   });
 
 });

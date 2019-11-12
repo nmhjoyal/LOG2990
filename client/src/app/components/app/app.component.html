@@ -86,10 +86,9 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEraser()'>
                     <img id='eraser' class="sideBarIcon" src="https://i.imgur.com/zAckfvX.png" title="Efface">
                 </a>
-                <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
+                <a mat-list-item class="filter" (click)="shapesMenuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
-                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #shapesMenuTrigger="matMenuTrigger"
-                        (click)="shapesMenuTrigger.openMenu()"></button>
+                    <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #shapesMenuTrigger="matMenuTrigger"></button>
                 </a>
                 <mat-menu #shapeMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>

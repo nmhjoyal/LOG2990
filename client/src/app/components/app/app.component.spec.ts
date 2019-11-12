@@ -22,7 +22,7 @@ import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { Gridservice } from '../../services/grid/grid.service';
+import { GridService } from '../../services/grid/grid.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -36,7 +36,7 @@ describe('AppComponent', () => {
   let dialogMock: SpyObj<MatDialog>;
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
-  let gridServiceMock: SpyObj<Gridservice>;
+  let gridServiceMock: SpyObj<GridService>;
   const elementRefMock = {
     nativeElement: jasmine.createSpyObj('HTMLElement', ['click']),
   };
@@ -88,7 +88,7 @@ describe('AppComponent', () => {
         { provide: ToolHandlerService, useValue: toolHandlerMock },
         { provide: ColourService, useValue: colourMock },
         { provide: CanvasInformationService, useValue: canvasMock },
-        { provide: Gridservice, useValue: gridServiceMock },
+        { provide: GridService, useValue: gridServiceMock },
         { provide: ClipboardService, useValue: clipboardMock },
         { provide: MatDialog, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
