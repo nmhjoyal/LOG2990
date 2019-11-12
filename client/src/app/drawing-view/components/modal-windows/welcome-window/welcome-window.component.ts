@@ -11,7 +11,7 @@ import { IWelcomeWindowData } from './IWelcomeWindowData';
 })
 
 export class WelcomeWindowComponent extends ModalWindowComponent {
-  isChecked: boolean;
+  private isChecked: boolean;
 
   constructor(dialogRef: MatDialogRef<WelcomeWindowComponent>,
               @Inject(MAT_DIALOG_DATA) protected data: IWelcomeWindowData) {

@@ -14,14 +14,14 @@ import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interfa
 })
 export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
-  pen: IPen;
-  speed: number;
-  lastX: number;
-  lastY: number;
-  lastTime: number;
-  maxWidth: number;
-  minWidth: number;
-  newWidth: number;
+  private pen: IPen;
+  private speed: number;
+  private lastX: number;
+  private lastY: number;
+  private lastTime: number;
+  private maxWidth: number;
+  private minWidth: number;
+  private newWidth: number;
 
   constructor(saveServiceRef: SaveService,
               attributesServiceRef: AttributesService,

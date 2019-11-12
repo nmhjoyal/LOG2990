@@ -15,15 +15,12 @@ import { SaveService } from 'src/app/services/save-service/save.service';
 })
 export class EraserComponent {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  size: number;
-  leftClicked: boolean;
-  eraser: IPreviewBox;
-  DEFAULT_X = 0;
-  DEFAULT_Y = 460;
-  defaultIndex = 0;
-  erasedDrawing: ITools;
+  @Input() protected windowHeight: number;
+  @Input() protected windowWidth: number;
+  private size: number;
+  private leftClicked: boolean;
+  private eraser: IPreviewBox;
+  private erasedDrawing: ITools;
 
   constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService, public saveService: SaveService) {
     this.size = EraserConstants.DEFAULT_ERASER_SIZE;

@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -14,31 +16,31 @@ describe('ColourPaletteComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-        imports: [
-            BrowserModule,
-            HttpClientModule,
-            MatDialogModule,
-            FormsModule,
-            MatFormFieldModule,
-            MatInputModule,
-            BrowserAnimationsModule,
-            MatButtonModule,
-        ],
-        declarations: [
-            ColourPaletteComponent,
-        ],
-        providers: [
-            { provide: MatDialogRef, useValue: {} },
-            { provide: MAT_DIALOG_DATA, useValue: [] },
-        ],
+            imports: [
+                BrowserModule,
+                HttpClientModule,
+                MatDialogModule,
+                FormsModule,
+                MatFormFieldModule,
+                MatInputModule,
+                BrowserAnimationsModule,
+                MatButtonModule,
+            ],
+            declarations: [
+                ColourPaletteComponent,
+            ],
+            providers: [
+                { provide: MatDialogRef, useValue: {} },
+                { provide: MAT_DIALOG_DATA, useValue: [] },
+            ],
         }).compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ColourPaletteComponent);
         component = fixture.componentInstance;
-        component.lastColours = [Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX,
-                                Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX];
+        component['lastColours'] = [Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX,
+        Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX];
         fixture.detectChanges();
     });
 
@@ -47,11 +49,11 @@ describe('ColourPaletteComponent', () => {
     });
 
     it('should define canvas', () => {
-        expect(component.canvas).toBeDefined();
+        expect(component['canvas']).toBeDefined();
     });
 
     it('should change colour on click of palette', () => {
-        expect(component.colour[0]).toBeDefined('setColour()');
+        expect(component['colour'][0]).toBeDefined('setColour()');
     });
 
 });

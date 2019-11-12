@@ -11,10 +11,10 @@ import { Id, ModeType, PointType } from '../../assets/constants/tool-constants';
 })
 export class DrawingToolToolboxComponent implements OnInit {
 
-  mode = ModeType;
-  pointMode = PointType;
-  toolId = Id;
-  @Input() canvas: CanvasComponent;
+  protected mode = ModeType;
+  protected pointMode = PointType;
+  protected toolId = Id;
+  @Input() private canvas: CanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {
     // empty block

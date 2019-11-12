@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
@@ -38,10 +40,10 @@ describe('ClipboardService', () => {
 
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
-    expect(service.clipboard).toBeDefined();
-    expect(service.lastCursorX).toEqual(0);
-    expect(service.lastCursorY).toEqual(0);
-    expect(service.pasteOffset).toEqual(0);
+    expect(service['clipboard']).toBeDefined();
+    expect(service['lastCursorX']).toEqual(0);
+    expect(service['lastCursorY']).toEqual(0);
+    expect(service['pasteOffset']).toEqual(0);
   });
 
   it('should add items to clipboard on copy', () => {
@@ -49,7 +51,7 @@ describe('ClipboardService', () => {
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     selectorService.selectedObjects.add(drawing);
     service.copy();
-    expect(service.clipboard).not.toBeNull();
+    expect(service['clipboard']).not.toBeNull();
   });
 
   it('should add items to clipboard on cut', () => {
@@ -57,7 +59,7 @@ describe('ClipboardService', () => {
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     selectorService.selectedObjects.add(drawing);
     service.cut();
-    expect(service.clipboard.size).toEqual(1);
+    expect(service['clipboard'].size).toEqual(1);
   });
 
   it('should remove an item from drawing on delete', () => {
@@ -95,12 +97,12 @@ describe('ClipboardService', () => {
     const drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     drawingStorage.drawings.push(drawing);
     selectorService.selectedObjects.add(drawing);
-    service.lastCursorX = FIFTY;
-    service.lastCursorY = FORTY;
+    service['lastCursorX'] = FIFTY;
+    service['lastCursorY'] = FORTY;
     service.duplicate();
     expect(drawingStorage.drawings.length).toEqual(2);
-    expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).toEqual(FIFTY + NumericalValues.DUPLICATE_OFFSET );
-    expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).toEqual(FORTY + NumericalValues.DUPLICATE_OFFSET );
+    expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).toEqual(FIFTY + NumericalValues.DUPLICATE_OFFSET);
+    expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).toEqual(FORTY + NumericalValues.DUPLICATE_OFFSET);
   });
 
   it('should change offset multiple duplicates', () => {
@@ -110,7 +112,7 @@ describe('ClipboardService', () => {
     service.duplicate();
     service.duplicate();
     service.duplicate();
-    expect(service.pasteOffset).toEqual(NumericalValues.DUPLICATE_OFFSET * 2);
+    expect(service['pasteOffset']).toEqual(NumericalValues.DUPLICATE_OFFSET * 2);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).toEqual(FIFTY + NumericalValues.DUPLICATE_OFFSET * THREE);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).toEqual(FORTY + NumericalValues.DUPLICATE_OFFSET * THREE);
   });
@@ -133,8 +135,10 @@ describe('ClipboardService', () => {
   it('should change points of drawing on parsePolylinePoints', () => {
     const drawing1: ITools = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, points: '0,100 50,20', id: Id.LINE };
     const drawing2: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, vertices: '0,0 1,1 0,0', id: Id.POLYGON };
-    const drawing3: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, paths: [{ path: 'M1 4L5 6', pathWidth: 2 },
-                             { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN };
+    const drawing3: ITools = {
+      x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, paths: [{ path: 'M1 4L5 6', pathWidth: 2 },
+      { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN,
+    };
 
     service.parsePolylinePoints(FIFTY, FIFTY, drawing1);
     expect(drawing1.points).not.toEqual('0,100 50,20');
@@ -152,7 +156,7 @@ describe('ClipboardService', () => {
     selectorService.selectedObjects.add(drawing);
     selectorService.selectedObjects.add(drawing2);
     service.duplicate();
-    expect(service.pasteOffset).toEqual(NumericalValues.DUPLICATE_OFFSET / 2);
+    expect(service['pasteOffset']).toEqual(NumericalValues.DUPLICATE_OFFSET / 2);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).not.toEqual(window.innerWidth);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).not.toEqual(window.innerHeight);
   });
@@ -161,7 +165,7 @@ describe('ClipboardService', () => {
     const drawing: ITools = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     drawingStorage.drawings.push(drawing);
     service.copy();
-    expect(service.clipboard.size).toEqual(0);
+    expect(service['clipboard'].size).toEqual(0);
     service.paste(FIFTY, FIFTY);
     expect(drawingStorage.drawings.length).toEqual(1);
     service.cut();

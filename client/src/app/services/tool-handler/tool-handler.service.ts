@@ -8,29 +8,27 @@ import { ColourService } from '../colour_service/colour.service';
 })
 export class ToolHandlerService {
 
-  // Drawings Handling attributes
- tools = Id;
- selectedTool: string;
- selection: IShape;
-​
-  // Colour service related attributes
-  primaryColourSelected: boolean;
-  secondaryColourSelected: boolean;
-  primaryColour: string;
-  secondaryColour: string;
+  tools = Id;
+  selectedTool: string;
+  protected selection: IShape;
+
+  protected primaryColourSelected: boolean;
+  protected secondaryColourSelected: boolean;
+  protected primaryColour: string;
+  protected secondaryColour: string;
 
   constructor(public colourService: ColourService) {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
+    this.selection = {
+      x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR,
+    };
     this.selectedTool = this.tools.NONE;
     this.primaryColourSelected = false;
     this.secondaryColourSelected = false;
     this.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     this.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
-​
-  // Tool Logic methods
-  ​
+
   resetToolSelection(): void {
     this.selectedTool = this.tools.NONE;
     this.primaryColourSelected = false;
@@ -49,31 +47,33 @@ export class ToolHandlerService {
   // Selector Tool Methods
 
   resetSelectorBox(): void {
-    this.selection = { x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
+    this.selection = {
+      x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR,
+    };
   }
 
   saveSelectorBox(shape: IShape): void {
-    this.selection = { x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR };
+    this.selection = {
+      x: shape.x, y: shape.y, width: shape.width, height: shape.height, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR,
+    };
   }
 
   selectorBoxExists(): boolean {
     return (this.selection.width > 0 && this.selection.height > 0);
   }
 
-  // Tool selecting methods
-​
   chooseRectangle(): void {
-      this.resetToolSelection();
-      this.selectedTool = this.tools.RECTANGLE;
+    this.resetToolSelection();
+    this.selectedTool = this.tools.RECTANGLE;
   }
 
   choosePolygon(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.POLYGON;
-}
-​
+  }
+
   chooseColourApplicator(primaryColour: string, secondaryColour: string): void {
     this.resetToolSelection();
     this.primaryColour = primaryColour;
@@ -90,15 +90,15 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.selectedTool = this.tools.PIPETTE;
   }
-​
+
   chooseCrayon(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.CRAYON;
   }
-​
+
   choosePaintbrush(): void {
-      this.resetToolSelection();
-      this.selectedTool = this.tools.PAINTBRUSH;
+    this.resetToolSelection();
+    this.selectedTool = this.tools.PAINTBRUSH;
   }
 
   choosePen(): void {
@@ -120,13 +120,13 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.primaryColourSelected = true;
     this.colourService.chooseColour(false);
-  }  ​
+  }
 
   chooseSecondaryColour(): void {
     this.resetToolSelection();
     this.secondaryColourSelected = true;
     this.colourService.chooseColour(true);
-  }  ​
+  }
 
   chooseEllipse(): void {
     this.resetToolSelection();
@@ -148,6 +148,6 @@ export class ToolHandlerService {
   }
 
   chooseOther(): void {// Place holder for unimplemented tools
-      this.resetToolSelection();
+    this.resetToolSelection();
   }
 }

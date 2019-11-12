@@ -12,11 +12,10 @@ import { UndoRedoService } from '../undo-redo/undo-redo.service';
 })
 
 export class ClipboardService {
-  clipboard: Set<ITools>;
-  pasteOffset: number;
-  lastCursorX: number;
-  lastCursorY: number;
-  offScreen: boolean;
+  private clipboard: Set<ITools>;
+  private pasteOffset: number;
+  private lastCursorX: number;
+  private lastCursorY: number;
 
   constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService,
       public undoRedoService: UndoRedoService, public saveService: SaveService) {
@@ -24,7 +23,6 @@ export class ClipboardService {
     this.pasteOffset = 0;
     this.lastCursorX = 0;
     this.lastCursorY = 0;
-    this.offScreen = false;
   }
 
   copy(): void {
