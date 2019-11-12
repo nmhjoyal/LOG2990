@@ -8,6 +8,7 @@ import { CrayonComponent } from './crayon.component';
 
 const INITIAL_X = 150;
 const INITIAL_Y = 200;
+const STROKE_WIDTH = 5;
 
 describe('CrayonComponent', () => {
   let component: CrayonComponent;
@@ -60,6 +61,25 @@ describe('CrayonComponent', () => {
     expect(attrService.crayonAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'stroke.strokeWidth was not successfully saved upon destruction');
     expect(attrService.crayonAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
+  });
 
+  it('#ngOnInit should not load strokewidth if there are no attributes saved in the service', () => {
+    attrService.crayonAttributes.wasSaved = false;
+    attrService.crayonAttributes.savedStrokeWidth = STROKE_WIDTH;
+
+    component.ngOnInit();
+
+    expect(component['stroke'].strokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
+      'no loading of attributes, yet strokeWidth did not take default value');
+  });
+
+  it('#ngOnInit should load strokewidth if there are attributes saved in the service', () => {
+    attrService.crayonAttributes.wasSaved = true;
+    attrService.crayonAttributes.savedStrokeWidth = STROKE_WIDTH;
+
+    component.ngOnInit();
+
+    expect(component['stroke'].strokeWidth).toEqual(STROKE_WIDTH,
+      'loading of attributes, yet strokeWidth did not take saved value');
   });
 });

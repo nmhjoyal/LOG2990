@@ -55,7 +55,7 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()' >
                     <img id="pencil"  class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon" >
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.choosePen()'>
                     <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
@@ -79,6 +79,9 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
                     <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png" title="Pipette">
                 </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseEraser()'>
+                    <img id='eraser' class="sideBarIcon" src="https://i.imgur.com/zAckfvX.png" title="Efface">
+                </a>
                 <a mat-list-item class="filter" (click)="menuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
                     <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #menuTrigger="matMenuTrigger"
@@ -94,7 +97,7 @@
                 </a>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
                     <img id="stamp" class="sideBarIcon" src="../../../assets/toolbar/stamp.svg" title="Stamp">
-                </a>
+                </a>    
                 <a mat-list-item class="filter" (click)="options.toggle()">
                     <img id="options" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Options">
                 </a>

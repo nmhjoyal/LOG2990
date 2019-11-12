@@ -134,6 +134,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "bold": currentDrawing.bold,
         "align": currentDrawing.align,
         "fontFamily": currentDrawing.fontFamily,
+        "paths": currentDrawing.paths,
       });
     });
 
