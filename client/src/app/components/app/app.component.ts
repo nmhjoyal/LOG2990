@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
 // tslint:disable-next-line: max-line-length
 import { GalleryWindowComponent } from 'src/app/drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
@@ -6,7 +6,6 @@ import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-wind
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
 import { SaveWindowComponent } from 'src/app/drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from 'src/app/drawing-view/components/modal-windows/welcome-window/welcome-window.component';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
@@ -28,6 +27,7 @@ export class AppComponent implements OnInit {
   protected cursorX: number;
   protected cursorY: number;
 
+  @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
 
   constructor(private dialog: MatDialog,
@@ -76,8 +76,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseColourApplicator(this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
-         this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX], );
+      this.toolHandler.chooseColourApplicator(this.colourService.getPrimaryColour(),
+         this.colourService.getSecondaryColour());
     }
   }
 
@@ -153,7 +153,7 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      if (!this.drawingStorage.drawings.length) {
+      if (this.drawingStorage.isEmpty()) {
         this.openGalleryWindow();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openGalleryWindow();
@@ -186,8 +186,8 @@ export class AppComponent implements OnInit {
   }
 
   confirmNewDrawing(): void {
-    if (!this.dialog.openDialogs.length) {
-      if (!this.drawingStorage.drawings.length) {
+    if (this.isOnlyModalOpen()) {
+      if (this.drawingStorage.isEmpty()) {
         this.openNewDrawingDialog();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
         this.openNewDrawingDialog();
@@ -253,7 +253,7 @@ export class AppComponent implements OnInit {
 
   switchColours(): void {
     this.colourService.switchColours();
-    if (!(this.toolHandler.selectedTool === this.toolHandler.tools.COLOUR_APPLICATOR)) {
+    if (!this.toolHandler.isUsingColourApplicator()) {
       this.toolHandler.resetToolSelection();
     }
   }

@@ -21,6 +21,14 @@ export class ColourService {
     this.alpha = [NumericalValues.INITIAL_TRANSPARENCY, NumericalValues.INITIAL_TRANSPARENCY];
   }
 
+  getPrimaryColour(): string {
+    return this.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
+  }
+
+  getSecondaryColour(): string {
+    return this.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
+  }
+
     chooseColour(primary: boolean): void  {
       if (primary) {
         if (!this.mainColour) {this.mainColour = true;
