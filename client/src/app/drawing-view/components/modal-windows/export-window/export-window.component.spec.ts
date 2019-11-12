@@ -13,7 +13,6 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { ExportAs } from 'src/AppConstants/Strings';
 import { ExportWindowComponent } from './export-window.component';
-import { CanvasToBMP } from './canvas-to-bmp';
 
 describe('ExportWindowComponent', () => {
   const dialogRefMock: SpyObj<MatDialogRef<ExportWindowComponent>> = jasmine.createSpyObj('MatDialogRef<ExportWindowComponent>', ['close']);
@@ -21,7 +20,6 @@ describe('ExportWindowComponent', () => {
   let fixture: ComponentFixture<ExportWindowComponent>;
   const exportDataMock: SpyObj<ExportInformationService> = jasmine.createSpyObj('ExportInformationService', ['']);
   const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
-  const mockContext: SpyObj<CanvasRenderingContext2D> = jasmine.createSpyObj('CanvasRenderingContext2D', ['']);
 
   const FORMAT_BMP = ExportAs.BMP;
   const FORMAT_SVG = ExportAs.SVG;
@@ -167,6 +165,17 @@ describe('ExportWindowComponent', () => {
     expect(spyXML).toHaveBeenCalled();
     expect(spyDrawImage).toHaveBeenCalled();
     expect(spyClose).toHaveBeenCalled();
+  });
+
+  it('#drawImage should retrieve attributes properly', () => {
+    const img = new Image();
+    img.addEventListener('load', () => { return; });
+
+    component.chooseExportType('jpg');
+    component.drawImage('mock');
+    expect(img.width).toEqual(component['width']);
+    expect(img.height).toEqual(component['height']);
+    expect(img.src).toBeDefined();
   });
 
   it('#download should properly create', () => {
