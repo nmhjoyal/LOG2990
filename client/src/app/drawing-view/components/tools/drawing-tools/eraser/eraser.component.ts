@@ -3,10 +3,9 @@ import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { EraserConstants } from '../../assets/constants/eraser-constants';
-import { Id } from '../../assets/constants/tool-constants';
+import { IErased } from '../../assets/interfaces/erased-interface';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-eraser',
@@ -20,24 +19,15 @@ export class EraserComponent {
   private size: number;
   private leftClicked: boolean;
   private eraser: IPreviewBox;
-  private erasedDrawing: ITools;
+  private erasedDrawing: IErased;
 
-  constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService, public saveService: SaveService) {
+  constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
     this.size = EraserConstants.DEFAULT_ERASER_SIZE;
     this.eraser = {
       x: EraserConstants.DEFAULT_X,
       y: EraserConstants.DEFAULT_Y,
       width: this.size,
       height: this.size};
-    this.erasedDrawing = {
-      objects: [],
-      indexes: [],
-      id: Id.ERASER,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
   }
 
   setEraserProperties(event: MouseEvent): void {
@@ -51,13 +41,19 @@ export class EraserComponent {
     let objectIndex: number;
     for (objectIndex = this.drawingStorage.drawings.length - 1; objectIndex >= 0; objectIndex--) {
       const drawing = this.drawingStorage.drawings[objectIndex];
+        this.erasedDrawing = {
+          id: drawing.id,
+          index: objectIndex,
+          erasedObject: drawing,
+          x: EraserConstants.DEFAULT_X,
+          y: EraserConstants.DEFAULT_Y,
+          width: this.size,
+          height: this.size,
+        };
       if (ClickHelper.objectSharesBoxArea(drawing, this.eraser)) {
-        if (this.erasedDrawing.objects && this.erasedDrawing.indexes && !this.erasedDrawing.objects.includes(drawing)) {
-          this.erasedDrawing.objects.push({...drawing});
-          this.erasedDrawing.indexes.push(objectIndex);
-          this.drawingStorage.drawings.splice(objectIndex,1);
-        }
+        drawing.id += 'Erased';
         (drawing as IShape).secondaryColour = this.colourService.colour[1];
+        this.drawingStorage.drawings.push(this.erasedDrawing);
         return this.erasedDrawing;
       }
     }
@@ -93,17 +89,6 @@ export class EraserComponent {
 
   @HostListener('mouseup') mouseUp(): void {
     this.leftClicked = false;
-    this.saveService.saveDrawing({...this.erasedDrawing});
-
-    this.erasedDrawing = {
-      objects: [],
-      indexes: [],
-      id: Id.ERASER,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
   }
 
   @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {

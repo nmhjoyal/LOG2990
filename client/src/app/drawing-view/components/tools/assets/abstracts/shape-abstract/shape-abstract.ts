@@ -3,7 +3,7 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
@@ -21,7 +21,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected saveService: SaveService,
+  constructor(protected drawingStorage: DrawingStorageService,
               protected attributesService: AttributesService,
               protected colourService: ColourService) {
     super();
@@ -162,7 +162,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
     };
-    this.saveService.saveDrawing(currentDrawing);
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   protected resetShape(): void {

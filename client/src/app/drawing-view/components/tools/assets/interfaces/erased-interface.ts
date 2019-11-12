@@ -1,6 +1,7 @@
-import { ISavedDrawing } from '../../../../../../../../common/drawing-information/IDrawing';
+import { ITools } from './itools';
 
-export interface IErasedObjectsList {
-    indexes?: number[];
-    objects?: ISavedDrawing[];
+export interface IErased extends ITools {
+    id: string;
+    index: number;
+    erasedObject: ITools;
 }

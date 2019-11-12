@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { LineComponent } from '../../../shapes/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
 import { LineAbstract } from './line-abstract';
@@ -16,7 +16,7 @@ import { LineAbstract } from './line-abstract';
   })
 class LineTestComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(serviceInstance: SaveService, attributesInstance: AttributesService, colourInstance: ColourService) {
+  constructor(serviceInstance: DrawingStorageService, attributesInstance: AttributesService, colourInstance: ColourService) {
     super(serviceInstance, attributesInstance, colourInstance);
   }
 
@@ -46,18 +46,18 @@ describe('LineAbstract', () => {
   let component: LineComponent;
   let shapeTest: LineTestComponent;
   let hostElement: DebugElement;
-  let saveServiceMock: SpyObj<SaveService>;
+  let drawingServiceMock: SpyObj<DrawingStorageService>;
   let fixture: ComponentFixture<LineTestComponent>;
 
   const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
   beforeEach(() => {
-    saveServiceMock = jasmine.createSpyObj('SaveService', ['saveDrawing']);
+    drawingServiceMock = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
 
     TestBed.configureTestingModule({
         imports: [BrowserDynamicTestingModule, DrawingViewModule],
         declarations: [LineTestComponent],
         providers: [
-          { provide: SaveService, useValue: saveServiceMock, },
+          { provide: DrawingStorageService, useValue: drawingServiceMock, },
           { provide: AttributesService, useValue: attrServiceMock, },
         ],
       });

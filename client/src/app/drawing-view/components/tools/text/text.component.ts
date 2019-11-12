@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Alignments, AlignmentType, FontFamilies, TextConstants } from '../assets/constants/text-constants';
@@ -26,7 +26,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   private fontFamilySelection: string;
   private initialX: number;
 
-  constructor(protected drawingStorage: SaveService, protected attributesServiceRef: AttributesService,
+  constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
     protected colourServiceRef: ColourService) {
     super();
     this.text = {

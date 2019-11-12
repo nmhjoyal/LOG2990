@@ -1,7 +1,7 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolConstants } from '../../constants/tool-constants';
 import { IDrawingTool } from '../../interfaces/drawing-tool-interface';
@@ -17,7 +17,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected drawingStorage: SaveService,
+  constructor(protected drawingStorage: DrawingStorageService,
               protected attributesService: AttributesService,
               protected colourService: ColourService) {
     super();

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { LineComponent } from './line.component';
@@ -15,14 +15,14 @@ describe('LineComponent', () => {
   let component: LineComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<LineComponent>;
-  const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
+  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [LineComponent],
       providers: [
-        { provide: SaveService, useValue: saveServiceMock, },
+        { provide: DrawingStorageService, useValue: drawingStorageMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })

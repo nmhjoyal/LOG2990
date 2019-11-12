@@ -1,7 +1,7 @@
     // tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PaintbrushComponent } from './paintbrush.component';
@@ -15,7 +15,7 @@ describe('PaintbrushComponent', () => {
   let component: PaintbrushComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<PaintbrushComponent>;
-  const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
+  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
 
   beforeEach(async(() => {
@@ -23,7 +23,7 @@ describe('PaintbrushComponent', () => {
       declarations: [PaintbrushComponent],
       imports: [BrowserAnimationsModule],
       providers: [
-        { provide: SaveService, useValue: saveServiceMock, },
+        { provide: DrawingStorageService, useValue: drawingStorageMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })

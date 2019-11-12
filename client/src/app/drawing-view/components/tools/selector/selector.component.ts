@@ -2,7 +2,6 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
@@ -19,10 +18,10 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
 
-  constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
-    saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
+  constructor(public toolService: ToolHandlerService, drawingStorageRef: DrawingStorageService,
+      attributesServiceRef: AttributesService, protected colourService: ColourService,
     protected selectorService: SelectorService) {
-    super(saveRef, attributesServiceRef, colourService);
+    super(drawingStorageRef, attributesServiceRef, colourService);
     this.shape.strokeWidth = 1;
     this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
