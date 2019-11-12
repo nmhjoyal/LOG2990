@@ -34,6 +34,7 @@ export class EraserComponent {
       height: this.size};
     this.erasedDrawing = {
       objects: [],
+      indexes: [],
       id: Id.ERASER,
       x: 0,
       y: 0,
@@ -54,9 +55,10 @@ export class EraserComponent {
     for (objectIndex = this.drawingStorage.drawings.length - 1; objectIndex >= 0; objectIndex--) {
       const drawing = this.drawingStorage.drawings[objectIndex];
       if (ClickHelper.objectSharesBoxArea(drawing, this.eraser)) {
-        drawing.id += 'Erased';
-        if (this.erasedDrawing.objects && !this.erasedDrawing.objects.includes(drawing)) {
-          this.erasedDrawing.objects.push(drawing);
+        if (this.erasedDrawing.objects && this.erasedDrawing.indexes && !this.erasedDrawing.objects.includes(drawing)) {
+          this.erasedDrawing.objects.push({...drawing});
+          this.erasedDrawing.indexes.push(objectIndex);
+          this.drawingStorage.drawings.splice(objectIndex,1);
         }
         (drawing as IShape).secondaryColour = this.colourService.colour[1];
         return this.erasedDrawing;
@@ -94,7 +96,17 @@ export class EraserComponent {
 
   @HostListener('mouseup') mouseUp(): void {
     this.leftClicked = false;
-    this.saveService.saveDrawing(this.erasedDrawing);
+    this.saveService.saveDrawing({...this.erasedDrawing});
+
+    this.erasedDrawing = {
+      objects: [],
+      indexes: [],
+      id: Id.ERASER,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
   }
 
   @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {

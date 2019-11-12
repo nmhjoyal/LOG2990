@@ -20,11 +20,10 @@ export class UndoRedoService {
     this.accessingUndoList = true;
     const poppedObject = this.drawingStorage.drawings.pop();
     if ( poppedObject !== undefined ) {
-      if (poppedObject.id === Id.ERASER && poppedObject.objects) {
-        for (const object of poppedObject.objects) {
-          if (object.id.includes('Erased')) {
-            object.id = object.id.substr(0, object.id.indexOf('Erased'));
-          }
+      if (poppedObject.id === Id.ERASER && poppedObject.objects && poppedObject.indexes) {
+        for (let index = 0; index < poppedObject.objects.length; index++) {
+          const drawing = poppedObject.objects[index];
+          this.drawingStorage.drawings.splice(poppedObject.indexes[index], 0, drawing);
         }
       }
       this.undoList.push(poppedObject);
@@ -35,16 +34,11 @@ export class UndoRedoService {
   redo(): ITools|undefined {
     const poppedObject = this.undoList.pop();
     if ( poppedObject ) {
-      /* TODO: Pour futur outils ou manipulations du dessins (efface, selector, paste),
-      * gérer ici les cas spéciaux, reconnaissables par les id du ITools recu par le pop.
-      * Si ça devient trop compliquer, une méthode appart pour gérer les redo peut être pertinente.*/
-     if (poppedObject.id === Id.ERASER && poppedObject.objects) {
-      for (const object of poppedObject.objects) {
-        if (!object.id.includes('Erased')) {
-          object.id += 'Erased';
+      if (poppedObject.id === Id.ERASER && poppedObject.objects && poppedObject.indexes) {
+        for (let index = 0; index < poppedObject.objects.length; index++) {
+          this.drawingStorage.drawings.splice(poppedObject.indexes[index], 1);
         }
       }
-    }
       this.drawingStorage.saveDrawing(poppedObject);
     }
     return poppedObject;
