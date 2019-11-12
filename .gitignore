@@ -12,3 +12,4 @@ package-lock.json
 client/karma.conf.js
 stats.html
 yarn.lock
+debug.log

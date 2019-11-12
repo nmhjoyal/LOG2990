@@ -19,8 +19,6 @@ export class EraserComponent {
   private size: number;
   private leftClicked: boolean;
   private eraser: IPreviewBox;
-  private DEFAULT_X = 0;
-  private DEFAULT_Y = 460;
   private erasedDrawing: IErased;
 
   constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
