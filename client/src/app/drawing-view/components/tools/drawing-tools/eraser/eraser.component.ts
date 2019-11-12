@@ -1,8 +1,8 @@
 import { Component, HostListener, Input } from '@angular/core';
-import { NumericalValues } from '../../../../../../AppConstants/NumericalValues';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { IErased } from '../../assets/interfaces/erased-interface';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
@@ -25,7 +25,7 @@ export class EraserComponent {
   erasedDrawing: IErased;
 
   constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
-    this.size = NumericalValues.DEFAULT_ERASER_SIZE;
+    this.size = ToolConstants.DEFAULT_ERASER_SIZE;
     this.eraser = {
       x: this.DEFAULT_X,
       y: this.DEFAULT_Y,
@@ -74,6 +74,14 @@ export class EraserComponent {
         drawing.secondaryColour = 'red';
         touchedFirstObject = false;
       }
+    }
+  }
+
+  validateSize(): void {
+    if (this.size > ToolConstants.MAX_ERASER_SIZE) {
+      this.size = ToolConstants.MAX_ERASER_SIZE;
+    } else if (this.size < 1) {
+      this.size = 1;
     }
   }
 

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { IErased } from '../../assets/interfaces/erased-interface';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
@@ -148,6 +149,18 @@ describe('EraserComponent', () => {
     component.eraser.y = INITIAL_COORDINATE;
     component.toggleRedOutline();
     expect(rectangleMock.secondaryColour).toBe('black');
+  });
+
+  it('should validate size on change', () => {
+    component.size = ToolConstants.DEFAULT_ERASER_SIZE;
+    component.validateSize();
+    expect(component.size).toEqual(ToolConstants.DEFAULT_ERASER_SIZE);
+    component.size = ToolConstants.MAX_ERASER_SIZE + 1;
+    component.validateSize();
+    expect(component.size).toEqual(ToolConstants.MAX_ERASER_SIZE);
+    component.size = 0;
+    component.validateSize();
+    expect(component.size).toEqual(1);
   });
 
 });

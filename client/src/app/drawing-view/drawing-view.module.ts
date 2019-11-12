@@ -15,6 +15,7 @@ import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
+import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { LineComponent } from './components/tools/shapes/line/line.component';
@@ -38,6 +39,8 @@ import { TextComponent } from './components/tools/text/text.component';
     TextComponent,
     StampComponent,
     EraserComponent,
+    PreviewCanvasComponent,
+    PenComponent,
   ],
 
   imports: [
