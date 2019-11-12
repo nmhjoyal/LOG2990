@@ -103,7 +103,15 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
         this.ctx.drawImage(img, 0, 0);
         const a = document.createElement('a');
         a.download = this.name + '.' + this.exportType;
-        a.href = this.myCanvas.toDataURL('image/' + this.exportType, 1.0);
+        if(this.exportType === this.exportTypeEnum.JPG || this.exportType === this.exportTypeEnum.PNG) {
+          a.href = this.myCanvas.toDataURL('image/' + this.exportType, 1.0);
+        } else if (this.exportType === this.exportTypeEnum.BMP) {
+          //const bitMap = this.ctx.getImageData(0, 0, this.width, this.height).data;
+          a.href = URL.createObjectURL(async () => {
+              return await createImageBitmap(img);
+            });// non fonctionel.
+          }
+        console.log(a);
         a.click();
       }
     });
