@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { ClientStorageService } from 'src/app/services/index/client-storage.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -22,8 +23,9 @@ export abstract class ModalWindowComponent {
     protected storage?: LocalStorageService,
     protected toolHandler?: ToolHandlerService,
     protected drawingStorage?: DrawingStorageService,
-    protected index?: ClientStorageService,
-    protected colour?: ColourService) {
+    protected colour?: ColourService,
+    protected exportInformation?: ExportInformationService,
+    protected index?: ClientStorageService) {
 
   }
 
