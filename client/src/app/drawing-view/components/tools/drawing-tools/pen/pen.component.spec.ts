@@ -5,6 +5,7 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { PenComponent } from './pen.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 const MIN_STROKE_WIDTH = 3;
 const MAX_STROKE_WIDTH = 9;
@@ -21,6 +22,7 @@ describe('StyloComponent', () => {
       declarations: [PenComponent],
       imports: [BrowserAnimationsModule],
       providers: [
+        SaveService,
         { provide: DrawingStorageService, useValue: drawingServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
