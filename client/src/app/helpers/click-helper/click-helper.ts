@@ -49,7 +49,7 @@ export default class ClickHelper {
                     svgIntersections.shape('polyline', selectorLine));
                 return ellipseIntersections.points.length > 0;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polygon', { points: object.vertices }),
+                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
                     svgIntersections.shape('polyline', selectorLine));
                 return polygonIntersections.points.length > 0;
             case Id.STAMP:
@@ -118,7 +118,7 @@ export default class ClickHelper {
                 intersectionPoints = ellipseIntersections.points;
                 break;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polygon', { points: object.vertices }),
+                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
                 svgIntersections.shape('rect', selectorBox));
                 boxIsInsideObject = (previewBox.x > (object.x - object.width) && previewBox.y > (object.y - object.height)
                     && previewBox.width < ((object.width * 2) - previewBox.x + (object.x - object.width))
