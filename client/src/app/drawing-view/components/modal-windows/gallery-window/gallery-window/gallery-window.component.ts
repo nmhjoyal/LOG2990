@@ -24,7 +24,7 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   private selectedDrawing: IDrawing | undefined;
   private drawingToOpen: IDrawing;
   @Input() filterBy: string[] = ['all'];
-  isFinishedLoading: boolean;
+  protected isFinishedLoading: boolean;
 
   constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
