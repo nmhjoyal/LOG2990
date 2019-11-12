@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import { TestBed } from '@angular/core/testing';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { Strings } from 'src/AppConstants/Strings';
@@ -11,12 +13,12 @@ describe('ToolHandlerService', () => {
   let service: ToolHandlerService;
   let colourService: ColourService;
   const drawingServiceMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('drawingServiceMock',
-   ['saveDrawing', 'seeDrawings', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
+    ['saveDrawing', 'seeDrawings', 'emptyDrawings', 'resetSelectorBox', 'saveSelectorBox', 'selectorBoxExists']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: DrawingStorageService, useValue: drawingServiceMock, },
+        { provide: DrawingStorageService, useValue: drawingServiceMock, },
       ],
     });
     service = TestBed.get(ToolHandlerService);
@@ -28,32 +30,34 @@ describe('ToolHandlerService', () => {
     expect(service).toBeTruthy();
 
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
-    expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
-    expect(service.primaryColourSelected).toBe(false);
-    expect(service.secondaryColourSelected).toBe(false);
-    expect(service.primaryColour).toEqual(colourService.colour[0]);
-    expect(service.secondaryColour).toEqual(colourService.colour[1]);
+    expect(service['selection']).toEqual({
+      x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
+    });
+    expect(service['primaryColourSelected']).toBe(false);
+    expect(service['secondaryColourSelected']).toBe(false);
+    expect(service['primaryColour']).toEqual(colourService.colour[0]);
+    expect(service['secondaryColour']).toEqual(colourService.colour[1]);
   });
 
   it('#secondaryColour should properly access the secondary colour', () => {
-      const colour = colourService.colour[1];
-      expect(colour).toBe( colourService.colour[1]);
+    const colour = colourService.colour[1];
+    expect(colour).toBe(colourService.colour[1]);
   });
 
   it('#primaryColour should propely access the primary colour', () => {
-      const colour = colourService.colour[0];
-      expect(colour).toBe( colourService.colour[0]);
+    const colour = colourService.colour[0];
+    expect(colour).toBe(colourService.colour[0]);
   });
 
   it('#resetToolSelection should reset all tool selections to false and set noneSelected to true', () => {
-      spyOn(service, 'resetSelectorBox').and.callThrough();
-      service.resetToolSelection();
+    spyOn(service, 'resetSelectorBox').and.callThrough();
+    service.resetToolSelection();
 
-      expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
-      expect(service.primaryColourSelected).toBe(false);
-      expect(service.secondaryColourSelected).toBe(false);
-      expect(service.resetSelectorBox).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
+    expect(service['primaryColourSelected']).toBe(false);
+    expect(service['secondaryColourSelected']).toBe(false);
+    expect(service.resetSelectorBox).toHaveBeenCalled();
   });
 
   it('#isUsingText should return true if text is selected', () => {
@@ -69,24 +73,32 @@ describe('ToolHandlerService', () => {
   });
 
   it('#resetSelectorBox should reset selector property to default data', () => {
-    service.selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+    service['selection'] = {
+      x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
+    };
     service.resetSelectorBox();
-    expect(service.selection).toEqual({ x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR });
+    expect(service['selection']).toEqual({
+      x: 0, y: 0, width: 0, height: 0, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
+    });
   });
 
   it('#saveSelectorBox should set selector property to input data', () => {
-    const selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+    const selection = {
+      x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
+    };
     service.saveSelectorBox(selection);
-    expect(service.selection).toEqual(selection);
+    expect(service['selection']).toEqual(selection);
   });
 
   it('#selectorBoxExists should return false if height or width are 0 and true otherwise', () => {
     expect(service.selectorBoxExists()).toBeFalsy();
-    const selection = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
-    fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR };
+    const selection = {
+      x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, primaryColour: 'black', secondaryColour: 'black',
+      fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: ToolConstants.TOOL_ID.SELECTOR,
+    };
     service.saveSelectorBox(selection);
     expect(service.selectorBoxExists()).toBeTruthy();
   });
@@ -136,7 +148,7 @@ describe('ToolHandlerService', () => {
     service.choosePrimaryColour();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.primaryColourSelected).toBe(true);
+    expect(service['primaryColourSelected']).toBe(true);
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
 
@@ -145,7 +157,7 @@ describe('ToolHandlerService', () => {
     service.chooseSecondaryColour();
 
     expect(resetSpy).toHaveBeenCalled();
-    expect(service.secondaryColourSelected).toBe(true);
+    expect(service['secondaryColourSelected']).toBe(true);
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
 
@@ -191,8 +203,8 @@ describe('ToolHandlerService', () => {
   it('#chooseColourApplicator should call #resetToolSelection', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseColourApplicator(Strings.WHITE_HEX, Strings.BLACK_HEX);
-    expect(service.primaryColour).toEqual(Strings.WHITE_HEX);
-    expect(service.secondaryColour).toEqual(Strings.BLACK_HEX);
+    expect(service['primaryColour']).toEqual(Strings.WHITE_HEX);
+    expect(service['secondaryColour']).toEqual(Strings.BLACK_HEX);
     expect(resetSpy).toHaveBeenCalled();
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.COLOUR_APPLICATOR);
   });

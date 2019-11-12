@@ -14,11 +14,11 @@ import { IStamp } from '../assets/interfaces/stamp-interface';
 })
 export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  stamp: IStamp;
-  stampPaths = StampConstants.STAMPS_PATHS;
-  angleIncrement: number;
+  @Input() protected windowHeight: number;
+  @Input() protected windowWidth: number;
+  private stamp: IStamp;
+  private stampPaths = StampConstants.STAMPS_PATHS;
+  private angleIncrement: number;
 
   constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
     protected colourServiceRef: ColourService) {

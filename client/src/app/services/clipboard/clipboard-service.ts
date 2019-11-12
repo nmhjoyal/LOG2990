@@ -10,18 +10,16 @@ import { SelectorService } from '../selector-service/selector-service';
 })
 
 export class ClipboardService {
-  clipboard: Set<ITools>;
-  pasteOffset: number;
-  lastCursorX: number;
-  lastCursorY: number;
-  offScreen: boolean;
+  private clipboard: Set<ITools>;
+  private pasteOffset: number;
+  private lastCursorX: number;
+  private lastCursorY: number;
 
   constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
     this.lastCursorY = 0;
-    this.offScreen = false;
   }
 
   copy(): void {

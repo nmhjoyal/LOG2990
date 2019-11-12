@@ -99,7 +99,7 @@ describe('GalleryWindowComponent', () => {
         expect(component['drawingsInGallery']).toEqual([]);
         expect(component['selectedDrawing']).toEqual({} as IDrawing);
         expect(component['drawingToOpen']).toEqual({} as IDrawing);
-        expect(component.isFinishedLoading).toEqual(false);
+        expect(component['isFinishedLoading']).toEqual(false);
     });
 
     it('should assign the server tags to the filterTags if they are present', () => {
@@ -118,7 +118,7 @@ describe('GalleryWindowComponent', () => {
         indexServiceMock.getDrawings.and.returnValue(of([mockDrawing]));
         component.ngOnInit();
         expect(component['drawingsInGallery']).toEqual([mockDrawing]);
-        expect(component.isFinishedLoading).toBe(true);
+        expect(component['isFinishedLoading']).toBe(true);
     });
 
     it('#onSelect should properly assign the drawing', () => {
@@ -139,10 +139,10 @@ describe('GalleryWindowComponent', () => {
 
     it('#tagsSelected should properly filter the drawings', () => {
         component.tagSelected('all');
-        expect(component.filterBy).toEqual(['all']);
+        expect(component['filterBy']).toEqual(['all']);
 
         component.tagSelected('all, tag');
-        expect(component.filterBy).toEqual(['all, tag']);
+        expect(component['filterBy']).toEqual(['all, tag']);
     });
 
     it('should properly call onAcceptClick', () => {
@@ -164,7 +164,7 @@ describe('GalleryWindowComponent', () => {
 
     it('should remove tags if they are duplicates', () => {
         const spy = spyOn(Array.prototype, 'splice');
-        component.filterBy = ['tag', 'tag2', 'tag3'];
+        component['filterBy'] = ['tag', 'tag2', 'tag3'];
         component.tagSelected('tag');
         expect(spy).toHaveBeenCalled();
     });

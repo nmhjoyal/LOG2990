@@ -21,21 +21,21 @@ class MockTool extends ToolAbstract implements OnInit, OnDestroy {
 describe('DrawingToolToolboxComponent', () => {
   let component: DrawingToolToolboxComponent;
   let fixture: ComponentFixture<DrawingToolToolboxComponent>;
-  const MockToolHandler: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
+  const mockToolHandler: jasmine.SpyObj<ToolHandlerService> = jasmine.createSpyObj('ToolHandlerService', ['']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DrawingToolToolboxComponent ],
       providers: [
         {provide: ToolHandlerService,
-          useValue: MockToolHandler},
+          useValue: mockToolHandler},
       ],
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(DrawingToolToolboxComponent);
       component = fixture.componentInstance;
 
-      // tslint:disable-next-line:no-any
-      spyOn<any>(component.canvas, 'activeTool').and.callFake(() => {
+      // tslint:disable-next-line:no-any no-string-literal
+      spyOn<any>(component['canvas'], 'activeTool').and.callFake(() => {
         return new MockTool();
       });
 

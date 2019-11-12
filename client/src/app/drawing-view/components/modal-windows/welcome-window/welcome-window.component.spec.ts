@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import SpyObj = jasmine.SpyObj;
 import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -28,7 +30,7 @@ describe('WelcomeWindowComponent', () => {
 
   beforeEach(async(() => {
     mockData = {
-      storage: jasmine.createSpyObj('LocalStorageService',  ['getShowAgain', 'setShowAgain']),
+      storage: jasmine.createSpyObj('LocalStorageService', ['getShowAgain', 'setShowAgain']),
     };
     TestBed.configureTestingModule({
       imports: [
@@ -48,10 +50,10 @@ describe('WelcomeWindowComponent', () => {
         LocalStorageService,
       ],
     })
-    .overrideComponent(WelcomeWindowComponent, {
-      set: { changeDetection: ChangeDetectionStrategy.Default },
-    })
-    .compileComponents();
+      .overrideComponent(WelcomeWindowComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(WelcomeWindowComponent);
     component = fixture.componentInstance;
   }));
@@ -66,11 +68,11 @@ describe('WelcomeWindowComponent', () => {
     checkbox.click();
     tick();
     fixture.detectChanges();
-    expect(component.isChecked).toEqual(true);
+    expect(component['isChecked']).toEqual(true);
     checkbox.click();
     tick();
     fixture.detectChanges();
-    expect(component.isChecked).toEqual(false);
+    expect(component['isChecked']).toEqual(false);
   }));
 
   it('should update local storage when checkbox clicked', () => {
