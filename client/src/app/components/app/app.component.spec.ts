@@ -44,7 +44,8 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon', 'chooseText',
-    'choosePen', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator']);
+    'choosePen', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
+    'chooseEraser']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings', 'isEmpty']);
@@ -325,6 +326,16 @@ describe('AppComponent', () => {
     onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownYEvent();
     expect(toolHandlerMock.choosePen).toHaveBeenCalled();
+  });
+
+  it('#chooseEraser should be called when e is pressed', () => {
+    toolHandlerMock.chooseEraser.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownEEvent();
+    expect(toolHandlerMock.chooseEraser).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownEEvent();
+    expect(toolHandlerMock.chooseEraser).toHaveBeenCalled();
   });
 
   it('#confirmNewDrawing should be called when ctrl.O is pressed', () => {

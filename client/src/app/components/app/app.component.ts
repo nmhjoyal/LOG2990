@@ -131,6 +131,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.e', ['$event']) onKeydownEEvent(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseEraser();
+    }
+  }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
@@ -171,6 +177,12 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePolygon();
+    }
+  }
+
+  @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseEraser();
     }
   }
 
