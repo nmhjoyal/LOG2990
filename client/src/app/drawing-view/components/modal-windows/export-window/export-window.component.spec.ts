@@ -113,6 +113,7 @@ describe('ExportWindowComponent', () => {
     expect(spy2).not.toHaveBeenCalled();
   });
 
+  /*
   it('#onAcceptClick should call download if SVG is selected', () => {
     const spy = spyOn(component, 'download');
 
@@ -144,4 +145,5 @@ describe('ExportWindowComponent', () => {
     component.onAcceptClick();
     expect(spy).toHaveBeenCalled();
   });
+  */
 });

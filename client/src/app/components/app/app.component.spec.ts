@@ -27,7 +27,7 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
-  const fixture: ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
+  let fixture: ComponentFixture<AppComponent>;
   let serviceMock: SpyObj<LocalStorageService>;
   let colourMock: SpyObj<ColourService>;
   let clipboardMock: SpyObj<ClipboardService>;
@@ -37,7 +37,6 @@ describe('AppComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
   let canvasMock: SpyObj<CanvasInformationService>;
   let exportMock: SpyObj<ExportInformationService>;
-  const toolId = Id;
   let onlyModalOpenSpy: jasmine.Spy;
 
   beforeEach((() => {
@@ -95,6 +94,7 @@ describe('AppComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: [dataMock] },
       ],
     }).compileComponents();
+    fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     onlyModalOpenSpy = spyOn(component, 'isOnlyModalOpen');
     onlyModalOpenSpy.and.returnValue(true);
