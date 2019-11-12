@@ -5,8 +5,8 @@ import { ITag } from '../../../common/drawing-information/ITag';
 
 @injectable()
 export class IndexService {
-    drawingsInGallery: Map<string, IDrawing>;
-    tags: ITag[];
+    protected drawingsInGallery: Map<string, IDrawing>;
+    protected tags: ITag[];
 
     constructor() {
         this.drawingsInGallery = new Map<string, IDrawing>();
