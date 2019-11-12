@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'chooseText',
-    'isUsingText', 'choosePen']);
+    'isUsingText', 'choosePen', 'chooseEraser']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings']);
@@ -153,6 +153,12 @@ describe('AppComponent', () => {
     toolHandlerMock.choosePen.and.callThrough();
     component.onKeydownYEvent();
     expect(toolHandlerMock.choosePen).toHaveBeenCalled();
+  });
+
+  it('#chooseEraser should be called when e is pressed', () => {
+    toolHandlerMock.chooseEraser.and.callThrough();
+    component.onKeydownEEvent();
+    expect(toolHandlerMock.chooseEraser).toHaveBeenCalled();
   });
 
 });

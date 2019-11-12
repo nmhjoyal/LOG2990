@@ -142,6 +142,10 @@
     <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
+<div *ngIf="toolHandler.selectedTool === toolId.ERASER">
+    <app-eraser #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-eraser>
+</div>
 <div *ngIf="toolHandler.selectedTool === toolId.PEN">
     <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight">

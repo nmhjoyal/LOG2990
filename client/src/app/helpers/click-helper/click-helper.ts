@@ -36,9 +36,13 @@ export default class ClickHelper {
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
-                const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
+                let lineIntersections;
+                if (object.points) {
+                    lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
                     svgIntersections.shape('polyline', selectorLine));
-                return lineIntersections.points.length > 0;
+                    return lineIntersections.points.length > 0;
+                }
+                return false;
             case Id.ELLIPSE:
                 const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
                     rx: object.width, ry: object.height }),
@@ -97,9 +101,12 @@ export default class ClickHelper {
                 intersectionPoints = rectIntersections.points;
                 break;
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
-                const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
-                    svgIntersections.shape('rect', selectorBox));
-                intersectionPoints = lineIntersections.points;
+                let lineIntersections;
+                if (object.points) {
+                    lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
+                        svgIntersections.shape('rect', selectorBox));
+                    intersectionPoints = lineIntersections.points;
+                }
                 break;
             case Id.ELLIPSE:
                 const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
