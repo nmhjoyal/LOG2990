@@ -1,0 +1,71 @@
+import { TestBed } from '@angular/core/testing';
+
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from './undo-redo.service';
+
+describe('UndoRedoService', () => {
+  let service: UndoRedoService;
+  const dummyDrawing: ITools = {
+    id: '',
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: SelectorService },
+      ],
+    });
+    service = TestBed.get(UndoRedoService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('#undo should set accessingUndoList to true and transfer the last object from drawings' +
+      'to undoList if it is not undefined', () => {
+    const drawingsSpy = spyOn(service.drawingStorage.drawings, 'pop');
+    const undoListSpy = spyOn(service.undoList, 'push');
+    drawingsSpy.and.returnValue(undefined);
+
+    service.undo();
+
+    expect(service.accessingUndoList).toBe(true);
+    expect(drawingsSpy.calls.count()).toBe(1);
+    expect(undoListSpy).not.toHaveBeenCalled();
+
+    service.accessingUndoList = false;
+    drawingsSpy.and.returnValue(dummyDrawing);
+
+    service.undo();
+
+    expect(service.accessingUndoList).toBe(true);
+    expect(drawingsSpy.calls.count()).toBe(2);
+    expect(undoListSpy).toHaveBeenCalled();
+  });
+
+  it('#redo should transfer the last object from undoList ' +
+      'to drawings if it is not undefined', () => {
+    const drawingsSpy = spyOn(service.drawingStorage.drawings, 'push');
+    const undoListSpy = spyOn(service.undoList, 'pop');
+    undoListSpy.and.returnValue(undefined);
+
+    service.redo();
+
+    expect(undoListSpy.calls.count()).toBe(1);
+    expect(drawingsSpy).not.toHaveBeenCalled();
+
+    undoListSpy.and.returnValue(dummyDrawing);
+
+    service.redo();
+
+    expect(undoListSpy.calls.count()).toBe(2);
+    expect(drawingsSpy).toHaveBeenCalled();
+  });
+
+});

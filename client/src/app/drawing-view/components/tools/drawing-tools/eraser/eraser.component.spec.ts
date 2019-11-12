@@ -4,23 +4,27 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { EraserConstants } from '../../assets/constants/eraser-constants';
-import { IErased } from '../../assets/interfaces/erased-interface';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
+import { SaveService } from 'src/app/services/save-service/save.service';
+import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 
 describe('EraserComponent', () => {
   let component: EraserComponent;
   let fixture: ComponentFixture<EraserComponent>;
-  const colourserviceMock = new ColourService();
   let rectangleMock: IShape;
-  const drawingStorageMock = new DrawingStorageService();
   const INITIAL_COORDINATE = 0;
   const UNMATCHING_COORDINATE = 20;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EraserComponent],
-      providers: [],
+      declarations: [ EraserComponent ],
+      providers: [
+        DrawingStorageService,
+        SaveService,
+        UndoRedoService,
+        ColourService,
+      ],
     })
       .compileComponents();
   }));
@@ -28,8 +32,6 @@ describe('EraserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EraserComponent);
     component = fixture.componentInstance;
-    component.colourService = colourserviceMock;
-    component.drawingStorage = drawingStorageMock;
     component.drawingStorage.emptyDrawings();
 
     rectangleMock = {
@@ -87,7 +89,10 @@ describe('EraserComponent', () => {
     component['eraser'].y = 0;
 
     component.eraseObject();
-    expect((component.drawingStorage.drawings.pop() as IErased).erasedObject.id).toBe('rectangleErased');
+    const poppedObject = component.drawingStorage.drawings.pop();
+    if (poppedObject && poppedObject.objects && poppedObject.objects[0]) {
+      expect(poppedObject.objects[0].id).toBe('rectangleErased');
+    }
   });
 
   it('should not affect object with non-sharing area', () => {
@@ -139,14 +144,14 @@ describe('EraserComponent', () => {
   });
 
   it('should set object outline colour back to default when hovered off', () => {
-    colourserviceMock.colour[1] = 'black';
+    component.colourService.colour[1] = 'black';
     rectangleMock.x = UNMATCHING_COORDINATE;
     rectangleMock.y = UNMATCHING_COORDINATE;
     rectangleMock.secondaryColour = 'red';
 
-    drawingStorageMock.saveDrawing(rectangleMock);
-    component.drawingStorage = drawingStorageMock;
-    component.colourService = colourserviceMock;
+    component.drawingStorage.saveDrawing(rectangleMock);
+    component.drawingStorage = component.drawingStorage;
+    component.colourService = component.colourService;
     component['eraser'].x = INITIAL_COORDINATE;
     component['eraser'].y = INITIAL_COORDINATE;
     component.toggleRedOutline();
