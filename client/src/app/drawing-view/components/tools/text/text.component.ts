@@ -105,7 +105,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       x: this.textElement.nativeElement.getBBox().x,
       y: this.textElement.nativeElement.getBBox().y,
       width: this.text.width,
-      height: this.text.height
+      height: this.text.height,
     };
     if (!ClickHelper.cursorInsideObject(boundingBox, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
       this.saveText();
