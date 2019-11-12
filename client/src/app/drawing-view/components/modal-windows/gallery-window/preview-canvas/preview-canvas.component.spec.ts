@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import SpyObj = jasmine.SpyObj;
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -69,7 +71,7 @@ describe('PreviewCanvasComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(PreviewCanvasComponent);
     component = fixture.componentInstance;
-    component.previewedDrawing = mockDrawing;
+    component['previewedDrawing'] = mockDrawing;
     mockDrawing.shapes = TestBed.get(DrawingStorageService).drawings;
     fixture.detectChanges();
   }));
@@ -80,7 +82,7 @@ describe('PreviewCanvasComponent', () => {
 
   it('#ngOnInit should initialize viewBoxCoordinates', () => {
     component.ngOnInit();
-    expect(component.viewboxCoordinates).not.toEqual('', 'viewBoxCoordinates were NOT initialized');
+    expect(component['viewboxCoordinates']).not.toEqual('', 'viewBoxCoordinates were NOT initialized');
   });
 
 });
