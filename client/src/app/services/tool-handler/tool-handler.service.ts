@@ -110,6 +110,11 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.selectedTool = this.tools.SELECTOR;
   }
+
+  chooseGrid(): void {
+    this.resetToolSelection();
+    this.selectedTool = this.tools.GRID;
+  }
 ​
   choosePrimaryColour(): void {
     this.resetToolSelection();

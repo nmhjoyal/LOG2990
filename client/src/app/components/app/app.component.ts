@@ -16,6 +16,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
+import { GridService } from '../../services/grid/grid.service';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
+    private gridService: GridService,
     public clipboardService: ClipboardService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
@@ -188,6 +190,31 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePolygon();
+    }
+  }
+
+  @HostListener('document:keydown.g', ['$event']) onKeydownG(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      const toggle: HTMLElement = this.toggle.nativeElement;
+      toggle.click();
+    }
+  }
+
+  @HostListener('document:keydown.shift.+', ['$event']) onKeydownShiftPlus(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.gridService.increaseSize();
+    }
+  }
+
+  @HostListener('document:keydown.shift.-', ['$event']) onKeydownShiftMinus(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.gridService.decreaseSize();
+    }
+  }
+
+  @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseEraser();
     }
   }
 

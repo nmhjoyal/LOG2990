@@ -2,7 +2,8 @@ import { Component, HostListener, Input } from '@angular/core';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
-import { Id, ToolConstants } from '../../assets/constants/tool-constants';
+import { EraserConstants } from '../../assets/constants/eraser-constants';
+import { Id } from '../../assets/constants/tool-constants';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
 
@@ -24,10 +25,10 @@ export class EraserComponent {
   erasedDrawing: ITools;
 
   constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
-    this.size = ToolConstants.DEFAULT_ERASER_SIZE;
+    this.size = EraserConstants.DEFAULT_ERASER_SIZE;
     this.eraser = {
-      x: this.DEFAULT_X,
-      y: this.DEFAULT_Y,
+      x: EraserConstants.DEFAULT_X,
+      y: EraserConstants.DEFAULT_Y,
       width: this.size,
       height: this.size};
     this.erasedDrawing = {
@@ -78,8 +79,8 @@ export class EraserComponent {
   }
 
   validateSize(): void {
-    if (this.size > ToolConstants.MAX_ERASER_SIZE) {
-      this.size = ToolConstants.MAX_ERASER_SIZE;
+    if (this.size > EraserConstants.MAX_ERASER_SIZE) {
+      this.size = EraserConstants.MAX_ERASER_SIZE;
     } else if (this.size < 1) {
       this.size = 1;
     }
