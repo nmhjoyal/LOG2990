@@ -14,15 +14,14 @@ import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
 })
 export class EraserComponent {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  size: number;
-  leftClicked: boolean;
-  eraser: IPreviewBox;
-  DEFAULT_X = 0;
-  DEFAULT_Y = 460;
-  defaultIndex = 0;
-  erasedDrawing: IErased;
+  @Input() protected windowHeight: number;
+  @Input() protected windowWidth: number;
+  private size: number;
+  private leftClicked: boolean;
+  private eraser: IPreviewBox;
+  private DEFAULT_X = 0;
+  private DEFAULT_Y = 460;
+  private erasedDrawing: IErased;
 
   constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService) {
     this.size = ToolConstants.DEFAULT_ERASER_SIZE;
