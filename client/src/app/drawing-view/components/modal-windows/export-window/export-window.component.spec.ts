@@ -191,4 +191,14 @@ describe('ExportWindowComponent', () => {
     expect(elem.href).toBeDefined();
   });
 
+  it ('#xmlToBase64 should properly set attributes', () => {
+    const spy = spyOn(XMLSerializer.prototype, 'serializeToString').and.callFake(() => '');
+    const img = new Image();
+    const dataMock = component.xmlToBase64();
+    expect(img.width).toEqual(component['width']);
+    expect(img.height).toEqual(component['height']);
+    expect(dataMock).toEqual('data:image/svg+xml;base64,');
+    expect(spy).toHaveBeenCalled();
+  });
+
 });
