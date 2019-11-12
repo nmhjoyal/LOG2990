@@ -150,8 +150,8 @@ describe('ExportWindowComponent', () => {
     const spyImage = spyOn(window, 'addEventListener');
     const img = new Image();
     component.drawImage('mock');
-    expect(img.width).toEqual(component.width);
-    expect(img.height).toEqual(component.height);
+    expect(img.width).toEqual(component['width']);
+    expect(img.height).toEqual(component['height']);
     expect(img.src).toEqual('mock');
     expect(spyImage).toHaveBeenCalled();
   })
