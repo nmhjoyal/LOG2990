@@ -21,8 +21,8 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
   protected format: string;
   private width: number;
   private height: number;
-  private myCanvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D | null;
+  private canvas: HTMLCanvasElement;
+  private context: CanvasRenderingContext2D | null;
   protected name: string;
 
   constructor(dialogRef: MatDialogRef<ExportWindowComponent>,
@@ -35,9 +35,9 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
       this.width = this.canvasData.data.drawingWidth;
       this.height = this.canvasData.data.drawingHeight;
     }
-    this.myCanvas = document.createElement('canvas');
-    this.myCanvas.width = this.width;
-    this.myCanvas.height = this.height;
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
   }
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
@@ -45,7 +45,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.format = 'Exporter au format';
+    this.format = Strings.EXPORT_TO_FORMAT;
   }
 
   onAcceptClick(): void {
@@ -76,7 +76,7 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
   }
 
   xmlToBase64(): string {
-    this.ctx = this.myCanvas.getContext('2d');
+    this.context = this.canvas.getContext('2d');
     const img = new Image();
     img.width = this.width;
     img.height = this.height;
@@ -90,15 +90,15 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
     img.height = this.height;
     img.src = data;
     img.addEventListener('load', () => {
-      if (this.ctx) {
-        this.ctx.drawImage(img, 0, 0);
+      if (this.context) {
+        this.context.drawImage(img, 0, 0);
         const a = document.createElement('a');
         a.download = this.name + '.' + this.exportType;
         if (this.exportType === this.exportTypeEnum.JPG || this.exportType === this.exportTypeEnum.PNG) {
-          a.href = this.myCanvas.toDataURL('image/' + this.exportType, 1.0);
+          a.href = this.canvas.toDataURL('image/' + this.exportType, 1.0);
         } else if (this.exportType === this.exportTypeEnum.BMP) {
           const bmpUrlProvider = new CanvasToBMP();
-          a.href = bmpUrlProvider.toDataURL(this.myCanvas);
+          a.href = bmpUrlProvider.toDataURL(this.canvas);
         }
         a.click();
       }

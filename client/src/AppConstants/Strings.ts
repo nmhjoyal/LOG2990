@@ -9,6 +9,7 @@ export enum Strings {
     SAVE_WINDOW_TITLE = 'Enregistrer un dessin.',
     GALLERY_WINDOW_TITLE = 'Voir vos dessins',
     EXPORT_WINDOW_TITLE = 'Exporter un dessin',
+    EXPORT_TO_FORMAT = 'Exporter au format',
 }
 
 export enum ExportAs {
