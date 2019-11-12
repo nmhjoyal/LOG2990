@@ -23,18 +23,16 @@ export class ColourPaletteComponent implements AfterViewInit {
   @Input() private alpha: number[];
   @Input() lastColours: string[];
 
-  @Output() primaryColour: EventEmitter<string>;
-  @Output() secondaryColour: EventEmitter<string>;
+  @Output() primaryColour: EventEmitter<string> = new EventEmitter();
+  @Output() secondaryColour: EventEmitter<string> = new EventEmitter();
 
   colour: EventEmitter<string>[];
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
-  selectedPosition: { x: number; y: number };
+  protected selectedPosition: { x: number; y: number };
 
   constructor(public colourService: ColourService) {
     this.colour = [this.primaryColour, this.secondaryColour];
-    this.primaryColour  = new EventEmitter();
-    this.secondaryColour = new EventEmitter();
     this.mousedown = false;
   }
 
