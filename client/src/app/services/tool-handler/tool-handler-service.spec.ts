@@ -197,4 +197,11 @@ describe('ToolHandlerService', () => {
 
     expect(resetSpy).toHaveBeenCalled();
   });
+
+  it('#choosePen should call #resetToolSelection', () => {
+    const resetSpy = spyOn(service, 'resetToolSelection');
+    service.choosePen();
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PEN);
+  });
 });

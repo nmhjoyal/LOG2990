@@ -49,7 +49,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeOpacity: ToolConstants.DEFAULT_OPACITY,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
-      pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
+      pointWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND,
       strokeDashArray: ToolConstants.STRAIGHT,

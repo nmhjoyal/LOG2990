@@ -69,58 +69,64 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator(this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
          this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX], );
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSelector();
     }
   }
 
   @HostListener('document:keydown.control.c', ['$event']) onKeydownCtrlC(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.copy();
     }
   }
 
   @HostListener('document:keydown.control.v', ['$event']) onKeydownCtrlV(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.paste(this.cursorX, this.cursorY);
     }
   }
 
   @HostListener('document:keydown.control.x', ['$event']) onKeydownCtrlX(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.cut();
     }
   }
 
   @HostListener('document:keydown.control.d', ['$event']) onKeydownCtrlD(event: KeyboardEvent): void {
     event.preventDefault();
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.duplicate();
     }
   }
 
   @HostListener('document:keydown.backspace', ['$event']) onKeydownBackspace(): void {
-    if (!this.dialog.openDialogs.length) {
+    if (this.isOnlyModalOpen()) {
       this.clipboardService.delete();
     }
   }
 
   @HostListener('document:keydown.t', ['$event']) onKeydownTEvent(): void {
-    if (!this.dialog.openDialogs.length && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseText();
+    }
+  }
+
+  @HostListener('document:keydown.y', ['$event']) onKeydownYEvent(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.choosePen();
     }
   }
 
