@@ -4,13 +4,18 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ClipboardService } from './clipboard-service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
   let selectorService: SelectorService;
   let drawingStorage: DrawingStorageService;
+  let undoRedoService: UndoRedoService;
+  let saveService: SaveService;
+  let dummyOperation: ITools;
   const FIFTY = 50;
   const FORTY = 40;
   const FOUR = 4;
@@ -19,7 +24,18 @@ describe('ClipboardService', () => {
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
     selectorService = new SelectorService();
-    service = new ClipboardService(drawingStorage, selectorService);
+    undoRedoService = new UndoRedoService(drawingStorage);
+    saveService = new SaveService(drawingStorage, undoRedoService);
+    service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
+
+    dummyOperation = {
+      id: 'dummy',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      pasteOffset: undefined,
+    };
   });
 
   it('should be created with correct initialized values', () => {
@@ -167,6 +183,61 @@ describe('ClipboardService', () => {
     expect(drawingStorage.drawings.length).toEqual(FOUR);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].x).not.toEqual(FORTY);
     expect(drawingStorage.drawings[drawingStorage.drawings.length - 1].y).not.toEqual(FORTY);
+  });
+
+  it('#redo should redefine pasteoffset only if the redid operation is defined and it has a defined pasteOffset', () => {
+    const redoSpy = spyOn(service.undoRedoService, 'redo');
+    redoSpy.and.returnValue(undefined);
+    service['pasteOffset'] = FORTY;
+
+    service.redo();
+    expect(redoSpy.calls.count()).toBe(1);
+    expect(service['pasteOffset']).toBe(FORTY);
+
+    redoSpy.and.returnValue(dummyOperation);
+
+    service.redo();
+    expect(redoSpy.calls.count()).toBe(2);
+    expect(service['pasteOffset']).toBe(FORTY);
+
+    dummyOperation['pasteOffset'] = 0;
+    redoSpy.and.returnValue(dummyOperation);
+
+    service.redo();
+    expect(redoSpy.calls.count()).toBe(THREE);
+    expect(service['pasteOffset']).toBe(0);
+
+  });
+
+  it('#undo should reduce the pasteoffset only if the undone operation is defined and it has a defined pasteOffset != 0', () => {
+    const undoSpy = spyOn(service.undoRedoService, 'undo');
+    undoSpy.and.returnValue(undefined);
+    service['pasteOffset'] = FORTY;
+
+    service.undo();
+    expect(undoSpy.calls.count()).toBe(1);
+    expect(service['pasteOffset']).toBe(FORTY);
+
+    undoSpy.and.returnValue(dummyOperation);
+
+    service.undo();
+    expect(undoSpy.calls.count()).toBe(2);
+    expect(service['pasteOffset']).toBe(FORTY);
+
+    dummyOperation['pasteOffset'] = 0;
+    undoSpy.and.returnValue(dummyOperation);
+
+    service.undo();
+    expect(undoSpy.calls.count()).toBe(THREE);
+    expect(service['pasteOffset']).toBe(FORTY);
+
+    dummyOperation['pasteOffset'] = FORTY;
+    undoSpy.and.returnValue(dummyOperation);
+
+    service.undo();
+    expect(undoSpy.calls.count()).toBe(FOUR);
+    expect(service['pasteOffset']).toBe(FORTY - NumericalValues.DUPLICATE_OFFSET);
+
   });
 
 });

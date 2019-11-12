@@ -94,6 +94,18 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZEvent(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.clipboardService.undo();
+    }
+  }
+
+  @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZEvent(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.clipboardService.redo();
+    }
+  }
+
   @HostListener('document:keydown.control.c', ['$event']) onKeydownCtrlC(): void {
     if (this.isOnlyModalOpen()) {
       this.clipboardService.copy();

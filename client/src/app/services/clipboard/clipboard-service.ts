@@ -3,7 +3,9 @@ import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/inter
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,8 @@ export class ClipboardService {
   private lastCursorX: number;
   private lastCursorY: number;
 
-  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService) {
+  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService,
+      public undoRedoService: UndoRedoService, public saveService: SaveService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
@@ -52,7 +55,8 @@ export class ClipboardService {
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
-        this.drawingStorage.saveDrawing({...copiedObject});
+        copiedObject.pasteOffset = this.pasteOffset;
+        this.saveService.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -132,5 +136,19 @@ export class ClipboardService {
         this.drawingStorage.drawings.splice(index, 1);
       }
     });
+  }
+
+  undo(): void {
+    const undoneOperation: ITools|undefined = this.undoRedoService.undo();
+    if (undoneOperation && undoneOperation.pasteOffset) {
+        this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
+    }
+  }
+
+  redo(): void {
+    const redoneOperation: ITools|undefined = this.undoRedoService.redo();
+    if (redoneOperation && redoneOperation.pasteOffset !== undefined) {
+        this.pasteOffset = redoneOperation.pasteOffset;
+    }
   }
 }

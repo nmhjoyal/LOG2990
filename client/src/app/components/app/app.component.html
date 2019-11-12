@@ -35,6 +35,13 @@
     <mat-sidenav-container class="main-container">
         <mat-sidenav #sidenav mode="side" opened fixedTopGap="56">
             <mat-nav-list>
+
+                <a *ngIf='drawingStorage.drawings.length' mat-list-item class="filter" (click)="clipboardService.undo()">
+                    <img id="Annuler" class="sideBarIcon" src="../../../assets//lateral-bar//back-arrow.svg" title="Annuler">
+                </a>
+                <a *ngIf='clipboardService.undoRedoService.undoList.length' mat-list-item class="filter" (click)="clipboardService.redo()">
+                    <img id="Refaire" class="sideBarIcon" src="../../../assets//lateral-bar//redo-arrow.svg" title="Refaire">
+                </a>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
                     <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
                 </a>

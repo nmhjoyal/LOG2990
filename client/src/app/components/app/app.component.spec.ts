@@ -46,7 +46,7 @@ describe('AppComponent', () => {
   beforeEach((() => {
     serviceMock = jasmine.createSpyObj('LocalStorageService', ['getShowAgain']);
     colourMock = jasmine.createSpyObj('ColourService', ['switchColours', 'getPrimaryColour', 'getSecondaryColour']);
-    clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete']);
+    clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete', 'undo', 'redo']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon', 'chooseText',
@@ -252,6 +252,50 @@ describe('AppComponent', () => {
     component.optionsSidebar.opened = false;
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
+  });
+
+  it('#undo should be called only when control+z are pressed and there are no opened dialogs nor optionsBars opened', () => {
+    component.optionsSidebar.opened = true;
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownCtrlZEvent();
+    expect(clipboardMock.undo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = false;
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownCtrlZEvent();
+    expect(clipboardMock.undo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = true;
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownCtrlZEvent();
+    expect(clipboardMock.undo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = false;
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownCtrlZEvent();
+    expect(clipboardMock.undo).toHaveBeenCalled();
+  });
+
+  it('#redo should be called only when control+shift+z are pressed and there are no opened dialogs', () => {
+    component.optionsSidebar.opened = false;
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownCtrlShiftZEvent();
+    expect(clipboardMock.redo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = true;
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownCtrlShiftZEvent();
+    expect(clipboardMock.redo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = true;
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownCtrlShiftZEvent();
+    expect(clipboardMock.redo).not.toHaveBeenCalled();
+
+    component.optionsSidebar.opened = false;
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownCtrlShiftZEvent();
+    expect(clipboardMock.redo).toHaveBeenCalled();
   });
 
   it('#choosePolygon should be called when 3 is pressed', () => {

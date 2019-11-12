@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
@@ -23,10 +23,10 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
   private minWidth: number;
   private newWidth: number;
 
-  constructor(drawingServiceRef: DrawingStorageService,
+  constructor(saveServiceRef: SaveService,
               attributesServiceRef: AttributesService,
               colourServiceRef: ColourService) {
-    super(drawingServiceRef, attributesServiceRef, colourServiceRef);
+    super(saveServiceRef, attributesServiceRef, colourServiceRef);
     this.pen = {
       id: ToolConstants.TOOL_ID.PEN,
       paths: [],
