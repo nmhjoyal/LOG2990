@@ -40,6 +40,8 @@ describe('ExportWindowComponent', () => {
     drawingWidth: 0,
   };
 
+  exportDataMock.data = jasmine.createSpyObj('IExportData', ['']);
+
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
@@ -70,6 +72,7 @@ describe('ExportWindowComponent', () => {
     component = new ExportWindowComponent(dialogRefMock, exportDataMock, canvasDataMock);
     component['formatSelected'] = false;
     component['exportType'] = '';
+    exportDataMock.data.canvasElement = jasmine.createSpyObj('SVGElement', ['']);
 
     fixture.detectChanges();
   });
@@ -100,7 +103,6 @@ describe('ExportWindowComponent', () => {
     expect(component['exportType']).toEqual(FORMAT_PNG, 'exportType took ExportAs.PNG value');
     expect(component['format']).toEqual(FORMAT_PNG, 'format took ExportAs.BMP value');
   });
-
 
   it('#onAcceptClick should do nothing if the format isnt selected', () => {
     const spy1 = spyOn(component, 'download');
