@@ -20,6 +20,7 @@ describe('ExportWindowComponent', () => {
   let fixture: ComponentFixture<ExportWindowComponent>;
   const exportDataMock: SpyObj<ExportInformationService> = jasmine.createSpyObj('ExportInformationService', ['']);
   const canvasDataMock: SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
+  const mockContext: SpyObj<CanvasRenderingContext2D> = jasmine.createSpyObj('CanvasRenderingContext2D', ['']);
 
   const FORMAT_BMP = ExportAs.BMP;
   const FORMAT_SVG = ExportAs.SVG;
@@ -152,4 +153,46 @@ describe('ExportWindowComponent', () => {
     component.onAcceptClick();
     expect(spy).toHaveBeenCalled();
   });
+
+  it('#drawImage should retrieve attributes properly', () => {
+    const spyContext = spyOn(component, 'drawImage');
+    component['context'] = mockContext;
+    const img = new Image();
+    component['exportType'] = component['exportTypeEnum'].JPG;
+    const a = document.createElement('a');
+    component.drawImage('mock');
+    expect(img.width).toEqual(component['width']);
+    expect(img.height).toEqual(component['height']);
+    expect(img.src).toBeDefined();
+    expect(spyContext).toHaveBeenCalled();
+    expect(a.href).toBeDefined();
+  });
+
+  it('#drawImage should retrieve attributes properly', () => {
+    // const spyContext = spyOn(, 'CanvasToBmp');
+    component['context'] = mockContext;
+    const img = new Image();
+    component['exportType'] = component['exportTypeEnum'].BMP;
+    const a = document.createElement('a');
+    component.drawImage('mock');
+    expect(img.width).toEqual(component['width']);
+    expect(img.height).toEqual(component['height']);
+    expect(img.src).toBeDefined();
+    // expect(spyContext).toHaveBeenCalled();
+    expect(a.href).toBeDefined();
+  });
+
+  it('#download should properly create', () => {
+    const spyRemove = spyOn(document.body, 'removeChild');
+    const elem = document.createElement('a');
+
+    const fileContent = 'some information here!';
+    const data = new Blob([fileContent], { type: 'text/plain' });
+
+    component.download('name', data);
+
+    expect(spyRemove).toHaveBeenCalled();
+    expect(elem.href).toBeDefined();
+  });
+
 });
