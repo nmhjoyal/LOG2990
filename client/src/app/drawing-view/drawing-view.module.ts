@@ -23,6 +23,7 @@ import { PolygonComponent } from './components/tools/shapes/polygon/polygon.comp
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
+import { PlumeComponent } from './components/tools/drawing-tools/plume/plume.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { TextComponent } from './components/tools/text/text.component';
     EraserComponent,
     PreviewCanvasComponent,
     PenComponent,
+    PlumeComponent,
   ],
 
   imports: [

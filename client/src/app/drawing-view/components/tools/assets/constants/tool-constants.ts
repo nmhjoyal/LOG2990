@@ -8,6 +8,7 @@ export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
     PEN = 'pen',
+    PLUME = 'plume',
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',

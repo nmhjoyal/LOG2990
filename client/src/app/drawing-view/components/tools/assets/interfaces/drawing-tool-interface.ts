@@ -40,6 +40,11 @@ export interface IDrawingToolOptions extends ITools {
     savedMinWidth: number;
 }
 
+export interface IPlumeOptions extends IDrawingToolOptions {
+    savedLineLenght: number;
+    savedAngle: number;
+}
+
 export interface IPen extends ITools {
     colour: string;
     strokeLinecap: string;

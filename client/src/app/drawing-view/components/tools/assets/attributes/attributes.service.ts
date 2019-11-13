@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, ILineOptions, IPlumeOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
@@ -15,6 +15,7 @@ export class AttributesService {
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
   penAttributes: IDrawingToolOptions;
+  plumeAttributes: IPlumeOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
   lineAttributes: ILineOptions;
@@ -32,6 +33,7 @@ export class AttributesService {
     this.resetStampAttributes();
     this.resetPenAttributes();
     this.resetTextAttributes();
+    this.resetPlumeAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -84,6 +86,22 @@ export class AttributesService {
       savedFilter: ToolConstants.NONE,
       savedMaxWidth: 0,
       savedMinWidth: 0,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+  resetPlumeAttributes(): void {
+    this.plumeAttributes = {
+      id: ToolConstants.TOOL_ID.PEN,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedFilter: ToolConstants.NONE,
+      savedMaxWidth: 0,
+      savedMinWidth: 0,
+      savedLineLenght: 0,
+      savedAngle: 0,
       x: 0,
       y: 0,
       width: 0,
@@ -182,6 +200,9 @@ export class AttributesService {
     }
     if (this.textAttributes.wasSaved) {
       this.resetTextAttributes();
+    }
+    if(this.plumeAttributes.wasSaved) {
+      this.resetPlumeAttributes();
     }
   }
 }

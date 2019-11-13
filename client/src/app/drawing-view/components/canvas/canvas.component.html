@@ -76,6 +76,17 @@
                     </path>
                 </g>
             </g>
+            
+            <g *ngSwitchCase="toolId.PLUME" (click)="applyColourToLine(drawing)"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <g *ngFor="let svgpath of drawing.paths">
+                    <path
+                        [attr.d]="svgpath.path"
+                        [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour">
+                    </path>
+                </g>
+            </g>
 
             <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
@@ -159,6 +170,11 @@
     <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight">
     </app-pen>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.PLUME">
+    <app-plume #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
+    </app-plume>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE">
     <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"
