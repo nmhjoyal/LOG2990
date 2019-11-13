@@ -1,5 +1,4 @@
 import { ITools } from './itools';
-import { IPreviewBox } from './shape-interface';
 
 export interface ILinePoints {
     points?: string;
@@ -24,7 +23,7 @@ export interface ILineOptions extends ITools {
     savedPointWidth: number;
 }
 
-export interface IDrawingTool extends ITools, ILinePoints, IPreviewBox {
+export interface IDrawingTool extends ITools {
     colour: string;
     strokeWidth: number;
     fill: string;
@@ -37,4 +36,20 @@ export interface IDrawingToolOptions extends ITools {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedFilter: string;
+    savedMaxWidth: number;
+    savedMinWidth: number;
+}
+
+export interface IPen extends ITools {
+    colour: string;
+    strokeLinecap: string;
+}
+
+export interface IComplexPath extends IPath {
+    path: string;
+    pathWidth: number;
+}
+
+export interface IPath {
+    paths?: IComplexPath[];
 }

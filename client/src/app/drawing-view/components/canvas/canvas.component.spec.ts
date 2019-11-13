@@ -103,14 +103,14 @@ describe('CanvasComponent', () => {
   });
 
   it('should apply primary colour to line', () => {
-    mockColourService.colour[0] = Strings.WHITE_HEX;
+    mockColourService.getPrimaryColour() = Strings.WHITE_HEX;
     mockToolService.selectedTool = mockToolService.tools.COLOUR_APPLICATOR;
     component.applyColourToLine(testLine);
     expect(testLine.colour).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply primary colour to shape', () => {
-    mockColourService.colour[0] = Strings.WHITE_HEX;
+    mockColourService.getPrimaryColour() = Strings.WHITE_HEX;
     mockToolService.selectedTool = mockToolService.tools.COLOUR_APPLICATOR;
     component.applyColourToShape(new MouseEvent('contextmenu'), testObject);
     expect(testObject.primaryColour).toEqual(Strings.WHITE_HEX);
@@ -127,7 +127,7 @@ describe('CanvasComponent', () => {
     testLine.colour = Strings.WHITE_HEX;
     mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.applyColourToLine(testLine);
-    expect(mockColourService.colour[0]).toEqual(Strings.WHITE_HEX);
+    expect(mockColourService.getPrimaryColour()).toEqual(Strings.WHITE_HEX);
   });
 
   it('should apply secondary colour from line', () => {

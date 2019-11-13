@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { EllipseComponent } from './ellipse.component';
@@ -16,14 +16,14 @@ describe('EllipseComponent', () => {
   let component: EllipseComponent;
   let attrService: AttributesService;
   let fixture: ComponentFixture<EllipseComponent>;
-  const drawingStorageMock: jasmine.SpyObj<DrawingStorageService> = jasmine.createSpyObj('DrawingStorageService', ['saveDrawing']);
+  const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserDynamicTestingModule],
       declarations: [EllipseComponent],
       providers: [
-        { provide: DrawingStorageService, useValue: drawingStorageMock, },
+        { provide: SaveService, useValue: saveServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
       ],
     })
@@ -122,6 +122,31 @@ describe('EllipseComponent', () => {
     component.onShiftUp();
 
     expect(component['shape'].height === component['shape'].width).toBe(false, 'ERROR: height took widths value');
+
+  });
+
+  it('#calculateDimensions should make the shape.width and shape.height equal to 0 if they are smaller than the stroke width', () => {
+    component['shape'].strokeWidth = STROKE_WIDTH;
+
+    component['initialX'] = INITIAL_X;
+    component['initialY'] = INITIAL_Y;
+    component['cursorX'] = INITIAL_X;
+    component['cursorY'] = INITIAL_Y;
+
+    component.onShiftUp();
+
+    expect(component['shape'].width).toEqual(0, 'shape.width took minimal value');
+    expect(component['shape'].height).toEqual(0, 'shape.height took minimal value');
+
+    component['initialX'] = INITIAL_X;
+    component['initialY'] = INITIAL_Y;
+    component['cursorX'] = CURSOR_X;
+    component['cursorY'] = CURSOR_Y;
+
+    component.onShiftUp();
+
+    expect(component['shape'].width).toEqual((component['previewBox'].width - STROKE_WIDTH) / 2, 'shape.width took normal value');
+    expect(component['shape'].height).toEqual((component['previewBox'].height - STROKE_WIDTH) / 2, 'shape.height took normal value');
 
   });
 

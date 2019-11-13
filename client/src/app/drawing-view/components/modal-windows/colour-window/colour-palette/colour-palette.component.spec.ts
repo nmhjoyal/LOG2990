@@ -10,6 +10,7 @@ import { Strings } from 'src/AppConstants/Strings';
 import { ColourConstants, Rainbow } from '../../../tools/assets/constants/colour-constants';
 import { ColourPaletteComponent } from './colour-palette.component';
 // tslint:disable: no-any
+ // tslint:disable: no-string-literal
 
 describe('ColourPaletteComponent', () => {
     let component: ColourPaletteComponent;
@@ -41,7 +42,7 @@ describe('ColourPaletteComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ColourPaletteComponent);
         component = fixture.componentInstance;
-        component.lastColours = [Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX,
+        component['lastColours'] = [Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX,
                                 Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX, Strings.WHITE_HEX];
         fixture.detectChanges();
         hostElement = fixture.debugElement;
@@ -50,14 +51,14 @@ describe('ColourPaletteComponent', () => {
     it('should be initalized with correct attributes', () => {
         expect(component).toBeTruthy();
         expect(component.colour).toBeDefined();
-        expect(component.primaryColour).toBeDefined();
-        expect(component.secondaryColour).toBeDefined();
+        expect(component['primaryColour']).toBeDefined();
+        expect(component['secondaryColour']).toBeDefined();
         expect((component as any).mousedown).toEqual(false);
     });
 
     it('should call all functions on drawGradient', () => {
-        const width = component.canvas.nativeElement.width;
-        const height = component.canvas.nativeElement.height;
+        const width = component['canvas'].nativeElement.width;
+        const height = component['canvas'].nativeElement.height;
         const colourGradient = (component as any).ctx.createLinearGradient(0, 0, 0, height);
         colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR, Rainbow.RED);
         component.drawGradient(colourGradient, width, height);
@@ -72,7 +73,7 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mousedown');
         hostElement.triggerEventHandler('mousedown', event);
         expect(spy).toHaveBeenCalled();
-        // expect(component.colour[0].emit).toHaveBeenCalled();
+        // expect(component.getPrimaryColour().emit).toHaveBeenCalled();
         // expect(component.draw).toHaveBeenCalled();
       });
 
@@ -91,7 +92,7 @@ describe('ColourPaletteComponent', () => {
       });
 
     it('should change colour on click of palette', () => {
-        expect(component.colour[0]).toBeDefined('setColour()');
+        expect(component.getPrimaryColour()).toBeDefined('setColour()');
     });
 
 });

@@ -3,7 +3,7 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
@@ -21,7 +21,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected drawingStorage: DrawingStorageService,
+  constructor(protected saveService: SaveService,
               protected attributesService: AttributesService,
               protected colourService: ColourService) {
     super();
@@ -45,7 +45,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       height: 0,
       verticesNumber: 0,
       vertices: '',
-      primaryColour: this.colourService.colour[0],
+      primaryColour: this.colourService.getPrimaryColour(),
       secondaryColour: this.colourService.colour[1],
       strokeOpacity: this.colourService.alpha[1],
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -117,20 +117,20 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case ToolConstants.TRACE_MODE.CONTOUR:
-        this.shape.secondaryColour = this.colourService.colour[1];
+        this.shape.secondaryColour = this.colourService.getSecondaryColour();
         this.shape.primaryColour = ToolConstants.NONE;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
         this.shape.secondaryColour = this.shape.primaryColour;
-        this.shape.primaryColour = this.colourService.colour[0];
+        this.shape.primaryColour = this.colourService.getPrimaryColour();
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.secondaryColour = this.colourService.colour[1];
-        this.shape.primaryColour = this.colourService.colour[0];
+        this.shape.secondaryColour = this.colourService.getSecondaryColour();
+        this.shape.primaryColour = this.colourService.getPrimaryColour();
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 
@@ -162,7 +162,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
     };
-    this.drawingStorage.saveDrawing(currentDrawing);
+    this.saveService.saveDrawing(currentDrawing);
   }
 
   protected resetShape(): void {

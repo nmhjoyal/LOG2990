@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Alignments, AlignmentType, FontFamilies, TextConstants } from '../assets/constants/text-constants';
@@ -16,17 +16,17 @@ import { IText } from '../assets/interfaces/text-interface';
 })
 export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  @ViewChild('textElement', {static: false}) textElement: ElementRef;
+  @Input() protected windowHeight: number;
+  @Input() protected windowWidth: number;
+  @ViewChild('textElement', { static: false }) protected textElement: ElementRef;
 
-  text: IText;
-  isFirstClick: boolean;
-  currentLine: number;
-  fontFamilySelection: string;
-  initialX: number;
+  private text: IText;
+  private isFirstClick: boolean;
+  private currentLine: number;
+  private fontFamilySelection: string;
+  private initialX: number;
 
-  constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
+  constructor(protected drawingStorage: SaveService, protected attributesServiceRef: AttributesService,
     protected colourServiceRef: ColourService) {
     super();
     this.text = {
@@ -38,7 +38,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       align: Alignments.START,
       alignX: ToolConstants.NULL,
       fontFamily: FontFamilies.ARIAL,
-      primaryColour: colourServiceRef.colour[0],
+      primaryColour: colourServiceRef.getPrimaryColour(),
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: 0,
@@ -87,7 +87,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       }
     } else if (event.key.length < 2) {
       if ((event.key === ' ' && this.text.lines[this.currentLine].slice(this.text.lines[this.currentLine].length - 1) !== ' ')
-           || event.key !== ' ') {
+        || event.key !== ' ') {
         this.text.lines[this.currentLine] += event.key;
       }
     }
@@ -100,11 +100,13 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       return;
     }
     this.updateBoundingBox();
-    const boundingBox: ITools = { id: Id.RECTANGLE,
+    const boundingBox: ITools = {
+      id: Id.RECTANGLE,
       x: this.textElement.nativeElement.getBBox().x,
       y: this.textElement.nativeElement.getBBox().y,
       width: this.text.width,
-      height: this.text.height };
+      height: this.text.height,
+    };
     if (!ClickHelper.cursorInsideObject(boundingBox, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
       this.saveText();
       this.createNewTextBox(event);

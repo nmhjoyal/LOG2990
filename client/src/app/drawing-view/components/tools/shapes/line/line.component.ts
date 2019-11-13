@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { LineAbstract } from '../../assets/abstracts/line-abstract/line-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
@@ -12,8 +12,8 @@ import { ToolConstants } from '../../assets/constants/tool-constants';
 })
 export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
 
-  constructor(drawingStorageRef: DrawingStorageService, attributesService: AttributesService, colourService: ColourService) {
-    super(drawingStorageRef, attributesService, colourService);
+  constructor(saveRef: SaveService, attributesService: AttributesService, colourService: ColourService) {
+    super(saveRef, attributesService, colourService);
     this.stroke.id = ToolConstants.TOOL_ID.LINE;
   }
 

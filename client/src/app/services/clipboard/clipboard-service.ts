@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
+import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ClipboardService {
-  clipboard: Set<ITools>;
-  pasteOffset: number;
-  lastCursorX: number;
-  lastCursorY: number;
-  offScreen: boolean;
+  private clipboard: Set<ITools>;
+  private pasteOffset: number;
+  private lastCursorX: number;
+  private lastCursorY: number;
 
-  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService) {
+  constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService,
+      public undoRedoService: UndoRedoService, public saveService: SaveService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
     this.lastCursorY = 0;
-    this.offScreen = false;
   }
 
   copy(): void {
@@ -53,7 +55,8 @@ export class ClipboardService {
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
         this.parsePolylinePoints(cursorX, cursorY, copiedObject);
-        this.drawingStorage.saveDrawing({...copiedObject});
+        copiedObject.pasteOffset = this.pasteOffset;
+        this.saveService.saveDrawing({...copiedObject});
       });
       this.lastCursorX = cursorX;
       this.lastCursorY = cursorY;
@@ -80,11 +83,36 @@ export class ClipboardService {
       + this.pasteOffset).toString()
       + ' ';
     }
+
+    const newPaths: IComplexPath[] = [];
+    if (copiedObject.paths) {
+      for (const path of copiedObject.paths) {
+        const pathMX = path.path.slice(1, path.path.indexOf(' '));
+        const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
+        const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
+        const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
+        newPaths.push( { path : 'M' + (parseInt(pathMX, 10) + cursorX  - this.selectorService.topCornerX
+          - this.selectorService.MinWidth / 2 + this.pasteOffset).toString()
+          + ' '
+          + (parseInt(pathMY, 10) + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2
+          + this.pasteOffset).toString()
+          + 'L' + (parseInt(pathLX, 10) + cursorX  - this.selectorService.topCornerX
+          - this.selectorService.MinWidth / 2 + this.pasteOffset).toString()
+          + ' '
+          + (parseInt(pathLY, 10) + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2
+          + this.pasteOffset).toString(),
+          pathWidth: path.pathWidth });
+
+      }
+    }
     if (copiedObject.hasOwnProperty('points')) {
       copiedObject.points = newPoints;
     }
     if (copiedObject.hasOwnProperty('vertices')) {
       copiedObject.vertices = newPoints;
+    }
+    if (copiedObject.hasOwnProperty('paths')) {
+      copiedObject.paths = newPaths;
     }
   }
 
@@ -108,5 +136,19 @@ export class ClipboardService {
         this.drawingStorage.drawings.splice(index, 1);
       }
     });
+  }
+
+  undo(): void {
+    const undoneOperation: ITools|undefined = this.undoRedoService.undo();
+    if (undoneOperation && undoneOperation.pasteOffset) {
+        this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
+    }
+  }
+
+  redo(): void {
+    const redoneOperation: ITools|undefined = this.undoRedoService.redo();
+    if (redoneOperation && redoneOperation.pasteOffset !== undefined) {
+        this.pasteOffset = redoneOperation.pasteOffset;
+    }
   }
 }

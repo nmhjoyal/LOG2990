@@ -10,9 +10,9 @@ import { IDrawing } from '../../../../../../../../common/drawing-information/IDr
 export class PreviewCanvasComponent implements OnInit {
 
   // tslint:disable-next-line: no-input-rename
-  @Input('display') previewedDrawing: IDrawing;
-  toolId = Id;
-  viewboxCoordinates: string;
+  @Input('display') private previewedDrawing: IDrawing;
+  protected toolId = Id;
+  protected viewboxCoordinates: string;
 
   constructor() {
     this.viewboxCoordinates = '';

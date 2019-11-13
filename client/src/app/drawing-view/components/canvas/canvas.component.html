@@ -1,7 +1,18 @@
-<svg tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
+<svg #canvas id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
     [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour">
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()" />
+      
 
+    <defs>
+         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" >
+        
+            <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour"/>
+            <rect x="0" y="0" width="2" height="100%" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+            <rect x="0" y="0" width="100%" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+        </pattern>
+    </defs>
+
+    <rect width="100%" height="100%" (click)="applyColourToCanvas()" fill="url(#Pattern)" stroke="black" />
+        
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
         <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
@@ -24,10 +35,9 @@
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>  
-    
-    <rect class="rectangle" width=100% height=100% (click)="applyColourToCanvas()"/>  
     <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
+            
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
@@ -54,6 +64,19 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
             </g>
+
+            <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <g *ngFor="let svgpath of drawing.paths">
+                    <path
+                        [attr.d]="svgpath.path"
+                        [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour"
+                        [style.stroke-linecap]="drawing.strokeLinecap">
+                    </path>
+                </g>
+            </g>
+
             <g *ngSwitchCase="toolId.RECTANGLE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <rect [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
@@ -121,12 +144,22 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.CRAYON">
-    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
     </app-crayon>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
     <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.ERASER">
+    <app-eraser #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-eraser>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.PEN">
+    <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
+    </app-pen>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE">
     <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"

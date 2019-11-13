@@ -19,12 +19,15 @@ import { ColourConstants, Rainbow, Transparancy } from '../../../tools/assets/co
 })
 export class ColourPaletteComponent implements AfterViewInit {
 
+  @ViewChild('canvas', { static: false })
+  protected canvas: ElementRef<HTMLCanvasElement>;
+
   @Input() private mainColour: boolean;
   @Input() private alpha: number[];
-  @Input() lastColours: string[];
+  @Input() protected lastColours: string[];
 
-  @Output() primaryColour: EventEmitter<string> = new EventEmitter();
-  @Output() secondaryColour: EventEmitter<string> = new EventEmitter();
+  @Output() protected primaryColour: EventEmitter<string> = new EventEmitter();
+  @Output() protected secondaryColour: EventEmitter<string> = new EventEmitter();
 
   colour: EventEmitter<string>[];
   private ctx: CanvasRenderingContext2D;
@@ -35,9 +38,6 @@ export class ColourPaletteComponent implements AfterViewInit {
     this.colour = [this.primaryColour, this.secondaryColour];
     this.mousedown = false;
   }
-
-  @ViewChild('canvas', {static: false})
-  canvas: ElementRef<HTMLCanvasElement>;
 
   ngAfterViewInit(): void {
     this.draw();
@@ -119,6 +119,6 @@ export class ColourPaletteComponent implements AfterViewInit {
     const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
     const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
     const a = this.colourService.rgbToHex(Math.round(this.alpha[+this.mainColour] * ColourConstants.RGBTOHEX_FACTOR));
-    return ( '#' + r + g + b + a );
+    return ('#' + r + g + b + a);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { FilterSelection, Id, StampConstants, ToolConstants } from '../assets/constants/tool-constants';
@@ -14,13 +14,13 @@ import { IStamp } from '../assets/interfaces/stamp-interface';
 })
 export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  stamp: IStamp;
-  stampPaths = StampConstants.STAMPS_PATHS;
-  angleIncrement: number;
+  @Input() protected windowHeight: number;
+  @Input() protected windowWidth: number;
+  private stamp: IStamp;
+  private stampPaths = StampConstants.STAMPS_PATHS;
+  private angleIncrement: number;
 
-  constructor(protected drawingStorage: DrawingStorageService, protected attributesServiceRef: AttributesService,
+  constructor(protected drawingStorage: SaveService, protected attributesServiceRef: AttributesService,
     protected colourServiceRef: ColourService) {
     super();
     this.stamp = {
@@ -28,7 +28,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       svgReference: '',
       angle: StampConstants.DEFAULT_ANGLE,
       scaleFactor: StampConstants.DEFAULT_SCALE_FACTOR,
-      primaryColour: colourServiceRef.colour[0],
+      primaryColour: colourServiceRef.getPrimaryColour(),
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: StampConstants.DEFAULT_DIMENSION,

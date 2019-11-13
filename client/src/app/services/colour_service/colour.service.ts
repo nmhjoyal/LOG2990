@@ -8,9 +8,9 @@ import { Strings } from 'src/AppConstants/Strings';
 export class ColourService {
 
   colour: string[] ;
-  lastColours: string[] ;
   alpha: number[] ;
-  mainColour: boolean ;
+  protected lastColours: string[] ;
+  protected mainColour: boolean ;
 
   constructor() {
     this.lastColours = [GrayScale.BLACK, GrayScale.GREY1, GrayScale.GREY2, GrayScale.GREY3, GrayScale.GREY4,
@@ -18,6 +18,14 @@ export class ColourService {
     this.colour = [Strings.BLACK_HEX, Strings.WHITE_HEX];
     this.alpha = [ColourConstants.INITIAL_TRANSPARENCY, ColourConstants.INITIAL_TRANSPARENCY];
     this.mainColour = false;
+  }
+
+  getPrimaryColour(): string {
+    return this.colour[0];
+  }
+
+  getSecondaryColour(): string {
+    return this.colour[1];
   }
 
     chooseColour(primary: boolean): void  {

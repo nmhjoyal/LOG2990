@@ -23,15 +23,15 @@ export class GalleryWindowComponent extends ModalWindowComponent implements OnIn
   protected drawingsInGallery: IDrawing[] | undefined;
   private selectedDrawing: IDrawing | undefined;
   private drawingToOpen: IDrawing;
-  @Input() filterBy: string[] = ['all'];
-  isFinishedLoading: boolean;
+  @Input() protected filterBy: string[] = ['all'];
+  protected isFinishedLoading: boolean;
 
   constructor(dialogRef: MatDialogRef<GalleryWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IGalleryModalData,
     protected canvasData: CanvasInformationService,
     protected drawingStorage: DrawingStorageService,
     protected index: ClientStorageService) {
-    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, index);
+    super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, undefined, undefined, index);
     this.data.title = Strings.GALLERY_WINDOW_TITLE;
     this.drawingsInGallery = [];
     this.selectedDrawing = {} as IDrawing;

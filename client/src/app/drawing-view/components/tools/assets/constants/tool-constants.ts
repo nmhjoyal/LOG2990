@@ -7,6 +7,7 @@ export enum Id {
     POLYGON = 'polygon',
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
+    PEN = 'pen',
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
@@ -14,6 +15,8 @@ export enum Id {
     COLOUR_APPLICATOR = 'colourApplicator',
     PIPETTE = 'pipette',
     TEXT = 'text',
+    GRID = 'grid',
+    ERASER = 'eraser',
 }
 
 export enum FilterURL {
@@ -63,7 +66,14 @@ export class ToolConstants {
     static SQUARE = 'square';
     static DEFAULT_OPACITY = 1;
     static DEFAULT_STROKE_WIDTH = 2;
-    static DEFAULT_POINT_WIDTH = 2;
+    static DEFAULT_MAX_WIDTH = 10;
+    static DEFAULT_MIN_WIDTH = 2;
+    static MAX_STROKE_WIDTH = 20;
+    static MIN_STROKE_WIDTH = 1;
+    static MAX_SPEED = 0.4;
+    static MIN_SPEED = 0.0007;
+    static STROKE_INCREMENT = 1;
+    static AVG_SPEED = 4.5;
     static TOOL_ID = Id;
     static FILTER_ID = FilterURL;
     static FILTER_SELECTION = FilterSelection;

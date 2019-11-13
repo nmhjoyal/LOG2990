@@ -3,7 +3,7 @@ import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/cons
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { ToolAbstract } from '../tool-abstract/tool-abstract';
 
@@ -24,7 +24,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   @Input() windowHeight: number;
   @Input() windowWidth: number;
 
-  constructor(protected drawingStorage: DrawingStorageService,
+  constructor(protected saveService: SaveService,
               protected attributesService: AttributesService,
               protected colourService: ColourService) {
     super();
@@ -45,11 +45,11 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       width: 0,
       height: 0,
       points: '',
-      colour: this.colourService.colour[0],
+      colour: this.colourService.getPrimaryColour(),
       strokeOpacity: ToolConstants.DEFAULT_OPACITY,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
-      pointWidth: ToolConstants.DEFAULT_POINT_WIDTH,
+      pointWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       strokeLinecap: ToolConstants.ROUND,
       strokeLinejoin: ToolConstants.ROUND,
       strokeDashArray: ToolConstants.STRAIGHT,
@@ -142,7 +142,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeLinejoin: this.stroke.strokeLinejoin,
       strokeDashArray: this.stroke.strokeDashArray,
     };
-    this.drawingStorage.saveDrawing(currentDrawing);
+    this.saveService.saveDrawing(currentDrawing);
   }
 
   protected addSegment(): void {

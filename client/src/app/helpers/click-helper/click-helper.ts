@@ -35,19 +35,27 @@ export default class ClickHelper {
                     { x: object.x, y: object.y, width: object.width, height: object.height}),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
-                const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+                let lineIntersections;
+                if (object.points) {
+                    lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
                     svgIntersections.shape('polyline', selectorLine));
-                return lineIntersections.points.length > 0;
+                    return lineIntersections.points.length > 0;
+                }
+                return false;
             case Id.ELLIPSE:
                 const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
                     rx: object.width, ry: object.height }),
                     svgIntersections.shape('polyline', selectorLine));
                 return ellipseIntersections.points.length > 0;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polygon', { points: object.vertices }),
-                    svgIntersections.shape('polyline', selectorLine));
-                return polygonIntersections.points.length > 0;
+                let polygonIntersections;
+                if (object.vertices) {
+                    polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
+                        svgIntersections.shape('polyline', selectorLine));
+                    return polygonIntersections.points.length > 0;
+                }
+                return false;
             case Id.STAMP:
                 const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle',
                     { cx: (object.x + (object.width / 2)), cy: (object.y + (object.height / 2)), r: object.width / 2 }),
@@ -63,7 +71,7 @@ export default class ClickHelper {
             case Id.RECTANGLE: case Id.TEXT:
                 return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
             case Id.ELLIPSE:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
@@ -96,10 +104,13 @@ export default class ClickHelper {
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = rectIntersections.points;
                 break;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE:
-                const lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
-                    svgIntersections.shape('rect', selectorBox));
-                intersectionPoints = lineIntersections.points;
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+                let lineIntersections;
+                if (object.points) {
+                    lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
+                        svgIntersections.shape('rect', selectorBox));
+                    intersectionPoints = lineIntersections.points;
+                }
                 break;
             case Id.ELLIPSE:
                 const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
@@ -111,12 +122,15 @@ export default class ClickHelper {
                 intersectionPoints = ellipseIntersections.points;
                 break;
             case Id.POLYGON:
-                const polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polygon', { points: object.vertices }),
-                svgIntersections.shape('rect', selectorBox));
+                let polygonIntersections;
+                if (object.vertices) {
+                    polygonIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.vertices }),
+                        svgIntersections.shape('rect', selectorBox));
+                    intersectionPoints = polygonIntersections.points;
+                }
                 boxIsInsideObject = (previewBox.x > (object.x - object.width) && previewBox.y > (object.y - object.height)
                     && previewBox.width < ((object.width * 2) - previewBox.x + (object.x - object.width))
                     && previewBox.height < ((object.height * 2) - previewBox.y + (object.y - object.height)));
-                intersectionPoints = polygonIntersections.points;
                 break;
             case Id.STAMP:
                 const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle',
@@ -126,6 +140,7 @@ export default class ClickHelper {
                     && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = stampIntersections.points;
+                break;
         }
         return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;
     }

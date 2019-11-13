@@ -151,13 +151,13 @@ describe('SaveWindowComponent', () => {
         const newComponent = new SaveWindowComponent(dialogRefMock, dataMock, canvasDataMock, drawingStorageMock, indexMock);
         newComponent.data.displayedTags = [{ name: 'tag', isSelected: true } as ITag];
         expect(newComponent.data.title).toBe(Strings.SAVE_WINDOW_TITLE);
-        expect(newComponent.isFinishedSaving).toBe(true);
+        expect(newComponent['isFinishedSaving']).toBe(true);
     });
 
     it('should properly call onAcceptClick', () => {
         component.onAcceptClick();
         indexMock.saveTag.and.returnValue(of(true));
-        expect(component.isFinishedSaving).toEqual(true);
+        expect(component['isFinishedSaving']).toEqual(true);
         expect(component.data.displayedTags).toEqual([tag, tag2]);
     });
 
