@@ -110,4 +110,19 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     }
     this.updatePositionAndDimensions(x, y);
   }
+
+  protected saveShape(): void {
+    const currentDrawing: IPen = {
+      id: this.plume.id,
+      paths: this.plume.paths,
+      colour: this.plume.colour,
+      strokeLinecap: this.plume.strokeLinecap,
+      x: this.plume.x,
+      y: this.plume.y,
+      width: this.plume.width - this.plume.x,
+      height: this.plume.height - this.plume.y,
+      points: this.plume.points,
+    };
+    this.drawingStorage.saveDrawing(currentDrawing);
+  }
 }
