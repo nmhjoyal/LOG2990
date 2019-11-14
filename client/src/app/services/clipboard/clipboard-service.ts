@@ -6,6 +6,7 @@ import { DrawingStorageService } from '../drawing-storage/drawing-storage.servic
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class ClipboardService {
   private pasteOffset: number;
   private lastCursorX: number;
   private lastCursorY: number;
+  private deletedDrawings: ITools;
 
   constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService,
       public undoRedoService: UndoRedoService, public saveService: SaveService) {
@@ -23,6 +25,15 @@ export class ClipboardService {
     this.pasteOffset = 0;
     this.lastCursorX = 0;
     this.lastCursorY = 0;
+    this.deletedDrawings = {
+      id: Id.ERASER,
+      x: 0,
+      y: 0,
+      height: 0,
+      width: 0,
+      objects: [],
+      indexes: [],
+    };
   }
 
   copy(): void {
@@ -133,9 +144,17 @@ export class ClipboardService {
     this.selectorService.selectedObjects.forEach((element) => {
       const index = this.drawingStorage.drawings.indexOf(element);
       if (index !== NumericalValues.NOT_VALID) {
+        this.deletedDrawings.objects = []; // make a method for that
+        this.deletedDrawings.indexes = [];
+        this.deletedDrawings.objects.push(element);
+        this.deletedDrawings.indexes.push(index);
         this.drawingStorage.drawings.splice(index, 1);
       }
     });
+    console.log(this.deletedDrawings);
+    this.saveService.saveDrawing({...this.deletedDrawings});
+    this.deletedDrawings.objects = [];
+    this.deletedDrawings.indexes = [];
   }
 
   undo(): void {
