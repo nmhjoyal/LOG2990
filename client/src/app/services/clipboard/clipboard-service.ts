@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
@@ -6,7 +7,6 @@ import { DrawingStorageService } from '../drawing-storage/drawing-storage.servic
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
-import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 
 @Injectable({
   providedIn: 'root',
