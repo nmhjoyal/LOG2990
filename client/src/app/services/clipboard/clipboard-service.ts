@@ -157,14 +157,14 @@ export class ClipboardService {
   undo(): void {
     const undoneOperation: ITools|undefined = this.undoRedoService.undo();
     if (undoneOperation && undoneOperation.pasteOffset) {
-        this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
+      this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
     }
   }
 
   redo(): void {
     const redoneOperation: ITools|undefined = this.undoRedoService.redo();
     if (redoneOperation && redoneOperation.pasteOffset !== undefined) {
-        this.pasteOffset = redoneOperation.pasteOffset;
+      this.pasteOffset = redoneOperation.pasteOffset;
     }
   }
 }

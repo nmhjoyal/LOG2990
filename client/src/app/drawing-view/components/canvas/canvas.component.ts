@@ -12,6 +12,8 @@ import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstr
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
+import { ITools } from '../tools/assets/interfaces/itools';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-canvas',
@@ -28,7 +30,7 @@ export class CanvasComponent implements AfterViewInit {
     private exportData: ExportInformationService,
     public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
     protected canvasData: CanvasInformationService, public colourService: ColourService,
-    protected gridService: GridService) {
+    protected gridService: GridService, protected saveService: SaveService) {
   }
 
   ngAfterViewInit() {
@@ -52,6 +54,9 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
+      this.recordColourChange(this.drawingStorage.drawings.indexOf(line), Id.PRIMARY_COLOUR_CHANGE,
+        line.colour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      
       line.colour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = line.colour;
@@ -67,6 +72,9 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
+      this.recordColourChange(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
+        shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      
       shape.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColourFromShape(event, ToolConstants.PRIMARY_COLOUR_INDEX, shape);
@@ -76,6 +84,9 @@ export class CanvasComponent implements AfterViewInit {
   applySecondaryColourToShape(event: MouseEvent, shape: IShape): void {
     event.preventDefault();
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.secondaryColour !== 'none') {
+      this.recordColourChange(this.drawingStorage.drawings.indexOf(shape), Id.SECONDARY_COLOUR_CHANGE,
+        shape.secondaryColour, this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX]);
+        
       shape.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColourFromShape(event, ToolConstants.SECONDARY_COLOUR_INDEX, shape);
@@ -88,6 +99,20 @@ export class CanvasComponent implements AfterViewInit {
     } else {
       this.colourService.colour[colourIndex] = shape.primaryColour;
     }
+  }
+
+  recordColourChange(indexOfDrawing: number, colourChangeId: string, originalColour: string, toColour: string): void {
+    const colourChangeOperation: ITools = {
+      id: colourChangeId,
+      indexes: [indexOfDrawing],
+      initialColour: originalColour,
+      applicatedColour: toColour,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+    this.saveService.saveDrawing(colourChangeOperation);
   }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {

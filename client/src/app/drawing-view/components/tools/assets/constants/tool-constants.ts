@@ -17,6 +17,8 @@ export enum Id {
     TEXT = 'text',
     GRID = 'grid',
     ERASER = 'eraser',
+    PRIMARY_COLOUR_CHANGE = 'primaryColourChange',
+    SECONDARY_COLOUR_CHANGE = 'secondaryColourChange',
 }
 
 export enum FilterURL {
