@@ -21,7 +21,7 @@ export class UndoRedoService {
     const poppedObject = this.drawingStorage.drawings.pop();
     if ( poppedObject !== undefined ) {
       if (poppedObject.id === Id.ERASER && poppedObject.objects && poppedObject.indexes) {
-        for (let index = 0; index < poppedObject.objects.length; index++) {
+        for (let index = poppedObject.objects.length - 1; index >= 0; index--) {
           const drawing = poppedObject.objects[index];
           this.drawingStorage.drawings.splice(poppedObject.indexes[index], 0, drawing);
         }
@@ -35,7 +35,7 @@ export class UndoRedoService {
     const poppedObject = this.undoList.pop();
     if ( poppedObject ) {
       if (poppedObject.id === Id.ERASER && poppedObject.objects && poppedObject.indexes) {
-        for (let index = 0; index < poppedObject.objects.length; index++) {
+        for (let index = poppedObject.objects.length - 1; index >= 0; index--) {
           this.drawingStorage.drawings.splice(poppedObject.indexes[index], 1);
         }
       }

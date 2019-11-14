@@ -143,15 +143,12 @@ export class ClipboardService {
   delete(): void {
     this.selectorService.selectedObjects.forEach((element) => {
       const index = this.drawingStorage.drawings.indexOf(element);
-      if (index !== NumericalValues.NOT_VALID) {
-        this.deletedDrawings.objects = []; // make a method for that
-        this.deletedDrawings.indexes = [];
+      if (index !== NumericalValues.NOT_VALID && this.deletedDrawings.objects && this.deletedDrawings.indexes) {
         this.deletedDrawings.objects.push(element);
         this.deletedDrawings.indexes.push(index);
         this.drawingStorage.drawings.splice(index, 1);
       }
     });
-    console.log(this.deletedDrawings);
     this.saveService.saveDrawing({...this.deletedDrawings});
     this.deletedDrawings.objects = [];
     this.deletedDrawings.indexes = [];
