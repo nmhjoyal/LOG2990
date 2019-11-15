@@ -20,6 +20,7 @@ import { ExportInformationService } from './services/export-information/export-i
 import { FilterTagsPipe } from './services/filter-pipe/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
+import { ParserService } from './services/parser-service/parser.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     MatButtonToggleModule,
     MatProgressSpinnerModule,
   ],
-  providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, ColourService, ExportInformationService,
+  providers: [MatDialogConfig, ParserService, LocalStorageService, ToolHandlerService, CanvasInformationService, ColourService, ExportInformationService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
