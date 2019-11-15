@@ -8,4 +8,6 @@ export enum NumericalValues {
     HEX_NO_ALPHA = 7,
     DUPLICATE_OFFSET = 20,
     NOT_VALID = -1,
+    NINETY = 90,
+    ONE_EIGHTY = 180,
 }

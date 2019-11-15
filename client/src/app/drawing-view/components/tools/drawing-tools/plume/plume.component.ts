@@ -6,6 +6,7 @@ import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { IPen, IComplexPath } from '../../assets/interfaces/drawing-tool-interface';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 
 @Component({
   selector: 'app-plume',
@@ -15,11 +16,10 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
   private plume: IPen;
-  private lastX: number;
-  private lastY: number;
   private lineLenght: number;
   private angle: number;
-  private newWidth: number;
+  private lastX: number;
+  private lastY: number;
 
   constructor(saveServiceRef: SaveService,
               attributesServiceRef: AttributesService,
@@ -36,11 +36,10 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
       height: 0,
       points: '',
     };
+    this.lineLenght = ToolConstants.DEFAULT_LINELENGHT;
+    this.angle = ToolConstants.DEFAULT_ANGLE;
     this.lastX = 0;
     this.lastY = 0;
-    this.lineLenght = 0;
-    this.angle = 0;
-    this.newWidth = ToolConstants.DEFAULT_MAX_WIDTH;
   }
 
   ngOnInit(): void {
@@ -75,21 +74,11 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     if (this.mouseDown) {
       const x = ClickHelper.getXPosition(event);
       const y = ClickHelper.getYPosition(event);
-      if (x !== this.lastX || y !== this.lastY) {
-        const multiplier = this.calculateWidthMultiplier(x, y);
-        this.newWidth = ToolConstants.DEFAULT_MAX_WIDTH * multiplier;
-        this.addPath(x, y);
-        this.lastX = x;
-        this.lastY = y;
-      }
-    }
-  }
 
-  calculateWidthMultiplier(x: number, y: number) {
-    const offsetX = x > this.lastX ? x - this.lastX : this.lastX - x;
-    const offsetY = y > this.lastY ? y - this.lastY : this.lastY - y;
-    const orientationRad = Math.abs(Math.atan(offsetY / offsetX) - Math.PI);
-    return  orientationRad > Math.PI / 2 ? (orientationRad - (Math.PI / 2)) / (Math.PI / 2) : orientationRad / (Math.PI / 2);
+      this.calculatePath(x, y);
+      this.lastX = x;
+      this.lastY = y;
+    }
   }
 
   protected updatePositionAndDimensions(x: number, y: number): void {
@@ -99,16 +88,49 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.plume.height = y > this.plume.height ? y : this.plume.height;
   }
 
-  protected addPath(x: number, y: number): void {
+  protected calculatePath(x: number, y: number): void {
+    const angleRad = this.degreeToRad(this.angle);
+    const offsetX = (x > this.lastX) ? x - this.lastX : this.lastX - x;
+    const offsetY = (y > this.lastY) ? y - this.lastY : this.lastY - y;
+    const angleBetweenPoints = Math.atan(offsetY / offsetX);
+    const distance = this.calculatePerpendicularDistance(offsetX, offsetY, angleRad, angleBetweenPoints);
+    if (distance > ToolConstants.DEFAULT_STROKE_WIDTH) {
+      this.fillGaps(angleBetweenPoints, distance);
+    } else {
+      this.addPath(x, y);
+    }
+  }
+
+  protected addPath(x: number, y: number) {
+    const angleRad = this.degreeToRad(this.angle);
+    const x1 = x - (this.lineLenght / 2) * Math.cos(angleRad);
+    const x2 = x + (this.lineLenght / 2) * Math.cos(angleRad);
+    const y1 = y - (this.lineLenght / 2) * Math.sin(angleRad);
+    const y2 = y + (this.lineLenght / 2) * Math.sin(angleRad);
     const path: IComplexPath = {
-      path: 'M' + this.lastX + ' ' + this.lastY + 'L' + x + ' ' + y,
-      pathWidth: this.newWidth,
+      path: 'M' + x1 + ' ' + y1 + 'L' + x2 + ' ' + y2,
+      pathWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     };
     this.plume.points += ' ' + x + ',' + y;
     if (this.plume.paths) {
       this.plume.paths.push(path);
     }
     this.updatePositionAndDimensions(x, y);
+  }
+
+  protected calculatePerpendicularDistance(offsetX: number, offsetY: number, angleRad: number, angleBetweenPoints: number): number {
+    const incidentAngle = angleBetweenPoints - angleRad;
+    return Math.sqrt(offsetX * offsetX + offsetY * offsetY) * Math.sin(incidentAngle);
+  }
+
+  protected fillGaps(angleBetweenPoints: number, distance: number): void {
+    let x = this.lastX;
+    let y = this.lastY;
+    for (let i = 0; i < Math.abs(distance) / 2; i++) {
+      x += 2 * Math.cos(angleBetweenPoints);
+      y += 2 * Math.sin(angleBetweenPoints);
+      this.addPath(x, y);
+    }
   }
 
   protected saveShape(): void {
@@ -124,5 +146,34 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
       points: this.plume.points,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
+  }
+
+  protected increaseLineLenght(): void {
+    this.lineLenght++;
+  }
+
+  protected decreaseLineLenght(): void {
+    if (this.lineLenght > 1) {
+      this.lineLenght--;
+    }
+  }
+
+  protected increaseAngle(increment: number): void {
+    this.angle += increment;
+  }
+
+  protected decreaseAngle(decrement: number): void {
+    this.angle -= decrement;
+  }
+
+  protected degreeToRad(angle: number): number {
+    let angleRad = angle * (Math.PI / NumericalValues.ONE_EIGHTY);
+    while (angleRad > 2 * Math.PI) {
+      angleRad -= 2 * Math.PI;
+    }
+    while (angleRad < 0) {
+      angleRad += 2 * Math.PI;
+    }
+    return angleRad;
   }
 }
