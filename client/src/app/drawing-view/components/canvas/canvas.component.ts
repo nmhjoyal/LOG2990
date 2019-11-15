@@ -54,7 +54,7 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      this.recordColourChange(this.drawingStorage.drawings.indexOf(line), Id.PRIMARY_COLOUR_CHANGE,
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(line), Id.PRIMARY_COLOUR_CHANGE,
         line.colour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
 
       line.colour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
@@ -72,7 +72,7 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
-      this.recordColourChange(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
         shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
 
       shape.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
@@ -84,7 +84,7 @@ export class CanvasComponent implements AfterViewInit {
   applySecondaryColourToShape(event: MouseEvent, shape: IShape): void {
     event.preventDefault();
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.secondaryColour !== 'none') {
-      this.recordColourChange(this.drawingStorage.drawings.indexOf(shape), Id.SECONDARY_COLOUR_CHANGE,
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.SECONDARY_COLOUR_CHANGE,
         shape.secondaryColour, this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX]);
 
       shape.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
@@ -101,7 +101,7 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  recordColourChange(indexOfDrawing: number, colourChangeId: string, originalColour: string, toColour: string): void {
+  saveColourApplication(indexOfDrawing: number, colourChangeId: string, originalColour: string, toColour: string): void {
     const colourChangeOperation: ITools = {
       id: colourChangeId,
       indexes: [indexOfDrawing],
