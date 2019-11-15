@@ -81,10 +81,11 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     if (event.button === ClickTypes.LEFT_CLICK) {
       if (this.selectorService.SelectedObjects) {
         this.selectorService.SelectedObjects.forEach((drawing) => {
-          this.selectorService.cursorTouchesObject(drawing, this.cursorX, this.cursorY) ?
-            { this.shouldDrag = true, break }
-            : this.shouldDrag = false;
-        })
+          if (this.selectorService.cursorTouchesObject(drawing, this.cursorX, this.cursorY)) {
+            this.shouldDrag = true;
+            return;
+          }
+        });
       } else {
         this.isRightClick = false;
         this.isReverseSelection = false;
