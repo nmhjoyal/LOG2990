@@ -11,6 +11,7 @@ import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { PreviewCanvasComponent } from './components/modal-windows/gallery-window/preview-canvas/preview-canvas.component';
 import { AttributesService } from './components/tools/assets/attributes/attributes.service';
+import { BucketComponent } from './components/tools/drawing-tools/bucket/bucket.component';
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
@@ -29,6 +30,7 @@ import { TextComponent } from './components/tools/text/text.component';
     CanvasComponent,
     CrayonComponent,
     PaintbrushComponent,
+    BucketComponent,
     DrawingToolToolboxComponent,
     RectangleComponent,
     PolygonComponent,

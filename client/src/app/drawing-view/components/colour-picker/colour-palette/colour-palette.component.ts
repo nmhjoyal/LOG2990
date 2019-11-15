@@ -31,11 +31,8 @@ export class ColourPaletteComponent implements AfterViewInit {
 
   @ViewChild('canvas', { static: false })
   protected canvas: ElementRef<HTMLCanvasElement>;
-
   private ctx: CanvasRenderingContext2D;
-
   private mousedown = false;
-
   protected selectedPosition: { x: number; y: number };
 
   ngAfterViewInit(): void {
@@ -56,7 +53,6 @@ export class ColourPaletteComponent implements AfterViewInit {
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
-
     const colourGradient = this.ctx.createLinearGradient(0, 0, 0, height);
 
     let separatorFactor = 0;

@@ -17,6 +17,7 @@ export enum Id {
     TEXT = 'text',
     GRID = 'grid',
     ERASER = 'eraser',
+    BUCKET = 'bucket',
 }
 
 export enum FilterURL {
@@ -70,6 +71,7 @@ export class ToolConstants {
     static DEFAULT_MIN_WIDTH = 2;
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;
+    static DEFAULT_TOLERANCE = 0.25;
     static MAX_SPEED = 0.4;
     static MIN_SPEED = 0.0007;
     static STROKE_INCREMENT = 1;

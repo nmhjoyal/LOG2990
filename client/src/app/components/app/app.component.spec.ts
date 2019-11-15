@@ -49,8 +49,8 @@ describe('AppComponent', () => {
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete', 'undo', 'redo']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
-    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon', 'chooseText',
-    'choosePen', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
+    ['resetToolSelection', 'choosePaintbrush', 'chooseBucket', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon',
+    'chooseText', 'choosePen', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
     'chooseEraser']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
@@ -173,6 +173,16 @@ describe('AppComponent', () => {
     component.optionsSidebar.opened = false;
     component.onKeydownWEvent();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
+  });
+
+  it('#chooseBucket should be called when b is pressed', () => {
+    toolHandlerMock.chooseBucket.and.callThrough();
+    component.optionsSidebar.opened = true;
+    component.onKeydownWEvent();
+    expect(toolHandlerMock.chooseBucket).not.toHaveBeenCalled();
+    component.optionsSidebar.opened = false;
+    component.onKeydownBEvent();
+    expect(toolHandlerMock.chooseBucket).toHaveBeenCalled();
   });
 
   it('#chooseEyedropper should be called when i is pressed', () => {

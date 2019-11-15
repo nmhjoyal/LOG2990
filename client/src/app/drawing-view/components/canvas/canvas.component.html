@@ -65,6 +65,10 @@
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
             </g>
 
+            <g *ngSwitchCase="toolId.BUCKET" (click)="applyColourToLine(drawing)"
+                (contextmenu)="getColourFromLine($event, drawing)">
+            </g>
+
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths">
@@ -150,6 +154,10 @@
 <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
     <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.BUCKET">
+    <app-bucket #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-bucket>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
     <app-eraser #activeTool [windowWidth]="canvasData.data.drawingWidth"

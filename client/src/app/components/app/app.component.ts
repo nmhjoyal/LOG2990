@@ -75,6 +75,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.b', ['$event']) onKeydownBEvent(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseBucket();
+    }
+  }
+
   @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEyedropper();

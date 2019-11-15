@@ -21,11 +21,11 @@ export class ColourService {
     this.alpha = [NumericalValues.INITIAL_TRANSPARENCY, NumericalValues.INITIAL_TRANSPARENCY];
   }
 
-  getPrimaryColour(): string {
+  get PrimaryColour(): string {
     return this.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
   }
 
-  getSecondaryColour(): string {
+  get SecondaryColour(): string {
     return this.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
   }
 
