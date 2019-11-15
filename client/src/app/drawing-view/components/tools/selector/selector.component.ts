@@ -8,6 +8,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { ControlPoints } from '../assets/constants/selector-constants';
 
 @Component({
   selector: 'app-tools-selector',
@@ -16,6 +17,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 })
 export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestroy {
   protected mouseMoved: boolean;
+  protected selectedControlPoint: ControlPoints;
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
 
@@ -27,6 +29,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
     this.mouseMoved = false;
+    this.selectedControlPoint = ControlPoints.NONE;
   }
 
   ngOnInit(): void {
@@ -62,8 +65,10 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    super.onMouseMove(event);
-    this.handleMouseMove();
+    if (this.selectedControlPoint === ControlPoints.NONE) {
+      super.onMouseMove(event);
+    }
+    this.handleMouseMove(event);
   }
 
   @HostListener('mouseup', ['$event']) onRelease(event: MouseEvent): void {
@@ -76,11 +81,53 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
+  handleControlPoint(event: MouseEvent): void {
+    switch (this.selectedControlPoint) {
+      case ControlPoints.TOP_LEFT:
+        this.selectorService.resizeXPosition(ClickHelper.getXPosition(event));
+        this.selectorService.resizeYPosition(ClickHelper.getYPosition(event));
+        break;
+      case ControlPoints.TOP_MIDDLE:
+        this.selectorService.resizeYPosition(ClickHelper.getYPosition(event));
+        break;
+      case ControlPoints.TOP_RIGHT:
+        this.selectorService.resizeXAxis(ClickHelper.getXPosition(event));
+        this.selectorService.resizeYPosition(ClickHelper.getYPosition(event));
+        break;
+      case ControlPoints.MIDDLE_LEFT:
+        this.selectorService.resizeXPosition(ClickHelper.getXPosition(event));
+        break;
+      case ControlPoints.MIDDLE_MIDDLE:
+        break;
+      case ControlPoints.MIDDLE_RIGHT:
+        this.selectorService.resizeXAxis(ClickHelper.getXPosition(event));
+        break;
+      case ControlPoints.BOTTOM_LEFT:
+        this.selectorService.resizeXPosition(ClickHelper.getXPosition(event));
+        this.selectorService.resizeYAxis(ClickHelper.getYPosition(event));
+        break;
+      case ControlPoints.BOTTOM_MIDDLE:
+        this.selectorService.resizeYAxis(ClickHelper.getYPosition(event));
+        break;
+      case ControlPoints.BOTTOM_RIGHT:
+        this.selectorService.resizeXAxis(ClickHelper.getXPosition(event));
+        this.selectorService.resizeYAxis(ClickHelper.getYPosition(event));
+        break;
+    }
+    this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY, this.selectorService.MinWidth,
+      this.selectorService.MinHeight);
+  }
+
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
+      if (this.toolService.selectorBoxExists()) {
+        this.selectedControlPoint = ClickHelper.cursorTouchesControlPoint(this.selectorService.selectorBox,
+          ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
+        return;
+      }
+      this.selectedControlPoint = ControlPoints.NONE;
       this.isRightClick = false;
       this.isReverseSelection = false;
-      this.resetComponent();
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
       if (!this.toolService.selectorBoxExists()) {
@@ -92,9 +139,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     }
   }
 
-  protected handleMouseMove(): void {
+  protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       this.mouseMoved = true;
+      if (this.selectedControlPoint !== ControlPoints.NONE) {
+        this.handleControlPoint(event);
+        return;
+      }
       this.selectorService.resetSize();
       this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
       this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
@@ -116,6 +167,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     // Single clicks
     if (this.mouseDown && !this.mouseMoved) {
       if (event.button === ClickTypes.LEFT_CLICK) {
+        this.resetComponent();
         this.leftClick(event);
         this.mouseDown = false;
       } else if (event.button === ClickTypes.RIGHT_CLICK) {
@@ -125,7 +177,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.resetComponent();
         this.resetShape();
       }
-    } else {
+    } else if (this.selectedControlPoint === ControlPoints.NONE) {
       // Drag & Drop
       if (this.selectorService.SelectedObjects.size > 0) {
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
@@ -135,6 +187,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.resetComponent();
         this.resetShape();
       }
+    } else {
+      this.resetShape();
     }
   }
 

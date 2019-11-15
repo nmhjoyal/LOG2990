@@ -113,30 +113,30 @@
 
     <g *ngIf="toolHandler.selectedTool === toolId.SELECTOR && toolHandler.selectorBoxExists()"
         [style.stroke]="toolHandler.selection.secondaryColour" [style.fill]="toolHandler.selection.primaryColour">
+         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2"
+            (click)="handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
+            [attr.cy]="toolHandler.selection.y" r="2" (click)="handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
+            [attr.cy]="toolHandler.selection.y" r="2" (click)="handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"
+            (click)="activeTool.handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
+            (click)="activeTool.handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
+            (click)="activeTool.handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
+            (mousedown)="activeTool.handleControlPoint()" />
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"
+            (mousedown)="activeTool.handleControlPoint()" />
         <rect [attr.x]="toolHandler.selection.x" [attr.y]="toolHandler.selection.y"
             [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
             [style.stroke-opacity]="1" [style.stroke-width]="1" [style.fill-opacity]="0" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y" r="4" (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y" r="4" (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
-            (mousedown)="activeTool.handleControlPoint()" />
     </g>
 </svg>
 <div *ngIf="toolHandler.selectedTool === toolId.LINE">
@@ -185,7 +185,4 @@
 <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
-</div>
-<div *ngIf="toolHandler.gridSelected">
-       
 </div>
