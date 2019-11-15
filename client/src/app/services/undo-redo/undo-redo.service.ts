@@ -20,6 +20,7 @@ export class UndoRedoService {
 
   undo(): ITools|undefined {
     this.accessingUndoList = true;
+    this.isUndoing = true;
     const poppedObject = this.drawingStorage.drawings.pop();
     if ( poppedObject ) {
       this.handlersParser(poppedObject);
