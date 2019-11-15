@@ -3,8 +3,7 @@
       
 
     <defs>
-         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" >
-        
+         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" patternUnits="userSpaceOnUse" >
             <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour"/>
             <rect x="0" y="0" width="2" height="100%" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
             <rect x="0" y="0" width="100%" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
