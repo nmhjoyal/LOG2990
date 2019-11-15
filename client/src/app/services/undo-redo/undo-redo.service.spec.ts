@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { UndoRedoService } from './undo-redo.service';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 // tslint:disable:no-string-literal
 
 describe('UndoRedoService', () => {
@@ -18,10 +19,17 @@ describe('UndoRedoService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        CanvasInformationService,
         DrawingStorageService,
+        UndoRedoService,
       ],
     });
     service = TestBed.get(UndoRedoService);
+    service.canevasInformation.data = {
+      drawingHeight: 0,
+      drawingWidth: 0,
+      drawingColour: 'default',
+    };
 
     dummyDrawing = {
       id: '',
@@ -40,8 +48,8 @@ describe('UndoRedoService', () => {
     };
 
     shapeDrawing = {
-      primaryColour: '',
-      secondaryColour: '',
+      primaryColour: 'default',
+      secondaryColour: 'default',
       id: '',
       strokeOpacity: 0,
       strokeWidth: 0,
@@ -178,11 +186,27 @@ describe('UndoRedoService', () => {
 
   it('#handlePrimaryColourApplication should apply the initial colour on a undo' +
   ' and applicatedColour on a redo', () => {
-
    service.drawingStorage.drawings = [shapeDrawing];
 
+   mockOperation.indexes = [ToolConstants.NULL];
+   mockOperation.initialColour = 'initialColour';
+   mockOperation.applicatedColour = undefined;
+   
    service.handlePrimaryColourApplication(mockOperation, !undo);
-   expect(service.drawingStorage.drawings[0].primaryColour).toBe('');
+   expect(service.canevasInformation.data.drawingColour).toBe('default');
+
+   mockOperation.initialColour = undefined;
+   mockOperation.applicatedColour = 'applicatedColour';
+
+   service.handlePrimaryColourApplication(mockOperation, !undo);
+   expect(service.canevasInformation.data.drawingColour).toBe('applicatedColour');
+
+   mockOperation.indexes = undefined;
+   mockOperation.initialColour = 'initialColour';
+   mockOperation.applicatedColour = 'applicatedColour';
+
+   service.handlePrimaryColourApplication(mockOperation, !undo);
+   expect(service.drawingStorage.drawings[0].primaryColour).toBe('default');
 
    mockOperation.indexes = [0];
    mockOperation.initialColour = 'initialColour';
@@ -207,7 +231,7 @@ describe('UndoRedoService', () => {
    service.drawingStorage.drawings = [shapeDrawing];
 
    service.handleSecondaryColourApplication(mockOperation, !undo);
-   expect(service.drawingStorage.drawings[0].primaryColour).toBe('');
+   expect(service.drawingStorage.drawings[0].primaryColour).toBe('default');
 
    mockOperation.indexes = [0];
    mockOperation.initialColour = 'initialColour';

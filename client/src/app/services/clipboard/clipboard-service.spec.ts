@@ -8,12 +8,14 @@ import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ClipboardService } from './clipboard-service';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
   let selectorService: SelectorService;
   let drawingStorage: DrawingStorageService;
   let undoRedoService: UndoRedoService;
+  let canvasService: CanvasInformationService;
   let saveService: SaveService;
   let dummyOperation: ITools;
   let erasedDrawings: ITools;
@@ -25,7 +27,7 @@ describe('ClipboardService', () => {
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
     selectorService = new SelectorService();
-    undoRedoService = new UndoRedoService(drawingStorage);
+    undoRedoService = new UndoRedoService(drawingStorage, canvasService);
     saveService = new SaveService(drawingStorage, undoRedoService);
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
 

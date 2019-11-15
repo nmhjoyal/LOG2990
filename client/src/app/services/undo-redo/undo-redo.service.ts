@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class UndoRedoService {
   accessingUndoList: boolean;
   private isUndoing: boolean;
 
-  constructor(public drawingStorage: DrawingStorageService) {
+  constructor(public drawingStorage: DrawingStorageService, public canevasInformation: CanvasInformationService) {
     this.undoList = [];
     this.accessingUndoList = false;
     this.isUndoing = false;
@@ -75,12 +76,15 @@ export class UndoRedoService {
   }
 
   handlePrimaryColourApplication( operation: ITools, isUndo: boolean ) {
-    if ( operation.indexes ) {
-      const colourToApply: string|undefined = isUndo ?  operation.initialColour : operation.applicatedColour;
-
-      'primaryColour' in this.drawingStorage.drawings[operation.indexes[0]] ?
-      this.drawingStorage.drawings[operation.indexes[0]].primaryColour =  colourToApply :
-      this.drawingStorage.drawings[operation.indexes[0]].colour = colourToApply;
+    const colourToApply: string|undefined = isUndo ?  operation.initialColour : operation.applicatedColour;
+    if ( operation.indexes && colourToApply !== undefined) {    
+      if ( operation.indexes[0] === ToolConstants.NULL ) {
+          this.canevasInformation.data.drawingColour = colourToApply;
+        } else {
+          'primaryColour' in this.drawingStorage.drawings[operation.indexes[0]] ?
+          this.drawingStorage.drawings[operation.indexes[0]].primaryColour =  colourToApply :
+          this.drawingStorage.drawings[operation.indexes[0]].colour = colourToApply;
+      }
     }
   }
 
