@@ -24,11 +24,13 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
   private tolerance: number;
   private context: CanvasRenderingContext2D;
   private initialColour: string;
+  protected traceMode: number;
 
   constructor( protected drawingStorage: SaveService, protected attributesService: AttributesService,
     protected colourService: ColourService) {
     super();
     this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
+    this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
     this.shape = {
       id: Id.BUCKET,
       primaryColour: colourService.PrimaryColour,
@@ -48,6 +50,7 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.attributesService.bucketAttributes.wasSaved = true;
     this.attributesService.bucketAttributes.savedStrokeWidth = this.shape.strokeWidth;
     this.attributesService.bucketAttributes.savedTolerance = this.tolerance;
+    this.attributesService.bucketAttributes.savedTraceMode = this.traceMode;
   }
   ngOnInit(): void {
     if (this.attributesService.bucketAttributes.wasSaved) {
@@ -55,7 +58,6 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
       this.tolerance = this.attributesService.bucketAttributes.savedTolerance;
       this.traceMode = this.attributesService.polygonAttributes.savedTraceMode;
     }
-    this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
@@ -95,7 +97,6 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
-
   }
 
   getColourAtPosition(x: number, y: number): string {

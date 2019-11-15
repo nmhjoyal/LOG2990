@@ -9,6 +9,7 @@ export interface IBucketOptions extends ITools {
     wasSaved: boolean;
     savedStrokeWidth: number;
     savedTolerance: number;
+    savedTraceMode: number;
     savedMaxWidth: number;
     savedMinWidth: number;
 }
