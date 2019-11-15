@@ -62,22 +62,23 @@ describe('ClipboardService', () => {
     expect(service['clipboard'].size).toEqual(1);
   });
 
-  it('should remove an item from drawing on delete', () => {
+  it('should remove an item from drawing on delete and save a eraser operation', () => {
     let drawing: ITools;
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     selectorService.selectedObjects.add(drawing);
+    drawingStorage.drawings = [];
     drawingStorage.drawings.push(drawing);
     service.delete();
-    expect(drawingStorage.drawings.length).toEqual(0);
+    expect(drawingStorage.drawings[0]).toEqual(service['deletedDrawings']);
   });
 
   it('should remove an item from drawing on cut', () => {
-    let drawing: ITools;
-    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
-    selectorService.selectedObjects.add(drawing);
-    drawingStorage.drawings.push(drawing);
-    service.delete();
-    expect(drawingStorage.drawings.length).toEqual(0);
+    const copySpy = spyOn(service, 'copy');
+    const deleteSpy = spyOn(service, 'delete');
+
+    service.cut();
+    expect(copySpy).toHaveBeenCalled();
+    expect(deleteSpy).toHaveBeenCalled();
   });
 
   it('should add drawing to canvas on paste', () => {

@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { UndoRedoService } from './undo-redo.service';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
-import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-// tslint:desiable:no-string-litterals
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { UndoRedoService } from './undo-redo.service';
+// tslint:disable:no-string-literal
 
 describe('UndoRedoService', () => {
   let service: UndoRedoService;
-  const undo: boolean = true;
+  const undo = true;
   let dummyDrawing: ITools;
   let mockOperation: ITools;
   let shapeDrawing: IShape;
@@ -110,12 +110,11 @@ describe('UndoRedoService', () => {
     const parserSpy = spyOn(service, 'handlersParser');
 
     service.redo();
-    
+
     expect(service['isUndoing']).toBe(false);
     expect(undoListSpy.calls.count()).toBe(1);
     expect(drawingsSpy).not.toHaveBeenCalled();
     expect(parserSpy).not.toHaveBeenCalled();
-
 
     service['isUndoing'] = true;
     undoListSpy.and.returnValue(dummyDrawing);
@@ -151,12 +150,12 @@ describe('UndoRedoService', () => {
 
   });
 
-  it('#handleEraseroperation should insert elements into drawing on undo,' + 
+  it('#handleEraseroperation should insert elements into drawing on undo,' +
   ' and remove them on redo', () => {
-    
+
     service.drawingStorage.drawings = [mockOperation];
     const spliceSpy = spyOn(service.drawingStorage.drawings, 'splice');
-    
+
     service.handleEraserOperation(dummyDrawing, undo);
     expect(spliceSpy).not.toHaveBeenCalled();
 
@@ -169,15 +168,15 @@ describe('UndoRedoService', () => {
 
     service.handleEraserOperation(dummyDrawing, undo);
     expect(spliceSpy.calls.count()).toEqual(1);
-    expect(spliceSpy.calls.mostRecent().args).toEqual([0,0,mockOperation]);
+    expect(spliceSpy.calls.mostRecent().args).toEqual([0, 0, mockOperation]);
 
     service.handleEraserOperation(dummyDrawing, !undo);
     expect(spliceSpy.calls.count()).toBe(2);
-    expect(spliceSpy.calls.mostRecent().args).toEqual([0,1]);
+    expect(spliceSpy.calls.mostRecent().args).toEqual([0, 1]);
 
   });
 
-  it('#handlePrimaryColourApplication should apply the initial colour on a undo' + 
+  it('#handlePrimaryColourApplication should apply the initial colour on a undo' +
   ' and applicatedColour on a redo', () => {
 
    service.drawingStorage.drawings = [shapeDrawing];
@@ -202,7 +201,7 @@ describe('UndoRedoService', () => {
 
   });
 
-  it('#handleSecondaryColourApplication should apply the initial colour on a undo' + 
+  it('#handleSecondaryColourApplication should apply the initial colour on a undo' +
   ' and applicatedColour on a redo', () => {
 
    service.drawingStorage.drawings = [shapeDrawing];
