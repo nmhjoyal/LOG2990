@@ -63,44 +63,44 @@ export class AppComponent implements OnInit {
     this.cursorY = ClickHelper.getYPosition(event);
   }
 
-  @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
+  @HostListener('document:keydown.c', ['$event']) onKeydownC(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseCrayon();
     }
   }
 
-  @HostListener('document:keydown.w', ['$event']) onKeydownWEvent(): void {
+  @HostListener('document:keydown.w', ['$event']) onKeydownW(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePaintbrush();
     }
   }
 
-  @HostListener('document:keydown.i', ['$event']) onKeydownIEvent(): void {
+  @HostListener('document:keydown.i', ['$event']) onKeydownI(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
-  @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
+  @HostListener('document:keydown.r', ['$event']) onKeydownR(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator(this.colourService.getPrimaryColour(),
          this.colourService.getSecondaryColour());
     }
   }
 
-  @HostListener('document:keydown.s', ['$event']) onKeydownSEvent(): void {
+  @HostListener('document:keydown.s', ['$event']) onKeydownS(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSelector();
     }
   }
 
-  @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZEvent(): void {
+  @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZ(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.clipboardService.undo();
     }
   }
 
-  @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZEvent(): void {
+  @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZ(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.clipboardService.redo();
     }
@@ -155,28 +155,28 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.control.o', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+  @HostListener('document:keydown.control.o', ['$event']) onKeydownCtrlO(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.confirmNewDrawing();
     }
   }
 
-  @HostListener('document:keydown.control.s', ['$event']) onKeydownHandlerCtrlS(event: KeyboardEvent): void {
+  @HostListener('document:keydown.control.s', ['$event']) onKeydownCtrlS(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.openSaveWindow();
     }
   }
 
-  @HostListener('document:keydown.control.e', ['$event']) onKeydownHandlerCtrlE(event: KeyboardEvent): void {
+  @HostListener('document:keydown.control.e', ['$event']) onKeydownCtrlE(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.openExportWindow();
     }
   }
 
-  @HostListener('document:keydown.control.g', ['$event']) onKeydownHandlerCtrlG(event: KeyboardEvent): void {
+  @HostListener('document:keydown.control.g', ['$event']) onKeydownCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       if (this.drawingStorage.isEmpty()) {
