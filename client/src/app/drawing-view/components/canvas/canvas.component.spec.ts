@@ -154,7 +154,7 @@ describe('CanvasComponent', () => {
 
   it('#saveColourApplication should save its arguments as an object in the drawings array', () => {
     // tslint:disable-next-line:no-string-literal
-    const saveSpy = spyOn(component['saveService'], 'saveDrawing' );
+    const saveSpy = spyOn(component['saveService'], 'saveDrawing' ).and.callThrough();
     component.drawingStorage.drawings = [];
     component.saveColourApplication(0, 'colourChangeId', 'originalColour', 'toColour');
     const colourChangeOperation: ITools = {

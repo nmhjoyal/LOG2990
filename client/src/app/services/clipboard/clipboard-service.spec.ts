@@ -16,6 +16,7 @@ describe('ClipboardService', () => {
   let undoRedoService: UndoRedoService;
   let saveService: SaveService;
   let dummyOperation: ITools;
+  let erasedDrawings: ITools;
   const FIFTY = 50;
   const FORTY = 40;
   const FOUR = 4;
@@ -35,6 +36,16 @@ describe('ClipboardService', () => {
       width: 0,
       height: 0,
       pasteOffset: undefined,
+    };
+
+    erasedDrawings = {
+      id: Id.ERASER,
+      x: 0,
+      y: 0,
+      height: 0,
+      width: 0,
+      objects: [],
+      indexes: [],
     };
   });
 
@@ -67,15 +78,22 @@ describe('ClipboardService', () => {
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     selectorService.selectedObjects.add(drawing);
     drawingStorage.drawings = [];
+    erasedDrawings.objects = [drawing];
+    erasedDrawings.indexes = [0];
     drawingStorage.drawings.push(drawing);
     service.delete();
-    expect(drawingStorage.drawings[0]).toEqual(service['deletedDrawings']);
+    expect(drawingStorage.drawings[0]).toEqual(erasedDrawings);
   });
 
-  it('should remove an item from drawing on cut', () => {
+  it('should cut should call copy and delete if there is an object selected', () => {
     const copySpy = spyOn(service, 'copy');
     const deleteSpy = spyOn(service, 'delete');
+    
+    service.cut();
+    expect(copySpy).not.toHaveBeenCalled();
+    expect(deleteSpy).not.toHaveBeenCalled();
 
+    service['selectorService'].selectedObjects.add(dummyOperation);
     service.cut();
     expect(copySpy).toHaveBeenCalled();
     expect(deleteSpy).toHaveBeenCalled();
