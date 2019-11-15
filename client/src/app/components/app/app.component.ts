@@ -212,7 +212,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.shift.+', ['$event']) onKeydownShiftEqual(): void {
+  @HostListener('document:keydown.shift.+', ['$event']) onKeydownShiftPlus(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.increaseSize();
     }
