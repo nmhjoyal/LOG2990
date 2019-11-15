@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
 import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
@@ -20,6 +20,7 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
 import { GridService } from '../../services/grid/grid.service';
+import { SelectorService } from 'src/app/services/selector-service/selector-service';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +31,9 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
+  private objectsSaved: boolean;
 
-  @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
+  @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
   @ViewChild('myCanvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
@@ -39,12 +41,13 @@ export class AppComponent implements OnInit {
     private storage: LocalStorageService,
     protected toolHandler: ToolHandlerService,
     protected drawingStorage: DrawingStorageService,
-  @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
+    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
     public exportData: ExportInformationService,
     private gridService: GridService,
-    public clipboardService: ClipboardService) {
+    public clipboardService: ClipboardService,
+    public selectorService: SelectorService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -52,6 +55,7 @@ export class AppComponent implements OnInit {
     };
     this.cursorX = 0;
     this.cursorY = 0;
+    this.objectsSaved = false;
   }
 
   ngOnInit(): void {
@@ -61,6 +65,13 @@ export class AppComponent implements OnInit {
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     this.cursorX = ClickHelper.getXPosition(event);
     this.cursorY = ClickHelper.getYPosition(event);
+    if (this.selectorService.SelectedObjects && this.objectsSaved) {
+      this.selectorService.dragObject(this.cursorX, this.cursorY);
+    }
+  }
+
+  @HostListener('mouseup', ['$event']) onMouseUp(): void {
+    this.objectsSaved = (this.selectorService.SelectedObjects ? true : false);
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
@@ -84,7 +95,7 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator(this.colourService.getPrimaryColour(),
-         this.colourService.getSecondaryColour());
+        this.colourService.getSecondaryColour());
     }
   }
 

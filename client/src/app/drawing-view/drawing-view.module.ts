@@ -23,6 +23,7 @@ import { PolygonComponent } from './components/tools/shapes/polygon/polygon.comp
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
+import { SaveService } from '../services/save-service/save.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService],
+  providers: [AttributesService, SelectorService, SaveService],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })
