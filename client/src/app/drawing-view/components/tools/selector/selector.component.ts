@@ -28,6 +28,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
     this.mouseMoved = false;
+    this.mouseDown = false;
   }
 
   ngOnInit(): void {
@@ -100,6 +101,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.isReverseSelection = true;
       }
     }
+    this.mouseDown = true;
   }
 
   protected handleMouseMove(): void {
