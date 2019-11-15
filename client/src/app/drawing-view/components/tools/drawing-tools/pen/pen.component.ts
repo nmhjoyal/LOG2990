@@ -30,7 +30,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
     this.pen = {
       id: ToolConstants.TOOL_ID.PEN,
       paths: [],
-      colour: this.colourService.getPrimaryColour(),
+      colour: this.colourService.PrimaryColour,
       strokeLinecap: ToolConstants.ROUND,
       x: 0,
       y: 0,

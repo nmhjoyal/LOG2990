@@ -147,15 +147,15 @@
                 </a>
                 <a mat-list-item (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
                     <div class="colour-preview" title="Couleur principale"
-                        [ngStyle]="{'background-color': colourService.getPrimaryColour()}">
+                        [ngStyle]="{'background-color': colourService.PrimaryColour}">
                     </div>
                 </a>
-                <a mat-list-item (click)="switchColours()">
+                <a mat-list-item (click)="colourService.switchColours()">
                     <img class="switchIcon" src="./assets/switch.png" title="Changer couleurs">
                 </a>
                 <a mat-list-item (click)='toolHandler.chooseSecondaryColour(); openChooseColourDialog()'>
                     <div class="colour-preview" title="Couleur secondaire"
-                        [ngStyle]="{'background-color': colourService.getSecondaryColour()}">
+                        [ngStyle]="{'background-color': colourService.SecondaryColour}">
                     </div>
                 </a>
                 <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">

@@ -83,8 +83,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.r', ['$event']) onKeydownREvent(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseColourApplicator(this.colourService.getPrimaryColour(),
-         this.colourService.getSecondaryColour());
+      this.toolHandler.chooseColourApplicator();
     }
   }
 
@@ -302,12 +301,5 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColourPickerComponent, {
       panelClass: 'choose-colour-window',
     });
-  }
-
-  switchColours(): void {
-    this.colourService.switchColours();
-    if (!this.toolHandler.isUsingColourApplicator()) {
-      this.toolHandler.resetToolSelection();
-    }
   }
 }

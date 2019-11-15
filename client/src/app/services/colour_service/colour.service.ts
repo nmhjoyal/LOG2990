@@ -20,55 +20,63 @@ export class ColourService {
     this.mainColour = false;
   }
 
-  getPrimaryColour(): string {
+  get PrimaryColour(): string {
     return this.colour[0];
   }
 
-  getSecondaryColour(): string {
+  get SecondaryColour(): string {
     return this.colour[1];
   }
 
-    chooseColour(primary: boolean): void  {
-      if (primary) {
-        if (!this.mainColour) {this.mainColour = true;
-        }
-      } else {
-        if (this.mainColour) {this.mainColour = false;
-        }
+  get PrimaryOpacity(): number {
+    return this.alpha[0];
+  }
+
+  get SecondaryOpacity(): number {
+    return this.alpha[1];
+  }
+
+  chooseColour(primary: boolean): void  {
+    if (primary) {
+      if (!this.mainColour) {this.mainColour = true;
+      }
+    } else {
+      if (this.mainColour) {this.mainColour = false;
       }
     }
+  }
 
-    switchColours(): void {
-      const intermediateColour = this.colour[0];
-      this.colour[0] = this.colour[1];
-      this.colour[1] = intermediateColour;
-    }
+  switchColours(): void {
+    const intermediateColour = this.colour[0];
+    this.colour[0] = this.SecondaryColour;
+    this.colour[1] = intermediateColour;
+  }
 
-    rgbToHex(hue: number): string {
-      if (!hue) {return '00';
-      } else if (hue < ColourConstants.HEX_LENGTH) {return ('0' + hue.toString(ColourConstants.HEX_LENGTH));
-      } else {return hue.toString(ColourConstants.HEX_LENGTH); }
-    }
+  rgbToHex(hue: number): string {
+    if (!hue) {return '00';
+    } else if (hue < ColourConstants.HEX_LENGTH) {return ('0' + hue.toString(ColourConstants.HEX_LENGTH));
+    } else {return hue.toString(ColourConstants.HEX_LENGTH); }
+  }
 
-    setAlpha(alpha: number): void  {
-      this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, ColourConstants.HEX_NO_ALPHA)
-                                    + (this.rgbToHex(Math.round(alpha * ColourConstants.RGBTOHEX_FACTOR)));
-    }
+  setAlpha(alpha: number): void  {
+    this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, ColourConstants.HEX_NO_ALPHA)
+                                  + (this.rgbToHex(Math.round(alpha * ColourConstants.RGBTOHEX_FACTOR)));
+  }
 
-    addColour( ): void  {
-      let newColour = true;
-      this.lastColours.forEach((element) => {
-        if (element === this.colour[+this.mainColour]) {
-          newColour = false;
-        }
-      });
-      if (newColour) {
-        this.lastColours.shift();
-        this.lastColours.push(this.colour[+this.mainColour]);
+  addColour( ): void  {
+    let newColour = true;
+    this.lastColours.forEach((element) => {
+      if (element === this.colour[+this.mainColour]) {
+        newColour = false;
       }
+    });
+    if (newColour) {
+      this.lastColours.shift();
+      this.lastColours.push(this.colour[+this.mainColour]);
     }
+  }
 
-    setColour(colour: string): void  {
-      this.colour[+this.mainColour] = colour;
-    }
+  setColour(colour: string): void  {
+    this.colour[+this.mainColour] = colour;
+  }
 }

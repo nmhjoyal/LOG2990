@@ -28,7 +28,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     width: 0,
     height: 0,
     points: '',
-    colour: colourService.getPrimaryColour(),
+    colour: colourService.PrimaryColour,
     strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     fill: ToolConstants.NONE,
     strokeLinecap: ToolConstants.ROUND,

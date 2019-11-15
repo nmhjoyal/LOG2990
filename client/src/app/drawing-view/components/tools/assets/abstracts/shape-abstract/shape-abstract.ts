@@ -45,11 +45,11 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       height: 0,
       verticesNumber: 0,
       vertices: '',
-      primaryColour: this.colourService.getPrimaryColour(),
-      secondaryColour: this.colourService.colour[1],
-      strokeOpacity: this.colourService.alpha[1],
+      primaryColour: this.colourService.PrimaryColour,
+      secondaryColour: this.colourService.SecondaryColour,
+      strokeOpacity: this.colourService.SecondaryOpacity,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fillOpacity: this.colourService.alpha[0], };
+      fillOpacity: this.colourService.PrimaryOpacity, };
   }
 
   abstract ngOnInit(): void;
@@ -117,20 +117,20 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected setTraceMode(mode: number): void {
     switch (mode) {
       case ToolConstants.TRACE_MODE.CONTOUR:
-        this.shape.secondaryColour = this.colourService.getSecondaryColour();
+        this.shape.secondaryColour = this.colourService.SecondaryColour;
         this.shape.primaryColour = ToolConstants.NONE;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR;
         break;
 
       case ToolConstants.TRACE_MODE.FILL:
         this.shape.secondaryColour = this.shape.primaryColour;
-        this.shape.primaryColour = this.colourService.getPrimaryColour();
+        this.shape.primaryColour = this.colourService.PrimaryColour;
         this.traceMode = ToolConstants.TRACE_MODE.FILL;
         break;
 
       case ToolConstants.TRACE_MODE.CONTOUR_FILL:
-        this.shape.secondaryColour = this.colourService.getSecondaryColour();
-        this.shape.primaryColour = this.colourService.getPrimaryColour();
+        this.shape.secondaryColour = this.colourService.SecondaryColour;
+        this.shape.primaryColour = this.colourService.PrimaryColour;
         this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
         break;
 

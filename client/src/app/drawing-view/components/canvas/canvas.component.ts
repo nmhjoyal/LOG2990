@@ -37,7 +37,7 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToCanvas(): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      this.canvasData.data.drawingColour = this.colourService.getPrimaryColour();
+      this.canvasData.data.drawingColour = this.colourService.PrimaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colourService.colour[0] = this.canvasData.data.drawingColour;
     }
@@ -52,7 +52,7 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      line.colour = this.colourService.getPrimaryColour();
+      line.colour = this.colourService.PrimaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colourService.colour[0]  = line.colour;
     }
@@ -66,8 +66,8 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
-      shape.primaryColour = this.colourService.getPrimaryColour();
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
+      shape.primaryColour = this.colourService.PrimaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColourFromShape(event, 0, shape);
     }
@@ -75,8 +75,8 @@ export class CanvasComponent implements AfterViewInit {
 
   applySecondaryColourToShape(event: MouseEvent, shape: IShape): void {
     event.preventDefault();
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.secondaryColour !== 'none') {
-      shape.secondaryColour = this.colourService.colour[1];
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
+      shape.secondaryColour = this.colourService.SecondaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColourFromShape(event, 1, shape);
     }

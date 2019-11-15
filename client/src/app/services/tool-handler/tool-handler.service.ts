@@ -10,12 +10,12 @@ export class ToolHandlerService {
 
   tools = Id;
   selectedTool: string;
+  protected lastCalled: string;
   protected selection: IShape;
-
   protected primaryColourSelected: boolean;
   protected secondaryColourSelected: boolean;
-  protected primaryColour: string;
-  protected secondaryColour: string;
+  primaryColour: string;
+  secondaryColour: string;
 
   constructor(public colourService: ColourService) {
     this.selection = {
@@ -23,25 +23,26 @@ export class ToolHandlerService {
       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR,
     };
     this.selectedTool = this.tools.NONE;
+    this.lastCalled = this.tools.NONE;
     this.primaryColourSelected = false;
     this.secondaryColourSelected = false;
-    this.primaryColour = this.colourService.getPrimaryColour();
-    this.secondaryColour = this.colourService.getSecondaryColour();
+    this.primaryColour = this.colourService.PrimaryColour;
+    this.secondaryColour = this.colourService.SecondaryColour;
   }
 
   resetToolSelection(): void {
     this.selectedTool = this.tools.NONE;
+    this.resetSelectorBox();
     this.primaryColourSelected = false;
     this.secondaryColourSelected = false;
-    this.resetSelectorBox();
   }
 
   isUsingText(): boolean {
     return this.selectedTool === this.tools.TEXT;
   }
 
-  isUsingColourApplicator(): boolean {
-    return this.selectedTool === this.tools.COLOUR_APPLICATOR;
+  isUsingPen(): boolean {
+    return this.selectedTool === this.tools.PEN;
   }
 
   // Selector Tool Methods
@@ -74,10 +75,8 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.POLYGON;
   }
 
-  chooseColourApplicator(primaryColour: string, secondaryColour: string): void {
+  chooseColourApplicator(): void {
     this.resetToolSelection();
-    this.primaryColour = primaryColour;
-    this.secondaryColour = secondaryColour;
     this.selectedTool = this.tools.COLOUR_APPLICATOR;
   }
 
@@ -117,15 +116,15 @@ export class ToolHandlerService {
   }
 ​
   choosePrimaryColour(): void {
-    this.resetToolSelection();
+    this.lastCalled = this.selectedTool;
     this.primaryColourSelected = true;
-    this.colourService.chooseColour(false);
+    // this.callLastFunction();
   }
 
   chooseSecondaryColour(): void {
-    this.resetToolSelection();
+    this.lastCalled = this.selectedTool;
     this.secondaryColourSelected = true;
-    this.colourService.chooseColour(true);
+    // this.callLastFunction();
   }
 
   chooseEllipse(): void {
@@ -142,6 +141,7 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.selectedTool = this.tools.ERASER;
   }
+
   chooseText(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.TEXT;
@@ -150,4 +150,26 @@ export class ToolHandlerService {
   chooseOther(): void {// Place holder for unimplemented tools
     this.resetToolSelection();
   }
+/*
+  callLastFunction(): void {
+    if (this.lastCalled === this.tools.PEN) {
+      this.choosePen();
+    }
+    if (this.lastCalled === this.tools.CRAYON) {
+      this.chooseCrayon();
+    }
+    if (this.lastCalled === this.tools.PAINTBRUSH) {
+      this.choosePaintbrush();
+    }
+    if (this.lastCalled === this.tools.POLYGON) {
+      this.choosePolygon();
+    }
+    if (this.lastCalled === this.tools.ELLIPSE) {
+      this.chooseEllipse();
+    }
+    if (this.lastCalled === this.tools.RECTANGLE) {
+      this.chooseRectangle();
+    }
+
+  }*/
 }
