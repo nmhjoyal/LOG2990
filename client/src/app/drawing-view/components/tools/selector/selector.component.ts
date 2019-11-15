@@ -18,6 +18,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected mouseMoved: boolean;
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
+  protected shouldDrag: boolean;
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
@@ -40,8 +41,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected calculateDimensions(): void {
     super.calculateDimensions();
     const shapeOffset = this.shape.strokeWidth / 2;
-    this.shape.x =  this.previewBox.x + shapeOffset;
-    this.shape.y =  this.previewBox.y + shapeOffset;
+    this.shape.x = this.previewBox.x + shapeOffset;
+    this.shape.y = this.previewBox.y + shapeOffset;
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
     this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height - this.shape.strokeWidth : 0;
   }
@@ -78,9 +79,17 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
-      this.isRightClick = false;
-      this.isReverseSelection = false;
-      this.resetComponent();
+      if (this.selectorService.SelectedObjects) {
+        this.selectorService.SelectedObjects.forEach((drawing) => {
+          this.selectorService.cursorTouchesObject(drawing, this.cursorX, this.cursorY) ?
+            { this.shouldDrag = true, break }
+            : this.shouldDrag = false;
+        })
+      } else {
+        this.isRightClick = false;
+        this.isReverseSelection = false;
+        this.resetComponent();
+      }
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
       if (!this.toolService.selectorBoxExists()) {
@@ -94,18 +103,22 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseMove(): void {
     if (this.mouseDown) {
-      this.mouseMoved = true;
-      this.selectorService.resetSize();
-      this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
-      if (this.isReverseSelection) {
-        this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
-      }
-      if (this.selectorService.SelectedObjects.size > 0) {
-        this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
-                      this.selectorService.MinWidth, this.selectorService.MinHeight);
+      if (this.shouldDrag) {
+        this.selectorService.dragObject(this.cursorX, this.cursorY);
       } else {
-        this.selectorService.resetSelectorService();
+        this.mouseMoved = true;
+        this.selectorService.resetSize();
+        this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
+        this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
+        if (this.isReverseSelection) {
+          this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
+        }
+        if (this.selectorService.SelectedObjects.size > 0) {
+          this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
+            this.selectorService.MinWidth, this.selectorService.MinHeight);
+        } else {
+          this.selectorService.resetSelectorService();
+        }
       }
     } else {
       this.mouseMoved = false;

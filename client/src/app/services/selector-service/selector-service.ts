@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
@@ -132,7 +130,6 @@ export class SelectorService {
       object.y = cursorY - object.height / 2;
 
       this.parserService.parsePolylinePoints(cursorX, cursorY, object, 0, this);
-
       this.saveService.saveDrawing(object);
     });
   }

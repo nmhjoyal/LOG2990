@@ -65,13 +65,6 @@ export class AppComponent implements OnInit {
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     this.cursorX = ClickHelper.getXPosition(event);
     this.cursorY = ClickHelper.getYPosition(event);
-    if (this.selectorService.SelectedObjects && this.objectsSaved) {
-      this.selectorService.dragObject(this.cursorX, this.cursorY);
-    }
-  }
-
-  @HostListener('mouseup', ['$event']) onMouseUp(): void {
-    this.objectsSaved = (this.selectorService.SelectedObjects ? true : false);
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownCEvent(): void {
