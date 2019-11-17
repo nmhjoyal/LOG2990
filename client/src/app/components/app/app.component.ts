@@ -137,19 +137,19 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.t', ['$event']) onKeydownTEvent(): void {
+  @HostListener('document:keydown.t', ['$event']) onKeydownT(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseText();
     }
   }
 
-  @HostListener('document:keydown.y', ['$event']) onKeydownYEvent(): void {
+  @HostListener('document:keydown.y', ['$event']) onKeydownY(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePen();
     }
   }
 
-  @HostListener('document:keydown.e', ['$event']) onKeydownEEvent(): void {
+  @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEraser();
     }
@@ -218,15 +218,15 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.-', ['$event']) onKeydownMinus(): void {
+  @HostListener('document:keydown.+', ['$event']) onKeydownPlus(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      this.gridService.decreaseSize();
+      this.gridService.increaseSize();
     }
   }
 
-  @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseEraser();
+  @HostListener('document:keydown.-', ['$event']) onKeydownMinus(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.gridService.decreaseSize();
     }
   }
 

@@ -382,6 +382,14 @@ describe('AppComponent', () => {
     expect(gridServiceMock.increaseSize).toHaveBeenCalled();
   });
 
+<<<<<<< HEAD
+=======
+  it('#increaseSize should be called when + is pressed', () => {
+    component.onKeydownPlus();
+    expect(gridServiceMock.increaseSize).toHaveBeenCalled();
+  });
+
+>>>>>>> 0d5bdb9f41642f1ec5610d95afe6c54ccd872ede
   it('#decreaseSize should be called when - is pressed', () => {
     component.onKeydownMinus();
     expect(gridServiceMock.decreaseSize).toHaveBeenCalled();
