@@ -363,10 +363,10 @@ describe('AppComponent', () => {
   it('#chooseText should be called when t is pressed', () => {
     toolHandlerMock.chooseText.and.callThrough();
     onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownTEvent();
+    component.onKeydownT();
     expect(toolHandlerMock.chooseText).not.toHaveBeenCalled();
     onlyModalOpenSpy.and.returnValue(true);
-    component.onKeydownTEvent();
+    component.onKeydownT();
     expect(toolHandlerMock.chooseText).toHaveBeenCalled();
   });
 
@@ -382,14 +382,11 @@ describe('AppComponent', () => {
     expect(gridServiceMock.increaseSize).toHaveBeenCalled();
   });
 
-<<<<<<< HEAD
-=======
   it('#increaseSize should be called when + is pressed', () => {
     component.onKeydownPlus();
     expect(gridServiceMock.increaseSize).toHaveBeenCalled();
   });
 
->>>>>>> 0d5bdb9f41642f1ec5610d95afe6c54ccd872ede
   it('#decreaseSize should be called when - is pressed', () => {
     component.onKeydownMinus();
     expect(gridServiceMock.decreaseSize).toHaveBeenCalled();
@@ -398,20 +395,20 @@ describe('AppComponent', () => {
   it('#choosePen should be called when y is pressed', () => {
     toolHandlerMock.choosePen.and.callThrough();
     onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownYEvent();
+    component.onKeydownY();
     expect(toolHandlerMock.choosePen).not.toHaveBeenCalled();
     onlyModalOpenSpy.and.returnValue(true);
-    component.onKeydownYEvent();
+    component.onKeydownY();
     expect(toolHandlerMock.choosePen).toHaveBeenCalled();
   });
 
   it('#chooseEraser should be called when e is pressed', () => {
     toolHandlerMock.chooseEraser.and.callThrough();
     onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownEEvent();
+    component.onKeydownE();
     expect(toolHandlerMock.chooseEraser).not.toHaveBeenCalled();
     onlyModalOpenSpy.and.returnValue(true);
-    component.onKeydownEEvent();
+    component.onKeydownE();
     expect(toolHandlerMock.chooseEraser).toHaveBeenCalled();
   });
 
