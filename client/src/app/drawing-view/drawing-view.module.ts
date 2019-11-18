@@ -16,6 +16,7 @@ import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/dr
 import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
+import { PlumeComponent } from './components/tools/drawing-tools/plume/plume.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { LineComponent } from './components/tools/shapes/line/line.component';
@@ -23,7 +24,6 @@ import { PolygonComponent } from './components/tools/shapes/polygon/polygon.comp
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
-import { PlumeComponent } from './components/tools/drawing-tools/plume/plume.component';
 
 @NgModule({
   declarations: [

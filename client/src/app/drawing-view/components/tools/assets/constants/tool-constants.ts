@@ -92,7 +92,7 @@ export class ToolConstants {
     static SECONDARY_COLOUR_INDEX = 1;
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
-    
+
 }
 
 export class StampConstants {

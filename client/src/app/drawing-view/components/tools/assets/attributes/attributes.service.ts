@@ -201,7 +201,7 @@ export class AttributesService {
     if (this.textAttributes.wasSaved) {
       this.resetTextAttributes();
     }
-    if(this.plumeAttributes.wasSaved) {
+    if (this.plumeAttributes.wasSaved) {
       this.resetPlumeAttributes();
     }
   }

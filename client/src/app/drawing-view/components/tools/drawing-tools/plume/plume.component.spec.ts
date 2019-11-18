@@ -1,11 +1,14 @@
 // tslint:disable:no-string-literal
+// tslint:disable:no-magic-numbers
+// tslint:disable:no-any
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PlumeComponent } from './plume.component';
-import { AttributesService } from '../../assets/attributes/attributes.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
-import { ToolConstants, StampConstants } from '../../assets/constants/tool-constants';
+import { AttributesService } from '../../assets/attributes/attributes.service';
+import { StampConstants, ToolConstants } from '../../assets/constants/tool-constants';
+import { PlumeComponent } from './plume.component';
 
 const ANGLE = 45;
 const LINE_LENGHT = 5;
@@ -17,8 +20,6 @@ const NEW_Y = 200;
 const DEGREE_TO_RAD = (Math.PI / 180);
 const BELOW_RANGE_ANGLE = -180;
 const ABOVE_RANGE_ANGLE = 720;
-
-
 
 describe('PlumeComponent', () => {
   let plumeComponent: PlumeComponent;
@@ -115,13 +116,13 @@ describe('PlumeComponent', () => {
 
   it('#onMouseUp should call drawingStorage.saveDrawing', () => {
     const spy = spyOn(plumeComponent['drawingStorage'], 'saveDrawing');
-    let mouseEvent: MouseEvent = new MouseEvent('mousedown');
+    const mouseEvent: MouseEvent = new MouseEvent('mousedown');
     plumeComponent.onMouseUp(mouseEvent);
     expect(spy).toHaveBeenCalled();
   });
 
   it('#onMouseMove should change the values of lastX and lastY if mouseDown is true', () => {
-    let mouseEvent: MouseEvent = new MouseEvent('mousedown');
+    const mouseEvent: MouseEvent = new MouseEvent('mousedown');
     plumeComponent['lastX'] = 0;
     plumeComponent['lastY'] = 0;
 
@@ -135,7 +136,6 @@ describe('PlumeComponent', () => {
     expect(plumeComponent['lastX']).toEqual(mouseEvent.offsetX);
     expect(plumeComponent['lastY']).toEqual(mouseEvent.offsetY);
   });
-
 
   it('#OnWheel should be called when the wheel of the mouse is turned', () => {
     const onWheelSpy = spyOn(plumeComponent, 'onWheel');

@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
-import { SaveService } from 'src/app/services/save-service/save.service';
-import { AttributesService } from '../../assets/attributes/attributes.service';
-import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { IPen, IComplexPath } from '../../assets/interfaces/drawing-tool-interface';
-import { ToolConstants, StampConstants } from '../../assets/constants/tool-constants';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
+import { AttributesService } from '../../assets/attributes/attributes.service';
+import { StampConstants, ToolConstants } from '../../assets/constants/tool-constants';
+import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interface';
 
 @Component({
   selector: 'app-plume',
@@ -63,14 +63,13 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   @HostListener('keydown.alt') onKeyDownAltEvent(): void {
-    this.angleIncrement = (this.angleIncrement === StampConstants.ANGLE_INCREMENT_15) ? 
+    this.angleIncrement = (this.angleIncrement === StampConstants.ANGLE_INCREMENT_15) ?
       this.angleIncrement = StampConstants.ANGLE_INCREMENT_1 :
       this.angleIncrement = StampConstants.ANGLE_INCREMENT_15;
   }
 
-
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
-    if(event.deltaY > 0){
+    if (event.deltaY > 0) {
       this.increaseAngle(this.angleIncrement);
     } else {
       this.decreaseAngle(this.angleIncrement);
