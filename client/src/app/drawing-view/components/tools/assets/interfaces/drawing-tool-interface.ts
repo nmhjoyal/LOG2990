@@ -41,7 +41,7 @@ export interface IDrawingToolOptions extends ITools {
 }
 
 export interface IPlumeOptions extends IDrawingToolOptions {
-    savedLineLenght: number;
+    savedLineLength: number;
     savedAngle: number;
 }
 

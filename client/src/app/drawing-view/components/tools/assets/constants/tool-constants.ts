@@ -69,7 +69,7 @@ export class ToolConstants {
     static DEFAULT_STROKE_WIDTH = 2;
     static DEFAULT_MAX_WIDTH = 10;
     static DEFAULT_MIN_WIDTH = 2;
-    static DEFAULT_LINELENGHT = 10;
+    static DEFAULT_LINE_LENGTH = 10;
     static DEFAULT_ANGLE = 0;
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;

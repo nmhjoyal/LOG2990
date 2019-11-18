@@ -11,7 +11,7 @@ import { StampConstants, ToolConstants } from '../../assets/constants/tool-const
 import { PlumeComponent } from './plume.component';
 
 const ANGLE = 45;
-const LINE_LENGHT = 5;
+const LINE_LENGTH = 5;
 const DELTA_VALUE = 20;
 const LAST_X = 10;
 const LAST_Y = 20;
@@ -65,30 +65,30 @@ describe('PlumeComponent', () => {
 
   it('should properly save the attributes', () => {
     plumeComponent.ngOnDestroy();
-    expect(attrService.plumeAttributes.savedLineLenght).toEqual(ToolConstants.DEFAULT_LINELENGHT,
+    expect(attrService.plumeAttributes.savedLineLength).toEqual(ToolConstants.DEFAULT_LINE_LENGTH,
       'stroke.strokeWidth was not successfully saved upon destruction');
     expect(attrService.plumeAttributes.savedAngle).toEqual(ToolConstants.DEFAULT_ANGLE,
       'stroke.strokeWidth was not successfully saved upon destruction');
     expect(attrService.plumeAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
   });
 
-  it('#ngOnInit should not load angle and line lenght if there are no attributes saved in the service', () => {
+  it('#ngOnInit should not load angle and line length if there are no attributes saved in the service', () => {
     attrService.plumeAttributes.wasSaved = false;
-    attrService.plumeAttributes.savedLineLenght = LINE_LENGHT;
+    attrService.plumeAttributes.savedLineLength = LINE_LENGTH;
     attrService.plumeAttributes.savedAngle = ANGLE;
     plumeComponent.ngOnInit();
-    expect(plumeComponent['lineLenght']).toEqual(ToolConstants.DEFAULT_LINELENGHT,
+    expect(plumeComponent['lineLength']).toEqual(ToolConstants.DEFAULT_LINE_LENGTH,
       'no loading of attributes, yet minWidth did not take default value');
     expect(plumeComponent['angle']).toEqual(ToolConstants.DEFAULT_ANGLE,
       'no loading of attributes, yet maxWidth did not take default value');
   });
 
-  it('#ngOnInit should load angle and line lenght if there are attributes saved in the service', () => {
+  it('#ngOnInit should load angle and line length if there are attributes saved in the service', () => {
     attrService.plumeAttributes.wasSaved = true;
-    attrService.plumeAttributes.savedLineLenght = LINE_LENGHT;
+    attrService.plumeAttributes.savedLineLength = LINE_LENGTH;
     attrService.plumeAttributes.savedAngle = ANGLE;
     plumeComponent.ngOnInit();
-    expect(plumeComponent['lineLenght']).toEqual(LINE_LENGHT,
+    expect(plumeComponent['lineLength']).toEqual(LINE_LENGTH,
       'loading of attributes, yet minWidth did not take saved value');
     expect(plumeComponent['angle']).toEqual(ANGLE,
       'loading of attributes, yet maxWidth did not take saved value');
@@ -165,7 +165,7 @@ describe('PlumeComponent', () => {
   });
 
   it('#OnKeyDownAltEvent should be called when the ALT key is pressed', () => {
-    const onAltSpy = spyOn(plumeComponent, 'onKeyDownAltEvent');
+    const onAltSpy = spyOn(plumeComponent, 'onKeyDownAlt');
     const keyDownEvent: KeyboardEvent = new KeyboardEvent('keydown.alt');
     fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);
     expect(onAltSpy).toHaveBeenCalled();
@@ -173,10 +173,10 @@ describe('PlumeComponent', () => {
 
   it('#OnKeyDownAltEvent should toggle the angleIncrement value', () => {
     plumeComponent['angleIncrement'] = StampConstants.ANGLE_INCREMENT_1;
-    plumeComponent.onKeyDownAltEvent();
+    plumeComponent.onKeyDownAlt();
     expect(plumeComponent['angleIncrement']).toBe(StampConstants.ANGLE_INCREMENT_15);
 
-    plumeComponent.onKeyDownAltEvent();
+    plumeComponent.onKeyDownAlt();
     expect(plumeComponent['angleIncrement']).toBe(StampConstants.ANGLE_INCREMENT_1);
   });
 
@@ -192,20 +192,20 @@ describe('PlumeComponent', () => {
     expect(plumeComponent['angle']).toBe(ANGLE - 1);
   });
 
-  it('#increaseLineLenght should increment the value of lineLenght', () => {
-    plumeComponent['lineLenght'] = LINE_LENGHT;
-    plumeComponent.increaseLineLenght();
-    expect(plumeComponent['lineLenght']).toBe(LINE_LENGHT + 1);
+  it('#increaseLineLength should increment the value of lineLength', () => {
+    plumeComponent['lineLength'] = LINE_LENGTH;
+    plumeComponent.increaseLineLength();
+    expect(plumeComponent['lineLength']).toBe(LINE_LENGTH + 1);
   });
 
-  it('#decreaseLineLenght should decrement the value of lineLenght if it is bigger than 0', () => {
-    plumeComponent['lineLenght'] = LINE_LENGHT;
-    plumeComponent.decreaseLineLenght();
-    expect(plumeComponent['lineLenght']).toBe(LINE_LENGHT - 1);
+  it('#decreaseLineLength should decrement the value of lineLength if it is bigger than 0', () => {
+    plumeComponent['lineLength'] = LINE_LENGTH;
+    plumeComponent.decreaseLineLength();
+    expect(plumeComponent['lineLength']).toBe(LINE_LENGTH - 1);
 
-    plumeComponent['lineLenght'] = 0;
-    plumeComponent.decreaseLineLenght();
-    expect(plumeComponent['lineLenght']).toBe(0);
+    plumeComponent['lineLength'] = 0;
+    plumeComponent.decreaseLineLength();
+    expect(plumeComponent['lineLength']).toBe(0);
   });
 
   it('#degreeToRad should return a value between 0 and 2*PI', () => {

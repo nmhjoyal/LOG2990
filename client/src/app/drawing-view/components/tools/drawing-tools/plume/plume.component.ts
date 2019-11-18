@@ -17,7 +17,7 @@ import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interfa
 export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
   private plume: IPen;
-  private lineLenght: number;
+  private lineLength: number;
   private angle: number;
   private lastX: number;
   private lastY: number;
@@ -38,7 +38,7 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
       height: 0,
       points: '',
     };
-    this.lineLenght = ToolConstants.DEFAULT_LINELENGHT;
+    this.lineLength = ToolConstants.DEFAULT_LINE_LENGTH;
     this.angle = ToolConstants.DEFAULT_ANGLE;
     this.lastX = 0;
     this.lastY = 0;
@@ -47,7 +47,7 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
 
   ngOnInit(): void {
     if (this.attributesService.plumeAttributes.wasSaved) {
-      this.lineLenght = this.attributesService.plumeAttributes.savedLineLenght;
+      this.lineLength = this.attributesService.plumeAttributes.savedLineLength;
       this.angle = this.attributesService.plumeAttributes.savedAngle;
     }
   }
@@ -58,11 +58,11 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
 
   saveAttribute(): void {
     this.attributesService.plumeAttributes.wasSaved = true;
-    this.attributesService.plumeAttributes.savedLineLenght = this.lineLenght;
+    this.attributesService.plumeAttributes.savedLineLength = this.lineLength;
     this.attributesService.plumeAttributes.savedAngle = this.angle;
   }
 
-  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+  @HostListener('keydown.alt') onKeyDownAlt(): void {
     this.angleIncrement = (this.angleIncrement === StampConstants.ANGLE_INCREMENT_15) ?
       this.angleIncrement = StampConstants.ANGLE_INCREMENT_1 :
       this.angleIncrement = StampConstants.ANGLE_INCREMENT_15;
@@ -115,12 +115,12 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.addPath(x, y);
   }
 
-  protected addPath(x: number, y: number) {
+  protected addPath(x: number, y: number): void {
     const angleRad = this.degreeToRad(this.angle);
-    const x1 = x - (this.lineLenght / 2) * Math.cos(angleRad);
-    const x2 = x + (this.lineLenght / 2) * Math.cos(angleRad);
-    const y1 = y - (this.lineLenght / 2) * Math.sin(angleRad);
-    const y2 = y + (this.lineLenght / 2) * Math.sin(angleRad);
+    const x1 = x - (this.lineLength / 2) * Math.cos(angleRad);
+    const x2 = x + (this.lineLength / 2) * Math.cos(angleRad);
+    const y1 = y - (this.lineLength / 2) * Math.sin(angleRad);
+    const y2 = y + (this.lineLength / 2) * Math.sin(angleRad);
     const path: IComplexPath = {
       path: 'M' + x1 + ' ' + y1 + 'L' + x2 + ' ' + y2,
       pathWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
@@ -172,13 +172,13 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.drawingStorage.saveDrawing(currentDrawing);
   }
 
-  increaseLineLenght(): void {
-    this.lineLenght++;
+  increaseLineLength(): void {
+    this.lineLength++;
   }
 
-  decreaseLineLenght(): void {
-    if (this.lineLenght > 1) {
-      this.lineLenght--;
+  decreaseLineLength(): void {
+    if (this.lineLength > 1) {
+      this.lineLength--;
     }
   }
 

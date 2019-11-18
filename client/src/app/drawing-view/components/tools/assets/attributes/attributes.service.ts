@@ -100,7 +100,7 @@ export class AttributesService {
       savedFilter: ToolConstants.NONE,
       savedMaxWidth: 0,
       savedMinWidth: 0,
-      savedLineLenght: 0,
+      savedLineLength: 0,
       savedAngle: 0,
       x: 0,
       y: 0,
