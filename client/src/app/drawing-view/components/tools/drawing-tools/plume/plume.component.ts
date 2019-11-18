@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { IPen, IComplexPath } from '../../assets/interfaces/drawing-tool-interface';
-import { ToolConstants } from '../../assets/constants/tool-constants';
+import { ToolConstants, StampConstants } from '../../assets/constants/tool-constants';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 
@@ -21,6 +21,7 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
   private angle: number;
   private lastX: number;
   private lastY: number;
+  private angleIncrement: number;
 
   constructor(saveServiceRef: SaveService,
               attributesServiceRef: AttributesService,
@@ -41,6 +42,7 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.angle = ToolConstants.DEFAULT_ANGLE;
     this.lastX = 0;
     this.lastY = 0;
+    this.angleIncrement = StampConstants.ANGLE_INCREMENT_15;
   }
 
   ngOnInit(): void {
@@ -58,6 +60,21 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.attributesService.plumeAttributes.wasSaved = true;
     this.attributesService.plumeAttributes.savedLineLenght = this.lineLenght;
     this.attributesService.plumeAttributes.savedAngle = this.angle;
+  }
+
+  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+    this.angleIncrement = (this.angleIncrement === StampConstants.ANGLE_INCREMENT_15) ? 
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1 :
+      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15;
+  }
+
+
+  @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    if(event.deltaY > 0){
+      this.increaseAngle(this.angleIncrement);
+    } else {
+      this.decreaseAngle(this.angleIncrement);
+    }
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -156,27 +173,27 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.drawingStorage.saveDrawing(currentDrawing);
   }
 
-  protected increaseLineLenght(): void {
+  increaseLineLenght(): void {
     this.lineLenght++;
   }
 
-  protected decreaseLineLenght(): void {
+  decreaseLineLenght(): void {
     if (this.lineLenght > 1) {
       this.lineLenght--;
     }
   }
 
-  protected increaseAngle(increment: number): void {
+  increaseAngle(increment: number): void {
     this.angle += increment;
   }
 
-  protected decreaseAngle(decrement: number): void {
+  decreaseAngle(decrement: number): void {
     this.angle -= decrement;
   }
 
-  protected degreeToRad(angle: number): number {
+  degreeToRad(angle: number): number {
     let angleRad = angle * (Math.PI / NumericalValues.ONE_EIGHTY);
-    while (angleRad > 2 * Math.PI) {
+    while (angleRad >= 2 * Math.PI) {
       angleRad -= 2 * Math.PI;
     }
     while (angleRad < 0) {
