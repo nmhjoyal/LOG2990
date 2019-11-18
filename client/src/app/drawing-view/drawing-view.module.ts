@@ -40,7 +40,6 @@ import { TextComponent } from './components/tools/text/text.component';
     TextComponent,
     StampComponent,
     EraserComponent,
-    PreviewCanvasComponent,
     PenComponent,
     PlumeComponent,
   ],
