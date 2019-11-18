@@ -3,8 +3,8 @@ import { ITools } from '../assets/interfaces/itools';
 
 
 interface ISprayCan extends ITools {
-  sprays: 
-}
+  sprays: 'array of interface containing x, y and filter data.
+}'
 
 
 @Component({
@@ -20,7 +20,16 @@ export class SprayCanComponent implements OnInit {
   private sprayTimer: number;
   protected sprayData : ISprayCan;
 
-  constructor() { }
+  constructor() { 
+    this.sprayData = {
+      id:,
+      sprays: [],
+      x: 0,
+      y: 0,
+      width: 'default radius'
+      height: 'default radius'
+    }
+  }
 
   ngOnInit() {
   }
