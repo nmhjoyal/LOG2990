@@ -13,7 +13,7 @@ export class UndoRedoService {
   accessingUndoList: boolean;
   private isUndoing: boolean;
 
-  constructor(public drawingStorage: DrawingStorageService, public canevasInformation: CanvasInformationService) {
+  constructor(public drawingStorage: DrawingStorageService, public canvasInformation: CanvasInformationService) {
     this.undoList = [];
     this.accessingUndoList = false;
     this.isUndoing = false;
@@ -24,7 +24,7 @@ export class UndoRedoService {
     this.isUndoing = true;
     const poppedObject = this.drawingStorage.drawings.pop();
     if ( poppedObject ) {
-      this.handlersParser(poppedObject);
+      this.parseHandlers(poppedObject);
       this.undoList.push(poppedObject);
     }
     return poppedObject;
@@ -34,13 +34,13 @@ export class UndoRedoService {
     this.isUndoing = false;
     const poppedObject = this.undoList.pop();
     if (poppedObject) {
-      this.handlersParser(poppedObject);
+      this.parseHandlers(poppedObject);
       this.drawingStorage.saveDrawing(poppedObject);
     }
     return poppedObject;
   }
 
-  handlersParser(operation: ITools): void {
+  parseHandlers(operation: ITools): void {
     switch (operation.id) {
       case Id.ERASER:
         this.handleEraserOperation(operation, this.isUndoing);
@@ -76,10 +76,10 @@ export class UndoRedoService {
   }
 
   handlePrimaryColourApplication( operation: ITools, isUndo: boolean ) {
-    const colourToApply: string|undefined = isUndo ?  operation.initialColour : operation.applicatedColour;
+    const colourToApply: string|undefined = isUndo ?  operation.initialColour : operation.appliedColour;
     if ( operation.indexes && colourToApply !== undefined) {    
       if ( operation.indexes[0] === ToolConstants.NULL ) {
-          this.canevasInformation.data.drawingColour = colourToApply;
+          this.canvasInformation.data.drawingColour = colourToApply;
         } else {
           'primaryColour' in this.drawingStorage.drawings[operation.indexes[0]] ?
           this.drawingStorage.drawings[operation.indexes[0]].primaryColour =  colourToApply :
@@ -90,7 +90,7 @@ export class UndoRedoService {
 
   handleSecondaryColourApplication( operation: ITools, isUndo: boolean ): void {
     if ( operation.indexes ) {
-    const colourToApply: string|undefined = isUndo ? operation.initialColour : operation.applicatedColour;
+    const colourToApply: string|undefined = isUndo ? operation.initialColour : operation.appliedColour;
     this.drawingStorage.drawings[operation.indexes[0]].secondaryColour = colourToApply;
     }
   }

@@ -12,7 +12,7 @@ describe('UndoRedoService', () => {
   let service: UndoRedoService;
   const undo = true;
   let dummyDrawing: ITools;
-  let mockOperation: ITools;
+  let dummyDrawing2: ITools;
   let shapeDrawing: IShape;
   let lineDrawing: ILine;
 
@@ -25,7 +25,7 @@ describe('UndoRedoService', () => {
       ],
     });
     service = TestBed.get(UndoRedoService);
-    service.canevasInformation.data = {
+    service.canvasInformation.data = {
       drawingHeight: 0,
       drawingWidth: 0,
       drawingColour: 'default',
@@ -39,7 +39,7 @@ describe('UndoRedoService', () => {
       height: 0,
     };
 
-    mockOperation = {
+    dummyDrawing2 = {
       id: '',
       x: 0,
       y: 0,
@@ -86,7 +86,7 @@ describe('UndoRedoService', () => {
       'to undoList if it is not undefined', () => {
     const drawingsSpy = spyOn(service.drawingStorage.drawings, 'pop');
     const undoListSpy = spyOn(service.undoList, 'push');
-    const parserSpy = spyOn(service, 'handlersParser');
+    const parserSpy = spyOn(service, 'parseHandlers');
     drawingsSpy.and.returnValue(undefined);
 
     service.undo();
@@ -115,7 +115,7 @@ describe('UndoRedoService', () => {
 
     const drawingsSpy = spyOn(service.drawingStorage.drawings, 'push');
     const undoListSpy = spyOn(service.undoList, 'pop');
-    const parserSpy = spyOn(service, 'handlersParser');
+    const parserSpy = spyOn(service, 'parseHandlers');
 
     service.redo();
 
@@ -135,25 +135,25 @@ describe('UndoRedoService', () => {
     expect(parserSpy).toHaveBeenCalled();
   });
 
-  it('#handlersParser should call the appropriate operation handler if necessary', () => {
+  it('#parseHandlers should call the appropriate operation handler if necessary', () => {
 
     const eraserSpy = spyOn(service, 'handleEraserOperation');
     const primaryColourSpy = spyOn(service, 'handlePrimaryColourApplication');
     const secondaryColourSpy = spyOn(service, 'handleSecondaryColourApplication');
 
     dummyDrawing.id = '';
-    service.handlersParser(dummyDrawing);
+    service.parseHandlers(dummyDrawing);
 
     dummyDrawing.id = Id.ERASER;
-    service.handlersParser(dummyDrawing);
+    service.parseHandlers(dummyDrawing);
     expect(eraserSpy).toHaveBeenCalled();
 
     dummyDrawing.id = Id.PRIMARY_COLOUR_CHANGE;
-    service.handlersParser(dummyDrawing);
+    service.parseHandlers(dummyDrawing);
     expect(primaryColourSpy).toHaveBeenCalled();
 
     dummyDrawing.id = Id.SECONDARY_COLOUR_CHANGE;
-    service.handlersParser(dummyDrawing);
+    service.parseHandlers(dummyDrawing);
     expect(secondaryColourSpy).toHaveBeenCalled();
 
   });
@@ -161,13 +161,13 @@ describe('UndoRedoService', () => {
   it('#handleEraseroperation should insert elements into drawing on undo,' +
   ' and remove them on redo', () => {
 
-    service.drawingStorage.drawings = [mockOperation];
+    service.drawingStorage.drawings = [dummyDrawing2];
     const spliceSpy = spyOn(service.drawingStorage.drawings, 'splice');
 
     service.handleEraserOperation(dummyDrawing, undo);
     expect(spliceSpy).not.toHaveBeenCalled();
 
-    dummyDrawing.objects = [mockOperation];
+    dummyDrawing.objects = [dummyDrawing2];
 
     service.handleEraserOperation(dummyDrawing, undo);
     expect(spliceSpy).not.toHaveBeenCalled();
@@ -176,7 +176,7 @@ describe('UndoRedoService', () => {
 
     service.handleEraserOperation(dummyDrawing, undo);
     expect(spliceSpy.calls.count()).toEqual(1);
-    expect(spliceSpy.calls.mostRecent().args).toEqual([0, 0, mockOperation]);
+    expect(spliceSpy.calls.mostRecent().args).toEqual([0, 0, dummyDrawing2]);
 
     service.handleEraserOperation(dummyDrawing, !undo);
     expect(spliceSpy.calls.count()).toBe(2);
@@ -185,62 +185,62 @@ describe('UndoRedoService', () => {
   });
 
   it('#handlePrimaryColourApplication should apply the initial colour on a undo' +
-  ' and applicatedColour on a redo', () => {
+  ' and appliedColour on a redo', () => {
    service.drawingStorage.drawings = [shapeDrawing];
 
-   mockOperation.indexes = [ToolConstants.NULL];
-   mockOperation.initialColour = 'initialColour';
-   mockOperation.applicatedColour = undefined;
+   dummyDrawing2.indexes = [ToolConstants.NULL];
+   dummyDrawing2.initialColour = 'initialColour';
+   dummyDrawing2.appliedColour = undefined;
    
-   service.handlePrimaryColourApplication(mockOperation, !undo);
-   expect(service.canevasInformation.data.drawingColour).toBe('default');
+   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   expect(service.canvasInformation.data.drawingColour).toBe('default');
 
-   mockOperation.initialColour = undefined;
-   mockOperation.applicatedColour = 'applicatedColour';
+   dummyDrawing2.initialColour = undefined;
+   dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handlePrimaryColourApplication(mockOperation, !undo);
-   expect(service.canevasInformation.data.drawingColour).toBe('applicatedColour');
+   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   expect(service.canvasInformation.data.drawingColour).toBe('appliedColour');
 
-   mockOperation.indexes = undefined;
-   mockOperation.initialColour = 'initialColour';
-   mockOperation.applicatedColour = 'applicatedColour';
+   dummyDrawing2.indexes = undefined;
+   dummyDrawing2.initialColour = 'initialColour';
+   dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handlePrimaryColourApplication(mockOperation, !undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('default');
 
-   mockOperation.indexes = [0];
-   mockOperation.initialColour = 'initialColour';
-   mockOperation.applicatedColour = 'applicatedColour';
+   dummyDrawing2.indexes = [0];
+   dummyDrawing2.initialColour = 'initialColour';
+   dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handlePrimaryColourApplication(mockOperation, !undo);
-   expect(service.drawingStorage.drawings[0].primaryColour).toBe('applicatedColour');
+   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   expect(service.drawingStorage.drawings[0].primaryColour).toBe('appliedColour');
 
-   service.handlePrimaryColourApplication(mockOperation, undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, undo);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('initialColour');
 
    service.drawingStorage.drawings = [lineDrawing];
 
-   service.handlePrimaryColourApplication(mockOperation, undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, undo);
    expect(service.drawingStorage.drawings[0].colour).toBe('initialColour');
 
   });
 
   it('#handleSecondaryColourApplication should apply the initial colour on a undo' +
-  ' and applicatedColour on a redo', () => {
+  ' and appliedColour on a redo', () => {
 
    service.drawingStorage.drawings = [shapeDrawing];
 
-   service.handleSecondaryColourApplication(mockOperation, !undo);
+   service.handleSecondaryColourApplication(dummyDrawing2, !undo);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('default');
 
-   mockOperation.indexes = [0];
-   mockOperation.initialColour = 'initialColour';
-   mockOperation.applicatedColour = 'applicatedColour';
+   dummyDrawing2.indexes = [0];
+   dummyDrawing2.initialColour = 'initialColour';
+   dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handleSecondaryColourApplication(mockOperation, !undo);
-   expect(service.drawingStorage.drawings[0].secondaryColour).toBe('applicatedColour');
+   service.handleSecondaryColourApplication(dummyDrawing2, !undo);
+   expect(service.drawingStorage.drawings[0].secondaryColour).toBe('appliedColour');
 
-   service.handleSecondaryColourApplication(mockOperation, undo);
+   service.handleSecondaryColourApplication(dummyDrawing2, undo);
    expect(service.drawingStorage.drawings[0].secondaryColour).toBe('initialColour');
 
   });

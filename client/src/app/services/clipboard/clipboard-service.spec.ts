@@ -87,7 +87,7 @@ describe('ClipboardService', () => {
     expect(drawingStorage.drawings[0]).toEqual(erasedDrawings);
   });
 
-  it('should cut should call copy and delete if there is an object selected', () => {
+  it('#cut should call copy and delete if there is an object selected', () => {
     const copySpy = spyOn(service, 'copy');
     const deleteSpy = spyOn(service, 'delete');
     

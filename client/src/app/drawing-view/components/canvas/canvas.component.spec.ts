@@ -161,7 +161,7 @@ describe('CanvasComponent', () => {
       id: 'colourChangeId',
       indexes: [0],
       initialColour: 'originalColour',
-      applicatedColour: 'toColour',
+      appliedColour: 'toColour',
       x: 0,
       y: 0,
       width: 0,

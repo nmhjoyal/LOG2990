@@ -108,7 +108,7 @@ export class CanvasComponent implements AfterViewInit {
       id: colourChangeId,
       indexes: [indexOfDrawing],
       initialColour: originalColour,
-      applicatedColour: toColour,
+      appliedColour: toColour,
       x: 0,
       y: 0,
       width: 0,
