@@ -1,3 +1,4 @@
+// tslint:disable:no-string-literal
 import SpyObj = jasmine.SpyObj;
 import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -7,12 +8,16 @@ import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../attributes/attributes.service';
 import { StrokeAbstract } from './stroke-abstract';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+
+const STROKE_WIDTH = 15;
 
 @Component({
     selector: 'test-shape-abstract',
     template: '<svg x=0 y=0 width=1000 height=1000><\svg>',
   })
 class StrokeTestComponent extends StrokeAbstract implements OnInit, OnDestroy {
+
 
   constructor(serviceInstance: SaveService, attributesInstance: AttributesService, colourInstance: ColourService) {
     super(serviceInstance, attributesInstance, colourInstance);
@@ -119,9 +124,7 @@ describe('StrokeAbstract', () => {
 
     const PRESET_POINTS = '10,10 20,20';
 
-    // tslint:disable:no-string-literal
     strokeTest['stroke'].points = PRESET_POINTS;
-    // tslint:enable:no-string-literal
 
     const mouseUpEvent = new MouseEvent('mouseup');
     strokeTest.onMouseUp(mouseUpEvent);
@@ -129,5 +132,46 @@ describe('StrokeAbstract', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  // Tests of Functions and verify attributes value changes in eventhandlers
+  it('#onMouseMove should add the x and y position to stroke.points if mouseDown is true', () => {
+    const mouseMoveEvent = new MouseEvent('mousemove');
+    const getXPosSpy = spyOn(ClickHelper, 'getXPosition').and.callFake(() => {
+      return 10;
+    });
+    const getYPosSpy = spyOn(ClickHelper, 'getYPosition').and.callFake(() => {
+      return 20;
+    });
+
+    strokeTest['stroke'].points = '';
+    strokeTest['mouseDown'] = false;
+    strokeTest.onMouseMove(mouseMoveEvent);
+    expect(strokeTest['stroke'].points).toEqual('');
+
+    strokeTest['mouseDown'] = true;
+    strokeTest.onMouseMove(mouseMoveEvent);
+    expect(strokeTest['stroke'].points).toEqual(' 10,20');
+
+    expect(getXPosSpy).toHaveBeenCalled();
+    expect(getYPosSpy).toHaveBeenCalled();
+  });
+
+  it('#decreaseStrokeWidth should decrease stroke.stroke-width if it is greater than 1', () => {
+    strokeTest['stroke'].strokeWidth = 1;
+    strokeTest['decreaseStrokeWidth'];
+    expect(strokeTest['stroke'].strokeWidth).toEqual(1, 'strokeWidth didnt change because it is not greater than 1');
+
+    strokeTest['stroke'].strokeWidth = STROKE_WIDTH;
+    strokeTest['decreaseStrokeWidth']();
+    expect(strokeTest['stroke'].strokeWidth).toEqual(STROKE_WIDTH - 1, 'strokeWidth was decremented by 1');
+
+    strokeTest['stroke'].strokeWidth = STROKE_WIDTH;
+    strokeTest['increaseStrokeWidth']();
+    expect(strokeTest['stroke'].strokeWidth).toEqual(STROKE_WIDTH + 1, 'strokeWidth was incremented by 1');
+  });
+
+  it('#saveShape should call drawingStorage.saveDrawing', () => {
+    const savingSpy = spyOn(strokeTest['drawingStorage'], 'saveDrawing');
+    strokeTest['saveShape']();
+    expect(savingSpy).toHaveBeenCalled();
+  });
+
 });
