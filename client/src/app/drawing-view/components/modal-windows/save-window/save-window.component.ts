@@ -6,7 +6,6 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { ClientStorageService } from 'src/app/services/index/client-storage.service';
 import { Strings } from 'src/AppConstants/Strings';
 import { IDrawing, ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
-import { ISVGPreview } from '../../../../../../../common/drawing-information/ISVGPreview';
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
@@ -19,7 +18,6 @@ import { ISaveModalData } from './ISaveModalData';
 export class SaveWindowComponent extends ModalWindowComponent implements OnInit {
 
   protected name: string;
-  protected preview: ISVGPreview;
   private drawing: ISavedDrawing[];
   protected isFinishedSaving: boolean;
 
