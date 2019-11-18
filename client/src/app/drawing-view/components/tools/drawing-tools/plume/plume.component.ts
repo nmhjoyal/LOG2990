@@ -11,8 +11,9 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 @Component({
   selector: 'app-plume',
   templateUrl: './plume.component.html',
-  styleUrls: ['./plume.component.scss']
+  styleUrls: ['./plume.component.scss'],
 })
+
 export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
   private plume: IPen;
@@ -89,16 +90,13 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   protected calculatePath(x: number, y: number): void {
-    const angleRad = this.degreeToRad(this.angle);
-    const offsetX = (x > this.lastX) ? x - this.lastX : this.lastX - x;
-    const offsetY = (y > this.lastY) ? y - this.lastY : this.lastY - y;
-    const angleBetweenPoints = Math.atan(offsetY / offsetX);
-    const distance = this.calculatePerpendicularDistance(offsetX, offsetY, angleRad, angleBetweenPoints);
+    const offsetX = x - this.lastX;
+    const offsetY = y - this.lastY;
+    const distance = Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2));
     if (distance > ToolConstants.DEFAULT_STROKE_WIDTH) {
-      this.fillGaps(angleBetweenPoints, distance);
-    } else {
-      this.addPath(x, y);
+      this.fillGaps(offsetX, offsetY, distance);
     }
+    this.addPath(x, y);
   }
 
   protected addPath(x: number, y: number) {
@@ -118,17 +116,27 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.updatePositionAndDimensions(x, y);
   }
 
-  protected calculatePerpendicularDistance(offsetX: number, offsetY: number, angleRad: number, angleBetweenPoints: number): number {
-    const incidentAngle = angleBetweenPoints - angleRad;
-    return Math.sqrt(offsetX * offsetX + offsetY * offsetY) * Math.sin(incidentAngle);
+  /*
+  protected calculateIncidentAngle(offsetX: number, offsetY: number, distance: number): number {
+    const angleRad = this.degreeToRad(this.angle);
+    const negativeX = offsetX < 0;
+    const negativeY = offsetY < 0;
+    if (!negativeX && !negativeY && (angleRad < Math.PI / 2 || (angleRad > Math.PI && angleRad < 3 * Math.PI / 2))) {
+      const orientation = Math.atan(offsetY / offsetX);
+      return distance * Math.sin(orientation);
+    }
+    else if ()
   }
+  */
 
-  protected fillGaps(angleBetweenPoints: number, distance: number): void {
+  protected fillGaps(offsetX: number, offsetY: number, distance: number): void {
     let x = this.lastX;
     let y = this.lastY;
+    const xIncrement = 2 * offsetX / distance;
+    const yIncrement = 2 * offsetY / distance;
     for (let i = 0; i < Math.abs(distance) / 2; i++) {
-      x += 2 * Math.cos(angleBetweenPoints);
-      y += 2 * Math.sin(angleBetweenPoints);
+      x += xIncrement;
+      y += yIncrement;
       this.addPath(x, y);
     }
   }
