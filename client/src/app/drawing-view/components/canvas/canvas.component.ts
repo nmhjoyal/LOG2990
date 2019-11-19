@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { CanvasCommunicationService } from 'src/app/services/canvas-communication/canvas-communication.service';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -28,11 +29,12 @@ export class CanvasComponent implements AfterViewInit {
     private exportData: ExportInformationService,
     public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
     protected canvasData: CanvasInformationService, public colourService: ColourService,
-    protected gridService: GridService) {
+    protected gridService: GridService, protected canvasCommunicationService: CanvasCommunicationService) {
   }
 
   ngAfterViewInit() {
     this.exportData.data = { canvasElement: this.canvasChildComponent };
+    // this.canvasCommunicationService.canvas = this.canvasChildComponent.nativeElement;
   }
 
   applyColourToCanvas(): void {

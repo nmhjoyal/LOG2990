@@ -85,6 +85,7 @@ export class AttributesService {
     this.bucketAttributes = {
       id: ToolConstants.TOOL_ID.BUCKET,
       wasSaved: false,
+      savedTraceMode: ToolConstants.TRACE_MODE.CONTOUR_FILL,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedTolerance: ToolConstants.DEFAULT_TOLERANCE,
       savedMaxWidth: 0,

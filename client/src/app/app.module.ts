@@ -14,6 +14,7 @@ import { NewDrawingWindowComponent } from './drawing-view/components/modal-windo
 import { SaveWindowComponent } from './drawing-view/components/modal-windows/save-window/save-window.component';
 import { WelcomeWindowComponent } from './drawing-view/components/modal-windows/welcome-window/welcome-window.component';
 import { DrawingViewModule } from './drawing-view/drawing-view.module';
+import { CanvasCommunicationService } from './services/canvas-communication/canvas-communication.service';
 import { CanvasInformationService } from './services/canvas-information/canvas-information.service';
 import { ColourService } from './services/colour_service/colour.service';
 import { ExportInformationService } from './services/export-information/export-information.service';
@@ -50,7 +51,8 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     MatButtonToggleModule,
     MatProgressSpinnerModule,
   ],
-  providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, ColourService, ExportInformationService,
+  providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, CanvasCommunicationService,
+             ColourService, ExportInformationService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
