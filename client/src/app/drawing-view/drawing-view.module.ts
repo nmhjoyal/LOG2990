@@ -70,7 +70,7 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService, SaveService],
+  providers: [AttributesService, SelectorService, SaveService, ParserService],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })
