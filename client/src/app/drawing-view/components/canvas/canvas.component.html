@@ -34,7 +34,13 @@
         <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
-    </filter>  
+    </filter>
+
+    <filter id="spraycan">
+            <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+
     <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
             
@@ -74,6 +80,13 @@
                         [style.stroke]="drawing.colour"
                         [style.stroke-linecap]="drawing.strokeLinecap">
                     </path>
+                </g>
+            </g>
+
+            <g *ngSwitchCase="toolId.SPRAY_CAN" > <!--colourapplicator and pipette -->
+                <g *ngFor="let spray of drawing.sprays">
+                    <circle class = "spray-can-preview" [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" 
+                    [attr.r]= "drawing.radius" [style.fill]="drawing.primaryColour" filter= "url(#spraycan)" />
                 </g>
             </g>
 

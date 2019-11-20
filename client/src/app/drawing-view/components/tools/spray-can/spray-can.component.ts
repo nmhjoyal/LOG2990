@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core';
-import { ITools } from '../assets/interfaces/itools';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
+import { ITools } from '../assets/interfaces/itools';
 
 interface ISpray {
   cx: number;
@@ -13,6 +13,7 @@ interface ISprayCan extends ITools {
   sprays: ISpray[];
   radius: number;
   filter: string;
+  primaryColour: string;
 }
 
 interface IFilterData {
@@ -37,7 +38,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   sprayingTimeout: number;
   sprayCanFilter: IFilterData;
 
-  constructor( private saveService: SaveService ) { // put attributes service
+  constructor( private saveService: SaveService ) { // put attributes service and colour service
     this.isMouseDown = false;
     this.radius = 40 // 'default radius'
     this.sprayingTimeout = 1000; // 'default spray timeout'
@@ -46,6 +47,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       sprays: [],
       filter: '',
       radius: 0,
+      primaryColour: 'black',
       x: 0,
       y: 0,
       width: 0, 

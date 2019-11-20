@@ -49,7 +49,7 @@ export class CanvasComponent implements AfterViewInit {
       this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
     }
   }
-
+// could unify all methods to apply colour on anything clicked... along with interface changes
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       line.colour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
