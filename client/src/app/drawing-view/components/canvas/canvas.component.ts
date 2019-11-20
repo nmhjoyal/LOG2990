@@ -23,7 +23,8 @@ export class CanvasComponent implements AfterViewInit {
 
   toolId = Id;
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
-  @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef;
+  @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef<SVGImageElement>;
+  @ViewChild('htmlCanvas', { static: false, read: ElementRef }) htmlCanvas: ElementRef<HTMLCanvasElement>;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     private exportData: ExportInformationService,
@@ -34,7 +35,6 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.exportData.data = { canvasElement: this.canvasChildComponent };
-    // this.canvasCommunicationService.canvas = this.canvasChildComponent.nativeElement;
   }
 
   applyColourToCanvas(): void {
