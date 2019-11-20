@@ -186,6 +186,7 @@
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
 </div>
-<div *ngIf="toolHandler.gridSelected">
-       
+<div *ngIf="toolHandler.selectedTool === toolId.SPRAY_CAN">
+       <app-spray-can  #activeTool [windowWidth]="canvasData.data.drawingWidth"
+       [windowHeight]="canvasData.data.drawingHeight"></app-spray-can>
 </div>
