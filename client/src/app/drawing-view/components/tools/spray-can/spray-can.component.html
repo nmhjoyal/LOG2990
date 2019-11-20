@@ -1,6 +1,11 @@
 
+<filter id="spraycan">
+  <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
+  <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
+</filter>
+
 <svg tabindex="0" class='previewSprayCan' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-    <g *ngFor='let paintPatch of spray.'>
-    <circle class = "spray-can-preview" />
+    <g *ngFor='let paintPatch of sprayData.sprays.'>
+    <circle class = "spray-can-preview" cy= "paintPatch.cy" cx= "paintPatch.cx" filter= "url(#spraycan)" />
     </g>
-  </svg> 
+</svg> 

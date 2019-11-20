@@ -1,11 +1,21 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ITools } from '../assets/interfaces/itools';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+// import { SaveService } from 'src/app/services/save-service/save.service';
 
+interface ISpray {
+  cx: number;
+  cy: number;
+}
 
 interface ISprayCan extends ITools {
-  sprays: 'array of interface containing x, y and filter data.
-}'
+  sprays: ISpray[];
+  filter: string;
+}
 
+interface IFilterData {
+
+}
 
 @Component({
   selector: 'app-spray-can',
@@ -18,32 +28,60 @@ export class SprayCanComponent implements OnInit {
   @Input() windowWidth: number;
 
   private sprayTimer: number;
-  protected sprayData : ISprayCan;
+  private sprayData : ISprayCan;
+  private mouseEventBuffer: MouseEvent;
+  private isMouseDown: boolean;
+  sprayingTimeout: number;
+  sprayCanFilter: IFilterData;
 
-  constructor() { 
+  constructor() { // private saveService: SaveService
+    this.isMouseDown = false;
+    this.sprayingTimeout = 1000; // 'default spray timeout'
     this.sprayData = {
-      id:,
+      id:'spray',
       sprays: [],
+      filter: '',
       x: 0,
       y: 0,
-      width: 'default radius'
-      height: 'default radius'
+      width: 10, // 'default radius'
+      height: 10, // 'default radius'
     }
   }
 
   ngOnInit() {
   }
 
-  @HostListener('mousedown', ['$event']) whileMouseDown(event: MouseEvent ): void {
-    this.sprayTimer = window.setInterval(() => this.addSpray(event), 1000);
+  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
+    this.isMouseDown = true;
+    this.mouseEventBuffer = event; // or load x and y on each event?
+    this.sprayTimer = window.setInterval(() => this.addSpray(), 1000);
+  }
+
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
+    if( this.isMouseDown ) { // how to not fire mousemove handler as often?
+      this.mouseEventBuffer = event;
+    }
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(): void {
-    clearInterval(this.sprayTimer);
+    if (this.isMouseDown) {
+      clearInterval(this.sprayTimer);
+      this.saveSpray({...this.sprayData});
+      this.sprayData.sprays.length = 0;
+    }
   }
 
-  addSpray(event: MouseEvent): void {
+  addSpray(): void {
+    let position: ISpray = {
+      cx: ClickHelper.getXPosition(this.mouseEventBuffer),
+      cy: ClickHelper.getYPosition(this.mouseEventBuffer),
+    }
+    this.sprayData.sprays.push(position);
+  }
 
+  saveSpray( sprayData: ISprayCan){
+    console.log(sprayData.sprays);
+    //this.saveService.saveDrawing(sprayData);
   }
 
 }

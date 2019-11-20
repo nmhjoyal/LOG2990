@@ -142,9 +142,15 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.selectedTool = this.tools.ERASER;
   }
+
   chooseText(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.TEXT;
+  }
+
+  chooseSprayCan(): void {
+    this.resetToolSelection();
+    this.selectedTool = this.tools.SPRAY_CAN;
   }
 
   chooseOther(): void {// Place holder for unimplemented tools
