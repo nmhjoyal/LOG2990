@@ -230,6 +230,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.a', ['$event']) onKeydownA(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseSprayCan();
+    }
+  }
+
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {
       if (this.drawingStorage.isEmpty()) {
