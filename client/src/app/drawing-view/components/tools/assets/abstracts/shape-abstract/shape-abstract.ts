@@ -49,7 +49,9 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       secondaryColour: this.colourService.colour[1],
       strokeOpacity: ToolConstants.DEFAULT_OPACITY, // load from colour service
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from colour service */ };
+      fillOpacity: ToolConstants.DEFAULT_OPACITY, /* load from colour service */
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE, };
   }
 
   abstract ngOnInit(): void;
@@ -161,6 +163,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.saveService.saveDrawing(currentDrawing);
   }

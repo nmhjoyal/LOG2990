@@ -141,6 +141,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       strokeLinecap: this.stroke.strokeLinecap,
       strokeLinejoin: this.stroke.strokeLinejoin,
       strokeDashArray: this.stroke.strokeDashArray,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.saveService.saveDrawing(currentDrawing);
   }

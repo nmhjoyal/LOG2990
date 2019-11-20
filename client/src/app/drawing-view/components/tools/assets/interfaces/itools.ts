@@ -7,4 +7,6 @@ import { TextBox } from './text-interface';
 export interface ITools extends IPreviewBox, ILinePoints, IPolygon, IStampReference, TextBox, IPath, IErasedObjectsList {
     id: string;
     pasteOffset?: number;
+    scaleX?: number;
+    scaleY?: number;
 }

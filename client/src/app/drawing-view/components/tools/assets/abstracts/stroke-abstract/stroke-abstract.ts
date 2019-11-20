@@ -57,6 +57,8 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       strokeLinecap: this.stroke.strokeLinecap,
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }

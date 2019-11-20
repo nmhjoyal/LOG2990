@@ -1,10 +1,14 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
+import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { ClipboardService } from '../clipboard/clipboard-service';
 
 export class SelectorService {
   selectedObjects: Set<ISavedDrawing>;
+  clipboardHelper: ClipboardService;
   topCornerX: number;
   topCornerY: number;
   furthestX: number;
@@ -34,19 +38,73 @@ export class SelectorService {
     return this.selectedObjects;
   }
 
+  parsePolylinePoints(differenceX: number, differenceY: number, copiedObject: ITools): void {
+    let splitPoints: string[] = [];
+    if ('points' in copiedObject) {
+      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
+      splitPoints = copiedObject.points!.split(/[ ,]+/).filter(Boolean);
+    }
+    if ('vertices' in copiedObject) {
+      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
+      splitPoints = copiedObject.vertices!.split(/[ ,]+/).filter(Boolean);
+    }
+    let newPoints = '';
+    for (let i = 0; i < splitPoints.length; i += 2 ) {
+      newPoints += (parseInt(splitPoints[i], 10) - differenceX).toString()
+      + ','
+      + (parseInt(splitPoints[i + 1], 10) - differenceY).toString()
+      + ' ';
+    }
+
+    const newPaths: IComplexPath[] = [];
+    if (copiedObject.paths) {
+      for (const path of copiedObject.paths) {
+        const pathMX = path.path.slice(1, path.path.indexOf(' '));
+        const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
+        const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
+        const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
+        newPaths.push( { path : 'M' + (parseInt(pathMX, 10) - differenceX).toString()
+          + ' '
+          + (parseInt(pathMY, 10) - differenceY).toString()
+          + 'L' + (parseInt(pathLX, 10) - differenceX).toString()
+          + ' '
+          + (parseInt(pathLY, 10) - differenceY).toString(),
+          pathWidth: path.pathWidth });
+
+      }
+    }
+    if (copiedObject.hasOwnProperty('points')) {
+      copiedObject.points = newPoints;
+    }
+    if (copiedObject.hasOwnProperty('vertices')) {
+      copiedObject.vertices = newPoints;
+    }
+    if (copiedObject.hasOwnProperty('paths')) {
+      copiedObject.paths = newPaths;
+    }
+  }
+
   resizeXPosition(cursorX: number) {
     if (cursorX > this.topCornerX && cursorX <= this.furthestX) {
       for (const drawing of this.selectedObjects) {
         const difference = cursorX - this.topCornerX;
+        this.parsePolylinePoints(-difference, 0, drawing);
         drawing.x = drawing.x + difference <= (drawing.width + drawing.x) ? drawing.x + difference : drawing.width;
         drawing.width = drawing.width - difference > 0 ? drawing.width - difference : drawing.width;
+        if (drawing.scaleX && difference < drawing.width) {
+          drawing.scaleX *= (drawing.width - difference) / drawing.width;
+        }
       }
       this.topCornerX = cursorX;
     } else if (cursorX < this.topCornerX) {
       for (const drawing of this.selectedObjects) {
         const difference = this.topCornerX - cursorX;
+        this.parsePolylinePoints(difference, 0, drawing);
         drawing.x = drawing.x - difference > 0 ? drawing.x - difference : drawing.x;
         drawing.width += difference;
+        if (drawing.scaleX) {
+          drawing.scaleX *= (drawing.width + difference) / drawing.width;
+        }
       }
       this.topCornerX = cursorX;
     }
@@ -56,15 +114,23 @@ export class SelectorService {
     if (cursorY > this.topCornerY && cursorY <= this.furthestY) {
       for (const drawing of this.selectedObjects) {
         const difference = cursorY - this.topCornerY;
+        this.parsePolylinePoints(0, -difference, drawing);
         drawing.y = drawing.y + difference <= (drawing.height + drawing.y) ? drawing.y + difference : drawing.height;
         drawing.height = drawing.height - difference > 0 ? drawing.height - difference : drawing.height;
+        if (drawing.scaleY && difference < drawing.height) {
+          drawing.scaleY *= (drawing.height - difference) / drawing.height;
+        }
       }
       this.topCornerY = cursorY;
     } else if (cursorY < this.topCornerY) {
       for (const drawing of this.selectedObjects) {
         const difference = this.topCornerY - cursorY;
+        this.parsePolylinePoints(0, difference, drawing);
         drawing.y = drawing.y - difference > 0 ? drawing.y - difference : drawing.y;
         drawing.height += difference;
+        if (drawing.scaleY) {
+          drawing.scaleY *= (drawing.height + difference) / drawing.height;
+        }
       }
       this.topCornerY = cursorY;
     }
@@ -73,13 +139,20 @@ export class SelectorService {
   resizeXAxis(cursorX: number) {
     if (cursorX > this.furthestX) {
       for (const drawing of this.selectedObjects) {
-        drawing.width += cursorX - this.furthestX;
+        const difference = cursorX - this.furthestX;
+        drawing.width += difference;
+        if (drawing.scaleX) {
+          drawing.scaleX *= (drawing.width + difference) / drawing.width;
+        }
       }
       this.furthestX = cursorX;
     } else if (cursorX < this.furthestX && cursorX >= this.topCornerX) {
       for (const drawing of this.selectedObjects) {
         const difference = this.furthestX - cursorX;
         drawing.width = drawing.width - difference > 0 ? drawing.width - difference : drawing.width;
+        if (drawing.scaleX && difference < drawing.width) {
+          drawing.scaleX *= (drawing.width - difference) / drawing.width;
+        }
       }
       this.furthestX = cursorX;
     }
@@ -88,13 +161,20 @@ export class SelectorService {
   resizeYAxis(cursorY: number) {
     if (cursorY > this.furthestY) {
       for (const drawing of this.selectedObjects) {
-        drawing.height += cursorY - this.furthestY;
+        const difference = cursorY - this.furthestY;
+        drawing.height += difference;
+        if (drawing.scaleY) {
+          drawing.scaleY *= (drawing.height + difference) / drawing.height;
+        }
       }
       this.furthestY = cursorY;
     } else if (cursorY < this.furthestY && cursorY >= this.topCornerY) {
       for (const drawing of this.selectedObjects) {
         const difference = this.furthestY - cursorY;
         drawing.height = drawing.height - difference > 0 ? drawing.height - difference : drawing.height;
+        if (drawing.scaleY && difference < drawing.height) {
+          drawing.scaleY *= (drawing.height - difference) / drawing.height;
+        }
       }
       this.furthestY = cursorY;
     }

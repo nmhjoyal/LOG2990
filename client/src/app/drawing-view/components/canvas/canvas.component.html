@@ -39,7 +39,8 @@
         <g [ngSwitch]="drawing.id">
             
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColourFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.stroke-width]="drawing.strokeWidth"
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
@@ -52,14 +53,16 @@
             </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColourFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" />
             </g>
 
             <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColourFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
@@ -67,7 +70,8 @@
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
-                <g *ngFor="let svgpath of drawing.paths">
+                <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <path
                         [attr.d]="svgpath.path"
                         [style.stroke-width]="svgpath.pathWidth"
@@ -85,14 +89,16 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.ELLIPSE" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)">
+                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <ellipse [attr.cx]="drawing.x" [attr.cy]="drawing.y" [attr.rx]="drawing.width"
                     [attr.ry]="drawing.height" [style.stroke]="drawing.secondaryColour"
                     [style.fill]="drawing.primaryColour" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)">
+                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColour"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
@@ -113,27 +119,21 @@
 
     <g *ngIf="toolHandler.selectedTool === toolId.SELECTOR && toolHandler.selectorBoxExists()"
         [style.stroke]="toolHandler.selection.secondaryColour" [style.fill]="toolHandler.selection.primaryColour">
-         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2"
-            (click)="handleControlPoint()" />
+         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y" r="2" (click)="handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y" r="2" (click)="handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"
-            (click)="activeTool.handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
-            (click)="activeTool.handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
-            (click)="activeTool.handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"
-            (mousedown)="activeTool.handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"
-            (mousedown)="activeTool.handleControlPoint()" />
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"/>
         <rect [attr.x]="toolHandler.selection.x" [attr.y]="toolHandler.selection.y"
             [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
             [style.stroke-opacity]="1" [style.stroke-width]="1" [style.fill-opacity]="0" />
