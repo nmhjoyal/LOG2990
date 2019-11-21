@@ -142,8 +142,6 @@
             (mousedown)="activeTool.handleControlPoint()" />
     </g>
 </svg>
-<canvas #htmlCanvas id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-[attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour"></canvas>
 <div *ngIf="toolHandler.selectedTool === toolId.LINE">
     <app-tools-line #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
