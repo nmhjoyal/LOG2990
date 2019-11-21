@@ -6,6 +6,6 @@
     </filter>
     <g *ngFor='let spray of sprayData.sprays'>
       <circle class = "spray-can-preview" [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" 
-      [attr.r]= "radius" [style.fill]="sprayData.primaryColour" filter= "url(#spraycan)" />
+      [attr.r]= "diametre/2" [style.fill]="sprayData.primaryColour" filter= "url(#spraycan)" />
     </g>
 </svg> 

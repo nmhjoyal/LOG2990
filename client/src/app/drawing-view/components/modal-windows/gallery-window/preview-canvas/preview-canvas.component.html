@@ -96,6 +96,12 @@
                         </tspan>
                     </text>
                 </g>
+                <g *ngSwitchCase="toolId.SPRAY_CAN" >
+                    <g *ngFor="let spray of drawing.sprays">
+                        <circle class = "spray-can-preview" [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" 
+                        [attr.r]= "drawing.radius" [style.fill]="drawing.primaryColour" filter= "url(#spraycan)" />
+                    </g>
+                </g>
             </g>
         </g>
 

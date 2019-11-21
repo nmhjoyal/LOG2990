@@ -3,6 +3,7 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { ITools } from '../assets/interfaces/itools';
+import { AttributesService } from '../assets/attributes/attributes.service';
 
 interface ISpray {
   cx: number;
@@ -34,20 +35,21 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   private sprayData : ISprayCan;
   private mouseEventBuffer: MouseEvent;
   private isMouseDown: boolean;
-  radius: number;
-  sprayingTimeout: number;
+  diametre: number;
+  sprayPerSecond: number
+  onesecond: number = 1000; // remove this and put as constant
   sprayCanFilter: IFilterData;
 
-  constructor( private saveService: SaveService ) { // put attributes service and colour service
+  constructor( private saveService: SaveService, private attributeService: AttributesService ) { // put attributes service and colour service
     this.isMouseDown = false;
-    this.radius = 40 // 'default radius'
-    this.sprayingTimeout = 1000; // 'default spray timeout'
+    this.diametre = 80 // 'default radius'
+    this.sprayPerSecond = 1; // default spray per second
     this.sprayData = {
       id: Id.SPRAY_CAN,
       sprays: [],
       filter: '',
       radius: 0,
-      primaryColour: 'black',
+      primaryColour: 'black', // placeholder. add opacity
       x: 0,
       y: 0,
       width: 0, 
@@ -56,6 +58,12 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    if (this.attributeService.polygonAttributes.wasSaved) {
+      this.shape.strokeWidth = this.attributeService.polygonAttributes.savedStrokeWidth;
+      this.traceMode = this.attributeService.polygonAttributes.savedTraceMode;
+      this.shape.verticesNumber = this.attributeService.polygonAttributes.savedVerticesNumber;
+    }
+    this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
@@ -65,7 +73,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
     this.mouseEventBuffer = event; // or load x and y on each event?
-    this.sprayTimer = window.setInterval(() => this.addSpray(), this.sprayingTimeout);
+    this.addSpray();
+    this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond); // put constant here
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
@@ -74,10 +83,16 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     }
   }
 
-  @HostListener('mouseup', ['$event']) onMouseUp(): void {
+  @HostListener('mouseleave') onMouseLeave(): void {
+    if( this.isMouseDown ) {
+      this.onMouseUp();
+    }
+  }
+
+  @HostListener('mouseup') onMouseUp(): void {
     if (this.isMouseDown) {
       clearInterval(this.sprayTimer);
-      this.sprayData.radius = this.radius;
+      this.sprayData.radius = this.diametre/2;
       this.saveService.saveDrawing({...this.sprayData});
       this.sprayData.sprays = [];
       this.isMouseDown = false
@@ -90,6 +105,23 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       cy: ClickHelper.getYPosition(this.mouseEventBuffer),
     }
     this.sprayData.sprays.push(position);
+  }
+
+  increaseValue(mode: number): void {
+    if (mode === 0 ) {
+      this.diametre += 10;
+    } else if (mode === 1) {
+      this.sprayPerSecond += 1
+    }
+  }
+
+  decreaseValue(mode: number): void {
+    if (mode === 0  && this.diametre > 0) {
+      this.diametre -= 10;
+    } else if (mode === 1 && this.sprayPerSecond > 1) {
+      this.sprayPerSecond += 1
+    }
+
   }
 
 }
