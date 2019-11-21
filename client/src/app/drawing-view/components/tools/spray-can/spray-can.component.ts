@@ -125,7 +125,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     if (mode === 0  && this.diametre > 0) {
       this.diametre -= 10;
     } else if (mode === 1 && this.sprayPerSecond > 1) {
-      this.sprayPerSecond += 1
+      this.sprayPerSecond -= 1
     }
 
   }
