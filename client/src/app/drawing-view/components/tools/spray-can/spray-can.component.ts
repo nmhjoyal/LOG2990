@@ -5,13 +5,19 @@ import { SaveService } from 'src/app/services/save-service/save.service';
 import { ITools } from '../assets/interfaces/itools';
 import { AttributesService } from '../assets/attributes/attributes.service';
 
-interface ISpray {
+interface IPoints {
   cx: number;
   cy: number;
 }
 
+export interface ISprayCanOptions {
+  wasSaved: boolean;
+  savedDiametre: number;
+  savedSprayPerSecond: number;
+}
+
 interface ISprayCan extends ITools {
-  sprays: ISpray[];
+  sprays: IPoints[];
   radius: number;
   filter: string;
   primaryColour: string;
@@ -37,19 +43,19 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   private isMouseDown: boolean;
   diametre: number;
   sprayPerSecond: number
-  onesecond: number = 1000; // remove this and put as constant
+  onesecond: number = 1000; // TODO: remove this and put as constant
   sprayCanFilter: IFilterData;
 
-  constructor( private saveService: SaveService, private attributeService: AttributesService ) { // put attributes service and colour service
+  constructor( private saveService: SaveService, private attributeService: AttributesService ) { // TODO: put colour service
     this.isMouseDown = false;
-    this.diametre = 80 // 'default radius'
-    this.sprayPerSecond = 1; // default spray per second
+    this.diametre = 80 // TODO: 'default radius'
+    this.sprayPerSecond = 10; // TODO: default spray per second remove this and put as constant
     this.sprayData = {
       id: Id.SPRAY_CAN,
       sprays: [],
       filter: '',
       radius: 0,
-      primaryColour: 'black', // placeholder. add opacity
+      primaryColour: 'black', // TODO: placeholder. add opacity remove this and put as constant
       x: 0,
       y: 0,
       width: 0, 
@@ -58,23 +64,23 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    if (this.attributeService.polygonAttributes.wasSaved) {
-      this.shape.strokeWidth = this.attributeService.polygonAttributes.savedStrokeWidth;
-      this.traceMode = this.attributeService.polygonAttributes.savedTraceMode;
-      this.shape.verticesNumber = this.attributeService.polygonAttributes.savedVerticesNumber;
+    if (this.attributeService.sprayCanAttributes.wasSaved) {
+      this.diametre = this.attributeService.sprayCanAttributes.savedDiametre;
+      this.sprayPerSecond = this.attributeService.sprayCanAttributes.savedSprayPerSecond;
     }
-    this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
-
+    this.attributeService.sprayCanAttributes.savedDiametre = this.diametre = 
+    this.attributeService.sprayCanAttributes.savedSprayPerSecond = this.sprayPerSecond;
+    this.attributeService.sprayCanAttributes.wasSaved = true;
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
     this.mouseEventBuffer = event; // or load x and y on each event?
     this.addSpray();
-    this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond); // put constant here
+    this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
@@ -100,7 +106,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   addSpray(): void {
-    let position: ISpray = {
+    let position: IPoints = {
       cx: ClickHelper.getXPosition(this.mouseEventBuffer),
       cy: ClickHelper.getYPosition(this.mouseEventBuffer),
     }

@@ -6,6 +6,7 @@ import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-in
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
+import { ISprayCanOptions } from '../../spray-can/spray-can.component';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class AttributesService {
   ellipseAttributes: IShapeOptions;
   stampAttributes: IStampOptions;
   textAttributes: ITextOptions;
+  sprayCanAttributes: ISprayCanOptions;
 
   constructor() {
     this.resetRectangleAttributes();
@@ -32,6 +34,7 @@ export class AttributesService {
     this.resetStampAttributes();
     this.resetPenAttributes();
     this.resetTextAttributes();
+    this.resetSprayCanAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -154,7 +157,16 @@ export class AttributesService {
       width: 0,
       height: 0,
     };
-}
+  }
+
+  resetSprayCanAttributes(): void { // TODO: TEST THIS
+    this.sprayCanAttributes = {
+      wasSaved: false,
+      savedDiametre: 40, // TODO: use constant of default value
+      savedSprayPerSecond: 10, // TODO: use constant of default value
+    };
+  }
+
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -182,6 +194,9 @@ export class AttributesService {
     }
     if (this.textAttributes.wasSaved) {
       this.resetTextAttributes();
+    }
+    if (this.sprayCanAttributes.wasSaved) {
+      this.resetSprayCanAttributes();
     }
   }
 }
