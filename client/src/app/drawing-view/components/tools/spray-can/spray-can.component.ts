@@ -71,7 +71,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.attributeService.sprayCanAttributes.savedDiametre = this.diametre = 
+    this.attributeService.sprayCanAttributes.savedDiametre = this.diametre; 
     this.attributeService.sprayCanAttributes.savedSprayPerSecond = this.sprayPerSecond;
     this.attributeService.sprayCanAttributes.wasSaved = true;
   }
