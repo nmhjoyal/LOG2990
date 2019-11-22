@@ -61,6 +61,18 @@ export default class ClickHelper {
                     { cx: (object.x + (object.width / 2)), cy: (object.y + (object.height / 2)), r: object.width / 2 }),
                     svgIntersections.shape('polyline', selectorLine));
                 return stampIntersections.points.length > 0;
+
+            case Id.SPRAY_CAN: //TEST THIS
+                let sprayIntersections : any;
+                if ( object.sprays ) {
+                    object.sprays.forEach(position => {
+                        sprayIntersections += svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
+                            r: object.radius}), svgIntersections.shape('polyline', selectorLine));
+                    });
+                    return sprayIntersections.points.length > 0;
+                }
+                return false;
+                
             default:
                 return false;
         }

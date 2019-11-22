@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -8,7 +8,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 interface ISprays {
   cx: number;
   cy: number;
-  filter: ElementRef;
+  filter: SVGFilterElement;
 }
 
 export interface ISprayCanOptions {
@@ -17,7 +17,12 @@ export interface ISprayCanOptions {
   savedSprayPerSecond: number;
 }
 
-interface ISprayCan extends ITools {
+export interface ISprayPaint {
+  sprays?: ISprays[];
+  radius?: number;
+}
+
+export interface ISprayCan extends ITools {
   sprays: ISprays[];
   radius: number;
   primaryColour: string;
@@ -32,7 +37,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  @ViewChild("sprayCanFilter", {static: false, read: ElementRef}) currentFilter: ElementRef;
+  @ViewChild("sprayCanFilter", {static: false, read: SVGFilterElement}) currentFilter: SVGFilterElement;
 
   private sprayTimer: number;
   private sprayData : ISprayCan;
@@ -45,8 +50,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   constructor( private saveService: SaveService, private attributeService: AttributesService ) { // TODO: put colour service
     this.isMouseDown = false;
-    this.diametre = 80 // TODO: 'default radius'
-    this.sprayPerSecond = 1; // TODO: default spray per second remove this and put as constant
+    this.diametre = 20 // TODO: 'default radius'
+    this.sprayPerSecond = 10; // TODO: default spray per second remove this and put as constant
     this.filterSeed = 0;
     this.sprayData = {
       id: Id.SPRAY_CAN,
@@ -75,6 +80,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
+    this.sprayData.radius = this.diametre/2;
     this.mouseEventBuffer = event; // or load x and y on each event?
     this.addSpray();
     this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond);
@@ -95,7 +101,6 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mouseup') onMouseUp(): void {
     if (this.isMouseDown) {
       clearInterval(this.sprayTimer);
-      this.sprayData.radius = this.diametre/2;
       // console.log(this.sprayData.sprays);
       this.saveService.saveDrawing({...this.sprayData});
       this.sprayData.sprays = [];
@@ -104,8 +109,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   getRandomInt(): number {
-    const min = Math.ceil(1);
-    return Math.floor(Math.random() * (500 - min) + min);
+    return Math.floor(Math.random() * (500 - 1) + 1);
   }
 
   addSpray(): void {
@@ -113,7 +117,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     let position: ISprays = {
       cx: ClickHelper.getXPosition(this.mouseEventBuffer),
       cy: ClickHelper.getYPosition(this.mouseEventBuffer),
-      filter: this.currentFilter, // this doesn't work... 
+      filter: {...this.currentFilter}, // gotta mek this work!
     }
     this.sprayData.sprays.push(position);
   }
@@ -128,7 +132,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   decreaseValue(mode: number): void {
     if (mode === 0  && this.diametre > 0) {
-      this.diametre -= 10;
+      this.diametre -= 5; // const diametre step
     } else if (mode === 1 && this.sprayPerSecond > 1) {
       this.sprayPerSecond -= 1
     }
