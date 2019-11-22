@@ -65,7 +65,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     super.onMouseMove(event);
-    this.handleMouseMove();
+    this.handleMouseMove(event);
   }
 
   @HostListener('mouseup', ['$event']) onRelease(event: MouseEvent): void {
@@ -104,10 +104,11 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.mouseDown = true;
   }
 
-  protected handleMouseMove(): void {
+  protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       if (this.shouldDrag) {
-        this.selectorService.dragObject(this.cursorX, this.cursorY, this.windowWidth, this.windowHeight);
+        this.selectorService.dragObject(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.windowWidth, this.windowHeight);
       } else {
         this.mouseMoved = true;
         this.selectorService.resetSize();
