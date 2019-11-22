@@ -78,9 +78,9 @@ export class ParserService {
     }
     let newPoints = '';
     for (let i = 0; i < splitPoints.length; i += 2) {
-      newPoints += (parseInt(splitPoints[i], 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2).toString()
+      newPoints += (cursorX - parseInt(splitPoints[i], 10)).toString()
         + ','
-        + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+        + (cursorY - parseInt(splitPoints[i + 1], 10) + cursorY).toString()
         + ' ';
     }
 
@@ -92,13 +92,13 @@ export class ParserService {
         const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
         const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
         newPaths.push({
-          path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2).toString()
+          path: 'M' + (parseInt(pathMX, 10)).toString()
             + ' '
-            + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+            + (parseInt(pathMY, 10)).toString()
             + 'L'
-            + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2 ).toString()
+            + (parseInt(pathLX, 10)).toString()
             + ' '
-            + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString(),
+            + (parseInt(pathLY, 10)).toString(),
           pathWidth: path.pathWidth,
         });
 

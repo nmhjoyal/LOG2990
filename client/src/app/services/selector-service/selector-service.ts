@@ -124,14 +124,14 @@ export class SelectorService {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
 
-  dragObject(cursorX: number, cursorY: number, previewBox: IPreviewBox, windowWidth: number, windowHeight: number): void {
+  dragObject(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
     this.selectedObjects.forEach((copiedObject) => {
 
-      const distanceX = (cursorX - copiedObject.x);
-      const distanceY = (cursorY - copiedObject.y);
+      // const distanceX = (cursorX - copiedObject.x);
+      // const distanceY = (cursorY - copiedObject.y);
       copiedObject.x = cursorX - copiedObject.width / 2;
       copiedObject.y = cursorY - copiedObject.height / 2;
-      // this.recalculateShape(windowWidth, windowHeight);
+      this.recalculateShape(windowWidth, windowHeight);
       // this.updateSelectorShape(copiedObject);
       this.parserService.dragPolylinePoints(cursorX, cursorY, copiedObject, this);
       this.saveService.saveDrawing(copiedObject);
