@@ -66,7 +66,7 @@ export class ParserService {
     }
   }
 
-  dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools): void {
+  dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, selectorService: SelectorService): void {
     let splitPoints: string[] = [];
     if ('points' in copiedObject) {
       // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
@@ -92,13 +92,14 @@ export class ParserService {
         const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
         const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
         newPaths.push({
-          path: 'M' + (parseInt(pathMX, 10)).toString()
+          path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+            - selectorService.MinWidth / 2).toString()
             + ' '
-            + (parseInt(pathMY, 10)).toString()
-            + 'L'
-            + (parseInt(pathLX, 10)).toString()
+            + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+            + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+              - selectorService.MinWidth / 2).toString()
             + ' '
-            + (parseInt(pathLY, 10)).toString(),
+            + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString(),
           pathWidth: path.pathWidth,
         });
 
