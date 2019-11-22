@@ -131,7 +131,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseUp(event: MouseEvent): void {
     // Single clicks
-    if (this.mouseDown && !this.mouseMoved) {
+    if (this.mouseDown && !this.mouseMoved && !this.shouldDrag) {
       if (event.button === ClickTypes.LEFT_CLICK) {
         this.leftClick(event);
         this.mouseDown = false;
