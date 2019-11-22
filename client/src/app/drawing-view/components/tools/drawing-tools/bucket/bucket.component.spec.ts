@@ -57,14 +57,14 @@ describe('BucketComponent', () => {
 
   it('should properly save the attributes', () => {
     component.ngOnDestroy();
-    expect(attrService.crayonAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
+    expect(attrService.bucketAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'stroke.strokeWidth was not successfully saved upon destruction');
-    expect(attrService.crayonAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
+    expect(attrService.bucketAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
   });
 
   it('#ngOnInit should not load strokewidth if there are no attributes saved in the service', () => {
-    attrService.crayonAttributes.wasSaved = false;
-    attrService.crayonAttributes.savedStrokeWidth = STROKE_WIDTH;
+    attrService.bucketAttributes.wasSaved = false;
+    attrService.bucketAttributes.savedStrokeWidth = STROKE_WIDTH;
 
     component.ngOnInit();
 
@@ -73,8 +73,8 @@ describe('BucketComponent', () => {
   });
 
   it('#ngOnInit should load strokewidth if there are attributes saved in the service', () => {
-    attrService.crayonAttributes.wasSaved = true;
-    attrService.crayonAttributes.savedStrokeWidth = STROKE_WIDTH;
+    attrService.bucketAttributes.wasSaved = true;
+    attrService.bucketAttributes.savedStrokeWidth = STROKE_WIDTH;
 
     component.ngOnInit();
 

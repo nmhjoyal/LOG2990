@@ -22,7 +22,7 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
   @Input() protected windowWidth: number;
   private shape: IShape;
   private tolerance: number;
-  private initialColour: string;
+  private initialColour: string[];
   protected traceMode: number;
   private width: number;
   private height: number;
@@ -113,6 +113,17 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
    // this.addSurroundingPixels(event.x, event.y);
   }
 
+  protected acceptsColor(colour: string[]): boolean {
+    return (Math.abs(Number(colour[0]) - Number(this.initialColour[0])) < this.tolerance &&
+            Math.abs(Number(colour[1]) - Number(this.initialColour[1])) < this.tolerance &&
+            Math.abs(Number(colour[2]) - Number(this.initialColour[2])) < this.tolerance);
+  }
+
+  protected withinCanvas(positionX: number, positionY: number): boolean {
+    return (positionX > 0 && positionX < this.canvas.width &&
+            positionY > 0 && positionY < this.canvas.height);
+  }
+
   protected addSurroundingPixels(positionX: number, positionY: number): void {
     const offset = 5;
     const up = this.getColourAtPosition(positionX, positionY + offset);
@@ -121,22 +132,22 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
     const left = this.getColourAtPosition(positionX - offset, positionY);
 
     console.log(this.shape.points);
-    if (up === this.initialColour) {
+    if (this.acceptsColor(up) && this.withinCanvas(positionX, positionY)) {
       this.addSurroundingPixels(positionX, positionY + offset);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
-    if (right === this.initialColour) {
+    if (this.acceptsColor(right) && this.withinCanvas(positionX, positionY)) {
       this.addSurroundingPixels(positionX + offset, positionY);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
-    if (down === this.initialColour) {
+    if (this.acceptsColor(down) && this.withinCanvas(positionX, positionY)) {
       this.addSurroundingPixels(positionX, positionY - offset);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
-    if (left === this.initialColour) {
+    if (this.acceptsColor(left) && this.withinCanvas(positionX, positionY)) {
       this.addSurroundingPixels(positionX - offset, positionY);
     } else {
       this.shape.points += positionX + ',' + positionY;
@@ -145,7 +156,7 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   initializeCanvas(): void {
     const data = this.xmlToBase64();
-    this.drawImage(data);
+    this.draw3Image(data);
   }
 
   xmlToBase64(): string {
@@ -183,12 +194,14 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
     });
   }
 
-  getColourAtPosition(x: number, y: number): string {
+  getColourAtPosition(x: number, y: number): string[] {
     if (this.context) {
-      const imageData = this.context.getImageData(x, y, this.width, this.height).data;
+      const imageData = this.context.getImageData(x, y, 1, 1).data;
       let arrayIndex = 0;
-      return (imageData[arrayIndex].toString() + imageData[++arrayIndex].toString() +
-              imageData[++arrayIndex].toString());
-    } else { return (''); }
+      const r = this.colourService.rgbToHex(imageData[arrayIndex]);
+      const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
+      const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
+      return ([r, g, b]);
+    } else { return ([]); }
   }
 }
