@@ -1,11 +1,14 @@
 
 <svg tabindex="0" class='previewSprayCan' x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-    <filter id="spraycan">
-        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
-        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-    <g *ngFor='let spray of sprayData.sprays'>
-      <circle class = "spray-can-preview" [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" 
-      [attr.r]= "diametre/2" [style.fill]="sprayData.primaryColour" filter= "url(#spraycan)" />
-    </g>
+  
+  <filter #sprayCanFilter id="spraycan" [attr.width]="diametre" [attr.height]="diametre" >
+    <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
+    <feTurbulence type="turbulence" [attr.seed]="filterSeed" baseFrequency="1" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
+    <feDisplacementMap in2="turbulence" in="SourceGraphic"
+      scale="60" xChannelSelector="R" yChannelSelector="B"/>
+  </filter>
+
+  <g *ngFor="let position of sprayData.sprays">
+    <circle [attr.cy]= "position.cy" [attr.cx]= "position.cx" [attr.r]= "40" [style.fill]="black" filter="url(#spraycan)"/>
+  </g>
 </svg> 

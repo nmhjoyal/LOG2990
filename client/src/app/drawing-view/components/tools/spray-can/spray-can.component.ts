@@ -1,13 +1,14 @@
-import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, HostListener, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { ITools } from '../assets/interfaces/itools';
 import { AttributesService } from '../assets/attributes/attributes.service';
 
-interface IPoints {
+interface ISprays {
   cx: number;
   cy: number;
+  filter: ElementRef;
 }
 
 export interface ISprayCanOptions {
@@ -17,14 +18,9 @@ export interface ISprayCanOptions {
 }
 
 interface ISprayCan extends ITools {
-  sprays: IPoints[];
+  sprays: ISprays[];
   radius: number;
-  filter: string;
   primaryColour: string;
-}
-
-interface IFilterData {
-
 }
 
 @Component({
@@ -36,24 +32,25 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
+  @ViewChild("sprayCanFilter", {static: false, read: ElementRef}) currentFilter: ElementRef;
 
   private sprayTimer: number;
   private sprayData : ISprayCan;
   private mouseEventBuffer: MouseEvent;
   private isMouseDown: boolean;
+  protected filterSeed: number;
   diametre: number;
-  sprayPerSecond: number
+  sprayPerSecond: number;
   onesecond: number = 1000; // TODO: remove this and put as constant
-  sprayCanFilter: IFilterData;
 
   constructor( private saveService: SaveService, private attributeService: AttributesService ) { // TODO: put colour service
     this.isMouseDown = false;
     this.diametre = 80 // TODO: 'default radius'
-    this.sprayPerSecond = 10; // TODO: default spray per second remove this and put as constant
+    this.sprayPerSecond = 1; // TODO: default spray per second remove this and put as constant
+    this.filterSeed = 0;
     this.sprayData = {
       id: Id.SPRAY_CAN,
       sprays: [],
-      filter: '',
       radius: 0,
       primaryColour: 'black', // TODO: placeholder. add opacity remove this and put as constant
       x: 0,
@@ -99,16 +96,24 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     if (this.isMouseDown) {
       clearInterval(this.sprayTimer);
       this.sprayData.radius = this.diametre/2;
+      // console.log(this.sprayData.sprays);
       this.saveService.saveDrawing({...this.sprayData});
       this.sprayData.sprays = [];
       this.isMouseDown = false
     }
   }
 
+  getRandomInt(): number {
+    const min = Math.ceil(1);
+    return Math.floor(Math.random() * (500 - min) + min);
+  }
+
   addSpray(): void {
-    let position: IPoints = {
+    this.filterSeed = this.getRandomInt();
+    let position: ISprays = {
       cx: ClickHelper.getXPosition(this.mouseEventBuffer),
       cy: ClickHelper.getYPosition(this.mouseEventBuffer),
+      filter: this.currentFilter, // this doesn't work... 
     }
     this.sprayData.sprays.push(position);
   }
