@@ -106,9 +106,9 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.PEN;
   }
 
-  choosePlume(): void {
+  chooseQuill(): void {
     this.resetToolSelection();
-    this.selectedTool = this.tools.PLUME;
+    this.selectedTool = this.tools.QUILL;
   }
 
   chooseSelector(): void {

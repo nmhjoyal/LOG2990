@@ -157,7 +157,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.p', ['$event']) onKeydownP(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.choosePlume();
+      this.toolHandler.chooseQuill();
     }
   }
 

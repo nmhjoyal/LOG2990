@@ -1,9 +1,0 @@
-<svg tabindex = "0" class = "previewPlume" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
-    <g *ngFor="let svgpath of plume.paths">
-        <path
-            [attr.d]="svgpath.path"
-            [style.stroke-width]="svgpath.pathWidth"
-            [style.stroke]="plume.colour">
-        </path>
-    </g>
-</svg>

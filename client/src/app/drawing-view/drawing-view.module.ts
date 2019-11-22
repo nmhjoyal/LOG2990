@@ -16,7 +16,7 @@ import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/dr
 import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
-import { PlumeComponent } from './components/tools/drawing-tools/plume/plume.component';
+import { QuillComponent } from './components/tools/drawing-tools/quill/quill.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { LineComponent } from './components/tools/shapes/line/line.component';
@@ -41,7 +41,7 @@ import { TextComponent } from './components/tools/text/text.component';
     StampComponent,
     EraserComponent,
     PenComponent,
-    PlumeComponent,
+    QuillComponent,
   ],
 
   imports: [

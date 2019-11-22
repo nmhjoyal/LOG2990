@@ -8,7 +8,7 @@ export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
     PEN = 'pen',
-    PLUME = 'plume',
+    QUILL = 'quill',
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
@@ -92,7 +92,8 @@ export class ToolConstants {
     static SECONDARY_COLOUR_INDEX = 1;
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
-
+    static ANGLE_INCREMENT_1 = 1;
+    static ANGLE_INCREMENT_15 = 15;
 }
 
 export class StampConstants {
@@ -104,6 +105,4 @@ export class StampConstants {
     static DEFAULT_WIDTH = 24;
     static DEFAULT_HEIGHT = 24;
     static MAX_SCALE = 21;
-    static ANGLE_INCREMENT_1 = 1;
-    static ANGLE_INCREMENT_15 = 15;
 }

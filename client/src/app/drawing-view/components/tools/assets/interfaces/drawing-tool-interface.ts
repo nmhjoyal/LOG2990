@@ -40,7 +40,7 @@ export interface IDrawingToolOptions extends ITools {
     savedMinWidth: number;
 }
 
-export interface IPlumeOptions extends IDrawingToolOptions {
+export interface IQuillOptions extends IDrawingToolOptions {
     savedLineLength: number;
     savedAngle: number;
 }

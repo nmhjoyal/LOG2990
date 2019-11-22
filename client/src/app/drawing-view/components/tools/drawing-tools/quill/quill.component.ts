@@ -5,18 +5,18 @@ import { SaveService } from 'src/app/services/save-service/save.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
-import { StampConstants, ToolConstants } from '../../assets/constants/tool-constants';
+import { ToolConstants } from '../../assets/constants/tool-constants';
 import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interface';
 
 @Component({
-  selector: 'app-plume',
-  templateUrl: './plume.component.html',
-  styleUrls: ['./plume.component.scss'],
+  selector: 'app-quill',
+  templateUrl: './quill.component.html',
+  styleUrls: ['./quill.component.scss'],
 })
 
-export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy {
+export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
-  private plume: IPen;
+  private quill: IPen;
   private lineLength: number;
   private angle: number;
   private lastX: number;
@@ -27,8 +27,8 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
               attributesServiceRef: AttributesService,
               colourServiceRef: ColourService) {
     super(saveServiceRef, attributesServiceRef, colourServiceRef);
-    this.plume = {
-      id: ToolConstants.TOOL_ID.PLUME,
+    this.quill = {
+      id: ToolConstants.TOOL_ID.QUILL,
       paths: [],
       colour: this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
       strokeLinecap: ToolConstants.ROUND,
@@ -42,13 +42,13 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.angle = ToolConstants.DEFAULT_ANGLE;
     this.lastX = 0;
     this.lastY = 0;
-    this.angleIncrement = StampConstants.ANGLE_INCREMENT_15;
+    this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15;
   }
 
   ngOnInit(): void {
-    if (this.attributesService.plumeAttributes.wasSaved) {
-      this.lineLength = this.attributesService.plumeAttributes.savedLineLength;
-      this.angle = this.attributesService.plumeAttributes.savedAngle;
+    if (this.attributesService.quillAttributes.wasSaved) {
+      this.lineLength = this.attributesService.quillAttributes.savedLineLength;
+      this.angle = this.attributesService.quillAttributes.savedAngle;
     }
   }
 
@@ -57,15 +57,15 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   saveAttribute(): void {
-    this.attributesService.plumeAttributes.wasSaved = true;
-    this.attributesService.plumeAttributes.savedLineLength = this.lineLength;
-    this.attributesService.plumeAttributes.savedAngle = this.angle;
+    this.attributesService.quillAttributes.wasSaved = true;
+    this.attributesService.quillAttributes.savedLineLength = this.lineLength;
+    this.attributesService.quillAttributes.savedAngle = this.angle;
   }
 
   @HostListener('keydown.alt') onKeyDownAlt(): void {
-    this.angleIncrement = (this.angleIncrement === StampConstants.ANGLE_INCREMENT_15) ?
-      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1 :
-      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15;
+    this.angleIncrement = (this.angleIncrement === ToolConstants.ANGLE_INCREMENT_15) ?
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1 :
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15;
   }
 
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
@@ -80,11 +80,11 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.mouseDown = true;
     this.lastX = ClickHelper.getXPosition(event);
     this.lastY = ClickHelper.getYPosition(event);
-    this.plume.x = this.lastX;
-    this.plume.y = this.lastY;
-    this.plume.width = 0;
-    this.plume.height = 0;
-    this.plume.points = this.lastX + ',' + this.lastY;
+    this.quill.x = this.lastX;
+    this.quill.y = this.lastY;
+    this.quill.width = 0;
+    this.quill.height = 0;
+    this.quill.points = this.lastX + ',' + this.lastY;
   }
 
   onMouseMove(event: MouseEvent): void {
@@ -99,10 +99,10 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   protected updatePositionAndDimensions(x: number, y: number): void {
-    this.plume.x = x < this.plume.x ? x : this.plume.x;
-    this.plume.y = y < this.plume.y ? y : this.plume.y;
-    this.plume.width = x > this.plume.width ? x : this.plume.width;
-    this.plume.height = y > this.plume.height ? y : this.plume.height;
+    this.quill.x = x < this.quill.x ? x : this.quill.x;
+    this.quill.y = y < this.quill.y ? y : this.quill.y;
+    this.quill.width = x > this.quill.width ? x : this.quill.width;
+    this.quill.height = y > this.quill.height ? y : this.quill.height;
   }
 
   protected calculatePath(x: number, y: number): void {
@@ -125,25 +125,12 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
       path: 'M' + x1 + ' ' + y1 + 'L' + x2 + ' ' + y2,
       pathWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     };
-    this.plume.points += ' ' + x + ',' + y;
-    if (this.plume.paths) {
-      this.plume.paths.push(path);
+    this.quill.points += ' ' + x + ',' + y;
+    if (this.quill.paths) {
+      this.quill.paths.push(path);
     }
     this.updatePositionAndDimensions(x, y);
   }
-
-  /*
-  protected calculateIncidentAngle(offsetX: number, offsetY: number, distance: number): number {
-    const angleRad = this.degreeToRad(this.angle);
-    const negativeX = offsetX < 0;
-    const negativeY = offsetY < 0;
-    if (!negativeX && !negativeY && (angleRad < Math.PI / 2 || (angleRad > Math.PI && angleRad < 3 * Math.PI / 2))) {
-      const orientation = Math.atan(offsetY / offsetX);
-      return distance * Math.sin(orientation);
-    }
-    else if ()
-  }
-  */
 
   protected fillGaps(offsetX: number, offsetY: number, distance: number): void {
     let x = this.lastX;
@@ -159,15 +146,15 @@ export class PlumeComponent extends StrokeAbstract implements OnInit, OnDestroy 
 
   protected saveShape(): void {
     const currentDrawing: IPen = {
-      id: this.plume.id,
-      paths: this.plume.paths,
-      colour: this.plume.colour,
-      strokeLinecap: this.plume.strokeLinecap,
-      x: this.plume.x,
-      y: this.plume.y,
-      width: this.plume.width - this.plume.x,
-      height: this.plume.height - this.plume.y,
-      points: this.plume.points,
+      id: this.quill.id,
+      paths: this.quill.paths,
+      colour: this.quill.colour,
+      strokeLinecap: this.quill.strokeLinecap,
+      x: this.quill.x,
+      y: this.quill.y,
+      width: this.quill.width - this.quill.x,
+      height: this.quill.height - this.quill.y,
+      points: this.quill.points,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }
