@@ -144,7 +144,7 @@ describe('EraserComponent', () => {
   });
 
   it('should set object outline colour back to default when hovered off', () => {
-    component.colourService.getSecondaryColour() = 'black';
+    component.colourService.colour[1] = 'black';
     rectangleMock.x = UNMATCHING_COORDINATE;
     rectangleMock.y = UNMATCHING_COORDINATE;
     rectangleMock.secondaryColour = 'red';

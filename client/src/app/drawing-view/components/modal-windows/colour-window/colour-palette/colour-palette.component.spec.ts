@@ -59,13 +59,13 @@ describe('ColourPaletteComponent', () => {
     it('should call all functions on drawGradient', () => {
         const width = component['canvas'].nativeElement.width;
         const height = component['canvas'].nativeElement.height;
-        const colourGradient = (component as any).ctx.createLinearGradient(0, 0, 0, height);
+        const colourGradient = (component as any).context.createLinearGradient(0, 0, 0, height);
         colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR, Rainbow.RED);
         component.drawGradient(colourGradient, width, height);
-        expect((component as any).ctx.beginPath).toHaveBeenCalled();
-        expect((component as any).ctx.rect).toHaveBeenCalled();
-        expect((component as any).ctx.fill).toHaveBeenCalled();
-        expect((component as any).ctx.closePath).toHaveBeenCalled();
+        expect((component as any).context.beginPath).toHaveBeenCalled();
+        expect((component as any).context.rect).toHaveBeenCalled();
+        expect((component as any).context.fill).toHaveBeenCalled();
+        expect((component as any).context.closePath).toHaveBeenCalled();
     });
 
     it('#onMouseDown should be called when left mouse button is pressed', () => {
@@ -73,7 +73,6 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mousedown');
         hostElement.triggerEventHandler('mousedown', event);
         expect(spy).toHaveBeenCalled();
-        // expect(component.getPrimaryColour().emit).toHaveBeenCalled();
         // expect(component.draw).toHaveBeenCalled();
       });
 
@@ -82,6 +81,7 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mousemove');
         hostElement.triggerEventHandler('mousemove', event);
         expect(spy).toHaveBeenCalled();
+        // expect(component.emitColour).toHaveBeenCalled();
       });
 
       it('#onMouseUp should be called when left mouse button gets released', () => {
@@ -91,8 +91,10 @@ describe('ColourPaletteComponent', () => {
         expect(spy).toHaveBeenCalled();
       });
 
-    it('should change colour on click of palette', () => {
-        expect(component.getPrimaryColour()).toBeDefined('setColour()');
-    });
+      it('#getColourAtPosition should return color', () => {
+        component.draw();
+        const colour = component.getColourAtPosition(1, 1);
+        expect(colour).not.toBeNull();
+      });
 
 });

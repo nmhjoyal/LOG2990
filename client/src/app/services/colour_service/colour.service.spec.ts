@@ -13,8 +13,24 @@ describe('ColourService ', () => {
             '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
     });
 
-    it('should be created', () => {
-        expect(instance).toBeTruthy();
+    it('should return primary colour', () => {
+        instance.colour[0] = '00';
+        expect(instance.PrimaryColour).toEqual('00');
+    });
+
+    it('should return secondary colour', () => {
+        instance.colour[1] = '00';
+        expect(instance.SecondaryColour).toEqual('00');
+    });
+
+    it('should return primary opacity', () => {
+        instance.alpha[0] = 0;
+        expect(instance.PrimaryOpacity).toEqual(0);
+    });
+
+    it('should return secondary opacity', () => {
+        instance.alpha[1] = 0;
+        expect(instance.SecondaryOpacity).toEqual(0);
     });
 
     it('should turn a value of 0 into string 00', () => {

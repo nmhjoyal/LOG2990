@@ -30,7 +30,7 @@ export class ColourPaletteComponent implements AfterViewInit {
   @Output() protected secondaryColour: EventEmitter<string> = new EventEmitter();
 
   colour: EventEmitter<string>[];
-  private ctx: CanvasRenderingContext2D;
+  private context: CanvasRenderingContext2D;
   private mousedown: boolean;
   protected selectedPosition: { x: number; y: number };
 
@@ -44,21 +44,18 @@ export class ColourPaletteComponent implements AfterViewInit {
   }
 
   drawGradient(gradient: CanvasGradient, width: number, height: number): void {
-    this.ctx.beginPath();
-    this.ctx.rect(0, 0, width, height);
-    this.ctx.fillStyle = gradient;
-    this.ctx.fill();
-    this.ctx.closePath();
+    this.context.beginPath();
+    this.context.rect(0, 0, width, height);
+    this.context.fillStyle = gradient;
+    this.context.fill();
+    this.context.closePath();
   }
 
   draw(): void {
-    if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
-    }
+    this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
-
-    const colourGradient = this.ctx.createLinearGradient(0, 0, 0, height);
+    const colourGradient = this.context.createLinearGradient(0, 0, 0, height);
 
     let separatorFactor = 0;
     // vertical colour grandient
@@ -73,7 +70,7 @@ export class ColourPaletteComponent implements AfterViewInit {
 
     separatorFactor = 0;
     // horizontal greyscale gradient
-    const greyscaleGradient = this.ctx.createLinearGradient( height, 0, 0, 0) ;
+    const greyscaleGradient = this.context.createLinearGradient( height, 0, 0, 0) ;
     greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * separatorFactor, Transparancy.FULL);
     greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.HALF);
     greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.QUARTER);
@@ -85,21 +82,19 @@ export class ColourPaletteComponent implements AfterViewInit {
     this.drawGradient(greyscaleGradient, width, height);
   }
 
-  @HostListener('window:mouseup', ['$event'])
-
-  onMouseUp(): void {
+  @HostListener('mouseup', ['$event']) onMouseUp(): void {
     this.mousedown = false;
     this.colourService.addColour();
   }
 
-  onMouseDown(event: MouseEvent): void {
+  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     this.mousedown = true;
     this.selectedPosition = { x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event) };
     this.draw();
     this.colour[+this.mainColour].emit(this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event)));
   }
 
-  onMouseMove(event: MouseEvent): void {
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if (this.mousedown) {
       this.selectedPosition = { x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event) };
       this.draw();
@@ -113,7 +108,7 @@ export class ColourPaletteComponent implements AfterViewInit {
   }
 
   getColourAtPosition(x: number, y: number): string {
-    const imageData = this.ctx.getImageData(x, y, 1, 1).data;
+    const imageData = this.context.getImageData(x, y, 1, 1).data;
     let arrayIndex = 0;
     const r = this.colourService.rgbToHex(imageData[arrayIndex]);
     const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
