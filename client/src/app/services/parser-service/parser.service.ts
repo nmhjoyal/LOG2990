@@ -78,9 +78,9 @@ export class ParserService {
     }
     let newPoints = '';
     for (let i = 0; i < splitPoints.length; i += 2) {
-      newPoints += (cursorX - parseInt(splitPoints[i], 10)).toString()
+      newPoints += (parseInt(splitPoints[i], 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2).toString()
         + ','
-        + (cursorY - parseInt(splitPoints[i + 1], 10) + cursorY).toString()
+        + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
         + ' ';
     }
 
