@@ -66,7 +66,7 @@ export class ParserService {
     }
   }
 
-  dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, selectorService: SelectorService): void {
+  dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools): void {
     let splitPoints: string[] = [];
     if ('points' in copiedObject) {
       // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
