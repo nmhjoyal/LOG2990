@@ -2,6 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ResizeService } from 'src/app/services/resize-service/resize-service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -25,8 +26,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
-    protected selectorService: SelectorService) {
+    protected selectorService: SelectorService, protected resizeService: ResizeService) {
     super(saveRef, attributesServiceRef, colourService);
+    this.resizeService = new ResizeService(this.selectorService);
     this.shape.strokeWidth = 1;
     this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
@@ -105,80 +107,80 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     switch (this.selectedControlPoint) {
       case ControlPoints.TOP_LEFT:
         if (this.altKeyPressed) {
-          this.selectorService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.selectorService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
-          this.selectorService.resizeXPosition(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYPosition(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXPosition(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYPosition(ClickHelper.getYPosition(event));
         }
         break;
       case ControlPoints.TOP_MIDDLE:
         if (this.altKeyPressed) {
-          this.selectorService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
+          this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else {
-          this.selectorService.resizeYPosition(ClickHelper.getYPosition(event));
+          this.resizeService.resizeYPosition(ClickHelper.getYPosition(event));
         }
         break;
       case ControlPoints.TOP_RIGHT:
         if (this.altKeyPressed) {
-          this.selectorService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.selectorService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
-          this.selectorService.resizeXAxis(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYPosition(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXAxis(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYPosition(ClickHelper.getYPosition(event));
         }
         break;
       case ControlPoints.MIDDLE_LEFT:
         if (this.altKeyPressed) {
-          this.selectorService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
+          this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
         } else {
-          this.selectorService.resizeXPosition(ClickHelper.getXPosition(event));
+          this.resizeService.resizeXPosition(ClickHelper.getXPosition(event));
         }
         break;
       case ControlPoints.MIDDLE_MIDDLE:
         break;
       case ControlPoints.MIDDLE_RIGHT:
         if (this.altKeyPressed) {
-          this.selectorService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
+          this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
         } else {
-          this.selectorService.resizeXAxis(ClickHelper.getXPosition(event));
+          this.resizeService.resizeXAxis(ClickHelper.getXPosition(event));
         }
         break;
       case ControlPoints.BOTTOM_LEFT:
         if (this.altKeyPressed) {
-          this.selectorService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.selectorService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
-          this.selectorService.resizeXPosition(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYAxis(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXPosition(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYAxis(ClickHelper.getYPosition(event));
         }
         break;
       case ControlPoints.BOTTOM_MIDDLE:
         if (this.altKeyPressed) {
-          this.selectorService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
+          this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else {
-          this.selectorService.resizeYAxis(ClickHelper.getYPosition(event));
+          this.resizeService.resizeYAxis(ClickHelper.getYPosition(event));
         }
         break;
       case ControlPoints.BOTTOM_RIGHT:
         if (this.altKeyPressed) {
-          this.selectorService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.selectorService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
-          this.selectorService.resizeXAxis(ClickHelper.getXPosition(event));
-          this.selectorService.resizeYAxis(ClickHelper.getYPosition(event));
+          this.resizeService.resizeXAxis(ClickHelper.getXPosition(event));
+          this.resizeService.resizeYAxis(ClickHelper.getYPosition(event));
         }
         break;
     }

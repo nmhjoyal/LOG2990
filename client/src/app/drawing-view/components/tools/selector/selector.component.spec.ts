@@ -2,6 +2,7 @@ import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ResizeService } from 'src/app/services/resize-service/resize-service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -63,6 +64,7 @@ describe('SelectorComponent', () => {
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock();
+        const resizeServiceMock = jasmine.createSpyObj('ResizeService', ['']);
 
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],
@@ -77,6 +79,7 @@ describe('SelectorComponent', () => {
             set: {
               providers: [
                 { provide: SelectorService, useValue: selectorServiceMock },
+                { provide: ResizeService, useValue: resizeServiceMock },
               ],
             },
         }).compileComponents();
