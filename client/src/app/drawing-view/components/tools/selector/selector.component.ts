@@ -110,7 +110,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
           this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
           this.resizeService.resizeXPosition(ClickHelper.getXPosition(event));
@@ -129,7 +129,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
           this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
           this.resizeService.resizeXAxis(ClickHelper.getXPosition(event));
@@ -157,7 +157,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
           this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
           this.resizeService.resizeXPosition(ClickHelper.getXPosition(event));
@@ -176,7 +176,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           this.resizeService.resizeXAxesFromCenter(ClickHelper.getXPosition(event));
           this.resizeService.resizeYAxesFromCenter(ClickHelper.getYPosition(event));
         } else if (this.shiftKeyPressed) {
-          this.resizeService.resizeAxesWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.resizeService.resizeWithAspectRatio(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.selectedControlPoint);
         } else {
           this.resizeService.resizeXAxis(ClickHelper.getXPosition(event));
