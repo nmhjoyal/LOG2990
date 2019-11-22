@@ -170,6 +170,8 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       width: this.pen.width - this.pen.x,
       height: this.pen.height - this.pen.y,
       points: this.pen.points,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }

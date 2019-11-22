@@ -1,3 +1,4 @@
+import { ControlPoints } from 'src/app/drawing-view/components/tools/assets/constants/selector-constants';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
@@ -85,99 +86,181 @@ export class SelectorService {
   }
 
   resizeXPosition(cursorX: number) {
-    if (cursorX > this.topCornerX && cursorX <= this.furthestX) {
-      for (const drawing of this.selectedObjects) {
-        const difference = cursorX - this.topCornerX;
-        this.parsePolylinePoints(-difference, 0, drawing);
-        drawing.x = drawing.x + difference <= (drawing.width + drawing.x) ? drawing.x + difference : drawing.width;
-        drawing.width = drawing.width - difference > 0 ? drawing.width - difference : drawing.width;
-        if (drawing.scaleX && difference < drawing.width) {
-          drawing.scaleX *= (drawing.width - difference) / drawing.width;
-        }
+    const difference = this.topCornerX - cursorX;
+    for (const drawing of this.selectedObjects) {
+      this.parsePolylinePoints(difference, 0, drawing);
+      const drawingDifference = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference / 2 : difference;
+      drawing.x -= drawingDifference;
+      if (drawing.scaleX) {
+        drawing.scaleX += drawingDifference / drawing.width;
       }
-      this.topCornerX = cursorX;
-    } else if (cursorX < this.topCornerX) {
-      for (const drawing of this.selectedObjects) {
-        const difference = this.topCornerX - cursorX;
-        this.parsePolylinePoints(difference, 0, drawing);
-        drawing.x = drawing.x - difference > 0 ? drawing.x - difference : drawing.x;
-        drawing.width += difference;
-        if (drawing.scaleX) {
-          drawing.scaleX *= (drawing.width + difference) / drawing.width;
-        }
-      }
-      this.topCornerX = cursorX;
+      drawing.width += drawingDifference;
     }
+    this.topCornerX = cursorX;
   }
 
   resizeYPosition(cursorY: number) {
-    if (cursorY > this.topCornerY && cursorY <= this.furthestY) {
-      for (const drawing of this.selectedObjects) {
-        const difference = cursorY - this.topCornerY;
-        this.parsePolylinePoints(0, -difference, drawing);
-        drawing.y = drawing.y + difference <= (drawing.height + drawing.y) ? drawing.y + difference : drawing.height;
-        drawing.height = drawing.height - difference > 0 ? drawing.height - difference : drawing.height;
-        if (drawing.scaleY && difference < drawing.height) {
-          drawing.scaleY *= (drawing.height - difference) / drawing.height;
-        }
+    const difference = this.topCornerY - cursorY;
+    for (const drawing of this.selectedObjects) {
+      this.parsePolylinePoints(0, difference, drawing);
+      const drawingDifference = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference / 2 : difference;
+      drawing.y -= drawingDifference;
+      if (drawing.scaleY) {
+        drawing.scaleY += drawingDifference / drawing.height;
       }
-      this.topCornerY = cursorY;
-    } else if (cursorY < this.topCornerY) {
-      for (const drawing of this.selectedObjects) {
-        const difference = this.topCornerY - cursorY;
-        this.parsePolylinePoints(0, difference, drawing);
-        drawing.y = drawing.y - difference > 0 ? drawing.y - difference : drawing.y;
-        drawing.height += difference;
-        if (drawing.scaleY) {
-          drawing.scaleY *= (drawing.height + difference) / drawing.height;
-        }
-      }
-      this.topCornerY = cursorY;
+      drawing.height += drawingDifference;
     }
+    this.topCornerY = cursorY;
   }
 
   resizeXAxis(cursorX: number) {
-    if (cursorX > this.furthestX) {
-      for (const drawing of this.selectedObjects) {
-        const difference = cursorX - this.furthestX;
-        drawing.width += difference;
-        if (drawing.scaleX) {
-          drawing.scaleX *= (drawing.width + difference) / drawing.width;
+    const difference = cursorX - this.furthestX;
+    for (const drawing of this.selectedObjects) {
+      const drawingDifference = drawing.id === Id.ELLIPSE ? difference / 2 : difference;
+      if (drawing.scaleX) {
+        if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
+          drawing.x += drawingDifference;
         }
+        drawing.scaleX += drawingDifference / drawing.width;
       }
-      this.furthestX = cursorX;
-    } else if (cursorX < this.furthestX && cursorX >= this.topCornerX) {
-      for (const drawing of this.selectedObjects) {
-        const difference = this.furthestX - cursorX;
-        drawing.width = drawing.width - difference > 0 ? drawing.width - difference : drawing.width;
-        if (drawing.scaleX && difference < drawing.width) {
-          drawing.scaleX *= (drawing.width - difference) / drawing.width;
-        }
-      }
-      this.furthestX = cursorX;
+      drawing.width += drawingDifference;
     }
+    this.furthestX = cursorX;
   }
 
   resizeYAxis(cursorY: number) {
-    if (cursorY > this.furthestY) {
-      for (const drawing of this.selectedObjects) {
-        const difference = cursorY - this.furthestY;
-        drawing.height += difference;
-        if (drawing.scaleY) {
-          drawing.scaleY *= (drawing.height + difference) / drawing.height;
+    const difference = cursorY - this.furthestY;
+    for (const drawing of this.selectedObjects) {
+      const drawingDifference = drawing.id === Id.ELLIPSE ? difference / 2 : difference;
+      if (drawing.scaleY) {
+        if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
+          drawing.y += drawingDifference;
         }
+        drawing.scaleY += drawingDifference / drawing.height;
       }
-      this.furthestY = cursorY;
-    } else if (cursorY < this.furthestY && cursorY >= this.topCornerY) {
-      for (const drawing of this.selectedObjects) {
-        const difference = this.furthestY - cursorY;
-        drawing.height = drawing.height - difference > 0 ? drawing.height - difference : drawing.height;
-        if (drawing.scaleY && difference < drawing.height) {
-          drawing.scaleY *= (drawing.height - difference) / drawing.height;
-        }
-      }
-      this.furthestY = cursorY;
+      drawing.height += drawingDifference;
     }
+    this.furthestY = cursorY;
+  }
+
+  resizeAxesWithAspectRatio(cursorX: number, cursorY: number, point: ControlPoints) {
+    const differenceXAxis = cursorX - this.furthestX;
+    const differenceYAxis = cursorY - this.furthestY;
+    const differenceXPosition = this.topCornerX - cursorX;
+    const differenceYPosition = this.topCornerY - cursorY;
+    const differenceX = Math.abs(differenceXAxis) < Math.abs(differenceXPosition) ? differenceXAxis : differenceXPosition;
+    const differenceY = Math.abs(differenceYAxis) < Math.abs(differenceYPosition) ? differenceYAxis : differenceYPosition;
+    const difference = differenceX < 0 || differenceY < 0 ? Math.max(differenceX, differenceY) : Math.min(differenceX, differenceY);
+    switch (point) {
+      case ControlPoints.TOP_LEFT:
+        for (const drawing of this.selectedObjects) {
+          this.parsePolylinePoints(difference, difference, drawing);
+          const drawingDifference = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference / 2 : difference;
+          drawing.x -= drawingDifference;
+          drawing.y -= drawingDifference;
+          this.adjustScaleAndDimensions(drawing, drawingDifference);
+        }
+        this.topCornerX -= difference;
+        this.topCornerY -= difference;
+        break;
+      case ControlPoints.TOP_RIGHT:
+        for (const drawing of this.selectedObjects) {
+          this.parsePolylinePoints(0, difference, drawing);
+          let drawingDifference = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference / 2 : difference;
+          if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
+            drawing.x += drawingDifference;
+            drawing.y -= drawingDifference;
+          } else {
+            drawing.y -= drawingDifference;
+          }
+          drawingDifference = drawing.id === Id.POLYGON ? difference : drawingDifference;
+          this.adjustScaleAndDimensions(drawing, drawingDifference);
+        }
+        this.furthestX += difference;
+        this.topCornerY -= difference;
+        break;
+      case ControlPoints.BOTTOM_LEFT:
+        for (const drawing of this.selectedObjects) {
+          this.parsePolylinePoints(difference, 0, drawing);
+          let drawingDifference = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference / 2 : difference;
+          if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
+            drawing.x -= drawingDifference;
+            drawing.y += drawingDifference;
+          } else {
+            drawing.x -= drawingDifference;
+          }
+          drawingDifference = drawing.id === Id.POLYGON ? difference : drawingDifference;
+          this.adjustScaleAndDimensions(drawing, drawingDifference);
+        }
+        this.topCornerX -= difference;
+        this.furthestY += difference;
+        break;
+      case ControlPoints.BOTTOM_RIGHT:
+        for (const drawing of this.selectedObjects) {
+          const drawingDifference = drawing.id === Id.ELLIPSE ? difference / 2 : difference;
+          if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
+            drawing.y += drawingDifference;
+            drawing.x += drawingDifference;
+          }
+          this.adjustScaleAndDimensions(drawing, drawingDifference);
+        }
+        this.furthestX += difference;
+        this.furthestY += difference;
+        break;
+      default:
+        break;
+    }
+  }
+
+  resizeYAxesFromCenter(cursorY: number): void {
+    const differenceBottom = cursorY - this.furthestY;
+    const differenceTop = this.topCornerY - cursorY;
+    const difference = Math.abs(differenceBottom) < Math.abs(differenceTop) ? differenceBottom : differenceTop;
+    for (const drawing of this.selectedObjects) {
+      this.parsePolylinePoints(0, difference, drawing);
+      if (drawing.id !== Id.ELLIPSE && drawing.id !== Id.POLYGON) {
+        drawing.y -= difference;
+      }
+      if (drawing.scaleY) {
+        drawing.scaleY += (difference * 2) / drawing.height;
+      }
+      if (drawing.id !== Id.ELLIPSE && drawing.id !== Id.POLYGON) {
+        drawing.height += difference;
+      }
+      drawing.height += difference;
+    }
+    this.furthestY = Math.abs(differenceBottom) < Math.abs(differenceTop) ? cursorY : this.furthestY + difference;
+    this.topCornerY = Math.abs(differenceBottom) < Math.abs(differenceTop) ? this.topCornerY - difference : cursorY;
+  }
+
+  resizeXAxesFromCenter(cursorX: number): void {
+    const differenceBottom = cursorX - this.furthestX;
+    const differenceTop = this.topCornerX - cursorX;
+    const difference = Math.abs(differenceBottom) < Math.abs(differenceTop) ? differenceBottom : differenceTop;
+    for (const drawing of this.selectedObjects) {
+      this.parsePolylinePoints(difference, 0, drawing);
+      if (drawing.id !== Id.ELLIPSE && drawing.id !== Id.POLYGON) {
+        drawing.x -= difference;
+      }
+      if (drawing.scaleX) {
+        drawing.scaleX += (difference * 2) / drawing.width;
+      }
+      if (drawing.id !== Id.ELLIPSE && drawing.id !== Id.POLYGON) {
+        drawing.width += difference;
+      }
+      drawing.width += difference;
+    }
+    this.furthestX = Math.abs(differenceBottom) < Math.abs(differenceTop) ? cursorX : this.furthestX + difference;
+    this.topCornerX = Math.abs(differenceBottom) < Math.abs(differenceTop) ? this.topCornerX - difference : cursorX;
+  }
+
+  adjustScaleAndDimensions(drawing: ITools, difference: number) {
+    if (drawing.scaleX && drawing.scaleY) {
+      drawing.scaleX += difference / drawing.width;
+      drawing.scaleY += difference / drawing.height;
+    }
+    drawing.width += difference;
+    drawing.height += difference;
   }
 
   setBoxToDrawing(drawing: ISavedDrawing): void {

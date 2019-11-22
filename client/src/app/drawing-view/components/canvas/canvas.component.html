@@ -48,8 +48,9 @@
             </g>
         
             <g *ngSwitchCase="toolId.STAMP">
-                    <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
-                    [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
+                    [attr.href]="drawing.svgReference"
+                    [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
             </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
@@ -71,7 +72,7 @@
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
-                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
+                    [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <path
                         [attr.d]="svgpath.path"
                         [style.stroke-width]="svgpath.pathWidth"
@@ -89,15 +90,14 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.ELLIPSE" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
-                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
+                (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <ellipse [attr.cx]="drawing.x" [attr.cy]="drawing.y" [attr.rx]="drawing.width"
                     [attr.ry]="drawing.height" [style.stroke]="drawing.secondaryColour"
                     [style.fill]="drawing.primaryColour" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="(drawing.x - drawing.width) + ' ' + (drawing.y - drawing.height)"
                 [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColour"
