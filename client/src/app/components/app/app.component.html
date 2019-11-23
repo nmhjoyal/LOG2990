@@ -1,82 +1,150 @@
 <div>
     <mat-toolbar colour="secondary" class="alignRight">
-        <h1 class="app-name">POLYDESSIN</h1>
-        <mat-select #extras style="visibility: hidden;">
-            <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
-                <img id="colourPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png"
-                    title="Palette de couleurs">
-                <a class='option'>Choisir les couleurs</a>
-            </mat-option>
-            <mat-option class="filter" (click)="confirmNewDrawing()">
-                <img id="newDrawing" class="sideBarIcon"
-                    src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" title="Nouveau dessin">
-                <a class='option'>Nouveau dessin</a>
-            </mat-option>
-            <mat-option class="filter" (click)="openSaveWindow()">
-                <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png"
-                    title="Sauvegarde dessin">
-                <a class='option'>Sauvegarder le dessin</a>
-            </mat-option>
-            <mat-option class="filter" (click)="openExportWindow()">
-                <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png"
-                    title="Export dessin">
-                <a class='option'>Exporter le dessin</a>
-            </mat-option>
-            <mat-option class="filter" (click)="openGalleryWindow()">
-                <img id="openGallery" class="sideBarIcon" src="https://cdn.onlinewebfonts.com/svg/img_179885.png"
-                    title="Ouvrir la gallerie">
-                <a class='option'>Ouvrir la gallerie</a>
-            </mat-option>
-        </mat-select>
-        <span class="filter" (click)="extras.toggle()">
-            <img id="openExtras" class="sideBarIcon" src="../../../assets/toolbar/dehaze-24px.svg" title="Extras">
-        </span>
+        <mat-toolbar-row>
+            <h1 class="app-name">POLYDESSIN</h1>
+            <a *ngIf='drawingStorage.drawings.length; else noUndo' mat-list-item class="filter" (click)="clipboardService.undo()">
+                <img id="Annuler" class="sideBarIcon" src="../../../assets//lateral-bar//back-arrow.svg" title="Annuler">
+            </a>
+            <ng-template #noUndo >
+                <a mat-list-item class="disabled">
+                    <img id="Refaire" class="sideBarIcon" src="../../../assets//lateral-bar//back-arrow.svg" title="Annuler">
+                </a>
+            </ng-template>
+            <a *ngIf='clipboardService.undoRedoService.undoList.length; else noRedo' mat-list-item class="filter" (click)="clipboardService.redo()">
+                <img id="Refaire" class="sideBarIcon" src="../../../assets//lateral-bar//redo-arrow.svg" title="Refaire">
+            </a>
+            <ng-template #noRedo >
+                <a mat-list-item class="disabled">
+                    <img id="Refaire" class="sideBarIcon" src="../../../assets//lateral-bar//redo-arrow.svg" title="Refaire">
+                </a>
+            </ng-template>
+            <a mat-list-item (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                <div class="colour-preview" title="Couleur principale"
+                    [ngStyle]="{'background-color': colourService.colour[0]}">
+                </div>
+            </a>
+            <a mat-list-item (click)="switchColours()">
+                <img class="switchIcon" src="./assets/switch.png" title="Changer couleurs">
+            </a>
+            <a mat-list-item (click)='toolHandler.chooseSecondaryColour(); openChooseColourDialog()'>
+                <div class="colour-preview" title="Couleur secondaire"
+                    [ngStyle]="{'background-color': colourService.colour[1]}">
+                </div>
+            </a>
+            <div *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR">
+                <a mat-list-item class="filter" (click)='clipboardService.copy()'>
+                    <img id="copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title="Copier">
+                </a>
+                <a mat-list-item class="filter" (click)='clipboardService.paste(0,0)'>
+                    <img id="paste" class="clipboardIcon" src="../../../assets/lateral-bar/paste.png"
+                        title="Coller">
+                </a>
+                <a mat-list-item class="filter" (click)='clipboardService.cut()'>
+                    <img id="cut" class="clipboardIcon" src="../../../assets/lateral-bar/cut.png" title="Couper">
+                </a>
+                <a mat-list-item class="filter" (click)='clipboardService.duplicate()'>
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/lateral-bar/duplicate.png"
+                        title="Duppliquer">
+                </a>
+                <a mat-list-item class="filter" (click)='clipboardService.delete()'>
+                    <img id="delete" class="clipboardIcon" src="../../../assets/lateral-bar/delete.png"
+                        title="Supprimer">
+                </a>
+            </div>
+            <mat-select #extras style="visibility: hidden;">
+                <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                    <img id="colourPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png"
+                        title="Palette de couleurs">
+                    <a class='option'>Choisir les couleurs</a>
+                </mat-option>
+                <mat-option class="filter" (click)="confirmNewDrawing()">
+                    <img id="newDrawing" class="sideBarIcon"
+                        src="https://visualpharm.com/assets/375/Create-595b40b75ba036ed117d7bbf.svg" title="Nouveau dessin">
+                    <a class='option'>Nouveau dessin</a>
+                </mat-option>
+                <mat-option class="filter" (click)="openSaveWindow()">
+                    <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png"
+                        title="Sauvegarde dessin">
+                    <a class='option'>Sauvegarder le dessin</a>
+                </mat-option>
+                <mat-option class="filter" (click)="openExportWindow()">
+                    <img id="saveDrawing" class="sideBarIcon" src="https://i.imgur.com/c9xqiuZ.png"
+                        title="Export dessin">
+                    <a class='option'>Exporter le dessin</a>
+                </mat-option>
+                <mat-option class="filter" (click)="openGalleryWindow()">
+                    <img id="openGallery" class="sideBarIcon" src="https://cdn.onlinewebfonts.com/svg/img_179885.png"
+                        title="Ouvrir la gallerie">
+                    <a class='option'>Ouvrir la gallerie</a>
+                </mat-option>
+            </mat-select>
+            <span class="filter" (click)="extras.toggle()">
+                <img id="openExtras" class="sideBarIcon" src="../../../assets/toolbar/dehaze-24px.svg" title="Extras">
+            </span>
+            
+         </mat-toolbar-row>
+        <mat-toolbar-row>
+            <button mat-icon-button>
+                <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+            </button>
+            <h1>SimpleCRM</h1>
+            <span class="menu-spacer"></span>
+            <div>
+                <a mat-button > Accounts </a>
+                <a mat-button> Create Account </a>
+                <a mat-button > Contacts </a>
+                <a mat-button > Create Contact </a>
+                <a mat-button> Activities </a>
+                <a mat-button > Create Activity </a>
+        
+            </div>
+        </mat-toolbar-row>
+        
+        <mat-toolbar-row>
+            <span style="font-size: 12px;">SimpleCRM helps you easily manage your contacts</span>
+        </mat-toolbar-row>
     </mat-toolbar>
     <mat-sidenav-container class="main-container">
         <mat-sidenav #sidenav mode="side" opened fixedTopGap="56">
             <mat-nav-list>
 
-                <a *ngIf='drawingStorage.drawings.length' mat-list-item class="filter" (click)="clipboardService.undo()">
-                    <img id="Annuler" class="sideBarIcon" src="../../../assets//lateral-bar//back-arrow.svg" title="Annuler">
-                </a>
-                <a *ngIf='clipboardService.undoRedoService.undoList.length' mat-list-item class="filter" (click)="clipboardService.redo()">
-                    <img id="Refaire" class="sideBarIcon" src="../../../assets//lateral-bar//redo-arrow.svg" title="Refaire">
-                </a>
+                
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
-                    <img src="../../../assets/lateral-bar/selection.svg" title="Sélection">
+                    <img class="clipboardIcon" src="../../../assets/sidebar/select.png" title="Sélection">
                 </a>
-                <div *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR">
-                    <a mat-list-item class="filter" (click)='clipboardService.copy()'>
-                        <img id="copy" class="clipboardIcon" src="../../../assets/lateral-bar/copy.png" title="Copier">
-                    </a>
-                    <a mat-list-item class="filter" (click)='clipboardService.paste(0,0)'>
-                        <img id="paste" class="clipboardIcon" src="../../../assets/lateral-bar/paste.png"
-                            title="Coller">
-                    </a>
-                    <a mat-list-item class="filter" (click)='clipboardService.cut()'>
-                        <img id="cut" class="clipboardIcon" src="../../../assets/lateral-bar/cut.png" title="Couper">
-                    </a>
-                    <a mat-list-item class="filter" (click)='clipboardService.duplicate()'>
-                        <img id="duplicate" class="clipboardIcon" src="../../../assets/lateral-bar/duplicate.png"
-                            title="Duppliquer">
-                    </a>
-                    <a mat-list-item class="filter" (click)='clipboardService.delete()'>
-                        <img id="delete" class="clipboardIcon" src="../../../assets/lateral-bar/delete.png"
-                            title="Supprimer">
-                    </a>
-                </div>
+                <a mat-list-item class="filter" (click)="drawingMenuTrigger.openMenu()">
+                    <img id="shapes" class="sideBarIcon" src="../../../assets/sidebar/draw.png" title="Dessin">
+                    <button mat-icon-button [matMenuTriggerFor]="drawingMenu" #drawingMenuTrigger="matMenuTrigger"
+                    (click)="drawingMenuTrigger.openMenu()"></button>
+                </a>
+                <mat-menu #drawingMenu="matMenu">
+                    <button mat-menu-item (click)='toolHandler.chooseCrayon()'>
+                        <img id="pencil" class="sideBarIcon filter" src="../../../assets/sidebar/pencil-top.png"> &#8194; Crayon
+                    </button>
+                    <button mat-menu-item (click)='toolHandler.choosePen()'>   
+                        <img id="pen" class="sideBarIcon filter" src="../../../assets/sidebar/pen-top.png"> &emsp; Stylo
+                    </button>
+                    <button mat-menu-item (click)='toolHandler.choosePaintbrush()'>
+                        <img id="brush" class="sideBarIcon filter" src="../../../assets/sidebar/paintbrush-top.png"> &emsp; Pinceau
+                    </button>
+                    <button mat-menu-item (click)='toolHandler.chooseOther()'>
+                        <img id="feather" class="sideBarIcon filter" src="../../../assets/sidebar/quill.png"> &emsp; Plume
+                    </button>
+                </mat-menu>
+                <!-- 
                 <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()'>
-                    <img id="pencil" class="sideBarIcon" src="../../../assets/cursors/pencil-top.png" title="Crayon">
+                    <img id="pencil" class="sideBarIcon" src="../../../assets/sidebar/pencil-top.png" title="Crayon">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.choosePen()'>
-                    <img id="pen" class="sideBarIcon" src="../../../assets/cursors/pen-top.png" title="Stylo">
+                    <img id="pen" class="sideBarIcon" src="../../../assets/sidebar/pen-top.png" title="Stylo">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
-                    <img id="brush" class="sideBarIcon" src="../../../assets/cursors/paintbrush-top.png" title="Pinceau">
+                    <img id="brush" class="sideBarIcon" src="../../../assets/sidebar/paintbrush-top.png" title="Pinceau">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="feather" class="sideBarIcon" src="../../../assets/sidebar/quill.png" title="Plume">
                 </a>
+                -->
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
                     <img id="bucket" class="sideBarIcon" src="../../../assets/sidebar/bucket.png" title="Sceau">
                 </a>
@@ -144,28 +212,15 @@
                 <a mat-list-item class="filter" (click)="options.toggle()">
                     <img id="options" class="sideBarIcon" src="https://i.imgur.com/W0T8AVA.png" title="Options">
                 </a>
-                <a mat-list-item (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
-                    <div class="colour-preview" title="Couleur principale"
-                        [ngStyle]="{'background-color': colourService.colour[0]}">
-                    </div>
-                </a>
-                <a mat-list-item (click)="switchColours()">
-                    <img class="switchIcon" src="./assets/switch.png" title="Changer couleurs">
-                </a>
-                <a mat-list-item (click)='toolHandler.chooseSecondaryColour(); openChooseColourDialog()'>
-                    <div class="colour-preview" title="Couleur secondaire"
-                        [ngStyle]="{'background-color': colourService.colour[1]}">
-                    </div>
-                </a>
-                <a mat-list-item href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
-                    <img src="../../../assets/lateral-bar/guide_utilisation.svg" title="Guide d'utilisation">
+                <a mat-list-item class="filter" href="../../../assets/lateral-bar/Guide d'utilisation.pdf">
+                    <img class="sideBarIcon" src="../../../assets/sidebar/help.png" title="Guide d'utilisation">
                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <app-canvas #myCanvas></app-canvas>
+        <app-canvas #canvas></app-canvas>
         <mat-sidenav #options position="end">
             <mat-nav-list>
-                <app-drawing-tool-toolbox [canvas]='myCanvas'></app-drawing-tool-toolbox>
+                <app-drawing-tool-toolbox [canvas]='canvas'></app-drawing-tool-toolbox>
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
