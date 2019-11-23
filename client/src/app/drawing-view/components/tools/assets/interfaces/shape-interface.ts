@@ -1,8 +1,11 @@
 import { ITools } from './itools';
 
-export interface IPreviewBox {
+export interface IPoint {
     x: number;
     y: number;
+}
+
+export interface IPreviewBox extends IPoint {
     width: number;
     height: number;
 }

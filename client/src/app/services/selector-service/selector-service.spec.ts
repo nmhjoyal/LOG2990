@@ -18,8 +18,8 @@ describe('SelectorService', () => {
   it('should be created with correct initialized values', () => {
     expect(service).toBeTruthy();
     expect(service.selectedObjects).toBeDefined();
-    expect(service.topCornerX).toEqual(0);
-    expect(service.topCornerY).toEqual(0);
+    expect(service.topCorner.x).toEqual(0);
+    expect(service.topCorner.y).toEqual(0);
     expect(service.furthestX).toEqual(0);
     expect(service.furthestY).toEqual(0);
   });
@@ -28,24 +28,24 @@ describe('SelectorService', () => {
     let drawing: ISavedDrawing;
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.setBoxToDrawing(drawing);
-    expect(service.topCornerX).toEqual(drawing.x);
-    expect(service.topCornerY).toEqual(drawing.y);
+    expect(service.topCorner.x).toEqual(drawing.x);
+    expect(service.topCorner.y).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
     expect(service.furthestX).toEqual(drawing.x + drawing.width);
     expect(service.furthestY).toEqual(drawing.y + drawing.height);
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
     service.setBoxToDrawing(drawing);
-    expect(service.topCornerY).toEqual(drawing.y);
+    expect(service.topCorner.y).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
-    expect(service.topCornerX).toEqual(drawing.x);
+    expect(service.topCorner.x).toEqual(drawing.x);
     expect(service.furthestX).toEqual(drawing.x + drawing.width);
     expect(service.furthestY).toEqual(drawing.y + drawing.height);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.setBoxToDrawing(drawing);
-    expect(service.topCornerX).toEqual(drawing.x - drawing.width);
-    expect(service.topCornerY).toEqual(drawing.y - drawing.height);
+    expect(service.topCorner.x).toEqual(drawing.x - drawing.width);
+    expect(service.topCorner.y).toEqual(drawing.y - drawing.height);
     expect(service.MinWidth).toEqual(drawing.width * 2);
     expect(service.MinHeight).toEqual(drawing.height * 2);
     expect(service.furthestX).toEqual(drawing.x - drawing.width + (drawing.width * 2));
@@ -75,39 +75,39 @@ describe('SelectorService', () => {
 
   it('should update corners depending on direction or drag', () => {
     service.updateCorners(FIFTY, FORTY, FORTY, FIFTY, ONE_HUNDRED, ONE_HUNDRED);
-    expect(service.topCornerX).toEqual(FIFTY + ONE_HUNDRED);
-    expect(service.topCornerY).toEqual(FIFTY + ONE_HUNDRED);
+    expect(service.topCorner.x).toEqual(FIFTY + ONE_HUNDRED);
+    expect(service.topCorner.y).toEqual(FIFTY + ONE_HUNDRED);
     service.updateCorners(FORTY, FIFTY, FIFTY, FORTY, ONE_HUNDRED, ONE_HUNDRED);
-    expect(service.topCornerX).toEqual(FIFTY + ONE_HUNDRED);
-    expect(service.topCornerY).toEqual(FIFTY + ONE_HUNDRED);
+    expect(service.topCorner.x).toEqual(FIFTY + ONE_HUNDRED);
+    expect(service.topCorner.y).toEqual(FIFTY + ONE_HUNDRED);
   });
 
   it('should update corners depending on drawing dimensions', () => {
     let drawing: ITools;
     drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
-    service.topCornerX = FORTY;
-    service.topCornerY = FIFTY;
+    service.topCorner.x = FORTY;
+    service.topCorner.y = FIFTY;
     service.furthestX = FORTY;
     service.furthestY = ONE_HUNDRED;
     service.updateSelectorShape(drawing);
-    expect(service.topCornerX).toEqual(FORTY);
-    expect(service.topCornerY).toEqual(drawing.y);
+    expect(service.topCorner.x).toEqual(FORTY);
+    expect(service.topCorner.y).toEqual(drawing.y);
     expect(service.furthestX).toEqual(drawing.x + drawing.width);
     expect(service.furthestY).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
     service.updateSelectorShape(drawing);
-    expect(service.topCornerX).toEqual(FORTY);
-    expect(service.topCornerY).toEqual(drawing.y);
+    expect(service.topCorner.x).toEqual(FORTY);
+    expect(service.topCorner.y).toEqual(drawing.y);
     expect(service.furthestX).toEqual(drawing.x + drawing.width);
     expect(service.furthestY).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
-    service.topCornerX = FIFTY;
-    service.topCornerY = FORTY;
+    service.topCorner.x = FIFTY;
+    service.topCorner.y = FORTY;
     service.furthestX = ONE_HUNDRED;
     service.furthestY = FORTY;
     service.updateSelectorShape(drawing);
-    expect(service.topCornerX).toEqual(drawing.x - drawing.width);
-    expect(service.topCornerY).toEqual(FORTY);
+    expect(service.topCorner.x).toEqual(drawing.x - drawing.width);
+    expect(service.topCorner.y).toEqual(FORTY);
     expect(service.furthestX).toEqual(ONE_HUNDRED);
     expect(service.furthestY).toEqual((drawing.y - drawing.height) + (drawing.height * 2));
   });
@@ -120,8 +120,8 @@ describe('SelectorService', () => {
     service.selectedObjects.add(drawing);
     spyOn(service, 'updateSelectorShape').and.callFake(() => { return; });
     service.recalculateShape(ONE_HUNDRED, ONE_HUNDRED);
-    expect(service.topCornerX).toEqual(ONE_HUNDRED);
-    expect(service.topCornerY).toEqual(ONE_HUNDRED);
+    expect(service.topCorner.x).toEqual(ONE_HUNDRED);
+    expect(service.topCorner.y).toEqual(ONE_HUNDRED);
     expect(service.furthestX).toEqual(0);
     expect(service.furthestY).toEqual(0);
     expect(service.updateSelectorShape).toHaveBeenCalledTimes(2);
@@ -138,16 +138,16 @@ describe('SelectorService', () => {
   it('should reset selection', () => {
     service.furthestX = ONE_HUNDRED;
     service.furthestY = ONE_HUNDRED;
-    service.topCornerX = ONE_HUNDRED;
-    service.topCornerY = ONE_HUNDRED;
+    service.topCorner.x = ONE_HUNDRED;
+    service.topCorner.y = ONE_HUNDRED;
     const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.selectedObjects.add(drawing);
     service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
     expect(service.furthestX).toEqual(0);
     expect(service.furthestY).toEqual(0);
-    expect(service.topCornerX).toEqual(0);
-    expect(service.topCornerY).toEqual(0);
+    expect(service.topCorner.x).toEqual(0);
+    expect(service.topCorner.y).toEqual(0);
   });
 
   it('should return true if cursor click inside object or on border', () => {

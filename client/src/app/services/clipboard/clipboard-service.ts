@@ -41,10 +41,10 @@ export class ClipboardService {
       } else { this.pasteOffset = 0; }
       this.clipboard.forEach((copiedObject) => {
         if (copiedObject.alignX) {
-          copiedObject.alignX += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
+          copiedObject.alignX += cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2 + this.pasteOffset;
         }
-        copiedObject.x += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
-        copiedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2 + this.pasteOffset;
+        copiedObject.x += cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2 + this.pasteOffset;
+        copiedObject.y += cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x - this.selectorService.MinWidth) > window.innerWidth
         || (copiedObject.y - this.selectorService.MinHeight) > window.innerHeight) {
           if (copiedObject.alignX) {
@@ -76,10 +76,10 @@ export class ClipboardService {
     }
     let newPoints = '';
     for (let i = 0; i < splitPoints.length; i += 2 ) {
-      newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.selectorService.topCornerX -  this.selectorService.MinWidth / 2
+      newPoints += (parseInt(splitPoints[i], 10) + cursorX  - this.selectorService.topCorner.x -  this.selectorService.MinWidth / 2
       + this.pasteOffset).toString()
       + ','
-      + (parseInt(splitPoints[i + 1], 10) + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2
+      + (parseInt(splitPoints[i + 1], 10) + cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2
       + this.pasteOffset).toString()
       + ' ';
     }
@@ -91,15 +91,15 @@ export class ClipboardService {
         const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
         const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
         const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-        newPaths.push( { path : 'M' + (parseInt(pathMX, 10) + cursorX  - this.selectorService.topCornerX
+        newPaths.push( { path : 'M' + (parseInt(pathMX, 10) + cursorX  - this.selectorService.topCorner.x
           - this.selectorService.MinWidth / 2 + this.pasteOffset).toString()
           + ' '
-          + (parseInt(pathMY, 10) + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2
+          + (parseInt(pathMY, 10) + cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2
           + this.pasteOffset).toString()
-          + 'L' + (parseInt(pathLX, 10) + cursorX  - this.selectorService.topCornerX
+          + 'L' + (parseInt(pathLX, 10) + cursorX  - this.selectorService.topCorner.x
           - this.selectorService.MinWidth / 2 + this.pasteOffset).toString()
           + ' '
-          + (parseInt(pathLY, 10) + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2
+          + (parseInt(pathLY, 10) + cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2
           + this.pasteOffset).toString(),
           pathWidth: path.pathWidth });
 
@@ -125,8 +125,8 @@ export class ClipboardService {
 
   duplicate(): void {
     this.copy();
-    this.paste(this.selectorService.topCornerX + this.selectorService.MinWidth / 2  + NumericalValues.DUPLICATE_OFFSET,
-      this.selectorService.topCornerY + this.selectorService.MinHeight / 2 + NumericalValues.DUPLICATE_OFFSET );
+    this.paste(this.selectorService.topCorner.x + this.selectorService.MinWidth / 2  + NumericalValues.DUPLICATE_OFFSET,
+      this.selectorService.topCorner.y + this.selectorService.MinHeight / 2 + NumericalValues.DUPLICATE_OFFSET );
   }
 
   delete(): void {
