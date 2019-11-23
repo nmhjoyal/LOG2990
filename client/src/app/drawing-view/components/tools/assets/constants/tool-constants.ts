@@ -72,6 +72,7 @@ export class ToolConstants {
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;
     static DEFAULT_TOLERANCE = 0.25;
+    static TOLERANCE_OFFSET = 0.05;
     static MAX_SPEED = 0.4;
     static MIN_SPEED = 0.0007;
     static STROKE_INCREMENT = 1;

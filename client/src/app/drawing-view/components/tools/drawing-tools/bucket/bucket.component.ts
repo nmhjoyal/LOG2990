@@ -5,7 +5,7 @@ import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { CanvasComponent } from '../../../canvas/canvas.component';
-import { ToolAbstract } from '../../assets/abstracts/tool-abstract/tool-abstract';
+import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { Id, ToolConstants } from '../../assets/constants/tool-constants';
 import { IShape } from '../../assets/interfaces/shape-interface';
@@ -16,16 +16,17 @@ import { IShape } from '../../assets/interfaces/shape-interface';
   styleUrls: ['./bucket.component.scss'],
 })
 
-export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
+export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy {
 
-  @Input() protected windowHeight: number;
-  @Input() protected windowWidth: number;
-  private shape: IShape;
+  @Input() windowHeight: number;
+  @Input() windowWidth: number;
+  shape: IShape;
   private tolerance: number;
   private initialColour: string[];
   protected traceMode: number;
   private width: number;
   private height: number;
+  private toleranceOffset: number;
  // private context: CanvasRenderingContext2D;
  // private canvas: ElementRef<HTMLCanvasElement>;
  // private svg: ElementRef<SVGImageElement>;
@@ -37,15 +38,14 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
   constructor( protected drawingStorage: SaveService, protected attributesService: AttributesService,
     public canvasData: CanvasInformationService, protected colourService: ColourService,
     public exportInformation: ExportInformationService, @Inject(CanvasComponent) protected canvasComponent: CanvasComponent) {
-    super();
-    if (this.canvasData) {
-      this.width = this.canvasData.data.drawingWidth;
-      this.height = this.canvasData.data.drawingHeight;
-    }
+    super(drawingStorage, attributesService, colourService);
+    this.width = this.canvasData.data.drawingWidth;
+    this.height = this.canvasData.data.drawingHeight;
     this.canvas = document.createElement('canvas');
     this.canvas.width = this.width;
     this.canvas.height = this.height;
     this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
+    this.toleranceOffset = ToolConstants.TOLERANCE_OFFSET;
     this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
     this.shape = {
       id: Id.BUCKET,
@@ -83,34 +83,13 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.attributesService.polygonAttributes.savedTraceMode = this.traceMode;
     this.saveAttribute();
   }
-/*
-  ngAfterViewInit() {
 
-    // get svg data
-    const xml = new XMLSerializer().serializeToString(this.svg as Node);
-
-    // make it base64
-    const svg64 = btoa(xml);
-    const b64Start = 'data:image/svg+xml;base64,';
-
-    // prepend a "header"
-    const image64 = b64Start + svg64;
-
-    // set it as the source of the img element
-    img.src = image64;
-    this.context.drawImage(img, 0, 0);
-    //img.crossOrigin = 'Anonymous';
-    //this.context.drawImage(this.svg, 0, 0);
-
-    this.context.drawImage(blob, 0, 0);
-
-  }*/
 
   @HostListener('click', ['$event']) onClick(event: MouseEvent): void {
     this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(this.initialColour);
-   // this.addSurroundingPixels(event.x, event.y);
+    // this.addSurroundingPixels(event.x, event.y);
   }
 
   protected acceptsColor(colour: string[]): boolean {
@@ -125,45 +104,66 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    const offset = 5;
-    const up = this.getColourAtPosition(positionX, positionY + offset);
-    const right = this.getColourAtPosition(positionX + offset, positionY);
-    const down = this.getColourAtPosition(positionX, positionY - offset);
-    const left = this.getColourAtPosition(positionX - offset, positionY);
+    const up = this.getColourAtPosition(positionX, positionY + this.toleranceOffset);
+    const right = this.getColourAtPosition(positionX + this.toleranceOffset, positionY);
+    const down = this.getColourAtPosition(positionX, positionY - this.toleranceOffset);
+    const left = this.getColourAtPosition(positionX - this.toleranceOffset, positionY);
 
     console.log(this.shape.points);
     if (this.acceptsColor(up) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX, positionY + offset);
+      this.addSurroundingPixels(positionX, positionY + this.toleranceOffset);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
     if (this.acceptsColor(right) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX + offset, positionY);
+      this.addSurroundingPixels(positionX + this.toleranceOffset, positionY);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
     if (this.acceptsColor(down) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX, positionY - offset);
+      this.addSurroundingPixels(positionX, positionY - this.toleranceOffset);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
     if (this.acceptsColor(left) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX - offset, positionY);
+      this.addSurroundingPixels(positionX - this.toleranceOffset, positionY);
     } else {
       this.shape.points += positionX + ',' + positionY;
     }
   }
 
   initializeCanvas(): void {
-    const data = this.xmlToBase64();
-    this.draw3Image(data);
-  }
-
-  xmlToBase64(): string {
-    this.context = this.canvas.getContext('2d');
     const img = new Image();
     img.width = this.width;
     img.height = this.height;
+    this.context = this.canvas.getContext('2d');
+    const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
+    img.src = 'data:image/svg+xml,' + window.btoa(data);
+    if (this.context) {
+      this.context.drawImage(img, 0, 0, this.width, this.height);
+    }
+
+/*
+    let svg = document.getElementsByTagName('svg')[0];
+    let svg_xml = (new XMLSerializer()).serializeToString(svg);
+    let blob = new Blob([svg_xml], {type:'image/svg+xml;charset=utf-8'});
+    let url = window.URL.createObjectURL(blob);
+
+    var ctx = canvas.getContext('2d');
+    this.context.drawImage(img, 0, 0, 730, 300);
+
+    window.URL.revokeObjectURL(url);
+    var canvasdata = canvas.toDataURL('image/png');
+    var a = document.getElementById('imgId');
+    a.download = "export_" + Date.now() + ".png";
+    a.href=canvasdata;   */
+
+    // const data = this.xmlToBase64();
+    // this.drawImage(data);
+  }
+/*
+  xmlToBase64(): string {
+    this.context = this.canvas.getContext('2d');
     const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
     return 'data:image/svg+xml;base64,' + window.btoa(data);
   }
@@ -193,7 +193,7 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
       }
     });
   }
-
+*/
   getColourAtPosition(x: number, y: number): string[] {
     if (this.context) {
       const imageData = this.context.getImageData(x, y, 1, 1).data;
@@ -203,5 +203,17 @@ export class BucketComponent extends ToolAbstract implements OnInit, OnDestroy {
       const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
       return ([r, g, b]);
     } else { return ([]); }
+  }
+
+  increaseTolerance(): void {
+    if (this.tolerance <= 1 - ToolConstants.TOLERANCE_OFFSET) {
+      this.tolerance += this.toleranceOffset;
+    }
+  }
+
+  decreaseTolerance(): void {
+    if (this.tolerance >= ToolConstants.TOLERANCE_OFFSET) {
+      this.tolerance -= this.toleranceOffset;
+    }
   }
 }

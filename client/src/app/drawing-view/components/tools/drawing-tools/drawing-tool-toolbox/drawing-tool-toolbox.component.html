@@ -40,9 +40,14 @@
         {{getComponent().stroke.pointWidth}}
         <button (click)="getComponent().increasePointWidth()">+</button>
     </div>
-      
 
-    <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE || toolHandler.selectedTool === toolId.POLYGON">
+    <div *ngIf="toolHandler.selectedTool === toolId.BUCKET"> Tolerance: 
+        <button (click) = "getComponent().decreaseTolerance()">-</button>
+        {{getComponent().tolerance*100}}%
+        <button (click) = "getComponent().increaseTolerance()">+</button>
+    </div>
+
+    <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE || toolHandler.selectedTool === toolId.POLYGON || toolHandler.selectedTool === toolId.BUCKET">
         <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
         <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
         <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>

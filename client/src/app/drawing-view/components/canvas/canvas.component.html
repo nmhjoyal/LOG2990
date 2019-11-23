@@ -50,6 +50,10 @@
                     [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
             </g>
 
+            <g class = "eyedropper" *ngSwitchCase="toolId.PIPETTE">
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"/> 
+        </g>
+
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
@@ -66,6 +70,9 @@
 
             <g *ngSwitchCase="toolId.BUCKET" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
+                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
+                    [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
+                    [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
             </g>
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
