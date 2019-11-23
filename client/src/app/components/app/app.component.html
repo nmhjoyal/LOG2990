@@ -66,40 +66,43 @@
                     </a>
                 </div>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseCrayon()'>
-                    <img id="pencil" class="sideBarIcon" src="https://i.imgur.com/ggPGxpn.png" title="Crayon">
+                    <img id="pencil" class="sideBarIcon" src="../../../assets/cursors/pencil-top.png" title="Crayon">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.choosePen()'>
-                    <img id="pen" class="sideBarIcon" src="https://i.imgur.com/WpG8Jy2.png" title="Stylo">
-                </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="bucket" class="sideBarIcon" src="https://i.imgur.com/Y0uukWJ.png" title="Sceau">
+                    <img id="pen" class="sideBarIcon" src="../../../assets/cursors/pen-top.png" title="Stylo">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
-                    <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
+                    <img id="brush" class="sideBarIcon" src="../../../assets/cursors/paintbrush-top.png" title="Pinceau">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume">
+                    <img id="feather" class="sideBarIcon" src="../../../assets/sidebar/quill.png" title="Plume">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
-                    <img id="sprayCan" class="sideBarIcon" src="https://i.imgur.com/4rxfzhH.png" title="Aérosol">
+                    <img id="bucket" class="sideBarIcon" src="../../../assets/sidebar/bucket.png" title="Sceau">
+                </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                    <img id="sprayCan" class="sideBarIcon" src="../../../assets/sidebar/spray.png" title="Aérosol">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
-                    <img id="line" class="sideBarIcon" src="../../../assets/lateral-bar/timeline-24px.svg"
+                    <img id="line" class="sideBarIcon" src="../../../assets/sidebar/line.png"
                         title="Ligne">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
-                    <img id='colourChanger' class="sideBarIcon" src="https://i.imgur.com/r64kf3H.png"
+                    <img id='colourChanger' class="sideBarIcon" src="../../../assets/sidebar/applicator.png"
                         title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
-                    <img id='pipette' class="sideBarIcon" src="https://www.icone-png.com/png/22/22151.png"
+                    <img id='pipette' class="sideBarIcon" src="../../../assets/sidebar/pipette.png"
                         title="Pipette">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEraser()'>
-                    <img id='eraser' class="sideBarIcon" src="https://i.imgur.com/zAckfvX.png" title="Efface">
+                    <img id='eraser' class="sideBarIcon" src="../../../assets/sidebar/eraser.png" title="Efface">
+                </a>
+                <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
+                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/stamp.png" title="Stamp">
                 </a>
                 <a mat-list-item class="filter" (click)="shapesMenuTrigger.openMenu()">
-                    <img id="shapes" class="sideBarIcon" src="https://i.imgur.com/K6wI9it.png" title="Formes">
+                    <img id="shapes" class="sideBarIcon" src="../../../assets/sidebar/shapes.png" title="Formes">
                     <button mat-icon-button [matMenuTriggerFor]="shapeMenu" #shapesMenuTrigger="matMenuTrigger"></button>
                 </a>
                 <mat-menu #shapeMenu="matMenu">
@@ -107,13 +110,9 @@
                     <button mat-menu-item (click)='toolHandler.chooseEllipse()'>Ellipse</button>
                     <button mat-menu-item (click)='toolHandler.choosePolygon()'>Polygon</button>
                 </mat-menu>
-
                 <a mat-list-item class="filter" (click)='toolHandler.chooseText()'>
                     <img id='text' class="sideBarIcon" src="../../../assets/lateral-bar/text_fields-24px.svg"
                         title="Texte">
-                </a>
-                <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
-                    <img id="stamp" class="sideBarIcon" src="../../../assets/toolbar/stamp.svg" title="Stamp">
                 </a>
                 <a mat-list-item class="filter" (click)="gridMenuTrigger.openMenu()">
                     <img id="grid" class="sideBarIcon" src="https://i.imgur.com/XFN60v3.png" title="Grille">
