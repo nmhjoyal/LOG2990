@@ -112,6 +112,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           this.windowWidth, this.windowHeight);
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);
+        this.previewBox = { height: 0, width: 0, x: 0, y: 0};
       } else {
         this.mouseMoved = true;
         this.selectorService.resetSize();
