@@ -1,7 +1,7 @@
 <svg #canvas id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
     [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour"
-    [ngClass]="toolHandler.selectedTool === toolHandler.tools.PIPETTE ? 'pipette-cursor' : ''"
-    [ngClass]="toolHandler.selectedTool === toolHandler.tools.COLOUR_APPLICATOR ? 'applicator-cursor' : ''">
+    [ngClass]="[toolHandler.selectedTool === toolHandler.tools.PIPETTE ? 'pipette-cursor' : '',
+     toolHandler.selectedTool === toolHandler.tools.COLOUR_APPLICATOR ? 'applicator-cursor' : '']">
     <defs>
          <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" patternUnits="userSpaceOnUse" >
             <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour"/>
