@@ -149,9 +149,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     } else {
       // Drag & Drop
       if (this.selectorService.SelectedObjects.size > 0) {
-        this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
-          this.selectorService.MinWidth, this.selectorService.MinHeight);
-        this.resetShape();
+        // this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
+        //   this.selectorService.MinWidth, this.selectorService.MinHeight);
+        // this.resetShape();
       } else {
         this.resetComponent();
         this.resetShape();

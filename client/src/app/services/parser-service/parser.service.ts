@@ -13,24 +13,7 @@ export class ParserService {
   }
 
   parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, offset: number, selectorService: SelectorService): void {
-    let splitPoints: string[] = [];
-    if ('points' in copiedObject) {
-      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
-      splitPoints = copiedObject.points!.split(/[ ,]+/).filter(Boolean);
-    }
-    if ('vertices' in copiedObject) {
-      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
-      splitPoints = copiedObject.vertices!.split(/[ ,]+/).filter(Boolean);
-    }
-    let newPoints = '';
-    for (let i = 0; i < splitPoints.length; i += 2) {
-      newPoints += (parseInt(splitPoints[i], 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2
-        + offset).toString()
-        + ','
-        + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2
-          + offset).toString()
-        + ' ';
-    }
+    const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
 
     const newPaths: IComplexPath[] = [];
     if (copiedObject.paths) {
@@ -67,23 +50,7 @@ export class ParserService {
   }
 
   dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, selectorService: SelectorService): void {
-    let splitPoints: string[] = [];
-    if ('points' in copiedObject) {
-      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
-      splitPoints = copiedObject.points!.split(/[ ,]+/).filter(Boolean);
-    }
-    if ('vertices' in copiedObject) {
-      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
-      splitPoints = copiedObject.vertices!.split(/[ ,]+/).filter(Boolean);
-    }
-    let newPoints = '';
-    for (let i = 0; i < splitPoints.length; i += 2) {
-      newPoints += (parseInt(splitPoints[i], 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2).toString()
-        + ','
-        + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
-        + ' ';
-    }
-
+    const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
     const newPaths: IComplexPath[] = [];
     if (copiedObject.paths) {
       for (const path of copiedObject.paths) {
@@ -93,7 +60,7 @@ export class ParserService {
         const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
         newPaths.push({
           path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
-            - selectorService.MinWidth / 2).toString()
+            - selectorService.MinWidth / 2 ).toString()
             + ' '
             + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
             + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
@@ -116,4 +83,23 @@ export class ParserService {
     }
   }
 
+  initializePoints(copiedObject: ITools, selectorService: SelectorService, cursorX: number, cursorY: number): string {
+    let splitPoints: string[] = [];
+    if ('points' in copiedObject) {
+      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
+      splitPoints = copiedObject.points!.split(/[ ,]+/).filter(Boolean);
+    }
+    if ('vertices' in copiedObject) {
+      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
+      splitPoints = copiedObject.vertices!.split(/[ ,]+/).filter(Boolean);
+    }
+    let newPoints = '';
+    for (let i = 0; i < splitPoints.length; i += 2) {
+      newPoints += (parseInt(splitPoints[i], 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2).toString()
+        + ','
+        + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+        + ' ';
+    }
+    return newPoints;
+  }
 }
