@@ -15,11 +15,6 @@
   font-size: x-large;
 }
 
-::ng-deep .mat-select-content {
-  width: min-content;
-  height: auto;
-}
-
 .option {
   padding-left: 8px; 
   color: black;
@@ -45,10 +40,8 @@
 }
 
 .filter img {
-  position: relative;
-  top: -6px;
-  width: 20px;
-  height: auto;
+  width: auto;
+  height: 24px;
 }
 
 .extra-icon img {
@@ -56,6 +49,11 @@
   top: 6px;
   width: 30px;
   height: auto;
+}
+
+.toolbar img {
+  position: relative;
+  top: -6px;
 }
 
 .colour-preview{
@@ -72,10 +70,8 @@
 .switchIcon{
   position: relative;
   top: -6px;
-  // transform: rotate(90deg);
   height: auto;
   width: 24px;
-
 }
 
 .switchIcon img{
@@ -132,18 +128,18 @@
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
-  }
+}
   
-  input:checked + .slider {
-    background-color: black;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px black;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
+input:checked + .slider {
+  background-color: black;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px black;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
