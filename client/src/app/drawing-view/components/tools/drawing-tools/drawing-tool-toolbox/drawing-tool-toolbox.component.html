@@ -28,6 +28,21 @@
         </div>
     </div>
 
+    <div *ngIf="toolHandler.selectedTool === toolId.QUILL">
+        <div>
+            <p>Longueur de trait minimale</p>
+            <button (click)="getComponent().decreaseLineLength()">-</button>
+            {{getComponent().lineLength}}
+            <button (click)="getComponent().increaseLineLength()">+</button>
+        </div>
+        <div>
+            <p>Angle</p>
+            <button (click)="getComponent().decreaseAngle(1)">-</button>
+            {{getComponent().angle}}
+            <button (click)="getComponent().increaseAngle(1)">+</button>
+        </div>
+    </div>
+
     <div *ngIf="toolHandler.selectedTool === toolId.LINE">
         <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
         <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>

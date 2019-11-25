@@ -1,7 +1,7 @@
 export enum GridConstants {
-    MAX_GRID_SIZE = 0.1,
-    MIN_GRID_SIZE = 0.02,
-    DEFAULT_GRID_SIZE = 0.05,
+    MAX_GRID_SIZE = 150,
+    MIN_GRID_SIZE = 10,
+    DEFAULT_GRID_SIZE = 20,
     DEFAULT_OPACITY = 0.5,
-    GRID_SIZE_STEP = 0.005,
+    GRID_SIZE_STEP = 5,
 }

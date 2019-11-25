@@ -15,7 +15,7 @@ export class GridService {
   constructor() {
     this.gridStatus = false;
     this.gridOpacity = 0;
-    this.gridSize =  GridConstants.DEFAULT_GRID_SIZE;
+    this.gridSize = GridConstants.DEFAULT_GRID_SIZE;
     this.lastOpacity = GridConstants.DEFAULT_OPACITY;
   }
 
@@ -32,13 +32,13 @@ export class GridService {
   decreaseSize(): void {
     if (this.gridSize > GridConstants.MIN_GRID_SIZE) {
       this.gridSize -= GridConstants.GRID_SIZE_STEP;
-      }
+    }
   }
 
   increaseSize(): void {
     if (this.gridSize < GridConstants.MAX_GRID_SIZE) {
       this.gridSize += GridConstants.GRID_SIZE_STEP;
-      }
+    }
   }
 
 }
