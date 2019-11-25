@@ -59,6 +59,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     event.preventDefault();
     this.mouseMoved = false;
+    this.shouldDrag = false;
     this.handleMouseDown(event);
     super.onMouseDown(event);
   }
@@ -84,7 +85,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.selectorService.SelectedObjects.forEach((drawing) => {
           if (this.selectorService.cursorTouchesObject(drawing, this.cursorX, this.cursorY)) {
             this.shouldDrag = true;
-            // return;
+            return;
           }
         });
       } else {
@@ -109,6 +110,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       if (this.shouldDrag) {
         this.selectorService.dragObject(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
           this.windowWidth, this.windowHeight);
+        this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
+          this.selectorService.MinWidth, this.selectorService.MinHeight);
       } else {
         this.mouseMoved = true;
         this.selectorService.resetSize();
