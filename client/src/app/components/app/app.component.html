@@ -122,8 +122,8 @@
                     <a class='option'>Ouvrir la gallerie</a>
                 </mat-option>
             </mat-select>
-            <span class="filter" (click)="extras.toggle()">
-                <img id="openExtras" class="sideBarIcon" src="../../../assets/toolbar/dehaze-24px.svg" title="Extras">
+            <span class="filter extra-icon" (click)="extras.toggle()">
+                <img id="openExtras" src="../../../assets/toolbar/dehaze-24px.svg" title="Extras">
             </span>
     </mat-toolbar>
     <mat-sidenav-container>
@@ -147,7 +147,7 @@
                     <button mat-menu-item (click)='toolHandler.choosePaintbrush()'>
                         <img id="brush" class="sideBarIcon filter" src="../../../assets/sidebar/paintbrush-top.png"> &emsp; Pinceau
                     </button>
-                    <button mat-menu-item (click)='toolHandler.chooseOther()'>
+                    <button mat-menu-item (click)='toolHandler.chooseQuill()'>
                         <img id="feather" class="sideBarIcon filter" src="../../../assets/sidebar/quill.png"> &emsp; Plume
                     </button>
                 </mat-menu>

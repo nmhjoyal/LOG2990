@@ -32,6 +32,8 @@
 }
 
 .disabled img {
+  position: relative;
+  top: -6px;
   width: 20px;
   height: auto;
 }
@@ -43,13 +45,22 @@
 }
 
 .filter img {
+  position: relative;
+  top: -6px;
   width: 20px;
+  height: auto;
+}
+
+.extra-icon img {
+  position: relative;
+  top: 6px;
+  width: 30px;
   height: auto;
 }
 
 .colour-preview{
   position: relative;
-  top: 8px;
+  top: 3px;
   height: 14px;
   width: auto;
   border-radius: 50px;
@@ -59,6 +70,8 @@
 }
 
 .switchIcon{
+  position: relative;
+  top: -6px;
   // transform: rotate(90deg);
   height: auto;
   width: 24px;
