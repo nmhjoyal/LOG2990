@@ -1,4 +1,5 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
@@ -17,6 +18,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected previewBox: IPreviewBox;
   protected shape: IShape;
   protected traceMode: number;
+  protected colourSubscription: Subscription;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -49,12 +51,21 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       secondaryColour: this.colourService.SecondaryColour,
       strokeOpacity: this.colourService.SecondaryOpacity,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
-      fillOpacity: this.colourService.PrimaryOpacity, };
+      fillOpacity: this.colourService.PrimaryOpacity,
+    };
   }
 
-  abstract ngOnInit(): void;
+   ngOnInit(): void {
+    this.colourSubscription =
+    this.colourService.colourObservable.subscribe((colour: string) => {
+      this.shape.primaryColour = colour[0];
+      this.shape.secondaryColour = colour[1];
+    });
+  }
 
-  abstract ngOnDestroy(): void;
+  ngOnDestroy(): void {
+    // this.colourSubscription.unsubscribe();
+  }
 
   // Event handling methods
 

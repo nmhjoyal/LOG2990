@@ -10,7 +10,6 @@ export class ToolHandlerService {
 
   tools = Id;
   selectedTool: string;
-  protected lastCalled: string;
   protected selection: IShape;
   protected primaryColourSelected: boolean;
   protected secondaryColourSelected: boolean;
@@ -23,7 +22,6 @@ export class ToolHandlerService {
       fillOpacity: 0, strokeOpacity: 1, strokeWidth: 1, id: Id.SELECTOR,
     };
     this.selectedTool = this.tools.NONE;
-    this.lastCalled = this.tools.NONE;
     this.primaryColourSelected = false;
     this.secondaryColourSelected = false;
     this.primaryColour = this.colourService.PrimaryColour;
@@ -105,6 +103,11 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.PEN;
   }
 
+  chooseQuill(): void {
+    this.resetToolSelection();
+    this.selectedTool = this.tools.QUILL;
+  }
+
   chooseSelector(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.SELECTOR;
@@ -116,15 +119,11 @@ export class ToolHandlerService {
   }
 ​
   choosePrimaryColour(): void {
-    this.lastCalled = this.selectedTool;
     this.primaryColourSelected = true;
-    // this.callLastFunction();
   }
 
   chooseSecondaryColour(): void {
-    this.lastCalled = this.selectedTool;
     this.secondaryColourSelected = true;
-    // this.callLastFunction();
   }
 
   chooseEllipse(): void {
@@ -150,26 +149,4 @@ export class ToolHandlerService {
   chooseOther(): void {// Place holder for unimplemented tools
     this.resetToolSelection();
   }
-/*
-  callLastFunction(): void {
-    if (this.lastCalled === this.tools.PEN) {
-      this.choosePen();
-    }
-    if (this.lastCalled === this.tools.CRAYON) {
-      this.chooseCrayon();
-    }
-    if (this.lastCalled === this.tools.PAINTBRUSH) {
-      this.choosePaintbrush();
-    }
-    if (this.lastCalled === this.tools.POLYGON) {
-      this.choosePolygon();
-    }
-    if (this.lastCalled === this.tools.ELLIPSE) {
-      this.chooseEllipse();
-    }
-    if (this.lastCalled === this.tools.RECTANGLE) {
-      this.chooseRectangle();
-    }
-
-  }*/
 }

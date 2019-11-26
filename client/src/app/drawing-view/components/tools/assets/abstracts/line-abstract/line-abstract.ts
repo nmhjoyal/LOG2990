@@ -1,4 +1,5 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
@@ -20,6 +21,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected finalPoints: string;
   protected traceMode: number;
   protected junctionMode: number;
+  protected colourSubscription: Subscription;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -56,8 +58,16 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
     };
   }
 
-  abstract ngOnInit(): void;
-  abstract ngOnDestroy(): void;
+  ngOnInit(): void {
+    this.colourSubscription =
+    this.colourService.colourObservable.subscribe((colour: string) => {
+      this.stroke.colour = colour[0];
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.colourSubscription.unsubscribe();
+  }
   abstract saveAttribute(): void;
 
   // Event handling methods

@@ -3,8 +3,7 @@
       
 
     <defs>
-         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" >
-        
+         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" patternUnits="userSpaceOnUse" >
             <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour"/>
             <rect x="0" y="0" width="2" height="100%" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
             <rect x="0" y="0" width="100%" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
@@ -73,6 +72,17 @@
                         [style.stroke-width]="svgpath.pathWidth"
                         [style.stroke]="drawing.colour"
                         [style.stroke-linecap]="drawing.strokeLinecap">
+                    </path>
+                </g>
+            </g>
+            
+            <g *ngSwitchCase="toolId.QUILL" (click)="applyColourToLine(drawing)"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <g *ngFor="let svgpath of drawing.paths">
+                    <path
+                        [attr.d]="svgpath.path"
+                        [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour">
                     </path>
                 </g>
             </g>
@@ -160,6 +170,11 @@
     <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight">
     </app-pen>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.QUILL">
+    <app-quill #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
+    </app-quill>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE">
     <app-tools-rectangle #activeTool [windowWidth]="canvasData.data.drawingWidth"

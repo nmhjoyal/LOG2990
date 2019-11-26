@@ -1,6 +1,7 @@
-export class NumericalValues {
-    static TITLEBAR_WIDTH = 60;
-    static SIDEBAR_WIDTH = 56;
-    static DUPLICATE_OFFSET = 20;
-    static NOT_VALID = -1;
+export enum NumericalValues {
+    TITLEBAR_WIDTH = 60,
+    SIDEBAR_WIDTH = 56,
+    DUPLICATE_OFFSET = 20,
+    NOT_VALID = -1,
+    ONE_EIGHTY = 180,
 }

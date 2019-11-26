@@ -36,7 +36,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       centerX: ToolConstants.NULL,
       centerY: ToolConstants.NULL,
     };
-    this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
+    this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
   }
 
   ngOnInit(): void {
@@ -79,9 +79,9 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   @HostListener('keydown.alt') onKeyDownAltEvent(): void {
-    this.angleIncrement = this.angleIncrement === StampConstants.ANGLE_INCREMENT_1 ?
-      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15 :
-      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
+    this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
   }
 
   setStamp(stampIndex: number): void {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ColourConstants, GrayScale } from 'src/app/drawing-view/components/tools/assets/constants/colour-constants';
 import { Strings } from 'src/AppConstants/Strings';
 
@@ -11,6 +12,10 @@ export class ColourService {
   alpha: number[] ;
   protected lastColours: string[] ;
   protected mainColour: boolean ;
+  colourObservable = new Observable((observer) => {
+    observer.next(this.colour);
+    observer.complete();
+  });
 
   constructor() {
     this.lastColours = [GrayScale.BLACK, GrayScale.GREY1, GrayScale.GREY2, GrayScale.GREY3, GrayScale.GREY4,
