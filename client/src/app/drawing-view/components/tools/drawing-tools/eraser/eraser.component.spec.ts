@@ -6,6 +6,7 @@ import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { EraserConstants } from '../../assets/constants/eraser-constants';
+import { Id } from '../../assets/constants/tool-constants';
 import { IShape } from '../../assets/interfaces/shape-interface';
 import { EraserComponent } from './eraser.component';
 
@@ -91,7 +92,7 @@ describe('EraserComponent', () => {
     component.eraseObject();
     const poppedObject = component.drawingStorage.drawings.pop();
     if (poppedObject && poppedObject.objects && poppedObject.objects[0]) {
-      expect(poppedObject.objects[0].id).toBe('rectangleErased');
+      expect(poppedObject.objects[0].id).toBe(Id.ERASER);
     }
   });
 

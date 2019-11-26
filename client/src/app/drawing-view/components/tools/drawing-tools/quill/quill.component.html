@@ -1,0 +1,9 @@
+<svg tabindex = "0" class = "previewQuill" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight" >
+    <g *ngFor="let svgpath of quill.paths">
+        <path
+            [attr.d]="svgpath.path"
+            [style.stroke-width]="svgpath.pathWidth"
+            [style.stroke]="quill.colour">
+        </path>
+    </g>
+</svg>

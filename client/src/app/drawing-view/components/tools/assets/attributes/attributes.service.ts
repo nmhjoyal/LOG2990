@@ -3,7 +3,7 @@ import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
 import { IBucketOptions } from '../interfaces/bucket-interfaces';
-import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
@@ -17,6 +17,7 @@ export class AttributesService {
   paintbrushAttributes: IDrawingToolOptions;
   bucketAttributes: IBucketOptions;
   penAttributes: IDrawingToolOptions;
+  quillAttributes: IQuillOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
   lineAttributes: ILineOptions;
@@ -35,6 +36,7 @@ export class AttributesService {
     this.resetStampAttributes();
     this.resetPenAttributes();
     this.resetTextAttributes();
+    this.resetQuillAttributes();
   }
 
   resetPolygonAttributes(): void {
@@ -105,6 +107,22 @@ export class AttributesService {
       savedFilter: ToolConstants.NONE,
       savedMaxWidth: 0,
       savedMinWidth: 0,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+  resetQuillAttributes(): void {
+    this.quillAttributes = {
+      id: ToolConstants.TOOL_ID.PEN,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedFilter: ToolConstants.NONE,
+      savedMaxWidth: 0,
+      savedMinWidth: 0,
+      savedLineLength: 0,
+      savedAngle: 0,
       x: 0,
       y: 0,
       width: 0,
@@ -203,6 +221,9 @@ export class AttributesService {
     }
     if (this.textAttributes.wasSaved) {
       this.resetTextAttributes();
+    }
+    if (this.quillAttributes.wasSaved) {
+      this.resetQuillAttributes();
     }
   }
 }

@@ -22,6 +22,7 @@ import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/n
 import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
+import { ITools } from '../tools/assets/interfaces/itools';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { CanvasComponent } from './canvas.component';
 
@@ -149,6 +150,27 @@ describe('CanvasComponent', () => {
     mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.getColourFromShape(new MouseEvent('contextmenu'), ToolConstants.SECONDARY_COLOUR_INDEX, testObject);
     expect(mockColourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX]).toEqual(Strings.WHITE_HEX);
+  });
+
+  it('#saveColourApplication should save its arguments as an object in the drawings array', () => {
+    // tslint:disable-next-line:no-string-literal
+    const saveSpy = spyOn(component['saveService'], 'saveDrawing' ).and.callThrough();
+    component.drawingStorage.drawings = [];
+    component.saveColourApplication(0, 'colourChangeId', 'originalColour', 'toColour');
+    const colourChangeOperation: ITools = {
+      id: 'colourChangeId',
+      indexes: [0],
+      initialColour: 'originalColour',
+      appliedColour: 'toColour',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+
+    expect(saveSpy).toHaveBeenCalled();
+    expect(component.drawingStorage.drawings[0]).toEqual(colourChangeOperation);
+
   });
 
 });

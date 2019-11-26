@@ -49,9 +49,9 @@ describe('AppComponent', () => {
     clipboardMock = jasmine.createSpyObj('ClipboardService', ['copy', 'paste', 'cut', 'duplicate', 'delete', 'undo', 'redo']);
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
-    ['resetToolSelection', 'choosePaintbrush', 'chooseBucket', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon',
-    'chooseText', 'choosePen', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
-    'chooseEraser']);
+    ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon', 'chooseText',
+    'choosePen', 'chooseQuill', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
+    'chooseEraser', 'chooseBucket']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings', 'isEmpty']);
@@ -165,6 +165,16 @@ describe('AppComponent', () => {
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
 
+  it('#chooseQuill should be called when p is pressed', () => {
+    toolHandlerMock.chooseQuill.and.callThrough();
+    component.optionsSidebar.opened = true;
+    component.onKeydownP();
+    expect(toolHandlerMock.chooseQuill).not.toHaveBeenCalled();
+    component.optionsSidebar.opened = false;
+    component.onKeydownP();
+    expect(toolHandlerMock.chooseQuill).toHaveBeenCalled();
+  });
+
   it('#choosePaintbrush should be called when w is pressed', () => {
     toolHandlerMock.choosePaintbrush.and.callThrough();
     component.optionsSidebar.opened = true;
@@ -178,10 +188,10 @@ describe('AppComponent', () => {
   it('#chooseBucket should be called when b is pressed', () => {
     toolHandlerMock.chooseBucket.and.callThrough();
     component.optionsSidebar.opened = true;
-    component.onKeydownWEvent();
+    component.onKeydownB();
     expect(toolHandlerMock.chooseBucket).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
-    component.onKeydownBEvent();
+    component.onKeydownB();
     expect(toolHandlerMock.chooseBucket).toHaveBeenCalled();
   });
 
@@ -197,8 +207,6 @@ describe('AppComponent', () => {
 
   it('#chooseColourApplicator should be called when r is pressed', () => {
     toolHandlerMock.chooseColourApplicator.and.callThrough();
-    colourMock.getPrimaryColour.and.returnValue('black');
-    colourMock.getSecondaryColour.and.returnValue('white');
     component.optionsSidebar.opened = true;
     component.onKeydownR();
     expect(toolHandlerMock.chooseColourApplicator).not.toHaveBeenCalled();

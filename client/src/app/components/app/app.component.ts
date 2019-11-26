@@ -161,6 +161,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.p', ['$event']) onKeydownP(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseQuill();
+    }
+  }
+
   @HostListener('document:keydown.control.o', ['$event']) onKeydownCtrlO(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {

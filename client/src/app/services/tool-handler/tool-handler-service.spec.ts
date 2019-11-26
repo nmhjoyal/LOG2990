@@ -127,6 +127,14 @@ describe('ToolHandlerService', () => {
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.CRAYON);
   });
 
+  it('#chooseQuill should call #resetToolSelection and select the quill', () => {
+    const resetSpy = spyOn(service, 'resetToolSelection');
+    service.chooseQuill();
+
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.QUILL);
+  });
+
   it('#chooseLine should call #resetToolSelection and select the crayon', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseLine();
@@ -226,5 +234,12 @@ describe('ToolHandlerService', () => {
     service.choosePen();
     expect(resetSpy).toHaveBeenCalled();
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PEN);
+  });
+
+  it('#chooseEraser should call #resetToolSelection', () => {
+    const resetSpy = spyOn(service, 'resetToolSelection');
+    service.chooseEraser();
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.ERASER);
   });
 });

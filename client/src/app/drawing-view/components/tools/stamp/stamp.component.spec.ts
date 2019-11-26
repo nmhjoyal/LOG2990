@@ -4,8 +4,8 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { FilterSelection, StampConstants } from '../assets/constants/tool-constants';
-import { StampComponent } from './stamp.component';
+import { FilterSelection, StampConstants, ToolConstants } from '../assets/constants/tool-constants';
+import { StampComponent} from './stamp.component';
 
 const RANDOM_ANGLE = 77;
 const NUMBER_OF_STAMPS = 6; // number of elements in FilterSelection in assets/tool-constants
@@ -134,12 +134,12 @@ describe('StampComponent', () => {
   });
 
   it('#OnKeyDownAltEvent should toggle the angleIncrement value', () => {
-    component['angleIncrement'] = StampConstants.ANGLE_INCREMENT_1;
+    component['angleIncrement'] = ToolConstants.ANGLE_INCREMENT_1;
     component.onKeyDownAltEvent();
-    expect(component['angleIncrement']).toBe(StampConstants.ANGLE_INCREMENT_15);
+    expect(component['angleIncrement']).toBe(ToolConstants.ANGLE_INCREMENT_15);
 
     component.onKeyDownAltEvent();
-    expect(component['angleIncrement']).toBe(StampConstants.ANGLE_INCREMENT_1);
+    expect(component['angleIncrement']).toBe(ToolConstants.ANGLE_INCREMENT_1);
   });
 
   it('#multiplyScaleFactor should reassign the values of the stamp.width and stamp.height', () => {

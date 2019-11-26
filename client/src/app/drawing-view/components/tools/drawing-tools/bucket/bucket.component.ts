@@ -84,7 +84,6 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.saveAttribute();
   }
 
-
   @HostListener('click', ['$event']) onClick(event: MouseEvent): void {
     this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
