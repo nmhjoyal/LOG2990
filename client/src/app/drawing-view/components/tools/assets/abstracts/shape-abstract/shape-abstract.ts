@@ -55,7 +55,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
     };
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.colourSubscription =
     this.colourService.colourObservable.subscribe((colour: string[]) => {
       this.shape.primaryColour = colour[0];
@@ -68,7 +68,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   }
 
   // Event handling methods
-
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     this.initialX = ClickHelper.getXPosition(event);
     this.initialY = ClickHelper.getYPosition(event);
