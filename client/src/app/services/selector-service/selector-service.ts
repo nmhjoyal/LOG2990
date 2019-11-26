@@ -124,7 +124,7 @@ export class SelectorService {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
 
-  dragObject(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
+  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
     this.selectedObjects.forEach((movedObject) => {
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);

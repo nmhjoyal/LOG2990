@@ -108,7 +108,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       if (this.shouldDrag) {
-        this.selectorService.dragObject(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+        this.selectorService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
           this.windowWidth, this.windowHeight);
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);
