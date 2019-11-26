@@ -29,6 +29,7 @@ export enum FilterURL {
     FILTER3 = 'url(#filter3)',
     FILTER4 = 'url(#filter4)',
     FILTER5 = 'url(#filter5)',
+    FILTER6 = 'url(#filter6)',
 }
 export enum FilterSelection {
     FILTER0 = 0,
@@ -37,6 +38,7 @@ export enum FilterSelection {
     FILTER3 = 3,
     FILTER4 = 4,
     FILTER5 = 5,
+    FILTER6 = 6,
 }
 
 export enum ModeType {
