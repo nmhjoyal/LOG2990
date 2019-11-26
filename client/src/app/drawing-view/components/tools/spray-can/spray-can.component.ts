@@ -101,8 +101,9 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mouseup') onMouseUp(): void {
     if (this.isMouseDown) {
       clearInterval(this.sprayTimer);
-      // console.log(this.sprayData.sprays);
+      console.log(this.sprayData);
       this.saveService.saveDrawing({...this.sprayData});
+      console.log(this.saveService.drawingStorage.drawings);
       this.sprayData.sprays = [];
       this.isMouseDown = false
     }

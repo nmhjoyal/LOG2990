@@ -10,7 +10,7 @@
 
   <g *ngFor="let position of sprayData.sprays">
     <circle [attr.cy]= "position.cy" [attr.opacity]="0.4" [attr.r]="sprayData.radius" [attr.cx]= "position.cx" 
-    [style.fill]="black" filter="url(#spraycan)"/>
+    [attr.fill]="black" filter="url(#spraycan)"/>
 
   </g>
 </svg> 
