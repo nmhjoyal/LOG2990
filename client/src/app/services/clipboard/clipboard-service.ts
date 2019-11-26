@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
@@ -16,6 +18,7 @@ export class ClipboardService {
   private pasteOffset: number;
   private lastCursorX: number;
   private lastCursorY: number;
+  private deletedDrawings: ITools;
 
   constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService,
       public undoRedoService: UndoRedoService, public saveService: SaveService, public parserService: ParserService) {
@@ -23,6 +26,15 @@ export class ClipboardService {
     this.pasteOffset = 0;
     this.lastCursorX = 0;
     this.lastCursorY = 0;
+    this.deletedDrawings = {
+      id: Id.ERASER,
+      x: 0,
+      y: 0,
+      height: 0,
+      width: 0,
+      objects: [],
+      indexes: [],
+    };
   }
 
   copy(): void {
@@ -80,23 +92,28 @@ export class ClipboardService {
   delete(): void {
     this.selectorService.selectedObjects.forEach((element) => {
       const index = this.drawingStorage.drawings.indexOf(element);
-      if (index !== NumericalValues.NOT_VALID) {
+      if (index !== NumericalValues.NOT_VALID && this.deletedDrawings.objects && this.deletedDrawings.indexes) {
+        this.deletedDrawings.objects.push(element);
+        this.deletedDrawings.indexes.push(index);
         this.drawingStorage.drawings.splice(index, 1);
       }
     });
+    this.saveService.saveDrawing({...this.deletedDrawings});
+    this.deletedDrawings.objects = [];
+    this.deletedDrawings.indexes = [];
   }
 
   undo(): void {
     const undoneOperation: ITools|undefined = this.undoRedoService.undo();
     if (undoneOperation && undoneOperation.pasteOffset) {
-        this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
+      this.pasteOffset -= NumericalValues.DUPLICATE_OFFSET;
     }
   }
 
   redo(): void {
     const redoneOperation: ITools|undefined = this.undoRedoService.redo();
     if (redoneOperation && redoneOperation.pasteOffset !== undefined) {
-        this.pasteOffset = redoneOperation.pasteOffset;
+      this.pasteOffset = redoneOperation.pasteOffset;
     }
   }
 }

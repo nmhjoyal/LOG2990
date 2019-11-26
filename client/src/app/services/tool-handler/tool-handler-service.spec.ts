@@ -235,4 +235,11 @@ describe('ToolHandlerService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PEN);
   });
+
+  it('#chooseEraser should call #resetToolSelection', () => {
+    const resetSpy = spyOn(service, 'resetToolSelection');
+    service.chooseEraser();
+    expect(resetSpy).toHaveBeenCalled();
+    expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.ERASER);
+  });
 });
