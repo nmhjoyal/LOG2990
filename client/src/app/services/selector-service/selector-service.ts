@@ -129,7 +129,6 @@ export class SelectorService {
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
       this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this);
-      // this.saveService.saveDrawing(movedObject);
     });
 
     this.recalculateShape(windowWidth, windowHeight);
