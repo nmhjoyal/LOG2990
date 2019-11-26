@@ -57,14 +57,14 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
 
    ngOnInit(): void {
     this.colourSubscription =
-    this.colourService.colourObservable.subscribe((colour: string) => {
+    this.colourService.colourObservable.subscribe((colour: string[]) => {
       this.shape.primaryColour = colour[0];
       this.shape.secondaryColour = colour[1];
     });
   }
 
   ngOnDestroy(): void {
-    // this.colourSubscription.unsubscribe();
+    this.colourSubscription.unsubscribe();
   }
 
   // Event handling methods

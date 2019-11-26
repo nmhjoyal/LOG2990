@@ -1,4 +1,5 @@
 import { HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import { Subscription } from 'rxjs';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -13,6 +14,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   protected mouseDown: boolean;
   private x: number;
   private y: number;
+  private colourSubscription: Subscription;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -39,8 +41,17 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     this.y = 0;
   }
 
-  abstract ngOnInit(): void;
-  abstract ngOnDestroy(): void;
+  ngOnInit(): void {
+    this.colourSubscription =
+    this.colourService.colourObservable.subscribe((colour: string[]) => {
+      this.stroke.colour = colour[0];
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.colourSubscription.unsubscribe();
+  }
+
   abstract saveAttribute(): void;
 
   protected saveShape(): void {

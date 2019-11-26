@@ -12,10 +12,7 @@ export class ColourService {
   alpha: number[] ;
   protected lastColours: string[] ;
   protected mainColour: boolean ;
-  colourObservable = new Observable((observer) => {
-    observer.next(this.colour);
-    observer.complete();
-  });
+  colourObservable: Observable<string[]>;
 
   constructor() {
     this.lastColours = [GrayScale.BLACK, GrayScale.GREY1, GrayScale.GREY2, GrayScale.GREY3, GrayScale.GREY4,
@@ -23,6 +20,10 @@ export class ColourService {
     this.colour = [Strings.BLACK_HEX, Strings.WHITE_HEX];
     this.alpha = [ColourConstants.INITIAL_TRANSPARENCY, ColourConstants.INITIAL_TRANSPARENCY];
     this.mainColour = false;
+    this.colourObservable = new Observable((observer) => {
+      observer.next(this.colour);
+      observer.complete();
+    });
   }
 
   get PrimaryColour(): string {

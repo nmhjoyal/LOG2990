@@ -60,7 +60,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
 
   ngOnInit(): void {
     this.colourSubscription =
-    this.colourService.colourObservable.subscribe((colour: string) => {
+    this.colourService.colourObservable.subscribe((colour: string[]) => {
       this.stroke.colour = colour[0];
     });
   }

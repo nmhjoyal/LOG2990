@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -25,6 +26,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
   private currentLine: number;
   private fontFamilySelection: string;
   private initialX: number;
+  private colourSubscription: Subscription;
 
   constructor(protected drawingStorage: SaveService, protected attributesServiceRef: AttributesService,
     protected colourServiceRef: ColourService) {
@@ -54,6 +56,10 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       this.text.bold = this.attributesServiceRef.textAttributes.savedBold;
       this.text.fontFamily = this.attributesServiceRef.textAttributes.savedFontFamily;
     }
+    this.colourSubscription =
+    this.colourServiceRef.colourObservable.subscribe((colour: string[]) => {
+      this.text.primaryColour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {
@@ -64,6 +70,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.attributesServiceRef.textAttributes.savedBold = this.text.bold;
     this.attributesServiceRef.textAttributes.savedFontFamily = this.text.fontFamily;
     this.attributesServiceRef.textAttributes.wasSaved = true;
+    this.colourSubscription.unsubscribe();
   }
 
   @HostListener('click', ['$event']) onLeftClick(event: MouseEvent): void {

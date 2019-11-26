@@ -1,5 +1,4 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -23,7 +22,6 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
   private lastX: number;
   private lastY: number;
   private angleIncrement: number;
-  private colourSubscription: Subscription;
 
   constructor(saveServiceRef: SaveService,
               attributesServiceRef: AttributesService,
@@ -52,15 +50,10 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       this.lineLength = this.attributesService.quillAttributes.savedLineLength;
       this.angle = this.attributesService.quillAttributes.savedAngle;
     }
-    this.colourSubscription =
-    this.colourService.colourObservable.subscribe((colour: string) => {
-      this.stroke.colour = colour[0];
-    });
   }
 
   ngOnDestroy(): void {
     this.saveAttribute();
-    this.colourSubscription.unsubscribe();
   }
 
   saveAttribute(): void {
