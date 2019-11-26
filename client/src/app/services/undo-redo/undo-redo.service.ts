@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -77,7 +77,7 @@ export class UndoRedoService {
 
   handlePrimaryColourApplication( operation: ITools, isUndo: boolean ) {
     const colourToApply: string|undefined = isUndo ?  operation.initialColour : operation.appliedColour;
-    if ( operation.indexes && colourToApply !== undefined) {    
+    if ( operation.indexes && colourToApply !== undefined) {
       if ( operation.indexes[0] === ToolConstants.NULL ) {
           this.canvasInformation.data.drawingColour = colourToApply;
         } else {

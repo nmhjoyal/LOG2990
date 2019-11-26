@@ -39,7 +39,7 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToCanvas(): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      this.saveColourApplication(ToolConstants.NULL, Id.PRIMARY_COLOUR_CHANGE, this.canvasData.data.drawingColour, 
+      this.saveColourApplication(ToolConstants.NULL, Id.PRIMARY_COLOUR_CHANGE, this.canvasData.data.drawingColour,
         this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
       this.canvasData.data.drawingColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {

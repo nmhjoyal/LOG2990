@@ -3,9 +3,9 @@ import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { UndoRedoService } from './undo-redo.service';
-import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 // tslint:disable:no-string-literal
 
 describe('UndoRedoService', () => {
@@ -191,7 +191,7 @@ describe('UndoRedoService', () => {
    dummyDrawing2.indexes = [ToolConstants.NULL];
    dummyDrawing2.initialColour = 'initialColour';
    dummyDrawing2.appliedColour = undefined;
-   
+
    service.handlePrimaryColourApplication(dummyDrawing2, !undo);
    expect(service.canvasInformation.data.drawingColour).toBe('default');
 

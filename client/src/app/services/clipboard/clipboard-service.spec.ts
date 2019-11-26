@@ -3,12 +3,12 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ClipboardService } from './clipboard-service';
-import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
@@ -27,6 +27,7 @@ describe('ClipboardService', () => {
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
     selectorService = new SelectorService();
+    canvasService = new CanvasInformationService();
     undoRedoService = new UndoRedoService(drawingStorage, canvasService);
     saveService = new SaveService(drawingStorage, undoRedoService);
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
@@ -90,7 +91,7 @@ describe('ClipboardService', () => {
   it('#cut should call copy and delete if there is an object selected', () => {
     const copySpy = spyOn(service, 'copy');
     const deleteSpy = spyOn(service, 'delete');
-    
+
     service.cut();
     expect(copySpy).not.toHaveBeenCalled();
     expect(deleteSpy).not.toHaveBeenCalled();
