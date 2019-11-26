@@ -1,16 +1,18 @@
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { ParserService } from 'src/app/services/parser-service/parser.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
-import { ParserService } from 'src/app/services/parser-service/parser.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -60,7 +62,10 @@ describe('SelectorComponent', () => {
     let fixture: ComponentFixture<SelectorComponent>;
     let toolServiceMock: ToolHandlerService;
     const parserService: ParserService = new ParserService();
-    const saveService: SaveService = new SaveService();
+    const drawingStorage: DrawingStorageService = new DrawingStorageService();
+    const canvasInformation: CanvasInformationService = new CanvasInformationService();
+    const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
+    const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
@@ -252,11 +257,11 @@ describe('SelectorComponent', () => {
     it('test rightclick reverse', () => {
         const drawing1 = {
             x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0,
-            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1
+            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1,
         };
         const drawing2 = {
             x: FORTY, y: FORTY, width: FORTY, height: FORTY, fillOpacity: 0,
-            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1
+            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1,
         };
         TestBed.get(DrawingStorageService).drawings = [drawing1, drawing2];
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);

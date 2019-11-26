@@ -5,11 +5,11 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ClipboardService } from './clipboard-service';
-import { ParserService } from '../parser-service/parser.service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;

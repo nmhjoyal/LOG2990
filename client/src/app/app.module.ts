@@ -51,9 +51,16 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     MatButtonToggleModule,
     MatProgressSpinnerModule,
   ],
-  providers: [MatDialogConfig, ParserService, LocalStorageService, ToolHandlerService, CanvasInformationService, ColourService, ExportInformationService,
+  providers: [
+    MatDialogConfig,
+    ParserService,
+    LocalStorageService,
+    ToolHandlerService,
+    CanvasInformationService,
+    ColourService,
+    ExportInformationService,
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
+    { provide: MAT_DIALOG_DATA, useValue: [] },],
   bootstrap: [AppComponent],
   entryComponents: [
     ModalWindowComponent as Type<ModalWindowComponent>,

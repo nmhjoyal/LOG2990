@@ -3,16 +3,26 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { ParserService } from '../parser-service/parser.service';
+import { SaveService } from '../save-service/save.service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
   let service: SelectorService;
+  const canvasInformation: CanvasInformationService = new CanvasInformationService();
+  const drawingStorage: DrawingStorageService = new DrawingStorageService();
+  const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
+  const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
+  const parserService: ParserService = new ParserService();
   const FIFTY = 50;
   const FORTY = 40;
   const ONE_HUNDRED = 100;
 
   beforeEach(() => {
-    service = new SelectorService();
+    service = new SelectorService(saveService, parserService);
   });
 
   it('should be created with correct initialized values', () => {
