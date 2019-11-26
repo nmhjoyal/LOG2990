@@ -18,7 +18,7 @@ describe('EraserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EraserComponent ],
+      declarations: [EraserComponent],
       providers: [
         DrawingStorageService,
         SaveService,
@@ -92,6 +92,8 @@ describe('EraserComponent', () => {
     const poppedObject = component.drawingStorage.drawings.pop();
     if (poppedObject && poppedObject.objects && poppedObject.objects[0]) {
       expect(poppedObject.objects[0].id).toBe('rectangleErased');
+    } else {
+      expect(poppedObject).toBeUndefined();
     }
   });
 

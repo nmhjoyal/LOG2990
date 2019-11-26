@@ -145,20 +145,14 @@ describe('ToolHandlerService', () => {
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PAINTBRUSH);
   });
 
-  it('#choosePrimaryColour should call #resetToolSelection and select the PrimaryColour', () => {
-    const resetSpy = spyOn(service, 'resetToolSelection');
+  it('#choosePrimaryColour should select the PrimaryColour', () => {
     service.choosePrimaryColour();
-
-    expect(resetSpy).toHaveBeenCalled();
     expect(service['primaryColourSelected']).toBe(true);
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
 
-  it('#chooseSecondaryColour should call #resetToolSelection and select the SecondaryColour', () => {
-    const resetSpy = spyOn(service, 'resetToolSelection');
+  it('#chooseSecondaryColour should select the SecondaryColour', () => {
     service.chooseSecondaryColour();
-
-    expect(resetSpy).toHaveBeenCalled();
     expect(service['secondaryColourSelected']).toBe(true);
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
