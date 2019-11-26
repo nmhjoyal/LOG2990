@@ -77,7 +77,7 @@
                 <a mat-list-item class="filter" (click)='toolHandler.choosePaintbrush()'>
                     <img id="brush" class="sideBarIcon" src="https://i.imgur.com/QcePo5S.png" title="Pinceau">
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseOther()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseQuill()'>
                     <img id="feather" class="sideBarIcon" src="https://i.imgur.com/xwBu4Rd.png" title="Plume">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseSprayCan()'>
@@ -135,10 +135,10 @@
                         <label class="filter">{{gridService.gridOpacity}}%</label>
                         <br>
                         <p class="filter"> Taille: </p>
-                        <input class="filter" type="range" min="0.02" max="0.1" step="0.005"
+                        <input class="filter" type="range" min="10" max="150" step="1"
                             (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridSize" id="sizeInput"
                             title="Taille des carrés">
-                        <label class="filter"> {{1/gridService.gridSize | number:'1.0-0'}}u </label>
+                        <label class="filter"> {{gridService.gridSize}}px </label>
                     </div>
                 </mat-menu>
 

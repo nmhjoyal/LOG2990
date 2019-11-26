@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IDrawingToolOptions, ILineOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
@@ -16,6 +16,7 @@ export class AttributesService {
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
   penAttributes: IDrawingToolOptions;
+  quillAttributes: IQuillOptions;
   rectangleAttributes: IShapeOptions;
   polygonAttributes: IShapeOptions;
   lineAttributes: ILineOptions;
@@ -35,6 +36,7 @@ export class AttributesService {
     this.resetPenAttributes();
     this.resetTextAttributes();
     this.resetSprayCanAttributes();
+    this.resetQuillAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -87,6 +89,22 @@ export class AttributesService {
       savedFilter: ToolConstants.NONE,
       savedMaxWidth: 0,
       savedMinWidth: 0,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+  resetQuillAttributes(): void {
+    this.quillAttributes = {
+      id: ToolConstants.TOOL_ID.PEN,
+      wasSaved: false,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedFilter: ToolConstants.NONE,
+      savedMaxWidth: 0,
+      savedMinWidth: 0,
+      savedLineLength: 0,
+      savedAngle: 0,
       x: 0,
       y: 0,
       width: 0,
@@ -197,6 +215,9 @@ export class AttributesService {
     }
     if (this.sprayCanAttributes.wasSaved) {
       this.resetSprayCanAttributes();
+    }
+    if (this.quillAttributes.wasSaved) {
+      this.resetQuillAttributes();
     }
   }
 }

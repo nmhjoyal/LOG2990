@@ -40,6 +40,11 @@ export interface IDrawingToolOptions extends ITools {
     savedMinWidth: number;
 }
 
+export interface IQuillOptions extends IDrawingToolOptions {
+    savedLineLength: number;
+    savedAngle: number;
+}
+
 export interface IPen extends ITools {
     colour: string;
     strokeLinecap: string;
