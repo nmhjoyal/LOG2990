@@ -14,6 +14,7 @@ describe('ClipboardService', () => {
   let selectorService: SelectorService;
   let drawingStorage: DrawingStorageService;
   let undoRedoService: UndoRedoService;
+  let parserService: ParserService;
   let saveService: SaveService;
   let dummyOperation: ITools;
   const FIFTY = 50;
@@ -23,9 +24,11 @@ describe('ClipboardService', () => {
 
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
-    selectorService = new SelectorService();
     undoRedoService = new UndoRedoService(drawingStorage);
     saveService = new SaveService(drawingStorage, undoRedoService);
+    parserService = new ParserService();
+    selectorService = new SelectorService(saveService, parserService);
+
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
 
     dummyOperation = {

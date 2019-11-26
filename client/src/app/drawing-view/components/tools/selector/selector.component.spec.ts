@@ -10,6 +10,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
+import { ParserService } from 'src/app/services/parser-service/parser.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -17,8 +18,8 @@ const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTAN
 
 class SelectorServiceMock extends SelectorService {
 
-    constructor() {
-      super();
+    constructor(public saveService: SaveService, public parserService: ParserService) {
+        super(saveService, parserService);
     }
 
     get SelectedObjects(): Set<ITools> {
@@ -58,11 +59,13 @@ describe('SelectorComponent', () => {
     let selectorServiceMock: SelectorService;
     let fixture: ComponentFixture<SelectorComponent>;
     let toolServiceMock: ToolHandlerService;
+    const parserService: ParserService = new ParserService();
+    const saveService: SaveService = new SaveService();
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
-                                                        'saveSelectorBox', 'resetSelectorBox']);
+        'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
-        selectorServiceMock = new SelectorServiceMock();
+        selectorServiceMock = new SelectorServiceMock(saveService, parserService);
 
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],
@@ -75,9 +78,9 @@ describe('SelectorComponent', () => {
             ],
         }).overrideComponent(SelectorComponent, {
             set: {
-              providers: [
-                { provide: SelectorService, useValue: selectorServiceMock },
-              ],
+                providers: [
+                    { provide: SelectorService, useValue: selectorServiceMock },
+                ],
             },
         }).compileComponents();
 
@@ -247,10 +250,14 @@ describe('SelectorComponent', () => {
     });
 
     it('test rightclick reverse', () => {
-        const drawing1 = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0,
-            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1 };
-        const drawing2 = { x: FORTY, y: FORTY, width: FORTY, height: FORTY, fillOpacity: 0,
-            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1 };
+        const drawing1 = {
+            x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, fillOpacity: 0,
+            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1
+        };
+        const drawing2 = {
+            x: FORTY, y: FORTY, width: FORTY, height: FORTY, fillOpacity: 0,
+            id: Id.RECTANGLE, primaryColour: 'black', secondaryColour: 'black', strokeOpacity: 0, strokeWidth: 1
+        };
         TestBed.get(DrawingStorageService).drawings = [drawing1, drawing2];
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
