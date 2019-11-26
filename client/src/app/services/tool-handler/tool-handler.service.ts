@@ -31,8 +31,6 @@ export class ToolHandlerService {
 
   resetToolSelection(): void {
     this.selectedTool = this.tools.NONE;
-    this.primaryColourSelected = false;
-    this.secondaryColourSelected = false;
     this.resetSelectorBox();
   }
 

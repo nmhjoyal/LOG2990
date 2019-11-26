@@ -6,6 +6,7 @@
         <button (click)="getComponent().setFilter(3)">Filtre 3</button>
         <button (click)="getComponent().setFilter(4)">Filtre 4</button>
         <button (click)="getComponent().setFilter(5)">Filtre 5</button>
+        <button (click)="getComponent().setFilter(6)">Filtre 6</button>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
         <button (click)="getComponent().decreaseStrokeWidth()">-</button>
