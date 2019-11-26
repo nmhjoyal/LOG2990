@@ -50,7 +50,7 @@ describe('AppComponent', () => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open', 'closeAll', 'openDialogs']);
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon', 'chooseText',
-    'choosePen', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
+    'choosePen', 'chooseQuill', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
     'chooseEraser']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
@@ -163,6 +163,16 @@ describe('AppComponent', () => {
     component.optionsSidebar.opened = false;
     component.onKeydownC();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
+  });
+
+  it('#chooseQuill should be called when p is pressed', () => {
+    toolHandlerMock.chooseQuill.and.callThrough();
+    component.optionsSidebar.opened = true;
+    component.onKeydownP();
+    expect(toolHandlerMock.chooseQuill).not.toHaveBeenCalled();
+    component.optionsSidebar.opened = false;
+    component.onKeydownP();
+    expect(toolHandlerMock.chooseQuill).toHaveBeenCalled();
   });
 
   it('#choosePaintbrush should be called when w is pressed', () => {
