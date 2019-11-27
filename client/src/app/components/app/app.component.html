@@ -1,130 +1,131 @@
 <div>
     <mat-toolbar class="alignRight">
-            <h1 class="app-name">POLYDESSIN &nbsp; &nbsp;</h1>
-            <mat-nav-list>
-                <a *ngIf='drawingStorage.drawings.length; else noUndo' mat-button class="filter toolbar" (click)="clipboardService.undo()">
-                    <img id="Annuler" class="sideBarIcon" src="../../../assets/toolbar/back-arrow.svg" title="Annuler">
+        <img class = "app-icon" src = "../../../assets/icon/PolyBee.png">
+        <h1 class="app-name">POLYDESSIN &nbsp; &nbsp;</h1>
+        <mat-nav-list>
+            <a *ngIf='drawingStorage.drawings.length; else noUndo' mat-button class="filter toolbar" (click)="clipboardService.undo()">
+                <img id="Annuler" class="sideBarIcon" src="../../../assets/toolbar/back-arrow.svg" title="Annuler">
+            </a>
+            <ng-template #noUndo >
+                <a mat-button class="disabled toolbar">
+                    <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/back-arrow.svg" title="Annuler">
                 </a>
-                <ng-template #noUndo >
-                    <a mat-button class="disabled toolbar">
-                        <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/back-arrow.svg" title="Annuler">
-                    </a>
-                </ng-template>
-                <a *ngIf='clipboardService.undoRedoService.undoList.length; else noRedo' mat-button class="filter toolbar" (click)="clipboardService.redo()">
+            </ng-template>
+            <a *ngIf='clipboardService.undoRedoService.undoList.length; else noRedo' mat-button class="filter toolbar" (click)="clipboardService.redo()">
+                <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/redo-arrow.svg" title="Refaire">
+            </a>
+            <ng-template #noRedo >
+                <a mat-button class="disabled toolbar">
                     <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/redo-arrow.svg" title="Refaire">
                 </a>
-                <ng-template #noRedo >
-                    <a mat-button class="disabled toolbar">
-                        <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/redo-arrow.svg" title="Refaire">
-                    </a>
-                </ng-template>
-                <a mat-button (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
-                    <div class="colour-preview" title="Couleur principale"
-                        [ngStyle]="{'background-color': colourService.colour[0]}">
-                    </div>
+            </ng-template>
+            <a mat-button (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                <div class="colour-preview" title="Couleur principale"
+                    [ngStyle]="{'background-color': colourService.colour[0]}">
+                </div>
+            </a>
+            <a mat-button (click)="switchColours()">
+                <img class="switchIcon filter toolbar" src="./assets/sidebar/switch.png" title="Changer couleurs">
+            </a>
+            <a mat-button (click)='toolHandler.chooseSecondaryColour(); openChooseColourDialog()'>
+                <div class="colour-preview" title="Couleur secondaire"
+                    [ngStyle]="{'background-color': colourService.colour[1]}">
+                </div>
+            </a>
+            <ng-container *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR && clipboardService.selectorService.selectedObjects.size; 
+                            then selected; else notSelected">
+            </ng-container>
+            <ng-template #selected>
+                <a mat-button class="filter toolbar" (click)="clipboardService.copy()">
+                    <img id="copy" class="clipboardIcon" src="../../../assets/toolbar/copy.png" title="Copier">
                 </a>
-                <a mat-button (click)="switchColours()">
-                    <img class="switchIcon filter toolbar" src="./assets/sidebar/switch.png" title="Changer couleurs">
+                <a mat-button class="filter toolbar" (click)='clipboardService.paste(0,0)'>
+                    <img id="paste" class="clipboardIcon" src="../../../assets/toolbar/paste.png" title="Coller">
                 </a>
-                <a mat-button (click)='toolHandler.chooseSecondaryColour(); openChooseColourDialog()'>
-                    <div class="colour-preview" title="Couleur secondaire"
-                        [ngStyle]="{'background-color': colourService.colour[1]}">
-                    </div>
+                <a mat-button class="filter toolbar" (click)='clipboardService.cut()'>
+                    <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
                 </a>
-                <ng-container *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR && clipboardService.selectorService.selectedObjects.size; 
-                                then selected; else notSelected">
-                </ng-container>
-                <ng-template #selected>
-                    <a mat-button class="filter toolbar" (click)="clipboardService.copy()">
-                        <img id="copy" class="clipboardIcon" src="../../../assets/toolbar/copy.png" title="Copier">
-                    </a>
-                    <a mat-button class="filter toolbar" (click)='clipboardService.paste(0,0)'>
-                        <img id="paste" class="clipboardIcon" src="../../../assets/toolbar/paste.png" title="Coller">
-                    </a>
-                    <a mat-button class="filter toolbar" (click)='clipboardService.cut()'>
-                        <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
-                    </a>
-                    <a mat-button class="filter toolbar" (click)='clipboardService.duplicate()'>
-                        <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Duppliquer">
-                    </a>
-                    <a mat-button class="filter toolbar" (click)='clipboardService.delete()'>
-                        <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
-                    </a>
-                </ng-template>
-                <ng-template #notSelected>
-                    <a mat-button class="disabled toolbar" (click)='clipboardService.copy()'>
-                        <img id="copy" class="clipboardIcon" src="../../../assets/toolbar/copy.png" title="Copier">
-                    </a>
-                    <a mat-button class="disabled toolbar" (click)='clipboardService.paste(0,0)'>
-                        <img id="paste" class="clipboardIcon" src="../../../assets/toolbar/paste.png" title="Coller">
-                    </a>
-                    <a mat-button class="disabled toolbar" (click)='clipboardService.cut()'>
-                        <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
-                    </a>
-                    <a mat-button class="disabled toolbar" (click)='clipboardService.duplicate()'>
-                        <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Duppliquer">
-                    </a>
-                    <a mat-button class="disabled toolbar" (click)='clipboardService.delete()'>
-                        <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
-                    </a>
-                </ng-template>
-                <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
-                    <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/grid.png" title="Grille">
-                    <a [matMenuTriggerFor]="gridMenu" #gridMenuTrigger="matMenuTrigger"
-                        (click)="gridMenuTrigger.openMenu()"></a>
+                <a mat-button class="filter toolbar" (click)='clipboardService.duplicate()'>
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Duppliquer">
                 </a>
-                <mat-menu #gridMenu="matMenu" class="filter">
-                    <p class="mat-h1 filter"> Grid: </p>
-                    <label class="switch" (click)="$event.stopPropagation()">
-                        <input type="checkbox">
-                        <span #toggle class="slider" (click)="gridService.toggleGrid()"></span>
-                    </label>
+                <a mat-button class="filter toolbar" (click)='clipboardService.delete()'>
+                    <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
+                </a>
+            </ng-template>
+            <ng-template #notSelected>
+                <a mat-button class="disabled toolbar" (click)='clipboardService.copy()'>
+                    <img id="copy" class="clipboardIcon" src="../../../assets/toolbar/copy.png" title="Copier">
+                </a>
+                <a mat-button class="disabled toolbar" (click)='clipboardService.paste(0,0)'>
+                    <img id="paste" class="clipboardIcon" src="../../../assets/toolbar/paste.png" title="Coller">
+                </a>
+                <a mat-button class="disabled toolbar" (click)='clipboardService.cut()'>
+                    <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
+                </a>
+                <a mat-button class="disabled toolbar" (click)='clipboardService.duplicate()'>
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Duppliquer">
+                </a>
+                <a mat-button class="disabled toolbar" (click)='clipboardService.delete()'>
+                    <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
+                </a>
+            </ng-template>
+            <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
+                <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/grid.png" title="Grille">
+                <a [matMenuTriggerFor]="gridMenu" #gridMenuTrigger="matMenuTrigger"
+                    (click)="gridMenuTrigger.openMenu()"></a>
+            </a>
+            <mat-menu #gridMenu="matMenu" class="filter">
+                <p class="mat-h1 filter"> Grid: </p>
+                <label class="switch" (click)="$event.stopPropagation()">
+                    <input type="checkbox">
+                    <span #toggle class="slider" (click)="gridService.toggleGrid()"></span>
+                </label>
+                <br>
+                <div *ngIf="gridService.gridStatus">
+                    <p class="filter"> Opacité: </p>
+                    <input class="filter" type="range" min="0.2" max="1" step="0.05"
+                        (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridOpacity" id="opacityInput"
+                        title="Valeur d'opacité">
+                    <label class="filter">{{gridService.gridOpacity}}%</label>
                     <br>
-                    <div *ngIf="gridService.gridStatus">
-                        <p class="filter"> Opacité: </p>
-                        <input class="filter" type="range" min="0.2" max="1" step="0.05"
-                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridOpacity" id="opacityInput"
-                            title="Valeur d'opacité">
-                        <label class="filter">{{gridService.gridOpacity}}%</label>
-                        <br>
-                        <p class="filter"> Taille: </p>
-                        <input class="filter" type="range" min="10" max="150" step="1"
-                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridSize" id="sizeInput"
-                            title="Taille des carrés">
-                        <label class="filter"> {{gridService.gridSize}}px </label>
-                    </div>
-                </mat-menu>
-            </mat-nav-list>
-            <mat-select #extras style="visibility: hidden; ">
-                <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
-                    <img id="colourPalette" class="sideBarIcon" src="https://i.imgur.com/bnUJxYQ.png"
-                        title="Palette de couleurs">
-                    <a class='option'>Choisir les couleurs</a>
-                </mat-option>
-                <mat-option class="filter" (click)="confirmNewDrawing()">
-                    <img id="newDrawing" class="sideBarIcon"
-                        src="../../../assets/toolbar/new-drawing.svg" title="Nouveau dessin">
-                    <a class='option'>Nouveau dessin</a>
-                </mat-option>
-                <mat-option class="filter" (click)="openSaveWindow()">
-                    <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
-                        title="Sauvegarde dessin">
-                    <a class='option'>Sauvegarder le dessin</a>
-                </mat-option>
-                <mat-option class="filter" (click)="openExportWindow()">
-                    <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
-                        title="Export dessin">
-                    <a class='option'>Exporter le dessin</a>
-                </mat-option>
-                <mat-option class="filter" (click)="openGalleryWindow()">
-                    <img id="openGallery" class="sideBarIcon" src="../../../assets/toolbar/gallery.png"
-                        title="Ouvrir la gallerie">
-                    <a class='option'>Ouvrir la gallerie</a>
-                </mat-option>
-            </mat-select>
-            <span class="filter extra-icon" (click)="extras.toggle()">
-                <img id="openExtras" src="../../../assets/toolbar/extra.svg" title="Extras">
-            </span>
+                    <p class="filter"> Taille: </p>
+                    <input class="filter" type="range" min="10" max="150" step="1"
+                        (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridSize" id="sizeInput"
+                        title="Taille des carrés">
+                    <label class="filter"> {{gridService.gridSize}}px </label>
+                </div>
+            </mat-menu>
+        </mat-nav-list>
+        <mat-select #extras style="visibility: hidden; ">
+            <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                <img id="colourPalette" class="sideBarIcon" src="../../../assets/toolbar/palette.png"
+                    title="Palette de couleurs">
+                <a class='option'>Choisir les couleurs</a>
+            </mat-option>
+            <mat-option class="filter" (click)="confirmNewDrawing()">
+                <img id="newDrawing" class="sideBarIcon"
+                    src="../../../assets/toolbar/new-drawing.svg" title="Nouveau dessin">
+                <a class='option'>Nouveau dessin</a>
+            </mat-option>
+            <mat-option class="filter" (click)="openSaveWindow()">
+                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
+                    title="Sauvegarde dessin">
+                <a class='option'>Sauvegarder le dessin</a>
+            </mat-option>
+            <mat-option class="filter" (click)="openExportWindow()">
+                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
+                    title="Export dessin">
+                <a class='option'>Exporter le dessin</a>
+            </mat-option>
+            <mat-option class="filter" (click)="openGalleryWindow()">
+                <img id="openGallery" class="sideBarIcon" src="../../../assets/toolbar/gallery.png"
+                    title="Ouvrir la gallerie">
+                <a class='option'>Ouvrir la gallerie</a>
+            </mat-option>
+        </mat-select>
+        <span class="filter extra-icon" (click)="extras.toggle()">
+            <img id="openExtras" src="../../../assets/toolbar/extra.svg" title="Extras">
+        </span>
     </mat-toolbar>
     <mat-sidenav-container>
         <mat-sidenav #sidenav mode="side" fixedBottomGap="200" opened disableClose>
