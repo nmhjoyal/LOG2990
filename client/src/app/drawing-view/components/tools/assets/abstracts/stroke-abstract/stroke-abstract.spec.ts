@@ -1,4 +1,6 @@
 // tslint:disable:no-string-literal
+// tslint:disable:no-magic-numbers
+// tslint:disable:no-any
 import SpyObj = jasmine.SpyObj;
 import { Component, DebugElement, OnDestroy, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -18,7 +20,6 @@ const STROKE_WIDTH = 15;
   })
 class StrokeTestComponent extends StrokeAbstract implements OnInit, OnDestroy {
 
-
   constructor(serviceInstance: SaveService, attributesInstance: AttributesService, colourInstance: ColourService) {
     super(serviceInstance, attributesInstance, colourInstance);
   }
@@ -31,7 +32,7 @@ class StrokeTestComponent extends StrokeAbstract implements OnInit, OnDestroy {
       // empty block
   }
   saveShape(): void {
-      // empty block
+     super.saveShape();
   }
   saveAttribute(): void {
       // empty block
@@ -156,7 +157,7 @@ describe('StrokeAbstract', () => {
 
   it('#decreaseStrokeWidth should decrease stroke.stroke-width if it is greater than 1', () => {
     strokeTest['stroke'].strokeWidth = 1;
-    strokeTest['decreaseStrokeWidth'];
+    (strokeTest as any).decreaseStrokeWidth();
     expect(strokeTest['stroke'].strokeWidth).toEqual(1, 'strokeWidth didnt change because it is not greater than 1');
 
     strokeTest['stroke'].strokeWidth = STROKE_WIDTH;
@@ -170,7 +171,7 @@ describe('StrokeAbstract', () => {
 
   it('#saveShape should call drawingStorage.saveDrawing', () => {
     const savingSpy = spyOn(strokeTest['drawingStorage'], 'saveDrawing');
-    strokeTest['saveShape']();
+    (strokeTest as any).saveShape();
     expect(savingSpy).toHaveBeenCalled();
   });
 
