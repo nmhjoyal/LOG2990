@@ -9,6 +9,10 @@
   margin-top: 56px;
 }
 
+.right-sidenav{
+  width: 300px;
+}
+
 .app-name {
   font-family: 'Courier New', Courier, monospace;
   padding-left: 56px;
@@ -149,4 +153,13 @@ input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
+}
+
+.closebutton {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  cursor: pointer;
 }

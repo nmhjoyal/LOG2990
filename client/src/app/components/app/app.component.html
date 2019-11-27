@@ -46,7 +46,7 @@
                     <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
                 </a>
                 <a mat-button class="filter toolbar" (click)='clipboardService.duplicate()'>
-                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Duppliquer">
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Dupliquer">
                 </a>
                 <a mat-button class="filter toolbar" (click)='clipboardService.delete()'>
                     <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
@@ -63,7 +63,7 @@
                     <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
                 </a>
                 <a mat-button class="disabled toolbar" (click)='clipboardService.duplicate()'>
-                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Duppliquer">
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Dupliquer">
                 </a>
                 <a mat-button class="disabled toolbar" (click)='clipboardService.delete()'>
                     <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
@@ -175,7 +175,7 @@
                     <img id='pipette' class="sideBarIcon" src="../../../assets/sidebar/pipette.png" title="Pipette">
                 </a>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
-                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/stamp.png" title="Stamp">
+                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/stamp.png" title="Etampe">
                 </a>
                 <mat-menu #shapeMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>
@@ -195,7 +195,8 @@
             </mat-nav-list>
         </mat-sidenav>
         <app-canvas #canvas></app-canvas>
-        <mat-sidenav #options position="end">
+        <mat-sidenav class = "right-sidenav" mode = "side" #options position="end">
+            <a class="closebutton" (click)="options.toggle()">×</a>
             <mat-nav-list>
                 <app-drawing-tool-toolbox [canvas]='canvas'></app-drawing-tool-toolbox>
             </mat-nav-list>
