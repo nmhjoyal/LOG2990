@@ -1,4 +1,9 @@
-
-<svg class='stampZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight">
-
+<svg class='stampZone' tabindex="0" x=0 y=0 [attr.width]="windowWidth" [attr.height]="windowHeight"
+[ngClass]="this.stamp.svgReference? 'chose-stamp' : ''">
+        <image  
+        [attr.x]="stamp.x"
+        [attr.y]="stamp.y"
+        [attr.width]="stamp.width" 
+        [attr.height]="stamp.height" 
+        [attr.src] = "stamp.svgReference" />
 </svg> 
