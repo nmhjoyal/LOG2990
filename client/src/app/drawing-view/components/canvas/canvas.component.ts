@@ -5,12 +5,14 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { GridService } from '../../../services/grid/grid.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
 import { Id } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
+import { ITools } from '../tools/assets/interfaces/itools';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 
 @Component({
@@ -28,7 +30,7 @@ export class CanvasComponent implements AfterViewInit {
     private exportData: ExportInformationService,
     public toolHandler: ToolHandlerService, public drawingStorage: DrawingStorageService,
     protected canvasData: CanvasInformationService, public colourService: ColourService,
-    protected gridService: GridService) {
+    protected gridService: GridService, protected saveService: SaveService) {
   }
 
   ngAfterViewInit() {
@@ -88,6 +90,20 @@ export class CanvasComponent implements AfterViewInit {
     } else {
       this.colourService.colour[colourIndex] = shape.primaryColour;
     }
+  }
+
+  saveColourApplication(indexOfDrawing: number, colourChangeId: string, originalColour: string, toColour: string): void {
+    const colourChangeOperation: ITools = {
+      id: colourChangeId,
+      indexes: [indexOfDrawing],
+      initialColour: originalColour,
+      appliedColour: toColour,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+    this.saveService.saveDrawing(colourChangeOperation);
   }
 
   isStroke(event: MouseEvent, shape: IShape): boolean {

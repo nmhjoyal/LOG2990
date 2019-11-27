@@ -1,12 +1,16 @@
 .main-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #eee;
-    flex: 1 0 auto;
-    margin-top: 56px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+  flex: 1 0 auto;
+  margin-top: 56px;
+}
+
+.right-sidenav{
+  width: 260px;
 }
 
 .app-name {
@@ -15,14 +19,11 @@
   font-size: x-large;
 }
 
-.app-image {
+.app-icon {
   position: relative;
-  top: -5px;
-}
-
-::ng-deep .mat-select-content {
-  width: min-content;
-  height: auto;
+  top: -2px;
+  left: 17px;
+  height: 45px;
 }
 
 .option {
@@ -30,94 +31,131 @@
   color: black;
 }
 
+.disabled {
+  filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(229deg) brightness(50%) contrast(102%);
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: default;
+}
+
+.disabled img {
+  position: relative;
+  top: -6px;
+  width: 20px;
+  height: auto;
+}
+
 .filter {
   filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(229deg) brightness(107%) contrast(102%);
   font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
 }
 
 .filter img {
+  width: auto;
+  height: 24px;
+}
+
+.extra-icon img {
+  flex: 1 1 auto;
+  position: relative;
+  top: 6px;
+  width: 30px;
+  height: auto;
+}
+
+.toolbar img {
+  position: relative;
+  top: -6px;
+}
+
+.colour-preview{
+  position: relative;
+  top: 3px;
+  height: 14px;
+  width: auto;
+  border-radius: 50px;
+  border: 2px solid grey;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.switchIcon{
+  position: relative;
+  top: -6px;
+  height: auto;
+  width: 24px;
+}
+
+.switchIcon img{
   width: 24px;
   height: auto;
 }
 
-.colour-preview{
-    height: auto;
-    width: 24px;
-    border-radius: 50px;
-    border: 2px solid grey;
-    padding: 5px;
-    cursor: pointer;
-  }
+.choose-colour-window{
+  height: 200px;
+  width: 200px;
+}
 
-  .switchIcon{
-    transform: rotate(90deg);
-    height: auto;
-    width: 24px;
-    filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(229deg) brightness(107%) contrast(102%);
-  }
+.clipboardIcon {
+  height: 18px;
+  width: auto;
+}
 
-  .switchIcon img{
-    width: 24px;
-    height: auto;
-  }
+.sideBarIcon {
+  width: 20px;
+}
 
-  .choose-colour-window{
-    height: 200px;
-    width: 220px;
-  }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-  .clipboardIcon {
-    height: 18px;
-    width: auto;
-  }
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
   
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #555;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: black;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px black;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
+input:checked + .slider {
+  background-color: black;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px black;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.toolbar-divider {
+  height: 40px;
+}
