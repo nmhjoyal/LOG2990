@@ -19,6 +19,9 @@
                     <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/redo-arrow.svg" title="Refaire">
                 </a>
             </ng-template>
+        </mat-nav-list>
+        <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
+        <mat-nav-list>
             <a mat-button (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
                 <div class="colour-preview" title="Couleur principale"
                     [ngStyle]="{'background-color': colourService.colour[0]}">
@@ -32,6 +35,9 @@
                     [ngStyle]="{'background-color': colourService.colour[1]}">
                 </div>
             </a>
+        </mat-nav-list>
+        <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
+        <mat-nav-list>
             <ng-container *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR && clipboardService.selectorService.selectedObjects.size; 
                             then selected; else notSelected">
             </ng-container>
@@ -69,7 +75,10 @@
                     <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
                 </a>
             </ng-template>
-            <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
+        </mat-nav-list>
+        <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
+        <mat-nav-list>
+        <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
                 <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/grid.png" title="Grille">
                 <a [matMenuTriggerFor]="gridMenu" #gridMenuTrigger="matMenuTrigger"
                     (click)="gridMenuTrigger.openMenu()"></a>
@@ -96,38 +105,12 @@
                 </div>
             </mat-menu>
         </mat-nav-list>
-        <mat-select #extras style="visibility: hidden; ">
-            <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
-                <img id="colourPalette" class="sideBarIcon" src="../../../assets/toolbar/palette.png"
-                    title="Palette de couleurs">
-                <a class='option'>Choisir les couleurs</a>
-            </mat-option>
-            <mat-option class="filter" (click)="confirmNewDrawing()">
-                <img id="newDrawing" class="sideBarIcon"
-                    src="../../../assets/toolbar/new-drawing.svg" title="Nouveau dessin">
-                <a class='option'>Nouveau dessin</a>
-            </mat-option>
-            <mat-option class="filter" (click)="openSaveWindow()">
-                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
-                    title="Sauvegarde dessin">
-                <a class='option'>Sauvegarder le dessin</a>
-            </mat-option>
-            <mat-option class="filter" (click)="openExportWindow()">
-                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
-                    title="Export dessin">
-                <a class='option'>Exporter le dessin</a>
-            </mat-option>
-            <mat-option class="filter" (click)="openGalleryWindow()">
-                <img id="openGallery" class="sideBarIcon" src="../../../assets/toolbar/gallery.png"
-                    title="Ouvrir la gallerie">
-                <a class='option'>Ouvrir la gallerie</a>
-            </mat-option>
-        </mat-select>
-        <span class="filter extra-icon" (click)="extras.toggle()">
+        <span flex></span>
+        <a class="filter extra-icon" (click)="options.toggle()">
             <img id="openExtras" src="../../../assets/toolbar/extra.svg" title="Extras">
-        </span>
+        </a>
     </mat-toolbar>
-    <mat-sidenav-container>
+    <mat-sidenav-container hasBackdrop = "false" >
         <mat-sidenav #sidenav mode="side" fixedBottomGap="200" opened disableClose>
             <mat-nav-list>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
@@ -175,7 +158,7 @@
                     <img id='pipette' class="sideBarIcon" src="../../../assets/sidebar/pipette.png" title="Pipette">
                 </a>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
-                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/stamp.png" title="Etampe">
+                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/sticker.png" title="Etampe">
                 </a>
                 <mat-menu #shapeMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>
@@ -195,8 +178,34 @@
             </mat-nav-list>
         </mat-sidenav>
         <app-canvas #canvas></app-canvas>
-        <mat-sidenav class = "right-sidenav" mode = "side" #options position="end">
-            <a class="closebutton" (click)="options.toggle()">×</a>
+        <mat-sidenav  #options class = "right-sidenav" mode = "over" opened position="end">
+            <a class="closebutton" (click)="options.toggle()">×</a><br><br>
+            <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
+                <img id="colourPalette" class="sideBarIcon" src="../../../assets/toolbar/palette.png"
+                    title="Palette de couleurs">
+                <a class='option'>Choisir les couleurs</a>
+            </mat-option>
+            <mat-option class="filter" (click)="confirmNewDrawing()">
+                <img id="newDrawing" class="sideBarIcon"
+                    src="../../../assets/toolbar/new-drawing.svg" title="Nouveau dessin">
+                <a class='option'>Nouveau dessin</a>
+            </mat-option>
+            <mat-option class="filter" (click)="openSaveWindow()">
+                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
+                    title="Sauvegarde dessin">
+                <a class='option'>Sauvegarder le dessin</a>
+            </mat-option>
+            <mat-option class="filter" (click)="openExportWindow()">
+                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
+                    title="Export dessin">
+                <a class='option'>Exporter le dessin</a>
+            </mat-option>
+            <mat-option class="filter" (click)="openGalleryWindow()">
+                <img id="openGallery" class="sideBarIcon" src="../../../assets/toolbar/gallery.png"
+                    title="Ouvrir la gallerie">
+                <a class='option'>Ouvrir la gallerie</a>
+            </mat-option>
+            <mat-divider></mat-divider>
             <mat-nav-list>
                 <app-drawing-tool-toolbox [canvas]='canvas'></app-drawing-tool-toolbox>
             </mat-nav-list>

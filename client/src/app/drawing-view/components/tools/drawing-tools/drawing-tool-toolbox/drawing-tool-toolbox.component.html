@@ -8,9 +8,12 @@
         <button (click)="getComponent().setFilter(5)">Filtre 5</button>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
-        <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-        {{getComponent().stroke.strokeWidth}}
-        <button (click)="getComponent().increaseStrokeWidth()">+</button>
+        <div>
+            <p>Épaisseur de trait</p>
+            <button (click)="getComponent().decreaseStrokeWidth()">-</button>
+            {{getComponent().stroke.strokeWidth}}
+            <button (click)="getComponent().increaseStrokeWidth()">+</button>
+       </div>
     </div>
 
     <div *ngIf="toolHandler.selectedTool === toolId.PEN">
@@ -50,10 +53,12 @@
         <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">Continu</button>
         <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">Pointillé (trait)</button>
         <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">Pointillé (point)</button><br>
-
-        <button (click)="getComponent().decreasePointWidth()">-</button>
-        {{getComponent().stroke.pointWidth}}
-        <button (click)="getComponent().increasePointWidth()">+</button>
+        <div>
+            <p>Grosseur de points</p>
+            <button (click)="getComponent().decreasePointWidth()">-</button>
+            {{getComponent().stroke.pointWidth}}
+            <button (click)="getComponent().increasePointWidth()">+</button>
+        </div>
     </div>
       
 
