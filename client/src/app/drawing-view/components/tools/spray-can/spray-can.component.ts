@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -8,7 +8,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 interface ISprays {
   cx: number;
   cy: number;
-  filter: SVGFilterElement;
+  filter: string;
 }
 
 export interface ISprayCanOptions {
@@ -37,10 +37,10 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  @ViewChild("sprayCanFilter", {static: false, read: SVGFilterElement}) currentFilter: SVGFilterElement;
+  //@ViewChild("sprayCanFilter", {static: false, read: SVGFilterElement}) currentFilter: SVGFilterElement;
 
   private sprayTimer: number;
-  private sprayData : ISprayCan;
+  private sprayCan : ISprayCan;
   private mouseEventBuffer: MouseEvent;
   private isMouseDown: boolean;
   protected filterSeed: number;
@@ -53,7 +53,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     this.diametre = 20 // TODO: 'default radius'
     this.sprayPerSecond = 10; // TODO: default spray per second remove this and put as constant
     this.filterSeed = 0;
-    this.sprayData = {
+    this.sprayCan = {
       id: Id.SPRAY_CAN,
       sprays: [],
       radius: 0,
@@ -80,7 +80,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
-    this.sprayData.radius = this.diametre/2;
+    this.sprayCan.radius = this.diametre/2;
     this.mouseEventBuffer = event; // or load x and y on each event?
     this.addSpray();
     this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond);
@@ -101,10 +101,10 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mouseup') onMouseUp(): void {
     if (this.isMouseDown) {
       clearInterval(this.sprayTimer);
-      console.log(this.sprayData);
-      this.saveService.saveDrawing({...this.sprayData});
+      console.log(this.sprayCan);
+      this.saveService.saveDrawing({...this.sprayCan});
       console.log(this.saveService.drawingStorage.drawings);
-      this.sprayData.sprays = [];
+      this.sprayCan.sprays = [];
       this.isMouseDown = false
     }
   }
@@ -118,9 +118,9 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     let position: ISprays = {
       cx: ClickHelper.getXPosition(this.mouseEventBuffer),
       cy: ClickHelper.getYPosition(this.mouseEventBuffer),
-      filter: {...this.currentFilter}, // gotta mek this work!
+      filter: 'rotate(',    //{...this.currentFilter}, // gotta mek this work!
     }
-    this.sprayData.sprays.push(position);
+    this.sprayCan.sprays.push(position);
   }
 
   increaseValue(mode: number): void {
