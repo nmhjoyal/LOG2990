@@ -22,14 +22,12 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
   @Input() windowWidth: number;
   shape: IShape;
   private tolerance: number;
-  private initialColour: string[];
+  private initialColour: number[];
   protected traceMode: number;
   private width: number;
   private height: number;
   private toleranceOffset: number;
- // private context: CanvasRenderingContext2D;
- // private canvas: ElementRef<HTMLCanvasElement>;
- // private svg: ElementRef<SVGImageElement>;
+  private addedPoints: string[];
 
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D | null;
@@ -47,6 +45,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
     this.toleranceOffset = ToolConstants.TOLERANCE_OFFSET;
     this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
+    this.addedPoints = [];
     this.shape = {
       id: Id.BUCKET,
       primaryColour: colourService.PrimaryColour,
@@ -60,8 +59,6 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
       fillOpacity: ToolConstants.DEFAULT_OPACITY,
       points: '',
     };
-    // this.canvas = canvasComponent.htmlCanvas;
-    // this.svg = canvasComponent.canvasChildComponent;
   }
 
   saveAttribute(): void {
@@ -84,122 +81,77 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.saveAttribute();
   }
 
-  @HostListener('click', ['$event']) onClick(event: MouseEvent): void {
-    this.initializeCanvas();
+  @HostListener('click', ['$event']) async onClick(event: MouseEvent): Promise<void> {
+    await this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
+    console.log(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(this.initialColour);
-    // this.addSurroundingPixels(event.x, event.y);
+
+    this.addSurroundingPixels(event.x, event.y);
   }
 
-  protected acceptsColor(colour: string[]): boolean {
-    return (Math.abs(Number(colour[0]) - Number(this.initialColour[0])) < this.tolerance &&
-            Math.abs(Number(colour[1]) - Number(this.initialColour[1])) < this.tolerance &&
-            Math.abs(Number(colour[2]) - Number(this.initialColour[2])) < this.tolerance);
+  protected acceptsColor(colour: number[]): boolean {
+    return (Math.abs(colour[0] - this.initialColour[0]) < this.tolerance &&
+            Math.abs(colour[1] - this.initialColour[1]) < this.tolerance &&
+            Math.abs(colour[2] - this.initialColour[2]) < this.tolerance);
   }
 
   protected withinCanvas(positionX: number, positionY: number): boolean {
-    return (positionX > 0 && positionX < this.canvas.width &&
-            positionY > 0 && positionY < this.canvas.height);
+    return (positionX > 0 && positionX < this.width &&
+            positionY > 0 && positionY < this.height);
+  }
+
+  protected isNewPoint(positionX: number, positionY: number): boolean {
+    this.addedPoints.forEach((element) => {
+      if (element === (positionX + ',' + positionY).toString()) {
+        return false;
+      }
+    });
+    return true;
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    const up = this.getColourAtPosition(positionX, positionY + this.toleranceOffset);
-    const right = this.getColourAtPosition(positionX + this.toleranceOffset, positionY);
-    const down = this.getColourAtPosition(positionX, positionY - this.toleranceOffset);
-    const left = this.getColourAtPosition(positionX - this.toleranceOffset, positionY);
+    const up = this.getColourAtPosition(positionX, positionY + 1);
+    const right = this.getColourAtPosition(positionX + 1, positionY);
+    const down = this.getColourAtPosition(positionX, positionY - 1);
+    const left = this.getColourAtPosition(positionX - 1, positionY);
 
-    console.log(this.shape.points);
-    if (this.acceptsColor(up) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX, positionY + this.toleranceOffset);
-    } else {
-      this.shape.points += positionX + ',' + positionY;
-    }
-    if (this.acceptsColor(right) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX + this.toleranceOffset, positionY);
-    } else {
-      this.shape.points += positionX + ',' + positionY;
-    }
-    if (this.acceptsColor(down) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX, positionY - this.toleranceOffset);
-    } else {
-      this.shape.points += positionX + ',' + positionY;
-    }
-    if (this.acceptsColor(left) && this.withinCanvas(positionX, positionY)) {
-      this.addSurroundingPixels(positionX - this.toleranceOffset, positionY);
-    } else {
-      this.shape.points += positionX + ',' + positionY;
+    console.log(this.addedPoints);
+
+    if (this.withinCanvas(positionX, positionY) && this.isNewPoint(positionX, positionY)) {
+      if (this.acceptsColor(up)) {
+        this.addSurroundingPixels(positionX, positionY + 1);
+      } else if (this.acceptsColor(right)) {
+        this.addSurroundingPixels(positionX + 1, positionY);
+      } else if (this.acceptsColor(down)) {
+        this.addSurroundingPixels(positionX, positionY - 1);
+      } else if (this.acceptsColor(left)) {
+        this.addSurroundingPixels(positionX - 1, positionY);
+      } else {
+        this.addedPoints.push(positionX + ',' + positionY);
+        // this.shape.points += ' ' + positionX + ',' + positionY;
+      }
     }
   }
 
-  initializeCanvas(): void {
+  async initializeCanvas(): Promise<void> {
     const img = new Image();
     img.width = this.width;
     img.height = this.height;
     this.context = this.canvas.getContext('2d');
     const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
-    img.src = 'data:image/svg+xml,' + window.btoa(data);
+    img.src = `data:image/svg+xml;utf8,${encodeURIComponent(data)}`;
     if (this.context) {
       this.context.drawImage(img, 0, 0, this.width, this.height);
     }
-
-/*
-    let svg = document.getElementsByTagName('svg')[0];
-    let svg_xml = (new XMLSerializer()).serializeToString(svg);
-    let blob = new Blob([svg_xml], {type:'image/svg+xml;charset=utf-8'});
-    let url = window.URL.createObjectURL(blob);
-
-    var ctx = canvas.getContext('2d');
-    this.context.drawImage(img, 0, 0, 730, 300);
-
-    window.URL.revokeObjectURL(url);
-    var canvasdata = canvas.toDataURL('image/png');
-    var a = document.getElementById('imgId');
-    a.download = "export_" + Date.now() + ".png";
-    a.href=canvasdata;   */
-
-    // const data = this.xmlToBase64();
-    // this.drawImage(data);
   }
-/*
-  xmlToBase64(): string {
-    this.context = this.canvas.getContext('2d');
-    const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
-    return 'data:image/svg+xml;base64,' + window.btoa(data);
-  }
-
-  drawImage(data: string): void {
-    const img = new Image();
-    img.width = this.width;
-    img.height = this.height;
-    img.src = data;
-    if (this.context) {
-      this.context.drawImage(img, 0, 0);
-    }
-  }
-
-  draw3Image(data: string): void {
-    const img = new Image();
-    img.width = this.width;
-    img.height = this.height;
-    img.src = data;
-    img.addEventListener('load', () => {
-      if (this.context) {
-        this.context.drawImage(img, 0, 0);
-        const a = document.createElement('a');
-        a.download = this.name;
-        a.href = this.canvas.toDataURL('image/', 1.0);
-        a.click();
-      }
-    });
-  }
-*/
-  getColourAtPosition(x: number, y: number): string[] {
+  getColourAtPosition(x: number, y: number): number[] {
     if (this.context) {
       const imageData = this.context.getImageData(x, y, 1, 1).data;
       let arrayIndex = 0;
-      const r = this.colourService.rgbToHex(imageData[arrayIndex]);
-      const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
-      const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
+      const r = imageData[arrayIndex];
+      const g = imageData[++arrayIndex];
+      const b = imageData[++arrayIndex];
       return ([r, g, b]);
     } else { return ([]); }
   }

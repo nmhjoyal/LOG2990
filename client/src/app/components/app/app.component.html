@@ -78,19 +78,20 @@
         </mat-nav-list>
         <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
         <mat-nav-list>
-        <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
+            <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
                 <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/grid.png" title="Grille">
                 <a [matMenuTriggerFor]="gridMenu" #gridMenuTrigger="matMenuTrigger"
                     (click)="gridMenuTrigger.openMenu()"></a>
             </a>
             <mat-menu #gridMenu="matMenu" class="filter">
-                <p class="mat-h1 filter"> Grid: </p>
-                <label class="switch" (click)="$event.stopPropagation()">
-                    <input type="checkbox">
-                    <span #toggle class="slider" (click)="gridService.toggleGrid()"></span>
-                </label>
-                <br>
-                <div *ngIf="gridService.gridStatus">
+                <div  style='padding: 6px;'>
+                    <p  class="mat-h1 filter"> Grille </p>
+                    <label class="switch" (click)="$event.stopPropagation()">
+                        <input type="checkbox">
+                        <span #toggle class="slider" (click)="gridService.toggleGrid()"></span>
+                    </label>
+                </div>
+                <div style='padding: 10px;' *ngIf="gridService.gridStatus">
                     <p class="filter"> Opacité: </p>
                     <input class="filter" type="range" min="0.2" max="1" step="0.05"
                         (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridOpacity" id="opacityInput"
@@ -193,7 +194,7 @@
                 <a class='option'>Sauvegarder le dessin</a>
             </mat-option>
             <mat-option class="filter" (click)="openExportWindow()">
-                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/save.png"
+                <img id="saveDrawing" class="sideBarIcon" src="../../../assets/toolbar/export.png"
                     title="Export dessin">
                 <a class='option'>Exporter le dessin</a>
             </mat-option>
