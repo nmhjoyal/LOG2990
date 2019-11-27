@@ -16,6 +16,10 @@
     }
 }
 
-.eyedropper {
-    cursor: url('https://i.imgur.com/IqSVTF7.png'), default;
+.pipette-cursor {
+    cursor: url("src/assets/cursors/pipette.png"), default;
   }
+
+.applicator-cursor {
+    cursor: url("src/assets/cursors/applicator.png"), default;
+}
