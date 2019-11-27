@@ -105,7 +105,7 @@
                 </div>
             </mat-menu>
         </mat-nav-list>
-        <span flex></span>
+        <span style = "flex: 1 1 auto"></span>
         <a class="filter extra-icon" (click)="options.toggle()">
             <img id="openExtras" src="../../../assets/toolbar/extra.svg" title="Extras">
         </a>
@@ -176,7 +176,7 @@
         </mat-sidenav>
         <app-canvas #canvas></app-canvas>
         <mat-sidenav  #options class = "right-sidenav" mode = "over" opened position="end">
-            <a class="closebutton" (click)="options.toggle()">×</a><br><br>
+            <br>
             <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
                 <img id="colourPalette" class="sideBarIcon" src="../../../assets/toolbar/palette.png"
                     title="Palette de couleurs">

@@ -56,20 +56,11 @@
 }
 
 .extra-icon img {
-  margin-left: 100%;
+  flex: 1 1 auto;
   position: relative;
   top: 6px;
   width: 30px;
   height: auto;
-}
-
-.closebutton {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-  cursor: pointer;
 }
 
 .toolbar img {
