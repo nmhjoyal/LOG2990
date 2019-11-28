@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -8,7 +8,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 interface ISprays {
   cx: number;
   cy: number;
-  filter: string;
+  seed: number;
 }
 
 export interface ISprayCanOptions {
@@ -37,11 +37,15 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  //@ViewChild("sprayCanFilter", {static: false, read: SVGFilterElement}) currentFilter: SVGFilterElement;
+  /* TODO: find a way to make the filter look at it's SourceGraphic data to set it's seed in the turbulence filter. 
+  * Could a directive handle that? or make a filter for every spraypatch?
+   * TODO: write tests*/
+//  @ViewChild('sprayCanFilter', { static: false }) test: SVGFilterElement;
 
   private sprayTimer: number;
   private sprayCan : ISprayCan;
-  private mouseEventBuffer: MouseEvent;
+  private mouseX: number;
+  private mouseY: number;
   private isMouseDown: boolean;
   protected filterSeed: number;
   diametre: number;
@@ -50,7 +54,9 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   constructor( private saveService: SaveService, private attributeService: AttributesService ) { // TODO: put colour service
     this.isMouseDown = false;
-    this.diametre = 20 // TODO: 'default radius'
+    this.mouseY = 0;
+    this.mouseX = 0;
+    this.diametre = 40 // TODO: 'default radius'
     this.sprayPerSecond = 10; // TODO: default spray per second remove this and put as constant
     this.filterSeed = 0;
     this.sprayCan = {
@@ -81,14 +87,16 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
     this.sprayCan.radius = this.diametre/2;
-    this.mouseEventBuffer = event; // or load x and y on each event?
+    this.mouseY = ClickHelper.getYPosition(event);
+    this.mouseX = ClickHelper.getXPosition(event);
     this.addSpray();
     this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
     if( this.isMouseDown ) { // how to not fire mousemove handler as often?
-      this.mouseEventBuffer = event;
+      this.mouseY = ClickHelper.getYPosition(event);
+      this.mouseX = ClickHelper.getXPosition(event);
     }
   }
 
@@ -101,38 +109,39 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mouseup') onMouseUp(): void {
     if (this.isMouseDown) {
       clearInterval(this.sprayTimer);
-      console.log(this.sprayCan);
       this.saveService.saveDrawing({...this.sprayCan});
-      console.log(this.saveService.drawingStorage.drawings);
       this.sprayCan.sprays = [];
+      this.mouseY = 0;
+      this.mouseX = 0;
+      console.log(this.saveService.drawingStorage.drawings);
       this.isMouseDown = false
     }
   }
 
   getRandomInt(): number {
-    return Math.floor(Math.random() * (500 - 1) + 1);
+    return Math.floor(Math.random() * (1000 - 1) + 1);
   }
 
   addSpray(): void {
     this.filterSeed = this.getRandomInt();
     let position: ISprays = {
-      cx: ClickHelper.getXPosition(this.mouseEventBuffer),
-      cy: ClickHelper.getYPosition(this.mouseEventBuffer),
-      filter: 'rotate(',    //{...this.currentFilter}, // gotta mek this work!
+      cx: this.mouseX,
+      cy: this.mouseY,
+      seed: this.getRandomInt(),
     }
     this.sprayCan.sprays.push(position);
   }
 
   increaseValue(mode: number): void {
     if (mode === 0 ) {
-      this.diametre += 10;
+      this.diametre += 5;
     } else if (mode === 1) {
       this.sprayPerSecond += 1
     }
   }
 
   decreaseValue(mode: number): void {
-    if (mode === 0  && this.diametre > 0) {
+    if (mode === 0  && this.diametre > 5) {
       this.diametre -= 5; // const diametre step
     } else if (mode === 1 && this.sprayPerSecond > 1) {
       this.sprayPerSecond -= 1

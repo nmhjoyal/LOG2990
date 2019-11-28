@@ -35,13 +35,6 @@
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>
 
-    <filter id="spraycan" [attr.width]="30" [attr.height]="30" >
-        <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
-        <feTurbulence type="turbulence" [attr.seed]="150" baseFrequency="1" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
-        <feDisplacementMap in2="turbulence" in="SourceGraphic"
-          scale="60" xChannelSelector="R" yChannelSelector="B"/>
-      </filter>
-
     <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
             
@@ -97,9 +90,16 @@
 
             <g *ngSwitchCase="toolId.SPRAY_CAN" > <!--colourapplicator and pipette -->
                 <g *ngFor="let spray of drawing.sprays">
+                    <filter #sprayCanFilter [attr.id]="spray.seed" >
+                        <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
+                        <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.35" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic"
+                            scale="250" xChannelSelector="R" yChannelSelector="B"/>
+                        <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
+                    </filter>
                     <circle [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" 
                     [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour" [attr.opacity]="0.4" 
-                    filter="url(#spraycan)" />
+                    [attr.filter]="'url(#' + spray.seed + ')'" />
                 </g>
             </g>
 
