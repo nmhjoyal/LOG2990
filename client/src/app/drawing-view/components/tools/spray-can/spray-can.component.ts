@@ -1,32 +1,9 @@
-import { Component, OnInit, Input, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
-import { ITools } from '../assets/interfaces/itools';
 import { AttributesService } from '../assets/attributes/attributes.service';
-
-interface ISprays {
-  cx: number;
-  cy: number;
-  seed: number;
-}
-
-export interface ISprayCanOptions {
-  wasSaved: boolean;
-  savedDiametre: number;
-  savedSprayPerSecond: number;
-}
-
-export interface ISprayPaint {
-  sprays?: ISprays[];
-  radius?: number;
-}
-
-export interface ISprayCan extends ITools {
-  sprays: ISprays[];
-  radius: number;
-  primaryColour: string;
-}
+import { ISprayCan, ISprays } from '../assets/interfaces/spray-can-interface';
 
 @Component({
   selector: 'app-spray-can',
