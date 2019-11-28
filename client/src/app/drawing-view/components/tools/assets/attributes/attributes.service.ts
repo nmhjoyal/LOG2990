@@ -6,7 +6,7 @@ import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
-import { ISprayCanOptions } from '../../spray-can/spray-can.component';
+import { ISprayCanOptions } from '../interfaces/spray-can-interface';
 
 @Injectable({
   providedIn: 'root',
