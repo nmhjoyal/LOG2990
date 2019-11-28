@@ -43,7 +43,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       primaryColour: this.colourService.getPrimaryColour(), // TODO: add opacity
       x: 0,
       y: 0,
-      width: this.diametre, 
+      width: this.diametre, // or width of the whole stroke? then andle as polyline in selector?
       height: this.diametre,
     }
   }
@@ -108,6 +108,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       cy: this.mouseY,
       seed: this.getRandomInt(),
     }
+    // this.polylinetest += this.mouseX + ',' + this.mouseY + ' ';
     this.sprayCan.sprays.push(position);
   }
 

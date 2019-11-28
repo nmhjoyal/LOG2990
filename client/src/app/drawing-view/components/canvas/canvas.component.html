@@ -88,7 +88,7 @@
                 </g>
             </g>
 
-            <g *ngSwitchCase="toolId.SPRAY_CAN" > <!--colourapplicator and pipette -->
+            <g *ngSwitchCase="toolId.SPRAY_CAN" >
                 <g *ngFor="let spray of drawing.sprays">
                     <filter #sprayCanFilter [attr.id]="spray.seed" >
                         <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
@@ -97,7 +97,7 @@
                             scale="250" xChannelSelector="R" yChannelSelector="B"/>
                         <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
                     </filter>
-                    <circle [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" 
+                    <circle [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" (click)="applyColourToShape($event, drawing)"
                     [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour" [attr.opacity]="0.4" 
                     [attr.filter]="'url(#' + spray.seed + ')'" />
                 </g>

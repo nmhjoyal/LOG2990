@@ -73,7 +73,7 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') { // and primary colour exists on interface
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
         shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
 
@@ -96,7 +96,7 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   getColourFromShape(event: MouseEvent, colourIndex: number, shape: IShape): void {
-    if (this.isStroke(event, shape)) {
+    if (this.isStroke(event, shape)) { // and secondary colour exists on interface
       this.colourService.colour[colourIndex] = shape.secondaryColour;
     } else {
       this.colourService.colour[colourIndex] = shape.primaryColour;
