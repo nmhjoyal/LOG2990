@@ -3,9 +3,9 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { GridService } from '../grid/grid.service';
 import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
-import { GridService } from '../grid/grid.service';
 
 @Injectable({
   providedIn: 'root',
@@ -123,20 +123,6 @@ export class SelectorService {
 
   objectInBox(object: ISavedDrawing, previewBox: IPreviewBox): boolean {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
-  }
-
-  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
-    this.selectedObjects.forEach((movedObject) => {
-      movedObject.x += movedObject.x % this.gridService.GridSize < this.gridService.GridSize / 2 ?
-        Math.round((cursorX - this.topCornerX - this.MinWidth / 2) / this.gridService.GridSize) * this.gridService.GridSize
-        : Math.round((cursorX - this.topCornerX - this.MinWidth / 2) / this.gridService.GridSize) * this.gridService.GridSize;
-      movedObject.y += movedObject.y % this.gridService.GridSize > this.gridService.GridSize / 2 ?
-        Math.round((cursorY - this.topCornerY - this.MinHeight / 2) / this.gridService.GridSize) * this.gridService.GridSize
-        : Math.round((cursorY - this.topCornerY - this.MinHeight / 2) / this.gridService.GridSize) * this.gridService.GridSize;
-      this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this);
-    });
-    this.recalculateShape(windowWidth, windowHeight);
-
   }
 
 }

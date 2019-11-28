@@ -41,7 +41,7 @@ export class GridService {
     }
   }
 
-  get GridSize(): number { 
+  get GridSize(): number {
     return this.gridSize;
   }
 

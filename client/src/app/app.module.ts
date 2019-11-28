@@ -60,7 +60,7 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     ColourService,
     ExportInformationService,
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] },],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],
   entryComponents: [
     ModalWindowComponent as Type<ModalWindowComponent>,
