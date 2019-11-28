@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
-  @ViewChild('myCanvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
+  @ViewChild('canvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
   constructor(private dialog: MatDialog,
     private storage: LocalStorageService,
