@@ -21,6 +21,7 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
 import { GridService } from '../../services/grid/grid.service';
+import { DragService } from 'src/app/services/drag/drag.service';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,8 @@ export class AppComponent implements OnInit {
     public exportData: ExportInformationService,
     private gridService: GridService,
     public clipboardService: ClipboardService,
-    public selectorService: SelectorService) {
+    public selectorService: SelectorService,
+    public dragService: DragService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
