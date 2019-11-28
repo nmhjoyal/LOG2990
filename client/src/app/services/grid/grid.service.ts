@@ -41,4 +41,8 @@ export class GridService {
     }
   }
 
+  get GridSize(): number { 
+    return this.gridSize;
+  }
+
 }

@@ -5,6 +5,7 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
+import { GridService } from '../grid/grid.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class SelectorService {
   furthestX: number;
   furthestY: number;
 
-  constructor(public saveService: SaveService, public parserService: ParserService) {
+  constructor(public saveService: SaveService, public parserService: ParserService, public gridService: GridService) {
     this.selectedObjects = new Set<ISavedDrawing>();
     this.topCornerX = 0;
     this.topCornerY = 0;
@@ -124,17 +125,18 @@ export class SelectorService {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
 
-  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): ISavedDrawing[] {
-    const movedObjects: ISavedDrawing[] = [];
+  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
     this.selectedObjects.forEach((movedObject) => {
-      movedObjects.push(this.saveService.drawingStorage.drawings.find( (drawing) => drawing === movedObject) );
-      movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
-      movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
+      movedObject.x += movedObject.x % this.gridService.GridSize < this.gridService.GridSize / 2 ?
+        Math.round((cursorX - this.topCornerX - this.MinWidth / 2) / this.gridService.GridSize) * this.gridService.GridSize
+        : Math.round((cursorX - this.topCornerX - this.MinWidth / 2) / this.gridService.GridSize) * this.gridService.GridSize;
+      movedObject.y += movedObject.y % this.gridService.GridSize > this.gridService.GridSize / 2 ?
+        Math.round((cursorY - this.topCornerY - this.MinHeight / 2) / this.gridService.GridSize) * this.gridService.GridSize
+        : Math.round((cursorY - this.topCornerY - this.MinHeight / 2) / this.gridService.GridSize) * this.gridService.GridSize;
       this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this);
     });
     this.recalculateShape(windowWidth, windowHeight);
 
-    return movedObjects;
   }
 
 }
