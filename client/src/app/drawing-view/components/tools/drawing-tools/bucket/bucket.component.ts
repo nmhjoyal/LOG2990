@@ -83,7 +83,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.saveAttribute();
   }
 
-  @HostListener('click', ['$event']) async onClick(event: MouseEvent): Promise<void> {
+  @HostListener('mousedown', ['$event']) async onMouseDown(event: MouseEvent): Promise<void> {
     await this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
@@ -91,7 +91,6 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.addSurroundingPixels(event.x, event.y);
     console.log(this.viewedPoints);
     console.log(this.shape.points);
-
   }
 
   protected acceptsColor(colour: number[]): boolean {
@@ -115,7 +114,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    const offset = 5;
+    const offset = 15;
     const up = this.getColourAtPosition(positionX, positionY + offset);
     const right = this.getColourAtPosition(positionX + offset, positionY);
     const down = this.getColourAtPosition(positionX, positionY - offset);
@@ -136,9 +135,8 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
       }
     } else {
       this.addedPoints.push(positionX + ',' + positionY);
-     // this.shape.points += ' ' + positionX + ',' + positionY;
-  }
-
+      this.shape.points += ' ' + positionX + ',' + positionY;
+    }
   }
 
   async initializeCanvas(): Promise<void> {
