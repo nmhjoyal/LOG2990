@@ -4,6 +4,8 @@ import { Id } from '../assets/constants/tool-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ISprayCan, ISprays } from '../assets/interfaces/spray-can-interface';
+import { SprayCanConstants } from '../assets/constants/spray-can-constants';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 
 @Component({
   selector: 'app-spray-can',
@@ -15,9 +17,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @Input() windowHeight: number;
   @Input() windowWidth: number;
   /* TODO: find a way to make the filter look at it's SourceGraphic data to set it's seed in the turbulence filter. 
-  * Could a directive handle that? or make a filter for every spraypatch?
-   * TODO: write tests*/
-//  @ViewChild('sprayCanFilter', { static: false }) test: SVGFilterElement;
+  * To prevent saturating the canvashtml with filters.
+  */
 
   private sprayTimer: number;
   private sprayCan : ISprayCan;
@@ -27,20 +28,19 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   protected filterSeed: number;
   diametre: number;
   sprayPerSecond: number;
-  onesecond: number = 1000; // TODO: remove this and put as constant
 
-  constructor( private saveService: SaveService, private attributeService: AttributesService ) { // TODO: put colour service
+  constructor( private saveService: SaveService, private attributeService: AttributesService, private colourService: ColourService ) {
     this.isMouseDown = false;
     this.mouseY = 0;
     this.mouseX = 0;
-    this.diametre = 40 // TODO: 'default radius'
-    this.sprayPerSecond = 10; // TODO: default spray per second remove this and put as constant
+    this.diametre = SprayCanConstants.DEFAULT_DIAMETRE;
+    this.sprayPerSecond = SprayCanConstants.DEFAULT_SPRAY_PER_SECOND;
     this.filterSeed = 0;
     this.sprayCan = {
       id: Id.SPRAY_CAN,
       sprays: [],
       radius: 0,
-      primaryColour: 'black', // TODO: placeholder. add opacity remove this and put as constant
+      primaryColour: this.colourService.getPrimaryColour(), // TODO: add opacity
       x: 0,
       y: 0,
       width: 0, 
@@ -67,11 +67,12 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     this.mouseY = ClickHelper.getYPosition(event);
     this.mouseX = ClickHelper.getXPosition(event);
     this.addSpray();
-    this.sprayTimer = window.setInterval(() => this.addSpray(), this.onesecond / this.sprayPerSecond);
+    this.sprayTimer = window.setInterval(() => this.addSpray(), 
+      SprayCanConstants.ONE_SECOND / this.sprayPerSecond);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    if( this.isMouseDown ) { // how to not fire mousemove handler as often?
+    if( this.isMouseDown ) {
       this.mouseY = ClickHelper.getYPosition(event);
       this.mouseX = ClickHelper.getXPosition(event);
     }
@@ -111,15 +112,15 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   increaseValue(mode: number): void {
     if (mode === 0 ) {
-      this.diametre += 5;
+      this.diametre += SprayCanConstants.DIAMETRE_STEP;
     } else if (mode === 1) {
       this.sprayPerSecond += 1
     }
   }
 
   decreaseValue(mode: number): void {
-    if (mode === 0  && this.diametre > 5) {
-      this.diametre -= 5; // const diametre step
+    if (mode === 0  && this.diametre > SprayCanConstants.DIAMETRE_STEP) {
+      this.diametre -= SprayCanConstants.DIAMETRE_STEP;
     } else if (mode === 1 && this.sprayPerSecond > 1) {
       this.sprayPerSecond -= 1
     }

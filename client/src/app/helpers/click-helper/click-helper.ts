@@ -62,7 +62,7 @@ export default class ClickHelper {
                     svgIntersections.shape('polyline', selectorLine));
                 return stampIntersections.points.length > 0;
 
-            case Id.SPRAY_CAN: //TEST THIS
+            case Id.SPRAY_CAN: //TODO: TEST THIS
                 let sprayIntersections : any;
                 if ( object.sprays ) {
                     object.sprays.forEach(position => {
