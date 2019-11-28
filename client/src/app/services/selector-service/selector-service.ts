@@ -124,15 +124,17 @@ export class SelectorService {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
 
-  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
+  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): ISavedDrawing[] {
+    const movedObjects: ISavedDrawing[] = [];
     this.selectedObjects.forEach((movedObject) => {
+      movedObjects.push(this.saveService.drawingStorage.drawings.find( (drawing) => drawing === movedObject) );
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
       this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this);
     });
-
     this.recalculateShape(windowWidth, windowHeight);
 
+    return movedObjects;
   }
 
 }
