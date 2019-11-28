@@ -32,6 +32,6 @@ export class DragService {
   }
 
   toggleSnapping(): void {
-
+    this.shouldSnap = !this.shouldSnap;
   }
 }

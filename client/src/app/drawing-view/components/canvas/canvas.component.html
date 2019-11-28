@@ -1,9 +1,11 @@
 <svg #canvas id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
     [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour"
     [ngClass]="[toolHandler.selectedTool === toolHandler.tools.PIPETTE ? 'pipette-cursor' : '',
-     toolHandler.selectedTool === toolHandler.tools.COLOUR_APPLICATOR ? 'applicator-cursor' : '']">
+     toolHandler.selectedTool === toolHandler.tools.COLOUR_APPLICATOR ? 'applicator-cursor' : '']"
+     [attr.x]="57" [attr.y] ="64"
+     >
     <defs>
-         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" patternUnits="userSpaceOnUse" >
+         <pattern id="Pattern" x="57" y="64" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" patternUnits="userSpaceOnUse" >
             <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour"/>
             <rect x="0" y="0" width="2" height="100%" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
             <rect x="0" y="0" width="100%" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>

@@ -230,6 +230,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.m', ['$event']) onKeydownM(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      this.dragService.toggleSnapping();
+    }
+  }
+
   @HostListener('document:keydown.+', ['$event']) onKeydownPlus(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.increaseSize();
