@@ -63,7 +63,7 @@ export default class ClickHelper {
                 return stampIntersections.points.length > 0;
 
             case Id.SPRAY_CAN: //TODO: TEST THIS
-                let sprayIntersections : any;
+                let sprayIntersections: any;
                 if ( object.sprays ) {
                     object.sprays.forEach(position => {
                         sprayIntersections += svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
@@ -94,6 +94,18 @@ export default class ClickHelper {
             case Id.STAMP:
                 return (Math.pow((positionX - (object.x + (object.width / 2))), 2) +
                     Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
+            case Id.SPRAY_CAN: // TODO: Test This.
+                let isInside = false;
+                if ( object.sprays ) {
+                    object.sprays.forEach(circle => {
+                        if ( object.radius && 
+                            Math.pow(positionX - circle.cx, 2) + Math.pow(positionY - circle.cy, 2) <= Math.pow(object.radius, 2) ) {
+                            isInside = true;
+                            return;
+                        }
+                    });
+                }
+                return isInside;
             default:
                 return false;
         }
@@ -152,6 +164,20 @@ export default class ClickHelper {
                     && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = stampIntersections.points;
+                break;
+            case Id.SPRAY_CAN: // TODO: Test This
+                let sprayCanIntersections: any;
+                if ( object.sprays ) {
+                    object.sprays.forEach(sprayPatch => {
+                        sprayCanIntersections += svgIntersections.intersect(svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
+                        svgIntersections.shape('rect', selectorBox));
+                    });
+                    if ( !sprayCanIntersections.length && this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
+                        boxIsInsideObject = true;
+                    }
+                    intersectionPoints = sprayCanIntersections.points
+                }
+                
                 break;
         }
         return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;

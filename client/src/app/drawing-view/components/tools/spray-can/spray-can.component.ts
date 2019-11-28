@@ -43,8 +43,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       primaryColour: this.colourService.getPrimaryColour(), // TODO: add opacity
       x: 0,
       y: 0,
-      width: 0, 
-      height: 0,
+      width: this.diametre, 
+      height: this.diametre,
     }
   }
 
@@ -64,6 +64,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
     this.sprayCan.radius = this.diametre/2;
+    this.sprayCan.width = this.sprayCan.height = this.diametre;
     this.mouseY = ClickHelper.getYPosition(event);
     this.mouseX = ClickHelper.getXPosition(event);
     this.addSpray();
