@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ColourConstants, GrayScale } from 'src/app/drawing-view/components/tools/assets/constants/colour-constants';
 import { Strings } from 'src/AppConstants/Strings';
 
@@ -12,7 +12,8 @@ export class ColourService {
   alpha: number[] ;
   protected lastColours: string[] ;
   protected mainColour: boolean ;
-  colourObservable: Observable<string[]>;
+  private dataSource: BehaviorSubject<string[]>;
+  data: Observable<string[]>;
 
   constructor() {
     this.lastColours = [GrayScale.BLACK, GrayScale.GREY1, GrayScale.GREY2, GrayScale.GREY3, GrayScale.GREY4,
@@ -20,10 +21,12 @@ export class ColourService {
     this.colour = [Strings.BLACK_HEX, Strings.WHITE_HEX];
     this.alpha = [ColourConstants.INITIAL_TRANSPARENCY, ColourConstants.INITIAL_TRANSPARENCY];
     this.mainColour = false;
-    this.colourObservable = new Observable((observer) => {
-      observer.next(this.colour);
-      observer.complete();
-    });
+    this.dataSource = new BehaviorSubject<string[]>(this.colour);
+    this.data = this.dataSource.asObservable();
+  }
+
+  private updateColour(colour: string[]) {
+    this.dataSource.next(colour);
   }
 
   get PrimaryColour(): string {
@@ -56,6 +59,7 @@ export class ColourService {
     const intermediateColour = this.colour[0];
     this.colour[0] = this.SecondaryColour;
     this.colour[1] = intermediateColour;
+    this.updateColour(this.colour);
   }
 
   rgbToHex(hue: number): string {
@@ -67,6 +71,7 @@ export class ColourService {
   setAlpha(alpha: number): void  {
     this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, ColourConstants.HEX_NO_ALPHA)
                                   + (this.rgbToHex(Math.round(alpha * ColourConstants.RGBTOHEX_FACTOR)));
+    this.updateColour(this.colour);
   }
 
   addColour( ): void  {
@@ -80,9 +85,11 @@ export class ColourService {
       this.lastColours.shift();
       this.lastColours.push(this.colour[+this.mainColour]);
     }
+    this.updateColour(this.colour);
   }
 
   setColour(colour: string): void  {
     this.colour[+this.mainColour] = colour;
+    this.updateColour(this.colour);
   }
 }

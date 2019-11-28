@@ -50,6 +50,9 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       this.lineLength = this.attributesService.quillAttributes.savedLineLength;
       this.angle = this.attributesService.quillAttributes.savedAngle;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.quill.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {

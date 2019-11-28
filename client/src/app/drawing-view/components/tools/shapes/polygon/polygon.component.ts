@@ -25,6 +25,10 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
       this.shape.verticesNumber = this.attributesService.polygonAttributes.savedVerticesNumber;
     }
     this.setTraceMode(this.traceMode);
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.shape.primaryColour = colour[0];
+      this.shape.secondaryColour = colour[1];
+    });
   }
 
   ngOnDestroy(): void {

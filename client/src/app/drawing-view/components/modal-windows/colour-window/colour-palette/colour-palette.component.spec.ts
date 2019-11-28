@@ -88,17 +88,19 @@ describe('ColourPaletteComponent', () => {
         // expect(component.emitColour).toHaveBeenCalled();
     });
 
+    it('#onMouseMove should not return value if not onMouseDown', () => {
+        component['mousedown'] = false;
+        const event = new MouseEvent('mousemove');
+        hostElement.triggerEventHandler('mousemove', event);
+        expect(component['mousedown']).toBeFalsy();
+        // expect(component.emitColour).toHaveBeenCalled();
+    });
+
     it('#onMouseUp should be called when left mouse button gets released', () => {
         const spy = spyOn(component, 'onMouseUp');
         const event = new MouseEvent('mouseup');
         hostElement.triggerEventHandler('mouseup', event);
         expect(spy).toHaveBeenCalled();
-    });
-
-    it('#getColourAtPosition should return color', () => {
-        component.draw();
-        const colour = component.getColourAtPosition(1, 1);
-        expect(colour).not.toBeNull();
     });
 
 });

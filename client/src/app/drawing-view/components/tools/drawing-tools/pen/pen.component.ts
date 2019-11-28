@@ -53,6 +53,9 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       this.minWidth = this.attributesService.penAttributes.savedMinWidth;
       this.newWidth = this.attributesService.penAttributes.savedMaxWidth;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.pen.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {

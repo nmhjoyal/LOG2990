@@ -1,5 +1,4 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IPreviewBox, IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
@@ -18,7 +17,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected previewBox: IPreviewBox;
   protected shape: IShape;
   protected traceMode: number;
-  protected colourSubscription: Subscription;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -55,17 +53,9 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
     };
   }
 
-  ngOnInit(): void {
-    this.colourSubscription =
-    this.colourService.colourObservable.subscribe((colour: string[]) => {
-      this.shape.primaryColour = colour[0];
-      this.shape.secondaryColour = colour[1];
-    });
-  }
+  abstract ngOnInit(): void;
 
-  ngOnDestroy(): void {
-    this.colourSubscription.unsubscribe();
-  }
+  abstract ngOnDestroy(): void;
 
   // Event handling methods
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
