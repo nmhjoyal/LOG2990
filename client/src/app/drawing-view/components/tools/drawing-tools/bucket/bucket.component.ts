@@ -27,6 +27,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
   private width: number;
   private height: number;
   private toleranceOffset: number;
+  private viewedPoints: string[];
   private addedPoints: string[];
 
   private canvas: HTMLCanvasElement;
@@ -45,6 +46,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
     this.toleranceOffset = ToolConstants.TOLERANCE_OFFSET;
     this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
+    this.viewedPoints = [];
     this.addedPoints = [];
     this.shape = {
       id: Id.BUCKET,
@@ -86,8 +88,10 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(this.initialColour);
-
     this.addSurroundingPixels(event.x, event.y);
+    console.log(this.viewedPoints);
+    console.log(this.shape.points);
+
   }
 
   protected acceptsColor(colour: number[]): boolean {
@@ -102,36 +106,39 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy 
   }
 
   protected isNewPoint(positionX: number, positionY: number): boolean {
-    this.addedPoints.forEach((element) => {
-      if (element === (positionX + ',' + positionY).toString()) {
+    for (const iterator of this.viewedPoints) {
+      if (iterator === (positionX + ',' + positionY).toString()) {
         return false;
       }
-    });
+    }
     return true;
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    const up = this.getColourAtPosition(positionX, positionY + 1);
-    const right = this.getColourAtPosition(positionX + 1, positionY);
-    const down = this.getColourAtPosition(positionX, positionY - 1);
-    const left = this.getColourAtPosition(positionX - 1, positionY);
-
-    console.log(this.addedPoints);
-
+    const offset = 5;
+    const up = this.getColourAtPosition(positionX, positionY + offset);
+    const right = this.getColourAtPosition(positionX + offset, positionY);
+    const down = this.getColourAtPosition(positionX, positionY - offset);
+    const left = this.getColourAtPosition(positionX - offset, positionY);
     if (this.withinCanvas(positionX, positionY) && this.isNewPoint(positionX, positionY)) {
+      this.viewedPoints.push(positionX + ',' + positionY);
       if (this.acceptsColor(up)) {
-        this.addSurroundingPixels(positionX, positionY + 1);
-      } else if (this.acceptsColor(right)) {
-        this.addSurroundingPixels(positionX + 1, positionY);
-      } else if (this.acceptsColor(down)) {
-        this.addSurroundingPixels(positionX, positionY - 1);
-      } else if (this.acceptsColor(left)) {
-        this.addSurroundingPixels(positionX - 1, positionY);
-      } else {
-        this.addedPoints.push(positionX + ',' + positionY);
-        // this.shape.points += ' ' + positionX + ',' + positionY;
+        this.addSurroundingPixels(positionX, positionY + offset);
       }
-    }
+      if (this.acceptsColor(right)) {
+        this.addSurroundingPixels(positionX + offset, positionY);
+      }
+      if (this.acceptsColor(down)) {
+        this.addSurroundingPixels(positionX, positionY - offset);
+      }
+      if (this.acceptsColor(left)) {
+        this.addSurroundingPixels(positionX - offset, positionY);
+      }
+    } else {
+      this.addedPoints.push(positionX + ',' + positionY);
+     // this.shape.points += ' ' + positionX + ',' + positionY;
+  }
+
   }
 
   async initializeCanvas(): Promise<void> {
