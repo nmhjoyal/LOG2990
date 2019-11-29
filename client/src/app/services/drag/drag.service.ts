@@ -23,13 +23,13 @@ export class DragService {
 
   snapObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number, controlPoint: ControlPoints): void {
     switch (controlPoint) {
-      case ControlPoints.TOP_LEFT: 
+      case ControlPoints.TOP_LEFT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
           movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.TOP_LEFT);
         });
         break;
       case ControlPoints.TOP_MIDDLE:
@@ -38,7 +38,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.TOP_MIDDLE);
         });
         break;
       case ControlPoints.TOP_RIGHT:
@@ -47,7 +47,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.TOP_RIGHT);
         });
         break;
       case ControlPoints.MIDDLE_LEFT:
@@ -56,7 +56,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE_LEFT);
         });
         break;
       case ControlPoints.MIDDLE:
@@ -65,7 +65,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE);
         });
         break;
       case ControlPoints.MIDDLE_RIGHT:
@@ -74,7 +74,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE_RIGHT);
         });
         break;
       case ControlPoints.BOTTOM_LEFT:
@@ -83,7 +83,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.BOTTOM_LEFT);
         });
         break;
       case ControlPoints.BOTTOM_MIDDLE:
@@ -92,7 +92,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.BOTTOM_MIDDLE);
         });
         break;
       case ControlPoints.BOTTOM_RIGHT:
@@ -101,7 +101,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.BOTTOM_RIGHT);
         });
         break;
       default:
@@ -110,7 +110,7 @@ export class DragService {
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
+          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE);
         });
         break;
     }

@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { SelectorService } from '../selector-service/selector-service';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
+import { GridService } from '../grid/grid.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ParserService {
 
-  constructor() {
+  constructor(public gridService: GridService) {
     //
   }
 
@@ -60,7 +62,7 @@ export class ParserService {
         const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
         newPaths.push({
           path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
-            - selectorService.MinWidth / 2 ).toString()
+            - selectorService.MinWidth / 2).toString()
             + ' '
             + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
             + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
@@ -70,6 +72,155 @@ export class ParserService {
           pathWidth: path.pathWidth,
         });
 
+      }
+    }
+    if (copiedObject.hasOwnProperty('points')) {
+      copiedObject.points = newPoints;
+    }
+    if (copiedObject.hasOwnProperty('vertices')) {
+      copiedObject.vertices = newPoints;
+    }
+    if (copiedObject.hasOwnProperty('paths')) {
+      copiedObject.paths = newPaths;
+    }
+  }
+
+  snapPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, controlPoint: ControlPoints, selectorService: SelectorService): void {
+    const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
+    const newPaths: IComplexPath[] = [];
+    if (copiedObject.paths) {
+      for (const path of copiedObject.paths) {
+        const pathMX = path.path.slice(1, path.path.indexOf(' '));
+        const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
+        const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
+        const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
+
+        switch (controlPoint) {
+          case ControlPoints.TOP_LEFT:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.TOP_MIDDLE:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.TOP_RIGHT:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.MIDDLE_LEFT:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.MIDDLE:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.MIDDLE_RIGHT:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.BOTTOM_LEFT:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.BOTTOM_MIDDLE:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          case ControlPoints.BOTTOM_RIGHT:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+          default:
+            newPaths.push({
+              path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
+                - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+                + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
+                  - selectorService.MinWidth / 2).toString()
+                + ' '
+                + (parseInt(pathLY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString(),
+              pathWidth: path.pathWidth,
+            });
+            break;
+        }
       }
     }
     if (copiedObject.hasOwnProperty('points')) {
