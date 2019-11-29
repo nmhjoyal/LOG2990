@@ -36,11 +36,16 @@
             </div>
         </form>
         <div>
-            <button mat-raised-button style="padding: 0 20 0 20;" (click)="saveToLocal(nameInput.value)"
-                [disabled]="!nameInput.valid || !isFinishedSaving"> Sauvegarder localement </button>
+            <button id="saveAs" type="button" mat-raised-button [matMenuTriggerFor]="saveMenu"
+                #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">{{saveAs}}</button>
+            <mat-menu #saveMenu="matMenu">
+                <button mat-menu-item (click)='saveAs(saveAsEnum.LOCAL)'>LOCAL</button>
+                <button mat-menu-item (click)='saveAs(saveAsEnum.SERVER)'>SERVEUR</button>
+                <button mat-menu-item (click)='saveAs(saveAsEnum.DATABASE)'>BASE DE DONNÉES</button>
+            </mat-menu>
         </div>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>
-        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving"
+        <button id="submit" mat-raised-button [disabled]="!nameInput.valid || !isFinishedSaving || !saveAsSelected"
             (click)="onAcceptClick()">Accepter</button>
     </div>
 </div>

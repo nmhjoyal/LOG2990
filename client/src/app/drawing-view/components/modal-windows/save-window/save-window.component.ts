@@ -4,22 +4,27 @@ import { CanvasInformationService } from 'src/app/services/canvas-information/ca
 import { ICanvasData } from 'src/app/services/canvas-information/ICanvasData';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ClientStorageService } from 'src/app/services/index/client-storage.service';
-import { Strings } from 'src/AppConstants/Strings';
+import { SaveAs, Strings } from 'src/AppConstants/Strings';
 import { IDrawing, ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { ITag } from '../../../../../../../common/drawing-information/ITag';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { ISaveModalData } from './ISaveModalData';
+
 @Component({
   selector: 'app-save-window',
   templateUrl: './save-window.component.html',
   styleUrls: ['./save-window.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
+
 export class SaveWindowComponent extends ModalWindowComponent implements OnInit {
 
   protected name: string;
   private drawing: ISavedDrawing[];
   protected isFinishedSaving: boolean;
+  protected saveAsSelected: boolean;
+  protected saveAsEnum: SaveAs;
+  protected saveAs: string;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
@@ -43,6 +48,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   ngOnInit(): void {
     this.drawing = this.drawingStorage.drawings;
+    this.saveAsSelected = false;
+    this.saveAs = Strings.SAVE_AS;
+    this.saveAsEnum = SaveAs.LOCAL;
   }
 
   onAcceptClick(): void {
@@ -152,6 +160,28 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     a.setAttribute('download', name + '.json');
     a.click();
     this.onClose();
+  }
+
+  saveAS(as: SaveAs): void {
+    switch (as) {
+      case SaveAs.LOCAL:
+        this.saveAsEnum = as;
+        this.saveAsSelected = true;
+        this.saveAs = 'LOCAL';
+        break;
+      case SaveAs.SERVER:
+        this.saveAsEnum = as;
+        this.saveAsSelected = true;
+        this.saveAs = 'SERVEUR';
+        break;
+      case SaveAs.DATABASE:
+        this.saveAsEnum = as;
+        this.saveAsSelected = true;
+        this.saveAs = 'BASE DE DONNEES';
+        break;
+      default:
+        break;
+    }
   }
 
 }
