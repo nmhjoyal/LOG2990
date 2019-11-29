@@ -66,8 +66,11 @@ export default class ClickHelper {
                 let sprayIntersections: any;
                 if ( object.sprays ) {
                     object.sprays.forEach(position => { // += does not work
-                        sprayIntersections += svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
+                        sprayIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
                             r: object.radius}), svgIntersections.shape('polyline', selectorLine));
+                        if ( sprayIntersections.points.length ) {
+                            return;
+                        }
                     });
                     return sprayIntersections.points.length > 0;
                 }
@@ -168,9 +171,12 @@ export default class ClickHelper {
             case Id.SPRAY_CAN: // TODO: Test This
                 let sprayCanIntersections: any;
                 if ( object.sprays ) {
-                    object.sprays.forEach(sprayPatch => { // += does not work
-                        sprayCanIntersections += svgIntersections.intersect(svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
+                    object.sprays.forEach(sprayPatch => {
+                        sprayCanIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
                         svgIntersections.shape('rect', selectorBox));
+                        if ( sprayCanIntersections.points.length ) {
+                            return;
+                        }
                     });
                     if ( !sprayCanIntersections.length && this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
                         boxIsInsideObject = true;

@@ -72,7 +72,7 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  applyColourToShape(event: MouseEvent, shape: IShape): void {
+  applyColourToShape(event: MouseEvent, shape: IShape): void { //compatibilize with ISprayCan...
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') { // and primary colour exists on interface
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
         shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
