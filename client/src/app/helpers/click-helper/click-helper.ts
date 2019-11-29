@@ -69,7 +69,7 @@ export default class ClickHelper {
                         sprayIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
                             r: object.radius}), svgIntersections.shape('polyline', selectorLine));
                         if ( sprayIntersections.points.length ) {
-                            console.log('spraycan detected hurrr');
+                            console.log('spraycan detected hurrr CURSOR BORDER');
                             return;
                         }
                     });
@@ -172,15 +172,17 @@ export default class ClickHelper {
             case Id.SPRAY_CAN: // TODO: Test This
                 let sprayCanIntersections: any;
                 if ( object.sprays ) {
-                    object.sprays.forEach(sprayPatch => {
+                    for ( let sprayPatch of object.sprays) {
                         sprayCanIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
                         svgIntersections.shape('rect', selectorBox));
                         if ( sprayCanIntersections.points.length ) {
-                            return;
+                            console.log('SHARE\'S BOX AREA');
+                            break;
                         }
-                    });
+                    }
                     if ( !sprayCanIntersections.length && this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
                         boxIsInsideObject = true;
+                        console.log('checked box inside object');
                     }
                 }
                 intersectionPoints = sprayCanIntersections.points;
