@@ -14,7 +14,13 @@ export interface IDrawing {
     canvas: ICanvasData;
 }
 
-export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape>, Partial<IText> {
+export interface IRotation {
+    rotationAngle: number;
+    xCenter: number;
+    yCenter: number;
+}
+
+export interface ISavedDrawing extends ITools, IRotation, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape>, Partial<IText> {
     id: string;
     x: number;
     y: number;
@@ -23,3 +29,5 @@ export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IS
     strokeWidth?: number;
     svgReference?: string;
 }
+
+

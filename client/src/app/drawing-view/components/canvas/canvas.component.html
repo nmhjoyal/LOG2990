@@ -54,7 +54,8 @@
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
-                    [style.stroke-linejoin]="drawing.strokeLinejoin" />
+                    [style.stroke-linejoin]="drawing.strokeLinejoin"
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' + drawing.xCenter + ',' + drawing.yCenter + ')'" />
             </g>
 
             <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)"

@@ -29,7 +29,9 @@ export class RotateSelectionService {
   }
 
   rotate(drawing: ISavedDrawing, angle: number, xCenter: number, yCenter: number): void {
-    // empty block
+    drawing.rotationAngle = angle;
+    drawing.xCenter = xCenter;
+    drawing.yCenter = yCenter;
   }
 
 }
