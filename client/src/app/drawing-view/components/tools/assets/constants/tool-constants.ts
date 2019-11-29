@@ -94,6 +94,9 @@ export class ToolConstants {
     static RIGHT_CLICK_INDEX = 2;
     static ANGLE_INCREMENT_1 = 1;
     static ANGLE_INCREMENT_15 = 15;
+    static PRIMARY_COLOUR_INDEX = 0;
+    static SECONDARY_COLOUR_INDEX = 1;
+
 }
 
 export class StampConstants {

@@ -1,6 +1,6 @@
 export enum ColourConstants {
     INITIAL_TRANSPARENCY = 1,
-    RGBTOHEX_FACTOR = 255,
+    RGB_TO_HEX_FACTOR = 255,
     COLOUR_PALETTE_SEPARATOR = 0.15,
     HEX_LENGTH = 16,
     HEX_NO_ALPHA = 7,
@@ -29,7 +29,7 @@ export enum Rainbow {
     VIOLET = 'rgba(255, 0, 255, 1)',
 }
 
-export enum Transparancy {
+export enum Transparency {
     FULL = 'rgba(0, 0, 0, 1)',
     HALF = 'rgba(0, 0, 0, 0.5)',
     QUARTER = 'rgba(0, 0, 0, 0.25)',

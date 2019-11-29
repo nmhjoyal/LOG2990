@@ -10,7 +10,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { GridService } from '../../../services/grid/grid.service';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { ToolAbstract } from '../tools/assets/abstracts/tool-abstract/tool-abstract';
-import { Id } from '../tools/assets/constants/tool-constants';
+import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from '../tools/assets/interfaces/itools';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
@@ -39,39 +39,48 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToCanvas(): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      this.canvasData.data.drawingColour = this.colourService.PrimaryColour;
+      this.saveColourApplication(ToolConstants.NULL, Id.PRIMARY_COLOUR_CHANGE, this.canvasData.data.drawingColour,
+        this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      this.canvasData.data.drawingColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[0] = this.canvasData.data.drawingColour;
+      this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
     }
   }
 
   getColourFromCanvas(event: MouseEvent): void {
     event.preventDefault();
     if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[0] = this.canvasData.data.drawingColour;
+      this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
     }
   }
 
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       line.colour = this.colourService.PrimaryColour;
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(line),
+      Id.PRIMARY_COLOUR_CHANGE, line.colour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      line.colour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[0]  = line.colour;
+      this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]  = line.colour;
     }
   }
 
   getColourFromLine(event: MouseEvent, line: IDrawingTool): void {
     event.preventDefault();
     if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[1] = line.colour;
+      this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = line.colour;
     }
   }
 
   applyColourToShape(event: MouseEvent, shape: IShape): void {
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      shape.primaryColour = this.colourService.PrimaryColour;
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR
+      && shape.primaryColour !== 'none') {
+      this.saveColourApplication( this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
+      shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      shape.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
+
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.getColourFromShape(event, 0, shape);
+      this.getColourFromShape(event, ToolConstants.PRIMARY_COLOUR_INDEX, shape);
     }
   }
 
@@ -80,7 +89,7 @@ export class CanvasComponent implements AfterViewInit {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       shape.secondaryColour = this.colourService.SecondaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.getColourFromShape(event, 1, shape);
+      this.getColourFromShape(event, ToolConstants.SECONDARY_COLOUR_INDEX, shape);
     }
   }
 

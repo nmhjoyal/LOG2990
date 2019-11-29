@@ -77,15 +77,13 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mousedown');
         hostElement.triggerEventHandler('mousedown', event);
         expect(spy).toHaveBeenCalled();
-        // expect(component.draw).toHaveBeenCalled();
     });
 
-    it('#onMouseMove should be called when left mouse button gets pressed', () => {
+    it('#onMouseMove should be called when the mouse is moved', () => {
         const spy = spyOn(component, 'onMouseMove');
         const event = new MouseEvent('mousemove');
         hostElement.triggerEventHandler('mousemove', event);
         expect(spy).toHaveBeenCalled();
-        // expect(component.emitColour).toHaveBeenCalled();
     });
 
     it('#onMouseMove should not return value if not onMouseDown', () => {
@@ -93,7 +91,6 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mousemove');
         hostElement.triggerEventHandler('mousemove', event);
         expect(component['mousedown']).toBeFalsy();
-        // expect(component.emitColour).toHaveBeenCalled();
     });
 
     it('#onMouseUp should be called when left mouse button gets released', () => {

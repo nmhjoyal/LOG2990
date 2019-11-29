@@ -70,7 +70,7 @@ export class ColourService {
 
   setAlpha(alpha: number): void  {
     this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, ColourConstants.HEX_NO_ALPHA)
-                                  + (this.rgbToHex(Math.round(alpha * ColourConstants.RGBTOHEX_FACTOR)));
+                                  + (this.rgbToHex(Math.round(alpha * ColourConstants.RGB_TO_HEX_FACTOR)));
     this.updateColour(this.colour);
   }
 

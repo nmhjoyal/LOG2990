@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
-import { ColourConstants, Rainbow, Transparancy } from '../../../tools/assets/constants/colour-constants';
+import { ColourConstants, Rainbow, Transparency  } from '../../../tools/assets/constants/colour-constants';
 
 @Component({
   selector: 'app-colour-palette',
@@ -31,12 +31,12 @@ export class ColourPaletteComponent implements AfterViewInit {
 
   colour: EventEmitter<string>[];
   private context: CanvasRenderingContext2D;
-  private mousedown: boolean;
+  private mouseDown: boolean;
   protected selectedPosition: { x: number; y: number };
 
   constructor(public colourService: ColourService) {
     this.colour = [this.primaryColour, this.secondaryColour];
-    this.mousedown = false;
+    this.mouseDown = false;
   }
 
   ngAfterViewInit(): void {
@@ -71,31 +71,31 @@ export class ColourPaletteComponent implements AfterViewInit {
     separatorFactor = 0;
     // horizontal greyscale gradient
     const greyscaleGradient = this.context.createLinearGradient( height, 0, 0, 0) ;
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * separatorFactor, Transparancy.FULL);
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.HALF);
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.QUARTER);
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.NONE);
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.NONE);
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.QUARTER_BLACK);
-    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparancy.HALF_BLACK);
-    greyscaleGradient.addColorStop(1, Transparancy.FULL_BLACK);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * separatorFactor, Transparency .FULL);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparency .HALF);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparency .QUARTER);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparency .NONE);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparency .NONE);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparency .QUARTER_BLACK);
+    greyscaleGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Transparency .HALF_BLACK);
+    greyscaleGradient.addColorStop(1, Transparency .FULL_BLACK);
     this.drawGradient(greyscaleGradient, width, height);
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(): void {
-    this.mousedown = false;
+    this.mouseDown = false;
     this.colourService.addColour();
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
-    this.mousedown = true;
+    this.mouseDown = true;
     this.selectedPosition = { x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event) };
     this.draw();
     this.colour[+this.mainColour].emit(this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event)));
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    if (this.mousedown) {
+    if (this.mouseDown) {
       this.selectedPosition = { x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event) };
       this.draw();
       this.emitColour(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
@@ -113,7 +113,7 @@ export class ColourPaletteComponent implements AfterViewInit {
     const r = this.colourService.rgbToHex(imageData[arrayIndex]);
     const g = this.colourService.rgbToHex(imageData[++arrayIndex]);
     const b = this.colourService.rgbToHex(imageData[++arrayIndex]);
-    const a = this.colourService.rgbToHex(Math.round(this.alpha[+this.mainColour] * ColourConstants.RGBTOHEX_FACTOR));
+    const a = this.colourService.rgbToHex(Math.round(this.alpha[+this.mainColour] * ColourConstants.RGB_TO_HEX_FACTOR));
     return ('#' + r + g + b + a);
   }
 }

@@ -146,14 +146,14 @@ describe('AppComponent', () => {
     component.openChooseColourDialog();
     expect(dialogMock.open).toHaveBeenCalled();
   });
-/*
+
   it('should only resetToolSelection when colourApplicator not selected', () => {
     component.colourService.switchColours();
     expect(toolHandlerMock.resetToolSelection).not.toHaveBeenCalled();
     component.colourService.switchColours();
     expect(toolHandlerMock.resetToolSelection).toHaveBeenCalled();
   });
-*/
+
   it('#chooseCrayon should be called when c is pressed', () => {
     toolHandlerMock.chooseCrayon.and.callThrough();
     component.optionsSidebar.opened = true;
