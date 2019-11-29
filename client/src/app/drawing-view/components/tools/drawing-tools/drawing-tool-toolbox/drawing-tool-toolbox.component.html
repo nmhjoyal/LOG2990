@@ -68,7 +68,7 @@
     <div *ngIf="toolHandler.selectedTool === toolId.BUCKET">
         <p>Niveau de tolérance</p>
         <button (click) = "getComponent().decreaseTolerance()">-</button>
-        {{getComponent().tolerance*100}}%
+        {{getComponent().tolerance}}%
         <button (click) = "getComponent().increaseTolerance()">+</button>
      </div>
            

@@ -64,50 +64,50 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownC(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseCrayon();
     }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownW(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePaintbrush();
     }
   }
 
   @HostListener('document:keydown.b', ['$event']) onKeydownB(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseBucket();
     }
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownI(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownR(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator(this.colourService.PrimaryColour,
          this.colourService.SecondaryColour);
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownS(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSelector();
     }
   }
 
   @HostListener('document:keydown.control.z', ['$event']) onKeydownCtrlZ(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.clipboardService.undo();
     }
   }
 
   @HostListener('document:keydown.control.shift.z', ['$event']) onKeydownCtrlShiftZ(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.clipboardService.redo();
     }
   }
@@ -144,53 +144,53 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.t', ['$event']) onKeydownT(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseText();
     }
   }
 
   @HostListener('document:keydown.y', ['$event']) onKeydownY(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePen();
     }
   }
 
   @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEraser();
     }
   }
 
   @HostListener('document:keydown.p', ['$event']) onKeydownP(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseQuill();
     }
   }
 
   @HostListener('document:keydown.control.o', ['$event']) onKeydownCtrlO(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.confirmNewDrawing();
     }
   }
 
   @HostListener('document:keydown.control.s', ['$event']) onKeydownCtrlS(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.openSaveWindow();
     }
   }
 
   @HostListener('document:keydown.control.e', ['$event']) onKeydownCtrlE(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.openExportWindow();
     }
   }
 
   @HostListener('document:keydown.control.g', ['$event']) onKeydownCtrlG(event: KeyboardEvent): void {
     event.preventDefault();
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       if (this.drawingStorage.isEmpty()) {
         this.openGalleryWindow();
       } else if (confirm('Si vous continuez, vous perdrez vos changements. Êtes-vous sûr.e?')) {
@@ -200,44 +200,44 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseRectangle();
     }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEllipse();
     }
   }
 
   @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePolygon();
     }
   }
 
   @HostListener('document:keydown.g', ['$event']) onKeydownG(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       const toggle: HTMLElement = this.toggle.nativeElement;
       toggle.click();
     }
   }
 
   @HostListener('document:keydown.shift.+', ['$event']) onKeydownShiftPlus(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.gridService.increaseSize();
     }
   }
 
   @HostListener('document:keydown.+', ['$event']) onKeydownPlus(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.gridService.increaseSize();
     }
   }
 
   @HostListener('document:keydown.-', ['$event']) onKeydownMinus(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+    if (this.isOnlyModalOpen() ) {
       this.gridService.decreaseSize();
     }
   }

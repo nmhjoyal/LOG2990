@@ -61,7 +61,6 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
       }
     }
-
   }
 
   protected saveShape(): void {
