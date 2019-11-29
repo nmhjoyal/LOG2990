@@ -9,7 +9,6 @@ import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ITools } from '../assets/interfaces/itools';
-import { ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 
 @Component({
   selector: 'app-tools-selector',
@@ -21,7 +20,6 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
   protected shouldDrag: boolean;
-  protected draggedObjects: ISavedDrawing[];
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
@@ -85,12 +83,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
       if (this.selectorService.SelectedObjects) {
-        this.selectorService.SelectedObjects.forEach((drawing) => {
-          if (this.selectorService.cursorTouchesObject(drawing, this.cursorX, this.cursorY)) {
-            this.shouldDrag = true;
-            return;
-          }
-        });
+
+        if (ClickHelper.getXPosition(event) >= this.selectorService.topCornerX
+          && ClickHelper.getXPosition(event) <= this.selectorService.furthestX
+          && ClickHelper.getYPosition(event) >= this.selectorService.topCornerY
+          && ClickHelper.getYPosition(event) <= this.selectorService.furthestY) {
+          this.shouldDrag = true;
+        }
       } else {
         this.isRightClick = false;
         this.isReverseSelection = false;
@@ -111,7 +110,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       if (this.shouldDrag) {
-        this.draggedObjects = this.selectorService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+        this.selectorService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
           this.windowWidth, this.windowHeight);
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);

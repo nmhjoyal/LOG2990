@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { DebugElement, ElementRef } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
@@ -7,8 +7,8 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Strings } from 'src/AppConstants/Strings';
-import { ColourConstants, Rainbow } from '../../../tools/assets/constants/colour-constants';
-import { ColourPaletteComponent } from './colour-palette.component';
+import { ColourPaletteComponent } from '../../../colour-picker/colour-palette/colour-palette.component';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
 // tslint:disable: no-any
 // tslint:disable: no-string-literal
 
@@ -50,7 +50,7 @@ describe('ColourPaletteComponent', () => {
 
     it('should be initalized with correct attributes', () => {
         expect(component).toBeTruthy();
-        expect(component.colour).toBeDefined();
+        expect(component['colour']).toBeDefined();
         expect(component['primaryColour']).toBeDefined();
         expect(component['secondaryColour']).toBeDefined();
         expect((component as any).mousedown).toEqual(false);
@@ -64,7 +64,7 @@ describe('ColourPaletteComponent', () => {
         const width = component['canvas'].nativeElement.width;
         const height = component['canvas'].nativeElement.height;
         const colourGradient = (component as any).context.createLinearGradient(0, 0, 0, height);
-        colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR, Rainbow.RED);
+        colourGradient.addColorStop(NumericalValues.COLOUR_PALETTE_SEPARATOR, 'red');
         component.drawGradient(colourGradient, width, height);
         expect(beginSpy).toHaveBeenCalled();
         expect(rectSpy).toHaveBeenCalled();
