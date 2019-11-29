@@ -104,7 +104,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.shiftKeyPressed = false;
   }
 
-  handleControlPoint(event: MouseEvent): void {
+  protected handleControlPoint(event: MouseEvent): void {
     switch (this.selectedControlPoint) {
       case ControlPoints.TOP_LEFT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event)};
@@ -200,6 +200,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       this.selectedControlPoint = ControlPoints.NONE;
       this.isRightClick = false;
       this.isReverseSelection = false;
+      this.resetComponent();
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
       if (!this.toolService.selectorBoxExists()) {

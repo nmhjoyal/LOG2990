@@ -1,5 +1,6 @@
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ResizeService } from 'src/app/services/resize-service/resize-service';
@@ -8,6 +9,7 @@ import { SelectorService } from 'src/app/services/selector-service/selector-serv
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { ControlPoints } from '../assets/constants/selector-constants';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
@@ -59,12 +61,11 @@ describe('SelectorComponent', () => {
     let selectorServiceMock: SelectorService;
     let fixture: ComponentFixture<SelectorComponent>;
     let toolServiceMock: ToolHandlerService;
-    jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
-                                                        'saveSelectorBox', 'resetSelectorBox']);
+    const resizeServiceMock: SpyObj<ResizeService> = jasmine.createSpyObj('ResizeService', ['resizeAxis', 'resizePosition',
+        'resizeAxesFromCenter', 'resizeWithAspectRatio']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock();
-        const resizeServiceMock = jasmine.createSpyObj('ResizeService', ['']);
 
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],
@@ -73,6 +74,8 @@ describe('SelectorComponent', () => {
                 DrawingStorageService,
                 SaveService,
                 ColourService,
+                SelectorService,
+                ResizeService,
                 { provide: AttributesService, useValue: attrServiceMock, },
             ],
         }).overrideComponent(SelectorComponent, {
@@ -97,6 +100,10 @@ describe('SelectorComponent', () => {
         spyOn(selectorServiceMock, 'setBoxToDrawing');
         spyOn(toolServiceMock, 'saveSelectorBox').and.callFake(() => { return; });
         spyOn(toolServiceMock, 'resetSelectorBox').and.callThrough();
+        resizeServiceMock.resizeAxis.and.callFake(() => { return; });
+        resizeServiceMock.resizePosition.and.callFake(() => { return; });
+        resizeServiceMock.resizeAxesFromCenter.and.callFake(() => { return; });
+        resizeServiceMock.resizeWithAspectRatio.and.callFake(() => { return; });
     });
 
     it('should create an instance of the derived class', () => {
@@ -149,8 +156,13 @@ describe('SelectorComponent', () => {
 
     it('test leftclick', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(false);
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
+        spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);
+        const controlPointSpy = spyOn(ClickHelper, 'cursorTouchesControlPoint').and.returnValue(ControlPoints.TOP_LEFT);
+        selector.onMouseDown(leftClick);
+        expect(controlPointSpy).toHaveBeenCalled();
     });
 
     it('test rightclick drag', () => {
@@ -170,6 +182,7 @@ describe('SelectorComponent', () => {
 
     it('test leftclick drag', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(false);
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
         const leftDrag = new MouseEvent('mousemove');
@@ -262,5 +275,125 @@ describe('SelectorComponent', () => {
         selector.onRelease(rightRelease);
         expect(selectorServiceMock.recalculateShape).toHaveBeenCalled();
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
+    });
+
+    it('test regular resize', () => {
+        // tslint:disable: no-magic-numbers
+        const resizePositionSpy = spyOn(ResizeService.prototype, 'resizePosition').and.callFake(() => { return; });
+        const resizeAxisSpy = spyOn(ResizeService.prototype, 'resizeAxis').and.callFake(() => { return; });
+        const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        const drag = new MouseEvent('mousemove');
+        const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
+        selectorBoxExists.and.returnValue(true);
+        const controlPointSpy = spyOn(ClickHelper, 'cursorTouchesControlPoint');
+        spyOn(ClickHelper, 'getXPosition').and.returnValue(FIFTY);
+        spyOn(ClickHelper, 'getYPosition').and.returnValue(FIFTY);
+        controlPointSpy.and.returnValue(ControlPoints.TOP_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizePositionSpy).toHaveBeenCalled();
+        controlPointSpy.and.returnValue(ControlPoints.TOP_MIDDLE);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizePositionSpy).toHaveBeenCalledTimes(2);
+        controlPointSpy.and.returnValue(ControlPoints.TOP_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizePositionSpy).toHaveBeenCalledTimes(3);
+        expect(resizeAxisSpy).toHaveBeenCalled();
+        controlPointSpy.and.returnValue(ControlPoints.MIDDLE_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizePositionSpy).toHaveBeenCalledTimes(4);
+        controlPointSpy.and.returnValue(ControlPoints.MIDDLE_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAxisSpy).toHaveBeenCalledTimes(2);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizePositionSpy).toHaveBeenCalledTimes(5);
+        expect(resizeAxisSpy).toHaveBeenCalledTimes(3);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_MIDDLE);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAxisSpy).toHaveBeenCalledTimes(4);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAxisSpy).toHaveBeenCalledTimes(5);
+    });
+
+    it('test resize from center', () => {
+        const resizeFromCenterSpy = spyOn(ResizeService.prototype, 'resizeAxesFromCenter').and.callFake(() => { return; });
+        const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        const drag = new MouseEvent('mousemove');
+        const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
+        selectorBoxExists.and.returnValue(true);
+        const controlPointSpy = spyOn(ClickHelper, 'cursorTouchesControlPoint');
+        spyOn(ClickHelper, 'getXPosition').and.returnValue(FIFTY);
+        spyOn(ClickHelper, 'getYPosition').and.returnValue(FIFTY);
+        selector.onAltDown();
+        controlPointSpy.and.returnValue(ControlPoints.TOP_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalled();
+        controlPointSpy.and.returnValue(ControlPoints.TOP_MIDDLE);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(2);
+        controlPointSpy.and.returnValue(ControlPoints.TOP_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(3);
+        controlPointSpy.and.returnValue(ControlPoints.MIDDLE_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(4);
+        controlPointSpy.and.returnValue(ControlPoints.MIDDLE_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(5);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(6);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_MIDDLE);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(7);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeFromCenterSpy).toHaveBeenCalledTimes(8);
+    });
+
+    it('test resize with aspect ratio', () => {
+        const resizeAspectRatioSpy = spyOn(ResizeService.prototype, 'resizeWithAspectRatio').and.callFake(() => { return; });
+        const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        const drag = new MouseEvent('mousemove');
+        const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
+        selectorBoxExists.and.returnValue(true);
+        const controlPointSpy = spyOn(ClickHelper, 'cursorTouchesControlPoint');
+        spyOn(ClickHelper, 'getXPosition').and.returnValue(FIFTY);
+        spyOn(ClickHelper, 'getYPosition').and.returnValue(FIFTY);
+        selector.onShiftDown();
+        controlPointSpy.and.returnValue(ControlPoints.TOP_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAspectRatioSpy).toHaveBeenCalled();
+        controlPointSpy.and.returnValue(ControlPoints.TOP_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAspectRatioSpy).toHaveBeenCalledTimes(2);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_LEFT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAspectRatioSpy).toHaveBeenCalledTimes(3);
+        controlPointSpy.and.returnValue(ControlPoints.BOTTOM_RIGHT);
+        selector.onMouseDown(leftClick);
+        selector.onMouseMove(drag);
+        expect(resizeAspectRatioSpy).toHaveBeenCalledTimes(4);
+        // tslint:enable: no-magic-numbers
     });
 });

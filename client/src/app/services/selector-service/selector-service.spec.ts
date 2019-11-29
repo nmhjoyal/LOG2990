@@ -20,8 +20,8 @@ describe('SelectorService', () => {
     expect(service.selectedObjects).toBeDefined();
     expect(service.topCorner.x).toEqual(0);
     expect(service.topCorner.y).toEqual(0);
-    expect(service.furthestX).toEqual(0);
-    expect(service.furthestY).toEqual(0);
+    expect(service.bottomCorner.x).toEqual(0);
+    expect(service.bottomCorner.y).toEqual(0);
   });
 
   it('should create selector box as drawing', () => {
@@ -32,24 +32,24 @@ describe('SelectorService', () => {
     expect(service.topCorner.y).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
-    expect(service.furthestX).toEqual(drawing.x + drawing.width);
-    expect(service.furthestY).toEqual(drawing.y + drawing.height);
+    expect(service.bottomCorner.x).toEqual(drawing.x + drawing.width);
+    expect(service.bottomCorner.y).toEqual(drawing.y + drawing.height);
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
     service.setBoxToDrawing(drawing);
     expect(service.topCorner.y).toEqual(drawing.y);
     expect(service.MinWidth).toEqual(drawing.width);
     expect(service.MinHeight).toEqual(drawing.height);
     expect(service.topCorner.x).toEqual(drawing.x);
-    expect(service.furthestX).toEqual(drawing.x + drawing.width);
-    expect(service.furthestY).toEqual(drawing.y + drawing.height);
+    expect(service.bottomCorner.x).toEqual(drawing.x + drawing.width);
+    expect(service.bottomCorner.y).toEqual(drawing.y + drawing.height);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.setBoxToDrawing(drawing);
     expect(service.topCorner.x).toEqual(drawing.x - drawing.width);
     expect(service.topCorner.y).toEqual(drawing.y - drawing.height);
     expect(service.MinWidth).toEqual(drawing.width * 2);
     expect(service.MinHeight).toEqual(drawing.height * 2);
-    expect(service.furthestX).toEqual(drawing.x - drawing.width + (drawing.width * 2));
-    expect(service.furthestY).toEqual(drawing.y - drawing.height + (drawing.height * 2));
+    expect(service.bottomCorner.x).toEqual(drawing.x - drawing.width + (drawing.width * 2));
+    expect(service.bottomCorner.y).toEqual(drawing.y - drawing.height + (drawing.height * 2));
   });
 
   it('should check for items, add when not in reverse and delete if in reverse', () => {
@@ -87,29 +87,29 @@ describe('SelectorService', () => {
     drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.topCorner.x = FORTY;
     service.topCorner.y = FIFTY;
-    service.furthestX = FORTY;
-    service.furthestY = ONE_HUNDRED;
+    service.bottomCorner.x = FORTY;
+    service.bottomCorner.y = ONE_HUNDRED;
     service.updateSelectorShape(drawing);
     expect(service.topCorner.x).toEqual(FORTY);
     expect(service.topCorner.y).toEqual(drawing.y);
-    expect(service.furthestX).toEqual(drawing.x + drawing.width);
-    expect(service.furthestY).toEqual(ONE_HUNDRED);
+    expect(service.bottomCorner.x).toEqual(drawing.x + drawing.width);
+    expect(service.bottomCorner.y).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.TEXT };
     service.updateSelectorShape(drawing);
     expect(service.topCorner.x).toEqual(FORTY);
     expect(service.topCorner.y).toEqual(drawing.y);
-    expect(service.furthestX).toEqual(drawing.x + drawing.width);
-    expect(service.furthestY).toEqual(ONE_HUNDRED);
+    expect(service.bottomCorner.x).toEqual(drawing.x + drawing.width);
+    expect(service.bottomCorner.y).toEqual(ONE_HUNDRED);
     drawing = { x: FIFTY, y: ONE_HUNDRED, width: FORTY, height: FORTY, id: Id.ELLIPSE };
     service.topCorner.x = FIFTY;
     service.topCorner.y = FORTY;
-    service.furthestX = ONE_HUNDRED;
-    service.furthestY = FORTY;
+    service.bottomCorner.x = ONE_HUNDRED;
+    service.bottomCorner.y = FORTY;
     service.updateSelectorShape(drawing);
     expect(service.topCorner.x).toEqual(drawing.x - drawing.width);
     expect(service.topCorner.y).toEqual(FORTY);
-    expect(service.furthestX).toEqual(ONE_HUNDRED);
-    expect(service.furthestY).toEqual((drawing.y - drawing.height) + (drawing.height * 2));
+    expect(service.bottomCorner.x).toEqual(ONE_HUNDRED);
+    expect(service.bottomCorner.y).toEqual((drawing.y - drawing.height) + (drawing.height * 2));
   });
 
   it('should recalculate selector shape with list of selected items', () => {
@@ -122,30 +122,30 @@ describe('SelectorService', () => {
     service.recalculateShape(ONE_HUNDRED, ONE_HUNDRED);
     expect(service.topCorner.x).toEqual(ONE_HUNDRED);
     expect(service.topCorner.y).toEqual(ONE_HUNDRED);
-    expect(service.furthestX).toEqual(0);
-    expect(service.furthestY).toEqual(0);
+    expect(service.bottomCorner.x).toEqual(0);
+    expect(service.bottomCorner.y).toEqual(0);
     expect(service.updateSelectorShape).toHaveBeenCalledTimes(2);
   });
 
   it('should reset width and height of selector box', () => {
-    service.furthestX = ONE_HUNDRED;
-    service.furthestY = ONE_HUNDRED;
+    service.bottomCorner.x = ONE_HUNDRED;
+    service.bottomCorner.y = ONE_HUNDRED;
     service.resetSize();
-    expect(service.furthestX).toEqual(0);
-    expect(service.furthestY).toEqual(0);
+    expect(service.bottomCorner.x).toEqual(0);
+    expect(service.bottomCorner.y).toEqual(0);
   });
 
   it('should reset selection', () => {
-    service.furthestX = ONE_HUNDRED;
-    service.furthestY = ONE_HUNDRED;
+    service.bottomCorner.x = ONE_HUNDRED;
+    service.bottomCorner.y = ONE_HUNDRED;
     service.topCorner.x = ONE_HUNDRED;
     service.topCorner.y = ONE_HUNDRED;
     const drawing = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     service.selectedObjects.add(drawing);
     service.resetSelectorService();
     expect(service.selectedObjects.size).toEqual(0);
-    expect(service.furthestX).toEqual(0);
-    expect(service.furthestY).toEqual(0);
+    expect(service.bottomCorner.x).toEqual(0);
+    expect(service.bottomCorner.y).toEqual(0);
     expect(service.topCorner.x).toEqual(0);
     expect(service.topCorner.y).toEqual(0);
   });
