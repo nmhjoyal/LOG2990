@@ -8,6 +8,8 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { RotateSelectionService } from 'src/app/services/rotate-selection/rotate-selection.service';
+import { ToolConstants } from '../assets/constants/tool-constants';
 
 @Component({
   selector: 'app-tools-selector',
@@ -18,15 +20,19 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected mouseMoved: boolean;
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
+  protected shiftDown: boolean;
+  protected angleIncrement: number;
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
-    protected selectorService: SelectorService) {
+    protected selectorService: SelectorService, private rotateService: RotateSelectionService) {
     super(saveRef, attributesServiceRef, colourService);
     this.shape.strokeWidth = 1;
     this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
     this.mouseMoved = false;
+    this.shiftDown = false;
+    this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15;
   }
 
   ngOnInit(): void {
@@ -74,6 +80,25 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('mouseup') onMouseUp(): void {
     // Override ShapeAbstract listener (prevents from saving shape)
     return;
+  }
+
+  @HostListener('keydown.shift') onKeyDownShift(): void {
+    this.shiftDown = true;
+  }
+
+  @HostListener('keyup.shift') onKeyUpShift(): void {
+    this.shiftDown = false;
+  }
+
+  @HostListener('keydown.alt') onKeyDownAlt(): void {
+    this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
+  }
+
+  @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    const angle = event.deltaY * this.angleIncrement;
+    this.rotateService.rotateAll(angle, this.shiftDown);
   }
 
   protected handleMouseDown(event: MouseEvent): void {
