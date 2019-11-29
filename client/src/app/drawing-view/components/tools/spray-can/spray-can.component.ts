@@ -16,9 +16,6 @@ export class SprayCanComponent implements OnDestroy, OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
-  /* TODO: find a way to make the filter look at it's SourceGraphic data to set it's seed in the turbulence filter. 
-  * To prevent saturating the canvashtml with filters.
-  */
 
   private sprayTimer: number;
   private sprayCan : ISprayCan;
@@ -98,11 +95,11 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     }
   }
 
-  getRandomInt(): number {
+  private getRandomInt(): number {
     return Math.floor(Math.random() * (1000 - 1) + 1);
   }
 
-  addSpray(): void {
+  private addSpray(): void {
     const position: ISprays = {
       cx: this.mouseX,
       cy: this.mouseY,
@@ -112,7 +109,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     this.calculateDimensions();
   }
 
-  calculateDimensions(): void {
+  private calculateDimensions(): void {
     this.sprayCan.x = Math.min(this.mouseX - this.sprayCan.radius, this.sprayCan.x);
     this.sprayCan.y = Math.min(this.mouseY - this.sprayCan.radius, this.sprayCan.y);
 
@@ -123,11 +120,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   increaseValue(mode: number): void {
-    if (mode === 0 ) {
-      this.diametre += SprayCanConstants.DIAMETRE_STEP;
-    } else if (mode === 1) {
-      this.sprayPerSecond += 1
-    }
+    mode ? this.diametre += SprayCanConstants.DIAMETRE_STEP : this.sprayPerSecond += 1;
   }
 
   decreaseValue(mode: number): void {
