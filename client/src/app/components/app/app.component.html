@@ -118,7 +118,32 @@
                         <span #snapToggle class="slider" (click)="dragService.toggleSnapping()"></span>
                     </label>
                     <div>
-                        <p></p>
+                        <mat-radio-group aria-label="Select an option">
+                            <mat-radio-button value="ControlPoints.TOP_LEFT">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </mat-radio-button>
+                            <mat-radio-button value="ControlPoints.TOP_MIDDLE">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </mat-radio-button>
+                            <mat-radio-button value="ControlPoints.TOP_RIGHT"></mat-radio-button>
+                            <p><br> </p>
+                            <mat-radio-button value="ControlPoints.MIDDLE_LEFT">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </mat-radio-button>
+                            <mat-radio-button value="ControlPoints.MIDDLE">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </mat-radio-button>
+                            <mat-radio-button value="ControlPoints.MIDDLE_RIGHT"> </mat-radio-button>
+                            <p><br></p>
+                            <mat-radio-button value="ControlPoints.BOTTOM_LEFT">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </mat-radio-button>
+                            <mat-radio-button value="ControlPoints.BOTTOM_MIDDLE">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </mat-radio-button>
+                            <mat-radio-button value="ControlPoints.BOTTOM_RIGHT"></mat-radio-button>
+
+                        </mat-radio-group>
                     </div>
                 </mat-menu>
             </a>
