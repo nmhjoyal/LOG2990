@@ -3,6 +3,7 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
@@ -14,8 +15,10 @@ describe('ClipboardService', () => {
   let selectorService: SelectorService;
   let drawingStorage: DrawingStorageService;
   let undoRedoService: UndoRedoService;
+  let canvasService: CanvasInformationService;
   let saveService: SaveService;
   let dummyOperation: ITools;
+  let erasedDrawings: ITools;
   const FIFTY = 50;
   const FORTY = 40;
   const FOUR = 4;
@@ -24,7 +27,8 @@ describe('ClipboardService', () => {
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
     selectorService = new SelectorService();
-    undoRedoService = new UndoRedoService(drawingStorage);
+    canvasService = new CanvasInformationService();
+    undoRedoService = new UndoRedoService(drawingStorage, canvasService);
     saveService = new SaveService(drawingStorage, undoRedoService);
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
 
@@ -35,6 +39,16 @@ describe('ClipboardService', () => {
       width: 0,
       height: 0,
       pasteOffset: undefined,
+    };
+
+    erasedDrawings = {
+      id: Id.ERASER,
+      x: 0,
+      y: 0,
+      height: 0,
+      width: 0,
+      objects: [],
+      indexes: [],
     };
   });
 
@@ -62,22 +76,30 @@ describe('ClipboardService', () => {
     expect(service['clipboard'].size).toEqual(1);
   });
 
-  it('should remove an item from drawing on delete', () => {
+  it('should remove an item from drawing on delete and save a eraser operation', () => {
     let drawing: ITools;
     drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
     selectorService.selectedObjects.add(drawing);
+    drawingStorage.drawings = [];
+    erasedDrawings.objects = [drawing];
+    erasedDrawings.indexes = [0];
     drawingStorage.drawings.push(drawing);
     service.delete();
-    expect(drawingStorage.drawings.length).toEqual(0);
+    expect(drawingStorage.drawings[0]).toEqual(erasedDrawings);
   });
 
-  it('should remove an item from drawing on cut', () => {
-    let drawing: ITools;
-    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
-    selectorService.selectedObjects.add(drawing);
-    drawingStorage.drawings.push(drawing);
-    service.delete();
-    expect(drawingStorage.drawings.length).toEqual(0);
+  it('#cut should call copy and delete if there is an object selected', () => {
+    const copySpy = spyOn(service, 'copy');
+    const deleteSpy = spyOn(service, 'delete');
+
+    service.cut();
+    expect(copySpy).not.toHaveBeenCalled();
+    expect(deleteSpy).not.toHaveBeenCalled();
+
+    service['selectorService'].selectedObjects.add(dummyOperation);
+    service.cut();
+    expect(copySpy).toHaveBeenCalled();
+    expect(deleteSpy).toHaveBeenCalled();
   });
 
   it('should add drawing to canvas on paste', () => {

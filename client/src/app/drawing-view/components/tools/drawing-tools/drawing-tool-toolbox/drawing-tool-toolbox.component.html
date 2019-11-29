@@ -1,16 +1,21 @@
-<div *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+<div style='padding: 10px' *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
-        <button (click)="getComponent().setFilter(0)">Aucun filtre</button>
-        <button (click)="getComponent().setFilter(1)">Filtre 1</button>
-        <button (click)="getComponent().setFilter(2)">Filtre 2</button>
-        <button (click)="getComponent().setFilter(3)">Filtre 3</button>
-        <button (click)="getComponent().setFilter(4)">Filtre 4</button>
-        <button (click)="getComponent().setFilter(5)">Filtre 5</button>
+        <p>Style de trait</p>
+        <button (click)="getComponent().setFilter(0)">Aucun filtre</button><br>
+        <button (click)="getComponent().setFilter(1)"> 1</button>
+        <button (click)="getComponent().setFilter(2)"> 2</button>
+        <button (click)="getComponent().setFilter(3)"> 3</button>
+        <button (click)="getComponent().setFilter(4)"> 4</button>
+        <button (click)="getComponent().setFilter(5)"> 5</button>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
-        <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-        {{getComponent().stroke.strokeWidth}}
-        <button (click)="getComponent().increaseStrokeWidth()">+</button>
+        <div>
+            <p>Épaisseur de trait</p>
+            <button (click)="getComponent().decreaseStrokeWidth()">-</button>
+            {{getComponent().stroke.strokeWidth}}
+            <button (click)="getComponent().increaseStrokeWidth()">+</button>
+       </div>
     </div>
 
     <div *ngIf="toolHandler.selectedTool === toolId.PEN">
@@ -28,65 +33,81 @@
         </div>
     </div>
 
+    <div *ngIf="toolHandler.selectedTool === toolId.QUILL">
+        <div>
+            <p>Longueur de trait minimale</p>
+            <button (click)="getComponent().decreaseLineLength()">-</button>
+            {{getComponent().lineLength}}
+            <button (click)="getComponent().increaseLineLength()">+</button>
+        </div>
+        <div>
+            <p>Angle</p>
+            <button (click)="getComponent().decreaseAngle(1)">-</button>
+            {{getComponent().angle}}
+            <button (click)="getComponent().increaseAngle(1)">+</button>
+        </div>
+    </div>
+
     <div *ngIf="toolHandler.selectedTool === toolId.LINE">
+        <p>Style de jonctinons</p>
         <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
         <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>
         <button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</button><br>
-        <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">Continu</button>
-        <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">Pointillé (trait)</button>
-        <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">Pointillé (point)</button><br>
-
-        <button (click)="getComponent().decreasePointWidth()">-</button>
-        {{getComponent().stroke.pointWidth}}
-        <button (click)="getComponent().increasePointWidth()">+</button>
+        
+        <p>Style de lignes</p>
+        <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">[&mdash;&mdash;]</button>
+        <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">[---]</button>
+        <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">[•••]</button><br>
+        <div>
+            <p>Grosseur de points</p>
+            <button (click)="getComponent().decreasePointWidth()">-</button>
+            {{getComponent().stroke.pointWidth}}
+            <button (click)="getComponent().increasePointWidth()">+</button>
+        </div>
     </div>
-      
-
+    <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE || toolHandler.selectedTool === toolId.RECTANGLE
+                || toolHandler.selectedTool === toolId.POLYGON">
+            <p>Style de remplissage</p>
+            <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
+            <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
+            <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
+            <p>Epaisseur du trait</p>
+            <button (click)="getComponent().decreaseStrokeWidth()">-</button>
+            {{getComponent().shape.strokeWidth}}
+            <button (click)="getComponent().increaseStrokeWidth()">+</button>
+        </div>
     <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE || toolHandler.selectedTool === toolId.POLYGON">
-        <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
-        <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
-        <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
-        <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-        {{getComponent().shape.strokeWidth}}
-        <button (click)="getComponent().increaseStrokeWidth()">+</button>
         <div *ngIf="toolHandler.selectedTool === toolId.POLYGON">
+            <p>Nombre de vertex</p>
             <button (click)="getComponent().decreaseVertexNumber()">-1 Sommet</button>
             {{getComponent().shape.verticesNumber}}
             <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
         </div>
-    </div>
-    <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE">
-        <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
-        <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
-        <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
-        <button (click)="getComponent().decreaseStrokeWidth()">-</button>
-        {{getComponent().shape.strokeWidth}}
-        <button (click)="getComponent().increaseStrokeWidth()">+</button>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
         <h3>Taille de l'efface</h3>
         <input type="number" [(ngModel)]="getComponent().size" min="1" max="40" (change)="getComponent().validateSize()">
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
-        <div class="filter" (click)="getComponent().setStamp(0)">
+        <a class="filter" (click)="getComponent().setStamp(0)">
             <img id="star" src="../../../../../../assets/stamps/grade-24px.svg" title="Étoile">
-        </div>
-        <div class="filter" (click)="getComponent().setStamp(1)">
+        </a>
+        <a class="filter" (click)="getComponent().setStamp(1)">
             <img id="paw" src="../../../../../../assets/stamps/pets-24px.svg" title="Animaux">
-        </div>
-        <div class="filter" (click)="getComponent().setStamp(2)">
+        </a>
+        <a class="filter" (click)="getComponent().setStamp(2)">
             <img id="smile" src="../../../../../../assets/stamps/sentiment_satisfied_alt-24px.svg" title="Bonhomme souriant">
-        </div>
-        <div class="filter" (click)="getComponent().setStamp(3)">
+        </a>
+        <a class="filter" (click)="getComponent().setStamp(3)">
             <img id="heart" src="../../../../../../assets/stamps/favorite-24px.svg" title="Coeur">
-        </div>
-        <div class="filter" (click)="getComponent().setStamp(4)">
+        </a>
+        <a class="filter" (click)="getComponent().setStamp(4)">
             <img id="thumbsup" src="../../../../../../assets/stamps/thumb_up-24px.svg" title="Thumbs up">
-        </div>
-        <div class="filter" (click)="getComponent().setStamp(5)">
+        </a>
+        <a class="filter" (click)="getComponent().setStamp(5)">
             <img id="sun" src="../../../../../../assets/stamps/brightness_5-24px.svg" title="Soleil">
-        </div>
-        <div style='padding: 8px'>
+        </a>
+        <div >
             <p>Mise à l'échelle</p>
             <button (click)="getComponent().decreaseScaleFactor()">-</button>
             {{getComponent().stamp.scaleFactor}}
@@ -96,7 +117,7 @@
         </div>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.TEXT">
-        <div style='padding: 8px'>
+        <div >
             <p>Taille du texte</p>
             <button (click)="getComponent().decreaseFontSize()">-</button>
             {{getComponent().text.fontSize}}
@@ -118,7 +139,7 @@
                 <option value='Verdana, Geneva, Tahoma, sans-serif' style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Verdana</option>
             </select>
         </div>
-        <div style='padding: 8px'>
+        <div >
             <a class="filter" (click)="getComponent().toItalic()">
                 <img id="italic" src="../../../../../../assets/text-options/format_italic-24px.svg" title="Italique">
             </a>

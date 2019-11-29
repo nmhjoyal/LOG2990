@@ -93,7 +93,9 @@ export class EraserComponent {
 
   @HostListener('mouseup') mouseUp(): void {
     this.leftClicked = false;
-    this.saveService.saveDrawing({...this.erasedDrawing});
+    if ( this.erasedDrawing.objects && this.erasedDrawing.objects.length ) {
+      this.saveService.saveDrawing({...this.erasedDrawing});
+    }
 
     this.erasedDrawing = {
       objects: [],

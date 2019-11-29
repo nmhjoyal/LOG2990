@@ -36,7 +36,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       centerX: ToolConstants.NULL,
       centerY: ToolConstants.NULL,
     };
-    this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
+    this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
   }
 
   ngOnInit(): void {
@@ -73,15 +73,20 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('mousemove', ['$event']) mouseMove(event: MouseEvent): void {
+    this.stamp.x = ClickHelper.getXPosition(event) - this.stamp.width / 2;
+    this.stamp.y = ClickHelper.getYPosition(event) - this.stamp.height / 2;
+  }
+
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
     const valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
     this.stamp.angle += valueChange;
   }
 
   @HostListener('keydown.alt') onKeyDownAltEvent(): void {
-    this.angleIncrement = this.angleIncrement === StampConstants.ANGLE_INCREMENT_1 ?
-      this.angleIncrement = StampConstants.ANGLE_INCREMENT_15 :
-      this.angleIncrement = StampConstants.ANGLE_INCREMENT_1;
+    this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
+      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
   }
 
   setStamp(stampIndex: number): void {
