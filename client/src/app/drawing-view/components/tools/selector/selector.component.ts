@@ -10,6 +10,7 @@ import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ITools } from '../assets/interfaces/itools';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 
 @Component({
   selector: 'app-tools-selector',
@@ -111,7 +112,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     if (this.mouseDown) {
       if (this.shouldDrag) {
         this.dragService.snapObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
-          this.windowWidth, this.windowHeight);
+          this.windowWidth, this.windowHeight, ControlPoints.TOP_LEFT);
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);
         this.previewBox = { height: 0, width: 0, x: 0, y: 0 };
