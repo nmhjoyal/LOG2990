@@ -24,7 +24,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   private width: number;
   private height: number;
   private toleranceOffset: number;
-  private viewedPoints: string[];
+  private viewedPoints: number[][];
   private addedPoints: number[][];
 
   private canvas: HTMLCanvasElement;
@@ -98,7 +98,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
 
   protected isNewPoint(positionX: number, positionY: number): boolean {
     for (const iterator of this.viewedPoints) {
-      if (iterator === (positionX + ',' + positionY)) {
+      if (iterator === [positionX, positionY]) {
         return false;
       }
     }
@@ -106,11 +106,43 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
+
     const offset = 15;
-    const up = this.getColourAtPosition(positionX, positionY + offset);
-    const right = this.getColourAtPosition(positionX + offset, positionY);
-    const down = this.getColourAtPosition(positionX, positionY - offset);
-    const left = this.getColourAtPosition(positionX - offset, positionY);
+    const stack: number[][] = [];
+    let position: number[];
+    stack.push([positionX, positionY]);
+    while (stack.length !== 0) {
+      position = stack.pop()!;
+      const up = this.getColourAtPosition(position[0], position[1] + offset);
+      const right = this.getColourAtPosition(position[0] + offset, position[1]);
+      const down = this.getColourAtPosition(position[0], position[1] - offset);
+      const left = this.getColourAtPosition(position[0] - offset, position[1]);
+      // Push other objects on the stack.
+      if (this.isNewPoint(position[0], position[1]) && this.withinCanvas(position[0], position[1])) {
+        this.viewedPoints.push([position[0], position[1]]);
+        if (this.acceptsColor(up)) {
+          stack.push([position[0], position[1] + offset]);
+        } else {
+          this.addedPoints.push([position[0], position[1]]);
+        }
+        if (this.acceptsColor(right)) {
+          stack.push([position[0] + offset, position[1]]);
+        } else {
+          this.addedPoints.push([position[0], position[1]]);
+        }
+        if (this.acceptsColor(down)) {
+          stack.push([position[0], position[1] - offset]);
+        } else {
+          this.addedPoints.push([position[0], position[1]]);
+        }
+        if (this.acceptsColor(left)) {
+          stack.push([position[0] - offset, position[1]]);
+        } else {
+          this.addedPoints.push([position[0], position[1]]);
+        }
+      }
+    }
+/*
     if (this.isNewPoint(positionX, positionY)) {
       if (this.withinCanvas(positionX, positionY)) {
         this.viewedPoints.push(positionX + ',' + positionY);
@@ -135,7 +167,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
           this.addedPoints.push([positionX, positionY]);
         }
       }
-    }
+    }*/
   }
 
   async initializeCanvas(): Promise<void> {
