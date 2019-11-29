@@ -97,8 +97,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   }
 
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
-    const angle = event.deltaY * this.angleIncrement;
-    this.rotateService.rotateAll(angle, this.shiftDown);
+    const rotateValue = event.deltaY > 0 ? this.angleIncrement : -this.angleIncrement;
+    this.rotateService.rotateAll(rotateValue, this.shiftDown);
   }
 
   protected handleMouseDown(event: MouseEvent): void {
