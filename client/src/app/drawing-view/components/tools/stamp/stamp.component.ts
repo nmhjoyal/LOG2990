@@ -83,7 +83,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.stamp.angle += valueChange;
   }
 
-  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+  @HostListener('keydown.alt') onKeyDownAlt(): void {
     this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;

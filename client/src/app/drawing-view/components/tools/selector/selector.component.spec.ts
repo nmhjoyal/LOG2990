@@ -1,3 +1,5 @@
+// tslint:disable:no-string-literal
+// tslint:disable:no-magic-numbers
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
@@ -10,6 +12,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
+import { RotateSelectionService } from 'src/app/services/rotate-selection/rotate-selection.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -61,6 +64,7 @@ describe('SelectorComponent', () => {
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
                                                         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
+    const rotateServiceMock: SpyObj<RotateSelectionService> = jasmine.createSpyObj('RotateSelectionService', ['']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock();
 
@@ -71,6 +75,7 @@ describe('SelectorComponent', () => {
                 DrawingStorageService,
                 SaveService,
                 ColourService,
+                RotateSelectionService,
                 { provide: AttributesService, useValue: attrServiceMock, },
             ],
         }).overrideComponent(SelectorComponent, {
@@ -94,6 +99,7 @@ describe('SelectorComponent', () => {
         spyOn(selectorServiceMock, 'setBoxToDrawing');
         spyOn(toolServiceMock, 'saveSelectorBox').and.callFake(() => { return; });
         spyOn(toolServiceMock, 'resetSelectorBox').and.callThrough();
+        spyOn(rotateServiceMock, 'rotateAll');
     });
 
     it('should create an instance of the derived class', () => {
@@ -114,6 +120,40 @@ describe('SelectorComponent', () => {
         const cursor = new MouseEvent('mousemove');
         fixture.debugElement.triggerEventHandler('mousemove', cursor);
         expect(spy).toHaveBeenCalled();
+    });
+
+    it('#onKeyDownShift should be called when shift is pressed', () => {
+        const spy = spyOn(selector, 'onKeyDownShift');
+        const shiftDown = new KeyboardEvent('shift');
+        fixture.debugElement.triggerEventHandler('keydown', shiftDown);
+        expect(spy).toHaveBeenCalled();
+        expect(selector['shiftDown']).toEqual(true);
+    });
+
+    it('#onKeyUpShift should be called when shift is released', () => {
+        const spy = spyOn(selector, 'onKeyUpShift');
+        const shiftUp = new KeyboardEvent('shift');
+        fixture.debugElement.triggerEventHandler('keyup', shiftUp);
+        expect(spy).toHaveBeenCalled();
+        expect(selector['shiftDown']).toEqual(false);
+    });
+
+    it('#onKeyDownAlt should be called when alt is pressed', () => {
+        selector['angleIncrement'] = 1;
+        const spy = spyOn(selector, 'onKeyDownAlt');
+        const altDown = new KeyboardEvent('alt');
+        fixture.debugElement.triggerEventHandler('keydown', altDown);
+        expect(spy).toHaveBeenCalled();
+        expect(selector['angleIncrement']).toEqual(15);
+    });
+
+    it('#onWheel should be called when the wheel is scrolled', () => {
+        const spy = spyOn(selector, 'onWheel');
+        const scroll = new WheelEvent('wheel');
+        fixture.debugElement.triggerEventHandler('wheel', scroll);
+        expect(spy).toHaveBeenCalled();
+        expect(rotateServiceMock.rotateAll).toHaveBeenCalled();
+
     });
 
     it('#onRelease should be called when left or right mouse button is released', () => {
@@ -221,7 +261,6 @@ describe('SelectorComponent', () => {
         selector.onRelease(leftRelease);
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();
-        // tslint:disable-next-line:no-string-literal
         selector['drawingStorage'].drawings = [];
         selector.onMouseDown(leftClick);
         selector.onRelease(leftRelease);
@@ -239,7 +278,6 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
         selectorBoxExists.and.returnValue(false);
-        // tslint:disable-next-line:no-string-literal
         selector['drawingStorage'].drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
         selector.onMouseDown(rightClick);
         selector.onRelease(rightRelease);
@@ -260,4 +298,6 @@ describe('SelectorComponent', () => {
         expect(selectorServiceMock.recalculateShape).toHaveBeenCalled();
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
     });
+
+
 });
