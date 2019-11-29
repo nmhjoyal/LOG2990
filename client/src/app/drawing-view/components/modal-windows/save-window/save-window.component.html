@@ -37,11 +37,11 @@
         </form>
         <div>
             <button id="saveAs" type="button" mat-raised-button [matMenuTriggerFor]="saveMenu"
-                #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">{{saveAs}}</button>
+                #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">{{saveString}}</button>
             <mat-menu #saveMenu="matMenu">
-                <button mat-menu-item (click)='saveAs(saveAsEnum.LOCAL)'>LOCAL</button>
-                <button mat-menu-item (click)='saveAs(saveAsEnum.SERVER)'>SERVEUR</button>
-                <button mat-menu-item (click)='saveAs(saveAsEnum.DATABASE)'>BASE DE DONNÉES</button>
+                <button mat-menu-item (click)='chooseSavingType(saveAsEnum.LOCAL)'>Sauvegarder localement</button>
+                <button mat-menu-item (click)='chooseSavingType(saveAsEnum.SERVER)'>Sauvegarder sur le serveur</button>
+                <button mat-menu-item (click)='chooseSavingType(saveAsEnum.DATABASE)'>Sauvegarder sur la base de données</button>
             </mat-menu>
         </div>
         <button id="close" type="button" mat-raised-button (click)="onClose()">Fermer</button>

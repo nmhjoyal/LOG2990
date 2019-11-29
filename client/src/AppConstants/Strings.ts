@@ -21,7 +21,7 @@ export enum ExportAs {
 }
 
 export enum SaveAs {
-    LOCAL,
-    SERVER,
-    DATABASE,
+    LOCAL = 'Local',
+    SERVER = 'Serveur',
+    DATABASE = 'Base de données',
 }

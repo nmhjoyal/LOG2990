@@ -23,8 +23,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   private drawing: ISavedDrawing[];
   protected isFinishedSaving: boolean;
   protected saveAsSelected: boolean;
-  protected saveAsEnum: SaveAs;
-  protected saveAs: string;
+  protected saveAsEnum = SaveAs;
+  protected saveType: string;
+  protected saveString: string;
 
   constructor(dialogRef: MatDialogRef<SaveWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ISaveModalData,
@@ -34,6 +35,8 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
   ) {
     super(dialogRef, data, canvasData, undefined, undefined, drawingStorage, undefined, undefined, index);
     this.data.title = Strings.SAVE_WINDOW_TITLE;
+    this.saveAsSelected = false;
+    this.saveType = '';
     this.isFinishedSaving = true;
     this.index.getTags().subscribe(
       (response: ITag[] | undefined) => {
@@ -48,9 +51,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
 
   ngOnInit(): void {
     this.drawing = this.drawingStorage.drawings;
-    this.saveAsSelected = false;
-    this.saveAs = Strings.SAVE_AS;
-    this.saveAsEnum = SaveAs.LOCAL;
+    this.saveString = Strings.SAVE_AS;
   }
 
   onAcceptClick(): void {
@@ -59,31 +60,39 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
       name: this.name, timestamp: date,
       shapes: this.drawing, canvas: this.canvasData.data, tags: [],
     };
-    this.isFinishedSaving = false;
-    this.data.displayedTags.forEach((tag) => {
-      if (tag.isSelected) {
-        this.clickOnTag(tag);
-        // tags should never be undefined as they're initialized to a new empty array in drawingToSave declaration
-        // tslint:disable-next-line: no-non-null-assertion
-        drawingToSave.tags!.push(tag);
-        this.index.saveTag(tag).subscribe(
+    switch (this.saveType) {
+      case SaveAs.SERVER:
+        this.isFinishedSaving = false;
+        this.data.displayedTags.forEach((tag) => {
+          if (tag.isSelected) {
+            this.clickOnTag(tag);
+            // tags should never be undefined as they're initialized to a new empty array in drawingToSave declaration
+            // tslint:disable-next-line: no-non-null-assertion
+            drawingToSave.tags!.push(tag);
+            this.index.saveTag(tag).subscribe(
+              (response: boolean | undefined) => {
+                if (response === undefined) {
+                  confirm('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
+                }
+              },
+            );
+          }
+        });
+        this.index.saveDrawing(drawingToSave).subscribe(
           (response: boolean | undefined) => {
-            if (response === undefined) {
-              confirm('Il y a eu une erreur lors de la sauvegarde des étiquettes.');
+            if (!response) {
+              confirm('Il y a eu une erreur lors de la sauvegarde du dessin.');
             }
-          },
-        );
-      }
-    });
-
-    this.index.saveDrawing(drawingToSave).subscribe(
-      (response: boolean | undefined) => {
-        if (!response) {
-          confirm('Il y a eu une erreur lors de la sauvegarde du dessin.');
-        }
-      });
-    this.isFinishedSaving = true;
-    this.onClose();
+          });
+        this.isFinishedSaving = true;
+        this.onClose();
+        break;
+      case SaveAs.LOCAL:
+        this.saveToLocal(this.name);
+        break;
+      case SaveAs.DATABASE:
+        break;
+    }
   }
 
   addTag(newTag: string): void {
@@ -162,24 +171,15 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
     this.onClose();
   }
 
-  saveAS(as: SaveAs): void {
-    switch (as) {
-      case SaveAs.LOCAL:
-        this.saveAsEnum = as;
-        this.saveAsSelected = true;
-        this.saveAs = 'LOCAL';
+  chooseSavingType(type: string): void {
+    this.saveAsSelected = true;
+    this.saveString = type;
+    switch (type) {
+      case SaveAs.LOCAL: this.saveType = type;
         break;
-      case SaveAs.SERVER:
-        this.saveAsEnum = as;
-        this.saveAsSelected = true;
-        this.saveAs = 'SERVEUR';
+      case SaveAs.SERVER: this.saveType = type;
         break;
-      case SaveAs.DATABASE:
-        this.saveAsEnum = as;
-        this.saveAsSelected = true;
-        this.saveAs = 'BASE DE DONNEES';
-        break;
-      default:
+      case SaveAs.DATABASE: this.saveType = type;
         break;
     }
   }
