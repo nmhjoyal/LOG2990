@@ -53,7 +53,7 @@ export class CanvasComponent implements AfterViewInit {
       this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
     }
   }
-// could unify all methods to apply colour on anything clicked... along with interface changes
+  
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(line), Id.PRIMARY_COLOUR_CHANGE,
@@ -72,7 +72,7 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  applyColourToShape(event: MouseEvent, shape: ITools): void { //compatibilize with ISprayCan...
+  applyColourToShape(event: MouseEvent, shape: ITools): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour && shape.primaryColour !== 'none') { // arrange tests
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
         shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);

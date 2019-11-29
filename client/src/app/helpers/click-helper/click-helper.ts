@@ -60,23 +60,7 @@ export default class ClickHelper {
                 const stampIntersections = svgIntersections.intersect(svgIntersections.shape('circle',
                     { cx: (object.x + (object.width / 2)), cy: (object.y + (object.height / 2)), r: object.width / 2 }),
                     svgIntersections.shape('polyline', selectorLine));
-                return stampIntersections.points.length > 0;
-
-            case Id.SPRAY_CAN: //TODO: TEST THIS
-                let sprayIntersections: any;
-                if ( object.sprays ) {
-                    object.sprays.forEach(position => { // += does not work
-                        sprayIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
-                            r: object.radius}), svgIntersections.shape('polyline', selectorLine));
-                        if ( sprayIntersections.points.length ) {
-                            console.log('spraycan detected hurrr CURSOR BORDER');
-                            return;
-                        }
-                    });
-                    return sprayIntersections.points.length > 0;
-                }
-                return false;
-                
+                return stampIntersections.points.length > 0;        
             default:
                 return false;
         }
