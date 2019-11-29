@@ -58,7 +58,6 @@ export class AppComponent implements OnInit {
     };
     this.cursorX = 0;
     this.cursorY = 0;
-    // this.objectsSaved = false;
   }
 
   ngOnInit(): void {

@@ -23,7 +23,7 @@ export class DragService {
 
   snapObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number, controlPoint: ControlPoints): void {
     switch (controlPoint) {
-      case ControlPoints.TOP_LEFT:
+      case ControlPoints.TOP_LEFT: 
         this.selectorService.selectedObjects.forEach((movedObject) => {
           movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
             / this.gridService.GridSize) * this.gridService.GridSize;
