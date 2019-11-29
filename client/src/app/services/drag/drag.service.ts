@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { GridService } from '../grid/grid.service';
-import { SelectorService } from '../selector-service/selector-service';
-import { ParserService } from '../parser-service/parser.service';
 import { ControlPoints } from 'src/AppConstants/ControlPoints';
+import { GridService } from '../grid/grid.service';
+import { ParserService } from '../parser-service/parser.service';
+import { SelectorService } from '../selector-service/selector-service';
 
 @Injectable({
   providedIn: 'root',

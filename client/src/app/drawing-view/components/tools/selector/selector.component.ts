@@ -7,10 +7,10 @@ import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ITools } from '../assets/interfaces/itools';
-import { ControlPoints } from 'src/AppConstants/ControlPoints';
 
 @Component({
   selector: 'app-tools-selector',
