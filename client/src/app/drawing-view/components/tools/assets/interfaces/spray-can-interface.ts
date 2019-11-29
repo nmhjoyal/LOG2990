@@ -19,6 +19,8 @@ export interface ISprayPaint {
   
 export interface ISprayCan extends ITools {
     sprays: ISprays[];
+    furthestX: number;
+    furthestY: number;
     radius: number;
     primaryColour: string;
 }

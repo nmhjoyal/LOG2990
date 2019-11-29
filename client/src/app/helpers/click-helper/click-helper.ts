@@ -69,6 +69,7 @@ export default class ClickHelper {
                         sprayIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: position.cx, cy: position.cy,
                             r: object.radius}), svgIntersections.shape('polyline', selectorLine));
                         if ( sprayIntersections.points.length ) {
+                            console.log('spraycan detected hurrr');
                             return;
                         }
                     });

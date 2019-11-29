@@ -25,7 +25,6 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   private mouseX: number;
   private mouseY: number;
   private isMouseDown: boolean;
-  protected filterSeed: number;
   diametre: number;
   sprayPerSecond: number;
 
@@ -35,7 +34,6 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     this.mouseX = 0;
     this.diametre = SprayCanConstants.DEFAULT_DIAMETRE;
     this.sprayPerSecond = SprayCanConstants.DEFAULT_SPRAY_PER_SECOND;
-    this.filterSeed = 0;
     this.sprayCan = {
       id: Id.SPRAY_CAN,
       sprays: [],
@@ -43,6 +41,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       primaryColour: this.colourService.getPrimaryColour(), // TODO: add opacity
       x: 0,
       y: 0,
+      furthestX: 0,
+      furthestY: 0,
       width: this.diametre,
       height: this.diametre,
     }
@@ -67,6 +67,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     this.sprayCan.width = this.sprayCan.height = this.diametre;
     this.mouseY = ClickHelper.getYPosition(event);
     this.mouseX = ClickHelper.getXPosition(event);
+    this.sprayCan.y = this.mouseY - this.sprayCan.radius;
+    this.sprayCan.x = this.mouseX - this.sprayCan.radius;
     this.addSpray();
     this.sprayTimer = window.setInterval(() => this.addSpray(), 
       SprayCanConstants.ONE_SECOND / this.sprayPerSecond);
@@ -101,13 +103,23 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   addSpray(): void {
-    this.filterSeed = this.getRandomInt();
-    let position: ISprays = {
+    const position: ISprays = {
       cx: this.mouseX,
       cy: this.mouseY,
       seed: this.getRandomInt(),
     }
     this.sprayCan.sprays.push(position);
+    this.calculateDimensions();
+  }
+
+  calculateDimensions(): void {
+    this.sprayCan.x = Math.min(this.mouseX - this.sprayCan.radius, this.sprayCan.x);
+    this.sprayCan.y = Math.min(this.mouseY - this.sprayCan.radius, this.sprayCan.y);
+
+    const widthCalculation = Math.abs(this.sprayCan.x - this.mouseX) + this.sprayCan.radius;
+    const heightCalculation = Math.abs(this.sprayCan.y - this.mouseY) + this.sprayCan.radius;
+    this.sprayCan.width = Math.max(this.sprayCan.width, widthCalculation);
+    this.sprayCan.height = Math.max(this.sprayCan.height, heightCalculation);
   }
 
   increaseValue(mode: number): void {

@@ -72,8 +72,8 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  applyColourToShape(event: MouseEvent, shape: IShape): void { //compatibilize with ISprayCan...
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') { // and primary colour exists on interface
+  applyColourToShape(event: MouseEvent, shape: ITools): void { //compatibilize with ISprayCan...
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour && shape.primaryColour !== 'none') { // arrange tests
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
         shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
 
@@ -95,11 +95,11 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  getColourFromShape(event: MouseEvent, colourIndex: number, shape: IShape): void {
-    if (this.isStroke(event, shape)) { // and secondary colour exists on interface
-      this.colourService.colour[colourIndex] = shape.secondaryColour;
+  getColourFromShape(event: MouseEvent, colourIndex: number, shape: ITools): void {
+    if (this.isStroke(event, shape) ) { // arrange tests
+      this.colourService.colour[colourIndex] = shape.secondaryColour ? shape.secondaryColour : ToolConstants.NONE;
     } else {
-      this.colourService.colour[colourIndex] = shape.primaryColour;
+      this.colourService.colour[colourIndex] = shape.primaryColour ? shape.primaryColour : ToolConstants.NONE;
     }
   }
 
@@ -117,7 +117,7 @@ export class CanvasComponent implements AfterViewInit {
     this.saveService.saveDrawing(colourChangeOperation);
   }
 
-  isStroke(event: MouseEvent, shape: IShape): boolean {
+  isStroke(event: MouseEvent, shape: ITools): boolean {
     return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
   }
 

@@ -11,6 +11,11 @@ export interface IPolygon {
     vertices?: string;
 }
 
+export interface IColour {
+    primaryColour: string;
+    secondaryColour: string;
+}
+
 export interface IShape extends ITools {
     primaryColour: string;
     secondaryColour: string;
