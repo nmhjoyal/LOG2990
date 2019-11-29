@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   // private objectsSaved: boolean;
 
   @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
+  @ViewChild('snapToggle', { static: false }) snapToggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
   @ViewChild('canvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
@@ -232,7 +233,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.m', ['$event']) onKeydownM(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
-      this.dragService.toggleSnapping();
+      const snapToggle: HTMLElement = this.snapToggle.nativeElement;
+      snapToggle.click();
     }
   }
 

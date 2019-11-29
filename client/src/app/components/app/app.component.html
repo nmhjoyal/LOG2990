@@ -106,6 +106,7 @@
                     <label class="filter"> {{gridService.gridSize}}px </label>
                 </div>
             </mat-menu>
+
             <a mat-button class="filter toolbar" (click)="magnetismMenuTrigger.openMenu()">
                 <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/magnet.png" title="Magnétisme">
                 <a [matMenuTriggerFor]="magnetismMenu" #magnetismMenuTrigger="matMenuTrigger"
@@ -114,10 +115,10 @@
                     <p class="mat-h2 filter"> Magnétisme: </p>
                     <label class="switch" (click)="$event.stopPropagation()">
                         <input type="checkbox">
-                        <span #toggle class="slider" (click)="dragService.toggleSnapping()"></span>
+                        <span #snapToggle class="slider" (click)="dragService.toggleSnapping()"></span>
                     </label>
                     <div>
-                        <p
+                        <p></p>
                     </div>
                 </mat-menu>
             </a>
