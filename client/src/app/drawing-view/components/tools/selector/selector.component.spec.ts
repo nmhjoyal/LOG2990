@@ -93,6 +93,8 @@ describe('SelectorComponent', () => {
         fixture.detectChanges();
         toolServiceMock = TestBed.get(ToolHandlerService);
         selector = fixture.componentInstance;
+        selector['shouldDrag'] = false;
+
         spyOn(selectorServiceMock, 'resetSize');
         spyOn(selectorServiceMock, 'updateCorners');
         spyOn(selectorServiceMock, 'checkForItems');
@@ -152,20 +154,20 @@ describe('SelectorComponent', () => {
         expect(event.preventDefault).toHaveBeenCalled();
     });
 
-    it('test leftclick', () => {
+    it('should reset the service on a left click', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
 
-    it('test rightclick drag', () => {
+    it('should reset the service on a right click drag', () => {
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(false);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         selector.onMouseDown(rightClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
 
-    it('test other click', () => {
+    it('should reset on a mousewheel click ', () => {
         const wheelClick = new MouseEvent('mousedown', { button: ClickTypes.WHEEL_BUTTON });
         selector.onMouseDown(wheelClick);
         selector.onRelease(wheelClick);
@@ -173,7 +175,7 @@ describe('SelectorComponent', () => {
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
 
-    it('test leftclick drag', () => {
+    it('should update the selector box on a left click drag ', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
@@ -185,7 +187,7 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
     });
 
-    it('test rightclick drag and reverse', () => {
+    it('should update the preview box on a right click drag', () => {
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(true);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         selector.onMouseDown(rightClick);
@@ -200,7 +202,7 @@ describe('SelectorComponent', () => {
         selector.onMouseMove(rightDrag);
     });
 
-    it('test leftclick drag and release', () => {
+    it('should call the appropriate functions on a left click drag and reverse', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         const leftDrag = new MouseEvent('mousemove');
@@ -210,7 +212,7 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
     });
 
-    it('test rightclick drag and release', () => {
+    it('should call the appropriate functions on a right click drag and reverse', () => {
         spyOn(toolServiceMock, 'selectorBoxExists').and.returnValue(false);
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         selector.onMouseDown(rightClick);
@@ -221,7 +223,7 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
     });
 
-    it('test leftclick simple', () => {
+    it('should call the call the appropriate functions on a simple left click', () => {
         TestBed.get(DrawingStorageService).drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
@@ -237,7 +239,7 @@ describe('SelectorComponent', () => {
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
 
-    it('test rightclick simple', () => {
+    it('should call the call the appropriate functions on a simple right click', () => {
         TestBed.get(DrawingStorageService).drawings = [drawing];
         const rightClick = new MouseEvent('mousedown', { button: ClickTypes.RIGHT_CLICK });
         selector.onMouseDown(rightClick);
