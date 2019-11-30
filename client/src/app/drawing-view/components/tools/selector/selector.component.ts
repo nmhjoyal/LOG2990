@@ -149,9 +149,6 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     } else {
       // Drag & Drop
       if (this.selectorService.SelectedObjects.size > 0) {
-        this.saveService.drawingStorage.drawings.forEach((drawing: ITools) => {
-          this.saveService.saveDrawing(drawing);
-        });
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);
         this.resetShape();
