@@ -160,13 +160,11 @@ export default class ClickHelper {
                         sprayCanIntersections = svgIntersections.intersect(svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
                         svgIntersections.shape('rect', selectorBox));
                         if ( sprayCanIntersections.points.length ) {
-                            console.log('SHARE\'S BOX AREA');
                             break;
                         }
                     }
                     if ( !sprayCanIntersections.length && this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
                         boxIsInsideObject = true;
-                        console.log('checked box inside object');
                     }
                 }
                 intersectionPoints = sprayCanIntersections.points;

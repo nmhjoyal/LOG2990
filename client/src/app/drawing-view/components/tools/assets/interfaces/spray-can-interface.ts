@@ -1,6 +1,6 @@
 import { ITools } from './itools';
 
-export interface ISprays {
+export interface ISpray {
     cx: number;
     cy: number;
     seed: number;
@@ -8,17 +8,17 @@ export interface ISprays {
   
 export interface ISprayCanOptions {
     wasSaved: boolean;
-    savedDiametre: number;
+    savedDiameter: number;
     savedSprayPerSecond: number;
 }
   
 export interface ISprayPaint {
-    sprays?: ISprays[];
+    sprays?: ISpray[];
     radius?: number;
 }
   
 export interface ISprayCan extends ITools {
-    sprays: ISprays[];
+    sprays: ISpray[];
     furthestX: number;
     furthestY: number;
     radius: number;

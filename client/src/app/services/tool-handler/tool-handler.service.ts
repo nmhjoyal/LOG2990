@@ -157,8 +157,4 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.selectedTool = this.tools.SPRAY_CAN;
   }
-
-  chooseOther(): void {// Place holder for unimplemented tools
-    this.resetToolSelection();
-  }
 }

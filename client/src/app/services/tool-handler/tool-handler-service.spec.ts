@@ -193,13 +193,6 @@ describe('ToolHandlerService', () => {
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.SELECTOR);
   });
 
-  it('#chooseOther should call #resetToolSelection', () => {
-    const resetSpy = spyOn(service, 'resetToolSelection');
-    service.chooseOther();
-
-    expect(resetSpy).toHaveBeenCalled();
-  });
-
   it('#chooseStamp should call #resetToolSelection and select the stamp', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
     service.chooseStamp();

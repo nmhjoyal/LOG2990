@@ -5,10 +5,12 @@ import { SprayCanConstants } from '../assets/constants/spray-can-constants';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 
 describe('SprayCanComponent', () => {
   let component: SprayCanComponent;
   let fixture: ComponentFixture<SprayCanComponent>;
+  const clickHelper: ClickHelper = new ClickHelper(); // mock this
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,11 +51,22 @@ describe('SprayCanComponent', () => {
   });
 
   it('#onMouseLeave should call #onMouseUp if mouseDown is true', () => {
+    const mouseUpSpy = spyOn(component, 'onMouseUp');
+    component['isMouseDown'] = false;
+    component.onMouseLeave();
+    expect(mouseUpSpy).not.toHaveBeenCalled();
 
+    component['isMouseDown'] = true;
+    component.onMouseLeave();
+    expect(mouseUpSpy).toHaveBeenCalled();
   });
 
   it('#onMouseMove should update mouseX and Y if mousdown is true', () => {
+    component['isMouseDown'] = false;
+    const mockMouseEvent: MouseEvent = new MouseEvent('mousemove');
+    component.onMouseMove(mockMouseEvent);
 
+    expect(); // expect the 
   });
 
   it('#calculateDimensions should set x and y to the smallest values, while keeping the biggest width and height possible', () => {
@@ -80,7 +93,7 @@ describe('SprayCanComponent', () => {
     expect(component.sprayPerSecond).toBe(SprayCanConstants.DEFAULT_SPRAY_PER_SECOND + 1);
 
     component.increaseValue(1);
-    expect(component.diametre).toBe(SprayCanConstants.DEFAULT_DIAMETRE + SprayCanConstants.DIAMETRE_STEP);
+    expect(component.diameter).toBe(SprayCanConstants.DEFAULT_DIAMETER + SprayCanConstants.DIAMETER_STEP);
   });
 
   it('##decreaseValue should decrease the diametre or the number of emissinos per second depending on the mode', () => {
@@ -88,16 +101,16 @@ describe('SprayCanComponent', () => {
     expect(component.sprayPerSecond).toBe(SprayCanConstants.DEFAULT_SPRAY_PER_SECOND - 1);
 
     component.decreaseValue(1);
-    expect(component.diametre).toBe(SprayCanConstants.DEFAULT_DIAMETRE - SprayCanConstants.DIAMETRE_STEP);
+    expect(component.diameter).toBe(SprayCanConstants.DEFAULT_DIAMETER - SprayCanConstants.DIAMETER_STEP);
   
-    component.diametre = 0;
+    component.diameter = 0;
     component.sprayPerSecond = 1;
 
     component.decreaseValue(0);
     expect(component.sprayPerSecond).toBe(1);
 
     component.decreaseValue(1);
-    expect(component.diametre).toBe(0);    
+    expect(component.diameter).toBe(0);    
   
   });
 });

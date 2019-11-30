@@ -7,6 +7,7 @@ import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
 import { ISprayCanOptions } from '../interfaces/spray-can-interface';
+import { SprayCanConstants } from '../constants/spray-can-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -180,8 +181,8 @@ export class AttributesService {
   resetSprayCanAttributes(): void { // TODO: TEST THIS
     this.sprayCanAttributes = {
       wasSaved: false,
-      savedDiametre: 40, // TODO: use constant of default value
-      savedSprayPerSecond: 10, // TODO: use constant of default value
+      savedDiameter: SprayCanConstants.DEFAULT_DIAMETER,
+      savedSprayPerSecond: SprayCanConstants.DEFAULT_SPRAY_PER_SECOND,
     };
   }
 
