@@ -1,4 +1,4 @@
-    // tslint:disable: no-string-literal
+// tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -88,8 +88,8 @@ describe('PaintbrushComponent', () => {
 
     expect(component['stroke'].strokeWidth).toEqual(STROKE_WIDTH,
       'loading of attributes, yet strokeWidth did not take saved value');
-      expect(component['stroke'].filter).toEqual(ToolConstants.FILTER_ID.FILTER1,
-        'loading of attributes, yet filter did not take saved value');
+    expect(component['stroke'].filter).toEqual(ToolConstants.FILTER_ID.FILTER1,
+      'loading of attributes, yet filter did not take saved value');
 
   });
 
@@ -130,5 +130,3 @@ describe('PaintbrushComponent', () => {
   });
 
 });
-
-    // tslint:disable:no-string-literal
