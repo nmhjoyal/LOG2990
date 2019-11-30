@@ -85,7 +85,7 @@ export class ParserService {
     }
   }
 
-  snapPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, controlPoint: ControlPoints, selectorService: SelectorService): void {
+  snapPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, selectorService: SelectorService, controlPoint: ControlPoints): void {
     const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
     const newPaths: IComplexPath[] = [];
     if (copiedObject.paths) {
