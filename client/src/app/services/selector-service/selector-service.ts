@@ -126,6 +126,9 @@ export class SelectorService {
 
   dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
     this.selectedObjects.forEach((movedObject) => {
+      if (movedObject.alignX) {
+        movedObject.alignX += (cursorX - this.topCornerX - this.MinWidth / 2);
+      }
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
       this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this);
