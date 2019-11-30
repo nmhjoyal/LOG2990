@@ -82,14 +82,12 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
-      if (this.selectorService.SelectedObjects) {
-
-        if (ClickHelper.getXPosition(event) >= this.selectorService.topCornerX
-          && ClickHelper.getXPosition(event) <= this.selectorService.furthestX
-          && ClickHelper.getYPosition(event) >= this.selectorService.topCornerY
-          && ClickHelper.getYPosition(event) <= this.selectorService.furthestY) {
-          this.shouldDrag = true;
-        }
+      if (this.selectorService.SelectedObjects.size > 0 &&
+        ClickHelper.getXPosition(event) >= this.selectorService.topCornerX
+        && ClickHelper.getXPosition(event) <= this.selectorService.furthestX
+        && ClickHelper.getYPosition(event) >= this.selectorService.topCornerY
+        && ClickHelper.getYPosition(event) <= this.selectorService.furthestY) {
+        this.shouldDrag = true;
       } else {
         this.isRightClick = false;
         this.isReverseSelection = false;

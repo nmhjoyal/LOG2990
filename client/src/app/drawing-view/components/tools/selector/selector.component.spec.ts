@@ -104,6 +104,7 @@ describe('SelectorComponent', () => {
         spyOn(selectorServiceMock, 'setBoxToDrawing');
         spyOn(toolServiceMock, 'saveSelectorBox').and.callFake(() => { return; });
         spyOn(toolServiceMock, 'resetSelectorBox').and.callThrough();
+        spyOn(selectorServiceMock, 'dragObjects').and.callThrough();
     });
 
     it('should create an instance of the derived class', () => {
@@ -154,7 +155,7 @@ describe('SelectorComponent', () => {
         expect(event.preventDefault).toHaveBeenCalled();
     });
 
-    it('should reset the service on a left click', () => {
+    it('should reset the service on a left click if not dragging', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
