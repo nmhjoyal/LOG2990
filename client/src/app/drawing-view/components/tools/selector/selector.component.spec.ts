@@ -94,6 +94,7 @@ describe('SelectorComponent', () => {
         fixture.detectChanges();
         toolServiceMock = TestBed.get(ToolHandlerService);
         selector = fixture.componentInstance;
+        // tslint:disable-next-line: no-string-literal
         selector['shouldDrag'] = false;
 
         spyOn(selectorServiceMock, 'resetSize');
