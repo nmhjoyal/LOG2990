@@ -201,6 +201,6 @@ describe('SelectorService', () => {
   });
 
   it('#SelectedObjects should return the selected objects', () => {
-    expect(service.SelectedObjects).toEqual(service['selectedObjects'])
-  })
+    expect(service.SelectedObjects).toEqual(service['selectedObjects']);
+  });
 });
