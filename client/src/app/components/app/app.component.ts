@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
-  // private objectsSaved: boolean;
 
   @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
@@ -55,7 +54,6 @@ export class AppComponent implements OnInit {
     };
     this.cursorX = 0;
     this.cursorY = 0;
-    // this.objectsSaved = false;
   }
 
   ngOnInit(): void {
