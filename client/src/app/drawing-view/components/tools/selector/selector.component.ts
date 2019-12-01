@@ -8,7 +8,6 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { ITools } from '../assets/interfaces/itools';
 
 @Component({
   selector: 'app-tools-selector',

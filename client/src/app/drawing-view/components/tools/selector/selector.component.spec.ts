@@ -19,15 +19,16 @@ const FORTY = 40;
 const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
 
 class SelectorServiceMock extends SelectorService {
+    selectedObjects: Set<ITools>;
 
     constructor(public saveService: SaveService, public parserService: ParserService) {
         super(saveService, parserService);
+        this.selectedObjects = new Set<ITools>();
+        this.selectedObjects.add(drawing);
     }
 
     get SelectedObjects(): Set<ITools> {
-        const set = new Set<ITools>();
-        set.add(drawing);
-        return set;
+        return this.selectedObjects;
     }
 
     resetSize(): void {
@@ -157,6 +158,7 @@ describe('SelectorComponent', () => {
 
     it('should reset the service on a left click if not dragging', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        selectorServiceMock.selectedObjects.clear();
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
     });
@@ -178,9 +180,11 @@ describe('SelectorComponent', () => {
 
     it('should update the selector box on a left click drag ', () => {
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        selectorServiceMock.selectedObjects.clear();
         selector.onMouseDown(leftClick);
         expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
         const leftDrag = new MouseEvent('mousemove');
+        selectorServiceMock.selectedObjects.add(drawing);
         selector.onMouseMove(leftDrag);
         expect(selectorServiceMock.resetSize).toHaveBeenCalled();
         expect(selectorServiceMock.updateCorners).toHaveBeenCalled();
@@ -227,6 +231,7 @@ describe('SelectorComponent', () => {
     it('should call the call the appropriate functions on a simple left click', () => {
         TestBed.get(DrawingStorageService).drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
         const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        selectorServiceMock.selectedObjects.clear();
         selector.onMouseDown(leftClick);
         const leftRelease = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
         selector.onRelease(leftRelease);
