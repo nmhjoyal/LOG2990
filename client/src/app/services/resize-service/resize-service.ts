@@ -136,17 +136,18 @@ export class ResizeService {
   resizePosition() {
     const difference: IPoint = this.getTopCornerDifference();
     for (const drawing of this.selectorService.SelectedObjects) {
-      this.movePoints(difference.x, difference.y, drawing);
-      difference.x = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference.x / 2 : difference.x;
-      difference.y = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? difference.y / 2 : difference.y;
+      const drawingDifference: IPoint = { x: difference.x, y: difference.y};
+      this.movePoints(drawingDifference.x, drawingDifference.y, drawing);
+      drawingDifference.x = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? drawingDifference.x / 2 : drawingDifference.x;
+      drawingDifference.y = drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON ? drawingDifference.y / 2 : drawingDifference.y;
       if (drawing.scaleX && drawing.scaleY) {
-        drawing.scaleX += difference.x / drawing.width;
-        drawing.scaleY += difference.y / drawing.height;
+        drawing.scaleX += drawingDifference.x / drawing.width;
+        drawing.scaleY += drawingDifference.y / drawing.height;
       }
-      drawing.x -= difference.x;
-      drawing.y -= difference.y;
-      drawing.width = drawing.width + difference.x >= 0 ? drawing.width + difference.x : 0;
-      drawing.height = drawing.height + difference.y >= 0 ? drawing.height + difference.y : 0;
+      drawing.x -= drawingDifference.x;
+      drawing.y -= drawingDifference.y;
+      drawing.width = drawing.width + drawingDifference.x >= 0 ? drawing.width + drawingDifference.x : 0;
+      drawing.height = drawing.height + drawingDifference.y >= 0 ? drawing.height + drawingDifference.y : 0;
     }
     if (this.cursor.x !== ToolConstants.NULL) {
       this.selectorService.topCorner.x = this.cursor.x;
@@ -159,18 +160,19 @@ export class ResizeService {
   resizeAxis(): void {
     const difference: IPoint = this.getBottomCornerDifference();
     for (const drawing of this.selectorService.SelectedObjects) {
-      difference.x = drawing.id === Id.ELLIPSE ? difference.x / 2 : difference.x;
-      difference.y = drawing.id === Id.ELLIPSE ? difference.y / 2 : difference.y;
+      const drawingDifference: IPoint = { x: difference.x, y: difference.y};
+      drawingDifference.x = drawing.id === Id.ELLIPSE ? drawingDifference.x / 2 : drawingDifference.x;
+      drawingDifference.y = drawing.id === Id.ELLIPSE ? drawingDifference.y / 2 : drawingDifference.y;
       if (drawing.scaleX && drawing.scaleY) {
-        drawing.scaleX += difference.x / drawing.width;
-        drawing.scaleY += difference.y / drawing.height;
+        drawing.scaleX += drawingDifference.x / drawing.width;
+        drawing.scaleY += drawingDifference.y / drawing.height;
       }
       if (drawing.id === Id.ELLIPSE || drawing.id === Id.POLYGON) {
-        drawing.x += difference.x;
-        drawing.y += difference.y;
+        drawing.x += drawingDifference.x;
+        drawing.y += drawingDifference.y;
       }
-      drawing.width = drawing.width + difference.x >= 0 ? drawing.width + difference.x : 0;
-      drawing.height = drawing.height + difference.y >= 0 ? drawing.height + difference.y : 0;
+      drawing.width = drawing.width + drawingDifference.x >= 0 ? drawing.width + drawingDifference.x : 0;
+      drawing.height = drawing.height + drawingDifference.y >= 0 ? drawing.height + drawingDifference.y : 0;
     }
     if (this.cursor.x !== ToolConstants.NULL) {
       this.selectorService.bottomCorner.x = this.cursor.x;

@@ -29,62 +29,61 @@ export default class ClickHelper {
     }
 
     static cursorTouchesControlPoint(selectorBox: IPreviewBox, positionX: number, positionY: number): ControlPoints {
-        let points: { x: number, y: number }[] = [];
-        const selectorLine = { points: this.getClickAreaPoints(positionX, positionY) };
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        const selectorSquare = { x: positionX - 2, y: positionY - 2, width: 4, height: 4 };
+        let intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x,
             cy: selectorBox.y, r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.TOP_LEFT;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x + (selectorBox.width / 2),
             cy: selectorBox.y, r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.TOP_MIDDLE;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x + selectorBox.width,
             cy: selectorBox.y, r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.TOP_RIGHT;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x,
             cy: selectorBox.y + (selectorBox.height / 2), r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.MIDDLE_LEFT;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x + selectorBox.width,
             cy: selectorBox.y + (selectorBox.height / 2), r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.MIDDLE_RIGHT;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x,
             cy: selectorBox.y + selectorBox.height, r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.BOTTOM_LEFT;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x + (selectorBox.width / 2),
             cy: selectorBox.y + selectorBox.height, r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.BOTTOM_MIDDLE;
         }
-        points = points.concat(svgIntersections.intersect(svgIntersections.shape('circle', {
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
             cx: selectorBox.x + selectorBox.width,
             cy: selectorBox.y + selectorBox.height, r: 2,
-        }), svgIntersections.shape('polyline', selectorLine)).points);
-        if (points.length > 0) {
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
             return ControlPoints.BOTTOM_RIGHT;
         }
         return ControlPoints.NONE;
