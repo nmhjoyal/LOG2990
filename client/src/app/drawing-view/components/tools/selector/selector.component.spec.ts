@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal no-any
+
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -280,5 +282,60 @@ describe('SelectorComponent', () => {
         selector.onRelease(rightRelease);
         expect(selectorServiceMock.recalculateShape).toHaveBeenCalled();
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
+    });
+
+    it('#leftClick should reset the component and the shape', () => {
+        const spyComponent = spyOn<any>(selector, 'resetComponent');
+        const spyShape = spyOn<any>(selector, 'resetShape');
+        const leftClick = new MouseEvent('mousedown', { button: ClickTypes.LEFT_CLICK });
+        selector['leftClick'](leftClick);
+        expect(spyComponent).toHaveBeenCalled();
+        expect(spyShape).toHaveBeenCalled();
+    });
+
+    it('#handleMouseUp should reset component and shape if dragging but size is 0', () => {
+        const spyComponent = spyOn<any>(selector, 'resetComponent');
+        const spyShape = spyOn<any>(selector, 'resetShape');
+        selector['shouldDrag'] = true;
+        selectorServiceMock.selectedObjects.clear();
+        const leftClick = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
+        selector['handleMouseUp'](leftClick);
+        expect(spyComponent).toHaveBeenCalled();
+        expect(spyShape).toHaveBeenCalled();
+    });
+
+    it('#handleMouseMove should reset selector service if not dragging and size is 0', () => {
+        selector['mouseDown'] = true;
+        selector['shouldDrag'] = false;
+        selectorServiceMock.selectedObjects.clear();
+        const leftClick = new MouseEvent('mouseDown', { button: ClickTypes.LEFT_CLICK });
+        selector['handleMouseMove'](leftClick);
+        expect(selectorServiceMock.resetSelectorService).toHaveBeenCalled();
+    });
+
+    it('#leftClick should do nothing if the cursor does not touch a drawing', () => {
+        TestBed.get(DrawingStorageService).drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
+        const spyTrace = spyOn<any>(selector, 'traceBox');
+        selector['mouseDown'] = true;
+        selector['shouldDrag'] = false;
+        selectorServiceMock.selectedObjects.clear();
+        spyOn(selectorServiceMock, 'cursorTouchesObject').and.returnValue(false);
+        const leftClick = new MouseEvent('mouseDown', { button: ClickTypes.LEFT_CLICK });
+        selector['leftClick'](leftClick);
+        expect(spyTrace).not.toHaveBeenCalled();
+        expect(selectorServiceMock.setBoxToDrawing).not.toHaveBeenCalled();
+    });
+
+    it('#rightClick should do nothing if the cursor does not touch a drawing', () => {
+        TestBed.get(DrawingStorageService).drawings = [{ x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE }];
+        const spyTrace = spyOn<any>(selector, 'traceBox');
+        selector['mouseDown'] = true;
+        selector['shouldDrag'] = false;
+        selectorServiceMock.selectedObjects.clear();
+        spyOn(selectorServiceMock, 'cursorTouchesObject').and.returnValue(false);
+        const rightClick = new MouseEvent('mouseDown', { button: ClickTypes.LEFT_CLICK });
+        selector['rightClick'](rightClick);
+        expect(spyTrace).not.toHaveBeenCalled();
+        expect(selectorServiceMock.setBoxToDrawing).not.toHaveBeenCalled();
     });
 });

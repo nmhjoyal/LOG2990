@@ -1,3 +1,5 @@
+// tslint:disable: no-string-literal
+
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
@@ -187,4 +189,18 @@ describe('SelectorService', () => {
     objectSharesBox.and.returnValue(false);
     expect(service.objectInBox(drawing, previewBox)).toBeFalsy();
   });
+
+  it('should modify the align property if the dragged object is of type text', () => {
+    const originalAlignX = 10;
+    const text: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT, alignX: originalAlignX };
+    service['selectedObjects'].add(text);
+    service['topCornerX'] = 0;
+    service['furthestX'] = originalAlignX;
+    service.dragObjects(FORTY, FORTY, FIFTY, FIFTY);
+    expect(text.alignX).toEqual(originalAlignX + FORTY - 0 - (originalAlignX / 2));
+  });
+
+  it('#SelectedObjects should return the selected objects', () => {
+    expect(service.SelectedObjects).toEqual(service['selectedObjects'])
+  })
 });
