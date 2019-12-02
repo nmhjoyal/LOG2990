@@ -8,6 +8,7 @@ import { CanvasComponent } from '../../../canvas/canvas.component';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { Id, ToolConstants } from '../../assets/constants/tool-constants';
+import { IShape } from '../../assets/interfaces/shape-interface';
 
 @Component({
   selector: 'app-bucket',
@@ -68,10 +69,38 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     console.log(this.initialColour);
     this.addSurroundingPixels(event.x, event.y);
     // console.log(this.viewedPoints);
-    // this.orderPoints();
+    this.orderPoints();
     console.log('Shape points' , this.addedPoints);
     console.log('Shape points' , this.shape.points);
     // super.saveShape();
+  }
+
+  onMouseUp(): void {
+    this.saveShape();
+    this.shape.points = '';
+    this.viewedPoints = [];
+    this.addedPoints = [];
+  }
+
+  onMouseMove(): void {
+    //
+  }
+
+  protected saveShape(): void {
+    const currentDrawing: IShape = {
+      id: this.shape.id,
+      points: this.shape.points,
+      primaryColour: this.shape.primaryColour,
+      secondaryColour: this.shape.secondaryColour,
+      x: this.shape.x,
+      y: this.shape.y,
+      width: this.shape.width,
+      height: this.shape.height,
+      strokeOpacity: this.shape.strokeOpacity,
+      strokeWidth: this.shape.strokeWidth,
+      fillOpacity: this.shape.fillOpacity,
+    };
+    this.drawingStorage.saveDrawing(currentDrawing);
   }
 
   protected acceptsColour(colour: number[]): boolean {
@@ -86,8 +115,8 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected isNewPoint(position: number[]): boolean {
-    for (const iterator of this.viewedPoints) {
-      if (iterator === position) {
+    for (const viewedPoint of this.viewedPoints) {
+      if (viewedPoint[0] === position[0] && viewedPoint[1] === position[1]) {
         return false;
       }
     }
@@ -98,21 +127,20 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.viewedPoints = [];
     this.addedPoints = [];
     this.shape.points = '';
-    const offset = 1;
+    const offset = 5;
     const stack: number[][] = [];
    // let position: number[];
     let position = [positionX, positionY];
     stack.push(position);
     let i = 0;
-    while (stack.length > 0 && i < 10000) {
+    while (stack.length > 0 && stack[i] && i <= 40000) {
       position = stack[i];
       const up = this.getColourAtPosition(position[0], position[1] + offset);
       const right = this.getColourAtPosition(position[0] + offset, position[1]);
       const down = this.getColourAtPosition(position[0], position[1] - offset);
       const left = this.getColourAtPosition(position[0] - offset, position[1]);
-      // Push other objects on the stack.
       if (this.isNewPoint(position) && this.withinCanvas(position)) {
-        this.viewedPoints.push([position[0], position[1]]);
+        this.viewedPoints.push(position);
         if (this.acceptsColour(up)) {
           stack.push([position[0], position[1] + offset]);
         } else {
@@ -189,7 +217,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       lastPoint = this.addedPoints[nearestIndex];
       this.addedPoints.splice(nearestIndex, 1);
     }
-    this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
+    // this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
   }
 
   findNearestIndex(point: number[]): number {
