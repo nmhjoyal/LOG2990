@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
+import { SprayCanConstants } from '../constants/spray-can-constants';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
 import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
+import { ISprayCanOptions } from '../interfaces/spray-can-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
-import { ISprayCanOptions } from '../interfaces/spray-can-interface';
-import { SprayCanConstants } from '../constants/spray-can-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -178,7 +178,7 @@ export class AttributesService {
     };
   }
 
-  resetSprayCanAttributes(): void { // TODO: TEST THIS
+  resetSprayCanAttributes(): void {
     this.sprayCanAttributes = {
       wasSaved: false,
       savedDiameter: SprayCanConstants.DEFAULT_DIAMETER,

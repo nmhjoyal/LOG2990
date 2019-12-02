@@ -22,9 +22,9 @@ import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.comp
 import { LineComponent } from './components/tools/shapes/line/line.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { SprayCanComponent } from './components/tools/spray-can/spray-can.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
-import { SprayCanComponent } from './components/tools/spray-can/spray-can.component';
 
 @NgModule({
   declarations: [

@@ -53,7 +53,7 @@ export class CanvasComponent implements AfterViewInit {
       this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
     }
   }
-  
+
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(line), Id.PRIMARY_COLOUR_CHANGE,
@@ -73,9 +73,9 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   applyColourToShape(event: MouseEvent, shape: ITools): void {
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour && shape.primaryColour !== 'none') { // arrange tests
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
       this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
-        shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+        shape.primaryColour!, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
 
       shape.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
@@ -96,10 +96,10 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   getColourFromShape(event: MouseEvent, colourIndex: number, shape: ITools): void {
-    if (this.isStroke(event, shape) ) { // arrange tests
-      this.colourService.colour[colourIndex] = shape.secondaryColour ? shape.secondaryColour : ToolConstants.NONE;
+    if (this.isStroke(event, shape) ) {
+      this.colourService.colour[colourIndex] = shape.secondaryColour!
     } else {
-      this.colourService.colour[colourIndex] = shape.primaryColour ? shape.primaryColour : ToolConstants.NONE;
+      this.colourService.colour[colourIndex] = shape.primaryColour!
     }
   }
 

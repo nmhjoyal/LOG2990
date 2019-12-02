@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { Id } from '../assets/constants/tool-constants';
+import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { ISprayCan, ISpray } from '../assets/interfaces/spray-can-interface';
 import { SprayCanConstants } from '../assets/constants/spray-can-constants';
-import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { Id } from '../assets/constants/tool-constants';
+import { ISpray, ISprayCan } from '../assets/interfaces/spray-can-interface';
 
 @Component({
   selector: 'app-spray-can',
   templateUrl: './spray-can.component.html',
-  styleUrls: ['./spray-can.component.scss']
+  styleUrls: ['./spray-can.component.scss'],
 })
 export class SprayCanComponent implements OnDestroy, OnInit {
 
@@ -18,12 +18,12 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   @Input() windowWidth: number;
 
   private sprayTimer: number;
-  private sprayCan : ISprayCan;
+  private sprayCan: ISprayCan;
   private mouseX: number;
   private mouseY: number;
   private isMouseDown: boolean;
-  diameter: number;
-  sprayPerSecond: number;
+  private diameter: number;
+  private sprayPerSecond: number;
 
   constructor( private saveService: SaveService, private attributeService: AttributesService, private colourService: ColourService ) {
     this.isMouseDown = false;
@@ -38,11 +38,9 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       primaryColour: this.colourService.getPrimaryColour(), // TODO: add opacity
       x: 0,
       y: 0,
-      furthestX: 0,
-      furthestY: 0,
       width: this.diameter,
       height: this.diameter,
-    }
+    };
   }
 
   ngOnInit(): void {
@@ -53,33 +51,33 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.attributeService.sprayCanAttributes.savedDiameter = this.diameter; 
+    this.attributeService.sprayCanAttributes.savedDiameter = this.diameter;
     this.attributeService.sprayCanAttributes.savedSprayPerSecond = this.sprayPerSecond;
     this.attributeService.sprayCanAttributes.wasSaved = true;
   }
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent ): void {
     this.isMouseDown = true;
-    this.sprayCan.radius = this.diameter/2;
+    this.sprayCan.radius = this.diameter / 2;
     this.sprayCan.width = this.sprayCan.height = this.diameter;
     this.mouseX = ClickHelper.getXPosition(event);
     this.mouseY = ClickHelper.getYPosition(event);
     this.sprayCan.x = this.mouseX - this.sprayCan.radius;
     this.sprayCan.y = this.mouseY - this.sprayCan.radius;
     this.addSpray();
-    this.sprayTimer = window.setInterval(() => this.addSpray(), 
+    this.sprayTimer = window.setInterval(() => this.addSpray(),
       SprayCanConstants.ONE_SECOND / this.sprayPerSecond);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
-    if( this.isMouseDown ) {
+    if ( this.isMouseDown ) {
       this.mouseX = ClickHelper.getXPosition(event);
       this.mouseY = ClickHelper.getYPosition(event);
     }
   }
 
   @HostListener('mouseleave') onMouseLeave(): void {
-    if( this.isMouseDown ) {
+    if ( this.isMouseDown ) {
       this.onMouseUp();
     }
   }
@@ -91,12 +89,12 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       this.sprayCan.sprays = [];
       this.mouseX = 0;
       this.mouseY = 0;
-      this.isMouseDown = false
+      this.isMouseDown = false;
     }
   }
 
   private getRandomInt(): number {
-    return Math.floor(Math.random() * (1000 - 1) + 1);
+    return Math.floor(Math.random() * (SprayCanConstants.MAX_SEED - 1) + 1);
   }
 
   private addSpray(): void {
@@ -104,7 +102,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       cx: this.mouseX,
       cy: this.mouseY,
       seed: this.getRandomInt(),
-    }
+    };
     this.sprayCan.sprays.push(position);
     this.calculateDimensions();
   }
@@ -127,7 +125,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     if (mode === 1  && this.diameter > SprayCanConstants.DIAMETER_STEP) {
       this.diameter -= SprayCanConstants.DIAMETER_STEP;
     } else if (mode === 0 && this.sprayPerSecond > 1) {
-      this.sprayPerSecond -= 1
+      this.sprayPerSecond -= 1;
     }
 
   }
