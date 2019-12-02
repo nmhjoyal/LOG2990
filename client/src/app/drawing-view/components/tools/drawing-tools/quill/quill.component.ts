@@ -101,6 +101,13 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
     }
   }
 
+  onMouseUp(): void {
+    this.saveShape();
+    this.mouseDown = false;
+    this.quill.paths = [];
+    this.quill.points = '';
+  }
+
   protected updatePositionAndDimensions(x: number, y: number): void {
     this.quill.x = x < this.quill.x ? x : this.quill.x;
     this.quill.y = y < this.quill.y ? y : this.quill.y;

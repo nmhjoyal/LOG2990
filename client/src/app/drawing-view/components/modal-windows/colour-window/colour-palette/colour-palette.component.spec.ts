@@ -53,7 +53,7 @@ describe('ColourPaletteComponent', () => {
         expect(component.colour).toBeDefined();
         expect(component['primaryColour']).toBeDefined();
         expect(component['secondaryColour']).toBeDefined();
-        expect((component as any).mousedown).toEqual(false);
+        expect((component as any).mouseDown).toEqual(false);
     });
 
     it('should call all functions on drawGradient', () => {
@@ -87,10 +87,10 @@ describe('ColourPaletteComponent', () => {
     });
 
     it('#onMouseMove should not return value if not onMouseDown', () => {
-        component['mousedown'] = false;
+        component['mouseDown'] = false;
         const event = new MouseEvent('mousemove');
         hostElement.triggerEventHandler('mousemove', event);
-        expect(component['mousedown']).toBeFalsy();
+        expect(component['mouseDown']).toBeFalsy();
     });
 
     it('#onMouseUp should be called when left mouse button gets released', () => {

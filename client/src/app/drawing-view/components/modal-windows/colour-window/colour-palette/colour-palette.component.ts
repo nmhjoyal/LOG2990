@@ -52,12 +52,14 @@ export class ColourPaletteComponent implements AfterViewInit {
   }
 
   draw(): void {
-    this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+    if (!this.context) {
+      this.context = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+    }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     const colourGradient = this.context.createLinearGradient(0, 0, 0, height);
-
     let separatorFactor = 0;
+
     // vertical colour grandient
     colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * separatorFactor, Rainbow.RED);
     colourGradient.addColorStop(ColourConstants.COLOUR_PALETTE_SEPARATOR * ++separatorFactor, Rainbow.ORANGE);

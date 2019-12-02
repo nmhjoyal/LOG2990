@@ -120,10 +120,12 @@ export class ToolHandlerService {
 ​
   choosePrimaryColour(): void {
     this.primaryColourSelected = true;
+    this.colourService.chooseColour(false);
   }
 
   chooseSecondaryColour(): void {
     this.secondaryColourSelected = true;
+    this.colourService.chooseColour(true);
   }
 
   chooseEllipse(): void {

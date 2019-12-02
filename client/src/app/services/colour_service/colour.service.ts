@@ -47,11 +47,9 @@ export class ColourService {
 
   chooseColour(primary: boolean): void  {
     if (primary) {
-      if (!this.mainColour) {this.mainColour = true;
-      }
+      this.mainColour = this.mainColour ? this.mainColour : true;
     } else {
-      if (this.mainColour) {this.mainColour = false;
-      }
+      this.mainColour = this.mainColour ? false : this.mainColour ;
     }
   }
 
