@@ -121,11 +121,25 @@ describe('QuillComponent', () => {
     }
   });
 
-  it('#onMouseUp should call drawingStorage.saveDrawing', () => {
-    const spy = spyOn(quillComponent['drawingStorage'], 'saveDrawing');
-    const mouseEvent: MouseEvent = new MouseEvent('mousedown');
-    quillComponent.onMouseUp(mouseEvent);
-    expect(spy).toHaveBeenCalled();
+  it('#onMouseUp should save stroke and reset paths, following #onMouseMove should not draw', () => {
+    quillComponent['quill'] = {
+      id: ToolConstants.TOOL_ID.QUILL,
+      paths: [{ path: 'M1,2L2,3', pathWidth: 2 }, { path: 'M2,3L3,4', pathWidth: 3 }],
+      colour: 'black',
+      strokeLinecap: ToolConstants.ROUND,
+      x: 0,
+      y: 0,
+      width: 2,
+      height: 2,
+    };
+    expect(drawingServiceMock.drawings.length).toEqual(0);
+    quillComponent.onMouseUp();
+    expect(drawingServiceMock.drawings.length).toEqual(1);
+    if (quillComponent['quill'].paths) {
+      expect(quillComponent['quill'].paths.length).toEqual(0);
+      quillComponent.onMouseMove(new MouseEvent('mousemove'));
+      expect(quillComponent['quill'].paths.length).toEqual(0);
+    }
   });
 
   it('#onMouseDown should set the correct values', () => {

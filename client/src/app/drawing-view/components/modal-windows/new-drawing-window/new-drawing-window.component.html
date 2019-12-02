@@ -4,58 +4,59 @@
         <h3 style="font-size: 11pt">Veuillez entrer les dimensions du nouveau dessin:</h3>
         <h4>9999px par 9999px maximum.</h4>
         <form (ngSubmit)="onAcceptClick()" #newDrawingForm="ngForm">
-            <div class="form-group">
-
-                <label for="heightInput">Hauteur: </label>
-                <mat-form-field appearance="fill">
-                    <input matInput id="heightInput" name="heightInput" class="form-control" pattern="^[1-9][0-9]*$" maxlength="4"
-                        [(ngModel)]="data.drawingHeightInput" [(ngModel)]="drawingHeightPreview" placeholder="Window height: {{this.data.drawingHeightPreview}}px"
-                        #heightInput="ngModel" >
-                    <div *ngIf="heightInput.invalid && (heightInput.dirty || heightInput.touched)"
-                        class="alert alert-danger">
-                        <mat-error *ngIf="heightInput.errors.pattern">
-                            La hauteur doit être numérique et ne pas commencer par 0.
-                        </mat-error>
-                    </div>
-                </mat-form-field>
+            <div class = "inputs">
+                <div class="form-group">
+                    <label for="heightInput">Hauteur: </label>
+                    <mat-form-field appearance="fill">
+                        <input matInput id="heightInput" name="heightInput" class="form-control" pattern="^[1-9][0-9]*$" maxlength="4"
+                            [(ngModel)]="data.drawingHeightInput" [(ngModel)]="drawingHeightPreview" placeholder="Window height: {{this.data.drawingHeightPreview}}px"
+                            #heightInput="ngModel" >
+                        <div *ngIf="heightInput.invalid && (heightInput.dirty || heightInput.touched)"
+                            class="alert alert-danger">
+                            <mat-error *ngIf="heightInput.errors.pattern">
+                                La hauteur doit être numérique et ne pas commencer par 0.
+                            </mat-error>
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <label for="widthInput">Largeur: </label>
+                    <mat-form-field mat-form-field appearance="fill">
+                        <input matInput id="widthInput" name="widthInput" class="form-control" maxlength="4"
+                            [(ngModel)]="data.drawingWidthInput" [(ngModel)]="drawingWidthPreview"  placeholder="Window width: {{this.data.drawingWidthPreview}}px"
+                            pattern="^[1-9][0-9]*$" #widthInput="ngModel" >
+                        <div *ngIf="widthInput.invalid && (widthInput.dirty || widthInput.touched)"
+                            class="alert alert-danger">
+                            <mat-error *ngIf="widthInput.errors.pattern">
+                                La largeur doit être numérique et ne pas commencer par 0.
+                            </mat-error>
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <label for="colourInput">Couleur: </label>
+                    <mat-form-field mat-form-field appearance="fill">
+                        <input matInput id="colourInput" name="colourInput" class="form-control" 
+                            [(ngModel)]="data.drawingColourInput" placeholder="Background: #ffffff (white)"
+                            pattern="^#[0-9a-f]{8}$" #colourInput="ngModel">
+                        <div *ngIf="colourInput.invalid && (colourInput.dirty || colourInput.touched)"
+                            class="alert alert-danger">
+                            <mat-error *ngIf="colourInput.errors.pattern">
+                                La couleur doit être hexadécimale: commencer avec '#' et avoir 8 caractères de 0 à 9 et a à f.
+                            </mat-error>
+                        </div>
+                        <div class="colour-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': data.drawingColourInput}"
+                        ></div>
+                    </mat-form-field>
+                </div>
+                <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
+                <button type="submit" mat-raised-button [disabled]="!newDrawingForm.form.valid"  (click)="onAcceptClick()">Accepter</button>
             </div>
-            <div class="form-group">
-                <label for="widthInput">Largeur: </label>
-                <mat-form-field mat-form-field appearance="fill">
-                    <input matInput id="widthInput" name="widthInput" class="form-control" maxlength="4"
-                        [(ngModel)]="data.drawingWidthInput" [(ngModel)]="drawingWidthPreview"  placeholder="Window width: {{this.data.drawingWidthPreview}}px"
-                        pattern="^[1-9][0-9]*$" #widthInput="ngModel" >
-                    <div *ngIf="widthInput.invalid && (widthInput.dirty || widthInput.touched)"
-                        class="alert alert-danger">
-                        <mat-error *ngIf="widthInput.errors.pattern">
-                            La largeur doit être numérique et ne pas commencer par 0.
-                        </mat-error>
-                    </div>
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <label for="colourInput">Couleur: </label>
-                <mat-form-field mat-form-field appearance="fill">
-                    <input matInput id="colourInput" name="colourInput" class="form-control" 
-                        [(ngModel)]="data.drawingColourInput" placeholder="Background: #ffffff (white)"
-                        pattern="^#[0-9a-f]{8}$" #colourInput="ngModel">
-                    <div *ngIf="colourInput.invalid && (colourInput.dirty || colourInput.touched)"
-                        class="alert alert-danger">
-                        <mat-error *ngIf="colourInput.errors.pattern">
-                            La couleur doit être hexadécimale: commencer avec '#' et avoir 8 caractères de 0 à 9 et a à f.
-                        </mat-error>
-                    </div>
-                    <div class="colour-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': data.drawingColourInput}"
-                    ></div>
-                </mat-form-field>
-            </div>
-            <app-colour-palette (primaryColour)="data.drawingColourInput = $event" (secondaryColour)="colourService.colour[1] = $event"
-                [lastColours]="colourService.lastColours" [mainColour]="colourService.mainColour" [alpha]="colourService.alpha">
-            </app-colour-palette>
-
-            <button type="button" mat-raised-button (click)="onClose()">Fermer</button>
-            <button type="submit" mat-raised-button [disabled]="!newDrawingForm.form.valid"  (click)="onAcceptClick()">Accepter</button>
+            <div class = "colour-picker">
+                <app-colour-palette (primaryColour)="data.drawingColourInput = $event" (secondaryColour)="colourService.colour[1] = $event"
+                    [lastColours]="colourService.lastColours" [mainColour]="colourService.mainColour" [alpha]="colourService.alpha">
+                </app-colour-palette>
+             </div>
         </form>
     </div>
-    
 </div>
