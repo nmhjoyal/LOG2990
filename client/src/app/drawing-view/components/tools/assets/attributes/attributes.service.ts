@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IBucketOptions } from '../interfaces/bucket-interfaces';
 import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
@@ -15,7 +14,7 @@ export class AttributesService {
 
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
-  bucketAttributes: IBucketOptions;
+  bucketAttributes: IShapeOptions;
   penAttributes: IDrawingToolOptions;
   quillAttributes: IQuillOptions;
   rectangleAttributes: IShapeOptions;
@@ -90,8 +89,6 @@ export class AttributesService {
       savedTraceMode: ToolConstants.TRACE_MODE.CONTOUR_FILL,
       savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       savedTolerance: ToolConstants.DEFAULT_TOLERANCE,
-      savedMaxWidth: 0,
-      savedMinWidth: 0,
       x: 0,
       y: 0,
       width: 0,

@@ -25,4 +25,5 @@ export interface IShapeOptions extends ITools, IPreviewBox {
     savedStrokeWidth: number;
     savedTraceMode: number;
     savedVerticesNumber?: number;
+    savedTolerance?: number;
 }

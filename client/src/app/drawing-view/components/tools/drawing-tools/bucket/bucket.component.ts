@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
@@ -17,15 +17,11 @@ import { Id, ToolConstants } from '../../assets/constants/tool-constants';
 
 export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy, AfterViewInit {
 
-  @Input() windowHeight: number;
-  @Input() windowWidth: number;
-  private tolerance: number;
   private initialColour: number[];
-  private width: number;
-  private height: number;
   private toleranceOffset: number;
   private viewedPoints: number[][];
   private addedPoints: number[][];
+  private tolerance: number;
 
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D | null;
@@ -34,13 +30,11 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     public canvasData: CanvasInformationService, protected colourService: ColourService,
     public exportInformation: ExportInformationService, @Inject(CanvasComponent) protected canvasComponent: CanvasComponent) {
     super(drawingStorage, attributesService, colourService);
-    this.width = this.canvasData.data.drawingWidth;
-    this.height = this.canvasData.data.drawingHeight;
     this.canvas = document.createElement('canvas');
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
-    this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
+    this.canvas.width = this.canvasData.data.drawingWidth;
+    this.canvas.height = this.canvasData.data.drawingHeight;
     this.toleranceOffset = ToolConstants.TOLERANCE_OFFSET;
+    this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
     this.viewedPoints = [];
     this.addedPoints = [];
     this.shape.id = Id.BUCKET;
@@ -50,55 +44,50 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   ngOnInit(): void {
     if (this.attributesService.bucketAttributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.bucketAttributes.savedStrokeWidth;
-      this.tolerance = this.attributesService.bucketAttributes.savedTolerance;
-      this.traceMode = this.attributesService.polygonAttributes.savedTraceMode;
+      // this.tolerance = this.attributesService.bucketAttributes.savedTolerance;
+      this.traceMode = this.attributesService.bucketAttributes.savedTraceMode;
     }
+    this.setTraceMode(this.traceMode);
   }
 
   ngOnDestroy(): void {
-    this.attributesService.polygonAttributes.savedTraceMode = this.traceMode;
-    this.saveAttribute();
-  }
-
-  ngAfterViewInit(): void {
-    this.initializeCanvas();
-  }
-
-  saveAttribute(): void {
     this.attributesService.bucketAttributes.wasSaved = true;
     this.attributesService.bucketAttributes.savedStrokeWidth = this.shape.strokeWidth;
     this.attributesService.bucketAttributes.savedTolerance = this.tolerance;
     this.attributesService.bucketAttributes.savedTraceMode = this.traceMode;
   }
 
+  ngAfterViewInit(): void {
+    this.initializeCanvas();
+  }
+
   @HostListener('mousedown', ['$event']) async onMouseDown(event: MouseEvent): Promise<void> {
     await this.initializeCanvas();
-    this.viewedPoints = [];
-    this.addedPoints = [];
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(this.initialColour);
     this.addSurroundingPixels(event.x, event.y);
     // console.log(this.viewedPoints);
-    this.orderPoints();
+    // this.orderPoints();
+    console.log('Shape points' , this.addedPoints);
     console.log('Shape points' , this.shape.points);
-    super.saveShape();
+    // super.saveShape();
   }
 
-  protected acceptsColor(colour: number[]): boolean {
+  protected acceptsColour(colour: number[]): boolean {
     return (Math.abs(colour[0] - this.initialColour[0]) < this.tolerance &&
             Math.abs(colour[1] - this.initialColour[1]) < this.tolerance &&
             Math.abs(colour[2] - this.initialColour[2]) < this.tolerance);
   }
 
-  protected withinCanvas(positionX: number, positionY: number): boolean {
-    return (positionX > 0 && positionX < this.width &&
-            positionY > 0 && positionY < this.height);
+  protected withinCanvas(position: number[]): boolean {
+    return (position[0] > 0 && position[0] < this.canvas.width &&
+            position[1] > 0 && position[1] < this.canvas.height);
   }
 
-  protected isNewPoint(positionX: number, positionY: number): boolean {
+  protected isNewPoint(position: number[]): boolean {
     for (const iterator of this.viewedPoints) {
-      if (iterator === [positionX, positionY]) {
+      if (iterator === position) {
         return false;
       }
     }
@@ -106,94 +95,96 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-
-    const offset = 15;
+    this.viewedPoints = [];
+    this.addedPoints = [];
+    this.shape.points = '';
+    const offset = 1;
     const stack: number[][] = [];
-    let position: number[];
-    stack.push([positionX, positionY]);
-    while (stack.length !== 0) {
-      position = stack.pop()!;
+   // let position: number[];
+    let position = [positionX, positionY];
+    stack.push(position);
+    let i = 0;
+    while (stack.length > 0 && i < 10000) {
+      position = stack[i];
       const up = this.getColourAtPosition(position[0], position[1] + offset);
       const right = this.getColourAtPosition(position[0] + offset, position[1]);
       const down = this.getColourAtPosition(position[0], position[1] - offset);
       const left = this.getColourAtPosition(position[0] - offset, position[1]);
       // Push other objects on the stack.
-      if (this.isNewPoint(position[0], position[1]) && this.withinCanvas(position[0], position[1])) {
+      if (this.isNewPoint(position) && this.withinCanvas(position)) {
         this.viewedPoints.push([position[0], position[1]]);
-        if (this.acceptsColor(up)) {
+        if (this.acceptsColour(up)) {
           stack.push([position[0], position[1] + offset]);
         } else {
           this.addedPoints.push([position[0], position[1]]);
         }
-        if (this.acceptsColor(right)) {
+        if (this.acceptsColour(right)) {
           stack.push([position[0] + offset, position[1]]);
         } else {
           this.addedPoints.push([position[0], position[1]]);
         }
-        if (this.acceptsColor(down)) {
+        if (this.acceptsColour(down)) {
           stack.push([position[0], position[1] - offset]);
         } else {
           this.addedPoints.push([position[0], position[1]]);
         }
-        if (this.acceptsColor(left)) {
+        if (this.acceptsColour(left)) {
           stack.push([position[0] - offset, position[1]]);
         } else {
           this.addedPoints.push([position[0], position[1]]);
         }
       }
+      i++;
     }
-/*
-    if (this.isNewPoint(positionX, positionY)) {
-      if (this.withinCanvas(positionX, positionY)) {
-        this.viewedPoints.push(positionX + ',' + positionY);
-        if (this.acceptsColor(up)) {
-          this.addSurroundingPixels(positionX, positionY + offset);
-        } else {
-          this.addedPoints.push([positionX, positionY]);
-        }
-        if (this.acceptsColor(right)) {
-          this.addSurroundingPixels(positionX + offset, positionY);
-        } else {
-          this.addedPoints.push([positionX, positionY]);
-        }
-        if (this.acceptsColor(down)) {
-          this.addSurroundingPixels(positionX, positionY - offset);
-        } else {
-          this.addedPoints.push([positionX, positionY]);
-        }
-        if (this.acceptsColor(left)) {
-          this.addSurroundingPixels(positionX - offset, positionY);
-        } else {
-          this.addedPoints.push([positionX, positionY]);
-        }
+    /*
+
+    const up = this.getColourAtPosition(positionX, positionY + offset);
+    const right = this.getColourAtPosition(positionX + offset, positionY);
+    const down = this.getColourAtPosition(positionX, positionY - offset);
+    const left = this.getColourAtPosition(positionX - offset, positionY);
+    if (this.isNewPoint(positionX, positionY) && this.withinCanvas(positionX, positionY)) {
+      this.viewedPoints.push([positionX, positionY]);
+      if (this.acceptsColor(up)) {
+        this.addSurroundingPixels(positionX, positionY + offset);
+      } else {
+        this.addedPoints.push([positionX, positionY]);
+      }
+      if (this.acceptsColor(right)) {
+        this.addSurroundingPixels(positionX + offset, positionY);
+      } else {
+        this.addedPoints.push([positionX, positionY]);
+      }
+      if (this.acceptsColor(down)) {
+        this.addSurroundingPixels(positionX, positionY - offset);
+      } else {
+        this.addedPoints.push([positionX, positionY]);
+      }
+      if (this.acceptsColor(left)) {
+        this.addSurroundingPixels(positionX - offset, positionY);
+      } else {
+        this.addedPoints.push([positionX, positionY]);
       }
     }*/
   }
 
   async initializeCanvas(): Promise<void> {
     const img = new Image();
-    img.width = this.width;
-    img.height = this.height;
+    img.width = this.canvas.width;
+    img.height = this.canvas.height;
     this.context = this.canvas.getContext('2d');
     const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
     img.src = `data:image/svg+xml;utf8,${encodeURIComponent(data)}`;
     if (this.context) {
-      this.context.drawImage(img, 0, 0, this.width, this.height);
+      this.context.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
   orderPoints(): void {
-    // const orderedList = new Array<number[]>();
-    // orderedList.push(this.addedPoints[0]);
     let lastPoint = this.addedPoints[0];
     const firstPoint = lastPoint;
-    this.addedPoints.splice(0, 1);
-    for (const iterator of this.addedPoints) {
-      // Find the index of the closest point (using another method)
-      // const nearestIndex = this.findNearestIndex(orderedList[orderedList.length - 1]);
+    this.addedPoints.shift();
+    for (let i = 0; i < this.addedPoints.length; i++) {
       const nearestIndex = this.findNearestIndex(lastPoint);
-      // Remove from the unorderedList and add to the ordered one
-      // orderedList.push(this.addedPoints[nearestIndex]);
       this.shape.points += lastPoint[0] + ',' + lastPoint[1] + ' ';
       lastPoint = this.addedPoints[nearestIndex];
       this.addedPoints.splice(nearestIndex, 1);
