@@ -25,6 +25,10 @@ export class EllipseComponent extends ShapeAbstract implements OnInit, OnDestroy
       this.traceMode = this.attributesService.ellipseAttributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.shape.primaryColour = colour[0];
+      this.shape.secondaryColour = colour[1];
+    });
   }
 
   ngOnDestroy(): void {

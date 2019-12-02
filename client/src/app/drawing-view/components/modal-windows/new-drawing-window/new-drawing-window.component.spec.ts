@@ -11,7 +11,7 @@ import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
-import { ColourPaletteComponent } from '../../colour-picker/colour-palette/colour-palette.component';
+import { ColourPaletteComponent } from '../colour-window/colour-palette/colour-palette.component';
 import { ModalWindowComponent } from '../modal-window/modal-window.component';
 import { INewDrawingModalData } from './INewDrawingModalData';
 import { NewDrawingWindowComponent } from './new-drawing-window.component';
