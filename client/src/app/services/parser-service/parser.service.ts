@@ -107,7 +107,8 @@ export class ParserService {
         + ','
         + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
         + ' ';
-    } const newPaths: IComplexPath[] = [];
+    } 
+    const newPaths: IComplexPath[] = [];
     if (copiedObject.paths) {
       for (const path of copiedObject.paths) {
         const pathMX = path.path.slice(1, path.path.indexOf(' '));

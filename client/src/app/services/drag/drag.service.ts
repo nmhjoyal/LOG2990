@@ -22,14 +22,14 @@ export class DragService {
   }
 
   snapObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number, controlPoint: ControlPoints): void {
+
     switch (controlPoint) {
       case ControlPoints.TOP_LEFT:
+        const topSelectorX = Math.round((this.selectorService.topCornerX) / this.gridService.GridSize) * this.gridService.GridSize;
+        const topSelectorY = Math.round((this.selectorService.topCornerY) / this.gridService.GridSize) * this.gridService.GridSize;
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
-            / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
-            / this.gridService.GridSize) * this.gridService.GridSize;
-          this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.TOP_LEFT);
+          movedObject.x += cursorX - topSelectorX;
+          movedObject.y += cursorY - topSelectorY;
         });
         break;
       case ControlPoints.TOP_MIDDLE:
