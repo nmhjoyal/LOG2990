@@ -5,7 +5,7 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColourPaletteComponent } from './colour-palette/colour-palette.component';
+import { ColourPaletteComponent } from '../colour-palette/colour-palette.component';
 import { ColourPickerComponent } from './colour-picker.component';
 
 describe('ColourPickerComponent', () => {

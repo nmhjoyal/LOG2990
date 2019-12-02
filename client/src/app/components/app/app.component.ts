@@ -18,7 +18,7 @@ import { LocalStorageService } from 'src/app/services/local_storage/local-storag
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
-import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
+import { ColourPickerComponent } from '../../drawing-view/components/modal-windows/colour-window/colour-picker/colour-picker.component';
 import { GridService } from '../../services/grid/grid.service';
 
 @Component({
@@ -88,9 +88,8 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownR(): void {
-    if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseColourApplicator(this.colourService.PrimaryColour,
-         this.colourService.SecondaryColour);
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseColourApplicator();
     }
   }
 
@@ -314,12 +313,5 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColourPickerComponent, {
       panelClass: 'choose-colour-window',
     });
-  }
-
-  switchColours(): void {
-    this.colourService.switchColours();
-    if (!this.toolHandler.isUsingColourApplicator()) {
-      this.toolHandler.resetToolSelection();
-    }
   }
 }

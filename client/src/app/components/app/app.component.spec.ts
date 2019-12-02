@@ -7,8 +7,9 @@ import { MAT_DIALOG_DATA, MatCheckboxModule, MatDialog, MatDialogConfig, MatDial
   MatIconModule, MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColourPaletteComponent } from 'src/app/drawing-view/components/colour-picker/colour-palette/colour-palette.component';
-import { ColourPickerComponent } from 'src/app/drawing-view/components/colour-picker/colour-picker.component';
+// tslint:disable-next-line: max-line-length
+import { ColourPaletteComponent } from 'src/app/drawing-view/components/modal-windows/colour-window/colour-palette/colour-palette.component';
+import { ColourPickerComponent } from 'src/app/drawing-view/components/modal-windows/colour-window/colour-picker/colour-picker.component';
 import { ModalWindowComponent } from 'src/app/drawing-view/components/modal-windows/modal-window/modal-window.component';
 import { INewDrawingModalData } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from 'src/app/drawing-view/components/modal-windows/new-drawing-window/new-drawing-window.component';
@@ -144,15 +145,6 @@ describe('AppComponent', () => {
     component.ngOnInit();
     component.openChooseColourDialog();
     expect(dialogMock.open).toHaveBeenCalled();
-  });
-
-  it('should only resetToolSelection when colourApplicator not selected', () => {
-    toolHandlerMock.isUsingColourApplicator.and.returnValue(true);
-    component.switchColours();
-    expect(toolHandlerMock.resetToolSelection).not.toHaveBeenCalled();
-    toolHandlerMock.isUsingColourApplicator.and.returnValue(false);
-    component.switchColours();
-    expect(toolHandlerMock.resetToolSelection).toHaveBeenCalled();
   });
 
   it('#chooseCrayon should be called when c is pressed', () => {

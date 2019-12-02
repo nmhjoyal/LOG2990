@@ -165,7 +165,8 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.CRAYON">
-    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight">
     </app-crayon>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
@@ -215,7 +216,4 @@
 <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
-</div>
-<div *ngIf="toolHandler.gridSelected">
-       
 </div>

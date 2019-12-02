@@ -19,7 +19,7 @@ describe('EraserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EraserComponent ],
+      declarations: [EraserComponent],
       providers: [
         DrawingStorageService,
         SaveService,
