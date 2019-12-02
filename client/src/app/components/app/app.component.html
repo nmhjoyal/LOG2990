@@ -117,32 +117,24 @@
                         <span #snapToggle class="slider" (click)="dragService.toggleSnapping()"></span>
                     </label>
                     <div>
-                        <mat-radio-group aria-label="Select an option">
-                            <mat-radio-button value="ControlPoints.TOP_LEFT">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </mat-radio-button>
-                            <mat-radio-button value="ControlPoints.TOP_MIDDLE">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </mat-radio-button>
-                            <mat-radio-button value="ControlPoints.TOP_RIGHT"></mat-radio-button>
-                            <p><br> </p>
-                            <mat-radio-button value="ControlPoints.MIDDLE_LEFT">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </mat-radio-button>
-                            <mat-radio-button value="ControlPoints.MIDDLE">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </mat-radio-button>
-                            <mat-radio-button value="ControlPoints.MIDDLE_RIGHT"> </mat-radio-button>
-                            <p><br></p>
-                            <mat-radio-button value="ControlPoints.BOTTOM_LEFT">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </mat-radio-button>
-                            <mat-radio-button value="ControlPoints.BOTTOM_MIDDLE">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </mat-radio-button>
-                            <mat-radio-button value="ControlPoints.BOTTOM_RIGHT"></mat-radio-button>
+                        <input type="radio" value="ControlPoints.TOP_LEFT" checked [ngModel]>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="ControlPoints.TOP_MIDDLE" [ngModel]>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="ControlPoints.TOP_RIGHT" [ngModel]>
+                        <p><br> </p>
+                        <input type="radio" value="ControlPoints.MIDDLE_LEFT" [ngModel]>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="ControlPoints.MIDDLE" [ngModel]>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="ControlPoints.MIDDLE_RIGHT" [ngModel]>
+                        <p><br></p>
+                        <input type="radio" n value="ControlPoints.BOTTOM_LEFT" [ngModel]>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="ControlPoints.BOTTOM_MIDDLE" [ngModel]>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="ControlPoints.BOTTOM_RIGHT" [ngModel]>
 
-                        </mat-radio-group>
                     </div>
                 </mat-menu>
             </a>
