@@ -154,6 +154,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: this.shape.y,
       width: this.shape.width,
       height: this.shape.height,
+      points: this.shape.points,
       verticesNumber: this.shape.verticesNumber,
       vertices: this.shape.vertices,
       primaryColour: this.shape.primaryColour,

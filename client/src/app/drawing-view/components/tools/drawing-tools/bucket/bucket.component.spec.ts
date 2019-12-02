@@ -1,6 +1,8 @@
 // tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
+import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
@@ -17,6 +19,16 @@ describe('BucketComponent', () => {
   let fixture: ComponentFixture<BucketComponent>;
   const saveServiceMock: jasmine.SpyObj<SaveService> = jasmine.createSpyObj('SaveService', ['saveDrawing']);
   const attributesServiceMock: AttributesService = new AttributesService();
+  const canvasDataMock: jasmine.SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
+  const exportDataMock: jasmine.SpyObj<ExportInformationService> = jasmine.createSpyObj('ExportInformationService', ['']);
+
+  canvasDataMock.data = {
+    drawingColour: '',
+    drawingHeight: 0,
+    drawingWidth: 0,
+  };
+
+  exportDataMock.data = jasmine.createSpyObj('IExportData', ['']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +37,7 @@ describe('BucketComponent', () => {
       providers: [
         { provide: SaveService, useValue: saveServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
+        { provide: CanvasInformationService, useValue: canvasDataMock },
       ],
     })
       .compileComponents();
@@ -36,7 +49,7 @@ describe('BucketComponent', () => {
     attrService = TestBed.get(AttributesService);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
+    exportDataMock.data.canvasElement = jasmine.createSpyObj('ElementRef<SVGElement>', ['']);
     component['shape'].x = INITIAL_X;
     component['shape'].y = INITIAL_Y;
   });

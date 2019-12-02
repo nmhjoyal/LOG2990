@@ -49,6 +49,10 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       this.traceMode = this.attributesService.bucketAttributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.shape.primaryColour = colour[0];
+      this.shape.secondaryColour = colour[1];
+    });
   }
 
   ngOnDestroy(): void {
@@ -69,14 +73,15 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     console.log(this.initialColour);
     this.addSurroundingPixels(event.x, event.y);
     // console.log(this.viewedPoints);
+    this.calculateDimensions();
     this.orderPoints();
-    console.log('Shape points' , this.addedPoints);
+    // console.log('Shape points' , this.addedPoints);
     console.log('Shape points' , this.shape.points);
-    // super.saveShape();
   }
 
   onMouseUp(): void {
     this.saveShape();
+    this.resetShape();
     this.shape.points = '';
     this.viewedPoints = [];
     this.addedPoints = [];
@@ -86,21 +91,8 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     //
   }
 
-  protected saveShape(): void {
-    const currentDrawing: IShape = {
-      id: this.shape.id,
-      points: this.shape.points,
-      primaryColour: this.shape.primaryColour,
-      secondaryColour: this.shape.secondaryColour,
-      x: this.shape.x,
-      y: this.shape.y,
-      width: this.shape.width,
-      height: this.shape.height,
-      strokeOpacity: this.shape.strokeOpacity,
-      strokeWidth: this.shape.strokeWidth,
-      fillOpacity: this.shape.fillOpacity,
-    };
-    this.drawingStorage.saveDrawing(currentDrawing);
+  onMouseLeave(): void {
+    //
   }
 
   protected acceptsColour(colour: number[]): boolean {
@@ -124,17 +116,18 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    this.viewedPoints = [];
-    this.addedPoints = [];
-    this.shape.points = '';
+    // this.viewedPoints = [];
+    // this.addedPoints = [];
+    // this.shape.points = '';
     const offset = 5;
     const stack: number[][] = [];
    // let position: number[];
     let position = [positionX, positionY];
     stack.push(position);
     let i = 0;
-    while (stack.length > 0 && stack[i] && i <= 40000) {
+    while (stack.length > 0 && stack[i] ) {
       position = stack[i];
+      let isBorderPoint = false;
       const up = this.getColourAtPosition(position[0], position[1] + offset);
       const right = this.getColourAtPosition(position[0] + offset, position[1]);
       const down = this.getColourAtPosition(position[0], position[1] - offset);
@@ -144,26 +137,30 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
         if (this.acceptsColour(up)) {
           stack.push([position[0], position[1] + offset]);
         } else {
-          this.addedPoints.push([position[0], position[1]]);
+          isBorderPoint = true;
         }
         if (this.acceptsColour(right)) {
           stack.push([position[0] + offset, position[1]]);
         } else {
-          this.addedPoints.push([position[0], position[1]]);
+          isBorderPoint = true;
         }
         if (this.acceptsColour(down)) {
           stack.push([position[0], position[1] - offset]);
         } else {
-          this.addedPoints.push([position[0], position[1]]);
+          isBorderPoint = true;
         }
         if (this.acceptsColour(left)) {
           stack.push([position[0] - offset, position[1]]);
         } else {
+          isBorderPoint = true;
+        }
+        if (isBorderPoint) {
           this.addedPoints.push([position[0], position[1]]);
         }
       }
       i++;
     }
+    console.log(this.viewedPoints.length);
     /*
 
     const up = this.getColourAtPosition(positionX, positionY + offset);
@@ -210,25 +207,25 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   orderPoints(): void {
     let lastPoint = this.addedPoints[0];
     const firstPoint = lastPoint;
-    this.addedPoints.shift();
-    for (let i = 0; i < this.addedPoints.length; i++) {
+    this.addedPoints.splice(0, 1);
+    while (this.addedPoints.length) {
       const nearestIndex = this.findNearestIndex(lastPoint);
-      this.shape.points += lastPoint[0] + ',' + lastPoint[1] + ' ';
       lastPoint = this.addedPoints[nearestIndex];
       this.addedPoints.splice(nearestIndex, 1);
+      this.shape.points += lastPoint[0] + ',' + lastPoint[1] + ' ';
     }
-    // this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
+    this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
   }
 
   findNearestIndex(point: number[]): number {
-    let nearestDistSquared = Infinity;
+    let nearestDistance = Infinity;
     let nearestIndex = 0;
-    for (let i = 0; i < this.addedPoints.length - 1; i++) {
+    for (let i = 0; i < this.addedPoints.length; i++) {
       const point2 = this.addedPoints[i];
-      const distsq = (point[0] - point2[0]) * (point[0] - point2[0])
-                   + (point[1] - point2[1]) * (point[1] - point2[1]);
-      if (distsq < nearestDistSquared) {
-        nearestDistSquared = distsq;
+      const distance = (point[0] - point2[0]) * (point[0] - point2[0])
+                     + (point[1] - point2[1]) * (point[1] - point2[1]);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
         nearestIndex = i;
       }
     }
@@ -244,6 +241,44 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       const b = imageData[++arrayIndex];
       return ([r, g, b]);
     } else { return ([]); }
+  }
+/*
+  protected saveShape(): void {
+    const currentDrawing: IShape = {
+      id: this.shape.id,
+      points: this.shape.points,
+      primaryColour: this.shape.primaryColour,
+      secondaryColour: this.shape.secondaryColour,
+      x: this.shape.x,
+      y: this.shape.y,
+      width: this.shape.width,
+      height: this.shape.height,
+      strokeOpacity: this.shape.strokeOpacity,
+      strokeWidth: this.shape.strokeWidth,
+      fillOpacity: this.shape.fillOpacity,
+    };
+    this.drawingStorage.saveDrawing(currentDrawing);
+  }
+*/
+  protected calculateDimensions(): void {
+    let minWidth = Infinity;
+    let maxWidth = 0;
+    let minHeight = Infinity;
+    let maxHeight = 0;
+    for (const iterator of this.addedPoints) {
+      if (iterator[0] < minWidth) { minWidth = iterator[0]; }
+      if (iterator[0] > maxWidth) { maxWidth = iterator[0]; }
+      if (iterator[1] < minHeight) { minHeight = iterator[1]; }
+      if (iterator[1] < maxHeight) { maxHeight = iterator[1]; }
+    }
+    this.shape.width = maxWidth  - minWidth;
+    this.shape.height = maxHeight  - minHeight;
+    this.shape.x = (maxWidth + minWidth) / 2;
+    this.shape.y = (maxHeight + minHeight) / 2;
+    this.previewBox.width = this.shape.width;
+    this.previewBox.height = this.shape.height;
+    this.previewBox.x = this.shape.x;
+    this.previewBox.y = this.shape.y;
   }
 
   increaseTolerance(): void {
