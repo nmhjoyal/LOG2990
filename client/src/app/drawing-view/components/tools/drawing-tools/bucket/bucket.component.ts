@@ -169,7 +169,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   orderPoints(): void {
-    let lastPoint = this.addedPoints[1];
+    let lastPoint = this.addedPoints[0];
     const firstPoint = lastPoint;
     this.addedPoints.splice(0, 1);
     this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';

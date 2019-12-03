@@ -21,7 +21,6 @@ describe('BucketComponent', () => {
   const attributesServiceMock: AttributesService = new AttributesService();
   const canvasDataMock: jasmine.SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
   const exportDataMock: jasmine.SpyObj<ExportInformationService> = jasmine.createSpyObj('ExportInformationService', ['']);
-
   canvasDataMock.data = {
     drawingColour: '',
     drawingHeight: 0,
@@ -49,7 +48,7 @@ describe('BucketComponent', () => {
     attrService = TestBed.get(AttributesService);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    exportDataMock.data.canvasElement = jasmine.createSpyObj('ElementRef<SVGElement>', ['']);
+
   });
 
   afterEach(() => {
@@ -136,7 +135,7 @@ describe('BucketComponent', () => {
   });
 
   it('getColourAtPosition should not return color when no context', () => {
-    expect(component['getColourAtPosition'](MAX_HEIGHT, MAX_HEIGHT)).toEqual([]);
+    expect(component['getColourAtPosition'](MAX_HEIGHT, MAX_HEIGHT)).toEqual([0, 0, 0]);
     component['initializeCanvas']();
     expect(component['getColourAtPosition'](MAX_HEIGHT, MAX_HEIGHT)).not.toEqual([]);
   });
@@ -199,7 +198,13 @@ describe('BucketComponent', () => {
     expect(component['context']).not.toBeNull();
     expect(spy).toHaveBeenCalled();
   });
-
+/*
+  it('#initializeCanvas should drawImage on context', () => {
+    const spy = spyOn(component, 'context');
+    component.initializeCanvas();
+    expect(spy).toHaveBeenCalled();
+  });
+*/
   it('#calculateDimensions should calculate dimensions', () => {
     component['addedPoints'] = [[0, 0], [MAX_HEIGHT, MAX_HEIGHT], [0, 1]];
     component['calculateDimensions']();
