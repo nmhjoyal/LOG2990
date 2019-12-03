@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import ParserHelper from '../services/parser-service/parser.service';
 import { SaveService } from '../services/save-service/save.service';
 import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
@@ -25,7 +26,6 @@ import { PolygonComponent } from './components/tools/shapes/polygon/polygon.comp
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
-import ParserHelper from '../services/parser-service/parser.service';
 
 @NgModule({
   declarations: [

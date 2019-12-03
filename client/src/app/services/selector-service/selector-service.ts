@@ -3,8 +3,8 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import { SaveService } from '../save-service/save.service';
 import ParserHelper from '../parser-service/parser.service';
+import { SaveService } from '../save-service/save.service';
 
 @Injectable({
   providedIn: 'root',

@@ -3,10 +3,10 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import ParserHelper from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
-import ParserHelper from '../parser-service/parser.service';
 
 @Injectable({
   providedIn: 'root',
