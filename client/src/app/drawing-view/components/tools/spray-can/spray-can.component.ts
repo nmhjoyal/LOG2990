@@ -25,14 +25,15 @@ export class SprayCanComponent extends ToolAbstract implements OnDestroy, OnInit
   private isMouseDown: boolean;
   private diameter: number;
   private sprayPerSecond: number;
+  private constants = SprayCanConstants;
 
   constructor( private saveService: SaveService, private attributeService: AttributesService, private colourService: ColourService ) {
     super();
     this.isMouseDown = false;
     this.mouseX = 0;
     this.mouseY = 0;
-    this.diameter = SprayCanConstants.DEFAULT_DIAMETER;
-    this.sprayPerSecond = SprayCanConstants.DEFAULT_SPRAY_PER_SECOND;
+    this.diameter = this.constants.DEFAULT_DIAMETER;
+    this.sprayPerSecond = this.constants.DEFAULT_SPRAY_PER_SECOND;
     this.sprayCan = {
       id: Id.SPRAY_CAN,
       sprays: [],
@@ -72,7 +73,7 @@ export class SprayCanComponent extends ToolAbstract implements OnDestroy, OnInit
     this.sprayCan.y = this.mouseY - this.sprayCan.radius;
     this.addSpray();
     this.sprayTimer = window.setInterval(() => this.addSpray(),
-      SprayCanConstants.ONE_SECOND / this.sprayPerSecond);
+      this.constants.ONE_SECOND / this.sprayPerSecond);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
@@ -100,7 +101,7 @@ export class SprayCanComponent extends ToolAbstract implements OnDestroy, OnInit
   }
 
   private getRandomInt(): number {
-    return Math.floor(Math.random() * (SprayCanConstants.MAX_SEED - 1) + 1);
+    return Math.floor(Math.random() * (this.constants.MAX_SEED - 1) + 1);
   }
 
   private addSpray(): void {

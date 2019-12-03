@@ -161,12 +161,13 @@
         <div>
         <p>Diamètre du jet: {{getComponent().diameter}}</p>
         <label class="slider">
-            <input type="range" min=20 max=80 step=5 [(ngModel)]="getComponent().diameter">
+            <input type="range" [attr.min]="getComponent().constants.MIN_DIAMETER" [attr.max]="getComponent().constants.MAX_DIAMETER"
+            [attr.step]="getComponent().constants.DIAMETER_STEP" [(ngModel)]="getComponent().diameter">
         </label>
         <br>
         <p>Émissions par seconde: {{getComponent().sprayPerSecond}}</p>
         <label class="slider" >
-            <input type="range" min=1 max=30 step=1 [(ngModel)]="getComponent().sprayPerSecond">
+            <input type="range" min=1 [attr.max]="getComponent().constants.MAX_SPRAY_PER_SECOND" step=1 [(ngModel)]="getComponent().sprayPerSecond">
         </label>  
         </div>
     </div>
