@@ -120,7 +120,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         if (this.isReverseSelection) {
           this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
         }
-        if (this.selectorService.SelectedObjects.size > 0) {
+        if (this.toolService.selectorBoxExists()) {
           this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
             this.selectorService.MinWidth, this.selectorService.MinHeight);
         } else {
