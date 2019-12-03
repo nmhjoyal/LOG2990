@@ -1,14 +1,12 @@
-import { AfterViewInit, Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
-import { CanvasComponent } from '../../../canvas/canvas.component';
 import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { Id, ToolConstants } from '../../assets/constants/tool-constants';
-import { IShape } from '../../assets/interfaces/shape-interface';
 
 @Component({
   selector: 'app-bucket',
@@ -29,7 +27,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
 
   constructor( protected drawingStorage: SaveService, protected attributesService: AttributesService,
     public canvasData: CanvasInformationService, protected colourService: ColourService,
-    public exportInformation: ExportInformationService, @Inject(CanvasComponent) protected canvasComponent: CanvasComponent) {
+    public exportInformation: ExportInformationService) {
     super(drawingStorage, attributesService, colourService);
     this.canvas = document.createElement('canvas');
     this.canvas.width = this.canvasData.data.drawingWidth;
@@ -40,12 +38,14 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.addedPoints = [];
     this.shape.id = Id.BUCKET;
     this.shape.points = '';
+    this.shape.strokeLinecap = ToolConstants.ROUND;
+    this.shape.strokeLinejoin = ToolConstants.ROUND;
   }
 
   ngOnInit(): void {
     if (this.attributesService.bucketAttributes.wasSaved) {
       this.shape.strokeWidth = this.attributesService.bucketAttributes.savedStrokeWidth;
-      // this.tolerance = this.attributesService.bucketAttributes.savedTolerance;
+      this.tolerance = this.attributesService.bucketAttributes.savedTolerance;
       this.traceMode = this.attributesService.bucketAttributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
@@ -66,7 +66,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.initializeCanvas();
   }
 
-  @HostListener('mousedown', ['$event']) async onMouseDown(event: MouseEvent): Promise<void> {
+  async onMouseDown(event: MouseEvent): Promise<void> {
     await this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     console.log(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
@@ -81,10 +81,17 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
 
   onMouseUp(): void {
     this.saveShape();
+    // this.saveService.saveDrawing(this.shape);
     this.resetShape();
     this.shape.points = '';
     this.viewedPoints = [];
     this.addedPoints = [];
+  }
+
+  protected saveShape(): void {
+    if (this.shape.points !== '') {
+      super.saveShape();
+    }
   }
 
   onMouseMove(): void {
@@ -160,36 +167,8 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       }
       i++;
     }
+    stack.length = 0;
     console.log(this.viewedPoints.length);
-    /*
-
-    const up = this.getColourAtPosition(positionX, positionY + offset);
-    const right = this.getColourAtPosition(positionX + offset, positionY);
-    const down = this.getColourAtPosition(positionX, positionY - offset);
-    const left = this.getColourAtPosition(positionX - offset, positionY);
-    if (this.isNewPoint(positionX, positionY) && this.withinCanvas(positionX, positionY)) {
-      this.viewedPoints.push([positionX, positionY]);
-      if (this.acceptsColor(up)) {
-        this.addSurroundingPixels(positionX, positionY + offset);
-      } else {
-        this.addedPoints.push([positionX, positionY]);
-      }
-      if (this.acceptsColor(right)) {
-        this.addSurroundingPixels(positionX + offset, positionY);
-      } else {
-        this.addedPoints.push([positionX, positionY]);
-      }
-      if (this.acceptsColor(down)) {
-        this.addSurroundingPixels(positionX, positionY - offset);
-      } else {
-        this.addedPoints.push([positionX, positionY]);
-      }
-      if (this.acceptsColor(left)) {
-        this.addSurroundingPixels(positionX - offset, positionY);
-      } else {
-        this.addedPoints.push([positionX, positionY]);
-      }
-    }*/
   }
 
   async initializeCanvas(): Promise<void> {
@@ -208,6 +187,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     let lastPoint = this.addedPoints[0];
     const firstPoint = lastPoint;
     this.addedPoints.splice(0, 1);
+    this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
     while (this.addedPoints.length) {
       const nearestIndex = this.findNearestIndex(lastPoint);
       lastPoint = this.addedPoints[nearestIndex];
@@ -242,43 +222,45 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       return ([r, g, b]);
     } else { return ([]); }
   }
-/*
-  protected saveShape(): void {
-    const currentDrawing: IShape = {
-      id: this.shape.id,
-      points: this.shape.points,
-      primaryColour: this.shape.primaryColour,
-      secondaryColour: this.shape.secondaryColour,
-      x: this.shape.x,
-      y: this.shape.y,
-      width: this.shape.width,
-      height: this.shape.height,
-      strokeOpacity: this.shape.strokeOpacity,
-      strokeWidth: this.shape.strokeWidth,
-      fillOpacity: this.shape.fillOpacity,
-    };
-    this.drawingStorage.saveDrawing(currentDrawing);
-  }
-*/
+
   protected calculateDimensions(): void {
     let minWidth = Infinity;
     let maxWidth = 0;
     let minHeight = Infinity;
     let maxHeight = 0;
-    for (const iterator of this.addedPoints) {
-      if (iterator[0] < minWidth) { minWidth = iterator[0]; }
-      if (iterator[0] > maxWidth) { maxWidth = iterator[0]; }
-      if (iterator[1] < minHeight) { minHeight = iterator[1]; }
-      if (iterator[1] < maxHeight) { maxHeight = iterator[1]; }
+    for (const point of this.addedPoints) {
+      if (point[0] < minWidth) { minWidth = point[0]; }
+      if (point[0] > maxWidth) { maxWidth = point[0]; }
+      if (point[1] < minHeight) { minHeight = point[1]; }
+      if (point[1] > maxHeight) { maxHeight = point[1]; }
     }
-    this.shape.width = maxWidth  - minWidth;
-    this.shape.height = maxHeight  - minHeight;
-    this.shape.x = (maxWidth + minWidth) / 2;
-    this.shape.y = (maxHeight + minHeight) / 2;
+    this.shape.width = maxWidth - minWidth;
+    this.shape.height = maxHeight - minHeight;
+    this.shape.x = minWidth;
+    this.shape.y = minHeight;
     this.previewBox.width = this.shape.width;
     this.previewBox.height = this.shape.height;
     this.previewBox.x = this.shape.x;
     this.previewBox.y = this.shape.y;
+/*
+    if (this.shape.points !== undefined) {
+      const pointsList = this.shape.points.split(' ');
+      this.shape.x = this.windowWidth;
+      this.shape.y = this.windowHeight;
+      this.shape.width = 0;
+      this.shape.height = 0;
+      for (const point of pointsList) {
+        const coordinates = point.split(',');
+        this.shape.x = Number(coordinates[0].trim()) < this.shape.x ? Number(coordinates[0].trim()) : this.shape.x;
+        this.shape.width = Number(coordinates[0].trim()) > this.shape.width ? Number(coordinates[0].trim()) : this.shape.width;
+        if (coordinates.length > 1) {
+          this.shape.y = Number(coordinates[1].trim()) < this.shape.y ? Number(coordinates[1].trim()) : this.shape.y;
+          this.shape.height = Number(coordinates[1].trim()) > this.shape.height ? Number(coordinates[1].trim()) : this.shape.height;
+        }
+      }
+      this.shape.width = this.shape.width - this.shape.x;
+      this.shape.height = this.shape.height - this.shape.y;
+    }*/
   }
 
   increaseTolerance(): void {

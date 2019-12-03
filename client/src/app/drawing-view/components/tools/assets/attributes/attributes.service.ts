@@ -3,7 +3,7 @@ import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
 import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
-import { IShapeOptions } from '../interfaces/shape-interface';
+import { IBucketOptions, IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
 
@@ -11,10 +11,9 @@ import { ITextOptions } from '../interfaces/text-interface';
   providedIn: 'root',
 })
 export class AttributesService {
-
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
-  bucketAttributes: IShapeOptions;
+  bucketAttributes: IBucketOptions;
   penAttributes: IDrawingToolOptions;
   quillAttributes: IQuillOptions;
   rectangleAttributes: IShapeOptions;

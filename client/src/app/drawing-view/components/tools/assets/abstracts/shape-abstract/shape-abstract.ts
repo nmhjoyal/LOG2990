@@ -45,11 +45,14 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       height: 0,
       verticesNumber: 0,
       vertices: '',
+      points: '',
       primaryColour: this.colourService.PrimaryColour,
       secondaryColour: this.colourService.SecondaryColour,
       strokeOpacity: this.colourService.SecondaryOpacity,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fillOpacity: this.colourService.PrimaryOpacity,
+      strokeLinecap: ToolConstants.ROUND,
+      strokeLinejoin: ToolConstants.ROUND,
     };
   }
 
@@ -137,7 +140,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       default:
         break;
     }
-
   }
 
   protected calculateDimensions(): void {
@@ -162,6 +164,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
+      strokeLinecap: this.shape.strokeLinecap,
+      strokeLinejoin: this.shape.strokeLinejoin,
     };
     this.saveService.saveDrawing(currentDrawing);
   }

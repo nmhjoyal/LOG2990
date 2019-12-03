@@ -18,6 +18,8 @@ export interface IShape extends ITools {
     strokeWidth: number;
     fillOpacity: number;
     verticesNumber?: number;
+    strokeLinecap?: string;
+    strokeLinejoin?: string;
 }
 
 export interface IShapeOptions extends ITools, IPreviewBox {
@@ -25,5 +27,8 @@ export interface IShapeOptions extends ITools, IPreviewBox {
     savedStrokeWidth: number;
     savedTraceMode: number;
     savedVerticesNumber?: number;
-    savedTolerance?: number;
+}
+
+export interface IBucketOptions extends IShapeOptions {
+    savedTolerance: number;
 }
