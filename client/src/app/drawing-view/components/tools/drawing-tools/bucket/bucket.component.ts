@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
@@ -114,6 +114,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected isNewPoint(position: number[]): boolean {
+    // return !this.viewedPoints.includes(position);
     for (const viewedPoint of this.viewedPoints) {
       if (viewedPoint[0] === position[0] && viewedPoint[1] === position[1]) {
         return false;
@@ -131,9 +132,9 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
    // let position: number[];
     let position = [positionX, positionY];
     stack.push(position);
-    let i = 0;
-    while (stack.length > 0 && stack[i] ) {
-      position = stack[i];
+    while (stack.length > 0) {
+      // position = stack[i];
+      position = stack.pop()!;
       let isBorderPoint = false;
       const up = this.getColourAtPosition(position[0], position[1] + offset);
       const right = this.getColourAtPosition(position[0] + offset, position[1]);
@@ -165,7 +166,6 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
           this.addedPoints.push([position[0], position[1]]);
         }
       }
-      i++;
     }
     stack.length = 0;
     console.log(this.viewedPoints.length);

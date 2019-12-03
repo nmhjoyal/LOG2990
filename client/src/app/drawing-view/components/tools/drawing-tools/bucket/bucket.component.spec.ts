@@ -197,4 +197,17 @@ describe('BucketComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('#calculateDimensions should calculate dimensions', () => {
+    component['addedPoints'] = [[0, 0], [255, 255], [0, 1]];
+    component['calculateDimensions']();
+    expect(component['shape'].width).toEqual(255);
+    expect(component['shape'].height).toEqual(255);
+    expect(component['shape'].x).toEqual(0);
+    expect(component['shape'].y).toEqual(0);
+    expect(component['previewBox'].width).toEqual(255);
+    expect(component['previewBox'].height).toEqual(255);
+    expect(component['previewBox'].x).toEqual(0);
+    expect(component['previewBox'].y).toEqual(0);
+  });
+
 });
