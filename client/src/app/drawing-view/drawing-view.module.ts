@@ -14,12 +14,12 @@ import { AttributesService } from './components/tools/assets/attributes/attribut
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
+import { LineComponent } from './components/tools/drawing-tools/line/line.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
 import { QuillComponent } from './components/tools/drawing-tools/quill/quill.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
-import { LineComponent } from './components/tools/shapes/line/line.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
 import { SprayCanComponent } from './components/tools/spray-can/spray-can.component';

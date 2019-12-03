@@ -30,7 +30,7 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
     this.quill = {
       id: ToolConstants.TOOL_ID.QUILL,
       paths: [],
-      colour: this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
+      colour: this.colourService.PrimaryColour,
       strokeLinecap: ToolConstants.ROUND,
       x: 0,
       y: 0,
@@ -50,6 +50,9 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       this.lineLength = this.attributesService.quillAttributes.savedLineLength;
       this.angle = this.attributesService.quillAttributes.savedAngle;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.quill.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {
@@ -96,6 +99,13 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       this.lastX = x;
       this.lastY = y;
     }
+  }
+
+  onMouseUp(): void {
+    this.saveShape();
+    this.mouseDown = false;
+    this.quill.paths = [];
+    this.quill.points = '';
   }
 
   protected updatePositionAndDimensions(x: number, y: number): void {

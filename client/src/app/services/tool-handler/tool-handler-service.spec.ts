@@ -36,7 +36,7 @@ describe('ToolHandlerService', () => {
     });
     expect(service['primaryColourSelected']).toBe(false);
     expect(service['secondaryColourSelected']).toBe(false);
-    expect(service['primaryColour']).toEqual(colourService.colour[0]);
+    expect(service['primaryColour']).toEqual(colourService.PrimaryColour);
     expect(service['secondaryColour']).toEqual(colourService.colour[1]);
   });
 
@@ -46,8 +46,8 @@ describe('ToolHandlerService', () => {
   });
 
   it('#primaryColour should propely access the primary colour', () => {
-    const colour = colourService.colour[0];
-    expect(colour).toBe(colourService.colour[0]);
+    const colour = colourService.PrimaryColour;
+    expect(colour).toBe(colourService.PrimaryColour);
   });
 
   it('#resetToolSelection should reset all tool selections to false and set noneSelected to true', () => {
@@ -64,12 +64,6 @@ describe('ToolHandlerService', () => {
     expect(service.isUsingText()).toBe(false);
     service.selectedTool = service.tools.TEXT;
     expect(service.isUsingText()).toBe(true);
-  });
-
-  it('#isUsingColourApplicator should return true if colourApplicator is selected', () => {
-    expect(service.isUsingColourApplicator()).toBe(false);
-    service.selectedTool = service.tools.COLOUR_APPLICATOR;
-    expect(service.isUsingColourApplicator()).toBe(true);
   });
 
   it('#resetSelectorBox should reset selector property to default data', () => {
@@ -151,20 +145,14 @@ describe('ToolHandlerService', () => {
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.PAINTBRUSH);
   });
 
-  it('#choosePrimaryColour should call #resetToolSelection and select the PrimaryColour', () => {
-    const resetSpy = spyOn(service, 'resetToolSelection');
+  it('#choosePrimaryColour should select the PrimaryColour', () => {
     service.choosePrimaryColour();
-
-    expect(resetSpy).toHaveBeenCalled();
     expect(service['primaryColourSelected']).toBe(true);
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
 
-  it('#chooseSecondaryColour should call #resetToolSelection and select the SecondaryColour', () => {
-    const resetSpy = spyOn(service, 'resetToolSelection');
+  it('#chooseSecondaryColour should select the SecondaryColour', () => {
     service.chooseSecondaryColour();
-
-    expect(resetSpy).toHaveBeenCalled();
     expect(service['secondaryColourSelected']).toBe(true);
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.NONE);
   });
@@ -203,9 +191,9 @@ describe('ToolHandlerService', () => {
 
   it('#chooseColourApplicator should call #resetToolSelection', () => {
     const resetSpy = spyOn(service, 'resetToolSelection');
-    service.chooseColourApplicator(Strings.WHITE_HEX, Strings.BLACK_HEX);
-    expect(service['primaryColour']).toEqual(Strings.WHITE_HEX);
-    expect(service['secondaryColour']).toEqual(Strings.BLACK_HEX);
+    service.chooseColourApplicator();
+    expect(service['primaryColour']).toEqual(Strings.BLACK_HEX);
+    expect(service['secondaryColour']).toEqual(Strings.WHITE_HEX);
     expect(resetSpy).toHaveBeenCalled();
     expect(service.selectedTool).toBe(ToolConstants.TOOL_ID.COLOUR_APPLICATOR);
   });

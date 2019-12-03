@@ -91,12 +91,13 @@ export class ToolConstants {
     static STRAIGHT =  '0';
     static DOTTED_LINE = '3';
     static DOTTED_POINT = '6';
-    static PRIMARY_COLOUR_INDEX = 0;
-    static SECONDARY_COLOUR_INDEX = 1;
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
     static ANGLE_INCREMENT_1 = 1;
     static ANGLE_INCREMENT_15 = 15;
+    static PRIMARY_COLOUR_INDEX = 0;
+    static SECONDARY_COLOUR_INDEX = 1;
+
 }
 
 export class StampConstants {
