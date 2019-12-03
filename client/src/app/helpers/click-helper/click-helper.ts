@@ -84,6 +84,8 @@ export default class ClickHelper {
                     Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
             case Id.SPRAY_CAN: // TODO: Test This.
                 let isInside = false;
+                // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
+                // tslint:disable-next-line:no-non-null-assertion
                 object.sprays!.forEach((circle) => {
                     if ( object.radius &&
                         Math.pow(positionX - circle.cx, 2) + Math.pow(positionY - circle.cy, 2) <= Math.pow(object.radius, 2) ) {
@@ -153,6 +155,8 @@ export default class ClickHelper {
                 break;
             case Id.SPRAY_CAN: // TODO: Test This
                 let sprayCanIntersections;
+                // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
+                // tslint:disable-next-line:no-non-null-assertion
                 for ( const sprayPatch of object.sprays!) {
                     sprayCanIntersections = svgIntersections.intersect(
                         svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
@@ -161,7 +165,7 @@ export default class ClickHelper {
                         break;
                     }
                 }
-                if ( !sprayCanIntersections.length && 
+                if ( !sprayCanIntersections.length &&
                     this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
                     boxIsInsideObject = true;
                 }

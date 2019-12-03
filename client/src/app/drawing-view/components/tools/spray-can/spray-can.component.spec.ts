@@ -1,10 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { SprayCanConstants } from '../assets/constants/spray-can-constants';
 import { SprayCanComponent } from './spray-can.component';
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 
 // tslint:disable:no-string-literal
 // tslint:disable:no-any
@@ -12,9 +13,10 @@ import { SprayCanComponent } from './spray-can.component';
 describe('SprayCanComponent', () => {
   let component: SprayCanComponent;
   let fixture: ComponentFixture<SprayCanComponent>;
-  const clickHelperSpy = jasmine.createSpyObj('ClickHelper', ['getXPosition', 'getYPosition']);
-
-  beforeEach(async(() => {
+  let clickHelperSpyX: jasmine.Spy<(event: MouseEvent) => number>;
+  let clickHelperSpyY: jasmine.Spy<(event: MouseEvent) => number>;
+  
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ SprayCanComponent ],
       providers: [
@@ -24,12 +26,12 @@ describe('SprayCanComponent', () => {
       ],
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(SprayCanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    clickHelperSpyX = spyOn(ClickHelper, 'getXPosition');
+    clickHelperSpyY = spyOn(ClickHelper, 'getYPosition');
   });
 
   it('should create', () => {
@@ -70,8 +72,8 @@ describe('SprayCanComponent', () => {
     const setIntervalSpy = spyOn(window, 'setInterval');
     const addSpraySpy = spyOn<any>(component, 'addSpray');
     const mockMouseEvent: MouseEvent = new MouseEvent('mousedown');
-    clickHelperSpy.getXPosition.and.returnValue(1);
-    clickHelperSpy.getYPosition.and.returnValue(1);
+    clickHelperSpyX.and.returnValue(1);
+    clickHelperSpyY.and.returnValue(1);
     setIntervalSpy.and.callThrough();
     component['isMouseDown'] = false;
 
@@ -123,13 +125,13 @@ describe('SprayCanComponent', () => {
     const mockMouseEvent: MouseEvent = new MouseEvent('mousemove');
 
     component.onMouseMove(mockMouseEvent);
-    expect(clickHelperSpy.getXPosition).not.toHaveBeenCalled();
-    expect(clickHelperSpy.getYPosition).not.toHaveBeenCalled();
+    expect(clickHelperSpyX).not.toHaveBeenCalled();
+    expect(clickHelperSpyY).not.toHaveBeenCalled();
 
     component['isMouseDown'] = true;
     component.onMouseMove(mockMouseEvent);
-    expect(clickHelperSpy.getXPosition).toHaveBeenCalled();
-    expect(clickHelperSpy.getYPosition).toHaveBeenCalled();
+    expect(clickHelperSpyX).toHaveBeenCalled();
+    expect(clickHelperSpyY).toHaveBeenCalled();
   });
 
   it('#calculateDimensions should set x and y to the smallest values, while keeping the biggest width and height possible', () => {
@@ -137,17 +139,19 @@ describe('SprayCanComponent', () => {
   });
 
   it('#addSpray should generate a spray interface, calling #generateRandomInt' +
-  'and save it in sprayCan.sprays', () => {
+  'and save it in sprayCan.sprays, and then call calculate dimensions', () => {
     component['mouseX'] = 1;
     component['mouseY'] = 2;
     component['sprayCan'].sprays = [];
     const intGenerationSpy = spyOn<any>(component, 'getRandomInt');
+    const calculateDimensionsSpy = spyOn<any>(component, 'calculateDimensions');
     // tslint:disable:no-magic-numbers
     intGenerationSpy.and.returnValue(3);
 
     (component as any).addSpray();
 
     expect(intGenerationSpy).toHaveBeenCalled();
+    expect(calculateDimensionsSpy).toHaveBeenCalled();
     expect(component['sprayCan'].sprays[0]).toEqual({cx: 1, cy: 2, seed: 3});
     // tslint:enable:no-magic-numbers
   });

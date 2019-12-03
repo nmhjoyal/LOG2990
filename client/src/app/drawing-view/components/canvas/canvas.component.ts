@@ -74,8 +74,10 @@ export class CanvasComponent implements AfterViewInit {
 
   applyColourToShape(event: MouseEvent, shape: ITools): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
-      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
-        shape.primaryColour!, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      // shape.primaryColour cannot be undefined; this method is only called on drawings that have primary colour
+      // tslint:disable-next-line:no-non-null-assertion
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE, shape.primaryColour!,
+       this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
 
       shape.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
@@ -97,9 +99,13 @@ export class CanvasComponent implements AfterViewInit {
 
   getColourFromShape(event: MouseEvent, colourIndex: number, shape: ITools): void {
     if (this.isStroke(event, shape) ) {
-      this.colourService.colour[colourIndex] = shape.secondaryColour!
+      // secondary cannot be undefined; this method is only put on shape drawings that have one.
+      // tslint:disable-next-line:no-non-null-assertion
+      this.colourService.colour[colourIndex] = shape.secondaryColour!;
     } else {
-      this.colourService.colour[colourIndex] = shape.primaryColour!
+      // primarycolour cannot be undefined; this method is only put on drawings that have one.
+      // tslint:disable-next-line:no-non-null-assertion
+      this.colourService.colour[colourIndex] = shape.primaryColour!;
     }
   }
 
