@@ -10,7 +10,7 @@
           <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
         </filter>
     <circle [attr.cy]= "position.cy" [attr.opacity]="0.4" [attr.r]="sprayCan.radius" [attr.cx]= "position.cx" 
-    [attr.fill]="sprayCan.primaryColour" [attr.filter]="'url(#' + position.seed + ')'"/>
+    [attr.fill]="sprayCan.primaryColour" [attr.opacity]="sprayCan.fillOpacity" [attr.filter]="'url(#' + position.seed + ')'"/>
 
   </g>
 </svg> 

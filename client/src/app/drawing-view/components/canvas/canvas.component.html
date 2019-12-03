@@ -98,7 +98,7 @@
                         <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
                     </filter>
                     <circle [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" (click)="applyColourToShape($event, drawing)"
-                    [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour" [attr.opacity]="0.4" 
+                    [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour" [attr.opacity]="drawing.fillOpacity" 
                     [attr.filter]="'url(#' + spray.seed + ')'" />
                 </g>
             </g>
