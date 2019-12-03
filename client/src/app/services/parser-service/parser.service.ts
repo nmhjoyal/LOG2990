@@ -7,7 +7,7 @@ import { SelectorService } from '../selector-service/selector-service';
   providedIn: 'root',
 })
 export default class ParserHelper {
-// tslint:disable-next-line: max-line-length because readability is reduced if header is on two lines 
+// tslint:disable-next-line: max-line-length because readability is reduced if header is on two lines
   static parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, offset: number, selectorService: SelectorService): void {
     const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
 
