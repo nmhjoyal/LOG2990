@@ -1,17 +1,17 @@
 <svg #canvas id="canvas" tabindex="0" class="canvas" [attr.width]="canvasData.data.drawingWidth"
-    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour"
-    [ngClass]="[toolHandler.selectedTool === toolHandler.tools.PIPETTE ? 'pipette-cursor' : '',
+    [attr.height]="canvasData.data.drawingHeight" [attr.fill]="canvasData.data.drawingColour" [ngClass]="[toolHandler.selectedTool === toolHandler.tools.PIPETTE ? 'pipette-cursor' : '',
      toolHandler.selectedTool === toolHandler.tools.COLOUR_APPLICATOR ? 'applicator-cursor' : '']">
     <defs>
-         <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize" patternUnits="userSpaceOnUse" >
-            <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour"/>
-            <rect x="0" y="0" width="2" height="100%" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
-            <rect x="0" y="0" width="100%" height="2" fill="black" [attr.fill-opacity] = "gridService.gridOpacity"/>
+            <pattern id="Pattern" x="0" y="0" [attr.width]="gridService.gridSize" [attr.height]="gridService.gridSize"
+            patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="100%" height="100%" [attr.fill]="canvasData.data.drawingColour" />
+            <rect x="0" y="0" width="2" height="100%" fill="black" [attr.fill-opacity]="gridService.gridOpacity" />
+            <rect x="0" y="0" width="100%" height="2" fill="black" [attr.fill-opacity]="gridService.gridOpacity" />
         </pattern>
     </defs>
 
     <rect width="100%" height="100%" (click)="applyColourToCanvas()" fill="url(#Pattern)" stroke="black" />
-        
+
     <filter id="filter1">
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence" />
         <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
@@ -33,10 +33,10 @@
         <feOffset result="offOut2" in="StrokePaint" dx="0.2" dy="0.2" />
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
-    </filter>  
-    <g *ngFor = "let drawing of drawingStorage.drawings">
+    </filter>
+    <g *ngFor="let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
-            
+
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
@@ -44,15 +44,17 @@
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
                     [style.stroke-dasharray]="drawing.strokeDashArray" />
             </g>
-        
+
             <g *ngSwitchCase="toolId.STAMP">
-                    <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
-                    [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
+                    [attr.height]="drawing.height" [attr.href]="drawing.svgReference"
+                    [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
-            <g class = "eyedropper" *ngSwitchCase="toolId.PIPETTE">
-                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"/> 
-        </g>
+            <g class="eyedropper" *ngSwitchCase="toolId.PIPETTE">
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
+                    [attr.height]="drawing.height" />
+            </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
@@ -70,29 +72,27 @@
 
             <g *ngSwitchCase="toolId.BUCKET" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
-                <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
-                    [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
-                    [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
+                <svg>
+                    <polyline [attr.points]="drawing.points" [style.fill]="drawing.primaryColour"
+                        [style.stroke]="drawing.secondaryColour" [style.stroke-width]="drawing.strokeWidth"
+                        [style.stroke-linecap]="drawing.strokeLinecap"
+                        [style.stroke-linestroke]="drawing.strokeLinejoin" />
+                </svg>
             </g>
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths">
-                    <path
-                        [attr.d]="svgpath.path"
-                        [style.stroke-width]="svgpath.pathWidth"
-                        [style.stroke]="drawing.colour"
-                        [style.stroke-linecap]="drawing.strokeLinecap">
+                    <path [attr.d]="svgpath.path" [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour" [style.stroke-linecap]="drawing.strokeLinecap">
                     </path>
                 </g>
             </g>
-            
+
             <g *ngSwitchCase="toolId.QUILL" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths">
-                    <path
-                        [attr.d]="svgpath.path"
-                        [style.stroke-width]="svgpath.pathWidth"
+                    <path [attr.d]="svgpath.path" [style.stroke-width]="svgpath.pathWidth"
                         [style.stroke]="drawing.colour">
                     </path>
                 </g>
@@ -119,15 +119,12 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.TEXT">
-                <text [attr.x]="drawing.alignX" [attr.y]="drawing.y"
-                    [style.font-size]="drawing.fontSize + 'pt'"
-                    [style.font-style]="drawing.italic"
-                    [style.font-weight]="drawing.bold"
-                    [style.font-family]="drawing.fontFamily"
-                    [style.fill]="drawing.primaryColour"
+                <text [attr.x]="drawing.alignX" [attr.y]="drawing.y" [style.font-size]="drawing.fontSize + 'pt'"
+                    [style.font-style]="drawing.italic" [style.font-weight]="drawing.bold"
+                    [style.font-family]="drawing.fontFamily" [style.fill]="drawing.primaryColour"
                     [attr.text-anchor]="drawing.align">
                     <tspan [attr.x]="drawing.alignX" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
-                </text> 
+                </text>
             </g>
         </g>
     </g>
@@ -165,8 +162,7 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-line>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.CRAYON">
-    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight">
+    <app-crayon #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-crayon>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
@@ -174,21 +170,19 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.BUCKET">
-    <app-bucket #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight"></app-bucket>
+    <app-bucket #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    </app-bucket>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
-    <app-eraser #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight"></app-eraser>
+    <app-eraser #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    </app-eraser>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.PEN">
-    <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight">
+    <app-pen #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-pen>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.QUILL">
-    <app-quill #activeTool [windowWidth]="canvasData.data.drawingWidth"
-        [windowHeight]="canvasData.data.drawingHeight">
+    <app-quill #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
     </app-quill>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE">

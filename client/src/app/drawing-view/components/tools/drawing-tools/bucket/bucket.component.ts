@@ -69,19 +69,13 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   async onMouseDown(event: MouseEvent): Promise<void> {
     await this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
-    console.log(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
-    console.log(this.initialColour);
     this.addSurroundingPixels(event.x, event.y);
-    // console.log(this.viewedPoints);
     this.calculateDimensions();
     this.orderPoints();
-    // console.log('Shape points' , this.addedPoints);
-    console.log('Shape points' , this.shape.points);
   }
 
   onMouseUp(): void {
     this.saveShape();
-    // this.saveService.saveDrawing(this.shape);
     this.resetShape();
     this.shape.points = '';
     this.viewedPoints = [];
@@ -128,7 +122,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     // this.addedPoints = [];
     // this.shape.points = '';
     const offset = 5;
-    const stack: number[][] = [];
+    const stack: number[][] = new Array<[]>();
    // let position: number[];
     let position = [positionX, positionY];
     stack.push(position);
