@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { SprayCanConstants } from '../assets/constants/spray-can-constants';
 import { SprayCanComponent } from './spray-can.component';
-import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 
 // tslint:disable:no-string-literal
 // tslint:disable:no-any
@@ -15,7 +15,7 @@ describe('SprayCanComponent', () => {
   let fixture: ComponentFixture<SprayCanComponent>;
   let clickHelperSpyX: jasmine.Spy<(event: MouseEvent) => number>;
   let clickHelperSpyY: jasmine.Spy<(event: MouseEvent) => number>;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ SprayCanComponent ],
@@ -132,10 +132,6 @@ describe('SprayCanComponent', () => {
     component.onMouseMove(mockMouseEvent);
     expect(clickHelperSpyX).toHaveBeenCalled();
     expect(clickHelperSpyY).toHaveBeenCalled();
-  });
-
-  it('#calculateDimensions should set x and y to the smallest values, while keeping the biggest width and height possible', () => {
-
   });
 
   it('#addSpray should generate a spray interface, calling #generateRandomInt' +

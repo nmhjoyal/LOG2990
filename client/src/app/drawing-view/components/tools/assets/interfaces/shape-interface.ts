@@ -13,6 +13,7 @@ export interface IPolygon {
 
 export interface IColour {
     primaryColour: string;
+    fillOpacity: number;
     secondaryColour: string;
 }
 

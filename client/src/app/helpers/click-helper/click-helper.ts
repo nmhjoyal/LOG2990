@@ -82,7 +82,7 @@ export default class ClickHelper {
             case Id.STAMP:
                 return (Math.pow((positionX - (object.x + (object.width / 2))), 2) +
                     Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
-            case Id.SPRAY_CAN: // TODO: Test This.
+            case Id.SPRAY_CAN:
                 let isInside = false;
                 // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
                 // tslint:disable-next-line:no-non-null-assertion
@@ -153,7 +153,7 @@ export default class ClickHelper {
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = stampIntersections.points;
                 break;
-            case Id.SPRAY_CAN: // TODO: Test This
+            case Id.SPRAY_CAN:
                 let sprayCanIntersections;
                 // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
                 // tslint:disable-next-line:no-non-null-assertion

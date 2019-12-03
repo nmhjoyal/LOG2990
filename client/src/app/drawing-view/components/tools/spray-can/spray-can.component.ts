@@ -35,7 +35,8 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       id: Id.SPRAY_CAN,
       sprays: [],
       radius: 0,
-      primaryColour: this.colourService.getPrimaryColour(), // TODO: add opacity
+      primaryColour: this.colourService.PrimaryColour,
+      fillOpacity: this.colourService.PrimaryOpacity,
       x: 0,
       y: 0,
       width: this.diameter,
@@ -48,6 +49,9 @@ export class SprayCanComponent implements OnDestroy, OnInit {
       this.diameter = this.attributeService.sprayCanAttributes.savedDiameter;
       this.sprayPerSecond = this.attributeService.sprayCanAttributes.savedSprayPerSecond;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.sprayCan.primaryColour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {
