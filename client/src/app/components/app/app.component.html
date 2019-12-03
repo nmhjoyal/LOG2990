@@ -116,26 +116,35 @@
                         <input type="checkbox">
                         <span #snapToggle class="slider" (click)="dragService.toggleSnapping()"></span>
                     </label>
-                    <div>
-                        <input type="radio" [value]="0" checked [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                    <form>
+                        <input type="radio" id="top_left" checked="checked" [value]="0" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" [value]="1" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="top_middle" [value]="1" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" [value]="2" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="top_right" [value]="2" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         <p><br> </p>
-                        <input type="radio" [value]="3" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="middle_left" [value]="3" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" [value]="4" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="middle" [value]="4" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" [value]="5" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="middle_right" [value]="5" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         <p><br></p>
-                        <input type="radio" [value]="6" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="bottom_left" [value]="6" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" [value]="7" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="bottom_middle" [value]="7" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" [value]="8" [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        <input type="radio" id="bottom_right" [value]="8" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
 
-                    </div>
+                    </form>
                 </mat-menu>
             </a>
         </mat-nav-list>
