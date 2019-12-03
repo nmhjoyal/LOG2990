@@ -92,7 +92,7 @@
                 <g *ngFor="let spray of drawing.sprays">
                     <filter #sprayCanFilter [attr.id]="spray.seed" >
                         <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
-                        <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.35" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
+                        <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.55" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
                         <feDisplacementMap in2="turbulence" in="SourceGraphic"
                             scale="250" xChannelSelector="R" yChannelSelector="B"/>
                         <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
