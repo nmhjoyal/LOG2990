@@ -34,7 +34,8 @@
         <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>
-    <g *ngFor="let drawing of drawingStorage.drawings">
+
+    <g *ngFor = "let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
 
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
@@ -95,6 +96,21 @@
                     <path [attr.d]="svgpath.path" [style.stroke-width]="svgpath.pathWidth"
                         [style.stroke]="drawing.colour">
                     </path>
+                </g>
+            </g>
+
+            <g *ngSwitchCase="toolId.SPRAY_CAN" >
+                <g *ngFor="let spray of drawing.sprays">
+                    <filter #sprayCanFilter [attr.id]="spray.seed" >
+                        <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
+                        <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.55" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic"
+                            scale="250" xChannelSelector="R" yChannelSelector="B"/>
+                        <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
+                    </filter>
+                    <circle [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" (click)="applyColourToShape($event, drawing)"
+                    [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour" [attr.opacity]="drawing.fillOpacity" 
+                    [attr.filter]="'url(#' + spray.seed + ')'" />
                 </g>
             </g>
 
@@ -210,4 +226,8 @@
 <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
     <app-tools-stamp #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.SPRAY_CAN">
+       <app-spray-can  #activeTool [windowWidth]="canvasData.data.drawingWidth"
+       [windowHeight]="canvasData.data.drawingHeight"></app-spray-can>
 </div>

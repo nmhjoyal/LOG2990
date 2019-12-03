@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
+import { SprayCanConstants } from '../constants/spray-can-constants';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
 import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IBucketOptions, IShapeOptions } from '../interfaces/shape-interface';
+import { ISprayCanOptions } from '../interfaces/spray-can-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
 
@@ -22,6 +24,7 @@ export class AttributesService {
   ellipseAttributes: IShapeOptions;
   stampAttributes: IStampOptions;
   textAttributes: ITextOptions;
+  sprayCanAttributes: ISprayCanOptions;
 
   constructor() {
     this.resetRectangleAttributes();
@@ -34,6 +37,7 @@ export class AttributesService {
     this.resetStampAttributes();
     this.resetPenAttributes();
     this.resetTextAttributes();
+    this.resetSprayCanAttributes();
     this.resetQuillAttributes();
   }
 
@@ -189,7 +193,16 @@ export class AttributesService {
       width: 0,
       height: 0,
     };
-}
+  }
+
+  resetSprayCanAttributes(): void {
+    this.sprayCanAttributes = {
+      wasSaved: false,
+      savedDiameter: SprayCanConstants.DEFAULT_DIAMETER,
+      savedSprayPerSecond: SprayCanConstants.DEFAULT_SPRAY_PER_SECOND,
+    };
+  }
+
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -217,6 +230,9 @@ export class AttributesService {
     }
     if (this.textAttributes.wasSaved) {
       this.resetTextAttributes();
+    }
+    if (this.sprayCanAttributes.wasSaved) {
+      this.resetSprayCanAttributes();
     }
     if (this.quillAttributes.wasSaved) {
       this.resetQuillAttributes();
