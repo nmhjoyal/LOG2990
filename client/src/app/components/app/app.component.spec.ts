@@ -310,6 +310,16 @@ describe('AppComponent', () => {
     expect(clipboardMock.delete).toHaveBeenCalled();
   });
 
+  it('#delete should be called when delete is pressed', () => {
+    clipboardMock.delete.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownDelete();
+    expect(clipboardMock.delete).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownDelete();
+    expect(clipboardMock.delete).toHaveBeenCalled();
+  });
+
   it('#chooseText should be called when t is pressed', () => {
     toolHandlerMock.chooseText.and.callThrough();
     onlyModalOpenSpy.and.returnValue(false);

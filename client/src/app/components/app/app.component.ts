@@ -142,6 +142,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.delete', ['$event']) onKeydownDelete(): void {
+    if (this.isOnlyModalOpen()) {
+      this.clipboardService.delete();
+    }
+  }
+
   @HostListener('document:keydown.t', ['$event']) onKeydownT(): void {
     if (this.isOnlyModalOpen()  && !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseText();

@@ -1,5 +1,4 @@
 // tslint:disable: no-string-literal
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
@@ -9,10 +8,10 @@ import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { BucketComponent } from './bucket.component';
 
-const INITIAL_X = 150;
-const INITIAL_Y = 200;
 const STROKE_WIDTH = 2;
 const TOLERANCE = 25;
+const MAX_HEIGHT = 255;
+const IN_CANVAS = 25;
 
 describe('BucketComponent', () => {
   let component: BucketComponent;
@@ -22,7 +21,6 @@ describe('BucketComponent', () => {
   const attributesServiceMock: AttributesService = new AttributesService();
   const canvasDataMock: jasmine.SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
   const exportDataMock: jasmine.SpyObj<ExportInformationService> = jasmine.createSpyObj('ExportInformationService', ['']);
-  let hostElement: DebugElement;
 
   canvasDataMock.data = {
     drawingColour: '',
@@ -52,9 +50,6 @@ describe('BucketComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     exportDataMock.data.canvasElement = jasmine.createSpyObj('ElementRef<SVGElement>', ['']);
-    component['shape'].x = INITIAL_X;
-    component['shape'].y = INITIAL_Y;
-    hostElement = fixture.debugElement;
   });
 
   afterEach(() => {
@@ -140,46 +135,54 @@ describe('BucketComponent', () => {
     expect(spy3).toHaveBeenCalled();
   });
 
+  it('getColourAtPosition should not return color when no context', () => {
+    expect(component['getColourAtPosition'](MAX_HEIGHT, MAX_HEIGHT)).toEqual([]);
+    component['initializeCanvas']();
+    expect(component['getColourAtPosition'](MAX_HEIGHT, MAX_HEIGHT)).not.toEqual([]);
+  });
+
   it('should return false when out of canvas', () => {
-    const position = [-20, -20];
+    const position = [-IN_CANVAS, -IN_CANVAS];
     expect(component['withinCanvas'](position)).toEqual(false);
   });
 
   it('should return true when in canvas', () => {
-    const position = [20, 20];
-    component['canvas'].width = 100;
-    component['canvas'].height = 100;
+    const position = [IN_CANVAS, IN_CANVAS];
+    component['canvas'].width = MAX_HEIGHT;
+    component['canvas'].height = MAX_HEIGHT;
     expect(component['withinCanvas'](position)).toEqual(true);
   });
 
   it('should return false when is not new point', () => {
-    component['viewedPoints'] = [[0, 0], [1, 1]];
-    const position = [0, 0];
-    expect(component['isNewPoint'](position)).toEqual(false);
+    component['viewedPoints'] = new Set();
+    component['viewedPoints'].add('0,0');
+    component['viewedPoints'].add('0,1');
+    expect(component['isNewPoint'](2)).toEqual(false);
   });
 
   it('should return true when is new point', () => {
-    component['viewedPoints'] = [[0, 0], [1, 1]];
-    const position = [0, 1];
-    expect(component['isNewPoint'](position)).toEqual(true);
+    component['viewedPoints'] = new Set();
+    component['viewedPoints'].add('0,0');
+    component['viewedPoints'].add('0,1');
+    expect(component['isNewPoint'](1)).toEqual(true);
   });
 
   it('should return false when color is not within tolerance', () => {
-    component['tolerance'] = 25;
-    component['initialColour'] = [25, 25, 25];
-    const color = [255, 255, 255];
+    component['tolerance'] = TOLERANCE;
+    component['initialColour'] = [0, 0, 0];
+    const color = [MAX_HEIGHT, MAX_HEIGHT, MAX_HEIGHT];
     expect(component['acceptsColour'](color)).toEqual(false);
   });
 
   it('should return true when color is within tolerance', () => {
-    component['tolerance'] = 25;
-    component['initialColour'] = [25, 25, 25];
-    const color = [25, 25, 25];
+    component['tolerance'] = TOLERANCE;
+    component['initialColour'] = [0, 0, 0];
+    const color = [1, 1, 1];
     expect(component['acceptsColour'](color)).toEqual(true);
   });
 
   it('should order points and write in object', () => {
-    component['addedPoints'] = [[0, 0], [255, 255], [0, 1]];
+    component['addedPoints'] = [[0, 0], [MAX_HEIGHT, MAX_HEIGHT], [0, 1]];
     component['orderPoints']();
     expect(component['shape'].points).toEqual('0,0 0,1 255,255 0,0 ');
   });
@@ -198,14 +201,14 @@ describe('BucketComponent', () => {
   });
 
   it('#calculateDimensions should calculate dimensions', () => {
-    component['addedPoints'] = [[0, 0], [255, 255], [0, 1]];
+    component['addedPoints'] = [[0, 0], [MAX_HEIGHT, MAX_HEIGHT], [0, 1]];
     component['calculateDimensions']();
-    expect(component['shape'].width).toEqual(255);
-    expect(component['shape'].height).toEqual(255);
+    expect(component['shape'].width).toEqual(MAX_HEIGHT);
+    expect(component['shape'].height).toEqual(MAX_HEIGHT);
     expect(component['shape'].x).toEqual(0);
     expect(component['shape'].y).toEqual(0);
-    expect(component['previewBox'].width).toEqual(255);
-    expect(component['previewBox'].height).toEqual(255);
+    expect(component['previewBox'].width).toEqual(MAX_HEIGHT);
+    expect(component['previewBox'].height).toEqual(MAX_HEIGHT);
     expect(component['previewBox'].x).toEqual(0);
     expect(component['previewBox'].y).toEqual(0);
   });
