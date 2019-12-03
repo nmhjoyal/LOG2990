@@ -82,21 +82,24 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  @HostListener('keydown.shift') onKeyDownShift(): void {
-    this.shiftDown = true;
-  }
+  // Rotation functions
 
-  @HostListener('keyup.shift') onKeyUpShift(): void {
+  @HostListener('keyup.shift') onShiftUp(): void {
     this.shiftDown = false;
   }
 
-  @HostListener('keydown.alt') onKeyDownAlt(): void {
+  @HostListener('keydown.shift') onShiftDown(): void {
+    this.shiftDown = true;
+  }
+
+  @HostListener('keydown.alt') onAltDown(): void {
     this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
   }
 
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    event.preventDefault();
     const rotateValue = event.deltaY > 0 ? this.angleIncrement : -this.angleIncrement;
     this.rotateService.rotateAll(rotateValue, this.shiftDown);
   }

@@ -20,7 +20,7 @@ export interface IRotation {
     yCenter: number;
 }
 
-export interface ISavedDrawing extends ITools, IRotation, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape>, Partial<IText> {
+export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape>, Partial<IText> {
     id: string;
     x: number;
     y: number;
@@ -28,6 +28,7 @@ export interface ISavedDrawing extends ITools, IRotation, Partial<IDrawingTool>,
     width: number;
     strokeWidth?: number;
     svgReference?: string;
+    rotations?: IRotation[]; 
 }
 
 
