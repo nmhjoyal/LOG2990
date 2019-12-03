@@ -128,6 +128,11 @@ export class SelectorService {
     this.selectedObjects.forEach((movedObject) => {
       if (movedObject.alignX) {
         movedObject.alignX += (cursorX - this.topCornerX - this.MinWidth / 2);
+      } else if (movedObject.sprays) {
+        movedObject.sprays.forEach( (spray) => {
+          spray.cx += (cursorX - this.topCornerX - this.MinWidth / 2);
+          spray.cy += (cursorY - this.topCornerY - this.MinHeight / 2);
+        })
       }
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
