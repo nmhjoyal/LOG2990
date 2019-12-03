@@ -158,13 +158,16 @@
         </div>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.SPRAY_CAN">
-            <h3>Diamètre du jet:</h3>
-            <button (click)="getComponent().decreaseValue(1)">-</button>
-            {{getComponent().diameter}}
-            <button (click)="getComponent().increaseValue(1)">+</button>
-            <h3>Émissions par seconde: </h3>
-            <button (click)="getComponent().decreaseValue(0)">-</button>
-            {{getComponent().sprayPerSecond}}
-            <button (click)="getComponent().increaseValue(0)">+</button>
+        <div>
+        <p>Diamètre du jet: {{getComponent().diameter}}</p>
+        <label class="slider">
+            <input type="range" min=20 max=80 step=5 [(ngModel)]="getComponent().diameter">
+        </label>
+        <br>
+        <p>Émissions par seconde: {{getComponent().sprayPerSecond}}</p>
+        <label class="slider" >
+            <input type="range" min=1 max=30 step=1 [(ngModel)]="getComponent().sprayPerSecond">
+        </label>  
+        </div>
     </div>
 </div>

@@ -6,13 +6,14 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { SprayCanConstants } from '../assets/constants/spray-can-constants';
 import { Id } from '../assets/constants/tool-constants';
 import { ISpray, ISprayCan } from '../assets/interfaces/spray-can-interface';
+import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 
 @Component({
   selector: 'app-spray-can',
   templateUrl: './spray-can.component.html',
   styleUrls: ['./spray-can.component.scss'],
 })
-export class SprayCanComponent implements OnDestroy, OnInit {
+export class SprayCanComponent extends ToolAbstract implements OnDestroy, OnInit {
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -26,6 +27,7 @@ export class SprayCanComponent implements OnDestroy, OnInit {
   private sprayPerSecond: number;
 
   constructor( private saveService: SaveService, private attributeService: AttributesService, private colourService: ColourService ) {
+    super();
     this.isMouseDown = false;
     this.mouseX = 0;
     this.mouseY = 0;
@@ -119,19 +121,6 @@ export class SprayCanComponent implements OnDestroy, OnInit {
     const heightCalculation = Math.abs(this.sprayCan.y - this.mouseY) + this.sprayCan.radius;
     this.sprayCan.width = Math.max(this.sprayCan.width, widthCalculation);
     this.sprayCan.height = Math.max(this.sprayCan.height, heightCalculation);
-  }
-
-  increaseValue(mode: number): void {
-    mode ? this.diameter += SprayCanConstants.DIAMETER_STEP : this.sprayPerSecond += 1;
-  }
-
-  decreaseValue(mode: number): void {
-    if (mode === 1  && this.diameter > SprayCanConstants.DIAMETER_STEP) {
-      this.diameter -= SprayCanConstants.DIAMETER_STEP;
-    } else if (mode === 0 && this.sprayPerSecond > 1) {
-      this.sprayPerSecond -= 1;
-    }
-
   }
 
 }

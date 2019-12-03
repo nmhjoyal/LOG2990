@@ -151,30 +151,4 @@ describe('SprayCanComponent', () => {
     expect(component['sprayCan'].sprays[0]).toEqual({cx: 1, cy: 2, seed: 3});
     // tslint:enable:no-magic-numbers
   });
-
-  it('#increaseValue should increase the diametre or the number of emissinos per second depending on the mode', () => {
-    component.increaseValue(0);
-    expect(component['sprayPerSecond']).toBe(SprayCanConstants.DEFAULT_SPRAY_PER_SECOND + 1);
-
-    component.increaseValue(1);
-    expect(component['diameter']).toBe(SprayCanConstants.DEFAULT_DIAMETER + SprayCanConstants.DIAMETER_STEP);
-  });
-
-  it('##decreaseValue should decrease the diametre or the number of emissinos per second depending on the mode', () => {
-    component.decreaseValue(0);
-    expect(component['sprayPerSecond']).toBe(SprayCanConstants.DEFAULT_SPRAY_PER_SECOND - 1);
-
-    component.decreaseValue(1);
-    expect(component['diameter']).toBe(SprayCanConstants.DEFAULT_DIAMETER - SprayCanConstants.DIAMETER_STEP);
-
-    component['diameter'] = 0;
-    component['sprayPerSecond'] = 1;
-
-    component.decreaseValue(0);
-    expect(component['sprayPerSecond']).toBe(1);
-
-    component.decreaseValue(1);
-    expect(component['diameter']).toBe(0);
-
-  });
 });

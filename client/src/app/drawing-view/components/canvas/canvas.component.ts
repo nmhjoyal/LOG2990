@@ -60,7 +60,7 @@ export class CanvasComponent implements AfterViewInit {
       Id.PRIMARY_COLOUR_CHANGE, line.colour, this.colourService.PrimaryColour);
       line.colour = this.colourService.PrimaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]  = line.colour;
+      this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = line.colour;
     }
   }
 
