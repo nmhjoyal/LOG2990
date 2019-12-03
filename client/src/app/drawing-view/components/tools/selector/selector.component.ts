@@ -94,8 +94,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   @HostListener('window:keydown.alt') onAltDown(): void {
     this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
-      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
-      this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
+      ToolConstants.ANGLE_INCREMENT_15 : ToolConstants.ANGLE_INCREMENT_1;
   }
 
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {

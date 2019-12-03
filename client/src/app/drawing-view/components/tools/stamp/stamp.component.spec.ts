@@ -126,7 +126,7 @@ describe('StampComponent', () => {
     expect(component['stamp'].angle).toBe(RANDOM_ANGLE - component['angleIncrement']);
   });
 
-  it('#OnKeyDownAltEvent should be called when the ALT key is pressed', () => {
+  it('#OnKeyDownAlt should be called when the ALT key is pressed', () => {
     const onAltSpy = spyOn(component, 'onKeyDownAlt');
     const keyDownEvent: KeyboardEvent = new KeyboardEvent('keydown.alt');
     fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);

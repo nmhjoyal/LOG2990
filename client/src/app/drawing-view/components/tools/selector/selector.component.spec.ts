@@ -4,15 +4,16 @@ import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { RotateSelectionService } from 'src/app/services/rotate-selection/rotate-selection.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
+import { ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
-import { RotateSelectionService } from 'src/app/services/rotate-selection/rotate-selection.service';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -64,7 +65,8 @@ describe('SelectorComponent', () => {
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
                                                         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
-    const rotateServiceMock: SpyObj<RotateSelectionService> = jasmine.createSpyObj('RotateSelectionService', ['']);
+    const rotateServiceMock: SpyObj<RotateSelectionService> = jasmine.createSpyObj('RotateSelectionService',
+        ['rotateOnItself', 'calculatePosition']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock();
 
@@ -75,7 +77,7 @@ describe('SelectorComponent', () => {
                 DrawingStorageService,
                 SaveService,
                 ColourService,
-                RotateSelectionService,
+                { provide: RotateSelectionService, useValue: rotateServiceMock},
                 { provide: AttributesService, useValue: attrServiceMock, },
             ],
         }).overrideComponent(SelectorComponent, {
@@ -99,7 +101,6 @@ describe('SelectorComponent', () => {
         spyOn(selectorServiceMock, 'setBoxToDrawing');
         spyOn(toolServiceMock, 'saveSelectorBox').and.callFake(() => { return; });
         spyOn(toolServiceMock, 'resetSelectorBox').and.callThrough();
-        spyOn(rotateServiceMock, 'rotateAll');
     });
 
     it('should create an instance of the derived class', () => {
@@ -123,33 +124,34 @@ describe('SelectorComponent', () => {
     });
 
     it('#onShiftDown should be called when shift is pressed', () => {
-        const spy = spyOn(selector, 'onShiftDown');
-        const shiftDown = new KeyboardEvent('shift');
-        fixture.debugElement.triggerEventHandler('keydown', shiftDown);
+        const spy = spyOn(selector, 'onShiftDown').and.callThrough();
+        const shiftDown = new KeyboardEvent('keydown.shift');
+        fixture.debugElement.triggerEventHandler('keydown.shift', shiftDown);
         expect(spy).toHaveBeenCalled();
         expect(selector['shiftDown']).toEqual(true);
     });
 
     it('#onShiftUp should be called when shift is released', () => {
-        const spy = spyOn(selector, 'onShiftUp');
-        const shiftUp = new KeyboardEvent('shift');
-        fixture.debugElement.triggerEventHandler('keyup', shiftUp);
+        const spy = spyOn(selector, 'onShiftUp').and.callThrough();
+        const shiftUp = new KeyboardEvent('keyup.shift');
+        fixture.debugElement.triggerEventHandler('keyup.shift', shiftUp);
         expect(spy).toHaveBeenCalled();
         expect(selector['shiftDown']).toEqual(false);
     });
 
     it('#onAltDown should be called when alt is pressed', () => {
         selector['angleIncrement'] = 1;
-        const spy = spyOn(selector, 'onAltDown');
-        const altDown = new KeyboardEvent('alt');
-        fixture.debugElement.triggerEventHandler('keydown', altDown);
-        expect(spy).toHaveBeenCalled();
+        selector.onAltDown();
         expect(selector['angleIncrement']).toEqual(15);
+        selector.onAltDown();
+        expect(selector['angleIncrement']).toEqual(1);
     });
 
     it('#onWheel should be called when the wheel is scrolled', () => {
-        const spy = spyOn(selector, 'onWheel');
+        const spy = spyOn(selector, 'onWheel').and.callThrough();
         const scroll = new WheelEvent('wheel');
+        const tool: ISavedDrawing = { id: 'CRAYON', x: 0, y: 0, height: 0, width: 0, };
+        selector['selectorService'].selectedObjects.add(tool);
         selector['shiftDown'] = true;
         fixture.debugElement.triggerEventHandler('wheel', scroll);
         expect(spy).toHaveBeenCalled();
