@@ -1,0 +1,10 @@
+export enum SprayCanConstants {
+    DEFAULT_DIAMETER = 40,
+    MIN_DIAMETER = 20,
+    MAX_DIAMETER = 80,
+    DEFAULT_SPRAY_PER_SECOND = 10,
+    MAX_SPRAY_PER_SECOND = 25,
+    ONE_SECOND = 1000,
+    DIAMETER_STEP = 5,
+    MAX_SEED = 1200,
+}

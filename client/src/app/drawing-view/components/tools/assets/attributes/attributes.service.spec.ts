@@ -137,4 +137,35 @@ describe('AttributesService', () => {
     expect(polygonAttributes).toEqual(unmodifiedPolygonAttribute, 'rectangleAttributes took initial values but wasSaved was false');
 
   });
+
+  it('#resetSavedAttributes should set sprayCanAttributes back to its initial values if they were changed', () => {
+    service = TestBed.get(AttributesService);
+    const sprayCanAttributes = service.sprayCanAttributes;
+    const defaultSprayCanAttribute = sprayCanAttributes;
+
+    sprayCanAttributes.wasSaved = true;
+    sprayCanAttributes.savedSprayPerSecond = 0;
+    sprayCanAttributes.savedDiameter = 0;
+
+    service.resetSavedAttributes();
+
+    expect(sprayCanAttributes).toEqual(defaultSprayCanAttribute, 'sprayCanAttributes did not take initial values after the expected reset');
+
+  });
+
+  it('#resetSavedAttributes should not set polygonAttributes back to its initial values if they were never changed', () => {
+    service = TestBed.get(AttributesService);
+    const sprayCanAttributes = service.sprayCanAttributes;
+
+    sprayCanAttributes.wasSaved = true;
+    sprayCanAttributes.savedSprayPerSecond = 0;
+    sprayCanAttributes.savedDiameter = 0;
+
+    const unmodifiedPolygonAttribute = sprayCanAttributes;
+
+    service.resetSavedAttributes();
+
+    expect(sprayCanAttributes).toEqual(unmodifiedPolygonAttribute, 'sprayCanAttributes took initial values but wasSaved was false');
+
+  });
 });
