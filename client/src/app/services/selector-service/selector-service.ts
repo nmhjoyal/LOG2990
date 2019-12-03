@@ -6,6 +6,7 @@ import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawin
 import { GridService } from '../grid/grid.service';
 import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class SelectorService {
   topCornerY: number;
   furthestX: number;
   furthestY: number;
+  controlPoint: ControlPoints;
 
   constructor(public saveService: SaveService, public parserService: ParserService, public gridService: GridService) {
     this.selectedObjects = new Set<ISavedDrawing>();

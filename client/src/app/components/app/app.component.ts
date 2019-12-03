@@ -22,6 +22,7 @@ import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
 import { GridService } from '../../services/grid/grid.service';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
-  // private objectsSaved: boolean;
+  controlPoint: ControlPoints;
 
   @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
   @ViewChild('snapToggle', { static: false }) snapToggle: ElementRef<HTMLElement>;
@@ -62,6 +63,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.openWelcomeScreen();
+    this.selectorService.controlPoint = this.controlPoint;
+    console.log(this.controlPoint);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
@@ -328,5 +331,9 @@ export class AppComponent implements OnInit {
     if (!this.toolHandler.isUsingColourApplicator()) {
       this.toolHandler.resetToolSelection();
     }
+  }
+
+  onSelectionChange() {
+    this.selectorService.controlPoint = this.controlPoint;
   }
 }

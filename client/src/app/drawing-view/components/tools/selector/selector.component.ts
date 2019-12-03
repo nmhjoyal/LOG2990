@@ -112,7 +112,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     if (this.mouseDown) {
       if (this.shouldDrag) {
         this.dragService.shouldSnap ? this.dragService.snapObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
-          this.windowWidth, this.windowHeight, ControlPoints.TOP_LEFT) :
+          this.windowWidth, this.windowHeight, this.selectorService.controlPoint) :
           this.dragService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
             this.windowWidth, this.windowHeight);
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
