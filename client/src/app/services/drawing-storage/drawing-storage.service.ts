@@ -13,13 +13,9 @@ export class DrawingStorageService {
   }
 
   saveDrawing(drawing: ISavedDrawing): void {
-    drawing.rotations = [];
-    drawing.rotations[0].rotationAngle = 0;
-    drawing.rotations[0].xCenter = 0;
-    drawing.rotations[0].yCenter = 0;
-    drawing.rotations[1].rotationAngle = 0;
-    drawing.rotations[1].xCenter = 0;
-    drawing.rotations[1].yCenter = 0;
+    drawing.rotationAngle = 0;
+    drawing.centerX = 0;
+    drawing.centerY = 0;
     this.drawings.push(drawing);
   }
 

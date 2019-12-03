@@ -122,25 +122,25 @@ describe('SelectorComponent', () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it('#onKeyDownShift should be called when shift is pressed', () => {
-        const spy = spyOn(selector, 'onKeyDownShift');
+    it('#onShiftDown should be called when shift is pressed', () => {
+        const spy = spyOn(selector, 'onShiftDown');
         const shiftDown = new KeyboardEvent('shift');
         fixture.debugElement.triggerEventHandler('keydown', shiftDown);
         expect(spy).toHaveBeenCalled();
         expect(selector['shiftDown']).toEqual(true);
     });
 
-    it('#onKeyUpShift should be called when shift is released', () => {
-        const spy = spyOn(selector, 'onKeyUpShift');
+    it('#onShiftUp should be called when shift is released', () => {
+        const spy = spyOn(selector, 'onShiftUp');
         const shiftUp = new KeyboardEvent('shift');
         fixture.debugElement.triggerEventHandler('keyup', shiftUp);
         expect(spy).toHaveBeenCalled();
         expect(selector['shiftDown']).toEqual(false);
     });
 
-    it('#onKeyDownAlt should be called when alt is pressed', () => {
+    it('#onAltDown should be called when alt is pressed', () => {
         selector['angleIncrement'] = 1;
-        const spy = spyOn(selector, 'onKeyDownAlt');
+        const spy = spyOn(selector, 'onAltDown');
         const altDown = new KeyboardEvent('alt');
         fixture.debugElement.triggerEventHandler('keydown', altDown);
         expect(spy).toHaveBeenCalled();
@@ -150,10 +150,14 @@ describe('SelectorComponent', () => {
     it('#onWheel should be called when the wheel is scrolled', () => {
         const spy = spyOn(selector, 'onWheel');
         const scroll = new WheelEvent('wheel');
+        selector['shiftDown'] = true;
         fixture.debugElement.triggerEventHandler('wheel', scroll);
         expect(spy).toHaveBeenCalled();
-        expect(rotateServiceMock.rotateAll).toHaveBeenCalled();
-
+        expect(rotateServiceMock.rotateOnItself).toHaveBeenCalled();
+        selector['shiftDown'] = false;
+        fixture.debugElement.triggerEventHandler('wheel', scroll);
+        expect(spy).toHaveBeenCalled();
+        expect(rotateServiceMock.calculatePosition).toHaveBeenCalled();
     });
 
     it('#onRelease should be called when left or right mouse button is released', () => {

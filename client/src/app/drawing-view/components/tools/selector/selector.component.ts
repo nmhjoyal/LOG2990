@@ -82,17 +82,17 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  // Rotation functions
+  // Rotation methods
 
-  @HostListener('keyup.shift') onShiftUp(): void {
+  @HostListener('window:keyup.shift') onShiftUp(): void {
     this.shiftDown = false;
   }
 
-  @HostListener('keydown.shift') onShiftDown(): void {
+  @HostListener('window:keydown.shift') onShiftDown(): void {
     this.shiftDown = true;
   }
 
-  @HostListener('keydown.alt') onAltDown(): void {
+  @HostListener('window:keydown.alt') onAltDown(): void {
     this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
@@ -101,7 +101,17 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
     event.preventDefault();
     const rotateValue = event.deltaY > 0 ? this.angleIncrement : -this.angleIncrement;
-    this.rotateService.rotateAll(rotateValue, this.shiftDown);
+
+    const x = this.selectorService.topCornerX + (this.selectorService.MinWidth / 2);
+    const y = this.selectorService.topCornerY + (this.selectorService.MinHeight / 2);
+
+    this.selectorService.selectedObjects.forEach((drawing) => {
+      if (this.shiftDown) {
+        this.rotateService.rotateOnItself(drawing, rotateValue);
+      } else {
+        this.rotateService.calculatePosition(drawing, rotateValue, x, y);
+      }
+    });
   }
 
   protected handleMouseDown(event: MouseEvent): void {

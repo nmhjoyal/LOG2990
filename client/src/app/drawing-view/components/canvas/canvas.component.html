@@ -43,19 +43,15 @@
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.stroke-width]="drawing.strokeWidth"
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
                     [style.stroke-dasharray]="drawing.strokeDashArray"
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'" />
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
         
             <g *ngSwitchCase="toolId.STAMP">
                     <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
                     [attr.href]="drawing.svgReference" 
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'"/> 
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
@@ -63,10 +59,8 @@
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                 [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                 [style.stroke-linejoin]="drawing.strokeLinejoin"
-                [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'" />
+                [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
             <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)"
@@ -74,10 +68,8 @@
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter"
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                    drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                    [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                    drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'" />
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
@@ -88,10 +80,8 @@
                         [style.stroke-width]="svgpath.pathWidth"
                         [style.stroke]="drawing.colour"
                         [style.stroke-linecap]="drawing.strokeLinecap"
-                        [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'">
+                        [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                        drawing.centerX + ',' + drawing.centerY + ')'" >
                     </path>
                 </g>
             </g>
@@ -103,10 +93,8 @@
                         [attr.d]="svgpath.path"
                         [style.stroke-width]="svgpath.pathWidth"
                         [style.stroke]="drawing.colour"
-                        [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'">
+                        [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                        drawing.centerX + ',' + drawing.centerY + ')'" >
                     </path>
                 </g>
             </g>
@@ -117,10 +105,8 @@
                     [attr.height]="drawing.height" [style.stroke]="drawing.secondaryColour"
                     [style.fill]="drawing.primaryColour" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity"
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'" />
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
             <g *ngSwitchCase="toolId.ELLIPSE" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
@@ -128,20 +114,16 @@
                     [attr.ry]="drawing.height" [style.stroke]="drawing.secondaryColour"
                     [style.fill]="drawing.primaryColour" [style.stroke-opacity]="drawing.strokeOpacity"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity"
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                    drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                    [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                    drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'" />
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
                 (contextmenu)="applySecondaryColourToShape($event, drawing)">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColour"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity"
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'" />
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
             <g *ngSwitchCase="toolId.TEXT">
                 <text [attr.x]="drawing.alignX" [attr.y]="drawing.y"
@@ -151,10 +133,8 @@
                     [style.font-family]="drawing.fontFamily"
                     [style.fill]="drawing.primaryColour"
                     [attr.text-anchor]="drawing.align"
-                    [attr.transform]="'rotate('+ drawing.rotations[0].rotationAngle + ',' +
-                 drawing.rotations[0].xCenter + ',' + drawing.rotations[0].yCenter + ')'"
-                 [attr.transform]="'rotate('+ drawing.rotations[1].rotationAngle + ',' +
-                 drawing.rotations[1].xCenter + ',' + drawing.rotations[1].yCenter + ')'">
+                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'" >
                     <tspan [attr.x]="drawing.alignX" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
                 </text> 
             </g>
