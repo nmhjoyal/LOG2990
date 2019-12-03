@@ -25,8 +25,12 @@ export class DragService {
     switch (controlPoint) {
       case ControlPoints.TOP_LEFT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
+
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize;
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize;
           const yDistToSelectorBox = movedObject.y - this.selectorService.topCornerY;
@@ -39,7 +43,9 @@ export class DragService {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinWidth / 2) % this.gridService.GridSize);
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
-
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize;
           const yDistToSelectorBox = movedObject.y - this.selectorService.topCornerY;
@@ -49,8 +55,12 @@ export class DragService {
         break;
       case ControlPoints.TOP_RIGHT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize - this.gridService.GridSize;
+          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize             
+          - ((this.selectorService.MinWidth) % this.gridService.GridSize);
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize;
           const yDistToSelectorBox = movedObject.y - this.selectorService.topCornerY;
@@ -60,10 +70,11 @@ export class DragService {
         break;
       case ControlPoints.MIDDLE_LEFT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
-            - ((this.selectorService.MinWidth / 2) % this.gridService.GridSize);
-
+          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize;
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinHeight / 2) % this.gridService.GridSize);
@@ -77,6 +88,9 @@ export class DragService {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinWidth / 2) % this.gridService.GridSize);
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinHeight / 2) % this.gridService.GridSize);
@@ -90,6 +104,9 @@ export class DragService {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinWidth) % this.gridService.GridSize);
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinHeight / 2) % this.gridService.GridSize);
@@ -102,6 +119,9 @@ export class DragService {
         this.selectorService.selectedObjects.forEach((movedObject) => {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize - this.gridService.GridSize / 2;
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinHeight) % this.gridService.GridSize);
@@ -115,6 +135,9 @@ export class DragService {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinWidth / 2) % this.gridService.GridSize);
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinHeight) % this.gridService.GridSize);
@@ -128,6 +151,9 @@ export class DragService {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinWidth) % this.gridService.GridSize);
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((this.selectorService.MinHeight) % this.gridService.GridSize);
@@ -140,6 +166,9 @@ export class DragService {
         this.selectorService.selectedObjects.forEach((movedObject) => {
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize;
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
+          if (movedObject.alignX) {
+            movedObject.alignX = gridX + xDistToSelectorBox;
+          }
           movedObject.x = gridX + xDistToSelectorBox;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize;
           const yDistToSelectorBox = movedObject.y - this.selectorService.topCornerY;

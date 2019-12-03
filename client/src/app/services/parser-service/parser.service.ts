@@ -52,7 +52,6 @@ export class ParserService {
   }
 
   dragPolylinePoints(cursorX: number, cursorY: number, movedObject: ITools, selectorService: SelectorService, points?: string): void {
-
     const newPoints = points ? points : this.initializePoints(movedObject, selectorService, cursorX, cursorY);
     const newPaths: IComplexPath[] = [];
     if (movedObject.paths) {
@@ -86,6 +85,7 @@ export class ParserService {
     }
   }
 
+  // tslint:disable-next-line: max-line-length because it reduces readability if the fn signature is on two lines
   snapPolylinePoints(cursorX: number, cursorY: number, movedObject: ITools, selectorService: SelectorService, controlPoint: ControlPoints): void {
     let splitPoints: string[] = [];
     if ('points' in movedObject) {
@@ -111,7 +111,6 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.TOP_MIDDLE:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -126,38 +125,32 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.TOP_RIGHT:
         for (let i = 0; i < splitPoints.length; i += 2) {
-          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize - this.gridService.GridSize;
-
+          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
+            - ((selectorService.MinWidth) % this.gridService.GridSize);
           const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize;
           const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-
           newPoints += (gridX + xDistToSelectorBox).toString()
             + ','
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.MIDDLE_LEFT:
         for (let i = 0; i < splitPoints.length; i += 2) {
-          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize
-            - ((selectorService.MinWidth / 2) % this.gridService.GridSize);
+          const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize;
           const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
           const gridY = Math.round(cursorY / this.gridService.GridSize) * this.gridService.GridSize
             - ((selectorService.MinHeight / 2) % this.gridService.GridSize);
           const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-
           newPoints += (gridX + xDistToSelectorBox).toString()
             + ','
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.MIDDLE:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -172,7 +165,6 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.MIDDLE_RIGHT:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -187,7 +179,6 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.BOTTOM_LEFT:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -201,7 +192,6 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.BOTTOM_MIDDLE:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -216,7 +206,6 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       case ControlPoints.BOTTOM_RIGHT:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -231,7 +220,6 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
       default:
         for (let i = 0; i < splitPoints.length; i += 2) {
@@ -245,9 +233,10 @@ export class ParserService {
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-        this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
         break;
     }
+    this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints);
+
   }
 
   initializePoints(copiedObject: ITools, selectorService: SelectorService, cursorX: number, cursorY: number): string {
