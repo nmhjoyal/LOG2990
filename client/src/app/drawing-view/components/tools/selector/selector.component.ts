@@ -8,6 +8,7 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
+import { Id } from '../assets/constants/tool-constants';
 
 @Component({
   selector: 'app-tools-selector',
@@ -81,11 +82,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
-      if (this.toolService.selectorBoxExists() &&
-        ClickHelper.getXPosition(event) >= this.selectorService.topCornerX
-        && ClickHelper.getXPosition(event) <= this.selectorService.furthestX
-        && ClickHelper.getYPosition(event) >= this.selectorService.topCornerY
-        && ClickHelper.getYPosition(event) <= this.selectorService.furthestY) {
+      if (this.selectorService.SelectedObjects.size > 0 &&
+        ClickHelper.cursorInsideObject({
+          id: Id.RECTANGLE,
+          x: this.selectorService.topCornerX, y: this.selectorService.topCornerY,
+          height: this.selectorService.MinHeight, width: this.selectorService.MinWidth,
+        },
+          ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
         this.shouldDrag = true;
       } else {
         this.isRightClick = false;
@@ -120,7 +123,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         if (this.isReverseSelection) {
           this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
         }
-        if (this.toolService.selectorBoxExists()) {
+        if (this.selectorService.SelectedObjects.size > 0) {
           this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
             this.selectorService.MinWidth, this.selectorService.MinHeight);
         } else {
