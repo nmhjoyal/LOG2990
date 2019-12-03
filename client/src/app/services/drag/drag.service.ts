@@ -35,7 +35,7 @@ export class DragService {
         //   movedObject.x +=  distX
         //   movedObject.y +=  distY;
         // });
-         this.selectorService.selectedObjects.forEach((movedObject) => {
+        this.selectorService.selectedObjects.forEach((movedObject) => {
           movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
             / this.gridService.GridSize) * this.gridService.GridSize;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
@@ -45,7 +45,7 @@ export class DragService {
         break;
       case ControlPoints.TOP_MIDDLE:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX )
+          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
             / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinWidth / 2;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
             / this.gridService.GridSize) * this.gridService.GridSize;
@@ -55,7 +55,7 @@ export class DragService {
       case ControlPoints.TOP_RIGHT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
           movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
-            / this.gridService.GridSize) * this.gridService.GridSize  - this.selectorService.MinWidth;
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinWidth;
           movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
             / this.gridService.GridSize) * this.gridService.GridSize;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.TOP_RIGHT);
@@ -65,26 +65,26 @@ export class DragService {
         this.selectorService.selectedObjects.forEach((movedObject) => {
           movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
-            / this.gridService.GridSize) * this.gridService.GridSize;
+          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinHeight / 2;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE_LEFT);
         });
         break;
       case ControlPoints.MIDDLE:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2)
-            / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
-            / this.gridService.GridSize) * this.gridService.GridSize;
+          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinWidth / 2;
+          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinHeight / 2;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE);
         });
         break;
       case ControlPoints.MIDDLE_RIGHT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth)
-            / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2)
-            / this.gridService.GridSize) * this.gridService.GridSize;
+          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinWidth;
+          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinHeight / 2;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.MIDDLE_RIGHT);
         });
         break;
@@ -92,26 +92,26 @@ export class DragService {
         this.selectorService.selectedObjects.forEach((movedObject) => {
           movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
             / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight)
-            / this.gridService.GridSize) * this.gridService.GridSize;
+          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinHeight;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.BOTTOM_LEFT);
         });
         break;
       case ControlPoints.BOTTOM_MIDDLE:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2)
-            / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight)
-            / this.gridService.GridSize) * this.gridService.GridSize;
+          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinWidth / 2;
+          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinHeight;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.BOTTOM_MIDDLE);
         });
         break;
       case ControlPoints.BOTTOM_RIGHT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth)
-            / this.gridService.GridSize) * this.gridService.GridSize;
-          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight)
-            / this.gridService.GridSize) * this.gridService.GridSize;
+          movedObject.x = Math.round((movedObject.x + cursorX - this.selectorService.topCornerX)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinWidth;
+          movedObject.y = Math.round((movedObject.y + cursorY - this.selectorService.topCornerY)
+            / this.gridService.GridSize) * this.gridService.GridSize - this.selectorService.MinHeight;
           this.parserService.snapPolylinePoints(cursorX, cursorY, movedObject, this.selectorService, ControlPoints.BOTTOM_RIGHT);
         });
         break;
