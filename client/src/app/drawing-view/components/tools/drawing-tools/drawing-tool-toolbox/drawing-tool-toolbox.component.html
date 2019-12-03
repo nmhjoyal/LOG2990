@@ -1,64 +1,116 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 <div style='padding: 10px' *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
-    <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
-        <p>Style de trait</p>
-        <button (click)="getComponent().setFilter(0)">Aucun filtre</button><br>
-        <button (click)="getComponent().setFilter(1)"> 1</button>
-        <button (click)="getComponent().setFilter(2)"> 2</button>
-        <button (click)="getComponent().setFilter(3)"> 3</button>
-        <button (click)="getComponent().setFilter(4)"> 4</button>
-        <button (click)="getComponent().setFilter(5)"> 5</button>
-    </div>
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
+    <!--
         <div>
             <p>Épaisseur de trait</p>
             <button (click)="getComponent().decreaseStrokeWidth()">-</button>
             {{getComponent().stroke.strokeWidth}}
             <button (click)="getComponent().increaseStrokeWidth()">+</button>
-       </div>
+        </div>
+    -->
+        <div>
+            <p> Épaisseur de trait </p>
+            <mat-slider title="Épaisseur de trait"
+            [max]="40"
+            [min]="1"
+            [step]="1"
+            [thumbLabel]="thumbLabel"
+            [tickInterval]="tickInterval"
+            [(ngModel)]="getComponent().stroke.strokeWidth">
+            </mat-slider><!--
+            <input type="range" min="ToolConstants.MIN_STROKE_WIDTH" max="ToolConstants.MAX_STROKE_WIDTH" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().stroke.strokeWidth" id="stroke-width-Input"
+                title="Épaisseur de trait">-->
+            <label> {{getComponent().stroke.strokeWidth}} </label>
+        </div>
     </div>
-
-    <div *ngIf="toolHandler.selectedTool === toolId.PEN">
+    <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
+        <p>Style de trait</p>
+        <mat-button-toggle-group  style = "flex-wrap: wrap; border-color: rgba(0,0,0,0);" value="None">
+            <mat-button-toggle style = "width: 92%" value="None" (click)="getComponent().setFilter(0)">Aucun filtre </mat-button-toggle>
+            <mat-button-toggle style = "width: 18%" (click)="getComponent().setFilter(1)"> 1 </mat-button-toggle>
+            <mat-button-toggle style = "width: 18%" (click)="getComponent().setFilter(2)">2 </mat-button-toggle>
+            <mat-button-toggle style = "width: 18%" (click)="getComponent().setFilter(3)">3 </mat-button-toggle>
+            <mat-button-toggle style = "width: 18%" (click)="getComponent().setFilter(4)">4 </mat-button-toggle>
+            <mat-button-toggle style = "width: 18%" (click)="getComponent().setFilter(5)">5 </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+    <div *ngIf="toolHandler.selectedTool === toolId.PEN"> <!--
         <div>
             <p>Épaisseur de trait minimale</p>
             <button (click)="getComponent().decreaseMinWidth()">-</button>
             {{getComponent().minWidth}}
             <button (click)="getComponent().increaseMinWidth()">+</button>
-        </div>
+        </div>-->
+        <div>
+            <p> Épaisseur de trait maximale</p>
+            <input type="range" min="getComponent().minWidth" max="ToolConstants.MAX_STROKE_WIDTH" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().maxWidth" id="max-width-Input"
+                title="Épaisseur de trait maximal">
+            <label> {{getComponent().maxWidth}} </label>
+        </div><!--
         <div>
             <p>Épaisseur de trait maximale</p>
             <button (click)="getComponent().decreaseMaxWidth()">-</button>
             {{getComponent().maxWidth}}
             <button (click)="getComponent().increaseMaxWidth()">+</button>
+        </div>-->
+        <div>
+            <p> Épaisseur de trait minimal </p>
+            <input type="range" min="ToolConstants.MIN_STROKE_WIDTH" max="getComponent().maxWidth" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().minWidth" id="min-width-Input"
+                title="Épaisseur de trait minimal">
+            <label> {{getComponent().minWidth}} </label>
         </div>
     </div>
 
     <div *ngIf="toolHandler.selectedTool === toolId.QUILL">
+        <!--
         <div>
             <p>Longueur de trait minimale</p>
             <button (click)="getComponent().decreaseLineLength()">-</button>
             {{getComponent().lineLength}}
             <button (click)="getComponent().increaseLineLength()">+</button>
         </div>
+        -->
+        <div>
+            <p> Longueur de trait minimale </p>
+            <input type="range" min="5" max="20" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().lineLength" id="min-length-Input"
+                title="Longueur de trait minimale">
+            <label> {{getComponent().lineLength}} </label>
+        </div>
+        <div>
+            <p> Angle </p>
+            <input type="range" min="0" max="180" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().angle" id="angle-input"
+                title="Angle">
+            <label> {{getComponent().angle}} </label>
+        </div>
+        <!--
         <div>
             <p>Angle</p>
             <button (click)="getComponent().decreaseAngle(1)">-</button>
             {{getComponent().angle}}
             <button (click)="getComponent().increaseAngle(1)">+</button>
         </div>
+    -->
     </div>
 
     <div *ngIf="toolHandler.selectedTool === toolId.LINE">
         <p>Style de jonctinons</p>
-        <button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</button>
-        <button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</button>
-        <button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</button><br>
+        <a mat-button (click)="getComponent().setJunctionMode(pointMode.BUTT)">Angle</a>
+        <a mat-button (click)="getComponent().setJunctionMode(pointMode.ROUND)">Courbe</a>
+        <a mat-button (click)="getComponent().setJunctionMode(pointMode.SQUARE)">Pointe</a ><br>
         
         <p>Style de lignes</p>
-        <button (click)="getComponent().setTraceMode(mode.STRAIGHT)">[&mdash;&mdash;]</button>
-        <button (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">[---]</button>
-        <button (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">[•••]</button><br>
-        <div>
+            <mat-button-toggle-group value="Straight">
+                <mat-button-toggle style = "width: 33%" value="Straight" (click)="getComponent().setTraceMode(mode.STRAIGHT)">&#9473;</mat-button-toggle>
+                <mat-button-toggle style = "width: 33%" (click)="getComponent().setTraceMode(mode.DOTTED_POINT)">- - - </mat-button-toggle>
+                <mat-button-toggle style = "width: 33%" (click)="getComponent().setTraceMode(mode.DOTTED_LINE)">••• </mat-button-toggle>
+            </mat-button-toggle-group>
+        <div *ngIf="getComponent().junctionMode === pointMode.SQUARE">
             <p>Grosseur de points</p>
             <button (click)="getComponent().decreasePointWidth()">-</button>
             {{getComponent().stroke.pointWidth}}
@@ -68,25 +120,48 @@
     <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE || toolHandler.selectedTool === toolId.RECTANGLE
                 || toolHandler.selectedTool === toolId.POLYGON">
             <p>Style de remplissage</p>
-            <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
-            <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
-            <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
-            <p>Epaisseur du trait</p>
+
+            <mat-button-toggle-group  style = "flex-wrap: wrap; border-color: rgba(0,0,0,0);" value="All">
+                <mat-button-toggle style = "width: 49%" (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour </mat-button-toggle>
+                <mat-button-toggle style = "width: 49%" (click)="getComponent().setTraceMode(mode.FILL)">Plein </mat-button-toggle>
+                <mat-button-toggle style = "width: 98%" value="All" (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)" >
+                    Contour & Plein </mat-button-toggle>
+            </mat-button-toggle-group>
+
+            
+            <!--
+            <p>Épaisseur du trait</p>
             <button (click)="getComponent().decreaseStrokeWidth()">-</button>
             {{getComponent().shape.strokeWidth}}
             <button (click)="getComponent().increaseStrokeWidth()">+</button>
-        </div>
-    <div *ngIf="toolHandler.selectedTool === toolId.RECTANGLE || toolHandler.selectedTool === toolId.POLYGON">
-        <div *ngIf="toolHandler.selectedTool === toolId.POLYGON">
-            <p>Nombre de vertex</p>
-            <button (click)="getComponent().decreaseVertexNumber()">-1 Sommet</button>
-            {{getComponent().shape.verticesNumber}}
-            <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
-        </div>
+-->
+            <p> Épaisseur du trait </p>
+            <input type="range" min="1" max="20" step="1"
+            (click)="$event.stopPropagation()" [(ngModel)]="getComponent().shape.strokeWidth" id="stroke-width-input"
+            title="Épaisseur du trait">
+            <label> {{getComponent().shape.strokeWidth}} </label>
+    </div>
+
+    <div *ngIf="toolHandler.selectedTool === toolId.POLYGON">
+        <!--
+        <p>Nombre de vertex</p>
+        <button (click)="getComponent().decreaseVertexNumber()">-1 Sommet</button>
+        {{getComponent().shape.verticesNumber}}
+        <button (click)="getComponent().increaseVertexNumber()">+1 sommet</button>
+        -->
+        <p> Nombre de vertex </p>
+        <input type="range" min="3" max="12" step="1"
+            (click)="$event.stopPropagation()" [(ngModel)]="getComponent().shape.verticesNumber" id="vertex-input"
+            title="Nombre de vertex">
+        <label> {{getComponent().shape.verticesNumber}} </label>
+        
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
-        <h3>Taille de l'efface</h3>
-        <input type="number" [(ngModel)]="getComponent().size" min="1" max="40" (change)="getComponent().validateSize()">
+        <p> Taille de l'efface </p>
+        <input type="range" min="1" max="40" step="1"
+            (click)="$event.stopPropagation()" (change)="getComponent().validateSize()" [(ngModel)]="getComponent().size" 
+            id="eraser-input" title="Taille de l'efface">
+        <label> {{getComponent().size}} </label>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.STAMP">
         <a class="filter" (click)="getComponent().setStamp(0)">
@@ -107,54 +182,65 @@
         <a class="filter" (click)="getComponent().setStamp(5)">
             <img id="sun" src="../../../../../../assets/stamps/brightness_5-24px.svg" title="Soleil">
         </a>
-        <div >
+        <div >   
             <p>Mise à l'échelle</p>
-            <button (click)="getComponent().decreaseScaleFactor()">-</button>
-            {{getComponent().stamp.scaleFactor}}
-            <button (click)="getComponent().increaseScaleFactor()">+</button>
-            <p>Angle</p>
-            <input type="number" name="angle" [(ngModel)]="getComponent().stamp.angle" size="3">
+            <input type="range" min="1" max="15" step="1"
+                (click)="$event.stopPropagation()"(change)="getComponent().multiplyScaleFactor()" 
+                [(ngModel)]="getComponent().stamp.scaleFactor" 
+                id="size-input" title="Mise à l'échelle">
+            <label> {{getComponent().stamp.scaleFactor}} </label>
+
+            <p>Angle </p>
+            <input type="range" min="1" max="180" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().stamp.angle" 
+                id="vertex-input" title="Nombre de vertex">
+            <label> {{getComponent().stamp.angle}} </label>
         </div>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.TEXT">
         <div >
             <p>Taille du texte</p>
-            <button (click)="getComponent().decreaseFontSize()">-</button>
-            {{getComponent().text.fontSize}}
-            <button (click)="getComponent().increaseFontSize()">+</button>
-            <p>Police du texte</p>
-            <select name='fontFamilySelection' [(ngModel)]="getComponent().fontFamilySelection">
-                <option value='Arial, Helvetica, sans-serif' style="font-family: Arial, Helvetica, sans-serif;">Arial</option>
-                <option value='Cambria, Cochin, Georgia, Times, "Times New Roman", serif' style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Cambria</option>
-                <option value='"Courier New", Courier, monospace' style="font-family:'Courier New', Courier, monospace;">Courier New</option>
-                <option value='cursive' style="font-family: cursive;">Cursive</option>
-                <option value='"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif' style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Franklin Gothic</option>
-                <option value='Georgia, serif' style="font-family: Georgia, serif;">Georgia</option>
-                <option value='"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif' style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Gill Sans</option>
-                <option value='Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif' style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Impact</option>
-                <option value='"Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif' style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Lucinda Sans</option>
-                <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Segoe UI</option>
-                <option value='"Times New Roman", Times, serif' style="font-family: 'Times New Roman', Times, serif;">Times New Roman</option>
-                <option value='"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif' style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Trebuchet MS</option>
-                <option value='Verdana, Geneva, Tahoma, sans-serif' style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Verdana</option>
-            </select>
+            <input type="range" min="1" max="60" step="1"
+                (click)="$event.stopPropagation()" [(ngModel)]="getComponent().text.fontSize" 
+                id="text-input" title="Taille du texte">
+            <label> {{getComponent().text.fontSize}} </label>
+            <mat-form-field>
+                <p>Police du texte</p>
+                <mat-select name='fontFamilySelection' [(ngModel)]="getComponent().fontFamilySelection">
+                    <mat-option value='Arial, Helvetica, sans-serif' style="font-family: Arial, Helvetica, sans-serif;">Arial</mat-option>
+                    <mat-option value='Cambria, Cochin, Georgia, Times, "Times New Roman", serif' style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">Cambria</mat-option>
+                    <mat-option value='"Courier New", Courier, monospace' style="font-family:'Courier New', Courier, monospace;">Courier New</mat-option>
+                    <mat-option value='cursive' style="font-family: cursive;">Cursive</mat-option>
+                    <mat-option value='"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif' style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Franklin Gothic</mat-option>
+                    <mat-option value='Georgia, serif' style="font-family: Georgia, serif;">Georgia</mat-option>
+                    <mat-option value='"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif' style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Gill Sans</mat-option>
+                    <mat-option value='Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif' style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Impact</mat-option>
+                    <mat-option value='"Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif' style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Lucinda Sans</mat-option>
+                    <mat-option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Segoe UI</mat-option>
+                    <mat-option value='"Times New Roman", Times, serif' style="font-family: 'Times New Roman', Times, serif;">Times New Roman</mat-option>
+                    <mat-option value='"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif' style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Trebuchet MS</mat-option>
+                    <mat-option value='Verdana, Geneva, Tahoma, sans-serif' style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Verdana</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
-        <div >
-            <a class="filter" (click)="getComponent().toItalic()">
-                <img id="italic" src="../../../../../../assets/text-options/format_italic-24px.svg" title="Italique">
-            </a>
-            <a class="filter" (click)="getComponent().toBold()">
-                <img id="bold" src="../../../../../../assets/text-options/format_bold-24px.svg" title="Gras">
-            </a><br>
-            <a class="filter" (click)="getComponent().alignText(0)">
-                <img id="left" src="../../../../../../assets/text-options/format_align_left-24px.svg" title="Gauche">
-            </a>
-            <a class="filter" (click)="getComponent().alignText(1)">
-                <img id="center" src="../../../../../../assets/text-options/format_align_center-24px.svg" title="Centré">
-            </a>
-            <a class="filter" (click)="getComponent().alignText(2)">
-                <img id="right" src="../../../../../../assets/text-options/format_align_right-24px.svg" title="Droite">
-            </a>
-        </div>
+        <mat-button-toggle-group  multiple = "true">
+            <mat-button-toggle (click)="getComponent().toItalic()">
+                <img class="filter" id="italic" src="../../../../../../assets/text-options/format_italic-24px.svg" title="Italique">
+            </mat-button-toggle>
+            <mat-button-toggle  (click)="getComponent().toBold()">
+                <img class="filter" id="bold" src="../../../../../../assets/text-options/format_bold-24px.svg" title="Gras">
+            </mat-button-toggle><br>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group>
+            <mat-button-toggle  (click)="getComponent().alignText(0)">
+                <img class="filter" id="left" src="../../../../../../assets/text-options/format_align_left-24px.svg" title="Gauche">
+            </mat-button-toggle>
+            <mat-button-toggle (click)="getComponent().alignText(1)">
+                <img class="filter" id="center" src="../../../../../../assets/text-options/format_align_center-24px.svg" title="Centré">
+            </mat-button-toggle>
+            <mat-button-toggle (click)="getComponent().alignText(2)">
+                <img class="filter" id="right" src="../../../../../../assets/text-options/format_align_right-24px.svg" title="Droite">
+            </mat-button-toggle>
+        </mat-button-toggle-group>
     </div>
 </div>

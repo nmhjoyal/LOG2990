@@ -2,9 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule} from '@angular/material/select';
+import { MatSliderModule} from '@angular/material/slider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectorService } from '../services/selector-service/selector-service';
@@ -48,9 +51,12 @@ import { TextComponent } from './components/tools/text/text.component';
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
+    MatSliderModule,
     FormsModule,
     MatFormFieldModule,
+    MatButtonToggleModule,
     MatInputModule,
+    MatSelectModule,
     BrowserAnimationsModule,
     MatButtonModule,
   ],
@@ -62,9 +68,12 @@ import { TextComponent } from './components/tools/text/text.component';
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
+    MatSliderModule,
     FormsModule,
     MatFormFieldModule,
+    MatButtonToggleModule,
     MatInputModule,
+    MatSelectModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatMenuModule,
