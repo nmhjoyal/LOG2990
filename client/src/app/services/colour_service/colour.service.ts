@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ColourConstants, GrayScale } from 'src/app/drawing-view/components/tools/assets/constants/colour-constants';
 import { Strings } from 'src/AppConstants/Strings';
 
 @Injectable({
@@ -9,67 +9,85 @@ import { Strings } from 'src/AppConstants/Strings';
 export class ColourService {
 
   colour: string[] ;
+  alpha: number[] ;
   protected lastColours: string[] ;
-  protected alpha: number[] ;
   protected mainColour: boolean ;
+  private dataSource: BehaviorSubject<string[]>;
+  data: Observable<string[]>;
 
   constructor() {
-    this.lastColours = ['#000000ff', '#222222ff', '#444444ff', '#666666ff', '#888888',
-                       '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
-    this.mainColour = false;
+    this.lastColours = [GrayScale.BLACK, GrayScale.GREY1, GrayScale.GREY2, GrayScale.GREY3, GrayScale.GREY4,
+                        GrayScale.GREY5, GrayScale.GREY6, GrayScale.GREY7, GrayScale.GREY8, GrayScale.WHITE ];
     this.colour = [Strings.BLACK_HEX, Strings.WHITE_HEX];
-    this.alpha = [NumericalValues.INITIAL_TRANSPARENCY, NumericalValues.INITIAL_TRANSPARENCY];
+    this.alpha = [ColourConstants.INITIAL_TRANSPARENCY, ColourConstants.INITIAL_TRANSPARENCY];
+    this.mainColour = false;
+    this.dataSource = new BehaviorSubject<string[]>(this.colour);
+    this.data = this.dataSource.asObservable();
   }
 
-  getPrimaryColour(): string {
-    return this.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
+  private updateColour(colour: string[]) {
+    this.dataSource.next(colour);
   }
 
-  getSecondaryColour(): string {
-    return this.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
+  get PrimaryColour(): string {
+    return this.colour[0];
   }
 
-    chooseColour(primary: boolean): void  {
-      if (primary) {
-        if (!this.mainColour) {this.mainColour = true;
-        }
-      } else {
-        if (this.mainColour) {this.mainColour = false;
-        }
+  get SecondaryColour(): string {
+    return this.colour[1];
+  }
+
+  get PrimaryOpacity(): number {
+    return this.alpha[0];
+  }
+
+  get SecondaryOpacity(): number {
+    return this.alpha[1];
+  }
+
+  chooseColour(primary: boolean): void  {
+    if (primary) {
+      this.mainColour = this.mainColour ? this.mainColour : true;
+    } else {
+      this.mainColour = this.mainColour ? false : this.mainColour ;
+    }
+  }
+
+  switchColours(): void {
+    const intermediateColour = this.colour[0];
+    this.colour[0] = this.SecondaryColour;
+    this.colour[1] = intermediateColour;
+    this.updateColour(this.colour);
+  }
+
+  rgbToHex(hue: number): string {
+    if (!hue) {return '00';
+    } else if (hue < ColourConstants.HEX_LENGTH) {return ('0' + hue.toString(ColourConstants.HEX_LENGTH));
+    } else {return hue.toString(ColourConstants.HEX_LENGTH); }
+  }
+
+  setAlpha(alpha: number): void  {
+    this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, ColourConstants.HEX_NO_ALPHA)
+                                  + (this.rgbToHex(Math.round(alpha * ColourConstants.RGB_TO_HEX_FACTOR)));
+    this.updateColour(this.colour);
+  }
+
+  addColour( ): void  {
+    let newColour = true;
+    this.lastColours.forEach((element) => {
+      if (element === this.colour[+this.mainColour]) {
+        newColour = false;
       }
+    });
+    if (newColour) {
+      this.lastColours.shift();
+      this.lastColours.push(this.colour[+this.mainColour]);
     }
+    this.updateColour(this.colour);
+  }
 
-    switchColours(): void {
-      const intermediateColour = this.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
-      this.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = this.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
-      this.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = intermediateColour;
-    }
-
-    rgbToHex(hue: number): string {
-      if (!hue) {return '00';
-      } else if (hue < NumericalValues.HEX_LENGTH) {return ('0' + hue.toString(NumericalValues.HEX_LENGTH));
-      } else {return hue.toString(NumericalValues.HEX_LENGTH); }
-    }
-
-    setAlpha(alpha: number): void  {
-      this.colour[+this.mainColour] = this.colour[+this.mainColour].slice(0, NumericalValues.HEX_NO_ALPHA)
-                                    + (this.rgbToHex(Math.round(alpha * NumericalValues.RGBTOHEX_FACTOR)));
-    }
-
-    addColour( ): void  {
-      let newColour = true;
-      this.lastColours.forEach((element) => {
-        if (element === this.colour[+this.mainColour]) {
-          newColour = false;
-        }
-      });
-      if (newColour === true) {
-        this.lastColours.shift();
-        this.lastColours.push(this.colour[+this.mainColour]);
-      }
-    }
-
-    setColour(colour: string): void  {
-      this.colour[+this.mainColour] = colour;
-    }
+  setColour(colour: string): void  {
+    this.colour[+this.mainColour] = colour;
+    this.updateColour(this.colour);
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 @Injectable({
   providedIn: 'root',

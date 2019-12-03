@@ -3,13 +3,14 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import ParserHelper from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ClipboardService } from './clipboard-service';
-import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
@@ -27,10 +28,10 @@ describe('ClipboardService', () => {
 
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
-    selectorService = new SelectorService();
     canvasService = new CanvasInformationService();
     undoRedoService = new UndoRedoService(drawingStorage, canvasService);
     saveService = new SaveService(drawingStorage, undoRedoService);
+    selectorService = new SelectorService(saveService);
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
 
     dummyOperation = {
@@ -82,7 +83,7 @@ describe('ClipboardService', () => {
 
   it('should remove an item from drawing on delete and save a eraser operation', () => {
     let drawing: ISavedDrawing;
-    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, rotationAngle: 0, centerX: 0, centerY: 0,};
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, rotationAngle: 0, centerX: 0, centerY: 0, };
     selectorService.selectedObjects.add(drawing);
     drawingStorage.drawings = [];
     erasedDrawings.objects = [drawing];
@@ -144,7 +145,7 @@ describe('ClipboardService', () => {
   });
 
   it('should add line drawing to canvas on duplicate', () => {
-    const parsedPoints = spyOn(service, 'parsePolylinePoints');
+    const parsedPoints = spyOn(ParserHelper, 'parsePolylinePoints');
     const drawing1: ITools = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, points: '0,100 50,25', id: Id.LINE };
     const drawing2: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, vertices: '0,0 1,1 0,0', id: Id.ELLIPSE };
     drawingStorage.drawings.push(drawing1);
@@ -166,11 +167,11 @@ describe('ClipboardService', () => {
       { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN,
     };
 
-    service.parsePolylinePoints(FIFTY, FIFTY, drawing1);
+    ParserHelper.parsePolylinePoints(FIFTY, FIFTY, drawing1, 0, selectorService);
     expect(drawing1.points).not.toEqual('0,100 50,20');
-    service.parsePolylinePoints(FIFTY, FIFTY, drawing2);
+    ParserHelper.parsePolylinePoints(FIFTY, FIFTY, drawing2, 0, selectorService);
     expect(drawing2.vertices).not.toEqual('0,0 1,1 0,0');
-    service.parsePolylinePoints(FIFTY, FIFTY, drawing3);
+    ParserHelper.parsePolylinePoints(FIFTY, FIFTY, drawing3, 0, selectorService);
     expect(drawing2.paths).not.toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }, { path: 'M7 8L9 10', pathWidth: 2 }]);
   });
 

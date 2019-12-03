@@ -50,16 +50,15 @@ export class CanvasComponent implements AfterViewInit {
   getColourFromCanvas(event: MouseEvent): void {
     event.preventDefault();
     if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
-      this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
+      this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = this.canvasData.data.drawingColour;
     }
   }
 
   applyColourToLine(line: IDrawingTool): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
-      this.saveColourApplication(this.drawingStorage.drawings.indexOf(line), Id.PRIMARY_COLOUR_CHANGE,
-        line.colour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
-
-      line.colour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(line),
+      Id.PRIMARY_COLOUR_CHANGE, line.colour, this.colourService.PrimaryColour);
+      line.colour = this.colourService.PrimaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX] = line.colour;
     }
@@ -72,12 +71,15 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  applyColourToShape(event: MouseEvent, shape: IShape): void {
+  applyColourToShape(event: MouseEvent, shape: ITools): void {
     if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.primaryColour !== 'none') {
-      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE,
-        shape.primaryColour, this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX]);
+      // shape.primaryColour cannot be undefined; this method is only called on drawings that have primary colour
+      // tslint:disable-next-line:no-non-null-assertion
+      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.PRIMARY_COLOUR_CHANGE, shape.primaryColour!,
+       this.colourService.PrimaryColour);
 
-      shape.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
+      shape.primaryColour = this.colourService.PrimaryColour;
+
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColourFromShape(event, ToolConstants.PRIMARY_COLOUR_INDEX, shape);
     }
@@ -85,21 +87,22 @@ export class CanvasComponent implements AfterViewInit {
 
   applySecondaryColourToShape(event: MouseEvent, shape: IShape): void {
     event.preventDefault();
-    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR && shape.secondaryColour !== 'none') {
-      this.saveColourApplication(this.drawingStorage.drawings.indexOf(shape), Id.SECONDARY_COLOUR_CHANGE,
-        shape.secondaryColour, this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX]);
-
-      shape.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
+    if (this.toolHandler.selectedTool === this.toolId.COLOUR_APPLICATOR) {
+      shape.secondaryColour = this.colourService.SecondaryColour;
     } else if (this.toolHandler.selectedTool === this.toolId.PIPETTE) {
       this.getColourFromShape(event, ToolConstants.SECONDARY_COLOUR_INDEX, shape);
     }
   }
 
-  getColourFromShape(event: MouseEvent, colourIndex: number, shape: IShape): void {
-    if (this.isStroke(event, shape)) {
-      this.colourService.colour[colourIndex] = shape.secondaryColour;
+  getColourFromShape(event: MouseEvent, colourIndex: number, shape: ITools): void {
+    if (this.isStroke(event, shape) ) {
+      // secondary cannot be undefined; this method is only put on shape drawings that have one.
+      // tslint:disable-next-line:no-non-null-assertion
+      this.colourService.colour[colourIndex] = shape.secondaryColour!;
     } else {
-      this.colourService.colour[colourIndex] = shape.primaryColour;
+      // primarycolour cannot be undefined; this method is only put on drawings that have one.
+      // tslint:disable-next-line:no-non-null-assertion
+      this.colourService.colour[colourIndex] = shape.primaryColour!;
     }
   }
 
@@ -117,7 +120,7 @@ export class CanvasComponent implements AfterViewInit {
     this.saveService.saveDrawing(colourChangeOperation);
   }
 
-  isStroke(event: MouseEvent, shape: IShape): boolean {
+  isStroke(event: MouseEvent, shape: ITools): boolean {
     return ClickHelper.cursorTouchesObjectBorder(shape, ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
   }
 

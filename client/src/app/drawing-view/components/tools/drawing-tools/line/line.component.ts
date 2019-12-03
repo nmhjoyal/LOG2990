@@ -26,6 +26,9 @@ export class LineComponent extends LineAbstract implements OnInit, OnDestroy {
     }
     this.setTraceMode(this.traceMode);
     this.setJunctionMode(this.junctionMode);
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.stroke.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {

@@ -28,7 +28,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
       svgReference: '',
       angle: StampConstants.DEFAULT_ANGLE,
       scaleFactor: StampConstants.DEFAULT_SCALE_FACTOR,
-      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.PrimaryColour,
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: StampConstants.DEFAULT_DIMENSION,

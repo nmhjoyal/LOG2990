@@ -13,9 +13,10 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
+import { ISavedDrawing } from '../../../../../../common/drawing-information/IDrawing';
 import { DrawingViewModule } from '../../drawing-view.module';
-import { ColourPaletteComponent } from '../colour-picker/colour-palette/colour-palette.component';
-import { ColourPickerComponent } from '../colour-picker/colour-picker.component';
+import { ColourPaletteComponent } from '../modal-windows/colour-window/colour-palette/colour-palette.component';
+import { ColourPickerComponent } from '../modal-windows/colour-window/colour-picker/colour-picker.component';
 import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
@@ -24,7 +25,6 @@ import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { CanvasComponent } from './canvas.component';
-import { ISavedDrawing } from '../../../../../../common/drawing-information/IDrawing';
 
 describe('CanvasComponent', () => {
   let dataMock: SpyObj<INewDrawingModalData>;
