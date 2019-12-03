@@ -17,8 +17,7 @@ import { Id, ToolConstants } from '../../assets/constants/tool-constants';
 export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy, AfterViewInit {
 
   private initialColour: number[];
-  private toleranceOffset: number;
-  private viewedPoints: string[];
+  private viewedPoints: Set<string>;
   private addedPoints: number[][];
   private tolerance: number;
 
@@ -32,9 +31,8 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.canvas = document.createElement('canvas');
     this.canvas.width = this.canvasData.data.drawingWidth;
     this.canvas.height = this.canvasData.data.drawingHeight;
-    this.toleranceOffset = ToolConstants.TOLERANCE_OFFSET;
     this.tolerance = ToolConstants.DEFAULT_TOLERANCE;
-    this.viewedPoints = [];
+    this.viewedPoints = new Set();
     this.addedPoints = [];
     this.shape.id = Id.BUCKET;
     this.shape.points = '';
@@ -78,7 +76,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.saveShape();
     this.resetShape();
     this.shape.points = '';
-    this.viewedPoints = [];
+    this.viewedPoints = new Set();
     this.addedPoints = [];
   }
 
@@ -97,9 +95,9 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected acceptsColour(colour: number[]): boolean {
-    return (Math.abs(colour[0] - this.initialColour[0]) < this.tolerance &&
-            Math.abs(colour[1] - this.initialColour[1]) < this.tolerance &&
-            Math.abs(colour[2] - this.initialColour[2]) < this.tolerance);
+    return (Math.abs(colour[0] - this.initialColour[0]) <= this.tolerance &&
+            Math.abs(colour[1] - this.initialColour[1]) <= this.tolerance &&
+            Math.abs(colour[2] - this.initialColour[2]) <= this.tolerance);
   }
 
   protected withinCanvas(position: number[]): boolean {
@@ -107,18 +105,12 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
             position[1] > 0 && position[1] < this.canvas.height);
   }
 
-  protected isNewPoint(position: number[]): boolean {
-    return !this.viewedPoints.includes(position[0] + '' + position[1]);
-    /*for (const viewedPoint of this.viewedPoints) {
-      if (viewedPoint[0] === position[0] && viewedPoint[1] === position[1]) {
-        return false;
-      }
-    }
-    return true;*/
+  protected isNewPoint(size: number): boolean {
+    return !(this.viewedPoints.size === size);
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    this.viewedPoints = [];
+    this.viewedPoints = new Set();
     // this.addedPoints = [];
     // this.shape.points = '';
     const offset = 5;
@@ -127,15 +119,16 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     let position = [positionX, positionY];
     stack.push(position);
     while (stack.length > 0) {
-      // position = stack[i];
+      // tslint:disable-next-line: no-non-null-assertion
       position = stack.pop()!;
       let isBorderPoint = false;
       const up = this.getColourAtPosition(position[0], position[1] + offset);
       const right = this.getColourAtPosition(position[0] + offset, position[1]);
       const down = this.getColourAtPosition(position[0], position[1] - offset);
       const left = this.getColourAtPosition(position[0] - offset, position[1]);
-      if (this.isNewPoint(position) && this.withinCanvas(position)) {
-        this.viewedPoints.push(position[0] + '' + position[1]);
+      const size = this.viewedPoints.size;
+      this.viewedPoints.add(position[0] + '' + position[1]);
+      if (this.isNewPoint(size) && this.withinCanvas(position)) {
         if (this.acceptsColour(up)) {
           stack.push([position[0], position[1] + offset]);
         } else {
@@ -161,8 +154,6 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
         }
       }
     }
-    stack.length = 0;
-    console.log(this.viewedPoints.length);
   }
 
   async initializeCanvas(): Promise<void> {
@@ -178,7 +169,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   orderPoints(): void {
-    let lastPoint = this.addedPoints[0];
+    let lastPoint = this.addedPoints[1];
     const firstPoint = lastPoint;
     this.addedPoints.splice(0, 1);
     this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
@@ -214,7 +205,8 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       const g = imageData[++arrayIndex];
       const b = imageData[++arrayIndex];
       return ([r, g, b]);
-    } else { return ([]); }
+    } else {
+      return ([]); }
   }
 
   protected calculateDimensions(): void {
@@ -236,36 +228,5 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.previewBox.height = this.shape.height;
     this.previewBox.x = this.shape.x;
     this.previewBox.y = this.shape.y;
-/*
-    if (this.shape.points !== undefined) {
-      const pointsList = this.shape.points.split(' ');
-      this.shape.x = this.windowWidth;
-      this.shape.y = this.windowHeight;
-      this.shape.width = 0;
-      this.shape.height = 0;
-      for (const point of pointsList) {
-        const coordinates = point.split(',');
-        this.shape.x = Number(coordinates[0].trim()) < this.shape.x ? Number(coordinates[0].trim()) : this.shape.x;
-        this.shape.width = Number(coordinates[0].trim()) > this.shape.width ? Number(coordinates[0].trim()) : this.shape.width;
-        if (coordinates.length > 1) {
-          this.shape.y = Number(coordinates[1].trim()) < this.shape.y ? Number(coordinates[1].trim()) : this.shape.y;
-          this.shape.height = Number(coordinates[1].trim()) > this.shape.height ? Number(coordinates[1].trim()) : this.shape.height;
-        }
-      }
-      this.shape.width = this.shape.width - this.shape.x;
-      this.shape.height = this.shape.height - this.shape.y;
-    }*/
-  }
-
-  increaseTolerance(): void {
-    if (this.tolerance <= 1 - ToolConstants.TOLERANCE_OFFSET) {
-      this.tolerance += this.toleranceOffset;
-    }
-  }
-
-  decreaseTolerance(): void {
-    if (this.tolerance >= ToolConstants.TOLERANCE_OFFSET) {
-      this.tolerance -= this.toleranceOffset;
-    }
   }
 }
