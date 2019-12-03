@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import ParserHelper from '../services/parser-service/parser.service';
+import { SaveService } from '../services/save-service/save.service';
 import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { PreviewCanvasComponent } from './components/modal-windows/gallery-window/preview-canvas/preview-canvas.component';
@@ -74,7 +76,7 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService],
+  providers: [AttributesService, SelectorService, SaveService, ParserHelper],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })

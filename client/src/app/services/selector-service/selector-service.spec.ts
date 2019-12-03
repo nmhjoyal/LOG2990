@@ -1,18 +1,28 @@
+// tslint:disable: no-string-literal
+
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SaveService } from '../save-service/save.service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
   let service: SelectorService;
+  const canvasInformation: CanvasInformationService = new CanvasInformationService();
+  const drawingStorage: DrawingStorageService = new DrawingStorageService();
+  const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
+  const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
   const FIFTY = 50;
   const FORTY = 40;
   const ONE_HUNDRED = 100;
 
   beforeEach(() => {
-    service = new SelectorService();
+    service = new SelectorService(saveService);
   });
 
   it('should be created with correct initialized values', () => {
@@ -176,5 +186,19 @@ describe('SelectorService', () => {
     expect(service.objectInBox(drawing, previewBox)).toBeTruthy();
     objectSharesBox.and.returnValue(false);
     expect(service.objectInBox(drawing, previewBox)).toBeFalsy();
+  });
+
+  it('should modify the align property if the dragged object is of type text', () => {
+    const originalAlignX = 10;
+    const text: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT, alignX: originalAlignX };
+    service['selectedObjects'].add(text);
+    service['topCornerX'] = 0;
+    service['furthestX'] = originalAlignX;
+    service.dragObjects(FORTY, FORTY, FIFTY, FIFTY);
+    expect(text.alignX).toEqual(originalAlignX + FORTY - 0 - (originalAlignX / 2));
+  });
+
+  it('#SelectedObjects should return the selected objects', () => {
+    expect(service.SelectedObjects).toEqual(service['selectedObjects']);
   });
 });
