@@ -2,11 +2,11 @@ import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
+import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { SprayCanConstants } from '../assets/constants/spray-can-constants';
 import { Id } from '../assets/constants/tool-constants';
 import { ISpray, ISprayCan } from '../assets/interfaces/spray-can-interface';
-import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 
 @Component({
   selector: 'app-spray-can',
