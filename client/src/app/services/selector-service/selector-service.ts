@@ -132,7 +132,7 @@ export class SelectorService {
         movedObject.sprays.forEach( (spray) => {
           spray.cx += (cursorX - this.topCornerX - this.MinWidth / 2);
           spray.cy += (cursorY - this.topCornerY - this.MinHeight / 2);
-        })
+        });
       }
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
