@@ -18,7 +18,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
 
   private initialColour: number[];
   private toleranceOffset: number;
-  private viewedPoints: number[][];
+  private viewedPoints: string[];
   private addedPoints: number[][];
   private tolerance: number;
 
@@ -114,17 +114,17 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected isNewPoint(position: number[]): boolean {
-    // return !this.viewedPoints.includes(position);
-    for (const viewedPoint of this.viewedPoints) {
+    return !this.viewedPoints.includes(position[0] + '' + position[1]);
+    /*for (const viewedPoint of this.viewedPoints) {
       if (viewedPoint[0] === position[0] && viewedPoint[1] === position[1]) {
         return false;
       }
     }
-    return true;
+    return true;*/
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    // this.viewedPoints = [];
+    this.viewedPoints = [];
     // this.addedPoints = [];
     // this.shape.points = '';
     const offset = 5;
@@ -141,7 +141,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       const down = this.getColourAtPosition(position[0], position[1] - offset);
       const left = this.getColourAtPosition(position[0] - offset, position[1]);
       if (this.isNewPoint(position) && this.withinCanvas(position)) {
-        this.viewedPoints.push(position);
+        this.viewedPoints.push(position[0] + '' + position[1]);
         if (this.acceptsColour(up)) {
           stack.push([position[0], position[1] + offset]);
         } else {
