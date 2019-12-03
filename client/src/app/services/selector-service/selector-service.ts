@@ -3,8 +3,8 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
+import ParserHelper from '../parser-service/parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class SelectorService {
   furthestX: number;
   furthestY: number;
 
-  constructor(public saveService: SaveService, public parserService: ParserService) {
+  constructor(public saveService: SaveService) {
     this.selectedObjects = new Set<ISavedDrawing>();
     this.topCornerX = 0;
     this.topCornerY = 0;
@@ -131,7 +131,7 @@ export class SelectorService {
       }
       movedObject.x += (cursorX - this.topCornerX - this.MinWidth / 2);
       movedObject.y += (cursorY - this.topCornerY - this.MinHeight / 2);
-      this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this);
+      ParserHelper.dragPolylinePoints(cursorX, cursorY, movedObject, this);
     });
     this.recalculateShape(windowWidth, windowHeight);
   }

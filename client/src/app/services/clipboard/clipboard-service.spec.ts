@@ -5,18 +5,17 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
-import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ClipboardService } from './clipboard-service';
+import ParserHelper from '../parser-service/parser.service';
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
   let selectorService: SelectorService;
   let drawingStorage: DrawingStorageService;
   let undoRedoService: UndoRedoService;
-  let parserService: ParserService;
   let canvasService: CanvasInformationService;
   let saveService: SaveService;
   let dummyOperation: ITools;
@@ -31,10 +30,8 @@ describe('ClipboardService', () => {
     canvasService = new CanvasInformationService();
     undoRedoService = new UndoRedoService(drawingStorage, canvasService);
     saveService = new SaveService(drawingStorage, undoRedoService);
-    parserService = new ParserService();
-    selectorService = new SelectorService(saveService, parserService);
-    selectorService = new SelectorService(saveService, parserService);
-    service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService, parserService);
+    selectorService = new SelectorService(saveService);
+    service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
 
     dummyOperation = {
       id: 'dummy',
@@ -144,7 +141,7 @@ describe('ClipboardService', () => {
   });
 
   it('should add line drawing to canvas on duplicate', () => {
-    const parsedPoints = spyOn(parserService, 'parsePolylinePoints');
+    const parsedPoints = spyOn(ParserHelper, 'parsePolylinePoints');
     const drawing1: ITools = { x: FIFTY, y: FORTY, width: FIFTY, height: FIFTY, points: '0,100 50,25', id: Id.LINE };
     const drawing2: ITools = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, vertices: '0,0 1,1 0,0', id: Id.ELLIPSE };
     drawingStorage.drawings.push(drawing1);
@@ -166,11 +163,11 @@ describe('ClipboardService', () => {
       { path: 'M7 8L9 10', pathWidth: 2 }], id: Id.PEN,
     };
 
-    parserService.parsePolylinePoints(FIFTY, FIFTY, drawing1, 0, selectorService);
+    ParserHelper.parsePolylinePoints(FIFTY, FIFTY, drawing1, 0, selectorService);
     expect(drawing1.points).not.toEqual('0,100 50,20');
-    parserService.parsePolylinePoints(FIFTY, FIFTY, drawing2, 0, selectorService);
+    ParserHelper.parsePolylinePoints(FIFTY, FIFTY, drawing2, 0, selectorService);
     expect(drawing2.vertices).not.toEqual('0,0 1,1 0,0');
-    parserService.parsePolylinePoints(FIFTY, FIFTY, drawing3, 0, selectorService);
+    ParserHelper.parsePolylinePoints(FIFTY, FIFTY, drawing3, 0, selectorService);
     expect(drawing2.paths).not.toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }, { path: 'M7 8L9 10', pathWidth: 2 }]);
   });
 

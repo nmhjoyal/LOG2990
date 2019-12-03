@@ -5,7 +5,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
-import { ParserService } from 'src/app/services/parser-service/parser.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -23,8 +22,8 @@ const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTAN
 class SelectorServiceMock extends SelectorService {
     selectedObjects: Set<ITools>;
 
-    constructor(public saveService: SaveService, public parserService: ParserService) {
-        super(saveService, parserService);
+    constructor(public saveService: SaveService) {
+        super(saveService);
         this.selectedObjects = new Set<ITools>();
         this.selectedObjects.add(drawing);
     }
@@ -64,7 +63,6 @@ describe('SelectorComponent', () => {
     let selectorServiceMock: SelectorService;
     let fixture: ComponentFixture<SelectorComponent>;
     let toolServiceMock: ToolHandlerService;
-    const parserService: ParserService = new ParserService();
     const drawingStorage: DrawingStorageService = new DrawingStorageService();
     const canvasInformation: CanvasInformationService = new CanvasInformationService();
     const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
@@ -73,7 +71,7 @@ describe('SelectorComponent', () => {
         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
-        selectorServiceMock = new SelectorServiceMock(saveService, parserService);
+        selectorServiceMock = new SelectorServiceMock(saveService);
 
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],

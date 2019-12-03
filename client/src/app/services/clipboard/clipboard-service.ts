@@ -3,10 +3,10 @@ import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
-import { ParserService } from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
+import ParserHelper from '../parser-service/parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class ClipboardService {
   private deletedDrawings: ITools;
 
   constructor(protected drawingStorage: DrawingStorageService, protected selectorService: SelectorService,
-      public undoRedoService: UndoRedoService, public saveService: SaveService, public parserService: ParserService) {
+      public undoRedoService: UndoRedoService, public saveService: SaveService) {
     this.clipboard = new Set<ITools>();
     this.pasteOffset = 0;
     this.lastCursorX = 0;
@@ -65,7 +65,7 @@ export class ClipboardService {
           copiedObject.y -= this.pasteOffset - NumericalValues.DUPLICATE_OFFSET ;
           this.pasteOffset = NumericalValues.DUPLICATE_OFFSET / 2;
         }
-        this.parserService.parsePolylinePoints(cursorX, cursorY, copiedObject, this.pasteOffset, this.selectorService);
+        ParserHelper.parsePolylinePoints(cursorX, cursorY, copiedObject, this.pasteOffset, this.selectorService);
         copiedObject.pasteOffset = this.pasteOffset;
         this.saveService.saveDrawing({...copiedObject});
       });

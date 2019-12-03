@@ -6,13 +6,9 @@ import { SelectorService } from '../selector-service/selector-service';
 @Injectable({
   providedIn: 'root',
 })
-export class ParserService {
+export default class ParserHelper {
 
-  constructor() {
-    //
-  }
-
-  parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, offset: number, selectorService: SelectorService): void {
+  static parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, offset: number, selectorService: SelectorService): void {
     const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
 
     const newPaths: IComplexPath[] = [];
@@ -49,7 +45,7 @@ export class ParserService {
     }
   }
 
-  dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, selectorService: SelectorService): void {
+  static dragPolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, selectorService: SelectorService): void {
     const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
     const newPaths: IComplexPath[] = [];
     if (copiedObject.paths) {
@@ -60,7 +56,7 @@ export class ParserService {
         const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
         newPaths.push({
           path: 'M' + (parseInt(pathMX, 10) + cursorX - selectorService.topCornerX
-            - selectorService.MinWidth / 2 ).toString()
+            - selectorService.MinWidth / 2).toString()
             + ' '
             + (parseInt(pathMY, 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
             + 'L' + (parseInt(pathLX, 10) + cursorX - selectorService.topCornerX
@@ -83,7 +79,7 @@ export class ParserService {
     }
   }
 
-  initializePoints(copiedObject: ITools, selectorService: SelectorService, cursorX: number, cursorY: number): string {
+  static initializePoints(copiedObject: ITools, selectorService: SelectorService, cursorX: number, cursorY: number): string {
     let splitPoints: string[] = [];
     if ('points' in copiedObject) {
       // tslint:disable-next-line: no-non-null-assertion because it is verified as defined

@@ -19,8 +19,8 @@ import { ColourService } from './services/colour_service/colour.service';
 import { ExportInformationService } from './services/export-information/export-information.service';
 import { FilterTagsPipe } from './services/filter-pipe/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
-import { ParserService } from './services/parser-service/parser.service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
+import ParserHelper from './services/parser-service/parser.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,7 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
   ],
   providers: [
     MatDialogConfig,
-    ParserService,
+    ParserHelper,
     LocalStorageService,
     ToolHandlerService,
     CanvasInformationService,
