@@ -54,6 +54,11 @@ export class UndoRedoService {
         this.handleSecondaryColourApplication(operation, this.isUndoing);
         break;
 
+      case Id.DRAG:
+      this.handleDrag(operation, this.isUndoing);
+      break;
+
+
       default:
         break;
     }
@@ -93,6 +98,16 @@ export class UndoRedoService {
     const colourToApply: string|undefined = isUndo ? operation.initialColour : operation.appliedColour;
     this.drawingStorage.drawings[operation.indexes[0]].secondaryColour = colourToApply;
     }
+  }
+
+  handleDrag(operation: ITools, isUndo: boolean): void {
+    // tslint:disable-next-line: no-non-null-assertion
+    operation.indexes!.forEach((index) => {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.drawingStorage.drawings[index].x +=  isUndo ? operation.offsetX! : -operation.offsetX!;
+      // tslint:disable-next-line: no-non-null-assertion
+      this.drawingStorage.drawings[index].y += isUndo ? operation.offsetY! : -operation.offsetY!;
+    });
   }
 
 }

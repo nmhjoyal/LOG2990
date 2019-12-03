@@ -26,3 +26,8 @@ export interface IShapeOptions extends ITools, IPreviewBox {
     savedTraceMode: number;
     savedVerticesNumber?: number;
 }
+
+export interface IDrag {
+    offsetX?: number;
+    offsetY?: number;
+}

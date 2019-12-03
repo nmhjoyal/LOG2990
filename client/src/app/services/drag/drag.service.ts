@@ -18,14 +18,15 @@ export class DragService {
       movedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2;
       this.parserService.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
     });
+    
     this.selectorService.recalculateShape(windowWidth, windowHeight);
+    
   }
 
   snapObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number, controlPoint: ControlPoints): void {
     switch (controlPoint) {
       case ControlPoints.TOP_LEFT:
         this.selectorService.selectedObjects.forEach((movedObject) => {
-
           const gridX = Math.round(cursorX / this.gridService.GridSize) * this.gridService.GridSize;
           const xDistToSelectorBox = movedObject.x - this.selectorService.topCornerX;
           if (movedObject.alignX) {

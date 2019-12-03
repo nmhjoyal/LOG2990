@@ -20,6 +20,7 @@ export enum Id {
     ERASER = 'eraser',
     PRIMARY_COLOUR_CHANGE = 'primaryColourChange',
     SECONDARY_COLOUR_CHANGE = 'secondaryColourChange',
+    DRAG = 'drag',
 }
 
 export enum FilterURL {
