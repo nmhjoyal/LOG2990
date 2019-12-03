@@ -10,6 +10,8 @@ import { MatSelectModule} from '@angular/material/select';
 import { MatSliderModule} from '@angular/material/slider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import ParserHelper from '../services/parser-service/parser.service';
+import { SaveService } from '../services/save-service/save.service';
 import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { PreviewCanvasComponent } from './components/modal-windows/gallery-window/preview-canvas/preview-canvas.component';
@@ -25,6 +27,7 @@ import { SelectorComponent } from './components/tools/selector/selector.componen
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { SprayCanComponent } from './components/tools/spray-can/spray-can.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
 
@@ -44,6 +47,7 @@ import { TextComponent } from './components/tools/text/text.component';
     StampComponent,
     EraserComponent,
     PenComponent,
+    SprayCanComponent,
     QuillComponent,
   ],
 
@@ -79,7 +83,7 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService],
+  providers: [AttributesService, SelectorService, SaveService, ParserHelper],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })

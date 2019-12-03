@@ -18,6 +18,7 @@ export enum Id {
     TEXT = 'text',
     GRID = 'grid',
     ERASER = 'eraser',
+    SPRAY_CAN = 'spray-can',
     PRIMARY_COLOUR_CHANGE = 'primaryColourChange',
     SECONDARY_COLOUR_CHANGE = 'secondaryColourChange',
 }

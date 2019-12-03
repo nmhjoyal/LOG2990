@@ -52,7 +52,7 @@ describe('AppComponent', () => {
     toolHandlerMock = jasmine.createSpyObj('ToolHandlerService',
     ['resetToolSelection', 'choosePaintbrush', 'chooseCrayon', 'chooseRectangle', 'chooseEllipse', 'choosePolygon', 'chooseText',
     'choosePen', 'chooseQuill', 'chooseEyedropper', 'chooseColourApplicator', 'chooseSelector', 'isUsingText', 'isUsingColourApplicator',
-    'chooseEraser']);
+    'chooseEraser', 'chooseSprayCan']);
     toolHandlerMock.isUsingText.and.callThrough();
     toolHandlerMock.tools = Id;
     drawingStorageMock = jasmine.createSpyObj('DrawingStorageService', ['emptyDrawings', 'isEmpty']);
@@ -410,6 +410,16 @@ describe('AppComponent', () => {
     onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownE();
     expect(toolHandlerMock.chooseEraser).toHaveBeenCalled();
+  });
+
+  it('#chooseSprayCan should be called when a is pressed', () => {
+    toolHandlerMock.chooseSprayCan.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownA();
+    expect(toolHandlerMock.chooseSprayCan).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
+    component.onKeydownA();
+    expect(toolHandlerMock.chooseSprayCan).toHaveBeenCalled();
   });
 
   it('#confirmNewDrawing should be called when ctrl.O is pressed', () => {

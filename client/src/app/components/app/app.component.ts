@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatSidenav } from '@angular/material';
 import { CanvasComponent } from 'src/app/drawing-view/components/canvas/canvas.component';
 import { ExportWindowComponent } from 'src/app/drawing-view/components/modal-windows/export-window/export-window.component';
@@ -15,6 +15,7 @@ import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
+import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
   protected cursorX: number;
   protected cursorY: number;
 
-  @ViewChild('toggle', {static: false}) toggle: ElementRef<HTMLElement>;
+  @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
   @ViewChild('canvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
@@ -39,12 +40,13 @@ export class AppComponent implements OnInit {
     private storage: LocalStorageService,
     protected toolHandler: ToolHandlerService,
     protected drawingStorage: DrawingStorageService,
-  @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
+    @Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     public canvasData: CanvasInformationService,
     public colourService: ColourService,
     public exportData: ExportInformationService,
     private gridService: GridService,
-    public clipboardService: ClipboardService) {
+    public clipboardService: ClipboardService,
+    public selectorService: SelectorService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -232,6 +234,12 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown.-', ['$event']) onKeydownMinus(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.decreaseSize();
+    }
+  }
+
+  @HostListener('document:keydown.a', ['$event']) onKeydownA(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseSprayCan();
     }
   }
 

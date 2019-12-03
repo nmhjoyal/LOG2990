@@ -40,4 +40,19 @@ describe('DrawingStorageService', () => {
     expect(service.drawings.length).toEqual(0);
   });
 
+  it('#isEmpty should return true or false depending on weather or not the drawings array is empty', () => {
+    const myDrawing: ITools = {
+      id: '',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+    service.drawings = [myDrawing, myDrawing, myDrawing];
+    expect(service.isEmpty()).toBe(false);
+
+    service.drawings = [];
+    expect(service.isEmpty()).toBe(true);
+  });
+
 });
