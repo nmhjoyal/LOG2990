@@ -1,7 +1,7 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import ParserHelper from 'src/app/services/parser-service/parser.service';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import ParserHelper from 'src/app/services/parser-service/parser.service';
 
 export default class RotateHelper {
 

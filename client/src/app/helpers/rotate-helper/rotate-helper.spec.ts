@@ -1,9 +1,9 @@
 // tslint:disable:no-string-literal
 // tslint:disable:no-magic-numbers
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
+import ParserHelper from 'src/app/services/parser-service/parser.service';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import RotateHelper from './rotate-helper';
-import ParserHelper from 'src/app/services/parser-service/parser.service';
 
 describe('RotateSelectionService', () => {
 

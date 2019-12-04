@@ -3,8 +3,8 @@ import { ControlPoints } from 'src/app/drawing-view/components/tools/assets/cons
 import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPoint } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
-import { SelectorService } from '../selector-service/selector-service';
 import ParserHelper from '../parser-service/parser.service';
+import { SelectorService } from '../selector-service/selector-service';
 
 @Injectable({
   providedIn: 'root',

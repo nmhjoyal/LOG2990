@@ -1,13 +1,15 @@
+// tslint:disable:no-string-literal
+// tslint:disable:no-magic-numbers
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import ParserHelper from './parser.service';
-import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
-import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 describe('ParserServiceService', () => {
   let selectorService: SelectorService;
