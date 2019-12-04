@@ -179,7 +179,7 @@ describe('AttributesService', () => {
 
     service.resetSavedAttributes();
 
-    expect(eraserAttributes).toEqual(defaultEraserAttribute, 'sprayCanAttributes did not take initial values after the expected reset');
+    expect(eraserAttributes).toEqual(defaultEraserAttribute, 'eraserAttributes did not take initial values after the expected reset');
 
   });
 
