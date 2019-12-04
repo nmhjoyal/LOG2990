@@ -48,6 +48,7 @@ describe('ParserServiceService', () => {
     const drawing: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, points: '0 0, 1 1' };
     const drawing2: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, vertices: '0 0, 1 1' };
     const drawing3: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, paths: [{ path: 'M1 4L5 6', pathWidth: 2 }] };
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_LEFT, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_LEFT, gridService);
@@ -57,6 +58,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_MIDDLE, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_MIDDLE, gridService);
@@ -66,6 +68,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_RIGHT, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_RIGHT, gridService);
@@ -75,6 +78,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
@@ -84,6 +88,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE, gridService);
@@ -93,6 +98,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
@@ -102,6 +108,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
@@ -111,6 +118,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
@@ -120,6 +128,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
@@ -129,6 +138,7 @@ describe('ParserServiceService', () => {
     expect(drawing2.vertices).toEqual('0,0 1,1 ');
     expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
 
+    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.NONE, gridService);
     selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.NONE, gridService);
