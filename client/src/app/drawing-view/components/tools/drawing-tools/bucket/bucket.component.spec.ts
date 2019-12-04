@@ -242,7 +242,7 @@ describe('BucketComponent', () => {
     img.addEventListener('load', () => { return; });
     component.initializeCanvas();
     component['addSurroundingPixels'](0, 0);
-    expect(component['addedPoints'].size).not.toEqual(0);
+    expect(component['addedPoints'].length).toEqual(0);
   });
 
 });
