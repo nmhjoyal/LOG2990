@@ -73,9 +73,6 @@ export class ExportWindowComponent extends ModalWindowComponent implements OnIni
 
   xmlToBase64(): string {
     this.context = this.canvas.getContext('2d');
-    const img = new Image();
-    img.width = this.width;
-    img.height = this.height;
     const data = (new XMLSerializer()).serializeToString(this.exportInformation.data.canvasElement.nativeElement as Node);
     return 'data:image/svg+xml;base64,' + window.btoa(data);
   }

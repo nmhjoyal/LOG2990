@@ -4,6 +4,10 @@ export interface ILinePoints {
     points?: string;
 }
 
+export interface IOptions extends ITools {
+    wasSaved: boolean;
+}
+
 export interface ILine extends ITools {
     colour: string;
     strokeOpacity: number;
@@ -15,8 +19,7 @@ export interface ILine extends ITools {
     strokeDashArray: string;
 }
 
-export interface ILineOptions extends ITools {
-    wasSaved: boolean;
+export interface ILineOptions extends IOptions {
     savedStrokeWidth: number;
     savedTraceMode: string;
     savedJunctionMode: string;
@@ -32,12 +35,16 @@ export interface IDrawingTool extends ITools {
     filter: string;
 }
 
-export interface IDrawingToolOptions extends ITools {
-    wasSaved: boolean;
+export interface IDrawingToolOptions extends IOptions {
     savedStrokeWidth: number;
     savedFilter: string;
     savedMaxWidth: number;
     savedMinWidth: number;
+}
+
+export interface IQuillOptions extends IDrawingToolOptions {
+    savedLineLength: number;
+    savedAngle: number;
 }
 
 export interface IPen extends ITools {
@@ -52,4 +59,14 @@ export interface IComplexPath extends IPath {
 
 export interface IPath {
     paths?: IComplexPath[];
+}
+
+export interface IEraserOptions extends IOptions {
+    size: number;
+}
+
+export interface ISprayCanOptions extends IOptions {
+    wasSaved: boolean;
+    savedDiameter: number;
+    savedSprayPerSecond: number;
 }

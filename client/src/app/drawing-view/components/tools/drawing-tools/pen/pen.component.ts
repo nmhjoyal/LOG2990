@@ -30,7 +30,7 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
     this.pen = {
       id: ToolConstants.TOOL_ID.PEN,
       paths: [],
-      colour: this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
+      colour: this.colourService.PrimaryColour,
       strokeLinecap: ToolConstants.ROUND,
       x: 0,
       y: 0,
@@ -53,6 +53,9 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       this.minWidth = this.attributesService.penAttributes.savedMinWidth;
       this.newWidth = this.attributesService.penAttributes.savedMaxWidth;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.pen.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {
@@ -170,6 +173,8 @@ export class PenComponent extends StrokeAbstract implements OnInit, OnDestroy {
       width: this.pen.width - this.pen.x,
       height: this.pen.height - this.pen.y,
       points: this.pen.points,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }

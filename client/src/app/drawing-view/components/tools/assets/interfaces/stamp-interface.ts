@@ -5,7 +5,7 @@ export interface IStampReference {
 }
 
 export interface IStamp extends ITools, IStampReference {
-    angle: number;
+    rotationAngle: number;
     scaleFactor: number;
     primaryColour: string;
     centerX: number;

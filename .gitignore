@@ -8,7 +8,6 @@
 /node_modules
 
 # Extra files to ignore
-package-lock.json
 client/karma.conf.js
 stats.html
 yarn.lock

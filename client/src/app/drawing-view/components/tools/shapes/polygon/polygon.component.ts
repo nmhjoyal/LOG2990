@@ -16,6 +16,7 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
     super(saveRef, attributesServiceRef, colourServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.POLYGON;
     this.shape.verticesNumber = ToolConstants.MIN_VERTEX_NUMBER;
+    this.shape.vertices = '';
   }
 
   ngOnInit(): void {
@@ -25,6 +26,10 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
       this.shape.verticesNumber = this.attributesService.polygonAttributes.savedVerticesNumber;
     }
     this.setTraceMode(this.traceMode);
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.shape.primaryColour = colour[0];
+      this.shape.secondaryColour = colour[1];
+    });
   }
 
   ngOnDestroy(): void {
@@ -61,7 +66,12 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
 
       }
     }
+  }
 
+  onMouseUp(): void {
+    this.saveShape();
+    this.mouseDown = false;
+    this.shape.vertices = '';
   }
 
   protected saveShape(): void {
