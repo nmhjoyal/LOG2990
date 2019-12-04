@@ -3,22 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import { CanvasInformationService } from '../canvas-information/canvas-information.service';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { GridService } from '../grid/grid.service';
 import ParserHelper from '../parser-service/parser.service';
-import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
-import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { DragService } from './drag.service';
 
 describe('DragService', () => {
   let dragService: DragService;
-  const drawingStorage: DrawingStorageService = new DrawingStorageService();
-  const canvasInformation: CanvasInformationService = new CanvasInformationService();
-  const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
-  const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
-  const selectorService: SelectorService = new SelectorService(saveService);
+  const selectorService: SelectorService = new SelectorService();
   const gridService: GridService = new GridService();
   beforeEach(() => {
     dragService = new DragService(selectorService, gridService);

@@ -28,9 +28,9 @@ describe('ClipboardService', () => {
   beforeEach(() => {
     drawingStorage = new DrawingStorageService();
     canvasService = new CanvasInformationService();
-    undoRedoService = new UndoRedoService(drawingStorage, canvasService);
+    undoRedoService = new UndoRedoService(drawingStorage, canvasService, selectorService);
     saveService = new SaveService(drawingStorage, undoRedoService);
-    selectorService = new SelectorService(saveService);
+    selectorService = new SelectorService();
     service = new ClipboardService(drawingStorage, selectorService, undoRedoService, saveService);
 
     dummyOperation = {

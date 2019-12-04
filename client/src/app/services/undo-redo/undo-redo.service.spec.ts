@@ -6,15 +6,20 @@ import { IShape } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { UndoRedoService } from './undo-redo.service';
+import { IText } from 'src/app/drawing-view/components/tools/assets/interfaces/text-interface';
+import ParserHelper from '../parser-service/parser.service';
+import { SelectorService } from '../selector-service/selector-service';
 // tslint:disable:no-string-literal
 
 describe('UndoRedoService', () => {
   let service: UndoRedoService;
-  const undo = true;
+  const UNDO = true;
+  const OFFSET_VALUE = 10;
   let dummyDrawing: ITools;
   let dummyDrawing2: ITools;
   let shapeDrawing: IShape;
   let lineDrawing: ILine;
+  let textDrawing: IText;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,6 +27,7 @@ describe('UndoRedoService', () => {
         CanvasInformationService,
         DrawingStorageService,
         UndoRedoService,
+        SelectorService,
       ],
     });
     service = TestBed.get(UndoRedoService);
@@ -50,19 +56,19 @@ describe('UndoRedoService', () => {
     shapeDrawing = {
       primaryColour: 'default',
       secondaryColour: 'default',
-      id: '',
+      id: Id.RECTANGLE,
       strokeOpacity: 0,
       strokeWidth: 0,
       fillOpacity: 0,
       x: 0,
       y: 0,
-      width: 0,
-      height: 0,
+      width: 100,
+      height: 100,
     };
 
     lineDrawing = {
       colour: '',
-      id: '',
+      id: Id.LINE,
       strokeOpacity: 0,
       strokeWidth: 0,
       fill: '',
@@ -72,9 +78,25 @@ describe('UndoRedoService', () => {
       strokeDashArray: '',
       x: 0,
       y: 0,
-      width: 0,
-      height: 0,
+      width: 100,
+      height: 100,
     };
+
+    textDrawing = {
+      id: Id.TEXT,
+      lines: [''],
+      fontSize: 0,
+      italic: '',
+      bold: '',
+      align: '',
+      alignX: 0,
+      fontFamily: '',
+      primaryColour: '',
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    }
 
   });
 
@@ -140,6 +162,7 @@ describe('UndoRedoService', () => {
     const eraserSpy = spyOn(service, 'handleEraserOperation');
     const primaryColourSpy = spyOn(service, 'handlePrimaryColourApplication');
     const secondaryColourSpy = spyOn(service, 'handleSecondaryColourApplication');
+    const dragSpy = spyOn(service, 'handleDrag');
 
     dummyDrawing.id = '';
     service.parseHandlers(dummyDrawing);
@@ -156,6 +179,10 @@ describe('UndoRedoService', () => {
     service.parseHandlers(dummyDrawing);
     expect(secondaryColourSpy).toHaveBeenCalled();
 
+    dummyDrawing.id = Id.DRAG;
+    service.parseHandlers(dummyDrawing);
+    expect(dragSpy).toHaveBeenCalled();
+
   });
 
   it('#handleEraseroperation should insert elements into drawing on undo,' +
@@ -164,21 +191,21 @@ describe('UndoRedoService', () => {
     service.drawingStorage.drawings = [dummyDrawing2];
     const spliceSpy = spyOn(service.drawingStorage.drawings, 'splice');
 
-    service.handleEraserOperation(dummyDrawing, undo);
+    service.handleEraserOperation(dummyDrawing, UNDO);
     expect(spliceSpy).not.toHaveBeenCalled();
 
     dummyDrawing.objects = [dummyDrawing2];
 
-    service.handleEraserOperation(dummyDrawing, undo);
+    service.handleEraserOperation(dummyDrawing, UNDO);
     expect(spliceSpy).not.toHaveBeenCalled();
 
     dummyDrawing.indexes = [0];
 
-    service.handleEraserOperation(dummyDrawing, undo);
+    service.handleEraserOperation(dummyDrawing, UNDO);
     expect(spliceSpy.calls.count()).toEqual(1);
     expect(spliceSpy.calls.mostRecent().args).toEqual([0, 0, dummyDrawing2]);
 
-    service.handleEraserOperation(dummyDrawing, !undo);
+    service.handleEraserOperation(dummyDrawing, !UNDO);
     expect(spliceSpy.calls.count()).toBe(2);
     expect(spliceSpy.calls.mostRecent().args).toEqual([0, 1]);
 
@@ -192,35 +219,35 @@ describe('UndoRedoService', () => {
    dummyDrawing2.initialColour = 'initialColour';
    dummyDrawing2.appliedColour = undefined;
 
-   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, !UNDO);
    expect(service.canvasInformation.data.drawingColour).toBe('default');
 
    dummyDrawing2.initialColour = undefined;
    dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, !UNDO);
    expect(service.canvasInformation.data.drawingColour).toBe('appliedColour');
 
    dummyDrawing2.indexes = undefined;
    dummyDrawing2.initialColour = 'initialColour';
    dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, !UNDO);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('default');
 
    dummyDrawing2.indexes = [0];
    dummyDrawing2.initialColour = 'initialColour';
    dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handlePrimaryColourApplication(dummyDrawing2, !undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, !UNDO);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('appliedColour');
 
-   service.handlePrimaryColourApplication(dummyDrawing2, undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, UNDO);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('initialColour');
 
    service.drawingStorage.drawings = [lineDrawing];
 
-   service.handlePrimaryColourApplication(dummyDrawing2, undo);
+   service.handlePrimaryColourApplication(dummyDrawing2, UNDO);
    expect(service.drawingStorage.drawings[0].colour).toBe('initialColour');
 
   });
@@ -230,18 +257,45 @@ describe('UndoRedoService', () => {
 
    service.drawingStorage.drawings = [shapeDrawing];
 
-   service.handleSecondaryColourApplication(dummyDrawing2, !undo);
+   service.handleSecondaryColourApplication(dummyDrawing2, !UNDO);
    expect(service.drawingStorage.drawings[0].primaryColour).toBe('default');
 
    dummyDrawing2.indexes = [0];
    dummyDrawing2.initialColour = 'initialColour';
    dummyDrawing2.appliedColour = 'appliedColour';
 
-   service.handleSecondaryColourApplication(dummyDrawing2, !undo);
+   service.handleSecondaryColourApplication(dummyDrawing2, !UNDO);
    expect(service.drawingStorage.drawings[0].secondaryColour).toBe('appliedColour');
 
-   service.handleSecondaryColourApplication(dummyDrawing2, undo);
+   service.handleSecondaryColourApplication(dummyDrawing2, UNDO);
    expect(service.drawingStorage.drawings[0].secondaryColour).toBe('initialColour');
+
+  });
+
+  it('#handleDrag should parse the dragged objects and apply the dragging offset on redo and unapply it on undo', () => {
+   
+   service.drawingStorage.drawings = [shapeDrawing, lineDrawing, textDrawing];
+   dummyDrawing.id = Id.DRAG;
+   dummyDrawing.indexes = [0, 1, 2]; //indexes of each drawings in drawingStorage.drawings
+   dummyDrawing.offsetX = OFFSET_VALUE;
+   dummyDrawing.offsetY = OFFSET_VALUE;
+   let dragMethodSpy = spyOn(ParserHelper, 'dragPolylinePoints').and.callThrough();
+
+   service.handleDrag(dummyDrawing, UNDO);
+   expect(shapeDrawing.x).toBe(-OFFSET_VALUE);
+   expect(shapeDrawing.y).toBe(-OFFSET_VALUE);
+   expect(textDrawing.x).toBe(-OFFSET_VALUE);
+   expect(textDrawing.y).toBe(-OFFSET_VALUE);
+   expect(textDrawing.alignX).toBe(textDrawing.x);
+   expect(dragMethodSpy.calls.count()).toBe(1);
+   
+   service.handleDrag(dummyDrawing, !UNDO);
+   expect(shapeDrawing.x).toBe(0);
+   expect(shapeDrawing.y).toBe(0);
+   expect(textDrawing.x).toBe(0);
+   expect(textDrawing.y).toBe(0);
+   expect(textDrawing.alignX).toBe(textDrawing.x);
+   expect(dragMethodSpy.calls.count()).toBe(2);
 
   });
 

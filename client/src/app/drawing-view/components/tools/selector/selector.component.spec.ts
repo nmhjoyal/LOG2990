@@ -2,7 +2,6 @@
 
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DragService } from 'src/app/services/drag/drag.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -10,7 +9,6 @@ import { GridService } from 'src/app/services/grid/grid.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
-import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
@@ -24,8 +22,8 @@ const drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTAN
 class SelectorServiceMock extends SelectorService {
     selectedObjects: Set<ITools>;
 
-    constructor(public saveService: SaveService) {
-        super(saveService);
+    constructor() {
+        super();
         this.selectedObjects = new Set<ITools>();
         this.selectedObjects.add(drawing);
     }
@@ -62,20 +60,15 @@ class SelectorServiceMock extends SelectorService {
 describe('SelectorComponent', () => {
     const TWICE = 2;
     let selector: SelectorComponent;
-    let selectorServiceMock: SelectorService;
+    let selectorServiceMock: SelectorService = new SelectorServiceMock();
     let fixture: ComponentFixture<SelectorComponent>;
     let toolServiceMock: ToolHandlerService;
-    const drawingStorage: DrawingStorageService = new DrawingStorageService();
-    const canvasInformation: CanvasInformationService = new CanvasInformationService();
-    const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
-    const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
     const gridService: GridService = new GridService();
     let dragService: DragService;
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
-        selectorServiceMock = new SelectorServiceMock(saveService);
         dragService = new DragService(selectorServiceMock, gridService);
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],

@@ -5,20 +5,12 @@ import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DragService } from '../drag/drag.service';
-import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import { GridService } from '../grid/grid.service';
-import { SaveService } from '../save-service/save.service';
-import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { SelectorService } from './selector-service';
 
 describe('SelectorService', () => {
   let service: SelectorService;
-  const canvasInformation: CanvasInformationService = new CanvasInformationService();
-  const drawingStorage: DrawingStorageService = new DrawingStorageService();
-  const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
-  const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
   const gridService: GridService = new GridService();
   let dragService: DragService;
   const FIFTY = 50;
@@ -26,7 +18,7 @@ describe('SelectorService', () => {
   const ONE_HUNDRED = 100;
 
   beforeEach(() => {
-    service = new SelectorService(saveService);
+    service = new SelectorService();
     dragService = new DragService(service, gridService);
   });
 
