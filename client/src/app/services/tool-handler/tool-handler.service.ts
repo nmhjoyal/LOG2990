@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
+import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IShape } from '../../drawing-view/components/tools/assets/interfaces/shape-interface';
 import { ColourService } from '../colour_service/colour.service';
 
@@ -11,11 +11,10 @@ export class ToolHandlerService {
   tools = Id;
   selectedTool: string;
   protected selection: IShape;
-
   protected primaryColourSelected: boolean;
   protected secondaryColourSelected: boolean;
-  protected primaryColour: string;
-  protected secondaryColour: string;
+  primaryColour: string;
+  secondaryColour: string;
 
   constructor(public colourService: ColourService) {
     this.selection = {
@@ -25,21 +24,23 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.NONE;
     this.primaryColourSelected = false;
     this.secondaryColourSelected = false;
-    this.primaryColour = this.colourService.colour[ToolConstants.PRIMARY_COLOUR_INDEX];
-    this.secondaryColour = this.colourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX];
+    this.primaryColour = this.colourService.PrimaryColour;
+    this.secondaryColour = this.colourService.SecondaryColour;
   }
 
   resetToolSelection(): void {
     this.selectedTool = this.tools.NONE;
     this.resetSelectorBox();
+    this.primaryColourSelected = false;
+    this.secondaryColourSelected = false;
   }
 
   isUsingText(): boolean {
     return this.selectedTool === this.tools.TEXT;
   }
 
-  isUsingColourApplicator(): boolean {
-    return this.selectedTool === this.tools.COLOUR_APPLICATOR;
+  isUsingPen(): boolean {
+    return this.selectedTool === this.tools.PEN;
   }
 
   // Selector Tool Methods
@@ -72,10 +73,8 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.POLYGON;
   }
 
-  chooseColourApplicator(primaryColour: string, secondaryColour: string): void {
+  chooseColourApplicator(): void {
     this.resetToolSelection();
-    this.primaryColour = primaryColour;
-    this.secondaryColour = secondaryColour;
     this.selectedTool = this.tools.COLOUR_APPLICATOR;
   }
 
@@ -120,13 +119,11 @@ export class ToolHandlerService {
   }
 ​
   choosePrimaryColour(): void {
-    this.resetToolSelection();
     this.primaryColourSelected = true;
     this.colourService.chooseColour(false);
   }
 
   chooseSecondaryColour(): void {
-    this.resetToolSelection();
     this.secondaryColourSelected = true;
     this.colourService.chooseColour(true);
   }
@@ -145,12 +142,14 @@ export class ToolHandlerService {
     this.resetToolSelection();
     this.selectedTool = this.tools.ERASER;
   }
+
   chooseText(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.TEXT;
   }
 
-  chooseOther(): void {// Place holder for unimplemented tools
+  chooseSprayCan(): void {
     this.resetToolSelection();
+    this.selectedTool = this.tools.SPRAY_CAN;
   }
 }

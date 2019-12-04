@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { DebugElement, ElementRef } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
@@ -53,7 +53,7 @@ describe('ColourPaletteComponent', () => {
         expect(component.colour).toBeDefined();
         expect(component['primaryColour']).toBeDefined();
         expect(component['secondaryColour']).toBeDefined();
-        expect((component as any).mousedown).toEqual(false);
+        expect((component as any).mouseDown).toEqual(false);
     });
 
     it('should call all functions on drawGradient', () => {
@@ -77,15 +77,20 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mousedown');
         hostElement.triggerEventHandler('mousedown', event);
         expect(spy).toHaveBeenCalled();
-        // expect(component.draw).toHaveBeenCalled();
     });
 
-    it('#onMouseMove should be called when left mouse button gets pressed', () => {
+    it('#onMouseMove should be called when the mouse is moved', () => {
         const spy = spyOn(component, 'onMouseMove');
         const event = new MouseEvent('mousemove');
         hostElement.triggerEventHandler('mousemove', event);
         expect(spy).toHaveBeenCalled();
-        // expect(component.emitColour).toHaveBeenCalled();
+    });
+
+    it('#onMouseMove should not return value if not onMouseDown', () => {
+        component['mouseDown'] = false;
+        const event = new MouseEvent('mousemove');
+        hostElement.triggerEventHandler('mousemove', event);
+        expect(component['mouseDown']).toBeFalsy();
     });
 
     it('#onMouseUp should be called when left mouse button gets released', () => {
@@ -93,12 +98,6 @@ describe('ColourPaletteComponent', () => {
         const event = new MouseEvent('mouseup');
         hostElement.triggerEventHandler('mouseup', event);
         expect(spy).toHaveBeenCalled();
-    });
-
-    it('#getColourAtPosition should return color', () => {
-        component.draw();
-        const colour = component.getColourAtPosition(1, 1);
-        expect(colour).not.toBeNull();
     });
 
 });

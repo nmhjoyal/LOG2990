@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 <div style='padding: 10px' *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
-        <button (click)="getComponent().setFilter(0)">Aucun filtre</button>
-        <button (click)="getComponent().setFilter(1)">Filtre 1</button>
-        <button (click)="getComponent().setFilter(2)">Filtre 2</button>
-        <button (click)="getComponent().setFilter(3)">Filtre 3</button>
-        <button (click)="getComponent().setFilter(4)">Filtre 4</button>
-        <button (click)="getComponent().setFilter(5)">Filtre 5</button>
-        <button (click)="getComponent().setFilter(6)">Filtre 6</button>
+        <p>Style de trait</p>
+        <button (click)="getComponent().setFilter(0)">Aucun filtre</button><br>
+        <button (click)="getComponent().setFilter(1)"> 1</button>
+        <button (click)="getComponent().setFilter(2)"> 2</button>
+        <button (click)="getComponent().setFilter(3)"> 3</button>
+        <button (click)="getComponent().setFilter(4)"> 4</button>
+        <button (click)="getComponent().setFilter(5)"> 5</button>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH || toolHandler.selectedTool === toolId.CRAYON || toolHandler.selectedTool === toolId.LINE">
         <div>
@@ -155,6 +155,20 @@
             <a class="filter" (click)="getComponent().alignText(2)">
                 <img id="right" src="../../../../../../assets/text-options/format_align_right-24px.svg" title="Droite">
             </a>
+        </div>
+    </div>
+    <div *ngIf="toolHandler.selectedTool === toolId.SPRAY_CAN">
+        <div>
+        <p>Diamètre du jet: {{getComponent().diameter}}</p>
+        <label class="slider">
+            <input type="range" [attr.min]="getComponent().constants.MIN_DIAMETER" [attr.max]="getComponent().constants.MAX_DIAMETER"
+            [attr.step]="getComponent().constants.DIAMETER_STEP" [(ngModel)]="getComponent().diameter">
+        </label>
+        <br>
+        <p>Émissions par seconde: {{getComponent().sprayPerSecond}}</p>
+        <label class="slider" >
+            <input type="range" min=1 [attr.max]="getComponent().constants.MAX_SPRAY_PER_SECOND" step=1 [(ngModel)]="getComponent().sprayPerSecond">
+        </label>  
         </div>
     </div>
 </div>

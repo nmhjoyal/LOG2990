@@ -18,11 +18,11 @@ import { ExportInformationService } from 'src/app/services/export-information/ex
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
-import { ColourPickerComponent } from '../../drawing-view/components/colour-picker/colour-picker.component';
+import { ColourPickerComponent } from '../../drawing-view/components/modal-windows/colour-window/colour-picker/colour-picker.component';
 import { GridService } from '../../services/grid/grid.service';
-import { ControlPoints } from 'src/AppConstants/ControlPoints';
 
 @Component({
   selector: 'app-root',
@@ -64,7 +64,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.openWelcomeScreen();
     this.selectorService.controlPoint = this.controlPoint;
-    console.log(this.controlPoint);
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
@@ -92,8 +91,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown.r', ['$event']) onKeydownR(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
-      this.toolHandler.chooseColourApplicator(this.colourService.getPrimaryColour(),
-        this.colourService.getSecondaryColour());
+      this.toolHandler.chooseColourApplicator();
     }
   }
 
@@ -252,6 +250,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.a', ['$event']) onKeydownA(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+      this.toolHandler.chooseSprayCan();
+    }
+  }
+
   confirmNewDrawing(): void {
     if (this.isOnlyModalOpen()) {
       if (this.drawingStorage.isEmpty()) {
@@ -324,13 +328,6 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColourPickerComponent, {
       panelClass: 'choose-colour-window',
     });
-  }
-
-  switchColours(): void {
-    this.colourService.switchColours();
-    if (!this.toolHandler.isUsingColourApplicator()) {
-      this.toolHandler.resetToolSelection();
-    }
   }
 
   onSelectionChange() {

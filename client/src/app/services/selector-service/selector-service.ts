@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
-import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import { GridService } from '../grid/grid.service';
-import { ParserService } from '../parser-service/parser.service';
-import { SaveService } from '../save-service/save.service';
 import { ControlPoints } from 'src/AppConstants/ControlPoints';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { SaveService } from '../save-service/save.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +17,7 @@ export class SelectorService {
   furthestY: number;
   controlPoint: ControlPoints;
 
-  constructor(public saveService: SaveService, public parserService: ParserService, public gridService: GridService) {
+  constructor(public saveService: SaveService) {
     this.selectedObjects = new Set<ISavedDrawing>();
     this.topCornerX = 0;
     this.topCornerY = 0;

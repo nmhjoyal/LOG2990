@@ -58,7 +58,6 @@ export class UndoRedoService {
       this.handleDrag(operation, this.isUndoing);
       break;
 
-
       default:
         break;
     }

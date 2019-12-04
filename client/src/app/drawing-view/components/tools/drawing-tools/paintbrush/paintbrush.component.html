@@ -23,19 +23,13 @@
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>
 
-    <filter id="filter5">
+    <filter id="filter5" height="200%" width="200%">
         <feOffset result="offOut" in="StrokePaint" dx="0.25" dy="0.25" />
         <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="offOut" scale="10" xChannelSelector="R" yChannelSelector="G" result = "turbOut" />
         <feGaussianBlur in="turbOut" stdDeviation="3"/>
     </filter>
 
-    <filter id="filter6">
-        <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="1" result="turbulence"/>
-        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G"/>
-        <feGaussianBlur result="blurOut2" in="offOut2" stdDeviation="5" />
-        <feBlend in="blurOut" in2="blurOut2" mode="normal" />
-    </filter>
     
     <polyline 
         id="current"

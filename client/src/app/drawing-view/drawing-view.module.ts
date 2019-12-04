@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ParserService } from '../services/parser-service/parser.service';
+import ParserHelper from '../services/parser-service/parser.service';
 import { SaveService } from '../services/save-service/save.service';
 import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
@@ -16,14 +16,15 @@ import { AttributesService } from './components/tools/assets/attributes/attribut
 import { CrayonComponent } from './components/tools/drawing-tools/crayon/crayon.component';
 import { DrawingToolToolboxComponent } from './components/tools/drawing-tools/drawing-tool-toolbox/drawing-tool-toolbox.component';
 import { EraserComponent } from './components/tools/drawing-tools/eraser/eraser.component';
+import { LineComponent } from './components/tools/drawing-tools/line/line.component';
 import { PaintbrushComponent } from './components/tools/drawing-tools/paintbrush/paintbrush.component';
 import { PenComponent } from './components/tools/drawing-tools/pen/pen.component';
 import { QuillComponent } from './components/tools/drawing-tools/quill/quill.component';
 import { SelectorComponent } from './components/tools/selector/selector.component';
 import { EllipseComponent } from './components/tools/shapes/ellipse/ellipse.component';
-import { LineComponent } from './components/tools/shapes/line/line.component';
 import { PolygonComponent } from './components/tools/shapes/polygon/polygon.component';
 import { RectangleComponent } from './components/tools/shapes/rectangle/rectangle.component';
+import { SprayCanComponent } from './components/tools/spray-can/spray-can.component';
 import { StampComponent } from './components/tools/stamp/stamp.component';
 import { TextComponent } from './components/tools/text/text.component';
 
@@ -43,6 +44,7 @@ import { TextComponent } from './components/tools/text/text.component';
     StampComponent,
     EraserComponent,
     PenComponent,
+    SprayCanComponent,
     QuillComponent,
   ],
 
@@ -72,7 +74,7 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService, SaveService, ParserService],
+  providers: [AttributesService, SelectorService, SaveService, ParserHelper],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })

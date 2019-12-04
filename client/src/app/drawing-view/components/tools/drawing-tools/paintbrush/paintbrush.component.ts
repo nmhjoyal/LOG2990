@@ -17,7 +17,6 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
     colourServiceRef: ColourService) {
     super(saveRef, attributeServiceRef, colourServiceRef);
     this.stroke.id = ToolConstants.TOOL_ID.PAINTBRUSH;
-    this.stroke.filter = ToolConstants.FILTER_ID.FILTER4;
   }
 
   saveAttribute(): void {
@@ -31,6 +30,9 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
       this.stroke.strokeWidth = this.attributesService.paintbrushAttributes.savedStrokeWidth;
       this.stroke.filter = this.attributesService.paintbrushAttributes.savedFilter;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.stroke.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {
@@ -56,9 +58,6 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
         break;
       case FilterSelection.FILTER5:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER5;
-        break;
-      case FilterSelection.FILTER6:
-        this.stroke.filter = ToolConstants.FILTER_ID.FILTER6;
         break;
       default:
         this.stroke.filter = ToolConstants.FILTER_ID.FILTER0;

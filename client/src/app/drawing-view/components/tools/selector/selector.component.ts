@@ -9,8 +9,8 @@ import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.s
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
-import { ITools } from '../assets/interfaces/itools';
 import { Id } from '../assets/constants/tool-constants';
+import { ITools } from '../assets/interfaces/itools';
 
 @Component({
   selector: 'app-tools-selector',
@@ -43,7 +43,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       width: 0,
       height: 0,
       indexes: [],
-    }
+    };
   }
 
   ngOnInit(): void {
@@ -96,15 +96,16 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseDown(event: MouseEvent): void {
     if (event.button === ClickTypes.LEFT_CLICK) {
-      if (this.selectorService.SelectedObjects) {
-        this.selectorService.SelectedObjects.forEach((drawing) => {
-          if (this.selectorService.cursorTouchesObject(drawing, this.cursorX, this.cursorY)) {
-            this.shouldDrag = true;
-            this.dragOperation.x = this.selectorService.topCornerX;
-            this.dragOperation.y = this.selectorService.topCornerY;
-            return;
-          }
-        });
+      if (this.selectorService.SelectedObjects.size > 0 &&
+        ClickHelper.cursorInsideObject({
+          id: Id.RECTANGLE,
+          x: this.selectorService.topCornerX, y: this.selectorService.topCornerY,
+          height: this.selectorService.MinHeight, width: this.selectorService.MinWidth,
+        },
+          ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
+        this.dragOperation.x = this.selectorService.topCornerX;
+        this.dragOperation.y = this.selectorService.topCornerY;
+        this.shouldDrag = true;
       } else {
         this.isRightClick = false;
         this.isReverseSelection = false;
@@ -170,18 +171,18 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       if (this.selectorService.SelectedObjects.size > 0) {
         this.dragOperation.offsetX = this.dragOperation.x - this.selectorService.topCornerX;
         this.dragOperation.offsetY = this.dragOperation.y - this.selectorService.topCornerY;
-        if ( this.shouldDrag && (this.dragOperation.offsetX !==0 || this.dragOperation.offsetY !== 0 )) {
-        this.selectorService.SelectedObjects.forEach((drawing) => {
-          // indexes is defined in the constructor
-          // tslint:disable-next-line: no-non-null-assertion
-          this.dragOperation.indexes!.push(this.drawingStorage.drawings.indexOf(drawing));
-        });
-        this.saveService.saveDrawing({...this.dragOperation});
+        if (this.shouldDrag && (this.dragOperation.offsetX !== 0 || this.dragOperation.offsetY !== 0)) {
+          this.selectorService.SelectedObjects.forEach((drawing) => {
+            // indexes is defined in the constructor
+            // tslint:disable-next-line: no-non-null-assertion
+            this.dragOperation.indexes!.push(this.drawingStorage.drawings.indexOf(drawing));
+          });
+          this.saveService.saveDrawing({ ...this.dragOperation });
         }
 
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,
           this.selectorService.MinWidth, this.selectorService.MinHeight);
-          
+
         this.resetShape();
       } else {
         this.resetComponent();
