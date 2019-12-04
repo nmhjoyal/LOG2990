@@ -6,12 +6,6 @@ export interface ISpray {
     seed: number;
 }
 
-export interface ISprayCanOptions {
-    wasSaved: boolean;
-    savedDiameter: number;
-    savedSprayPerSecond: number;
-}
-
 export interface ISprayPaint {
     sprays?: ISpray[];
     radius?: number;

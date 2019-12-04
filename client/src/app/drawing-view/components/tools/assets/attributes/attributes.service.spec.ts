@@ -161,11 +161,40 @@ describe('AttributesService', () => {
     sprayCanAttributes.savedSprayPerSecond = 0;
     sprayCanAttributes.savedDiameter = 0;
 
-    const unmodifiedPolygonAttribute = sprayCanAttributes;
+    const unmodifiedSprayCanAttributes = sprayCanAttributes;
 
     service.resetSavedAttributes();
 
-    expect(sprayCanAttributes).toEqual(unmodifiedPolygonAttribute, 'sprayCanAttributes took initial values but wasSaved was false');
+    expect(sprayCanAttributes).toEqual(unmodifiedSprayCanAttributes, 'sprayCanAttributes took initial values but wasSaved was false');
+
+  });
+
+  it('#resetSavedAttributes should set eraserAttributes back to its initial values if they were changed', () => {
+    service = TestBed.get(AttributesService);
+    const eraserAttributes = service.eraserAttributes;
+    const defaultEraserAttribute = eraserAttributes;
+
+    eraserAttributes.wasSaved = true;
+    eraserAttributes.size = 0;
+
+    service.resetSavedAttributes();
+
+    expect(eraserAttributes).toEqual(defaultEraserAttribute, 'eraserAttributes did not take initial values after the expected reset');
+
+  });
+
+  it('#resetSavedAttributes should not set eraserAttributes back to its initial values if they were never changed', () => {
+    service = TestBed.get(AttributesService);
+    const eraserAttributes = service.eraserAttributes;
+
+    eraserAttributes.wasSaved = true;
+    eraserAttributes.size = 0;
+
+    const unmodifiedEraserAttribute = eraserAttributes;
+
+    service.resetSavedAttributes();
+
+    expect(eraserAttributes).toEqual(unmodifiedEraserAttribute, 'eraserAttributes took initial values but wasSaved was false');
 
   });
 });
