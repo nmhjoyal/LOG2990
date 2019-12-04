@@ -6,6 +6,7 @@ import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawin
   providedIn: 'root',
 })
 export class RotateSelectionService {
+
   constructor() {
     // empty block
   }
@@ -48,8 +49,11 @@ export class RotateSelectionService {
     for (let i = 0; i < splitPoints.length; i += 2) {
       const oldX = parseInt(splitPoints[i], 10);
       const oldY = parseInt(splitPoints[i + 1], 10);
-      newPoints += (x + (oldX - x) * Math.cos(angle) - (oldY - y) * Math.sin(angle)).toString() + ','
-                + (y + (oldY - y) * Math.cos(angle) - (oldX - x) * Math.sin(angle)).toString() + ' ';
+      newPoints += (x + (oldX - x) * Math.cos(angle) - (oldY - y) * Math.sin(angle)).toString() + ' '
+                + (y + (oldY - y) * Math.cos(angle) - (oldX - x) * Math.sin(angle)).toString();
+      if (i !== splitPoints.length - 2) {
+        newPoints += ', ';
+      }
     }
     drawing.points = newPoints;
   }
