@@ -35,7 +35,7 @@ export class RotateSelectionService {
       this.rewritePoints(drawing, newX - drawing.x, newY - drawing.y);
     }
     if ('paths' in drawing) {
-      this.rewritePaths(drawing, newX - drawing.x, newY - drawing.y)
+      this.rewritePaths(drawing, newX - drawing.x, newY - drawing.y);
     } else {
       this.rotateOnItself(drawing, angle);
     }

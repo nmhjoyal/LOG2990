@@ -54,13 +54,16 @@ describe('RotateSelectionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#calculatePosition should call rewritePoints if the drawing has points and rotateOnItself when not', () => {
-    const spyRewrite = spyOn(service, 'rewritePoints');
+  it('#calculatePosition should call either rewritePoints, rewritePaths or rotateOnItself', () => {
+    const spyRewritePoints = spyOn(service, 'rewritePoints');
+    const spyRewritePaths = spyOn(service, 'rewritePaths');
     const spyRotate = spyOn(service, 'rotateOnItself');
     service.calculatePosition(drawing, 0, 0, 0);
     expect(spyRotate).toHaveBeenCalled();
     service.calculatePosition(line, 0, 0, 0);
-    expect(spyRewrite).toHaveBeenCalled();
+    expect(spyRewritePoints).toHaveBeenCalled();
+    service.calculatePosition(path, 0, 0, 0);
+    expect(spyRewritePaths).toHaveBeenCalled();
   });
 
   it('#degreeToRad should return a value between 0 and 2*PI', () => {
