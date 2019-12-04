@@ -231,6 +231,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
       if (this.selectedControlPoint !== ControlPoints.NONE) {
+        this.mouseMoved = true;
         this.handleControlPoint(event);
         return;
       }

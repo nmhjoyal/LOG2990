@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { ControlPoints } from 'src/app/drawing-view/components/tools/assets/constants/selector-constants';
 import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
@@ -5,6 +6,9 @@ import { IPoint } from 'src/app/drawing-view/components/tools/assets/interfaces/
 import { IComplexPath } from '../../drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { SelectorService } from '../selector-service/selector-service';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class ResizeService {
 
   protected cursor: IPoint;
@@ -35,6 +39,13 @@ export class ResizeService {
       + ','
       + (parseInt(points[i + 1], 10) - differenceY).toString()
       + ' ';
+    }
+
+    if (object.sprays) {
+      for (const spray of object.sprays) {
+        spray.cx -= differenceX;
+        spray.cy -= differenceY;
+      }
     }
 
     const newPaths: IComplexPath[] = [];

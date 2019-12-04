@@ -84,7 +84,8 @@
             
             <g *ngSwitchCase="toolId.QUILL" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
-                <g *ngFor="let svgpath of drawing.paths">
+                <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <path
                         [attr.d]="svgpath.path"
                         [style.stroke-width]="svgpath.pathWidth"
@@ -94,7 +95,8 @@
             </g>
 
             <g *ngSwitchCase="toolId.SPRAY_CAN" >
-                <g *ngFor="let spray of drawing.sprays">
+                <g *ngFor="let spray of drawing.sprays" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <filter #sprayCanFilter [attr.id]="spray.seed" >
                         <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
                         <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.55" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
