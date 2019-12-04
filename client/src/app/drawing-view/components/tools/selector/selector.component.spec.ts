@@ -4,7 +4,9 @@ import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DragService } from 'src/app/services/drag/drag.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -67,12 +69,14 @@ describe('SelectorComponent', () => {
     const canvasInformation: CanvasInformationService = new CanvasInformationService();
     const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
     const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
+    const gridService: GridService = new GridService();
+    let dragService: DragService;
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock(saveService);
-
+        dragService = new DragService(selectorServiceMock, gridService);
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],
             providers: [
@@ -106,7 +110,7 @@ describe('SelectorComponent', () => {
         spyOn(selectorServiceMock, 'setBoxToDrawing');
         spyOn(toolServiceMock, 'saveSelectorBox').and.callFake(() => { return; });
         spyOn(toolServiceMock, 'resetSelectorBox').and.callThrough();
-        spyOn(selectorServiceMock, 'dragObjects').and.callThrough();
+        spyOn(dragService, 'dragObjects').and.callThrough();
     });
 
     it('should create an instance of the derived class', () => {
