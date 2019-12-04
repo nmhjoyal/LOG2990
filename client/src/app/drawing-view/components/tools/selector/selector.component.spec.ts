@@ -151,9 +151,10 @@ describe('SelectorComponent', () => {
 
     it('#onAltDown should be called when alt is pressed', () => {
         selector['angleIncrement'] = 1;
-        selector.onAltDown();
+        const altDown = new KeyboardEvent('keydown.alt');
+        selector.onAltDown(altDown);
         expect(selector['angleIncrement']).toEqual(15);
-        selector.onAltDown();
+        selector.onAltDown(altDown);
         expect(selector['angleIncrement']).toEqual(1);
     });
 

@@ -99,7 +99,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.shiftDown = true;
   }
 
-  @HostListener('window:keydown.alt') onAltDown(): void {
+  @HostListener('window:keydown.alt', ['$event']) onAltDown(event: KeyboardEvent): void {
+    event.preventDefault();
     this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
       ToolConstants.ANGLE_INCREMENT_15 : ToolConstants.ANGLE_INCREMENT_1;
   }
