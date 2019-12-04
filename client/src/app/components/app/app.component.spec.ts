@@ -149,42 +149,70 @@ describe('AppComponent', () => {
 
   it('#chooseCrayon should be called when c is pressed', () => {
     toolHandlerMock.chooseCrayon.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownC();
+    expect(toolHandlerMock.chooseCrayon).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownC();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
   });
 
   it('#chooseQuill should be called when p is pressed', () => {
     toolHandlerMock.chooseQuill.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownP();
+    expect(toolHandlerMock.chooseQuill).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownP();
     expect(toolHandlerMock.chooseQuill).toHaveBeenCalled();
   });
 
   it('#choosePaintbrush should be called when w is pressed', () => {
     toolHandlerMock.choosePaintbrush.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownW();
+    expect(toolHandlerMock.choosePaintbrush).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownW();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
   });
 
   it('#chooseBucket should be called when b is pressed', () => {
     toolHandlerMock.chooseBucket.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownB();
+    expect(toolHandlerMock.chooseBucket).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownB();
     expect(toolHandlerMock.chooseBucket).toHaveBeenCalled();
   });
 
   it('#chooseEyedropper should be called when i is pressed', () => {
     toolHandlerMock.chooseEyedropper.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownI();
+    expect(toolHandlerMock.chooseEyedropper).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownI();
     expect(toolHandlerMock.chooseEyedropper).toHaveBeenCalled();
   });
 
   it('#chooseColourApplicator should be called when r is pressed', () => {
     toolHandlerMock.chooseColourApplicator.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownR();
+    expect(toolHandlerMock.chooseColourApplicator).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownR();
     expect(toolHandlerMock.chooseColourApplicator).toHaveBeenCalled();
   });
 
   it('#chooseSelector should be called when s is pressed', () => {
     toolHandlerMock.chooseSelector.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydownS();
+    expect(toolHandlerMock.chooseSelector).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownS();
     expect(toolHandlerMock.chooseSelector).toHaveBeenCalled();
   });
@@ -218,12 +246,20 @@ describe('AppComponent', () => {
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
     toolHandlerMock.chooseRectangle.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydown1();
+    expect(toolHandlerMock.chooseRectangle).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
   });
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
     toolHandlerMock.chooseEllipse.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydown2();
+    expect(toolHandlerMock.chooseEllipse).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });
@@ -254,6 +290,10 @@ describe('AppComponent', () => {
 
   it('#choosePolygon should be called when 3 is pressed', () => {
     toolHandlerMock.choosePolygon.and.callThrough();
+    onlyModalOpenSpy.and.returnValue(false);
+    component.onKeydown3();
+    expect(toolHandlerMock.choosePolygon).not.toHaveBeenCalled();
+    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydown3();
     expect(toolHandlerMock.choosePolygon).toHaveBeenCalled();
   });

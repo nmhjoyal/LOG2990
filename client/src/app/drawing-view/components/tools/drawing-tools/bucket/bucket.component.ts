@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
@@ -88,6 +88,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected acceptsColour(colour: number[]): boolean {
+    if (!colour) { return false; }
     return (Math.abs(colour[0] - this.initialColour[0]) <= this.tolerance &&
             Math.abs(colour[1] - this.initialColour[1]) <= this.tolerance &&
             Math.abs(colour[2] - this.initialColour[2]) <= this.tolerance);
@@ -118,26 +119,10 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       const size = this.viewedPoints.size;
       this.viewedPoints.add(position[0] + '' + position[1]);
       if (this.isNewPoint(size) && this.withinCanvas(position)) {
-        if (this.acceptsColour(up)) {
-          stack.push([position[0], position[1] + offset]);
-        } else {
-          isBorderPoint = true;
-        }
-        if (this.acceptsColour(right)) {
-          stack.push([position[0] + offset, position[1]]);
-        } else {
-          isBorderPoint = true;
-        }
-        if (this.acceptsColour(down)) {
-          stack.push([position[0], position[1] - offset]);
-        } else {
-          isBorderPoint = true;
-        }
-        if (this.acceptsColour(left)) {
-          stack.push([position[0] - offset, position[1]]);
-        } else {
-          isBorderPoint = true;
-        }
+        this.acceptsColour(up) ? stack.push([position[0], position[1] + offset]) : isBorderPoint = true;
+        this.acceptsColour(right) ? stack.push([position[0] + offset, position[1]]) : isBorderPoint = true;
+        this.acceptsColour(down) ? stack.push([position[0], position[1] - offset]) : isBorderPoint = true;
+        this.acceptsColour(left) ? stack.push([position[0] - offset, position[1]]) : isBorderPoint = true;
         if (isBorderPoint) {
           this.addedPoints.push([position[0], position[1]]);
         }
@@ -197,7 +182,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
       const b = imageData[++arrayIndex];
       return ([r, g, b]);
     } else {
-      return ([]); }
+      return []; }
   }
 
   protected calculateDimensions(): void {
@@ -206,10 +191,16 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     let minHeight = Infinity;
     let maxHeight = 0;
     for (const point of this.addedPoints) {
-      if (point[0] < minWidth) { minWidth = point[0]; }
-      if (point[0] > maxWidth) { maxWidth = point[0]; }
-      if (point[1] < minHeight) { minHeight = point[1]; }
-      if (point[1] > maxHeight) { maxHeight = point[1]; }
+      if (point[0] < minWidth) {
+        minWidth = point[0];
+      } else if (point[0] > maxWidth) {
+        maxWidth = point[0];
+      }
+      if (point[1] < minHeight) {
+        minHeight = point[1];
+      } else if (point[1] > maxHeight) {
+        maxHeight = point[1];
+      }
     }
     this.shape.width = maxWidth - minWidth;
     this.shape.height = maxHeight - minHeight;

@@ -1,5 +1,5 @@
 // tslint:disable: no-string-literal
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed} from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
@@ -14,6 +14,13 @@ const STROKE_WIDTH = 2;
 const TOLERANCE = 25;
 const MAX_HEIGHT = 255;
 const IN_CANVAS = 25;
+const exportInformationMock = {
+  data: {
+    canvasElement: {
+      nativeElement: jasmine.createSpyObj('Node', ['']),
+    },
+  },
+};
 
 describe('BucketComponent', () => {
   let component: BucketComponent;
@@ -23,12 +30,12 @@ describe('BucketComponent', () => {
   const attributesServiceMock: AttributesService = new AttributesService();
   const canvasDataMock: jasmine.SpyObj<CanvasInformationService> = jasmine.createSpyObj('CanvasInformationService', ['']);
   const exportDataMock: jasmine.SpyObj<ExportInformationService> = jasmine.createSpyObj('ExportInformationService', ['']);
+  let spyInitialize: jasmine.Spy;
   canvasDataMock.data = {
     drawingColour: '',
     drawingHeight: 0,
     drawingWidth: 0,
   };
-
   exportDataMock.data = jasmine.createSpyObj('IExportData', ['']);
 
   beforeEach(async(() => {
@@ -39,18 +46,19 @@ describe('BucketComponent', () => {
         { provide: SaveService, useValue: saveServiceMock, },
         { provide: AttributesService, useValue: attributesServiceMock, },
         { provide: CanvasInformationService, useValue: canvasDataMock },
+        { provide: ExportInformationService, useValue: exportInformationMock },
       ],
     })
       .compileComponents();
   }));
-    // tslint:disable:no-string-literal
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BucketComponent);
     attrService = TestBed.get(AttributesService);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
+    exportDataMock.data.canvasElement = jasmine.createSpyObj('ElementRef<SVGElement>', ['']);
+    spyInitialize = spyOn(component, 'initializeCanvas').and.callFake(() => Promise.resolve());
   });
 
   afterEach(() => {
@@ -66,8 +74,6 @@ describe('BucketComponent', () => {
     component.ngOnDestroy();
     expect(attrService.bucketAttributes.savedStrokeWidth).toEqual(ToolConstants.DEFAULT_STROKE_WIDTH,
       'shape.strokeWidth was not successfully saved upon destruction');
-    expect(attrService.bucketAttributes.savedTraceMode).toEqual(ToolConstants.TRACE_MODE.CONTOUR_FILL,
-      'the traceMode was not successfully saved upon destruction');
     expect(attrService.bucketAttributes.wasSaved).toBe(true, '#ngOnDestroy did not set wasSaved to true');
     expect(attrService.bucketAttributes.savedTolerance).toEqual(ToolConstants.DEFAULT_TOLERANCE,
       'the tolerance was not succesfully saved upon destruction');
@@ -118,22 +124,8 @@ describe('BucketComponent', () => {
   });
 
   it('#ngafterviewInit should initialize canvas ', () => {
-    const spy = spyOn(component, 'initializeCanvas');
     component.ngAfterViewInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('#onMouseDown should call all its functions', () => {
-    const spy = spyOn(component as any, 'addSurroundingPixels');
-    const spy1 = spyOn(component as any, 'getColourAtPosition');
-    const spy2 = spyOn(component as any, 'calculateDimensions');
-    const spy3 = spyOn(component as any, 'orderPoints');
-    const event = new MouseEvent('mousedown');
-    fixture.debugElement.triggerEventHandler('mousedown', event);
-    expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
+    expect(spyInitialize).toHaveBeenCalled();
   });
 
   it('getColourAtPosition should not return color when no context', () => {
@@ -148,6 +140,7 @@ describe('BucketComponent', () => {
   });
 
   it('should return true when in canvas', () => {
+    spyOn(XMLSerializer.prototype, 'serializeToString').and.callFake(() => '');
     const position = [IN_CANVAS, IN_CANVAS];
     component['canvas'].width = MAX_HEIGHT;
     component['canvas'].height = MAX_HEIGHT;
@@ -189,7 +182,6 @@ describe('BucketComponent', () => {
   });
 
   it('#drawImage should retrieve attributes properly', () => {
-    const spy = spyOn(XMLSerializer.prototype, 'serializeToString').and.callFake(() => '');
     const img = new Image();
     img.addEventListener('load', () => { return; });
 
@@ -198,13 +190,6 @@ describe('BucketComponent', () => {
     expect(img.height).toEqual(component['canvas'].height);
     expect(img.src).toBeDefined();
     expect(component['context']).not.toBeNull();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('#initializeCanvas should drawImage on context', () => {
-    const spy = spyOn(component['context'] as any, 'drawImage');
-    component.initializeCanvas();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('#calculateDimensions should calculate dimensions', () => {
@@ -236,13 +221,4 @@ describe('BucketComponent', () => {
     component['saveShape']();
     expect(spy).toHaveBeenCalled();
   });
-
-  it('#addSurroundingPixels pass through items', () => {
-    const img = new Image();
-    img.addEventListener('load', () => { return; });
-    component.initializeCanvas();
-    component['addSurroundingPixels'](0, 0);
-    expect(component['addedPoints'].length).toEqual(0);
-  });
-
 });
