@@ -52,10 +52,10 @@ export class ClipboardService {
       } else { this.pasteOffset = 0; }
       this.clipboard.forEach((copiedObject) => {
         if (copiedObject.alignX) {
-          copiedObject.alignX += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
+          copiedObject.alignX += cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2 + this.pasteOffset;
         }
-        copiedObject.x += cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2 + this.pasteOffset;
-        copiedObject.y += cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2 + this.pasteOffset;
+        copiedObject.x += cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2 + this.pasteOffset;
+        copiedObject.y += cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2 + this.pasteOffset;
         if ((copiedObject.x - this.selectorService.MinWidth) > window.innerWidth
         || (copiedObject.y - this.selectorService.MinHeight) > window.innerHeight) {
           if (copiedObject.alignX) {
@@ -84,8 +84,8 @@ export class ClipboardService {
 
   duplicate(): void {
     this.copy();
-    this.paste(this.selectorService.topCornerX + this.selectorService.MinWidth / 2  + NumericalValues.DUPLICATE_OFFSET,
-      this.selectorService.topCornerY + this.selectorService.MinHeight / 2 + NumericalValues.DUPLICATE_OFFSET );
+    this.paste(this.selectorService.topCorner.x + this.selectorService.MinWidth / 2  + NumericalValues.DUPLICATE_OFFSET,
+      this.selectorService.topCorner.y + this.selectorService.MinHeight / 2 + NumericalValues.DUPLICATE_OFFSET );
   }
 
   delete(): void {

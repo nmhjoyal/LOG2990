@@ -122,7 +122,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "strokeLinecap": currentDrawing.strokeLinecap,
         "strokeLinejoin": currentDrawing.strokeLinejoin,
         "filter": currentDrawing.filter,
-        "angle": currentDrawing.angle,
         "scaleFactor": currentDrawing.scaleFactor,
         "centerX": currentDrawing.centerX,
         "centerY": currentDrawing.centerY,
@@ -135,6 +134,9 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "paths": currentDrawing.paths,
         "sprays": currentDrawing.sprays,
         "radius": currentDrawing.radius,
+        "rotationAngle": currentDrawing.rotationAngle,
+        "scaleX": currentDrawing.scaleX,
+        "scaleY": currentDrawing.scaleY,
       });
     });
 

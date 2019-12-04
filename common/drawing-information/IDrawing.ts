@@ -14,7 +14,8 @@ export interface IDrawing {
     canvas: ICanvasData;
 }
 
-export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>, Partial<IShape>, Partial<IText>, Partial<TextBox> {
+export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>,
+                    Partial<IShape>, Partial<IText>, Partial<TextBox> {
     id: string;
     x: number;
     y: number;

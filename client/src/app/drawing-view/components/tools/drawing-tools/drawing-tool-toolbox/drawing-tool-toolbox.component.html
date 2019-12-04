@@ -121,7 +121,7 @@
             {{getComponent().stamp.scaleFactor}}
             <button (click)="getComponent().increaseScaleFactor()">+</button>
             <p>Angle</p>
-            <input type="number" name="angle" [(ngModel)]="getComponent().stamp.angle" size="3">
+            <input type="number" name="angle" [(ngModel)]="getComponent().stamp.rotationAngle" size="3">
         </div>
     </div>
     <div *ngIf="toolHandler.selectedTool === toolId.TEXT">

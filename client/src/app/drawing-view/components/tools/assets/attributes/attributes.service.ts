@@ -3,9 +3,9 @@ import { Strings } from 'src/AppConstants/Strings';
 import { SprayCanConstants } from '../constants/spray-can-constants';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
+// tslint:disable-next-line: max-line-length
+import { IDrawingToolOptions, IEraserOptions, ILineOptions, IQuillOptions, ISprayCanOptions } from '../interfaces/drawing-tool-interface';
 import { IBucketOptions, IShapeOptions } from '../interfaces/shape-interface';
-import { ISprayCanOptions } from '../interfaces/spray-can-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
 
@@ -24,6 +24,7 @@ export class AttributesService {
   ellipseAttributes: IShapeOptions;
   stampAttributes: IStampOptions;
   textAttributes: ITextOptions;
+  eraserAttributes: IEraserOptions;
   sprayCanAttributes: ISprayCanOptions;
 
   constructor() {
@@ -39,6 +40,7 @@ export class AttributesService {
     this.resetTextAttributes();
     this.resetSprayCanAttributes();
     this.resetQuillAttributes();
+    this.resetEraserAttributes();
   }
 
   resetPolygonAttributes(): void {
@@ -195,11 +197,28 @@ export class AttributesService {
     };
   }
 
+  resetEraserAttributes(): void {
+      this.eraserAttributes = {
+        id: ToolConstants.TOOL_ID.ERASER,
+        wasSaved: false,
+        size: 0,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      };
+    }
+
   resetSprayCanAttributes(): void {
     this.sprayCanAttributes = {
+      id: ToolConstants.TOOL_ID.SPRAY_CAN,
       wasSaved: false,
       savedDiameter: SprayCanConstants.DEFAULT_DIAMETER,
       savedSprayPerSecond: SprayCanConstants.DEFAULT_SPRAY_PER_SECOND,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
     };
   }
 
@@ -236,6 +255,9 @@ export class AttributesService {
     }
     if (this.quillAttributes.wasSaved) {
       this.resetQuillAttributes();
+    }
+    if (this.eraserAttributes.wasSaved) {
+      this.resetEraserAttributes();
     }
   }
 }

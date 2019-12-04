@@ -17,9 +17,6 @@ const LAST_X = 10;
 const LAST_Y = 20;
 const NEW_X = 100;
 const NEW_Y = 200;
-const DEGREE_TO_RAD = (Math.PI / 180);
-const BELOW_RANGE_ANGLE = -180;
-const ABOVE_RANGE_ANGLE = 720;
 
 describe('QuillComponent', () => {
   let quillComponent: QuillComponent;
@@ -237,22 +234,6 @@ describe('QuillComponent', () => {
     quillComponent['lineLength'] = 0;
     quillComponent.decreaseLineLength();
     expect(quillComponent['lineLength']).toBe(0);
-  });
-
-  it('#degreeToRad should return a value between 0 and 2*PI', () => {
-    let angleRad: number;
-
-    quillComponent['angle'] = ANGLE;
-    angleRad = quillComponent.degreeToRad(quillComponent['angle']);
-    expect(angleRad).toEqual(ANGLE * DEGREE_TO_RAD);
-
-    quillComponent['angle'] = BELOW_RANGE_ANGLE;
-    angleRad = quillComponent.degreeToRad(quillComponent['angle']);
-    expect(angleRad).toEqual(Math.PI);
-
-    quillComponent['angle'] = ABOVE_RANGE_ANGLE;
-    angleRad = quillComponent.degreeToRad(quillComponent['angle']);
-    expect(angleRad).toEqual(0);
   });
 
   it('#updatePositionAndDimensions should update the position and dimensions of quill component', () => {

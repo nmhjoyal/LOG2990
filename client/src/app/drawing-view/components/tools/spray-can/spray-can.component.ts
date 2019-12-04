@@ -5,7 +5,7 @@ import { SaveService } from 'src/app/services/save-service/save.service';
 import { ToolAbstract } from '../assets/abstracts/tool-abstract/tool-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { SprayCanConstants } from '../assets/constants/spray-can-constants';
-import { Id } from '../assets/constants/tool-constants';
+import { Id, ToolConstants } from '../assets/constants/tool-constants';
 import { ISpray, ISprayCan } from '../assets/interfaces/spray-can-interface';
 
 @Component({
@@ -44,6 +44,8 @@ export class SprayCanComponent extends ToolAbstract implements OnDestroy, OnInit
       y: 0,
       width: this.diameter,
       height: this.diameter,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
   }
 
