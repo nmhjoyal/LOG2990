@@ -64,8 +64,7 @@ export default class RotateHelper {
         newPoints += ', ';
       }
     }
-    drawing.points = newPoints;
-    drawing.vertices = newPoints;
+    drawing.points ? drawing.points = newPoints : drawing.vertices = newPoints;
   }
 
   static rewritePaths(drawing: ISavedDrawing, offX: number, offY: number): void {
