@@ -1,9 +1,10 @@
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
-  MatListModule, MatMenuModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatToolbarModule
+  GestureConfig, MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatCheckboxModule, MatDialogConfig, MatDialogRef,
+  MatIconModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatToolbarModule
 } from '@angular/material';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { AppComponent } from './components/app/app.component';
 import { ColourPaletteComponent } from './drawing-view/components/modal-windows/colour-window/colour-palette/colour-palette.component';
 import { ColourPickerComponent } from './drawing-view/components/modal-windows/colour-window/colour-picker/colour-picker.component';
@@ -60,6 +61,7 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     CanvasInformationService,
     ColourService,
     ExportInformationService,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],

@@ -1,16 +1,31 @@
 .welcome-box {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
-}
 
-.mat-dialog-actions {
-    justify-content: flex-end;
-}
+  .mat-dialog-actions {
+    width: 700px;
+  }
 
-.mat-raised-button {
+  .mat-raised-button {
     background-color: #ffffff;
     color: #424242;
     font-family: Arial, Helvetica, sans-serif, bold;
     font-weight: bold;
     font-size: 16px;
+    left: 100px;
+  }
+
+  .help {
+    filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(229deg) brightness(107%) contrast(102%);
+    height: 20px;
+    position: relative;
+    top: 4px;
+  }
+
+  .left {
+    float: left;
+    padding: 0 20px 20px 0;
+    height: 250px;
+  }
+
 }

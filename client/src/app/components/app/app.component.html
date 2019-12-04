@@ -97,15 +97,19 @@
                     <br>
                     <div *ngIf="gridService.gridStatus">
                         <p class="filter"> Opacité: </p>
-                        <input class="filter" type="range" min="0.2" max="1" step="0.05"
-                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridOpacity" id="opacityInput"
-                            title="Valeur d'opacité">
+                        <mat-slider class="filter" title = "Valeur d'opacité"
+                            [min]="0.2" [max]="1" [step]="0.05" [thumbLabel]="true"
+                            (click)="$event.stopPropagation()" (input)="gridService.gridOpacity = $event.value"
+                            [(ngModel)]="gridService.gridOpacity">
+                        </mat-slider>
                         <label class="filter">{{gridService.gridOpacity}}%</label>
                         <br>
                         <p class="filter"> Taille: </p>
-                        <input class="filter" type="range" min="10" max="150" step="1"
-                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridSize" id="sizeInput"
-                            title="Taille des carrés">
+                        <mat-slider class="filter" title = "Taille des carrés"
+                            [min]="10" [max]="150" [step]="1" [thumbLabel]="true"
+                            (change) = "gridService.gridSize" (input)="gridService.gridSize = $event.value"
+                            (click)="$event.stopPropagation()" [(ngModel)]="gridService.gridSize">
+                        </mat-slider>
                         <label class="filter"> {{gridService.gridSize}}px </label>
                     </div>
                 </div>
@@ -169,37 +173,34 @@
                         (click)="drawingMenuTrigger.openMenu()"></a>
                 </a>
                 <mat-menu #drawingMenu="matMenu">
-                    <button mat-menu-item (click)='toolHandler.chooseCrayon()'>
-                        <img id="pencil" class="sideBarIcon filter" src="../../../assets/sidebar/pencil-top.png">
-                        &#8194; Crayon
+                    <button mat-menu-item (click)='toolHandler.chooseCrayon(); options.open()'>
+                        <img id="pencil" class="sideBarIcon filter" src="../../../assets/sidebar/pencil-top.png"> &#8194; Crayon
                     </button>
-                    <button mat-menu-item (click)='toolHandler.choosePen()'>
+                    <button mat-menu-item (click)='toolHandler.choosePaintbrush(); options.open()'>
+                        <img id="brush" class="sideBarIcon filter" src="../../../assets/sidebar/paintbrush-top.png"> &emsp; Pinceau
+                    </button>
+                    <button mat-menu-item (click)='toolHandler.choosePen(); options.open()'>   
                         <img id="pen" class="sideBarIcon filter" src="../../../assets/sidebar/pen-top.png"> &emsp; Stylo
                     </button>
-                    <button mat-menu-item (click)='toolHandler.choosePaintbrush()'>
-                        <img id="brush" class="sideBarIcon filter" src="../../../assets/sidebar/paintbrush-top.png">
-                        &emsp; Pinceau
-                    </button>
-                    <button mat-menu-item (click)='toolHandler.chooseQuill()'>
-                        <img id="feather" class="sideBarIcon filter" src="../../../assets/sidebar/quill.png"> &emsp;
-                        Plume
+                    <button mat-menu-item (click)='toolHandler.chooseQuill(); options.open()'>
+                        <img id="feather" class="sideBarIcon filter" src="../../../assets/sidebar/quill.png"> &emsp; Plume
                     </button>
                 </mat-menu>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseLine(); options.open()'>
                     <img id="line" class="sideBarIcon" src="../../../assets/sidebar/line.png" title="Ligne">
                 </a>
                 <a mat-list-item class="filter" (click)="shapesMenuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="../../../assets/sidebar/shapes.png" title="Formes">
                     <a [matMenuTriggerFor]="shapeMenu" #shapesMenuTrigger="matMenuTrigger"></a>
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseBucket()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseSprayCan(); options.open()'>
+                    <img id="sprayCan" class="sideBarIcon" src="../../../assets/sidebar/spray.png" title="Aérosol">
+                </a>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseBucket(); options.open()'>
                     <img id="bucket" class="sideBarIcon" src="../../../assets/sidebar/bucket.png" title="Sceau">
                 </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseEraser()'>
+                <a mat-list-item class="filter" (click)='toolHandler.chooseEraser(); options.open()'>
                     <img id='eraser' class="sideBarIcon" src="../../../assets/sidebar/eraser.png" title="Efface">
-                </a>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseSprayCan()'>
-                    <img id="sprayCan" class="sideBarIcon" src="../../../assets/sidebar/spray.png" title="Aérosol">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
                     <img id='colourChanger' class="sideBarIcon" src="../../../assets/sidebar/applicator.png"
@@ -208,16 +209,17 @@
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
                     <img id='pipette' class="sideBarIcon" src="../../../assets/sidebar/pipette.png" title="Pipette">
                 </a>
-                <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open();">
-                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/sticker.png" title="Etampe">
+                <a mat-list-item class="filter" (click)="toolHandler.chooseStamp(); options.open()">
+                    <img id="stamp" class="sideBarIcon" src="../../../assets/sidebar/sticker.png" title="Étampe">
                 </a>
                 <mat-menu #shapeMenu="matMenu">
-                    <button mat-menu-item (click)='toolHandler.chooseRectangle()'>Rectangle</button>
-                    <button mat-menu-item (click)='toolHandler.chooseEllipse()'>Ellipse</button>
-                    <button mat-menu-item (click)='toolHandler.choosePolygon()'>Polygon</button>
+                    <button mat-menu-item (click)='toolHandler.chooseRectangle(); options.open()'>Rectangle</button>
+                    <button mat-menu-item (click)='toolHandler.chooseEllipse(); options.open()'>Ellipse</button>
+                    <button mat-menu-item (click)='toolHandler.choosePolygon(); options.open()'>Polygon</button>
                 </mat-menu>
-                <a mat-list-item class="filter" (click)='toolHandler.chooseText()'>
-                    <img id='text' class="sideBarIcon" src="../../../assets/sidebar/text.svg" title="Texte">
+                <a mat-list-item class="filter" (click)='toolHandler.chooseText(); options.open()'>
+                    <img id='text' class="sideBarIcon" src="../../../assets/sidebar/text.svg"
+                        title="Texte">
                 </a>
                 <a mat-list-item class="filter" href="../../../assets/Guide d'utilisation.pdf">
                     <img class="sideBarIcon" src="../../../assets/sidebar/help.png" title="Guide d'utilisation">

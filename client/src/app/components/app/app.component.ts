@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownR(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator();
     }
   }
@@ -263,7 +263,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.a', ['$event']) onKeydownA(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSprayCan();
     }
   }

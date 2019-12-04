@@ -265,10 +265,6 @@ describe('AppComponent', () => {
   });
 
   it('#undo should be called only when control+z are pressed and there are no opened dialogs nor optionsBars opened', () => {
-    component.optionsSidebar.opened = true;
-    onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownCtrlZ();
-    expect(clipboardMock.undo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     onlyModalOpenSpy.and.returnValue(true);

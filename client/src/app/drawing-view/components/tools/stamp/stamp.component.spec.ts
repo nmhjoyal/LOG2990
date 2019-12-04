@@ -126,19 +126,12 @@ describe('StampComponent', () => {
     expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE - component['angleIncrement']);
   });
 
-  it('#OnKeyDownAlt should be called when the ALT key is pressed', () => {
-    const onAltSpy = spyOn(component, 'onKeyDownAlt');
-    const keyDownEvent: KeyboardEvent = new KeyboardEvent('keydown.alt');
-    fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);
-    expect(onAltSpy).toHaveBeenCalled();
-  });
-
   it('#OnKeyDownAltEvent should toggle the angleIncrement value', () => {
     component['angleIncrement'] = ToolConstants.ANGLE_INCREMENT_1;
-    component.onKeyDownAlt();
+    component.onKeyDownAlt(new KeyboardEvent('keydown.alt'));
     expect(component['angleIncrement']).toBe(ToolConstants.ANGLE_INCREMENT_15);
 
-    component.onKeyDownAlt();
+    component.onKeyDownAlt(new KeyboardEvent('keydown.alt'));
     expect(component['angleIncrement']).toBe(ToolConstants.ANGLE_INCREMENT_1);
   });
 
@@ -182,20 +175,20 @@ describe('StampComponent', () => {
 
   it('#increaseAngle should increment the value of stamp.angle', () => {
     component['stamp'].rotationAngle = RANDOM_ANGLE;
-    component.increaseAngle();
-    expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE + 1);
+    component.increaseAngle(RANDOM_ANGLE);
+    expect(component['stamp'].rotationAngle).toBe(2 * RANDOM_ANGLE);
   });
 
   it('#decreaseAngle should decrement the value of stamp.rotationAngle if it is not already 0', () => {
     component['stamp'].rotationAngle = 0;
-    component.decreaseAngle();
+    component.decreaseAngle(RANDOM_ANGLE);
 
-    expect(component['stamp'].rotationAngle).toBe(0, 'decresed angle below 0');
+    expect(component['stamp'].rotationAngle).toBe(StampConstants.MAX_ANGLE - RANDOM_ANGLE);
 
     component['stamp'].rotationAngle = RANDOM_ANGLE;
-    component.decreaseAngle();
+    component.decreaseAngle(RANDOM_ANGLE);
 
-    expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE - 1);
+    expect(component['stamp'].rotationAngle).toBe(0);
   });
 
   it('#setStamp should update the path of the stamp to use depending on the filter ID that is passed', () => {

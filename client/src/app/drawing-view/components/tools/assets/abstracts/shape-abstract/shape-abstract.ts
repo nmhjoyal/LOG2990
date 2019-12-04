@@ -17,6 +17,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
   protected previewBox: IPreviewBox;
   protected shape: IShape;
   protected traceMode: number;
+  private constants = ToolConstants;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -31,7 +32,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
     this.initialY = 0;
     this.cursorX = 0;
     this.cursorY = 0;
-    this.traceMode = ToolConstants.TRACE_MODE.CONTOUR_FILL;
+    this.traceMode = this.constants.TRACE_MODE.CONTOUR_FILL;
     this.previewBox = {
       x: 0,
       y: 0,

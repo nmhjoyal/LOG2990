@@ -1,11 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatMenuModule } from '@angular/material';
+import { GestureConfig, MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserModule } from '@angular/platform-browser';
+import { MatSelectModule} from '@angular/material/select';
+import { MatSliderModule} from '@angular/material/slider';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import ParserHelper from '../services/parser-service/parser.service';
 import { ResizeService } from '../services/resize-service/resize-service';
@@ -55,9 +58,12 @@ import { TextComponent } from './components/tools/text/text.component';
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
+    MatSliderModule,
     FormsModule,
     MatFormFieldModule,
+    MatButtonToggleModule,
     MatInputModule,
+    MatSelectModule,
     BrowserAnimationsModule,
     MatButtonModule,
   ],
@@ -69,15 +75,19 @@ import { TextComponent } from './components/tools/text/text.component';
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
+    MatSliderModule,
     FormsModule,
     MatFormFieldModule,
+    MatButtonToggleModule,
     MatInputModule,
+    MatSelectModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService, SaveService, ParserHelper, ResizeService],
+  providers: [AttributesService, SelectorService, SaveService, ParserHelper, ResizeService,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })
