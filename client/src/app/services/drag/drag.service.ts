@@ -15,7 +15,7 @@ export class DragService {
   dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
     this.selectorService.selectedObjects.forEach((movedObject) => {
       if (movedObject.alignX) {
-        movedObject.alignX += (cursorX - this.selectorService.topCorner.x- this.selectorService.MinWidth / 2);
+        movedObject.alignX += (cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2);
       } else if (movedObject.sprays) {
         movedObject.sprays.forEach((spray) => {
           spray.cx += (cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2);

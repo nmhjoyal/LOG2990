@@ -84,66 +84,66 @@ describe('ParserServiceService', () => {
   });
 
   it('should assign proper values according to switch cases', () => {
-    const drawing: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, points: '0 0, 1 1' };
+    const drawing1: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, points: '0 0, 1 1' };
     const drawing2: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, vertices: '0 0, 1 1' };
     const drawing3: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, paths: [{ path: 'M1 4L5 6', pathWidth: 2 }] };
     const spyPoints = spyOn(ParserHelper, 'setPoints');
     const spyPaths = spyOn(ParserHelper, 'setPaths');
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_LEFT, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.TOP_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_LEFT, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_MIDDLE, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.TOP_MIDDLE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_MIDDLE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_MIDDLE, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_RIGHT, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.TOP_RIGHT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_RIGHT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_RIGHT, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.MIDDLE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.MIDDLE, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
     expect(spyPoints).toHaveBeenCalled();
     expect(spyPaths).toHaveBeenCalled();
 
-    ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.NONE, gridService);
+    ParserHelper.snapPolylinePoints(0, 0, drawing1, selectorService, ControlPoints.NONE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.NONE, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.NONE, gridService);
     expect(spyPoints).toHaveBeenCalled();
