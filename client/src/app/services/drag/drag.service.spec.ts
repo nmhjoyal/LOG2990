@@ -111,7 +111,7 @@ describe('DragService', () => {
 
     // tslint:disable-next-line: no-magic-numbers
     text.alignX = originalCoordinate;
-    dragService.snapObjects(cursorCoordinate, cursorCoordinate, windowDimensions, windowDimensions, -1);
+    dragService.snapObjects(cursorCoordinate, cursorCoordinate, windowDimensions, windowDimensions, ControlPoints.NONE);
     expect((rectangle as ISavedDrawing).alignX).toBeUndefined();
     expect(text.alignX).toBeDefined();
     expect(spy).toHaveBeenCalledTimes(2 * ControlPoints.BOTTOM_RIGHT + 2 + 2);
