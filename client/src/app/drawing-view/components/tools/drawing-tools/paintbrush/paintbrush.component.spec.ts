@@ -1,4 +1,4 @@
-    // tslint:disable: no-string-literal
+// tslint:disable: no-string-literal
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -130,5 +130,3 @@ describe('PaintbrushComponent', () => {
   });
 
 });
-
-    // tslint:disable:no-string-literal

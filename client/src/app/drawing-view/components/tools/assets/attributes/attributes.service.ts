@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
+import { SprayCanConstants } from '../constants/spray-can-constants';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IDrawingToolOptions, IEraserOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, IEraserOptions, ILineOptions, IQuillOptions, ISprayCanOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
@@ -23,6 +24,7 @@ export class AttributesService {
   stampAttributes: IStampOptions;
   textAttributes: ITextOptions;
   eraserAttributes: IEraserOptions;
+  sprayCanAttributes: ISprayCanOptions;
 
   constructor() {
     this.resetRectangleAttributes();
@@ -34,6 +36,7 @@ export class AttributesService {
     this.resetStampAttributes();
     this.resetPenAttributes();
     this.resetTextAttributes();
+    this.resetSprayCanAttributes();
     this.resetQuillAttributes();
     this.resetEraserAttributes();
   }
@@ -186,6 +189,19 @@ export class AttributesService {
         width: 0,
         height: 0,
       };
+    }
+
+  resetSprayCanAttributes(): void {
+    this.sprayCanAttributes = {
+      id: ToolConstants.TOOL_ID.SPRAY_CAN,
+      wasSaved: false,
+      savedDiameter: SprayCanConstants.DEFAULT_DIAMETER,
+      savedSprayPerSecond: SprayCanConstants.DEFAULT_SPRAY_PER_SECOND,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
   }
 
   resetSavedAttributes(): void {
@@ -215,6 +231,9 @@ export class AttributesService {
     }
     if (this.textAttributes.wasSaved) {
       this.resetTextAttributes();
+    }
+    if (this.sprayCanAttributes.wasSaved) {
+      this.resetSprayCanAttributes();
     }
     if (this.quillAttributes.wasSaved) {
       this.resetQuillAttributes();

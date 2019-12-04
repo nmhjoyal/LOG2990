@@ -64,3 +64,9 @@ export interface IPath {
 export interface IEraserOptions extends IOptions {
     size: number;
 }
+
+export interface ISprayCanOptions extends IOptions {
+    wasSaved: boolean;
+    savedDiameter: number;
+    savedSprayPerSecond: number;
+}

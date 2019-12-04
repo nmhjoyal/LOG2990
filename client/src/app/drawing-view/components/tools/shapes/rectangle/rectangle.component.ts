@@ -25,6 +25,10 @@ export class RectangleComponent extends ShapeAbstract implements OnInit, OnDestr
       this.traceMode = this.attributesService.rectangleAttributes.savedTraceMode;
     }
     this.setTraceMode(this.traceMode);
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.shape.primaryColour = colour[0];
+      this.shape.secondaryColour = colour[1];
+    });
   }
 
   ngOnDestroy(): void {

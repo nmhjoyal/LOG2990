@@ -5,6 +5,8 @@ import ClickHelper from './click-helper';
 describe('ClickHelper', () => {
     const FIFTY = 50;
     const FORTY = 40;
+    const TWENTY = 20;
+    const TWENTY_FIVE = 25;
     const ONE_HUNDRED = 100;
     const TWICE = 2;
 
@@ -58,6 +60,10 @@ describe('ClickHelper', () => {
         object = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, id: Id.STAMP };
         expect(ClickHelper.cursorInsideObject(object, FIFTY, FIFTY)).toBeTruthy();
         expect(ClickHelper.cursorInsideObject(object, FORTY, FORTY)).toBeFalsy();
+        object = { x: FORTY, y: FORTY, width: FIFTY, height: FIFTY, radius: TWENTY_FIVE,
+            sprays: [{cx: FORTY + TWENTY_FIVE, cy: FORTY + TWENTY_FIVE, seed: 0}], id: Id.SPRAY_CAN };
+        expect(ClickHelper.cursorInsideObject(object, FIFTY, FIFTY)).toBeTruthy();
+        expect(ClickHelper.cursorInsideObject(object, FORTY, FORTY)).toBeFalsy();
         object = { x: 0, y: 0, width: 0, height: 0, id: 'none' };
         expect(ClickHelper.cursorInsideObject(object, FORTY, FORTY)).toBeFalsy();
     });
@@ -92,6 +98,9 @@ describe('ClickHelper', () => {
             vertices: '100,100 99,99 98,98 99,97 100,96 101,97 102,98 101,99' };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();
         object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, id: Id.STAMP };
+        expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();
+        object = { x: FIFTY, y: FIFTY, width: FORTY, height: FORTY, radius: TWENTY,
+            sprays: [{cx: FIFTY + TWENTY, cy: FIFTY + TWENTY, seed: 0}], id: Id.SPRAY_CAN };
         expect(ClickHelper.objectSharesBoxArea(object, box)).toBeTruthy();
     });
 });
