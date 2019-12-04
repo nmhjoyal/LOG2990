@@ -17,9 +17,6 @@ const LAST_X = 10;
 const LAST_Y = 20;
 const NEW_X = 100;
 const NEW_Y = 200;
-const DEGREE_TO_RAD = (Math.PI / 180);
-const BELOW_RANGE_ANGLE = -180;
-const ABOVE_RANGE_ANGLE = 720;
 
 describe('QuillComponent', () => {
   let quillComponent: QuillComponent;
