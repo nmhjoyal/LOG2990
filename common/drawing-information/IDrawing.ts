@@ -30,5 +30,3 @@ export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IS
     strokeWidth?: number;
     svgReference?: string;
 }
-
-

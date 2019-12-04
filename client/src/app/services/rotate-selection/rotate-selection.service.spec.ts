@@ -1,6 +1,8 @@
-// tslint:
+// tslint:disable:no-string-literal
+// tslint:disable:no-magic-numbers
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { RotateSelectionService } from './rotate-selection.service';
+import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 
 describe('RotateSelectionService', () => {
 
@@ -14,6 +16,30 @@ describe('RotateSelectionService', () => {
     rotationAngle: 0,
     centerX: 0,
     centerY: 0,
+  };
+  const line: ISavedDrawing = {
+    x: 4,
+    y: 4,
+    id: 'line',
+    height: 2,
+    width: 2,
+    points: '4 4, 6 6',
+   };
+  const polygon: ISavedDrawing = {
+    x: 0,
+    y: 0,
+    id: 'polygon',
+    height: 2,
+    width: 2,
+    vertices: '0 0, 1 1, 2 2',
+  };
+  const path: ISavedDrawing = {
+    x: 0,
+    y: 0,
+    id: 'quill',
+    height: 2,
+    width: 2,
+    paths: [{ path: 'M1 4L5 6', pathWidth: 2 }],
   };
   const ANGLE = 90;
   const DEGREE_TO_RAD = (Math.PI / 180);
@@ -33,18 +59,7 @@ describe('RotateSelectionService', () => {
     const spyRotate = spyOn(service, 'rotateOnItself');
     service.calculatePosition(drawing, 0, 0, 0);
     expect(spyRotate).toHaveBeenCalled();
-    const mockLine: ISavedDrawing = {
-      id: 'mockLine',
-      x: 10,
-      y: 10,
-      width: 10,
-      height: 10,
-      rotationAngle: 0,
-      centerX: 0,
-      centerY: 0,
-      points: '',
-    };
-    service.calculatePosition(mockLine, 0, 0, 0);
+    service.calculatePosition(line, 0, 0, 0);
     expect(spyRewrite).toHaveBeenCalled();
   });
 
@@ -61,12 +76,17 @@ describe('RotateSelectionService', () => {
   });
 
   it('#rewritePoints should give new values to the drawings points', () => {
-    const line: ISavedDrawing = { x: 4, y: 4, id: 'line', height: 2, width: 2, points: '4 4, 6 6' };
-    // const drawing2: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, vertices: '0 0, 1 1' };
-    // const drawing3: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, paths: [{ path: 'M1 4L5 6', pathWidth: 2 }] };
-    service.rewritePoints(line, Math.PI, 5, 5);
-    expect(line.points).toEqual('6 6, 4 4');
-    service.rewritePoints(drawing, Math.PI, 5, 5);
+    service.rewritePoints(line, 5, 5);
+    expect(line.points).toEqual('9 9, 11 11');
+
+    service.rewritePoints(polygon, 5, 5);
+    expect(polygon.vertices).toEqual('5 5, 6 6, 7 7');
+
+    service.rewritePaths(path, 5, 5);
+    const newPath: IComplexPath[] = [{path: 'M6 9L10 11', pathWidth: 2}];
+    expect(path.paths).toEqual(newPath);
+
+    service.rewritePoints(drawing, 5, 5);
     expect(drawing.points).toEqual('');
   });
 
@@ -80,8 +100,18 @@ describe('RotateSelectionService', () => {
     expect(drawing.centerX).toEqual(15);
     expect(drawing.centerY).toEqual(15);
     service.rotateOnItself(drawing, ANGLE);
-    expect(drawing.rotationAngle).toEqual(2*ANGLE);
+    expect(drawing.rotationAngle).toEqual(2 * ANGLE);
     expect(drawing.centerX).toEqual(15);
     expect(drawing.centerY).toEqual(15);
+
+    service.rotateOnItself(polygon, ANGLE);
+    expect(polygon.rotationAngle).toEqual(ANGLE);
+    expect(polygon.centerX).toEqual(0);
+    expect(polygon.centerY).toEqual(0);
+
+    service.rotateOnItself(polygon, ANGLE);
+    expect(polygon.rotationAngle).toEqual(2 * ANGLE);
+    expect(polygon.centerX).toEqual(0);
+    expect(polygon.centerY).toEqual(0);
   });
 });
