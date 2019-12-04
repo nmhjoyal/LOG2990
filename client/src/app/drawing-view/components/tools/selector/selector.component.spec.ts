@@ -298,19 +298,12 @@ describe('SelectorComponent', () => {
     it('#handleMouseUp should reset component and shape if dragging but size is 0, else drag and add to drawing storage', () => {
         const spyComponent = spyOn<any>(selector, 'resetComponent');
         const spyShape = spyOn<any>(selector, 'resetShape');
-        const spyArray = spyOn(Array.prototype, 'push');
         selector['shouldDrag'] = true;
         selectorServiceMock.selectedObjects.clear();
         const leftClick = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
         selector['handleMouseUp'](leftClick);
         expect(spyComponent).toHaveBeenCalled();
         expect(spyShape).toHaveBeenCalled();
-        selectorServiceMock.selectedObjects.add({ id: Id.RECTANGLE, x: 0, y: 0, width: 1, height: 1 })
-        selector['dragOperation'].offsetX = 1;
-        selector['handleMouseUp'](leftClick);
-        expect(spyArray).toHaveBeenCalled();
-        expect(saveService.saveDrawing).toHaveBeenCalled();
-        selector['resetComponent'];
     });
 
     it('#handleMouseMove should reset selector service if not dragging and size is 0', () => {
@@ -347,4 +340,5 @@ describe('SelectorComponent', () => {
         expect(spyTrace).not.toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).not.toHaveBeenCalled();
     });
+
 });

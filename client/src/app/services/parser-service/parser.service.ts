@@ -110,7 +110,7 @@ export default class ParserHelper {
       case ControlPoints.TOP_MIDDLE:
         const gridXTopMiddle = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth / 2) % gridSize);
         const gridYTopMiddle = Math.round(cursorY / gridSize) * gridSize;
-        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXTopMiddle, gridYTopMiddle)
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXTopMiddle, gridYTopMiddle);
         paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXTopMiddle, gridYTopMiddle);
         break;
       case ControlPoints.TOP_RIGHT:

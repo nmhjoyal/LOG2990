@@ -1,13 +1,13 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { GridService } from '../grid/grid.service';
 import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import ParserHelper from './parser.service';
-import { ControlPoints } from 'src/AppConstants/ControlPoints';
-import { GridService } from '../grid/grid.service';
 
 describe('ParserServiceService', () => {
   let selectorService: SelectorService;
@@ -48,104 +48,81 @@ describe('ParserServiceService', () => {
     const drawing: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, points: '0 0, 1 1' };
     const drawing2: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, vertices: '0 0, 1 1' };
     const drawing3: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, paths: [{ path: 'M1 4L5 6', pathWidth: 2 }] };
-    selectorService.resetSelectorService();
+    const spyPoints = spyOn(ParserHelper, 'setPoints');
+    const spyPaths = spyOn(ParserHelper, 'setPaths')
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_LEFT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_LEFT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_LEFT, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_MIDDLE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_MIDDLE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_MIDDLE, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_RIGHT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_RIGHT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_RIGHT, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.MIDDLE_LEFT, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.MIDDLE, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.MIDDLE_RIGHT, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.BOTTOM_LEFT, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.BOTTOM_MIDDLE, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.BOTTOM_RIGHT, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
 
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.NONE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.NONE, gridService);
-    selectorService.resetSelectorService();
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.NONE, gridService);
-    expect(drawing.points).toEqual('0,0 1,1 ');
-    expect(drawing2.vertices).toEqual('0,0 1,1 ');
-    expect(drawing3.paths).toEqual([{ path: 'M1 4L5 6', pathWidth: 2 }]);
+    expect(spyPoints).toHaveBeenCalled();
+    expect(spyPaths).toHaveBeenCalled();
+  });
+
+  it('#setPaths should properly set paths of an object', () => {
+    const quill: ITools = { id: Id.QUILL, x: 0, y: 0, width: 1, height: 1, paths: [] };
+    quill.paths = [{ path: 'M1 4L5 6', pathWidth: 2 }]
+    ParserHelper.setPaths(quill, 0, 0, 0, 0); // no change expected
+    expect(quill.paths[0].path).toEqual('M1 4L5 6');
+    expect(quill.points).toBeUndefined();
   })
+
+  it('#setPoints should properly set the points of an object', () => {
+    const pen: ITools = { id: Id.QUILL, x: 0, y: 0, width: 1, height: 1, points: '0 0, 1 1' };
+    ParserHelper.setPoints(['0 0', '1 1'], 0, 0, 0, 0); // no change expected
+    expect(pen.points).toEqual('0 0, 1 1');
+    expect(pen.paths).toBeUndefined();
+  });
 });

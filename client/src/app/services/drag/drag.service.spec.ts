@@ -123,5 +123,5 @@ describe('DragService', () => {
     expect(dragService.shouldSnap).toEqual(true);
     dragService.toggleSnapping();
     expect(dragService.shouldSnap).toEqual(false);
-  })
+  });
 });
