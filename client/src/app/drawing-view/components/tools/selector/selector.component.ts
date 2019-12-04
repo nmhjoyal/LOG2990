@@ -88,11 +88,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
-  @HostListener('window:keydown.alt') onAltDown(): void {
+  @HostListener('window:keydown.alt', ['$event']) onAltDown(event: KeyboardEvent): void {
+    event.preventDefault();
     this.altKeyPressed = true;
   }
 
-  @HostListener('window:keyup.alt') onAltUp(): void {
+  @HostListener('window:keyup.alt', ['$event']) onAltUp(event: KeyboardEvent): void {
+    event.preventDefault();
     this.altKeyPressed = false;
   }
 

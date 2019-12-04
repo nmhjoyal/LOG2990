@@ -333,7 +333,7 @@ describe('SelectorComponent', () => {
         const controlPointSpy = spyOn(ClickHelper, 'cursorTouchesControlPoint');
         spyOn(ClickHelper, 'getXPosition').and.returnValue(FIFTY);
         spyOn(ClickHelper, 'getYPosition').and.returnValue(FIFTY);
-        selector.onAltDown();
+        selector.onAltDown(new KeyboardEvent('keydown.alt'));
         controlPointSpy.and.returnValue(ControlPoints.TOP_LEFT);
         selector.onMouseDown(leftClick);
         selector.onMouseMove(drag);
