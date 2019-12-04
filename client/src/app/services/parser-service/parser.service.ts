@@ -101,24 +101,20 @@ export default class ParserHelper {
       case ControlPoints.TOP_LEFT:
         const gridX = Math.round(cursorX / gridService.GridSize) * gridService.GridSize;
         const gridY = Math.round(cursorY / gridService.GridSize) * gridService.GridSize;
-
         for (let i = 0; i < splitPoints.length; i += 2) {
           const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
           const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-
           newPoints += (gridX + xDistToSelectorBox).toString()
             + ','
             + (gridY + yDistToSelectorBox).toString()
             + ' ';
         }
-
         if (movedObject.paths) {
           for (const path of movedObject.paths) {
             const pathMX = path.path.slice(1, path.path.indexOf(' '));
             const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
             const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
             const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
             const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
             const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
             const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
@@ -265,9 +261,7 @@ export default class ParserHelper {
         const gridYMiddle = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
           - ((selectorService.MinHeight / 2) % gridService.GridSize);
         for (let i = 0; i < splitPoints.length; i += 2) {
-
           const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-
           const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
           newPoints += (gridXMiddle + xDistToSelectorBox).toString()
             + ','
