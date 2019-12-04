@@ -24,7 +24,7 @@ export class CanvasComponent implements AfterViewInit {
 
   toolId = Id;
   @ViewChild('activeTool', { static: false }) activeTool: ToolAbstract;
-  @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef;
+  @ViewChild('canvas', { static: false, read: ElementRef }) canvasChildComponent: ElementRef<SVGImageElement>;
 
   constructor(@Inject(MAT_DIALOG_DATA) protected data: INewDrawingModalData,
     private exportData: ExportInformationService,

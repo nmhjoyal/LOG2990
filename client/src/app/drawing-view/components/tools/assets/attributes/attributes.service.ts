@@ -3,8 +3,9 @@ import { Strings } from 'src/AppConstants/Strings';
 import { SprayCanConstants } from '../constants/spray-can-constants';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
+// tslint:disable-next-line: max-line-length
 import { IDrawingToolOptions, IEraserOptions, ILineOptions, IQuillOptions, ISprayCanOptions } from '../interfaces/drawing-tool-interface';
-import { IShapeOptions } from '../interfaces/shape-interface';
+import { IBucketOptions, IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
 
@@ -12,9 +13,9 @@ import { ITextOptions } from '../interfaces/text-interface';
   providedIn: 'root',
 })
 export class AttributesService {
-
   crayonAttributes: IDrawingToolOptions;
   paintbrushAttributes: IDrawingToolOptions;
+  bucketAttributes: IBucketOptions;
   penAttributes: IDrawingToolOptions;
   quillAttributes: IQuillOptions;
   rectangleAttributes: IShapeOptions;
@@ -30,6 +31,7 @@ export class AttributesService {
     this.resetRectangleAttributes();
     this.resetCrayonAttributes();
     this.resetPaintbrushAttributes();
+    this.resetBucketAttributes();
     this.resetPolygonAttributes();
     this.resetLineAttributes();
     this.resetEllipseAttributes();
@@ -41,19 +43,19 @@ export class AttributesService {
     this.resetEraserAttributes();
   }
 
-    resetPolygonAttributes(): void {
-      this.polygonAttributes = {
-        id: ToolConstants.TOOL_ID.POLYGON,
-        wasSaved: false,
-        savedVerticesNumber: 0,
-        savedStrokeWidth: ToolConstants.NULL,
-        savedTraceMode: ToolConstants.NULL,
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      };
-    }
+  resetPolygonAttributes(): void {
+    this.polygonAttributes = {
+      id: ToolConstants.TOOL_ID.POLYGON,
+      wasSaved: false,
+      savedVerticesNumber: 0,
+      savedStrokeWidth: ToolConstants.NULL,
+      savedTraceMode: ToolConstants.NULL,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
 
   resetCrayonAttributes(): void {
     this.crayonAttributes = {
@@ -69,6 +71,7 @@ export class AttributesService {
       height: 0,
     };
   }
+
   resetPaintbrushAttributes(): void {
     this.paintbrushAttributes = {
       id: ToolConstants.TOOL_ID.PAINTBRUSH,
@@ -83,6 +86,21 @@ export class AttributesService {
       height: 0,
     };
   }
+
+  resetBucketAttributes(): void {
+    this.bucketAttributes = {
+      id: ToolConstants.TOOL_ID.BUCKET,
+      wasSaved: false,
+      savedTraceMode: ToolConstants.TRACE_MODE.CONTOUR_FILL,
+      savedStrokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      savedTolerance: ToolConstants.DEFAULT_TOLERANCE,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }
+
   resetPenAttributes(): void {
     this.penAttributes = {
       id: ToolConstants.TOOL_ID.PEN,

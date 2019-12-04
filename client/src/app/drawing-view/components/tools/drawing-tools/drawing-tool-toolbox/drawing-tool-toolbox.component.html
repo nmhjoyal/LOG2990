@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-<div style='padding: 10px' *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
+<div style='padding: 10px;' *ngIf="!(toolHandler.selectedTool === toolId.NONE)">
     <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
         <p>Style de trait</p>
         <button (click)="getComponent().setFilter(0)">Aucun filtre</button><br>
@@ -65,13 +65,21 @@
             <button (click)="getComponent().increasePointWidth()">+</button>
         </div>
     </div>
+    <div *ngIf="toolHandler.selectedTool === toolId.BUCKET">
+        <p>Niveau de tolérance</p>
+        <input type="range" min="0" max="255" step="0.1"
+            [(ngModel)]="getComponent().tolerance" id="toleranceInput"
+            title="Valeur de tolerance">
+        <label >{{getComponent().tolerance / 2.55 | number:'1.0-0'}}%</label>
+     </div>
+           
     <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE || toolHandler.selectedTool === toolId.RECTANGLE
-                || toolHandler.selectedTool === toolId.POLYGON">
+                || toolHandler.selectedTool === toolId.POLYGON || toolHandler.selectedTool === toolId.BUCKET">
             <p>Style de remplissage</p>
             <button (click)="getComponent().setTraceMode(mode.CONTOUR)">Contour</button>
             <button (click)="getComponent().setTraceMode(mode.FILL)">Plein</button>
             <button (click)="getComponent().setTraceMode(mode.CONTOUR_FILL)">Plein&Contour</button>
-            <p>Epaisseur du trait</p>
+            <p>Épaisseur du trait</p>
             <button (click)="getComponent().decreaseStrokeWidth()">-</button>
             {{getComponent().shape.strokeWidth}}
             <button (click)="getComponent().increaseStrokeWidth()">+</button>

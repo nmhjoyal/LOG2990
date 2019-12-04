@@ -18,6 +18,7 @@ export enum Id {
     TEXT = 'text',
     GRID = 'grid',
     ERASER = 'eraser',
+    BUCKET = 'bucket',
     SPRAY_CAN = 'spray-can',
     PRIMARY_COLOUR_CHANGE = 'primaryColourChange',
     SECONDARY_COLOUR_CHANGE = 'secondaryColourChange',
@@ -79,6 +80,7 @@ export class ToolConstants {
     static DEFAULT_ERASER_SIZE = 10;
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;
+    static DEFAULT_TOLERANCE = 25;
     static MAX_SPEED = 0.4;
     static MIN_SPEED = 0.0007;
     static STROKE_INCREMENT = 1;
