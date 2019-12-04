@@ -15,15 +15,15 @@ export class DragService {
   dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
     this.selectorService.selectedObjects.forEach((movedObject) => {
       if (movedObject.alignX) {
-        movedObject.alignX += (cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2);
+        movedObject.alignX += (cursorX - this.selectorService.topCorner.x- this.selectorService.MinWidth / 2);
       } else if (movedObject.sprays) {
         movedObject.sprays.forEach((spray) => {
-          spray.cx += (cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2);
-          spray.cy += (cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2);
+          spray.cx += (cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2);
+          spray.cy += (cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2);
         });
       }
-      movedObject.x += (cursorX - this.selectorService.topCornerX - this.selectorService.MinWidth / 2);
-      movedObject.y += (cursorY - this.selectorService.topCornerY - this.selectorService.MinHeight / 2);
+      movedObject.x += (cursorX - this.selectorService.topCorner.x - this.selectorService.MinWidth / 2);
+      movedObject.y += (cursorY - this.selectorService.topCorner.y - this.selectorService.MinHeight / 2);
       ParserHelper.dragPolylinePoints(cursorX, cursorY, movedObject, this.selectorService);
     });
     this.selectorService.recalculateShape(windowWidth, windowHeight);
@@ -32,8 +32,8 @@ export class DragService {
 
   snapObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number, controlPoint: ControlPoints): void {
     const gridSize = this.gridService.GridSize;
-    const topCornerX = this.selectorService.topCornerX;
-    const topCornerY = this.selectorService.topCornerY;
+    const topCornerX = this.selectorService.topCorner.x;
+    const topCornerY = this.selectorService.topCorner.y;
     switch (controlPoint) {
       case ControlPoints.TOP_LEFT:
         const gridXTopLeft = Math.round(cursorX / gridSize) * gridSize;

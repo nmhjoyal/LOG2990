@@ -52,8 +52,8 @@ describe('DragService', () => {
       alignX: originalCoordinate,
     };
 
-    dragService.selectorService.topCornerX = originalCoordinate;
-    dragService.selectorService.furthestX = originalDimension;
+    dragService.selectorService.topCorner.x = originalCoordinate;
+    dragService.selectorService.bottomCorner.x = originalDimension;
     dragService.selectorService.selectedObjects.add(rectangle);
     dragService.selectorService.selectedObjects.add(text);
     dragService.snapObjects(cursorCoordinate, cursorCoordinate, windowDimensions, windowDimensions, ControlPoints.TOP_LEFT);
