@@ -113,11 +113,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     const y = this.selectorService.topCornerY + (this.selectorService.MinHeight / 2);
 
     this.selectorService.selectedObjects.forEach((drawing) => {
-      if (this.shiftDown) {
-        RotateHelper.rotateOnItself(drawing, rotateValue);
-      } else {
-        RotateHelper.calculatePosition(drawing, rotateValue, x, y);
-      }
+            this.shiftDown ? RotateHelper.rotateOnItself(drawing, rotateValue) : RotateHelper.calculatePosition(drawing, rotateValue, x, y);
+
     });
     this.angleRotated += rotateValue;
     this.isRotation = this.angleRotated !== 0;
