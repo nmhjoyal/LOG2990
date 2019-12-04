@@ -35,7 +35,7 @@
         <feBlend in="blurOut" in2="blurOut2" mode="normal" />
     </filter>
 
-    <g *ngFor = "let drawing of drawingStorage.drawings">
+    <g *ngFor="let drawing of drawingStorage.drawings">
         <g [ngSwitch]="drawing.id">
 
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
@@ -44,23 +44,13 @@
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.stroke-width]="drawing.strokeWidth"
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
-                    [style.stroke-dasharray]="drawing.strokeDashArray"
-                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    [style.stroke-dasharray]="drawing.strokeDashArray" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
                     drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
             <g *ngSwitchCase="toolId.STAMP">
                 <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
-                    [attr.height]="drawing.height" [attr.href]="drawing.svgReference"
-                    [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'" />
-            </g>
-
-            <g class="eyedropper" *ngSwitchCase="toolId.PIPETTE">
-                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width"
-                    [attr.height]="drawing.height" />
-                    <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
-                    [attr.href]="drawing.svgReference" 
-                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    [attr.height]="drawing.height" [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
                     drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
@@ -68,9 +58,8 @@
                 (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
                 [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
-                [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
-                [style.stroke-linejoin]="drawing.strokeLinejoin"
-                [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
+                    [style.stroke-linejoin]="drawing.strokeLinejoin" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
                 drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
@@ -79,8 +68,7 @@
                 [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
-                    [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter"
-                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
                     drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
@@ -96,13 +84,9 @@
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
                     [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
-                    <path
-                        [attr.d]="svgpath.path"
-                        [style.stroke-width]="svgpath.pathWidth"
-                        [style.stroke]="drawing.colour"
-                        [style.stroke-linecap]="drawing.strokeLinecap"
-                        [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
-                        drawing.centerX + ',' + drawing.centerY + ')'" >
+                    <path [attr.d]="svgpath.path" [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour" [style.stroke-linecap]="drawing.strokeLinecap" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                        drawing.centerX + ',' + drawing.centerY + ')'">
                     </path>
                 </g>
             </g>
@@ -110,30 +94,28 @@
             <g *ngSwitchCase="toolId.QUILL" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
-                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
-                    <path
-                        [attr.d]="svgpath.path"
-                        [style.stroke-width]="svgpath.pathWidth"
-                        [style.stroke]="drawing.colour"
-                        [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
-                        drawing.centerX + ',' + drawing.centerY + ')'" >
+                    [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
+                    <path [attr.d]="svgpath.path" [style.stroke-width]="svgpath.pathWidth"
+                        [style.stroke]="drawing.colour" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                        drawing.centerX + ',' + drawing.centerY + ')'">
                     </path>
                 </g>
             </g>
 
-            <g *ngSwitchCase="toolId.SPRAY_CAN" >
+            <g *ngSwitchCase="toolId.SPRAY_CAN">
                 <g *ngFor="let spray of drawing.sprays" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
-                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
-                    <filter #sprayCanFilter [attr.id]="spray.seed" >
-                        <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
-                        <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.55" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
-                        <feDisplacementMap in2="turbulence" in="SourceGraphic"
-                            scale="250" xChannelSelector="R" yChannelSelector="B"/>
-                        <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray"/>
+                    [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
+                    <filter #sprayCanFilter [attr.id]="spray.seed">
+                        <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10" />
+                        <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.55"
+                            stitchTiles="stitch" numOctaves="2" result="turbulence" />
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="250" xChannelSelector="R"
+                            yChannelSelector="B" />
+                        <feComposite operator="in" in="spraysquare" in2="SourceGraphic" result="circularspray" />
                     </filter>
-                    <circle [attr.cy]= "spray.cy" [attr.cx]= "spray.cx" (click)="applyColourToShape($event, drawing)"
-                    [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour" [attr.opacity]="drawing.fillOpacity" 
-                    [attr.filter]="'url(#' + spray.seed + ')'" />
+                    <circle [attr.cy]="spray.cy" [attr.cx]="spray.cx" (click)="applyColourToShape($event, drawing)"
+                        [attr.r]="drawing.radius" [style.fill]="drawing.primaryColour"
+                        [attr.opacity]="drawing.fillOpacity" [attr.filter]="'url(#' + spray.seed + ')'" />
                 </g>
             </g>
 
@@ -156,7 +138,8 @@
                     drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="(drawing.x - drawing.width) + ' ' + (drawing.y - drawing.height)"
+                (contextmenu)="applySecondaryColourToShape($event, drawing)"
+                [attr.transform-origin]="(drawing.x - drawing.width) + ' ' + (drawing.y - drawing.height)"
                 [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColour"
@@ -165,15 +148,11 @@
                     drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
             <g *ngSwitchCase="toolId.TEXT">
-                <text [attr.x]="drawing.alignX" [attr.y]="drawing.y"
-                    [style.font-size]="drawing.fontSize + 'pt'"
-                    [style.font-style]="drawing.italic"
-                    [style.font-weight]="drawing.bold"
-                    [style.font-family]="drawing.fontFamily"
-                    [style.fill]="drawing.primaryColour"
-                    [attr.text-anchor]="drawing.align"
-                    [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
-                    drawing.centerX + ',' + drawing.centerY + ')'" >
+                <text [attr.x]="drawing.alignX" [attr.y]="drawing.y" [style.font-size]="drawing.fontSize + 'pt'"
+                    [style.font-style]="drawing.italic" [style.font-weight]="drawing.bold"
+                    [style.font-family]="drawing.fontFamily" [style.fill]="drawing.primaryColour"
+                    [attr.text-anchor]="drawing.align" [attr.transform]="'rotate('+ drawing.rotationAngle + ',' +
+                    drawing.centerX + ',' + drawing.centerY + ')'">
                     <tspan [attr.x]="drawing.alignX" dy="1.2em" *ngFor="let line of drawing.lines">{{ line }}</tspan>
                 </text>
             </g>
@@ -182,21 +161,21 @@
 
     <g *ngIf="toolHandler.selectedTool === toolId.SELECTOR && toolHandler.selectorBoxExists()"
         [style.stroke]="toolHandler.selection.secondaryColour" [style.fill]="toolHandler.selection.primaryColour">
-         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y" r="2"/>
+            [attr.cy]="toolHandler.selection.y" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y" r="2"/>
+            [attr.cy]="toolHandler.selection.y" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"/>
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2" />
         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"/>
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2" />
         <rect [attr.x]="toolHandler.selection.x" [attr.y]="toolHandler.selection.y"
             [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
             [style.stroke-opacity]="1" [style.stroke-width]="1" [style.fill-opacity]="0" />
@@ -257,6 +236,6 @@
         [windowHeight]="canvasData.data.drawingHeight"></app-tools-stamp>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.SPRAY_CAN">
-       <app-spray-can  #activeTool [windowWidth]="canvasData.data.drawingWidth"
-       [windowHeight]="canvasData.data.drawingHeight"></app-spray-can>
+    <app-spray-can #activeTool [windowWidth]="canvasData.data.drawingWidth"
+        [windowHeight]="canvasData.data.drawingHeight"></app-spray-can>
 </div>

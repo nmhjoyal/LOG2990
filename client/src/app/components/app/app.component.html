@@ -1,26 +1,28 @@
 <div>
     <mat-toolbar class="alignRight">
-        <img class = "app-icon" src = "../../../assets/Icon/PolyBee.png">
+        <img class="app-icon" src="../../../assets/Icon/PolyBee.png">
         <h1 class="app-name">POLYDESSIN &nbsp; &nbsp;</h1>
         <mat-nav-list>
-            <a *ngIf='drawingStorage.drawings.length; else noUndo' mat-button class="filter toolbar" (click)="clipboardService.undo()">
+            <a *ngIf='drawingStorage.drawings.length; else noUndo' mat-button class="filter toolbar"
+                (click)="clipboardService.undo()">
                 <img id="Annuler" class="sideBarIcon" src="../../../assets/toolbar/back-arrow.svg" title="Annuler">
             </a>
-            <ng-template #noUndo >
+            <ng-template #noUndo>
                 <a mat-button class="disabled toolbar">
                     <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/back-arrow.svg" title="Annuler">
                 </a>
             </ng-template>
-            <a *ngIf='clipboardService.undoRedoService.undoList.length; else noRedo' mat-button class="filter toolbar" (click)="clipboardService.redo()">
+            <a *ngIf='clipboardService.undoRedoService.undoList.length; else noRedo' mat-button class="filter toolbar"
+                (click)="clipboardService.redo()">
                 <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/redo-arrow.svg" title="Refaire">
             </a>
-            <ng-template #noRedo >
+            <ng-template #noRedo>
                 <a mat-button class="disabled toolbar">
                     <img id="Refaire" class="sideBarIcon" src="../../../assets/toolbar/redo-arrow.svg" title="Refaire">
                 </a>
             </ng-template>
         </mat-nav-list>
-        <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
+        <mat-divider class="toolbar-divider" [vertical]="true"></mat-divider>
         <mat-nav-list>
             <a mat-button (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
                 <div class="colour-preview" title="Couleur principale"
@@ -36,7 +38,7 @@
                 </div>
             </a>
         </mat-nav-list>
-        <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
+        <mat-divider class="toolbar-divider" [vertical]="true"></mat-divider>
         <mat-nav-list>
             <ng-container *ngIf="toolHandler.selectedTool === toolHandler.tools.SELECTOR && clipboardService.selectorService.selectedObjects.size; 
                             then selected; else notSelected">
@@ -52,7 +54,8 @@
                     <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
                 </a>
                 <a mat-button class="filter toolbar" (click)='clipboardService.duplicate()'>
-                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Dupliquer">
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png"
+                        title="Dupliquer">
                 </a>
                 <a mat-button class="filter toolbar" (click)='clipboardService.delete()'>
                     <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
@@ -69,14 +72,15 @@
                     <img id="cut" class="clipboardIcon" src="../../../assets/toolbar/cut.png" title="Couper">
                 </a>
                 <a mat-button class="disabled toolbar" (click)='clipboardService.duplicate()'>
-                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png" title="Dupliquer">
+                    <img id="duplicate" class="clipboardIcon" src="../../../assets/toolbar/duplicate.png"
+                        title="Dupliquer">
                 </a>
                 <a mat-button class="disabled toolbar" (click)='clipboardService.delete()'>
                     <img id="delete" class="clipboardIcon" src="../../../assets/toolbar/delete.png" title="Supprimer">
                 </a>
             </ng-template>
         </mat-nav-list>
-        <mat-divider class = "toolbar-divider" [vertical]="true"></mat-divider>
+        <mat-divider class="toolbar-divider" [vertical]="true"></mat-divider>
         <mat-nav-list>
             <a mat-button class="filter toolbar" (click)="gridMenuTrigger.openMenu()">
                 <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/grid.png" title="Grille">
@@ -106,13 +110,54 @@
                     </div>
                 </div>
             </mat-menu>
+            <a mat-button class="filter toolbar" (click)="magnetismMenuTrigger.openMenu()">
+                <img id="grid" class="sideBarIcon" src="../../../assets/toolbar/magnet.png" title="Magnétisme">
+                <a [matMenuTriggerFor]="magnetismMenu" #magnetismMenuTrigger="matMenuTrigger"
+                    (click)="magnetismMenuTrigger.openMenu()"></a>
+                <mat-menu #magnetismMenu="matMenu" class="filter">
+                    <p class="mat-h2 filter"> Magnétisme: </p>
+                    <label class="switch" (click)="$event.stopPropagation()">
+                        <input type="checkbox">
+                        <span #snapToggle class="slider" (click)="dragService.toggleSnapping()"></span>
+                    </label>
+                    <form>
+                        <input type="radio" checked name="controlPoint" id="top_left" checked="checked" [value]="0"
+                            [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="controlPoint" id="top_middle" [value]="1" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="controlPoint" id="top_right" [value]="2" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+                        <p><br> </p>
+                        <input type="radio" name="controlPoint" id="middle_left" [value]="3" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="controlPoint" id="middle" [value]="4" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="controlPoint" id="middle_right" [value]="5" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+                        <p><br></p>
+                        <input type="radio" name="controlPoint" id="bottom_left" [value]="6" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="controlPoint" id="bottom_middle" [value]="7"
+                            [(ngModel)]="controlPoint" (change)="onSelectionChange()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="controlPoint" id="bottom_right" [value]="8" [(ngModel)]="controlPoint"
+                            (change)="onSelectionChange()">
+
+                    </form>
+                </mat-menu>
+            </a>
         </mat-nav-list>
-        <span style = "flex: 1 1 auto"></span>
+        <span style="flex: 1 1 auto"></span>
         <a class="filter extra-icon" (click)="options.toggle()">
             <img id="openExtras" src="../../../assets/toolbar/extra.svg" title="Extras">
         </a>
     </mat-toolbar>
-    <mat-sidenav-container hasBackdrop = "false" >
+    <mat-sidenav-container hasBackdrop="false">
         <mat-sidenav #sidenav mode="side" fixedBottomGap="200" opened disableClose>
             <mat-nav-list>
                 <a mat-list-item class="filter" (click)="toolHandler.chooseSelector()">
@@ -121,20 +166,23 @@
                 <a mat-list-item class="filter" (click)="drawingMenuTrigger.openMenu()">
                     <img id="shapes" class="sideBarIcon" src="../../../assets/sidebar/draw.png" title="Dessin">
                     <a [matMenuTriggerFor]="drawingMenu" #drawingMenuTrigger="matMenuTrigger"
-                    (click)="drawingMenuTrigger.openMenu()"></a>
+                        (click)="drawingMenuTrigger.openMenu()"></a>
                 </a>
                 <mat-menu #drawingMenu="matMenu">
                     <button mat-menu-item (click)='toolHandler.chooseCrayon()'>
-                        <img id="pencil" class="sideBarIcon filter" src="../../../assets/sidebar/pencil-top.png"> &#8194; Crayon
+                        <img id="pencil" class="sideBarIcon filter" src="../../../assets/sidebar/pencil-top.png">
+                        &#8194; Crayon
                     </button>
-                    <button mat-menu-item (click)='toolHandler.choosePen()'>   
+                    <button mat-menu-item (click)='toolHandler.choosePen()'>
                         <img id="pen" class="sideBarIcon filter" src="../../../assets/sidebar/pen-top.png"> &emsp; Stylo
                     </button>
                     <button mat-menu-item (click)='toolHandler.choosePaintbrush()'>
-                        <img id="brush" class="sideBarIcon filter" src="../../../assets/sidebar/paintbrush-top.png"> &emsp; Pinceau
+                        <img id="brush" class="sideBarIcon filter" src="../../../assets/sidebar/paintbrush-top.png">
+                        &emsp; Pinceau
                     </button>
                     <button mat-menu-item (click)='toolHandler.chooseQuill()'>
-                        <img id="feather" class="sideBarIcon filter" src="../../../assets/sidebar/quill.png"> &emsp; Plume
+                        <img id="feather" class="sideBarIcon filter" src="../../../assets/sidebar/quill.png"> &emsp;
+                        Plume
                     </button>
                 </mat-menu>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseLine()'>
@@ -154,7 +202,8 @@
                     <img id="sprayCan" class="sideBarIcon" src="../../../assets/sidebar/spray.png" title="Aérosol">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseColourApplicator()'>
-                    <img id='colourChanger' class="sideBarIcon" src="../../../assets/sidebar/applicator.png" title="Applicateur de couleur">
+                    <img id='colourChanger' class="sideBarIcon" src="../../../assets/sidebar/applicator.png"
+                        title="Applicateur de couleur">
                 </a>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseEyedropper()'>
                     <img id='pipette' class="sideBarIcon" src="../../../assets/sidebar/pipette.png" title="Pipette">
@@ -168,8 +217,7 @@
                     <button mat-menu-item (click)='toolHandler.choosePolygon()'>Polygon</button>
                 </mat-menu>
                 <a mat-list-item class="filter" (click)='toolHandler.chooseText()'>
-                    <img id='text' class="sideBarIcon" src="../../../assets/sidebar/text.svg"
-                        title="Texte">
+                    <img id='text' class="sideBarIcon" src="../../../assets/sidebar/text.svg" title="Texte">
                 </a>
                 <a mat-list-item class="filter" href="../../../assets/Guide d'utilisation.pdf">
                     <img class="sideBarIcon" src="../../../assets/sidebar/help.png" title="Guide d'utilisation">
@@ -177,7 +225,7 @@
             </mat-nav-list>
         </mat-sidenav>
         <app-canvas #canvas></app-canvas>
-        <mat-sidenav  #options class = "right-sidenav" mode = "over" opened position="end">
+        <mat-sidenav #options class="right-sidenav" mode="over" opened position="end">
             <br>
             <mat-option class="filter" (click)='toolHandler.choosePrimaryColour(); openChooseColourDialog()'>
                 <img id="colourPalette" class="sideBarIcon" src="../../../assets/toolbar/palette.png"
@@ -185,8 +233,8 @@
                 <a class='option'>Choisir les couleurs</a>
             </mat-option>
             <mat-option class="filter" (click)="confirmNewDrawing()">
-                <img id="newDrawing" class="sideBarIcon"
-                    src="../../../assets/toolbar/new-drawing.svg" title="Nouveau dessin">
+                <img id="newDrawing" class="sideBarIcon" src="../../../assets/toolbar/new-drawing.svg"
+                    title="Nouveau dessin">
                 <a class='option'>Nouveau dessin</a>
             </mat-option>
             <mat-option class="filter" (click)="openSaveWindow()">

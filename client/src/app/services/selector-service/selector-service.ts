@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IPoint, IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { ClipboardService } from '../clipboard/clipboard-service';
-import ParserHelper from '../parser-service/parser.service';
 import { SaveService } from '../save-service/save.service';
 
 @Injectable({
@@ -12,6 +12,7 @@ import { SaveService } from '../save-service/save.service';
 })
 export class SelectorService {
   selectedObjects: Set<ISavedDrawing>;
+  controlPoint: ControlPoints;
   clipboardHelper: ClipboardService;
   topCorner: IPoint;
   bottomCorner: IPoint;
@@ -124,23 +125,6 @@ export class SelectorService {
 
   objectInBox(object: ISavedDrawing, previewBox: IPreviewBox): boolean {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
-  }
-
-  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
-    this.selectedObjects.forEach((movedObject) => {
-      if (movedObject.alignX) {
-        movedObject.alignX += (cursorX - this.topCorner.x - this.MinWidth / 2);
-      } else if (movedObject.sprays) {
-        movedObject.sprays.forEach( (spray) => {
-          spray.cx += (cursorX - this.topCorner.x - this.MinWidth / 2);
-          spray.cy += (cursorY - this.topCorner.y - this.MinHeight / 2);
-        });
-      }
-      movedObject.x += (cursorX - this.topCorner.x - this.MinWidth / 2);
-      movedObject.y += (cursorY - this.topCorner.y - this.MinHeight / 2);
-      ParserHelper.dragPolylinePoints(cursorX, cursorY, movedObject, this);
-    });
-    this.recalculateShape(windowWidth, windowHeight);
   }
 
 }

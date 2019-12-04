@@ -41,3 +41,8 @@ export interface IShapeOptions extends ITools, IPreviewBox {
 export interface IBucketOptions extends IShapeOptions {
     savedTolerance: number;
 }
+
+export interface IDrag {
+    offsetX?: number;
+    offsetY?: number;
+}
