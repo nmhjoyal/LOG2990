@@ -4,10 +4,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
+import { ShapeAbstract } from '../../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { BucketComponent } from './bucket.component';
 
+    // tslint:disable: no-any
 const STROKE_WIDTH = 2;
 const TOLERANCE = 25;
 const MAX_HEIGHT = 255;
@@ -122,15 +124,15 @@ describe('BucketComponent', () => {
   });
 
   it('#onMouseDown should call all its functions', () => {
-    // const spy = spyOn(component, 'addSurroundingPixels');
-    const spy1 = spyOn(component, 'getColourAtPosition');
-    // const spy2 = spyOn(component, 'calculateDimensions');
-    const spy3 = spyOn(component, 'orderPoints');
+    const spy = spyOn(component as any, 'addSurroundingPixels');
+    const spy1 = spyOn(component as any, 'getColourAtPosition');
+    const spy2 = spyOn(component as any, 'calculateDimensions');
+    const spy3 = spyOn(component as any, 'orderPoints');
     const event = new MouseEvent('mousedown');
     fixture.debugElement.triggerEventHandler('mousedown', event);
-    // expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
-    // expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
@@ -198,13 +200,13 @@ describe('BucketComponent', () => {
     expect(component['context']).not.toBeNull();
     expect(spy).toHaveBeenCalled();
   });
-/*
+
   it('#initializeCanvas should drawImage on context', () => {
-    const spy = spyOn(component, 'context');
+    const spy = spyOn(component['context'] as any, 'drawImage');
     component.initializeCanvas();
     expect(spy).toHaveBeenCalled();
   });
-*/
+
   it('#calculateDimensions should calculate dimensions', () => {
     component['addedPoints'] = [[0, 0], [MAX_HEIGHT, MAX_HEIGHT], [0, 1]];
     component['calculateDimensions']();
@@ -223,6 +225,24 @@ describe('BucketComponent', () => {
     expect(component['shape'].points).toEqual('');
     expect(component['viewedPoints'].size).toEqual(0);
     expect(component['addedPoints']).toEqual([]);
+  });
+
+  it('#saveShape should save attributes', () => {
+    const spy = spyOn(ShapeAbstract.prototype as any, 'saveShape');
+    component['shape'].points = '';
+    component['saveShape']();
+    expect(spy).not.toHaveBeenCalled();
+    component['shape'].points = '0,0';
+    component['saveShape']();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('#addSurroundingPixels pass through items', () => {
+    const img = new Image();
+    img.addEventListener('load', () => { return; });
+    component.initializeCanvas();
+    component['addSurroundingPixels'](0, 0);
+    expect(component['addedPoints'].size).not.toEqual(0);
   });
 
 });

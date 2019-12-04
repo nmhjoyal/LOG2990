@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, HostListener} from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
@@ -64,12 +64,7 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.initializeCanvas();
   }
 
-  @HostListener('onload') onLoad(): void {
-    this.initializeCanvas();
-  }
-
-  @HostListener('click', ['$event']) async onClick(event: MouseEvent): Promise<void> {
-    // async onMouseDown(event: MouseEvent): Promise<void> {
+  async onMouseDown(event: MouseEvent): Promise<void> {
     await this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     this.addSurroundingPixels(event.x, event.y);
