@@ -7,7 +7,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
-import { RotateSelectionService } from 'src/app/services/rotate-selection/rotate-selection.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
@@ -18,6 +17,7 @@ import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id } from '../assets/constants/tool-constants';
 import { ITools } from '../assets/interfaces/itools';
 import { SelectorComponent } from './selector.component';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 
 const FIFTY = 50;
 const FORTY = 40;
@@ -74,8 +74,6 @@ describe('SelectorComponent', () => {
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
-    const rotateServiceMock: SpyObj<RotateSelectionService> = jasmine.createSpyObj('RotateSelectionService',
-        ['rotateOnItself', 'calculatePosition']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock(saveService);
 
@@ -86,7 +84,6 @@ describe('SelectorComponent', () => {
                 DrawingStorageService,
                 SaveService,
                 ColourService,
-                { provide: RotateSelectionService, useValue: rotateServiceMock},
                 { provide: AttributesService, useValue: attrServiceMock, },
             ],
         }).overrideComponent(SelectorComponent, {
@@ -162,17 +159,19 @@ describe('SelectorComponent', () => {
 
     it('#onWheel should be called when the wheel is scrolled', () => {
         const spy = spyOn(selector, 'onWheel').and.callThrough();
+        const spyCalculate = spyOn(RotateHelper, 'calculatePosition');
+        const spyRotate = spyOn(RotateHelper, 'rotateOnItself');
         const scroll = new WheelEvent('wheel');
         const tool: ISavedDrawing = { id: 'CRAYON', x: 0, y: 0, height: 0, width: 0, };
         selector['selectorService'].selectedObjects.add(tool);
         selector['shiftDown'] = true;
         fixture.debugElement.triggerEventHandler('wheel', scroll);
         expect(spy).toHaveBeenCalled();
-        expect(rotateServiceMock.rotateOnItself).toHaveBeenCalled();
+        expect(spyRotate).toHaveBeenCalled();
         selector['shiftDown'] = false;
         fixture.debugElement.triggerEventHandler('wheel', scroll);
         expect(spy).toHaveBeenCalled();
-        expect(rotateServiceMock.calculatePosition).toHaveBeenCalled();
+        expect(spyCalculate).toHaveBeenCalled();
     });
 
     it('#onRelease should be called when left or right mouse button is released', () => {

@@ -135,6 +135,7 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "paths": currentDrawing.paths,
         "sprays": currentDrawing.sprays,
         "radius": currentDrawing.radius,
+        "rotationAngle": currentDrawing.rotationAngle,
       });
     });
 

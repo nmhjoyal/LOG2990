@@ -2,11 +2,10 @@
 // tslint:disable:no-magic-numbers
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
-import { RotateSelectionService } from './rotate-selection.service';
+import RotateHelper from './rotate-helper';
 
 describe('RotateSelectionService', () => {
 
-  let service: RotateSelectionService;
   const drawing: ISavedDrawing = {
     id: 'mock',
     x: 0,
@@ -46,53 +45,48 @@ describe('RotateSelectionService', () => {
   const BELOW_RANGE_ANGLE = -180;
   const ABOVE_RANGE_ANGLE = 720;
 
-  beforeEach(() => {
-    service = new RotateSelectionService();
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   it('#calculatePosition should call either rewritePoints, rewritePaths or rotateOnItself', () => {
-    const spyRewritePoints = spyOn(service, 'rewritePoints');
-    const spyRewritePaths = spyOn(service, 'rewritePaths');
-    const spyRotate = spyOn(service, 'rotateOnItself');
-    service.calculatePosition(drawing, 0, 0, 0);
+    const spyRewritePoints = spyOn(RotateHelper, 'rewritePoints');
+    const spyRewritePaths = spyOn(RotateHelper, 'rewritePaths');
+    const spyRotate = spyOn(RotateHelper, 'rotateOnItself');
+    RotateHelper.calculatePosition(drawing, 0, 0, 0);
     expect(spyRotate).toHaveBeenCalled();
-    service.calculatePosition(line, 0, 0, 0);
+    RotateHelper.calculatePosition(line, 0, 0, 0);
     expect(spyRewritePoints).toHaveBeenCalled();
-    service.calculatePosition(polygon, 0, 0, 0);
+    RotateHelper.calculatePosition(polygon, 0, 0, 0);
     expect(spyRewritePoints).toHaveBeenCalled();
-    service.calculatePosition(path, 0, 0, 0);
+    RotateHelper.calculatePosition(path, 0, 0, 0);
     expect(spyRewritePaths).toHaveBeenCalled();
   });
 
   it('#degreeToRad should return a value between 0 and 2*PI', () => {
     let angleRad: number;
-    angleRad = service.degreeToRad(ANGLE);
+    angleRad = RotateHelper.degreeToRad(ANGLE);
     expect(angleRad).toEqual(ANGLE * DEGREE_TO_RAD);
 
-    angleRad = service.degreeToRad(BELOW_RANGE_ANGLE);
+    angleRad = RotateHelper.degreeToRad(BELOW_RANGE_ANGLE);
     expect(angleRad).toEqual(Math.PI);
 
-    angleRad = service.degreeToRad(ABOVE_RANGE_ANGLE);
+    angleRad = RotateHelper.degreeToRad(ABOVE_RANGE_ANGLE);
     expect(angleRad).toEqual(0);
   });
 
   it('#rewritePoints should give new values to the drawings points', () => {
-    service.rewritePoints(line, 5, 5);
+    RotateHelper.rewritePoints(line, 5, 5);
     expect(line.points).toEqual('9 9, 11 11');
 
-    service.rewritePoints(polygon, 5, 5);
+    RotateHelper.rewritePoints(polygon, 5, 5);
     expect(polygon.vertices).toEqual('5 5, 6 6, 7 7');
 
-    service.rewritePaths(path, 5, 5);
+    RotateHelper.rewritePaths(path, 5, 5);
     const newPath: IComplexPath[] = [{path: 'M6 9L10 11', pathWidth: 2}];
     expect(path.paths).toEqual(newPath);
 
-    service.rewritePoints(drawing, 5, 5);
+    RotateHelper.rewritePoints(drawing, 5, 5);
     expect(drawing.points).toEqual('');
+
+    RotateHelper.rewritePaths(drawing, 5, 5);
+    expect(drawing.paths).toEqual(undefined);
   });
 
   it('#rotateOnItself should give the right values', () => {
@@ -100,21 +94,21 @@ describe('RotateSelectionService', () => {
     drawing.y = 10;
     drawing.width = 10;
     drawing.height = 10;
-    service.rotateOnItself(drawing, ANGLE);
+    RotateHelper.rotateOnItself(drawing, ANGLE);
     expect(drawing.rotationAngle).toEqual(ANGLE);
     expect(drawing.centerX).toEqual(15);
     expect(drawing.centerY).toEqual(15);
-    service.rotateOnItself(drawing, ANGLE);
+    RotateHelper.rotateOnItself(drawing, ANGLE);
     expect(drawing.rotationAngle).toEqual(2 * ANGLE);
     expect(drawing.centerX).toEqual(15);
     expect(drawing.centerY).toEqual(15);
 
-    service.rotateOnItself(polygon, ANGLE);
+    RotateHelper.rotateOnItself(polygon, ANGLE);
     expect(polygon.rotationAngle).toEqual(ANGLE);
     expect(polygon.centerX).toEqual(0);
     expect(polygon.centerY).toEqual(0);
 
-    service.rotateOnItself(polygon, ANGLE);
+    RotateHelper.rotateOnItself(polygon, ANGLE);
     expect(polygon.rotationAngle).toEqual(2 * ANGLE);
     expect(polygon.centerX).toEqual(0);
     expect(polygon.centerY).toEqual(0);

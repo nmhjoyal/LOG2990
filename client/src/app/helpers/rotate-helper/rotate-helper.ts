@@ -1,19 +1,11 @@
-import { Injectable } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class RotateSelectionService {
+export default class RotateHelper {
 
-  constructor() {
-    // empty block
-  }
-
-  rotateOnItself(drawing: ISavedDrawing, angle: number): void {
+  static rotateOnItself(drawing: ISavedDrawing, angle: number): void {
     if (drawing.id === Id.POLYGON || drawing.id === Id.ELLIPSE) {
       drawing.rotationAngle = drawing.rotationAngle ? drawing.rotationAngle + angle : angle;
       drawing.centerX = drawing.x;
@@ -25,7 +17,7 @@ export class RotateSelectionService {
     }
   }
 
-  calculatePosition(drawing: ISavedDrawing, angle: number, x: number, y: number): void {
+  static calculatePosition(drawing: ISavedDrawing, angle: number, x: number, y: number): void {
     const angleRad = this.degreeToRad(angle);
     const newX = x + (drawing.x - x) * Math.cos(angleRad) - (drawing.y - y) * Math.sin(angleRad);
     const newY = y + (drawing.y - y) * Math.cos(angleRad) + (drawing.x - x) * Math.sin(angleRad);
@@ -43,7 +35,7 @@ export class RotateSelectionService {
     drawing.y = newY;
   }
 
-  degreeToRad(angle: number): number {
+  static degreeToRad(angle: number): number {
     let angleRad = angle * (Math.PI / NumericalValues.ONE_EIGHTY);
     while (angleRad >= 2 * Math.PI) {
       angleRad -= 2 * Math.PI;
@@ -54,7 +46,7 @@ export class RotateSelectionService {
     return angleRad;
   }
 
-  rewritePoints(drawing: ISavedDrawing, offX: number, offY: number): void {
+  static rewritePoints(drawing: ISavedDrawing, offX: number, offY: number): void {
     let splitPoints: string[] = [];
     if ('points' in drawing) {
       // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
@@ -76,7 +68,7 @@ export class RotateSelectionService {
     drawing.vertices = newPoints;
   }
 
-  rewritePaths(drawing: ISavedDrawing, offX: number, offY: number): void {
+  static rewritePaths(drawing: ISavedDrawing, offX: number, offY: number): void {
     const newPaths: IComplexPath[] = [];
     if (drawing.paths) {
       for (const path of drawing.paths) {

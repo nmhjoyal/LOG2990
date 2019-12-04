@@ -7,6 +7,7 @@ import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-ab
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interface';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 
 @Component({
   selector: 'app-quill',
@@ -126,7 +127,7 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   protected addPath(x: number, y: number): void {
-    const angleRad = this.degreeToRad(this.angle);
+    const angleRad = RotateHelper.degreeToRad(this.angle);
     const x1 = x - (this.lineLength / 2) * Math.cos(angleRad);
     const x2 = x + (this.lineLength / 2) * Math.cos(angleRad);
     const y1 = y - (this.lineLength / 2) * Math.sin(angleRad);
@@ -185,16 +186,5 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
 
   decreaseAngle(decrement: number): void {
     this.angle -= decrement;
-  }
-
-  degreeToRad(angle: number): number {
-    let angleRad = angle * (Math.PI / NumericalValues.ONE_EIGHTY);
-    while (angleRad >= 2 * Math.PI) {
-      angleRad -= 2 * Math.PI;
-    }
-    while (angleRad < 0) {
-      angleRad += 2 * Math.PI;
-    }
-    return angleRad;
   }
 }
