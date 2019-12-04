@@ -1,13 +1,12 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
 import { IComplexPath, IPen } from '../../assets/interfaces/drawing-tool-interface';
-import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 
 @Component({
   selector: 'app-quill',

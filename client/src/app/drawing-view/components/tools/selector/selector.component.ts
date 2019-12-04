@@ -1,5 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -9,7 +10,6 @@ import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { Id, ToolConstants } from '../assets/constants/tool-constants';
-import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 
 @Component({
   selector: 'app-tools-selector',
