@@ -122,7 +122,6 @@ export class SaveWindowComponent extends ModalWindowComponent implements OnInit 
         "strokeLinecap": currentDrawing.strokeLinecap,
         "strokeLinejoin": currentDrawing.strokeLinejoin,
         "filter": currentDrawing.filter,
-        "angle": currentDrawing.angle,
         "scaleFactor": currentDrawing.scaleFactor,
         "centerX": currentDrawing.centerX,
         "centerY": currentDrawing.centerY,
