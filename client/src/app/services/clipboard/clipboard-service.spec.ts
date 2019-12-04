@@ -3,6 +3,7 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
 import ParserHelper from '../parser-service/parser.service';
@@ -19,7 +20,7 @@ describe('ClipboardService', () => {
   let canvasService: CanvasInformationService;
   let saveService: SaveService;
   let dummyOperation: ITools;
-  let erasedDrawings: ITools;
+  let erasedDrawings: ISavedDrawing;
   const FIFTY = 50;
   const FORTY = 40;
   const FOUR = 4;
@@ -50,6 +51,9 @@ describe('ClipboardService', () => {
       width: 0,
       objects: [],
       indexes: [],
+      rotationAngle: 0,
+      centerX: 0,
+      centerY: 0,
     };
   });
 
@@ -78,8 +82,8 @@ describe('ClipboardService', () => {
   });
 
   it('should remove an item from drawing on delete and save a eraser operation', () => {
-    let drawing: ITools;
-    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE };
+    let drawing: ISavedDrawing;
+    drawing = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.RECTANGLE, rotationAngle: 0, centerX: 0, centerY: 0, };
     selectorService.selectedObjects.add(drawing);
     drawingStorage.drawings = [];
     erasedDrawings.objects = [drawing];

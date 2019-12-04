@@ -13,6 +13,7 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
+import { ISavedDrawing } from '../../../../../../common/drawing-information/IDrawing';
 import { DrawingViewModule } from '../../drawing-view.module';
 import { ColourPaletteComponent } from '../modal-windows/colour-window/colour-palette/colour-palette.component';
 import { ColourPickerComponent } from '../modal-windows/colour-window/colour-picker/colour-picker.component';
@@ -22,7 +23,6 @@ import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/n
 import { WelcomeWindowComponent } from '../modal-windows/welcome-window/welcome-window.component';
 import { Id, ToolConstants } from '../tools/assets/constants/tool-constants';
 import { IDrawingTool } from '../tools/assets/interfaces/drawing-tool-interface';
-import { ITools } from '../tools/assets/interfaces/itools';
 import { IShape } from '../tools/assets/interfaces/shape-interface';
 import { CanvasComponent } from './canvas.component';
 
@@ -157,7 +157,7 @@ describe('CanvasComponent', () => {
     const saveSpy = spyOn(component['saveService'], 'saveDrawing' ).and.callThrough();
     component.drawingStorage.drawings = [];
     component.saveColourApplication(0, 'colourChangeId', 'originalColour', 'toColour');
-    const colourChangeOperation: ITools = {
+    const colourChangeOperation: ISavedDrawing = {
       id: 'colourChangeId',
       indexes: [0],
       initialColour: 'originalColour',
@@ -166,6 +166,9 @@ describe('CanvasComponent', () => {
       y: 0,
       width: 0,
       height: 0,
+      rotationAngle: 0,
+      centerX: 0,
+      centerY: 0,
     };
 
     expect(saveSpy).toHaveBeenCalled();

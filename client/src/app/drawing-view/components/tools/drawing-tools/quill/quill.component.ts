@@ -1,8 +1,8 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { StrokeAbstract } from '../../assets/abstracts/stroke-abstract/stroke-abstract';
 import { AttributesService } from '../../assets/attributes/attributes.service';
 import { ToolConstants } from '../../assets/constants/tool-constants';
@@ -37,6 +37,8 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       width: 0,
       height: 0,
       points: '',
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.lineLength = ToolConstants.DEFAULT_LINE_LENGTH;
     this.angle = ToolConstants.DEFAULT_ANGLE;
@@ -126,7 +128,7 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
   }
 
   protected addPath(x: number, y: number): void {
-    const angleRad = this.degreeToRad(this.angle);
+    const angleRad = RotateHelper.degreeToRad(this.angle);
     const x1 = x - (this.lineLength / 2) * Math.cos(angleRad);
     const x2 = x + (this.lineLength / 2) * Math.cos(angleRad);
     const y1 = y - (this.lineLength / 2) * Math.sin(angleRad);
@@ -165,6 +167,8 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       width: this.quill.width - this.quill.x,
       height: this.quill.height - this.quill.y,
       points: this.quill.points,
+      scaleX: this.quill.scaleX,
+      scaleY: this.quill.scaleY,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }
@@ -185,16 +189,5 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
 
   decreaseAngle(decrement: number): void {
     this.angle -= decrement;
-  }
-
-  degreeToRad(angle: number): number {
-    let angleRad = angle * (Math.PI / NumericalValues.ONE_EIGHTY);
-    while (angleRad >= 2 * Math.PI) {
-      angleRad -= 2 * Math.PI;
-    }
-    while (angleRad < 0) {
-      angleRad += 2 * Math.PI;
-    }
-    return angleRad;
   }
 }
