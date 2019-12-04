@@ -36,7 +36,6 @@ export interface IDrawingTool extends ITools {
 }
 
 export interface IDrawingToolOptions extends IOptions {
-    wasSaved: boolean;
     savedStrokeWidth: number;
     savedFilter: string;
     savedMaxWidth: number;

@@ -1,13 +1,13 @@
-import { Component, HostListener, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { SaveService } from 'src/app/services/save-service/save.service';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
+import { AttributesService } from '../../assets/attributes/attributes.service';
 import { EraserConstants } from '../../assets/constants/eraser-constants';
 import { Id, ToolConstants } from '../../assets/constants/tool-constants';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
-import { AttributesService } from '../../assets/attributes/attributes.service';
-import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-eraser',

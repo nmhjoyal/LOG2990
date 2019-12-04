@@ -73,6 +73,7 @@ export class ToolConstants {
     static DEFAULT_MIN_WIDTH = 2;
     static DEFAULT_LINE_LENGTH = 10;
     static DEFAULT_ANGLE = 0;
+    static DEFAULT_ERASER_SIZE = 10;
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;
     static MAX_SPEED = 0.4;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IDrawingToolOptions, ILineOptions, IEraserOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, IEraserOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
