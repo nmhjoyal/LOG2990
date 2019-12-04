@@ -50,7 +50,7 @@ describe('SaveWindowComponent', () => {
         strokeLinecap: '',
         strokeLinejoin: '',
         filter: '',
-        angle: 0,
+        rotationAngle: 0,
         scaleFactor: 0,
         centerX: 0,
         centerY: 0,

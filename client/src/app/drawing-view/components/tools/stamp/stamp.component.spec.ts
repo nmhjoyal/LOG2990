@@ -56,7 +56,7 @@ describe('StampComponent', () => {
       attrService.stampAttributes.savedScaleFactor = SCALE_FACTOR;
 
       component.ngOnInit();
-      expect(component['stamp'].angle).toEqual(StampConstants.DEFAULT_ANGLE,
+      expect(component['stamp'].rotationAngle).toEqual(StampConstants.DEFAULT_ANGLE,
         'no loading of attributes, yet they did not take default value');
       expect(component['stamp'].scaleFactor).toEqual(StampConstants.DEFAULT_SCALE_FACTOR,
         'no loading of attributes, yet they did not take correct default value');
@@ -69,7 +69,7 @@ describe('StampComponent', () => {
 
     component.ngOnInit();
 
-    expect(component['stamp'].angle).toEqual(RANDOM_ANGLE,
+    expect(component['stamp'].rotationAngle).toEqual(RANDOM_ANGLE,
         'loading of attributes, yet they did not take default value');
     expect(component['stamp'].scaleFactor).toEqual(SCALE_FACTOR,
         'loading of attributes, yet they did not take correct default value');
@@ -106,7 +106,7 @@ describe('StampComponent', () => {
     expect(onWheelSpy).toHaveBeenCalled();
   });
 
-  it('#OnWheel should add or substract angleIncrement from stamp.angle depending on the direction in which the wheel is turned', () => {
+  it('#OnWheel should add or substract angleIncrement from stamp.rotationAngle depending on the direction the wheel is turned', () => {
     const wheelInit: WheelEventInit = {
       deltaX: 0.0,
       deltaY: DELTA_VALUE,
@@ -115,19 +115,19 @@ describe('StampComponent', () => {
     };
     let wheelEvent: WheelEvent = new WheelEvent('wheel', wheelInit);
 
-    component['stamp'].angle = RANDOM_ANGLE;
+    component['stamp'].rotationAngle = RANDOM_ANGLE;
     component.onWheel(wheelEvent);
-    expect(component['stamp'].angle).toBe(RANDOM_ANGLE + component['angleIncrement']);
+    expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE + component['angleIncrement']);
 
     wheelInit.deltaY = - DELTA_VALUE;
     wheelEvent = new WheelEvent('wheel', wheelInit);
-    component['stamp'].angle = RANDOM_ANGLE;
+    component['stamp'].rotationAngle = RANDOM_ANGLE;
     component.onWheel(wheelEvent);
-    expect(component['stamp'].angle).toBe(RANDOM_ANGLE - component['angleIncrement']);
+    expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE - component['angleIncrement']);
   });
 
-  it('#OnKeyDownAltEvent should be called when the ALT key is pressed', () => {
-    const onAltSpy = spyOn(component, 'onKeyDownAltEvent');
+  it('#OnKeyDownAlt should be called when the ALT key is pressed', () => {
+    const onAltSpy = spyOn(component, 'onKeyDownAlt');
     const keyDownEvent: KeyboardEvent = new KeyboardEvent('keydown.alt');
     fixture.debugElement.triggerEventHandler('keydown.alt', keyDownEvent);
     expect(onAltSpy).toHaveBeenCalled();
@@ -135,10 +135,10 @@ describe('StampComponent', () => {
 
   it('#OnKeyDownAltEvent should toggle the angleIncrement value', () => {
     component['angleIncrement'] = ToolConstants.ANGLE_INCREMENT_1;
-    component.onKeyDownAltEvent();
+    component.onKeyDownAlt();
     expect(component['angleIncrement']).toBe(ToolConstants.ANGLE_INCREMENT_15);
 
-    component.onKeyDownAltEvent();
+    component.onKeyDownAlt();
     expect(component['angleIncrement']).toBe(ToolConstants.ANGLE_INCREMENT_1);
   });
 
@@ -181,21 +181,21 @@ describe('StampComponent', () => {
   });
 
   it('#increaseAngle should increment the value of stamp.angle', () => {
-    component['stamp'].angle = RANDOM_ANGLE;
+    component['stamp'].rotationAngle = RANDOM_ANGLE;
     component.increaseAngle();
-    expect(component['stamp'].angle).toBe(RANDOM_ANGLE + 1);
+    expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE + 1);
   });
 
-  it('#decreaseAngle should decrement the value of stamp.angle if it is not already 0', () => {
-    component['stamp'].angle = 0;
+  it('#decreaseAngle should decrement the value of stamp.rotationAngle if it is not already 0', () => {
+    component['stamp'].rotationAngle = 0;
     component.decreaseAngle();
 
-    expect(component['stamp'].angle).toBe(0, 'decresed angle below 0');
+    expect(component['stamp'].rotationAngle).toBe(0, 'decresed angle below 0');
 
-    component['stamp'].angle = RANDOM_ANGLE;
+    component['stamp'].rotationAngle = RANDOM_ANGLE;
     component.decreaseAngle();
 
-    expect(component['stamp'].angle).toBe(RANDOM_ANGLE - 1);
+    expect(component['stamp'].rotationAngle).toBe(RANDOM_ANGLE - 1);
   });
 
   it('#setStamp should update the path of the stamp to use depending on the filter ID that is passed', () => {
