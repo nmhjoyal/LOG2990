@@ -49,7 +49,7 @@ describe('ParserServiceService', () => {
     const drawing2: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, vertices: '0 0, 1 1' };
     const drawing3: ITools = { x: 0, y: 0, id: Id.LINE, height: 2, width: 2, paths: [{ path: 'M1 4L5 6', pathWidth: 2 }] };
     const spyPoints = spyOn(ParserHelper, 'setPoints');
-    const spyPaths = spyOn(ParserHelper, 'setPaths')
+    const spyPaths = spyOn(ParserHelper, 'setPaths');
     ParserHelper.snapPolylinePoints(0, 0, drawing, selectorService, ControlPoints.TOP_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing2, selectorService, ControlPoints.TOP_LEFT, gridService);
     ParserHelper.snapPolylinePoints(0, 0, drawing3, selectorService, ControlPoints.TOP_LEFT, gridService);
@@ -113,11 +113,11 @@ describe('ParserServiceService', () => {
 
   it('#setPaths should properly set paths of an object', () => {
     const quill: ITools = { id: Id.QUILL, x: 0, y: 0, width: 1, height: 1, paths: [] };
-    quill.paths = [{ path: 'M1 4L5 6', pathWidth: 2 }]
+    quill.paths = [{ path: 'M1 4L5 6', pathWidth: 2 }];
     ParserHelper.setPaths(quill, 0, 0, 0, 0); // no change expected
     expect(quill.paths[0].path).toEqual('M1 4L5 6');
     expect(quill.points).toBeUndefined();
-  })
+  });
 
   it('#setPoints should properly set the points of an object', () => {
     const pen: ITools = { id: Id.QUILL, x: 0, y: 0, width: 1, height: 1, points: '0 0, 1 1' };

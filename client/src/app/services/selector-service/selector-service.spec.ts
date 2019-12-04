@@ -205,15 +205,16 @@ describe('SelectorService', () => {
 
   it('should modify the sprays  if the dragged object is of type spray paint', () => {
     const sprayWidth = 10;
-    const spray: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT, sprays: [{ cx: 1, cy: 1, seed: 1 }] };
+    const spray: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT, sprays: [] };
+    spray.sprays = [{ cx: 1, cy: 1, seed: 1 }];
     service['selectedObjects'].add(spray);
     service['topCornerX'] = 0;
     service['topCornerY'] = 0;
     service['furthestX'] = sprayWidth;
     service['furthestY'] = sprayWidth;
     dragService.dragObjects(FORTY, FORTY, FIFTY, FIFTY);
-    expect(spray.sprays![0].cx).toEqual(1 + FORTY - 0 - sprayWidth / 2); // cx (1) + cursorX (40) - topCornerX (0) - MinWidth (5)
-    expect(spray.sprays![0].cy).toEqual(1 + FORTY - 0 - sprayWidth / 2);
+    expect(spray.sprays[0].cx).toEqual(1 + FORTY - 0 - sprayWidth / 2); // cx (1) + cursorX (40) - topCornerX (0) - MinWidth (5)
+    expect(spray.sprays[0].cy).toEqual(1 + FORTY - 0 - sprayWidth / 2);
 
   });
 
