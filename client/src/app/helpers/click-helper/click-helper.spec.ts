@@ -1,5 +1,7 @@
+import { ControlPoints } from 'src/app/drawing-view/components/tools/assets/constants/selector-constants';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { IPoint, IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from './click-helper';
 
 describe('ClickHelper', () => {
@@ -14,6 +16,28 @@ describe('ClickHelper', () => {
         const move = new MouseEvent('mousemove');
         expect(ClickHelper.getXPosition(move)).toEqual(0);
         expect(ClickHelper.getYPosition(move)).toEqual(0);
+    });
+
+    it('should confirm cursor touches selector control point', () => {
+        const selectorBox: IPreviewBox = {x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY};
+        let point: IPoint = {x: FIFTY, y: FIFTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.TOP_LEFT);
+        point = {x: FIFTY + (FIFTY / 2), y: FIFTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.TOP_MIDDLE);
+        point = {x: FIFTY + FIFTY, y: FIFTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.TOP_RIGHT);
+        point = {x: FIFTY + FIFTY, y: FIFTY + (FIFTY / 2)};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.MIDDLE_RIGHT);
+        point = {x: FIFTY + FIFTY, y: FIFTY + FIFTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.BOTTOM_RIGHT);
+        point = {x: FIFTY + (FIFTY / 2), y: FIFTY + FIFTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.BOTTOM_MIDDLE);
+        point = {x: FIFTY, y: FIFTY + FIFTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.BOTTOM_LEFT);
+        point = {x: FIFTY, y: FIFTY + (FIFTY / 2)};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.MIDDLE_LEFT);
+        point = {x: FORTY, y: FORTY};
+        expect(ClickHelper.cursorTouchesControlPoint(selectorBox, point.x, point.y)).toEqual(ControlPoints.NONE);
     });
 
     it('should confirm cursor touches object border', () => {

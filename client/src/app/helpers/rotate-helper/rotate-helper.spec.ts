@@ -3,6 +3,7 @@
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import RotateHelper from './rotate-helper';
+import ParserHelper from 'src/app/services/parser-service/parser.service';
 
 describe('RotateSelectionService', () => {
 
@@ -45,18 +46,17 @@ describe('RotateSelectionService', () => {
   const BELOW_RANGE_ANGLE = -180;
   const ABOVE_RANGE_ANGLE = 720;
 
-  it('#calculatePosition should call either rewritePoints, rewritePaths or rotateOnItself', () => {
-    const spyRewritePoints = spyOn(RotateHelper, 'rewritePoints');
-    const spyRewritePaths = spyOn(RotateHelper, 'rewritePaths');
+  it('#calculatePosition should call either moveObject or rotateOnItself', () => {
+    const spyMove = spyOn(ParserHelper, 'moveObject');
     const spyRotate = spyOn(RotateHelper, 'rotateOnItself');
     RotateHelper.calculatePosition(drawing, 0, 0, 0);
     expect(spyRotate).toHaveBeenCalled();
     RotateHelper.calculatePosition(line, 0, 0, 0);
-    expect(spyRewritePoints).toHaveBeenCalled();
+    expect(spyMove).toHaveBeenCalled();
     RotateHelper.calculatePosition(polygon, 0, 0, 0);
-    expect(spyRewritePoints).toHaveBeenCalled();
+    expect(spyMove).toHaveBeenCalled();
     RotateHelper.calculatePosition(path, 0, 0, 0);
-    expect(spyRewritePaths).toHaveBeenCalled();
+    expect(spyMove).toHaveBeenCalled();
   });
 
   it('#degreeToRad should return a value between 0 and 2*PI', () => {
@@ -71,21 +71,21 @@ describe('RotateSelectionService', () => {
     expect(angleRad).toEqual(0);
   });
 
-  it('#rewritePoints should give new values to the drawings points', () => {
-    RotateHelper.rewritePoints(line, 5, 5);
+  it('#moveObject should give new values to the drawings points', () => {
+    ParserHelper.moveObject(5, 5, line);
     expect(line.points).toEqual('9 9, 11 11');
 
-    RotateHelper.rewritePoints(polygon, 5, 5);
+    ParserHelper.moveObject(5, 5, polygon);
     expect(polygon.vertices).toEqual('5 5, 6 6, 7 7');
 
-    RotateHelper.rewritePaths(path, 5, 5);
+    ParserHelper.moveObject(5, 5, path);
     const newPath: IComplexPath[] = [{path: 'M6 9L10 11', pathWidth: 2}];
     expect(path.paths).toEqual(newPath);
 
-    RotateHelper.rewritePoints(drawing, 5, 5);
-    expect(drawing.points).toEqual('');
+    ParserHelper.moveObject(5, 5, drawing);
+    expect(drawing.points).toEqual(undefined);
 
-    RotateHelper.rewritePaths(drawing, 5, 5);
+    ParserHelper.moveObject(5, 5, drawing);
     expect(drawing.paths).toEqual(undefined);
   });
 

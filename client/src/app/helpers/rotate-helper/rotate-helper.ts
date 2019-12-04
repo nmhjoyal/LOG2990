@@ -1,7 +1,7 @@
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import ParserHelper from 'src/app/services/parser-service/parser.service';
 
 export default class RotateHelper {
 
@@ -22,12 +22,12 @@ export default class RotateHelper {
     const newX = x + (drawing.x - x) * Math.cos(angleRad) - (drawing.y - y) * Math.sin(angleRad);
     const newY = y + (drawing.y - y) * Math.cos(angleRad) + (drawing.x - x) * Math.sin(angleRad);
     if ('points' in drawing) {
-      this.rewritePoints(drawing, newX - drawing.x, newY - drawing.y);
-    } else if (drawing.id === Id.POLYGON) {
-      this.rewritePoints(drawing, newX - drawing.x, newY - drawing.y);
+      ParserHelper.moveObject(newX - drawing.x, newY - drawing.y, drawing);
+    } if (drawing.id === Id.POLYGON) {
+      ParserHelper.moveObject(newX - drawing.x, newY - drawing.y, drawing);
     }
     if ('paths' in drawing) {
-      this.rewritePaths(drawing, newX - drawing.x, newY - drawing.y);
+      ParserHelper.moveObject(newX - drawing.x, newY - drawing.y, drawing);
     } else {
       this.rotateOnItself(drawing, angle);
     }
@@ -45,44 +45,4 @@ export default class RotateHelper {
     }
     return angleRad;
   }
-
-  static rewritePoints(drawing: ISavedDrawing, offX: number, offY: number): void {
-    let splitPoints: string[] = [];
-    if ('points' in drawing) {
-      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
-      splitPoints = drawing.points!.split(/[ ,]+/).filter(Boolean);
-    }
-    if (drawing.id === Id.POLYGON) {
-      // tslint:disable-next-line: no-non-null-assertion because it is verified as defined
-      splitPoints = drawing.vertices!.split(/[ ,]+/).filter(Boolean);
-    }
-    let newPoints = '';
-    for (let i = 0; i < splitPoints.length; i += 2) {
-      newPoints += (parseInt(splitPoints[i], 10) + offX).toString() + ' '
-      + (parseInt(splitPoints[i + 1], 10) + offY).toString();
-      if (i !== splitPoints.length - 2) {
-        newPoints += ', ';
-      }
-    }
-    drawing.points ? drawing.points = newPoints : drawing.vertices = newPoints;
-  }
-
-  static rewritePaths(drawing: ISavedDrawing, offX: number, offY: number): void {
-    const newPaths: IComplexPath[] = [];
-    if (drawing.paths) {
-      for (const path of drawing.paths) {
-        const pathMX = path.path.slice(1, path.path.indexOf(' '));
-        const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-        const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-        const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-        newPaths.push({
-          path: 'M' + (parseInt(pathMX, 10) + offX).toString() + ' ' + (parseInt(pathMY, 10) + offY).toString()
-            + 'L' + (parseInt(pathLX, 10) + offX).toString() + ' ' + (parseInt(pathLY, 10) + offY).toString(),
-          pathWidth: path.pathWidth,
-        });
-      }
-    drawing.paths = newPaths;
-    }
-  }
-
 }
