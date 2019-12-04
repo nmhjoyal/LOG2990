@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, HostListener} from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
@@ -64,20 +64,19 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     this.initializeCanvas();
   }
 
-  async onMouseDown(event: MouseEvent): Promise<void> {
+  @HostListener('onload') onLoad(): void {
+    this.initializeCanvas();
+  }
+
+  @HostListener('click', ['$event']) async onClick(event: MouseEvent): Promise<void> {
+    // async onMouseDown(event: MouseEvent): Promise<void> {
     await this.initializeCanvas();
     this.initialColour = this.getColourAtPosition(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
     this.addSurroundingPixels(event.x, event.y);
     this.calculateDimensions();
     this.orderPoints();
-  }
-
-  onMouseUp(): void {
     this.saveShape();
     this.resetShape();
-    this.shape.points = '';
-    this.viewedPoints = new Set();
-    this.addedPoints = [];
   }
 
   protected saveShape(): void {
@@ -86,12 +85,11 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
     }
   }
 
-  onMouseMove(): void {
-    //
-  }
-
-  onMouseLeave(): void {
-    //
+  protected resetShape(): void {
+    this.shape.points = '';
+    this.viewedPoints = new Set();
+    this.addedPoints = [];
+    super.resetShape();
   }
 
   protected acceptsColour(colour: number[]): boolean {
@@ -110,16 +108,12 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   }
 
   protected addSurroundingPixels(positionX: number, positionY: number): void {
-    this.viewedPoints = new Set();
-    // this.addedPoints = [];
-    // this.shape.points = '';
     const offset = 5;
     const stack: number[][] = new Array<[]>();
-   // let position: number[];
     let position = [positionX, positionY];
     stack.push(position);
     while (stack.length > 0) {
-      // tslint:disable-next-line: no-non-null-assertion
+      // tslint:disable-next-line: no-non-null-assertion because stack is verified to have length > 0
       position = stack.pop()!;
       let isBorderPoint = false;
       const up = this.getColourAtPosition(position[0], position[1] + offset);
@@ -171,15 +165,17 @@ export class BucketComponent extends ShapeAbstract implements OnInit, OnDestroy,
   orderPoints(): void {
     let lastPoint = this.addedPoints[0];
     const firstPoint = lastPoint;
-    this.addedPoints.splice(0, 1);
-    this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
-    while (this.addedPoints.length) {
-      const nearestIndex = this.findNearestIndex(lastPoint);
-      lastPoint = this.addedPoints[nearestIndex];
-      this.addedPoints.splice(nearestIndex, 1);
-      this.shape.points += lastPoint[0] + ',' + lastPoint[1] + ' ';
+    if (firstPoint) {
+      this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
+      this.addedPoints.splice(0, 1);
+      while (this.addedPoints.length) {
+        const nearestIndex = this.findNearestIndex(lastPoint);
+        lastPoint = this.addedPoints[nearestIndex];
+        this.addedPoints.splice(nearestIndex, 1);
+        this.shape.points += lastPoint[0] + ',' + lastPoint[1] + ' ';
+      }
+      this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
     }
-    this.shape.points += firstPoint[0] + ',' + firstPoint[1] + ' ';
   }
 
   findNearestIndex(point: number[]): number {

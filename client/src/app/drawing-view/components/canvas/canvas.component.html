@@ -73,12 +73,10 @@
 
             <g *ngSwitchCase="toolId.BUCKET" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
-                <svg>
-                    <polyline [attr.points]="drawing.points" [style.fill]="drawing.primaryColour"
-                        [style.stroke]="drawing.secondaryColour" [style.stroke-width]="drawing.strokeWidth"
-                        [style.stroke-linecap]="drawing.strokeLinecap"
-                        [style.stroke-linestroke]="drawing.strokeLinejoin" />
-                </svg>
+                <polyline [attr.points]="drawing.points" [style.fill]="drawing.primaryColour"
+                    [style.stroke]="drawing.secondaryColour" [style.stroke-width]="drawing.strokeWidth"
+                    [style.stroke-linecap]="drawing.strokeLinecap"
+                    [style.stroke-linestroke]="drawing.strokeLinejoin" />
             </g>
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"

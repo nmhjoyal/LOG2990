@@ -218,4 +218,11 @@ describe('BucketComponent', () => {
     expect(component['previewBox'].y).toEqual(0);
   });
 
+  it('#resetShape should reset attributes', () => {
+    component['resetShape']();
+    expect(component['shape'].points).toEqual('');
+    expect(component['viewedPoints'].size).toEqual(0);
+    expect(component['addedPoints']).toEqual([]);
+  });
+
 });
