@@ -62,6 +62,8 @@ describe('RotateSelectionService', () => {
     expect(spyRotate).toHaveBeenCalled();
     service.calculatePosition(line, 0, 0, 0);
     expect(spyRewritePoints).toHaveBeenCalled();
+    service.calculatePosition(polygon, 0, 0, 0);
+    expect(spyRewritePoints).toHaveBeenCalled();
     service.calculatePosition(path, 0, 0, 0);
     expect(spyRewritePaths).toHaveBeenCalled();
   });
