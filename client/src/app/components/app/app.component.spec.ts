@@ -149,9 +149,6 @@ describe('AppComponent', () => {
 
   it('#chooseCrayon should be called when c is pressed', () => {
     toolHandlerMock.chooseCrayon.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydownC();
-    expect(toolHandlerMock.chooseCrayon).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydownC();
     expect(toolHandlerMock.chooseCrayon).toHaveBeenCalled();
@@ -159,9 +156,6 @@ describe('AppComponent', () => {
 
   it('#chooseQuill should be called when p is pressed', () => {
     toolHandlerMock.chooseQuill.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydownP();
-    expect(toolHandlerMock.chooseQuill).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydownP();
     expect(toolHandlerMock.chooseQuill).toHaveBeenCalled();
@@ -169,9 +163,6 @@ describe('AppComponent', () => {
 
   it('#choosePaintbrush should be called when w is pressed', () => {
     toolHandlerMock.choosePaintbrush.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydownW();
-    expect(toolHandlerMock.choosePaintbrush).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydownW();
     expect(toolHandlerMock.choosePaintbrush).toHaveBeenCalled();
@@ -179,9 +170,6 @@ describe('AppComponent', () => {
 
   it('#chooseEyedropper should be called when i is pressed', () => {
     toolHandlerMock.chooseEyedropper.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydownI();
-    expect(toolHandlerMock.chooseEyedropper).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydownI();
     expect(toolHandlerMock.chooseEyedropper).toHaveBeenCalled();
@@ -189,9 +177,6 @@ describe('AppComponent', () => {
 
   it('#chooseColourApplicator should be called when r is pressed', () => {
     toolHandlerMock.chooseColourApplicator.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydownR();
-    expect(toolHandlerMock.chooseColourApplicator).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydownR();
     expect(toolHandlerMock.chooseColourApplicator).toHaveBeenCalled();
@@ -199,9 +184,6 @@ describe('AppComponent', () => {
 
   it('#chooseSelector should be called when s is pressed', () => {
     toolHandlerMock.chooseSelector.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydownS();
-    expect(toolHandlerMock.chooseSelector).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydownS();
     expect(toolHandlerMock.chooseSelector).toHaveBeenCalled();
@@ -236,9 +218,6 @@ describe('AppComponent', () => {
 
   it('#chooseRectangle should be called when 1 is pressed', () => {
     toolHandlerMock.chooseRectangle.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydown1();
-    expect(toolHandlerMock.chooseRectangle).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydown1();
     expect(toolHandlerMock.chooseRectangle).toHaveBeenCalled();
@@ -246,27 +225,15 @@ describe('AppComponent', () => {
 
   it('#chooseEllipse should be called when 2 is pressed', () => {
     toolHandlerMock.chooseEllipse.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydown2();
-    expect(toolHandlerMock.chooseEllipse).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydown2();
     expect(toolHandlerMock.chooseEllipse).toHaveBeenCalled();
   });
 
   it('#undo should be called only when control+z are pressed and there are no opened dialogs nor optionsBars opened', () => {
-    component.optionsSidebar.opened = true;
-    onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownCtrlZ();
-    expect(clipboardMock.undo).not.toHaveBeenCalled();
 
     component.optionsSidebar.opened = false;
     onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownCtrlZ();
-    expect(clipboardMock.undo).not.toHaveBeenCalled();
-
-    component.optionsSidebar.opened = true;
-    onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownCtrlZ();
     expect(clipboardMock.undo).not.toHaveBeenCalled();
 
@@ -282,16 +249,6 @@ describe('AppComponent', () => {
     component.onKeydownCtrlShiftZ();
     expect(clipboardMock.redo).not.toHaveBeenCalled();
 
-    component.optionsSidebar.opened = true;
-    onlyModalOpenSpy.and.returnValue(false);
-    component.onKeydownCtrlShiftZ();
-    expect(clipboardMock.redo).not.toHaveBeenCalled();
-
-    component.optionsSidebar.opened = true;
-    onlyModalOpenSpy.and.returnValue(true);
-    component.onKeydownCtrlShiftZ();
-    expect(clipboardMock.redo).not.toHaveBeenCalled();
-
     component.optionsSidebar.opened = false;
     onlyModalOpenSpy.and.returnValue(true);
     component.onKeydownCtrlShiftZ();
@@ -300,9 +257,6 @@ describe('AppComponent', () => {
 
   it('#choosePolygon should be called when 3 is pressed', () => {
     toolHandlerMock.choosePolygon.and.callThrough();
-    component.optionsSidebar.opened = true;
-    component.onKeydown3();
-    expect(toolHandlerMock.choosePolygon).not.toHaveBeenCalled();
     component.optionsSidebar.opened = false;
     component.onKeydown3();
     expect(toolHandlerMock.choosePolygon).toHaveBeenCalled();

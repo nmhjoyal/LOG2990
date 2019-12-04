@@ -66,31 +66,31 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.c', ['$event']) onKeydownC(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseCrayon();
     }
   }
 
   @HostListener('document:keydown.w', ['$event']) onKeydownW(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePaintbrush();
     }
   }
 
   @HostListener('document:keydown.i', ['$event']) onKeydownI(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEyedropper();
     }
   }
 
   @HostListener('document:keydown.r', ['$event']) onKeydownR(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseColourApplicator();
     }
   }
 
   @HostListener('document:keydown.s', ['$event']) onKeydownS(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSelector();
     }
   }
@@ -139,25 +139,25 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.t', ['$event']) onKeydownT(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseText();
     }
   }
 
   @HostListener('document:keydown.y', ['$event']) onKeydownY(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePen();
     }
   }
 
   @HostListener('document:keydown.e', ['$event']) onKeydownE(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEraser();
     }
   }
 
   @HostListener('document:keydown.p', ['$event']) onKeydownP(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseQuill();
     }
   }
@@ -195,25 +195,25 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.1', ['$event']) onKeydown1(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseRectangle();
     }
   }
 
   @HostListener('document:keydown.2', ['$event']) onKeydown2(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseEllipse();
     }
   }
 
   @HostListener('document:keydown.3', ['$event']) onKeydown3(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.choosePolygon();
     }
   }
 
   @HostListener('document:keydown.g', ['$event']) onKeydownG(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       const toggle: HTMLElement = this.toggle.nativeElement;
       toggle.click();
     }
@@ -238,7 +238,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown.a', ['$event']) onKeydownA(): void {
-    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened && !this.toolHandler.isUsingText()) {
+    if (this.isOnlyModalOpen() &&  !this.toolHandler.isUsingText()) {
       this.toolHandler.chooseSprayCan();
     }
   }

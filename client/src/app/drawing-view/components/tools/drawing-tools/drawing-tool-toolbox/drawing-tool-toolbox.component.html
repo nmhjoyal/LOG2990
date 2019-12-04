@@ -4,7 +4,8 @@
         <div>
             <p> Épaisseur de trait </p>
             <mat-slider title="Épaisseur de trait"
-            [max]="40" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().stroke.strokeWidth">
+            [max]="40" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1" 
+            [(ngModel)]="getComponent().stroke.strokeWidth" (input)="getComponent().stroke.strokeWidth = $event.value">
             </mat-slider>
             <label> {{getComponent().stroke.strokeWidth}} </label>
         </div>
@@ -24,14 +25,16 @@
         <div>
             <p> Épaisseur de trait maximale </p>
             <mat-slider title="Épaisseur de trait maximal"
-            [max]="40" [min]="getComponent().minWidth" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().maxWidth">
+            [max]="40" [min]="getComponent().minWidth" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+            [(ngModel)]="getComponent().maxWidth" (input)="getComponent().maxWidth = $event.value">
             </mat-slider>
             <label> {{getComponent().maxWidth}} </label>
         </div>
         <div>
             <p> Épaisseur de trait minimal </p>
             <mat-slider title="Épaisseur de trait minimal"
-            [max]="getComponent().maxWidth" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().minWidth">
+            [max]="getComponent().maxWidth" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="1" 
+            [(ngModel)]="getComponent().minWidth" (input)="getComponent().minWidth = $event.value">
             </mat-slider>
             <label> {{getComponent().minWidth}} </label>
         </div>
@@ -41,14 +44,16 @@
         <div>
             <p> Longueur de trait minimale </p>
             <mat-slider title="Longueur de trait minimale"
-            [min]="5" [max]="40" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().lineLength">
+            [min]="5" [max]="40" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+            [(ngModel)]="getComponent().lineLength" (input)="getComponent().lineLength = $event.value">
             </mat-slider>
             <label> {{getComponent().lineLength}} </label>
         </div>
         <div>
             <p> Angle </p>
             <mat-slider title="Angle"
-            [min]="0" [max]="180" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().angle">
+            [min]="0" [max]="180" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+            [(ngModel)]="getComponent().angle" (input)="getComponent().angle = $event.value">
             </mat-slider>
             <label> {{getComponent().angle}} </label>
         </div>
@@ -73,7 +78,8 @@
         <div *ngIf="getComponent().junctionMode === pointMode.SQUARE">
             <p>Grosseur de points</p>
             <mat-slider title="Grosseur de points"
-            [min]="1" [max]="20" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().stroke.pointWidth">
+            [min]="1" [max]="20" [step]="1" [thumbLabel]="true" [tickInterval]="1" 
+            [(ngModel)]="getComponent().stroke.pointWidth" (input)="getComponent().stroke.pointWidth = $event.value">
             </mat-slider>
             {{getComponent().stroke.pointWidth}}
         </div>
@@ -90,7 +96,8 @@
             </mat-button-toggle-group>
             <p> Épaisseur du trait </p>
             <mat-slider title="Épaisseur du trait"
-            [min]="1" [max]="20" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().shape.strokeWidth">
+            [min]="1" [max]="20" [step]="1" [thumbLabel]="true" [tickInterval]="1" 
+            [(ngModel)]="getComponent().shape.strokeWidth" (input)="getComponent().shape.strokeWidth = $event.value">
             </mat-slider>
             <label> {{getComponent().shape.strokeWidth}} </label>
     </div>
@@ -98,7 +105,8 @@
     <div *ngIf="toolHandler.selectedTool === toolId.POLYGON">
         <p> Nombre de vertex </p>
         <mat-slider title="Nombre de vertex"
-        [min]="3" [max]="12" [step]="1" [thumbLabel]="true" [tickInterval]="1" [(ngModel)]="getComponent().shape.verticesNumber">
+        [min]="3" [max]="12" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+        [(ngModel)]="getComponent().shape.verticesNumber" (input)="getComponent().shape.verticesNumber = $event.value">
         </mat-slider>
         <label> {{getComponent().shape.verticesNumber}} </label>
         
@@ -106,7 +114,8 @@
     <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
         <p> Taille de l'efface </p>
         <mat-slider title="Taille de l'efface"
-        [min]="1" [max]="40" [step]="1" [thumbLabel]="true" (change)="getComponent().validateSize()" [tickInterval]="1" [(ngModel)]="getComponent().size">
+        [min]="1" [max]="40" [step]="1" [thumbLabel]="true" (change)="getComponent().validateSize()" [tickInterval]="1" 
+        [(ngModel)]="getComponent().size" (input)="getComponent().size = $event.value">
         </mat-slider>
         <label> {{getComponent().size}} </label>
     </div>
@@ -133,14 +142,15 @@
             <p>Mise à l'échelle</p>
             <mat-slider title="Mise à l'échelle"
             [min]="1" [max]="15" [step]="1" [thumbLabel]="true" [tickInterval]="1" (click)="$event.stopPropagation()"
-            (change)="getComponent().multiplyScaleFactor()" [(ngModel)]="getComponent().stamp.scaleFactor">
+            (change)="getComponent().multiplyScaleFactor()" [(ngModel)]="getComponent().stamp.scaleFactor" 
+            (input)="getComponent().stamp.scaleFactor = $event.value">
             </mat-slider>
             <label> {{getComponent().stamp.scaleFactor}} </label>
 
             <p>Angle </p>
             <mat-slider title="Angle"
             [min]="1" [max]="180" [step]="1" [thumbLabel]="true" [tickInterval]="1"
-            (click)="$event.stopPropagation()" [(ngModel)]="getComponent().stamp.angle">
+            (click)="$event.stopPropagation()" [(ngModel)]="getComponent().stamp.angle" (input)="getComponent().stamp.angle = $event.value">
             </mat-slider>
             <label> {{getComponent().stamp.angle}} </label>
         </div>
@@ -150,8 +160,8 @@
             <p>Taille du texte</p>
             
             <mat-slider title="Taille du texte"
-            [min]="1" [max]="60" [step]="1" [thumbLabel]="true" [tickInterval]="1"
-            (click)="$event.stopPropagation()" [(ngModel)]="getComponent().text.fontSize">
+            [min]="5" [max]="60" [step]="1" [thumbLabel]="true" [tickInterval]="1"
+            (click)="$event.stopPropagation()" [(ngModel)]="getComponent().text.fontSize" (input)="getComponent().text.fontSize = $event.value">
             </mat-slider>
             <label> {{getComponent().text.fontSize}} </label>
             <mat-form-field>
@@ -198,7 +208,7 @@
         <p>Diamètre du jet</p>
         <mat-slider title = "Diamètre du jet"
         [min]="getComponent().constants.MIN_DIAMETER" [max]="getComponent().constants.MAX_DIAMETER" [step]="1" [thumbLabel]="true" [tickInterval]="1"
-        (click)="$event.stopPropagation()" [(ngModel)]="getComponent().diameter">
+        (click)="$event.stopPropagation()" [(ngModel)]="getComponent().diameter" (input)="getComponent().diameter = $event.value">
         </mat-slider>
         <label>{{getComponent().diameter}}</label>
         <br>
@@ -206,7 +216,7 @@
         
         <mat-slider title = "Diamètre du jet"
         [min]="1" [max]="getComponent().constants.MAX_SPRAY_PER_SECOND" [step]="1" [thumbLabel]="true" [tickInterval]="1"
-        (click)="$event.stopPropagation()" [(ngModel)]="getComponent().sprayPerSecond">
+        (click)="$event.stopPropagation()" [(ngModel)]="getComponent().sprayPerSecond" (input)="getComponent().sprayPerSecond = $event.value">
         </mat-slider>
         <label>{{getComponent().sprayPerSecond}}</label>
         </div>
