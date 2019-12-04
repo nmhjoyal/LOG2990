@@ -8,4 +8,5 @@ export enum ControlPoints {
     BOTTOM_LEFT = 6,
     BOTTOM_MIDDLE = 7,
     BOTTOM_RIGHT = 8,
+    NONE = -1,
 }
