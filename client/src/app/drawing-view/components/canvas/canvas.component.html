@@ -39,7 +39,8 @@
         <g [ngSwitch]="drawing.id">
             
             <g *ngSwitchCase="toolId.LINE" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColourFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.stroke-width]="drawing.strokeWidth"
                     [style.stroke-linecap]="drawing.strokeLinecap" [style.stroke-linejoin]="drawing.strokeLinejoin"
@@ -47,19 +48,22 @@
             </g>
         
             <g *ngSwitchCase="toolId.STAMP">
-                    <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
-                    [attr.href]="drawing.svgReference" [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
+                <image [attr.x]="drawing.x" [attr.y]="drawing.y" [attr.width]="drawing.width" [attr.height]="drawing.height"
+                    [attr.href]="drawing.svgReference"
+                    [attr.transform]="'rotate('+ drawing.angle + ',' + drawing.centerX + ',' + drawing.centerY + ')'"/> 
             </g>
 
             <g *ngSwitchCase="toolId.CRAYON" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColourFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" />
             </g>
 
             <g *ngSwitchCase="toolId.PAINTBRUSH" (click)="applyColourToLine(drawing)"
-                (contextmenu)="getColourFromLine($event, drawing)">
+                (contextmenu)="getColourFromLine($event, drawing)" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polyline [attr.points]="drawing.points" [style.fill]="drawing.fill" [style.stroke]="drawing.colour"
                     [style.stroke-width]="drawing.strokeWidth" [style.stroke-linecap]="drawing.strokeLinecap"
                     [style.stroke-linejoin]="drawing.strokeLinejoin" [style.filter]="drawing.filter" />
@@ -67,7 +71,8 @@
 
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
-                <g *ngFor="let svgpath of drawing.paths">
+                <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                    [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <path
                         [attr.d]="svgpath.path"
                         [style.stroke-width]="svgpath.pathWidth"
@@ -79,7 +84,8 @@
             
             <g *ngSwitchCase="toolId.QUILL" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
-                <g *ngFor="let svgpath of drawing.paths">
+                <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <path
                         [attr.d]="svgpath.path"
                         [style.stroke-width]="svgpath.pathWidth"
@@ -89,7 +95,8 @@
             </g>
 
             <g *ngSwitchCase="toolId.SPRAY_CAN" >
-                <g *ngFor="let spray of drawing.sprays">
+                <g *ngFor="let spray of drawing.sprays" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                     <filter #sprayCanFilter [attr.id]="spray.seed" >
                         <feGaussianBlur in="SourceGraphic" result="blurredCircle" stdDeviation="10"/>
                         <feTurbulence type="turbulence" [attr.seed]="spray.seed" baseFrequency="0.55" stitchTiles="stitch" numOctaves="2" result="turbulence"/>
@@ -118,7 +125,8 @@
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
             </g>
             <g *ngSwitchCase="toolId.POLYGON" (click)="applyColourToShape($event, drawing)"
-                (contextmenu)="applySecondaryColourToShape($event, drawing)">
+                (contextmenu)="applySecondaryColourToShape($event, drawing)" [attr.transform-origin]="(drawing.x - drawing.width) + ' ' + (drawing.y - drawing.height)"
+                [attr.transform]="'scale(' + drawing.scaleX + ',' + drawing.scaleY + ')'">
                 <polygon [attr.points]="drawing.vertices" [style.stroke]="drawing.secondaryColour"
                     [style.stroke-opacity]="drawing.strokeOpacity" [style.fill]="drawing.primaryColour"
                     [style.stroke-width]="drawing.strokeWidth" [style.fill-opacity]="drawing.fillOpacity" />
@@ -139,30 +147,24 @@
 
     <g *ngIf="toolHandler.selectedTool === toolId.SELECTOR && toolHandler.selectorBoxExists()"
         [style.stroke]="toolHandler.selection.secondaryColour" [style.fill]="toolHandler.selection.primaryColour">
+         <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
+            [attr.cy]="toolHandler.selection.y" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
+            [attr.cy]="toolHandler.selection.y" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="2"/>
+        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
+            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="2"/>
         <rect [attr.x]="toolHandler.selection.x" [attr.y]="toolHandler.selection.y"
             [attr.width]="toolHandler.selection.width" [attr.height]="toolHandler.selection.height"
             [style.stroke-opacity]="1" [style.stroke-width]="1" [style.fill-opacity]="0" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x" [attr.cy]="toolHandler.selection.y" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y" r="4" (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y" r="4" (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x + toolHandler.selection.width/2"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height" r="4"
-            (mousedown)="handleControlPoint()" />
-        <circle class="controlPoint" [attr.cx]="toolHandler.selection.x"
-            [attr.cy]="toolHandler.selection.y + toolHandler.selection.height/2" r="4"
-            (mousedown)="activeTool.handleControlPoint()" />
     </g>
 </svg>
 <div *ngIf="toolHandler.selectedTool === toolId.LINE">

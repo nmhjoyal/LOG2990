@@ -49,6 +49,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       secondaryColour: this.colourService.SecondaryColour,
       strokeOpacity: this.colourService.SecondaryOpacity,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
       fillOpacity: this.colourService.PrimaryOpacity,
     };
   }
@@ -161,6 +163,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.saveService.saveDrawing(currentDrawing);
   }

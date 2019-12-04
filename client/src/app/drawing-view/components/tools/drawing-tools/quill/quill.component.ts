@@ -37,6 +37,8 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       width: 0,
       height: 0,
       points: '',
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.lineLength = ToolConstants.DEFAULT_LINE_LENGTH;
     this.angle = ToolConstants.DEFAULT_ANGLE;
@@ -165,6 +167,8 @@ export class QuillComponent extends StrokeAbstract implements OnInit, OnDestroy 
       width: this.quill.width - this.quill.x,
       height: this.quill.height - this.quill.y,
       points: this.quill.points,
+      scaleX: this.quill.scaleX,
+      scaleY: this.quill.scaleY,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }
