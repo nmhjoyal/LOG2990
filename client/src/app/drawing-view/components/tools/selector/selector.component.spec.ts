@@ -1,8 +1,11 @@
+// tslint:disable:no-string-literal
+// tslint:disable:no-magic-numbers
 // tslint:disable: no-string-literal no-any
 
 import SpyObj = jasmine.SpyObj;
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
@@ -12,6 +15,7 @@ import { SelectorService } from 'src/app/services/selector-service/selector-serv
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { UndoRedoService } from 'src/app/services/undo-redo/undo-redo.service';
 import { ClickTypes } from 'src/AppConstants/ClickTypes';
+import { ISavedDrawing } from '../../../../../../../common/drawing-information/IDrawing';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ControlPoints } from '../assets/constants/selector-constants';
 import { Id } from '../assets/constants/tool-constants';
@@ -141,6 +145,48 @@ describe('SelectorComponent', () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it('#onShiftDown should be called when shift is pressed', () => {
+        const spy = spyOn(selector, 'onShiftDown').and.callThrough();
+        const shiftDown = new KeyboardEvent('keydown.shift');
+        fixture.debugElement.triggerEventHandler('keydown.shift', shiftDown);
+        expect(spy).toHaveBeenCalled();
+        expect(selector['shiftDown']).toEqual(true);
+    });
+
+    it('#onShiftUp should be called when shift is released', () => {
+        const spy = spyOn(selector, 'onShiftUp').and.callThrough();
+        const shiftUp = new KeyboardEvent('keyup.shift');
+        fixture.debugElement.triggerEventHandler('keyup.shift', shiftUp);
+        expect(spy).toHaveBeenCalled();
+        expect(selector['shiftDown']).toEqual(false);
+    });
+
+    it('#onAltDown should be called when alt is pressed', () => {
+        selector['angleIncrement'] = 1;
+        const altDown = new KeyboardEvent('keydown.alt');
+        selector.onAltDown(altDown);
+        expect(selector['angleIncrement']).toEqual(15);
+        selector.onAltDown(altDown);
+        expect(selector['angleIncrement']).toEqual(1);
+    });
+
+    it('#onWheel should be called when the wheel is scrolled', () => {
+        const spy = spyOn(selector, 'onWheel').and.callThrough();
+        const spyCalculate = spyOn(RotateHelper, 'calculatePosition');
+        const spyRotate = spyOn(RotateHelper, 'rotateOnItself');
+        const scroll = new WheelEvent('wheel');
+        const tool: ISavedDrawing = { id: 'CRAYON', x: 0, y: 0, height: 0, width: 0, };
+        selector['selectorService'].selectedObjects.add(tool);
+        selector['shiftDown'] = true;
+        fixture.debugElement.triggerEventHandler('wheel', scroll);
+        expect(spy).toHaveBeenCalled();
+        expect(spyRotate).toHaveBeenCalled();
+        selector['shiftDown'] = false;
+        fixture.debugElement.triggerEventHandler('wheel', scroll);
+        expect(spy).toHaveBeenCalled();
+        expect(spyCalculate).toHaveBeenCalled();
+    });
+
     it('#onRelease should be called when left or right mouse button is released', () => {
         const spy = spyOn(selector, 'onRelease').and.callFake(() => { return; });
         const mouseUpLeft = new MouseEvent('mouseup', { button: ClickTypes.LEFT_CLICK });
@@ -256,7 +302,6 @@ describe('SelectorComponent', () => {
         selector.onRelease(leftRelease);
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).toHaveBeenCalled();
-        // tslint:disable-next-line:no-string-literal
         selector['drawingStorage'].drawings = [];
         selector.onMouseDown(leftClick);
         selector.onRelease(leftRelease);
@@ -274,7 +319,6 @@ describe('SelectorComponent', () => {
         expect(toolServiceMock.saveSelectorBox).toHaveBeenCalled();
         const selectorBoxExists = spyOn(toolServiceMock, 'selectorBoxExists');
         selectorBoxExists.and.returnValue(false);
-        // tslint:disable-next-line:no-string-literal
         selector['drawingStorage'].drawings = [{ x: FORTY, y: FORTY, width: FORTY, height: FORTY, id: Id.RECTANGLE }];
         selector.onMouseDown(rightClick);
         selector.onRelease(rightRelease);

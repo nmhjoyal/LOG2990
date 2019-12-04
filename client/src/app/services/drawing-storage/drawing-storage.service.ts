@@ -13,7 +13,14 @@ export class DrawingStorageService {
   }
 
   saveDrawing(drawing: ISavedDrawing): void {
-    this.drawings.push(drawing);
+    if (drawing.rotationAngle) {
+      this.drawings.push(drawing);
+    } else {
+      drawing.rotationAngle = 0;
+      drawing.centerX = 0;
+      drawing.centerY = 0;
+      this.drawings.push(drawing);
+    }
   }
 
   emptyDrawings(): void {

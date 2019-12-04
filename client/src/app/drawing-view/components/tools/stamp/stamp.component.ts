@@ -26,7 +26,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     this.stamp = {
       id: Id.STAMP,
       svgReference: '',
-      angle: StampConstants.DEFAULT_ANGLE,
+      rotationAngle: StampConstants.DEFAULT_ANGLE,
       scaleFactor: StampConstants.DEFAULT_SCALE_FACTOR,
       primaryColour: colourServiceRef.PrimaryColour,
       x: ToolConstants.NULL,
@@ -41,13 +41,13 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.attributesServiceRef.stampAttributes.wasSaved) {
-      this.stamp.angle = this.attributesServiceRef.stampAttributes.savedAngle;
+      this.stamp.rotationAngle = this.attributesServiceRef.stampAttributes.savedAngle;
       this.stamp.scaleFactor = this.attributesServiceRef.stampAttributes.savedScaleFactor;
     }
   }
 
   ngOnDestroy(): void {
-    this.attributesServiceRef.stampAttributes.savedAngle = this.stamp.angle;
+    this.attributesServiceRef.stampAttributes.savedAngle = this.stamp.rotationAngle;
     this.attributesServiceRef.stampAttributes.savedScaleFactor = this.stamp.scaleFactor;
     this.attributesServiceRef.stampAttributes.wasSaved = true;
   }
@@ -64,7 +64,7 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
         y: this.stamp.y,
         width: this.stamp.width,
         height: this.stamp.height,
-        angle: this.stamp.angle,
+        rotationAngle: this.stamp.rotationAngle,
         scaleFactor: this.stamp.scaleFactor,
         centerX: ClickHelper.getXPosition(event),
         centerY: ClickHelper.getYPosition(event),
@@ -79,11 +79,12 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
   }
 
   @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
-    const valueChange = event.deltaY > 0 ? this.angleIncrement : - this.angleIncrement;
-    this.stamp.angle += valueChange;
+    event.preventDefault();
+    event.deltaY > 0 ? this.increaseAngle(this.angleIncrement) : this.decreaseAngle(this.angleIncrement);
   }
 
-  @HostListener('keydown.alt') onKeyDownAltEvent(): void {
+  @HostListener('window:keydown.alt', ['$event']) onKeyDownAlt(event: KeyboardEvent): void {
+    event.preventDefault();
     this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15 :
       this.angleIncrement = ToolConstants.ANGLE_INCREMENT_1;
@@ -131,13 +132,17 @@ export class StampComponent extends ToolAbstract implements OnInit, OnDestroy {
     }
   }
 
-  increaseAngle(): void {
-    this.stamp.angle += 1;
+  increaseAngle(angle: number): void {
+    this.stamp.rotationAngle += angle;
+    if (this.stamp.rotationAngle > StampConstants.MAX_ANGLE) {
+      this.stamp.rotationAngle -= StampConstants.MAX_ANGLE;
+    }
   }
 
-  decreaseAngle(): void {
-    if (!(this.stamp.angle === 0)) {
-      this.stamp.angle -= 1;
+  decreaseAngle(angle: number): void {
+    this.stamp.rotationAngle -= angle;
+    if (this.stamp.rotationAngle < 0) {
+      this.stamp.rotationAngle += StampConstants.MAX_ANGLE;
     }
   }
 }

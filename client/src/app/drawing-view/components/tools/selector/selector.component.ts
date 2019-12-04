@@ -1,5 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ResizeService } from 'src/app/services/resize-service/resize-service';
@@ -22,9 +23,12 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected selectedControlPoint: ControlPoints;
   protected isRightClick: boolean;
   protected isReverseSelection: boolean;
-  protected altKeyPressed: boolean;
-  protected shiftKeyPressed: boolean;
+  protected shiftDown: boolean;
+  protected angleIncrement: number;
+  protected altDown: boolean;
   protected shouldDrag: boolean;
+  protected isRotation: boolean;
+  protected angleRotated: number;
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
@@ -35,10 +39,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.shape.primaryColour = 'black';
     this.shape.fillOpacity = 0;
     this.mouseMoved = false;
+    this.shiftDown = false;
+    this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15;
     this.selectedControlPoint = ControlPoints.NONE;
-    this.altKeyPressed = false;
-    this.shiftKeyPressed = false;
+    this.altDown = false;
     this.mouseDown = false;
+    this.isRotation = false;
+    this.angleRotated = 0;
   }
 
   ngOnInit(): void {
@@ -91,31 +98,50 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     return;
   }
 
+  // Rotation methods
+
+  @HostListener('window:keyup.shift') onShiftUp(): void {
+    this.shiftDown = false;
+  }
+
+  @HostListener('window:keydown.shift') onShiftDown(): void {
+    this.shiftDown = true;
+  }
+
   @HostListener('window:keydown.alt', ['$event']) onAltDown(event: KeyboardEvent): void {
     event.preventDefault();
-    this.altKeyPressed = true;
+    this.altDown = true;
+    this.angleIncrement = this.angleIncrement === ToolConstants.ANGLE_INCREMENT_1 ?
+      ToolConstants.ANGLE_INCREMENT_15 : ToolConstants.ANGLE_INCREMENT_1;
   }
 
   @HostListener('window:keyup.alt', ['$event']) onAltUp(event: KeyboardEvent): void {
     event.preventDefault();
-    this.altKeyPressed = false;
+    this.altDown = false;
   }
 
-  @HostListener('window:keydown.shift') onShiftDown(): void {
-    this.shiftKeyPressed = true;
-  }
+  @HostListener('wheel', ['$event']) onWheel(event: WheelEvent): void {
+    event.preventDefault();
+    const rotateValue = event.deltaY > 0 ? this.angleIncrement : -this.angleIncrement;
 
-  @HostListener('window:keyup.shift') onShiftUp(): void {
-    this.shiftKeyPressed = false;
+    const x = this.selectorService.topCorner.x + (this.selectorService.MinWidth / 2);
+    const y = this.selectorService.topCorner.y + (this.selectorService.MinHeight / 2);
+
+    this.selectorService.selectedObjects.forEach((drawing) => {
+            this.shiftDown ? RotateHelper.rotateOnItself(drawing, rotateValue) : RotateHelper.calculatePosition(drawing, rotateValue, x, y);
+
+    });
+    this.angleRotated += rotateValue;
+    this.isRotation = this.angleRotated !== 0;
   }
 
   protected handleControlPoint(event: MouseEvent): void {
     switch (this.selectedControlPoint) {
       case ControlPoints.TOP_LEFT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event)};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
-        } else if (this.shiftKeyPressed) {
+        } else if (this.shiftDown) {
           this.resizeService.resizeWithAspectRatio(this.selectedControlPoint);
         } else {
           this.resizeService.resizePosition();
@@ -123,7 +149,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.TOP_MIDDLE:
         this.resizeService.cursorPosition = {x: ToolConstants.NULL, y: ClickHelper.getYPosition(event)};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
         } else {
           this.resizeService.resizePosition();
@@ -131,9 +157,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.TOP_RIGHT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event)};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
-        } else if (this.shiftKeyPressed) {
+        } else if (this.shiftDown) {
           this.resizeService.resizeWithAspectRatio(this.selectedControlPoint);
         } else {
           this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ToolConstants.NULL};
@@ -144,7 +170,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.MIDDLE_LEFT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ToolConstants.NULL};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
         } else {
           this.resizeService.resizePosition();
@@ -154,7 +180,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.MIDDLE_RIGHT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ToolConstants.NULL};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
         } else {
           this.resizeService.resizeAxis();
@@ -162,9 +188,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.BOTTOM_LEFT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event)};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
-        } else if (this.shiftKeyPressed) {
+        } else if (this.shiftDown) {
           this.resizeService.resizeWithAspectRatio(this.selectedControlPoint);
         } else {
           this.resizeService.cursorPosition = {x: ToolConstants.NULL, y: ClickHelper.getYPosition(event)};
@@ -175,7 +201,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.BOTTOM_MIDDLE:
         this.resizeService.cursorPosition = {x: ToolConstants.NULL, y: ClickHelper.getYPosition(event)};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
         } else {
           this.resizeService.resizeAxis();
@@ -183,9 +209,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         break;
       case ControlPoints.BOTTOM_RIGHT:
         this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ClickHelper.getYPosition(event)};
-        if (this.altKeyPressed) {
+        if (this.altDown) {
           this.resizeService.resizeAxesFromCenter();
-        } else if (this.shiftKeyPressed) {
+        } else if (this.shiftDown) {
           this.resizeService.resizeWithAspectRatio(this.selectedControlPoint);
         } else {
           this.resizeService.resizeAxis();

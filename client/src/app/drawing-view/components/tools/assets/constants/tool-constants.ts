@@ -111,4 +111,5 @@ export class StampConstants {
     static DEFAULT_WIDTH = 24;
     static DEFAULT_HEIGHT = 24;
     static MAX_SCALE = 21;
+    static MAX_ANGLE = 360;
 }
