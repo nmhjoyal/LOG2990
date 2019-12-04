@@ -1,6 +1,5 @@
+import { ColourConstants } from 'src/app/drawing-view/components/tools/assets/constants/colour-constants';
 // tslint:disable: no-string-literal
-
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { ColourService } from './colour.service';
 
 describe('ColourService ', () => {
@@ -14,8 +13,24 @@ describe('ColourService ', () => {
             '#aaaaaaff', '#bbbbbbff', '#ccccccff', '#eeeeeeff', '#ffffffff'];
     });
 
-    it('should be created', () => {
-        expect(instance).toBeTruthy();
+    it('should return primary colour', () => {
+        instance.colour[0] = '00';
+        expect(instance.PrimaryColour).toEqual('00');
+    });
+
+    it('should return secondary colour', () => {
+        instance.colour[1] = '00';
+        expect(instance.SecondaryColour).toEqual('00');
+    });
+
+    it('should return primary opacity', () => {
+        instance.alpha[0] = 0;
+        expect(instance.PrimaryOpacity).toEqual(0);
+    });
+
+    it('should return secondary opacity', () => {
+        instance.alpha[1] = 0;
+        expect(instance.SecondaryOpacity).toEqual(0);
     });
 
     it('should turn a value of 0 into string 00', () => {
@@ -23,16 +38,16 @@ describe('ColourService ', () => {
     });
 
     it('should turn a value of <16 into string 0 + hex value', () => {
-        expect(instance.rgbToHex(NumericalValues.HEX_LENGTH - 1)).toBe('0f');
+        expect(instance.rgbToHex(ColourConstants.HEX_LENGTH - 1)).toBe('0f');
     });
 
     it('should turn a value of >15 into string hex value', () => {
-        expect(instance.rgbToHex(NumericalValues.HEX_LENGTH)).toBe('10');
+        expect(instance.rgbToHex(ColourConstants.HEX_LENGTH)).toBe('10');
     });
 
     it('should have default alpha = 1', () => {
-        expect(instance['alpha'][0]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
-        expect(instance['alpha'][1]).toEqual(NumericalValues.INITIAL_TRANSPARENCY);
+        expect(instance['alpha'][0]).toEqual(ColourConstants.INITIAL_TRANSPARENCY);
+        expect(instance['alpha'][1]).toEqual(ColourConstants.INITIAL_TRANSPARENCY);
     });
 
     it('should have defalut primary colour = black', () => {

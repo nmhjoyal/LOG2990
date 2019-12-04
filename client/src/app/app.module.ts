@@ -1,12 +1,13 @@
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatCheckboxModule, MatDialogConfig, MatDialogRef, MatIconModule,
-  MatListModule, MatMenuModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatToolbarModule
+  GestureConfig, MAT_DIALOG_DATA, MatButtonModule, MatButtonToggleModule, MatCheckboxModule, MatDialogConfig, MatDialogRef,
+  MatIconModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatToolbarModule
 } from '@angular/material';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { AppComponent } from './components/app/app.component';
-import { ColourPaletteComponent } from './drawing-view/components/colour-picker/colour-palette/colour-palette.component';
-import { ColourPickerComponent } from './drawing-view/components/colour-picker/colour-picker.component';
+import { ColourPaletteComponent } from './drawing-view/components/modal-windows/colour-window/colour-palette/colour-palette.component';
+import { ColourPickerComponent } from './drawing-view/components/modal-windows/colour-window/colour-picker/colour-picker.component';
 import { ExportWindowComponent } from './drawing-view/components/modal-windows/export-window/export-window.component';
 import { GalleryWindowComponent } from './drawing-view/components/modal-windows/gallery-window/gallery-window/gallery-window.component';
 import { ModalWindowComponent } from './drawing-view/components/modal-windows/modal-window/modal-window.component';
@@ -19,6 +20,7 @@ import { ColourService } from './services/colour_service/colour.service';
 import { ExportInformationService } from './services/export-information/export-information.service';
 import { FilterTagsPipe } from './services/filter-pipe/filter-tags.pipe';
 import { LocalStorageService } from './services/local_storage/local-storage-service';
+import ParserHelper from './services/parser-service/parser.service';
 import { ToolHandlerService } from './services/tool-handler/tool-handler.service';
 
 @NgModule({
@@ -49,8 +51,17 @@ import { ToolHandlerService } from './services/tool-handler/tool-handler.service
     FormsModule,
     MatButtonToggleModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
   ],
-  providers: [MatDialogConfig, LocalStorageService, ToolHandlerService, CanvasInformationService, ColourService, ExportInformationService,
+  providers: [
+    MatDialogConfig,
+    ParserHelper,
+    LocalStorageService,
+    ToolHandlerService,
+    CanvasInformationService,
+    ColourService,
+    ExportInformationService,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ],
   bootstrap: [AppComponent],

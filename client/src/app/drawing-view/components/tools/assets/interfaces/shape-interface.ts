@@ -1,14 +1,23 @@
 import { ITools } from './itools';
 
-export interface IPreviewBox {
+export interface IPoint {
     x: number;
     y: number;
+}
+
+export interface IPreviewBox extends IPoint {
     width: number;
     height: number;
 }
 
 export interface IPolygon {
     vertices?: string;
+}
+
+export interface IColour {
+    primaryColour: string;
+    fillOpacity: number;
+    secondaryColour: string;
 }
 
 export interface IShape extends ITools {
@@ -18,6 +27,8 @@ export interface IShape extends ITools {
     strokeWidth: number;
     fillOpacity: number;
     verticesNumber?: number;
+    strokeLinecap?: string;
+    strokeLinejoin?: string;
 }
 
 export interface IShapeOptions extends ITools, IPreviewBox {
@@ -25,4 +36,13 @@ export interface IShapeOptions extends ITools, IPreviewBox {
     savedStrokeWidth: number;
     savedTraceMode: number;
     savedVerticesNumber?: number;
+}
+
+export interface IBucketOptions extends IShapeOptions {
+    savedTolerance: number;
+}
+
+export interface IDrag {
+    offsetX?: number;
+    offsetY?: number;
 }

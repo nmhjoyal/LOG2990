@@ -13,9 +13,10 @@ import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
 import { Strings } from 'src/AppConstants/Strings';
+import { ISavedDrawing } from '../../../../../../common/drawing-information/IDrawing';
 import { DrawingViewModule } from '../../drawing-view.module';
-import { ColourPaletteComponent } from '../colour-picker/colour-palette/colour-palette.component';
-import { ColourPickerComponent } from '../colour-picker/colour-picker.component';
+import { ColourPaletteComponent } from '../modal-windows/colour-window/colour-palette/colour-palette.component';
+import { ColourPickerComponent } from '../modal-windows/colour-window/colour-picker/colour-picker.component';
 import { ModalWindowComponent } from '../modal-windows/modal-window/modal-window.component';
 import { INewDrawingModalData } from '../modal-windows/new-drawing-window/INewDrawingModalData';
 import { NewDrawingWindowComponent } from '../modal-windows/new-drawing-window/new-drawing-window.component';
@@ -149,6 +150,30 @@ describe('CanvasComponent', () => {
     mockToolService.selectedTool = mockToolService.tools.PIPETTE;
     component.getColourFromShape(new MouseEvent('contextmenu'), ToolConstants.SECONDARY_COLOUR_INDEX, testObject);
     expect(mockColourService.colour[ToolConstants.SECONDARY_COLOUR_INDEX]).toEqual(Strings.WHITE_HEX);
+  });
+
+  it('#saveColourApplication should save its arguments as an object in the drawings array', () => {
+    // tslint:disable-next-line:no-string-literal
+    const saveSpy = spyOn(component['saveService'], 'saveDrawing' ).and.callThrough();
+    component.drawingStorage.drawings = [];
+    component.saveColourApplication(0, 'colourChangeId', 'originalColour', 'toColour');
+    const colourChangeOperation: ISavedDrawing = {
+      id: 'colourChangeId',
+      indexes: [0],
+      initialColour: 'originalColour',
+      appliedColour: 'toColour',
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      rotationAngle: 0,
+      centerX: 0,
+      centerY: 0,
+    };
+
+    expect(saveSpy).toHaveBeenCalled();
+    expect(component.drawingStorage.drawings[0]).toEqual(colourChangeOperation);
+
   });
 
 });

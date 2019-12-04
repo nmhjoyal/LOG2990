@@ -28,7 +28,7 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
     width: 0,
     height: 0,
     points: '',
-    colour: colourService.colour[0],
+    colour: colourService.PrimaryColour,
     strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
     fill: ToolConstants.NONE,
     strokeLinecap: ToolConstants.ROUND,
@@ -40,7 +40,9 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
   }
 
   abstract ngOnInit(): void;
+
   abstract ngOnDestroy(): void;
+
   abstract saveAttribute(): void;
 
   protected saveShape(): void {
@@ -57,6 +59,8 @@ export abstract class StrokeAbstract extends ToolAbstract implements OnInit, OnD
       strokeLinecap: this.stroke.strokeLinecap,
       strokeLinejoin: this.stroke.strokeLinejoin,
       filter: this.stroke.filter,
+      scaleX: ToolConstants.DEFAULT_SCALE,
+      scaleY: ToolConstants.DEFAULT_SCALE,
     };
     this.drawingStorage.saveDrawing(currentDrawing);
   }

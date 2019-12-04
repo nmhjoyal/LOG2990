@@ -1,29 +1,38 @@
+import { Injectable } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
-import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
+import { IPoint, IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
+import { ClipboardService } from '../clipboard/clipboard-service';
+import { SaveService } from '../save-service/save.service';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class SelectorService {
   selectedObjects: Set<ISavedDrawing>;
-  topCornerX: number;
-  topCornerY: number;
-  furthestX: number;
-  furthestY: number;
+  controlPoint: ControlPoints;
+  clipboardHelper: ClipboardService;
+  topCorner: IPoint;
+  bottomCorner: IPoint;
 
-  constructor() {
+  constructor(public saveService: SaveService) {
     this.selectedObjects = new Set<ISavedDrawing>();
-    this.topCornerX = 0;
-    this.topCornerY = 0;
-    this.furthestX = 0;
-    this.furthestY = 0;
+    this.topCorner = {x: 0, y: 0};
+    this.bottomCorner = {x: 0, y: 0};
+  }
+
+  get selectorBox(): IPreviewBox {
+    return { x: this.topCorner.x, y: this.topCorner.y, width: this.MinWidth, height: this.MinHeight };
   }
 
   get MinWidth(): number {
-    return Math.abs(this.furthestX - this.topCornerX);
+    return Math.abs(this.bottomCorner.x - this.topCorner.x);
   }
 
   get MinHeight(): number {
-    return Math.abs(this.furthestY - this.topCornerY);
+    return Math.abs(this.bottomCorner.y - this.topCorner.y);
   }
 
   get SelectedObjects(): Set<ISavedDrawing> {
@@ -41,10 +50,10 @@ export class SelectorService {
       width = drawing.width * 2;
       height = drawing.height * 2;
     }
-    this.topCornerX = x;
-    this.topCornerY = y;
-    this.furthestX = x + width;
-    this.furthestY = y + height;
+    this.topCorner.x = x;
+    this.topCorner.y = y;
+    this.bottomCorner.x = x + width;
+    this.bottomCorner.y = y + height;
   }
 
   checkForItems(isReverseSelection: boolean, drawings: ISavedDrawing[], previewBox: IPreviewBox): void {
@@ -54,7 +63,7 @@ export class SelectorService {
     for (const drawing of drawings) {
       if (this.objectInBox(drawing, previewBox)) {
         if (isReverseSelection) {
-            this.selectedObjects.delete(drawing);
+          this.selectedObjects.delete(drawing);
         } else {
           this.selectedObjects.add(drawing);
         }
@@ -66,8 +75,8 @@ export class SelectorService {
   updateCorners(cursorX: number, initialX: number, cursorY: number, initialY: number, previewBoxX: number, previewBoxY: number): void {
     const bottomCornerX = cursorX >= initialX ? cursorX : initialX;
     const bottomCornerY = cursorY >= initialY ? cursorY : initialY;
-    this.topCornerX = previewBoxX + bottomCornerX;
-    this.topCornerY = previewBoxY + bottomCornerY;
+    this.topCorner.x = previewBoxX + bottomCornerX;
+    this.topCorner.y = previewBoxY + bottomCornerY;
   }
 
   updateSelectorShape(drawing: ISavedDrawing): void {
@@ -81,32 +90,32 @@ export class SelectorService {
       width = drawing.width * 2;
       height = drawing.height * 2;
     }
-    this.topCornerX = x < this.topCornerX ? x : this.topCornerX;
-    this.topCornerY = y < this.topCornerY ? y : this.topCornerY;
-    this.furthestX = this.furthestX < (x + width) ? (x + width) : this.furthestX;
-    this.furthestY = this.furthestY < (y + height) ? (y + height) : this.furthestY;
+    this.topCorner.x = x < this.topCorner.x ? x : this.topCorner.x;
+    this.topCorner.y = y < this.topCorner.y ? y : this.topCorner.y;
+    this.bottomCorner.x = this.bottomCorner.x < (x + width) ? (x + width) : this.bottomCorner.x;
+    this.bottomCorner.y = this.bottomCorner.y < (y + height) ? (y + height) : this.bottomCorner.y;
   }
 
   recalculateShape(windowWidth: number, windowHeight: number): void {
-    this.topCornerX = windowWidth;
-    this.topCornerY = windowHeight;
-    this.furthestX = 0;
-    this.furthestY = 0;
+    this.topCorner.x = windowWidth;
+    this.topCorner.y = windowHeight;
+    this.bottomCorner.x = 0;
+    this.bottomCorner.y = 0;
     for (const object of this.selectedObjects) {
       this.updateSelectorShape(object);
     }
   }
 
   resetSize(): void {
-    this.furthestX = 0;
-    this.furthestY = 0;
+    this.bottomCorner.x = 0;
+    this.bottomCorner.y = 0;
   }
 
   resetSelectorService(): void {
     this.selectedObjects.clear();
     this.resetSize();
-    this.topCornerX = 0;
-    this.topCornerY = 0;
+    this.topCorner.x = 0;
+    this.topCorner.y = 0;
   }
 
   cursorTouchesObject(object: ISavedDrawing, positionX: number, positionY: number): boolean {
@@ -117,4 +126,5 @@ export class SelectorService {
   objectInBox(object: ISavedDrawing, previewBox: IPreviewBox): boolean {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
+
 }

@@ -15,3 +15,11 @@
         pointer-events: none;
     }
 }
+
+.pipette-cursor {
+    cursor: url("src/assets/cursors/pipette.png"), default;
+  }
+
+.applicator-cursor {
+    cursor: url("src/assets/cursors/applicator.png"), default;
+}

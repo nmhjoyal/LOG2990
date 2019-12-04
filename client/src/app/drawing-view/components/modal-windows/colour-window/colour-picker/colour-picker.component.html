@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div mat-dialog-container class='new_colourChoice' style="font-family: Arial, Helvetica, sans-serif">
+  <div mat-dialog-content>
+
+    <div class="colour-wrapper">
+      <app-colour-palette (primaryColour)="colourService.colour[0] = $event" (secondaryColour)="colourService.colour[1] = $event"
+       [lastColours]="colourService.lastColours" [mainColour]="colourService.mainColour" [alpha]="colourService.alpha">
+      </app-colour-palette>
+
+      <div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[0]} " (click)="colourService.setColour(colourService.lastColours[0])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[1]} " (click)="colourService.setColour(colourService.lastColours[1])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[2]} " (click)="colourService.setColour(colourService.lastColours[2])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[3]} " (click)="colourService.setColour(colourService.lastColours[3])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[4]} " (click)="colourService.setColour(colourService.lastColours[4])">
+        </div>
+      </div>
+      <div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[5]} " (click)="colourService.setColour(colourService.lastColours[5])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[6]} " (click)="colourService.setColour(colourService.lastColours[6])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[7]} " (click)="colourService.setColour(colourService.lastColours[7])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[8]} " (click)="colourService.setColour(colourService.lastColours[8])">
+        </div>
+        <div class="box" [ngStyle]="{'background-color': colourService.lastColours[9]} " (click)="colourService.setColour(colourService.lastColours[9])">
+        </div>
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <div class="colour-preview" tabindex="0" id="primary" [ngStyle]="{'background-color': colourService.colour[0]}"
+        (click)="colourService.chooseColour(false); colourService.addColour()"></div>
+
+      <div class="button">
+        <button type="button" (click)="colourService.switchColours(); colourService.addColour() "><i class="fa fa-arrows-h"></i></button>
+      </div>
+
+      <div class="colour-preview" tabindex="0" id="secondary" [ngStyle]="{'background-color': colourService.colour[1]}"
+        (click)="colourService.chooseColour(true); colourService.addColour()"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="colourInput"> Couleur: </label>
+      <mat-form-field mat-form-field appearance="fill">
+        <input matInput id="colourInput" name="colourInput" class="form-control" #input 
+          [(ngModel)]="colourService.colour[+colourService.mainColour]"
+          [ngModelOptions]="{ updateOn: 'blur' }"
+          (ngModelChange)="colourService.addColour()"
+          pattern="^#[0-9a-f]{8}$"
+          #colourInput="ngModel">
+        <div *ngIf="colourInput.invalid && (colourInput.dirty || colourInput.touched)" class="alert alert-danger">
+          <mat-error *ngIf="colourInput.errors.pattern">
+            La couleur doit être hexadécimale: commencer avec '#' et avoir 8 caractères de 0 à 9 et a à f.
+          </mat-error>
+        </div>
+      </mat-form-field>
+    </div>
+
+    <div> 
+      <label> Transparence: </label>
+      <input type="range" min="0" max="1" value="1" step="0.01" class="slider" #slider
+        [(ngModel)]="colourService.alpha[+colourService.mainColour]" 
+        (ngModelChange)="colourService.setAlpha(slider.value)"
+        (change)="colourService.addColour()">
+      {{ 100 * colourService.alpha[+colourService.mainColour] | number:'1.0-0' }}%
+    </div>
+  </div>
+
+  <div>
+    <button class="closeButton" type="button" (click)="onClose()">Fermer</button>
+  </div>
+
+</div>
+

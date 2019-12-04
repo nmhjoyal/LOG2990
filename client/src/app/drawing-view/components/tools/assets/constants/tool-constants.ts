@@ -8,6 +8,7 @@ export enum Id {
     CRAYON = 'crayon',
     PAINTBRUSH = 'paintbrush',
     PEN = 'pen',
+    QUILL = 'quill',
     LINE = 'line',
     SELECTOR = 'selector',
     ELLIPSE = 'ellipse',
@@ -17,6 +18,11 @@ export enum Id {
     TEXT = 'text',
     GRID = 'grid',
     ERASER = 'eraser',
+    BUCKET = 'bucket',
+    SPRAY_CAN = 'spray-can',
+    PRIMARY_COLOUR_CHANGE = 'primaryColourChange',
+    SECONDARY_COLOUR_CHANGE = 'secondaryColourChange',
+    DRAG = 'drag',
 }
 
 export enum FilterURL {
@@ -65,11 +71,16 @@ export class ToolConstants {
     static BUTT = 'butt';
     static SQUARE = 'square';
     static DEFAULT_OPACITY = 1;
+    static DEFAULT_SCALE = 1;
     static DEFAULT_STROKE_WIDTH = 2;
     static DEFAULT_MAX_WIDTH = 10;
     static DEFAULT_MIN_WIDTH = 2;
+    static DEFAULT_LINE_LENGTH = 10;
+    static DEFAULT_ANGLE = 0;
+    static DEFAULT_ERASER_SIZE = 10;
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;
+    static DEFAULT_TOLERANCE = 25;
     static MAX_SPEED = 0.4;
     static MIN_SPEED = 0.0007;
     static STROKE_INCREMENT = 1;
@@ -85,10 +96,13 @@ export class ToolConstants {
     static STRAIGHT =  '0';
     static DOTTED_LINE = '3';
     static DOTTED_POINT = '6';
-    static PRIMARY_COLOUR_INDEX = 0;
-    static SECONDARY_COLOUR_INDEX = 1;
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
+    static ANGLE_INCREMENT_1 = 1;
+    static ANGLE_INCREMENT_15 = 15;
+    static PRIMARY_COLOUR_INDEX = 0;
+    static SECONDARY_COLOUR_INDEX = 1;
+
 }
 
 export class StampConstants {
@@ -100,6 +114,5 @@ export class StampConstants {
     static DEFAULT_WIDTH = 24;
     static DEFAULT_HEIGHT = 24;
     static MAX_SCALE = 21;
-    static ANGLE_INCREMENT_1 = 1;
-    static ANGLE_INCREMENT_15 = 15;
+    static MAX_ANGLE = 360;
 }

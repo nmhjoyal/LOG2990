@@ -1,3 +1,4 @@
+import { ControlPoints } from 'src/app/drawing-view/components/tools/assets/constants/selector-constants';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
@@ -27,25 +28,88 @@ export default class ClickHelper {
         return coordinates;
     }
 
+    static cursorTouchesControlPoint(selectorBox: IPreviewBox, positionX: number, positionY: number): ControlPoints {
+        const selectorSquare = { x: positionX - 2, y: positionY - 2, width: 4, height: 4 };
+        let intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x,
+            cy: selectorBox.y, r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.TOP_LEFT;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x + (selectorBox.width / 2),
+            cy: selectorBox.y, r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.TOP_MIDDLE;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x + selectorBox.width,
+            cy: selectorBox.y, r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.TOP_RIGHT;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x,
+            cy: selectorBox.y + (selectorBox.height / 2), r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.MIDDLE_LEFT;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x + selectorBox.width,
+            cy: selectorBox.y + (selectorBox.height / 2), r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.MIDDLE_RIGHT;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x,
+            cy: selectorBox.y + selectorBox.height, r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.BOTTOM_LEFT;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x + (selectorBox.width / 2),
+            cy: selectorBox.y + selectorBox.height, r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.BOTTOM_MIDDLE;
+        }
+        intersections = svgIntersections.intersect(svgIntersections.shape('circle', {
+            cx: selectorBox.x + selectorBox.width,
+            cy: selectorBox.y + selectorBox.height, r: 2,
+        }), svgIntersections.shape('rect', selectorSquare));
+        if (intersections.points.length > 0) {
+            return ControlPoints.BOTTOM_RIGHT;
+        }
+        return ControlPoints.NONE;
+    }
+
     static cursorTouchesObjectBorder(object: ITools, positionX: number, positionY: number): boolean {
         const selectorLine = { points: this.getClickAreaPoints(positionX, positionY) };
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
                 const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect',
-                    { x: object.x, y: object.y, width: object.width, height: object.height}),
+                    { x: object.x, y: object.y, width: object.width, height: object.height }),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL: case Id.BUCKET:
                 let lineIntersections;
                 if (object.points) {
                     lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
-                    svgIntersections.shape('polyline', selectorLine));
+                        svgIntersections.shape('polyline', selectorLine));
                     return lineIntersections.points.length > 0;
                 }
                 return false;
             case Id.ELLIPSE:
-                const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
-                    rx: object.width, ry: object.height }),
+                const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', {
+                    cx: object.x, cy: object.y,
+                    rx: object.width, ry: object.height,
+                }),
                     svgIntersections.shape('polyline', selectorLine));
                 return ellipseIntersections.points.length > 0;
             case Id.POLYGON:
@@ -71,17 +135,26 @@ export default class ClickHelper {
             case Id.RECTANGLE: case Id.TEXT:
                 return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
-            case Id.ELLIPSE:
+            case Id.ELLIPSE: case Id.POLYGON:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
                     (((positionY - object.y) * (positionY - object.y)) / (object.height * object.height)) <= 1;
-            case Id.POLYGON:
-                return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
-                    (((positionY - object.y) * (positionY - object.y)) / (object.height * object.height)) <= 1;
-            case Id.STAMP:
+            case Id.STAMP: case Id.BUCKET:
                 return (Math.pow((positionX - (object.x + (object.width / 2))), 2) +
                     Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
+            case Id.SPRAY_CAN:
+                let isInside = false;
+                // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
+                // tslint:disable-next-line:no-non-null-assertion
+                object.sprays!.forEach((circle) => {
+                    if ( object.radius &&
+                        Math.pow(positionX - circle.cx, 2) + Math.pow(positionY - circle.cy, 2) <= Math.pow(object.radius, 2) ) {
+                        isInside = true;
+                        return;
+                    }
+                });
+                return isInside;
             default:
                 return false;
         }
@@ -96,15 +169,17 @@ export default class ClickHelper {
         let boxIsInsideObject = false;
         switch (object.id) {
             case Id.RECTANGLE: case Id.TEXT:
-                const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', { x: object.x, y: object.y,
-                    width: object.width, height: object.height}),
+                const rectIntersections = svgIntersections.intersect(svgIntersections.shape('rect', {
+                    x: object.x, y: object.y,
+                    width: object.width, height: object.height,
+                }),
                     svgIntersections.shape('rect', selectorBox));
-                    boxIsInsideObject = (previewBox.x > object.x && previewBox.y > object.y
+                boxIsInsideObject = (previewBox.x > object.x && previewBox.y > object.y
                     && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = rectIntersections.points;
                 break;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL: case Id.BUCKET:
                 let lineIntersections;
                 if (object.points) {
                     lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
@@ -113,9 +188,11 @@ export default class ClickHelper {
                 }
                 break;
             case Id.ELLIPSE:
-                const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', { cx: object.x, cy: object.y,
-                    rx: object.width, ry: object.height }),
-                svgIntersections.shape('rect', selectorBox));
+                const ellipseIntersections = svgIntersections.intersect(svgIntersections.shape('ellipse', {
+                    cx: object.x, cy: object.y,
+                    rx: object.width, ry: object.height,
+                }),
+                    svgIntersections.shape('rect', selectorBox));
                 boxIsInsideObject = (previewBox.x > (object.x - object.width) && previewBox.y > (object.y - object.height)
                     && previewBox.width < ((object.width * 2) - previewBox.x + (object.x - object.width))
                     && previewBox.height < ((object.height * 2) - previewBox.y + (object.y - object.height)));
@@ -140,6 +217,24 @@ export default class ClickHelper {
                     && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = stampIntersections.points;
+                break;
+            case Id.SPRAY_CAN:
+                let sprayCanIntersections;
+                // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
+                // tslint:disable-next-line:no-non-null-assertion
+                for ( const sprayPatch of object.sprays!) {
+                    sprayCanIntersections = svgIntersections.intersect(
+                        svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
+                        svgIntersections.shape('rect', selectorBox));
+                    if ( sprayCanIntersections.points.length ) {
+                        break;
+                    }
+                }
+                if ( !sprayCanIntersections.length &&
+                    this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
+                    boxIsInsideObject = true;
+                }
+                intersectionPoints = sprayCanIntersections.points;
                 break;
         }
         return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;
