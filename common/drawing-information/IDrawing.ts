@@ -14,14 +14,8 @@ export interface IDrawing {
     canvas: ICanvasData;
 }
 
-export interface IRotation {
-    rotationAngle: number;
-    xCenter: number;
-    yCenter: number;
-}
-
 export interface ISavedDrawing extends ITools, Partial<IDrawingTool>, Partial<IStamp>,
-                    Partial<IShape>, Partial<IText>, Partial<IRotation>, Partial<TextBox> {
+                    Partial<IShape>, Partial<IText>, Partial<TextBox> {
     id: string;
     x: number;
     y: number;
