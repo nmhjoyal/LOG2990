@@ -11,7 +11,7 @@ import { SelectorService } from '../selector-service/selector-service';
 export default class ParserHelper {
   // tslint:disable-next-line: max-line-length because readability is reduced if header is on two lines
   static parsePolylinePoints(cursorX: number, cursorY: number, copiedObject: ITools, offset: number, selectorService: SelectorService): void {
-    const newPoints = this.initializePoints(copiedObject, selectorService, cursorX, cursorY);
+    const newPoints = ParserHelper.initializePoints(copiedObject, selectorService, cursorX, cursorY);
 
     const newPaths: IComplexPath[] = [];
     if (copiedObject.paths) {
@@ -49,7 +49,7 @@ export default class ParserHelper {
 
   // tslint:disable-next-line: max-line-length because readability is reduced if header is on two lines
   static dragPolylinePoints(cursorX: number, cursorY: number, movedObject: ITools, selectorService: SelectorService, points?: string, paths?: IComplexPath[]): void {
-    const newPoints = points ? points : this.initializePoints(movedObject, selectorService, cursorX, cursorY);
+    const newPoints = points ? points : ParserHelper.initializePoints(movedObject, selectorService, cursorX, cursorY);
     const newPaths: IComplexPath[] = [];
     if (movedObject.paths && !paths) {
       for (const path of movedObject.paths) {
@@ -95,416 +95,74 @@ export default class ParserHelper {
       splitPoints = movedObject.vertices!.split(/[ ,]+/).filter(Boolean);
     }
     let newPoints = '';
-    const paths: IComplexPath[] = [];
+    let paths: IComplexPath[] = [];
+    const gridSize = gridService.GridSize;
+    const topCornerX = selectorService.topCornerX;
+    const topCornerY = selectorService.topCornerY;
 
     switch (controlPoint) {
       case ControlPoints.TOP_LEFT:
-        const gridX = Math.round(cursorX / gridService.GridSize) * gridService.GridSize;
-        const gridY = Math.round(cursorY / gridService.GridSize) * gridService.GridSize;
-        for (let i = 0; i < splitPoints.length; i += 2) {
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridX + xDistToSelectorBox).toString()
-            + ','
-            + (gridY + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridX + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridY + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridX + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridY + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-
-          }
-        }
+        const gridXTopLeft = Math.round(cursorX / gridSize) * gridSize;
+        const gridYTopLeft = Math.round(cursorY / gridSize) * gridSize;
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXTopLeft, gridYTopLeft);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXTopLeft, gridYTopLeft);
         break;
       case ControlPoints.TOP_MIDDLE:
-        const gridXTopMiddle = Math.round(cursorX / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinWidth / 2) % gridService.GridSize);
-        const gridYTopMiddle = Math.round(cursorY / gridService.GridSize) * gridService.GridSize;
-
-        for (let i = 0; i < splitPoints.length; i += 2) {
-
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-
-          newPoints += (gridXTopMiddle + xDistToSelectorBox).toString()
-            + ','
-            + (gridYTopMiddle + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXTopMiddle + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYTopMiddle + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXTopMiddle + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYTopMiddle + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
+        const gridXTopMiddle = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth / 2) % gridSize);
+        const gridYTopMiddle = Math.round(cursorY / gridSize) * gridSize;
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXTopMiddle, gridYTopMiddle)
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXTopMiddle, gridYTopMiddle);
         break;
       case ControlPoints.TOP_RIGHT:
-        const gridXTopRight = Math.round(cursorX / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinWidth) % gridService.GridSize);
-        const gridYTopRight = Math.round(cursorY / gridService.GridSize) * gridService.GridSize;
-
-        for (let i = 0; i < splitPoints.length; i += 2) {
-
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXTopRight + xDistToSelectorBox).toString()
-            + ','
-            + (gridYTopRight + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXTopRight + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYTopRight + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXTopRight + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYTopRight + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
+        const gridXTopRight = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth) % gridSize);
+        const gridYTopRight = Math.round(cursorY / gridSize) * gridSize;
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXTopRight, gridYTopRight);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXTopRight, gridYTopRight);
         break;
       case ControlPoints.MIDDLE_LEFT:
-        const gridXMiddleLeft = Math.round(cursorX / gridService.GridSize) * gridService.GridSize;
-        const gridYMiddleLeft = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinHeight / 2) % gridService.GridSize);
-        for (let i = 0; i < splitPoints.length; i += 2) {
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXMiddleLeft + xDistToSelectorBox).toString()
-            + ','
-            + (gridYMiddleLeft + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXMiddleLeft + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYMiddleLeft + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXMiddleLeft + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYMiddleLeft + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
+        const gridXMiddleLeft = Math.round(cursorX / gridSize) * gridSize;
+        const gridYMiddleLeft = Math.round(cursorY / gridSize) * gridSize - ((selectorService.MinHeight / 2) % gridSize);
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXMiddleLeft, gridYMiddleLeft);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXMiddleLeft, gridYMiddleLeft);
         break;
       case ControlPoints.MIDDLE:
-        const gridXMiddle = Math.round(cursorX / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinWidth / 2) % gridService.GridSize);
-        const gridYMiddle = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinHeight / 2) % gridService.GridSize);
-        for (let i = 0; i < splitPoints.length; i += 2) {
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXMiddle + xDistToSelectorBox).toString()
-            + ','
-            + (gridYMiddle + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXMiddle + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYMiddle + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXMiddle + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYMiddle + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
-
+        const gridXMiddle = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth / 2) % gridSize);
+        const gridYMiddle = Math.round(cursorY / gridSize) * gridSize - ((selectorService.MinHeight / 2) % gridSize);
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXMiddle, gridYMiddle);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXMiddle, gridYMiddle);
         break;
       case ControlPoints.MIDDLE_RIGHT:
-        const gridXMiddleRight = Math.round(cursorX / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinWidth) % gridService.GridSize);
-        const gridYMiddleRight = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinHeight / 2) % gridService.GridSize);
-
-        for (let i = 0; i < splitPoints.length; i += 2) {
-
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXMiddleRight + xDistToSelectorBox).toString()
-            + ','
-            + (gridYMiddleRight + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXMiddleRight + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYMiddleRight + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXMiddleRight + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYMiddleRight + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
-
+        const gridXMiddleRight = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth) % gridSize);
+        const gridYMiddleRight = Math.round(cursorY / gridSize) * gridSize - ((selectorService.MinHeight / 2) % gridSize);
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXMiddleRight, gridYMiddleRight);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXMiddleRight, gridYMiddleRight);
         break;
       case ControlPoints.BOTTOM_LEFT:
-        const gridXBottomLeft = Math.round(cursorX / gridService.GridSize) * gridService.GridSize - gridService.GridSize / 2;
-        const gridYBottomLeft = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinHeight) % gridService.GridSize);
-        for (let i = 0; i < splitPoints.length; i += 2) {
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXBottomLeft + xDistToSelectorBox).toString()
-            + ','
-            + (gridYBottomLeft + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXBottomLeft + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYBottomLeft + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXBottomLeft + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYBottomLeft + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
-
+        const gridXBottomLeft = Math.round(cursorX / gridSize) * gridSize - gridSize / 2;
+        const gridYBottomLeft = Math.round(cursorY / gridSize) * gridSize - ((selectorService.MinHeight) % gridSize);
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXBottomLeft, gridYBottomLeft);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXBottomLeft, gridYBottomLeft);
         break;
       case ControlPoints.BOTTOM_MIDDLE:
-        const gridXBottomMiddle = Math.round(cursorX / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinWidth / 2) % gridService.GridSize);
-        const gridYBottomMiddle = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinHeight) % gridService.GridSize);
-        for (let i = 0; i < splitPoints.length; i += 2) {
-
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXBottomMiddle + xDistToSelectorBox).toString()
-            + ','
-            + (gridYBottomMiddle + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXBottomMiddle + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYBottomMiddle + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXBottomMiddle + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYBottomMiddle + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
-
+        const gridXBottomMiddle = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth / 2) % gridSize);
+        const gridYBottomMiddle = Math.round(cursorY / gridSize) * gridSize - ((selectorService.MinHeight) % gridSize);
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXBottomMiddle, gridYBottomMiddle);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXBottomMiddle, gridYBottomMiddle);
         break;
       case ControlPoints.BOTTOM_RIGHT:
-        const gridXBottomRight = Math.round(cursorX / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinWidth) % gridService.GridSize);
-        const gridYBottomRight = Math.round(cursorY / gridService.GridSize) * gridService.GridSize
-          - ((selectorService.MinHeight) % gridService.GridSize);
-        for (let i = 0; i < splitPoints.length; i += 2) {
-
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-          newPoints += (gridXBottomRight + xDistToSelectorBox).toString()
-            + ','
-            + (gridYBottomRight + yDistToSelectorBox).toString()
-            + ' ';
-        }
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXBottomRight + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYBottomRight + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXBottomRight + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYBottomRight + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
-
+        const gridXBottomRight = Math.round(cursorX / gridSize) * gridSize - ((selectorService.MinWidth) % gridSize);
+        const gridYBottomRight = Math.round(cursorY / gridSize) * gridSize - ((selectorService.MinHeight) % gridSize);
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXBottomRight, gridYBottomRight);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXBottomRight, gridYBottomRight);
         break;
       default:
-        const gridXDefault = Math.round(cursorX / gridService.GridSize) * gridService.GridSize;
-        const gridYDefault = Math.round(cursorY / gridService.GridSize) * gridService.GridSize;
-
-        for (let i = 0; i < splitPoints.length; i += 2) {
-          const xDistToSelectorBox = parseInt(splitPoints[i], 10) - selectorService.topCornerX;
-          const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) + - selectorService.topCornerY;
-
-          newPoints += (gridXDefault + xDistToSelectorBox).toString()
-            + ','
-            + (gridYDefault + yDistToSelectorBox).toString()
-            + ' ';
-
-        }
-
-        if (movedObject.paths) {
-          for (const path of movedObject.paths) {
-            const pathMX = path.path.slice(1, path.path.indexOf(' '));
-            const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
-            const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
-            const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
-
-            const xDistToSelectorBoxMX = parseInt(pathMX, 10) - selectorService.topCornerX;
-            const xDistToSelectorBoxLX = parseInt(pathLX, 10) - selectorService.topCornerX;
-            const yDistToSelectorBoxMY = parseInt(pathMY, 10) + - selectorService.topCornerY;
-            const yDistToSelectorBoxLY = parseInt(pathLY, 10) + - selectorService.topCornerY;
-
-            paths.push({
-              path: 'M'
-                + (gridXDefault + xDistToSelectorBoxMX).toString()
-                + ' '
-                + (gridYDefault + yDistToSelectorBoxMY).toString()
-                + 'L'
-                + (gridXDefault + xDistToSelectorBoxLX).toString()
-                + ' '
-                + (gridYDefault + yDistToSelectorBoxLY).toString(),
-              pathWidth: path.pathWidth,
-            });
-          }
-        }
+        const gridXDefault = Math.round(cursorX / gridSize) * gridSize;
+        const gridYDefault = Math.round(cursorY / gridSize) * gridSize;
+        newPoints = ParserHelper.setPoints(splitPoints, topCornerX, topCornerY, gridXDefault, gridYDefault);
+        paths = ParserHelper.setPaths(movedObject, topCornerX, topCornerY, gridXDefault, gridYDefault);
         break;
     }
-    this.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints, paths);
+    ParserHelper.dragPolylinePoints(cursorX, cursorY, movedObject, selectorService, newPoints, paths);
 
   }
 
@@ -523,6 +181,50 @@ export default class ParserHelper {
       newPoints += (parseInt(splitPoints[i], 10) + cursorX - selectorService.topCornerX - selectorService.MinWidth / 2).toString()
         + ','
         + (parseInt(splitPoints[i + 1], 10) + cursorY - selectorService.topCornerY - selectorService.MinHeight / 2).toString()
+        + ' ';
+    }
+    return newPoints;
+  }
+
+  static setPaths(movedObject: ITools, topCornerX: number, topCornerY: number, gridX: number, gridY: number): IComplexPath[] {
+    const paths: IComplexPath[] = [];
+    if (movedObject.paths) {
+      for (const path of movedObject.paths) {
+        const pathMX = path.path.slice(1, path.path.indexOf(' '));
+        const pathMY = path.path.slice(path.path.indexOf(' ') + 1, path.path.indexOf('L'));
+        const pathLX = path.path.slice(path.path.indexOf('L') + 1, path.path.lastIndexOf(' '));
+        const pathLY = path.path.slice(path.path.lastIndexOf(' ') + 1);
+
+        const xDistToSelectorBoxMX = parseInt(pathMX, 10) - topCornerX;
+        const xDistToSelectorBoxLX = parseInt(pathLX, 10) - topCornerX;
+        const yDistToSelectorBoxMY = parseInt(pathMY, 10) - topCornerY;
+        const yDistToSelectorBoxLY = parseInt(pathLY, 10) - topCornerY;
+
+        paths.push({
+          path: 'M'
+            + (gridX + xDistToSelectorBoxMX).toString()
+            + ' '
+            + (gridY + yDistToSelectorBoxMY).toString()
+            + 'L'
+            + (gridX + xDistToSelectorBoxLX).toString()
+            + ' '
+            + (gridY + yDistToSelectorBoxLY).toString(),
+          pathWidth: path.pathWidth,
+        });
+      }
+    }
+    return paths;
+  }
+
+  static setPoints(splitPoints: string[], topCornerX: number, topCornerY: number, gridX: number, gridY: number): string {
+    let newPoints = '';
+    for (let i = 0; i < splitPoints.length; i += 2) {
+      const xDistToSelectorBox = parseInt(splitPoints[i], 10) - topCornerX;
+      const yDistToSelectorBox = parseInt(splitPoints[i + 1], 10) - topCornerY;
+
+      newPoints += (gridX + xDistToSelectorBox).toString()
+        + ','
+        + (gridY + yDistToSelectorBox).toString()
         + ' ';
     }
     return newPoints;
