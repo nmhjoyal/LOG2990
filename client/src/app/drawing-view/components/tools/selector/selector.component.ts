@@ -35,7 +35,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
-    protected selectorService: SelectorService, protected resizeService: ResizeService) {
+    protected selectorService: SelectorService, protected resizeService: ResizeService, public dragService: DragService) {
     super(saveRef, attributesServiceRef, colourService);
     this.resizeService = new ResizeService(this.selectorService);
     this.shape.strokeWidth = 1;
@@ -248,15 +248,17 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           height: this.selectorService.MinHeight, width: this.selectorService.MinWidth,
         },
           ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
-        this.dragOperation.x = this.selectorService.topCornerX;
-        this.dragOperation.y = this.selectorService.topCornerY;
-        this.shouldDrag = true;
+          this.dragOperation.x = this.selectorService.topCorner.x;
+          this.dragOperation.y = this.selectorService.topCorner.y;
+          this.shouldDrag = true;
+        }
       } else {
         this.isRightClick = false;
         this.isReverseSelection = false;
         this.resetComponent();
       }
       this.selectedControlPoint = ControlPoints.NONE;
+
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
       if (!this.toolService.selectorBoxExists()) {
@@ -268,6 +270,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     }
     this.mouseDown = true;
   }
+      
+      
 
   protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
@@ -317,8 +321,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     } else if (this.selectedControlPoint === ControlPoints.NONE) {
       // Drag & Drop
       if (this.selectorService.SelectedObjects.size > 0) {
-        this.dragOperation.offsetX = this.selectorService.topCornerX - this.dragOperation.x;
-        this.dragOperation.offsetY = this.selectorService.topCornerY - this.dragOperation.y;
+        this.dragOperation.offsetX = this.selectorService.topCorner.x - this.dragOperation.x;
+        this.dragOperation.offsetY = this.selectorService.topCorner.y - this.dragOperation.y;
         if (this.shouldDrag && (this.dragOperation.offsetX !== 0 || this.dragOperation.offsetY !== 0)) {
           this.selectorService.SelectedObjects.forEach((drawing) => {
             // indexes is defined in the constructor
