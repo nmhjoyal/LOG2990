@@ -23,6 +23,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected shiftDown: boolean;
   protected angleIncrement: number;
   protected shouldDrag: boolean;
+  protected isRotation: boolean;
+  protected angleRotated: number;
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
@@ -35,6 +37,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.shiftDown = false;
     this.angleIncrement = ToolConstants.ANGLE_INCREMENT_15;
     this.mouseDown = false;
+    this.isRotation = false;
+    this.angleRotated = 0;
   }
 
   ngOnInit(): void {
@@ -114,6 +118,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.rotateService.calculatePosition(drawing, rotateValue, x, y);
       }
     });
+    this.angleRotated += rotateValue;
+    this.isRotation = this.angleRotated !== 0;
   }
 
   protected handleMouseDown(event: MouseEvent): void {
