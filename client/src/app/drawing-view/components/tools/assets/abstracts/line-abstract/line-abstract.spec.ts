@@ -6,7 +6,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { DrawingViewModule } from 'src/app/drawing-view/drawing-view.module';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
 import { SaveService } from 'src/app/services/save-service/save.service';
-import { LineComponent } from '../../../shapes/line/line.component';
+import { LineComponent } from '../../../drawing-tools/line/line.component';
 import { AttributesService } from '../../attributes/attributes.service';
 import { LineAbstract } from './line-abstract';
 

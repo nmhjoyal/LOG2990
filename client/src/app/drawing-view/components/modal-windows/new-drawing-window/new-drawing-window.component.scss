@@ -24,7 +24,7 @@
     }
 
     .mat-dialog-container {
-        width: 65vw;
+        width: auto;
         align-content: space-around;
     }
 
@@ -44,6 +44,15 @@
         border-radius: 50px;
         border: 2px solid grey;
         float: right;
-        
     }
+      
+    .inputs {
+        float: left
+    }
+    
+    .colour-picker {
+        float: right;
+        padding: 0 10px;
+    }
+
 }

@@ -1,12 +1,20 @@
 import { ControlPoints } from 'src/app/drawing-view/components/tools/assets/constants/selector-constants';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
+import { CanvasInformationService } from '../canvas-information/canvas-information.service';
+import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SaveService } from '../save-service/save.service';
 import { SelectorService } from '../selector-service/selector-service';
+import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { ResizeService } from './resize-service';
 
 describe('SelectorService', () => {
     let selectorService: SelectorService;
     let service: ResizeService;
+    const canvasInformation: CanvasInformationService = new CanvasInformationService();
+    const drawingStorage: DrawingStorageService = new DrawingStorageService();
+    const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
+    const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
     const FIFTY = 50;
     const FORTY = 40;
     const ONE_HUNDRED = 100;
@@ -18,7 +26,7 @@ describe('SelectorService', () => {
     const expectedDifference = 10;
 
     beforeEach(() => {
-        selectorService = new SelectorService();
+        selectorService = new SelectorService(saveService);
         service = new ResizeService(selectorService);
         // tslint:disable: no-any - to verify coordinates/dimensions are being correctly changed and be able to set
         // custom test data

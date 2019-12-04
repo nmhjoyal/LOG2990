@@ -17,7 +17,6 @@ export class DrawingToolToolboxComponent implements OnInit {
   @Input() private canvas: CanvasComponent;
 
   constructor(protected toolHandler: ToolHandlerService) {
-    // empty block
   }
 
   ngOnInit() {

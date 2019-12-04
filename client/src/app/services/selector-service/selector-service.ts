@@ -1,16 +1,22 @@
+import { Injectable } from '@angular/core';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IPoint, IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interfaces/shape-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { ClipboardService } from '../clipboard/clipboard-service';
+import ParserHelper from '../parser-service/parser.service';
+import { SaveService } from '../save-service/save.service';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class SelectorService {
   selectedObjects: Set<ISavedDrawing>;
   clipboardHelper: ClipboardService;
   topCorner: IPoint;
   bottomCorner: IPoint;
 
-  constructor() {
+  constructor(public saveService: SaveService) {
     this.selectedObjects = new Set<ISavedDrawing>();
     this.topCorner = {x: 0, y: 0};
     this.bottomCorner = {x: 0, y: 0};
@@ -56,7 +62,7 @@ export class SelectorService {
     for (const drawing of drawings) {
       if (this.objectInBox(drawing, previewBox)) {
         if (isReverseSelection) {
-            this.selectedObjects.delete(drawing);
+          this.selectedObjects.delete(drawing);
         } else {
           this.selectedObjects.add(drawing);
         }
@@ -119,4 +125,22 @@ export class SelectorService {
   objectInBox(object: ISavedDrawing, previewBox: IPreviewBox): boolean {
     return ClickHelper.objectSharesBoxArea(object, previewBox);
   }
+
+  dragObjects(cursorX: number, cursorY: number, windowWidth: number, windowHeight: number): void {
+    this.selectedObjects.forEach((movedObject) => {
+      if (movedObject.alignX) {
+        movedObject.alignX += (cursorX - this.topCorner.x - this.MinWidth / 2);
+      } else if (movedObject.sprays) {
+        movedObject.sprays.forEach( (spray) => {
+          spray.cx += (cursorX - this.topCorner.x - this.MinWidth / 2);
+          spray.cy += (cursorY - this.topCorner.y - this.MinHeight / 2);
+        });
+      }
+      movedObject.x += (cursorX - this.topCorner.x - this.MinWidth / 2);
+      movedObject.y += (cursorY - this.topCorner.y - this.MinHeight / 2);
+      ParserHelper.dragPolylinePoints(cursorX, cursorY, movedObject, this);
+    });
+    this.recalculateShape(windowWidth, windowHeight);
+  }
+
 }

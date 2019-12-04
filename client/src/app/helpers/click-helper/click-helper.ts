@@ -97,7 +97,7 @@ export default class ClickHelper {
                     { x: object.x, y: object.y, width: object.width, height: object.height }),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
                 let lineIntersections;
                 if (object.points) {
                     lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
@@ -135,7 +135,7 @@ export default class ClickHelper {
             case Id.RECTANGLE: case Id.TEXT:
                 return (object.x <= positionX && object.y <= positionY && (object.x + object.width) >= positionX &&
                     (object.y + object.height) >= positionY);
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
             case Id.ELLIPSE:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
@@ -146,6 +146,18 @@ export default class ClickHelper {
             case Id.STAMP:
                 return (Math.pow((positionX - (object.x + (object.width / 2))), 2) +
                     Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
+            case Id.SPRAY_CAN:
+                let isInside = false;
+                // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
+                // tslint:disable-next-line:no-non-null-assertion
+                object.sprays!.forEach((circle) => {
+                    if ( object.radius &&
+                        Math.pow(positionX - circle.cx, 2) + Math.pow(positionY - circle.cy, 2) <= Math.pow(object.radius, 2) ) {
+                        isInside = true;
+                        return;
+                    }
+                });
+                return isInside;
             default:
                 return false;
         }
@@ -170,7 +182,7 @@ export default class ClickHelper {
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = rectIntersections.points;
                 break;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
                 let lineIntersections;
                 if (object.points) {
                     lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
@@ -208,6 +220,24 @@ export default class ClickHelper {
                     && previewBox.width < (object.width - previewBox.x + object.x)
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = stampIntersections.points;
+                break;
+            case Id.SPRAY_CAN:
+                let sprayCanIntersections;
+                // sprays cannot be undefined; all SPRAY_CAN drawings have sprays.
+                // tslint:disable-next-line:no-non-null-assertion
+                for ( const sprayPatch of object.sprays!) {
+                    sprayCanIntersections = svgIntersections.intersect(
+                        svgIntersections.shape('circle', { cx: sprayPatch.cx, cy: sprayPatch.cy, r: object.radius }),
+                        svgIntersections.shape('rect', selectorBox));
+                    if ( sprayCanIntersections.points.length ) {
+                        break;
+                    }
+                }
+                if ( !sprayCanIntersections.length &&
+                    this.cursorInsideObject(object, selectorBox.x + selectorBox.width, selectorBox.y + selectorBox.height) ) {
+                    boxIsInsideObject = true;
+                }
+                intersectionPoints = sprayCanIntersections.points;
                 break;
         }
         return (intersectionPoints.length > 0) || objectIsInsideBox || boxIsInsideObject;

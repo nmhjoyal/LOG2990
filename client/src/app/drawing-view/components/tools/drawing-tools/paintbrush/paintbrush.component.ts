@@ -30,6 +30,9 @@ export class PaintbrushComponent extends StrokeAbstract implements OnInit, OnDes
       this.stroke.strokeWidth = this.attributesService.paintbrushAttributes.savedStrokeWidth;
       this.stroke.filter = this.attributesService.paintbrushAttributes.savedFilter;
     }
+    this.colourService.data.subscribe((colour: string[]) => {
+      this.stroke.colour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {

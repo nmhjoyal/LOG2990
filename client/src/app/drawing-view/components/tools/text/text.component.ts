@@ -38,7 +38,7 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       align: Alignments.START,
       alignX: ToolConstants.NULL,
       fontFamily: FontFamilies.ARIAL,
-      primaryColour: colourServiceRef.colour[ToolConstants.PRIMARY_COLOUR_INDEX],
+      primaryColour: colourServiceRef.PrimaryColour,
       x: ToolConstants.NULL,
       y: ToolConstants.NULL,
       width: 0,
@@ -54,6 +54,9 @@ export class TextComponent extends ToolAbstract implements OnInit, OnDestroy {
       this.text.bold = this.attributesServiceRef.textAttributes.savedBold;
       this.text.fontFamily = this.attributesServiceRef.textAttributes.savedFontFamily;
     }
+    this.colourServiceRef.data.subscribe((colour: string[]) => {
+      this.text.primaryColour = colour[0];
+    });
   }
 
   ngOnDestroy(): void {

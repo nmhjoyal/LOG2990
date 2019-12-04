@@ -10,7 +10,7 @@ import { ClickTypes } from 'src/AppConstants/ClickTypes';
 import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract';
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ControlPoints } from '../assets/constants/selector-constants';
-import { ToolConstants } from '../assets/constants/tool-constants';
+import { Id, ToolConstants } from '../assets/constants/tool-constants';
 
 @Component({
   selector: 'app-tools-selector',
@@ -24,6 +24,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected isReverseSelection: boolean;
   protected altKeyPressed: boolean;
   protected shiftKeyPressed: boolean;
+  protected shouldDrag: boolean;
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
@@ -37,6 +38,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.selectedControlPoint = ControlPoints.NONE;
     this.altKeyPressed = false;
     this.shiftKeyPressed = false;
+    this.mouseDown = false;
   }
 
   ngOnInit(): void {
@@ -50,8 +52,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected calculateDimensions(): void {
     super.calculateDimensions();
     const shapeOffset = this.shape.strokeWidth / 2;
-    this.shape.x =  this.previewBox.x + shapeOffset;
-    this.shape.y =  this.previewBox.y + shapeOffset;
+    this.shape.x = this.previewBox.x + shapeOffset;
+    this.shape.y = this.previewBox.y + shapeOffset;
     this.shape.width = this.previewBox.width > this.shape.strokeWidth ? this.previewBox.width - this.shape.strokeWidth : 0;
     this.shape.height = this.previewBox.height > this.shape.strokeWidth ? this.previewBox.height - this.shape.strokeWidth : 0;
   }
@@ -67,6 +69,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     event.preventDefault();
     this.mouseMoved = false;
+    this.shouldDrag = false;
     this.handleMouseDown(event);
     super.onMouseDown(event);
   }
@@ -197,12 +200,22 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
       if (this.toolService.selectorBoxExists()) {
         this.selectedControlPoint = ClickHelper.cursorTouchesControlPoint(this.selectorService.selectorBox,
           ClickHelper.getXPosition(event), ClickHelper.getYPosition(event));
-        return;
+        if (this.selectedControlPoint !== ControlPoints.NONE) {
+          return;
+        } else if (ClickHelper.cursorInsideObject({
+          id: Id.RECTANGLE,
+          x: this.selectorService.topCorner.x, y: this.selectorService.topCorner.y,
+          height: this.selectorService.MinHeight, width: this.selectorService.MinWidth,
+        },
+          ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
+            this.shouldDrag = true;
+        }
+      } else {
+        this.isRightClick = false;
+        this.isReverseSelection = false;
+        this.resetComponent();
       }
       this.selectedControlPoint = ControlPoints.NONE;
-      this.isRightClick = false;
-      this.isReverseSelection = false;
-      this.resetComponent();
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
       if (!this.toolService.selectorBoxExists()) {
@@ -212,25 +225,33 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.isReverseSelection = true;
       }
     }
+    this.mouseDown = true;
   }
 
   protected handleMouseMove(event: MouseEvent): void {
     if (this.mouseDown) {
-      this.mouseMoved = true;
       if (this.selectedControlPoint !== ControlPoints.NONE) {
         this.handleControlPoint(event);
         return;
       }
-      this.selectorService.resetSize();
-      this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
-      this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
-      if (this.isReverseSelection) {
-        this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
-      }
-      if (this.selectorService.SelectedObjects.size > 0) {
+      if (this.shouldDrag) {
+        this.selectorService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.windowWidth, this.windowHeight);
         this.traceBox();
+        this.previewBox = { height: 0, width: 0, x: 0, y: 0 };
       } else {
-        this.selectorService.resetSelectorService();
+        this.mouseMoved = true;
+        this.selectorService.resetSize();
+        this.selectorService.updateCorners(this.cursorX, this.initialX, this.cursorY, this.initialY, this.previewBox.x, this.previewBox.y);
+        this.selectorService.checkForItems(this.isReverseSelection, this.drawingStorage.drawings, this.previewBox);
+        if (this.isReverseSelection) {
+          this.selectorService.recalculateShape(this.windowWidth, this.windowHeight);
+        }
+        if (this.selectorService.SelectedObjects.size > 0) {
+          this.traceBox();
+        } else {
+          this.selectorService.resetSelectorService();
+        }
       }
     } else {
       this.mouseMoved = false;
@@ -239,7 +260,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
 
   protected handleMouseUp(event: MouseEvent): void {
     // Single clicks
-    if (this.mouseDown && !this.mouseMoved) {
+    if (this.mouseDown && !this.mouseMoved && !this.shouldDrag) {
       if (event.button === ClickTypes.LEFT_CLICK) {
         this.resetComponent();
         this.leftClick(event);

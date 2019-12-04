@@ -1,4 +1,5 @@
 import { HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ToolConstants } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { ILine } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
@@ -20,6 +21,7 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
   protected finalPoints: string;
   protected traceMode: number;
   protected junctionMode: number;
+  protected colourSubscription: Subscription;
 
   @Input() windowHeight: number;
   @Input() windowWidth: number;
@@ -45,8 +47,8 @@ export abstract class LineAbstract extends ToolAbstract implements OnInit, OnDes
       width: 0,
       height: 0,
       points: '',
-      colour: this.colourService.colour[0],
-      strokeOpacity: ToolConstants.DEFAULT_OPACITY,
+      colour: this.colourService.PrimaryColour,
+      strokeOpacity: this.colourService.PrimaryOpacity,
       strokeWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
       fill: ToolConstants.NONE,
       pointWidth: ToolConstants.DEFAULT_STROKE_WIDTH,
