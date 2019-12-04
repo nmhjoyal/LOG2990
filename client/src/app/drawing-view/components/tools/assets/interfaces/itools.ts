@@ -10,4 +10,6 @@ export interface ITools extends IPreviewBox, ILinePoints, IPolygon, IStampRefere
 TextBox, IPath, IErasedObjectsList, IColourApplicator, ISprayPaint, Partial<IColour> {
     id: string;
     pasteOffset?: number;
+    scaleX?: number;
+    scaleY?: number;
 }

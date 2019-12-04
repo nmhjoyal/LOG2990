@@ -69,11 +69,13 @@ export class ToolConstants {
     static BUTT = 'butt';
     static SQUARE = 'square';
     static DEFAULT_OPACITY = 1;
+    static DEFAULT_SCALE = 1;
     static DEFAULT_STROKE_WIDTH = 2;
     static DEFAULT_MAX_WIDTH = 10;
     static DEFAULT_MIN_WIDTH = 2;
     static DEFAULT_LINE_LENGTH = 10;
     static DEFAULT_ANGLE = 0;
+    static DEFAULT_ERASER_SIZE = 10;
     static MAX_STROKE_WIDTH = 20;
     static MIN_STROKE_WIDTH = 1;
     static MAX_SPEED = 0.4;
@@ -93,7 +95,7 @@ export class ToolConstants {
     static DOTTED_POINT = '6';
     static LEFT_CLICK_INDEX = 0;
     static RIGHT_CLICK_INDEX = 2;
-    static ANGLE_INCREMENT_1 = 3;
+    static ANGLE_INCREMENT_1 = 1;
     static ANGLE_INCREMENT_15 = 15;
     static PRIMARY_COLOUR_INDEX = 0;
     static SECONDARY_COLOUR_INDEX = 1;

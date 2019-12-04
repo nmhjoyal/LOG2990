@@ -11,6 +11,7 @@ import { MatSliderModule} from '@angular/material/slider';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import ParserHelper from '../services/parser-service/parser.service';
+import { ResizeService } from '../services/resize-service/resize-service';
 import { SaveService } from '../services/save-service/save.service';
 import { SelectorService } from '../services/selector-service/selector-service';
 import { CanvasComponent } from './components/canvas/canvas.component';
@@ -83,7 +84,7 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService, SaveService, ParserHelper,
+  providers: [AttributesService, SelectorService, SaveService, ParserHelper, ResizeService,
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ],
   bootstrap: [CanvasComponent],
   entryComponents: [],
