@@ -12,11 +12,13 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard-service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DragService } from 'src/app/services/drag/drag.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ExportInformationService } from 'src/app/services/export-information/export-information.service';
 import { LocalStorageService } from 'src/app/services/local_storage/local-storage-service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
 import { ToolHandlerService } from 'src/app/services/tool-handler/tool-handler.service';
+import { ControlPoints } from 'src/AppConstants/ControlPoints';
 import { NumericalValues } from 'src/AppConstants/NumericalValues';
 import { Strings } from 'src/AppConstants/Strings';
 import { ColourPickerComponent } from '../../drawing-view/components/modal-windows/colour-window/colour-picker/colour-picker.component';
@@ -31,8 +33,10 @@ export class AppComponent implements OnInit {
 
   protected cursorX: number;
   protected cursorY: number;
+  controlPoint: ControlPoints;
 
   @ViewChild('toggle', { static: false }) toggle: ElementRef<HTMLElement>;
+  @ViewChild('snapToggle', { static: false }) snapToggle: ElementRef<HTMLElement>;
   @ViewChild('options', { static: false }) optionsSidebar: MatSidenav;
   @ViewChild('canvas', { static: false, read: ElementRef }) canvasElement: ElementRef<CanvasComponent>;
 
@@ -46,7 +50,8 @@ export class AppComponent implements OnInit {
     public exportData: ExportInformationService,
     private gridService: GridService,
     public clipboardService: ClipboardService,
-    public selectorService: SelectorService) {
+    public selectorService: SelectorService,
+    public dragService: DragService) {
     this.canvasData.data = {
       drawingHeight: window.innerHeight - NumericalValues.TITLEBAR_WIDTH,
       drawingWidth: window.innerWidth - NumericalValues.SIDEBAR_WIDTH,
@@ -58,6 +63,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.openWelcomeScreen();
+    this.selectorService.controlPoint = this.controlPoint;
   }
 
   @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent): void {
@@ -225,6 +231,13 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.m', ['$event']) onKeydownM(): void {
+    if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
+      const snapToggle: HTMLElement = this.snapToggle.nativeElement;
+      snapToggle.click();
+    }
+  }
+
   @HostListener('document:keydown.+', ['$event']) onKeydownPlus(): void {
     if (this.isOnlyModalOpen() && !this.optionsSidebar.opened) {
       this.gridService.increaseSize();
@@ -315,5 +328,9 @@ export class AppComponent implements OnInit {
     this.dialog.open(ColourPickerComponent, {
       panelClass: 'choose-colour-window',
     });
+  }
+
+  onSelectionChange() {
+    this.selectorService.controlPoint = this.controlPoint;
   }
 }

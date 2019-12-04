@@ -6,7 +6,9 @@ import { IPreviewBox } from 'src/app/drawing-view/components/tools/assets/interf
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
+import { DragService } from '../drag/drag.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { GridService } from '../grid/grid.service';
 import { SaveService } from '../save-service/save.service';
 import { UndoRedoService } from '../undo-redo/undo-redo.service';
 import { SelectorService } from './selector-service';
@@ -17,12 +19,15 @@ describe('SelectorService', () => {
   const drawingStorage: DrawingStorageService = new DrawingStorageService();
   const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
   const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
+  const gridService: GridService = new GridService();
+  let dragService: DragService;
   const FIFTY = 50;
   const FORTY = 40;
   const ONE_HUNDRED = 100;
 
   beforeEach(() => {
     service = new SelectorService(saveService);
+    dragService = new DragService(service, gridService);
   });
 
   it('should be created with correct initialized values', () => {
@@ -194,8 +199,23 @@ describe('SelectorService', () => {
     service['selectedObjects'].add(text);
     service['topCorner'].x = 0;
     service['bottomCorner'].x = originalAlignX;
-    service.dragObjects(FORTY, FORTY, FIFTY, FIFTY);
+    dragService.dragObjects(FORTY, FORTY, FIFTY, FIFTY);
     expect(text.alignX).toEqual(originalAlignX + FORTY - 0 - (originalAlignX / 2));
+  });
+
+  it('should modify the sprays  if the dragged object is of type spray paint', () => {
+    const sprayWidth = 10;
+    const spray: ITools = { x: FIFTY, y: FIFTY, width: FIFTY, height: FIFTY, id: Id.TEXT, sprays: [] };
+    spray.sprays = [{ cx: 1, cy: 1, seed: 1 }];
+    service['selectedObjects'].add(spray);
+    service['topCorner'].x = 0;
+    service['topCorner'].y = 0;
+    service['bottomCorner'].x = sprayWidth;
+    service['bottomCorner'].y = sprayWidth;
+    dragService.dragObjects(FORTY, FORTY, FIFTY, FIFTY);
+    expect(spray.sprays[0].cx).toEqual(1 + FORTY - 0 - sprayWidth / 2); // cx (1) + cursorX (40) - topCornerX (0) - MinWidth (5)
+    expect(spray.sprays[0].cy).toEqual(1 + FORTY - 0 - sprayWidth / 2);
+
   });
 
   it('#SelectedObjects should return the selected objects', () => {
