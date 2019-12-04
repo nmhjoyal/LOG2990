@@ -1,14 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatMenuModule } from '@angular/material';
+import { GestureConfig, MatButtonModule, MatMenuModule } from '@angular/material';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule} from '@angular/material/select';
 import { MatSliderModule} from '@angular/material/slider';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import ParserHelper from '../services/parser-service/parser.service';
 import { SaveService } from '../services/save-service/save.service';
@@ -83,7 +83,8 @@ import { TextComponent } from './components/tools/text/text.component';
     MatMenuModule,
   ],
 
-  providers: [AttributesService, SelectorService, SaveService, ParserHelper],
+  providers: [AttributesService, SelectorService, SaveService, ParserHelper,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ],
   bootstrap: [CanvasComponent],
   entryComponents: [],
 })
