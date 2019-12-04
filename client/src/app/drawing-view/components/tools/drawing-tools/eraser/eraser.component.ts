@@ -1,19 +1,20 @@
-import { Component, HostListener, Input } from '@angular/core';
-import { SaveService } from 'src/app/services/save-service/save.service';
+import { Component, HostListener, Input, OnInit, OnDestroy } from '@angular/core';
 import ClickHelper from '../../../../../helpers/click-helper/click-helper';
 import { ColourService } from '../../../../../services/colour_service/colour.service';
 import { DrawingStorageService } from '../../../../../services/drawing-storage/drawing-storage.service';
 import { EraserConstants } from '../../assets/constants/eraser-constants';
-import { Id } from '../../assets/constants/tool-constants';
+import { Id, ToolConstants } from '../../assets/constants/tool-constants';
 import { ITools } from '../../assets/interfaces/itools';
 import { IPreviewBox, IShape } from '../../assets/interfaces/shape-interface';
+import { AttributesService } from '../../assets/attributes/attributes.service';
+import { SaveService } from 'src/app/services/save-service/save.service';
 
 @Component({
   selector: 'app-eraser',
   templateUrl: './eraser.component.html',
   styleUrls: ['./eraser.component.scss'],
 })
-export class EraserComponent {
+export class EraserComponent implements OnInit, OnDestroy {
 
   @Input() protected windowHeight: number;
   @Input() protected windowWidth: number;
@@ -22,8 +23,11 @@ export class EraserComponent {
   private eraser: IPreviewBox;
   private erasedDrawing: ITools;
 
-  constructor(public colourService: ColourService, public drawingStorage: DrawingStorageService, public saveService: SaveService) {
-    this.size = EraserConstants.DEFAULT_ERASER_SIZE;
+  constructor(public colourService: ColourService,
+              public drawingStorage: DrawingStorageService,
+              public attributesStorage: AttributesService,
+              public saveService: SaveService) {
+    this.size = ToolConstants.DEFAULT_ERASER_SIZE;
     this.eraser = {
       x: EraserConstants.DEFAULT_X,
       y: EraserConstants.DEFAULT_Y,
@@ -38,6 +42,17 @@ export class EraserComponent {
       width: 0,
       height: 0,
     };
+  }
+
+  ngOnInit(): void {
+    if (this.attributesStorage.eraserAttributes.wasSaved) {
+      this.size = this.attributesStorage.eraserAttributes.size;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.attributesStorage.eraserAttributes.wasSaved = true;
+    this.attributesStorage.eraserAttributes.size = this.size;
   }
 
   setEraserProperties(event: MouseEvent): void {

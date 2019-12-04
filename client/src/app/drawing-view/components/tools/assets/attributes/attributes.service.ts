@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Strings } from 'src/AppConstants/Strings';
 import { FontFamilies } from '../constants/text-constants';
 import { ToolConstants } from '../constants/tool-constants';
-import { IDrawingToolOptions, ILineOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
+import { IDrawingToolOptions, ILineOptions, IEraserOptions, IQuillOptions } from '../interfaces/drawing-tool-interface';
 import { IShapeOptions } from '../interfaces/shape-interface';
 import { IStampOptions } from '../interfaces/stamp-interface';
 import { ITextOptions } from '../interfaces/text-interface';
@@ -22,6 +22,7 @@ export class AttributesService {
   ellipseAttributes: IShapeOptions;
   stampAttributes: IStampOptions;
   textAttributes: ITextOptions;
+  eraserAttributes: IEraserOptions;
 
   constructor() {
     this.resetRectangleAttributes();
@@ -34,6 +35,7 @@ export class AttributesService {
     this.resetPenAttributes();
     this.resetTextAttributes();
     this.resetQuillAttributes();
+    this.resetEraserAttributes();
   }
 
     resetPolygonAttributes(): void {
@@ -172,7 +174,20 @@ export class AttributesService {
       width: 0,
       height: 0,
     };
-}
+  }
+
+  resetEraserAttributes(): void {
+      this.eraserAttributes = {
+        id: ToolConstants.TOOL_ID.ERASER,
+        wasSaved: false,
+        size: 0,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      };
+  }
+
   resetSavedAttributes(): void {
     if (this.crayonAttributes.wasSaved) {
       this.resetCrayonAttributes();
@@ -203,6 +218,9 @@ export class AttributesService {
     }
     if (this.quillAttributes.wasSaved) {
       this.resetQuillAttributes();
+    }
+    if (this.eraserAttributes.wasSaved) {
+      this.resetEraserAttributes();
     }
   }
 }
