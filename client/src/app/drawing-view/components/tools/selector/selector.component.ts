@@ -169,8 +169,8 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     } else {
       // Drag & Drop
       if (this.selectorService.SelectedObjects.size > 0) {
-        this.dragOperation.offsetX = this.dragOperation.x - this.selectorService.topCornerX;
-        this.dragOperation.offsetY = this.dragOperation.y - this.selectorService.topCornerY;
+        this.dragOperation.offsetX = this.selectorService.topCornerX - this.dragOperation.x;
+        this.dragOperation.offsetY = this.selectorService.topCornerY - this.dragOperation.y;
         if (this.shouldDrag && (this.dragOperation.offsetX !== 0 || this.dragOperation.offsetY !== 0)) {
           this.selectorService.SelectedObjects.forEach((drawing) => {
             // indexes is defined in the constructor
@@ -178,6 +178,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
             this.dragOperation.indexes!.push(this.drawingStorage.drawings.indexOf(drawing));
           });
           this.saveService.saveDrawing({ ...this.dragOperation });
+          this.dragOperation.indexes = [];
         }
 
         this.traceBox(this.selectorService.topCornerX, this.selectorService.topCornerY,

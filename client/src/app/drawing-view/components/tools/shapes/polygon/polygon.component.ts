@@ -68,8 +68,7 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
   }
 
   onMouseUp(): void {
-    this.saveShape();
-    this.mouseDown = false;
+    super.onMouseUp();
     this.shape.vertices = '';
   }
 

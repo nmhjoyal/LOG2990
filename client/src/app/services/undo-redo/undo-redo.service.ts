@@ -3,6 +3,8 @@ import { Id, ToolConstants } from 'src/app/drawing-view/components/tools/assets/
 import { ITools } from 'src/app/drawing-view/components/tools/assets/interfaces/itools';
 import { CanvasInformationService } from '../canvas-information/canvas-information.service';
 import { DrawingStorageService } from '../drawing-storage/drawing-storage.service';
+import { SelectorService } from '../selector-service/selector-service';
+import ParserHelper from '../parser-service/parser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,8 @@ export class UndoRedoService {
   accessingUndoList: boolean;
   private isUndoing: boolean;
 
-  constructor(public drawingStorage: DrawingStorageService, public canvasInformation: CanvasInformationService) {
+  constructor(public drawingStorage: DrawingStorageService, public canvasInformation: CanvasInformationService,
+    private selectorService: SelectorService) {
     this.undoList = [];
     this.accessingUndoList = false;
     this.isUndoing = false;
@@ -58,6 +61,7 @@ export class UndoRedoService {
       this.handleDrag(operation, this.isUndoing);
       break;
 
+
       default:
         break;
     }
@@ -100,12 +104,40 @@ export class UndoRedoService {
   }
 
   handleDrag(operation: ITools, isUndo: boolean): void {
-    // tslint:disable-next-line: no-non-null-assertion
+    // All drag interfaces have an initialized offsetX and offsetY and an index array
+    // tslint:disable: no-non-null-assertion
+    
+    const xModificator = isUndo? operation.offsetX! : -operation.offsetX!;
+    const yModificator = isUndo? operation.offsetY! : -operation.offsetY!;
+    let affectedDrawing;
     operation.indexes!.forEach((index) => {
-      // tslint:disable-next-line: no-non-null-assertion
-      this.drawingStorage.drawings[index].x +=  isUndo ? operation.offsetX! : -operation.offsetX!;
-      // tslint:disable-next-line: no-non-null-assertion
-      this.drawingStorage.drawings[index].y += isUndo ? operation.offsetY! : -operation.offsetY!;
+      // tslint:enable: no-non-null-assertion
+      affectedDrawing = this.drawingStorage.drawings[index];
+      switch (affectedDrawing.id) {
+
+        case Id.LINE: case Id.CRAYON: case Id.PAINTBRUSH: case Id.PEN: case Id.POLYGON: case Id.QUILL:
+          let xDestination = affectedDrawing.x + affectedDrawing.width / 2 - xModificator;
+          let yDestination = affectedDrawing.y + affectedDrawing.height / 2 - yModificator;
+          ParserHelper.dragPolylinePoints(xDestination, yDestination, affectedDrawing,
+             this.selectorService );
+          break;
+        
+        case Id.STAMP: case Id.RECTANGLE: case Id.ELLIPSE: case Id.TEXT: case Id.SPRAY_CAN:
+          affectedDrawing.x -= xModificator;
+          affectedDrawing.alignX = affectedDrawing.alignX ? affectedDrawing.x : affectedDrawing.alignX;
+          affectedDrawing.y -= yModificator;
+          if ( affectedDrawing.sprays ) {
+            affectedDrawing.sprays.forEach(spray => {
+              spray.cx -= xModificator;
+              spray.cy -= yModificator;
+            });
+          }
+          break;
+
+        default:
+          break;
+      }
+      
     });
   }
 
