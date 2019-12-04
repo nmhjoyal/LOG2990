@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { NumericalValues } from 'src/AppConstants/NumericalValues';
-import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { Id } from 'src/app/drawing-view/components/tools/assets/constants/tool-constants';
 import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
+import { NumericalValues } from 'src/AppConstants/NumericalValues';
+import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 
 @Injectable({
   providedIn: 'root',

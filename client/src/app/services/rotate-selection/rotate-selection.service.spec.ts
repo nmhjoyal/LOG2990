@@ -1,8 +1,8 @@
 // tslint:disable:no-string-literal
 // tslint:disable:no-magic-numbers
+import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 import { ISavedDrawing } from '../../../../../common/drawing-information/IDrawing';
 import { RotateSelectionService } from './rotate-selection.service';
-import { IComplexPath } from 'src/app/drawing-view/components/tools/assets/interfaces/drawing-tool-interface';
 
 describe('RotateSelectionService', () => {
 
