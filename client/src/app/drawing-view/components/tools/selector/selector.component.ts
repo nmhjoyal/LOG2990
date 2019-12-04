@@ -2,6 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DragService } from 'src/app/services/drag/drag.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
 import { ResizeService } from 'src/app/services/resize-service/resize-service';
 import { SaveService } from 'src/app/services/save-service/save.service';
@@ -12,6 +13,7 @@ import { ShapeAbstract } from '../assets/abstracts/shape-abstract/shape-abstract
 import { AttributesService } from '../assets/attributes/attributes.service';
 import { ControlPoints } from '../assets/constants/selector-constants';
 import { Id, ToolConstants } from '../assets/constants/tool-constants';
+import { ITools } from '../assets/interfaces/itools';
 
 @Component({
   selector: 'app-tools-selector',
@@ -27,12 +29,13 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   protected angleIncrement: number;
   protected altDown: boolean;
   protected shouldDrag: boolean;
+  protected dragOperation: ITools;
   protected isRotation: boolean;
   protected angleRotated: number;
 
   constructor(public toolService: ToolHandlerService, public drawingStorage: DrawingStorageService,
     saveRef: SaveService, attributesServiceRef: AttributesService, protected colourService: ColourService,
-    protected selectorService: SelectorService, protected resizeService: ResizeService) {
+    protected selectorService: SelectorService, protected resizeService: ResizeService, public dragService: DragService) {
     super(saveRef, attributesServiceRef, colourService);
     this.resizeService = new ResizeService(this.selectorService);
     this.shape.strokeWidth = 1;
@@ -44,6 +47,18 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     this.selectedControlPoint = ControlPoints.NONE;
     this.altDown = false;
     this.mouseDown = false;
+    this.shouldDrag = false;
+    this.dragService.shouldSnap = false;
+    this.dragOperation = {
+      id: Id.DRAG,
+      x: 0,
+      y: 0,
+      offsetX: 0,
+      offsetY: 0,
+      width: 0,
+      height: 0,
+      indexes: [],
+    };
     this.isRotation = false;
     this.angleRotated = 0;
   }
@@ -76,7 +91,6 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent): void {
     event.preventDefault();
     this.mouseMoved = false;
-    this.shouldDrag = false;
     this.handleMouseDown(event);
     super.onMouseDown(event);
   }
@@ -91,6 +105,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
   @HostListener('mouseup', ['$event']) onRelease(event: MouseEvent): void {
     event.preventDefault();
     this.handleMouseUp(event);
+    this.shouldDrag = false;
   }
 
   @HostListener('mouseup') onMouseUp(): void {
@@ -162,9 +177,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         } else if (this.shiftDown) {
           this.resizeService.resizeWithAspectRatio(this.selectedControlPoint);
         } else {
-          this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ToolConstants.NULL};
+          this.resizeService.cursorPosition = { x: ClickHelper.getXPosition(event), y: ToolConstants.NULL };
           this.resizeService.resizeAxis();
-          this.resizeService.cursorPosition = {x: ToolConstants.NULL, y: ClickHelper.getYPosition(event)};
+          this.resizeService.cursorPosition = { x: ToolConstants.NULL, y: ClickHelper.getYPosition(event) };
           this.resizeService.resizePosition();
         }
         break;
@@ -193,9 +208,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         } else if (this.shiftDown) {
           this.resizeService.resizeWithAspectRatio(this.selectedControlPoint);
         } else {
-          this.resizeService.cursorPosition = {x: ToolConstants.NULL, y: ClickHelper.getYPosition(event)};
+          this.resizeService.cursorPosition = { x: ToolConstants.NULL, y: ClickHelper.getYPosition(event) };
           this.resizeService.resizeAxis();
-          this.resizeService.cursorPosition = {x: ClickHelper.getXPosition(event), y: ToolConstants.NULL};
+          this.resizeService.cursorPosition = { x: ClickHelper.getXPosition(event), y: ToolConstants.NULL };
           this.resizeService.resizePosition();
         }
         break;
@@ -234,7 +249,9 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
           height: this.selectorService.MinHeight, width: this.selectorService.MinWidth,
         },
           ClickHelper.getXPosition(event), ClickHelper.getYPosition(event))) {
-            this.shouldDrag = true;
+          this.dragOperation.x = this.selectorService.topCorner.x;
+          this.dragOperation.y = this.selectorService.topCorner.y;
+          this.shouldDrag = true;
         }
       } else {
         this.isRightClick = false;
@@ -242,6 +259,7 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         this.resetComponent();
       }
       this.selectedControlPoint = ControlPoints.NONE;
+
     } else if (event.button === ClickTypes.RIGHT_CLICK) {
       this.isRightClick = true;
       if (!this.toolService.selectorBoxExists()) {
@@ -262,8 +280,10 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
         return;
       }
       if (this.shouldDrag) {
-        this.selectorService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
-          this.windowWidth, this.windowHeight);
+        this.dragService.shouldSnap ? this.dragService.snapObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+          this.windowWidth, this.windowHeight, this.selectorService.controlPoint) :
+          this.dragService.dragObjects(ClickHelper.getXPosition(event), ClickHelper.getYPosition(event),
+            this.windowWidth, this.windowHeight);
         this.traceBox();
         this.previewBox = { height: 0, width: 0, x: 0, y: 0 };
       } else {
@@ -302,6 +322,17 @@ export class SelectorComponent extends ShapeAbstract implements OnInit, OnDestro
     } else if (this.selectedControlPoint === ControlPoints.NONE) {
       // Drag & Drop
       if (this.selectorService.SelectedObjects.size > 0) {
+        this.dragOperation.offsetX = this.dragOperation.x - this.selectorService.topCorner.x;
+        this.dragOperation.offsetY = this.dragOperation.y - this.selectorService.topCorner.y;
+        if (this.shouldDrag && (this.dragOperation.offsetX !== 0 || this.dragOperation.offsetY !== 0)) {
+          this.selectorService.SelectedObjects.forEach((drawing) => {
+            // indexes is defined in the constructor
+            // tslint:disable-next-line: no-non-null-assertion
+            this.dragOperation.indexes!.push(this.drawingStorage.drawings.indexOf(drawing));
+          });
+          this.saveService.saveDrawing({ ...this.dragOperation });
+        }
+
         this.traceBox();
         this.resetShape();
       } else {

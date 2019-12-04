@@ -8,7 +8,9 @@ import ClickHelper from 'src/app/helpers/click-helper/click-helper';
 import RotateHelper from 'src/app/helpers/rotate-helper/rotate-helper';
 import { CanvasInformationService } from 'src/app/services/canvas-information/canvas-information.service';
 import { ColourService } from 'src/app/services/colour_service/colour.service';
+import { DragService } from 'src/app/services/drag/drag.service';
 import { DrawingStorageService } from 'src/app/services/drawing-storage/drawing-storage.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { ResizeService } from 'src/app/services/resize-service/resize-service';
 import { SaveService } from 'src/app/services/save-service/save.service';
 import { SelectorService } from 'src/app/services/selector-service/selector-service';
@@ -76,12 +78,14 @@ describe('SelectorComponent', () => {
     const canvasInformation: CanvasInformationService = new CanvasInformationService();
     const undoRedo: UndoRedoService = new UndoRedoService(drawingStorage, canvasInformation);
     const saveService: SaveService = new SaveService(drawingStorage, undoRedo);
+    const gridService: GridService = new GridService();
+    let dragService: DragService;
     jasmine.createSpyObj('ToolHandlerService', ['selectorBoxExists',
         'saveSelectorBox', 'resetSelectorBox']);
     const attrServiceMock: SpyObj<AttributesService> = jasmine.createSpyObj('AttributesService', ['']);
     beforeEach(() => {
         selectorServiceMock = new SelectorServiceMock(saveService);
-
+        dragService = new DragService(selectorServiceMock, gridService);
         TestBed.configureTestingModule({
             declarations: [SelectorComponent],
             providers: [
@@ -118,11 +122,11 @@ describe('SelectorComponent', () => {
         spyOn(selectorServiceMock, 'setBoxToDrawing');
         spyOn(toolServiceMock, 'saveSelectorBox').and.callFake(() => { return; });
         spyOn(toolServiceMock, 'resetSelectorBox').and.callThrough();
+        spyOn(dragService, 'dragObjects').and.callThrough();
         resizeServiceMock.resizeAxis.and.callFake(() => { return; });
         resizeServiceMock.resizePosition.and.callFake(() => { return; });
         resizeServiceMock.resizeAxesFromCenter.and.callFake(() => { return; });
         resizeServiceMock.resizeWithAspectRatio.and.callFake(() => { return; });
-        spyOn(selectorServiceMock, 'dragObjects').and.callThrough();
     });
 
     it('should create an instance of the derived class', () => {
@@ -474,7 +478,7 @@ describe('SelectorComponent', () => {
         expect(spyShape).toHaveBeenCalled();
     });
 
-    it('#handleMouseUp should reset component and shape if dragging but size is 0', () => {
+    it('#handleMouseUp should reset component and shape if dragging but size is 0, else drag and add to drawing storage', () => {
         const spyComponent = spyOn<any>(selector, 'resetComponent');
         const spyShape = spyOn<any>(selector, 'resetShape');
         selector['shouldDrag'] = true;
@@ -519,4 +523,5 @@ describe('SelectorComponent', () => {
         expect(spyTrace).not.toHaveBeenCalled();
         expect(selectorServiceMock.setBoxToDrawing).not.toHaveBeenCalled();
     });
+
 });
