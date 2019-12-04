@@ -113,6 +113,11 @@ export class ToolHandlerService {
     this.selectedTool = this.tools.SELECTOR;
   }
 
+  chooseBucket(): void {
+    this.resetToolSelection();
+    this.selectedTool = this.tools.BUCKET;
+  }
+
   chooseGrid(): void {
     this.resetToolSelection();
     this.selectedTool = this.tools.GRID;

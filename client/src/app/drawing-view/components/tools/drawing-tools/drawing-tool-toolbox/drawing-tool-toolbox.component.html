@@ -84,8 +84,16 @@
             {{getComponent().stroke.pointWidth}}
         </div>
     </div>
+    <div *ngIf="toolHandler.selectedTool === toolId.BUCKET">
+        <p>Niveau de tolérance</p>
+        <input type="range" min="0" max="255" step="0.1"
+            [(ngModel)]="getComponent().tolerance" id="toleranceInput"
+            title="Valeur de tolerance">
+        <label >{{getComponent().tolerance / 2.55 | number:'1.0-0'}}%</label>
+     </div>
+           
     <div *ngIf="toolHandler.selectedTool === toolId.ELLIPSE || toolHandler.selectedTool === toolId.RECTANGLE
-                || toolHandler.selectedTool === toolId.POLYGON">
+                || toolHandler.selectedTool === toolId.POLYGON || toolHandler.selectedTool === toolId.BUCKET">
             <p>Style de remplissage</p>
 
             <mat-button-toggle-group  style = "flex-wrap: wrap; border-color: rgba(0,0,0,0);" value="All">

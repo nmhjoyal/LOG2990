@@ -46,6 +46,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       height: 0,
       verticesNumber: 0,
       vertices: '',
+      points: '',
       primaryColour: this.colourService.PrimaryColour,
       secondaryColour: this.colourService.SecondaryColour,
       strokeOpacity: this.colourService.SecondaryOpacity,
@@ -53,6 +54,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       scaleX: ToolConstants.DEFAULT_SCALE,
       scaleY: ToolConstants.DEFAULT_SCALE,
       fillOpacity: this.colourService.PrimaryOpacity,
+      strokeLinecap: ToolConstants.ROUND,
+      strokeLinejoin: ToolConstants.ROUND,
     };
   }
 
@@ -140,7 +143,6 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       default:
         break;
     }
-
   }
 
   protected calculateDimensions(): void {
@@ -157,6 +159,7 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       y: this.shape.y,
       width: this.shape.width,
       height: this.shape.height,
+      points: this.shape.points,
       verticesNumber: this.shape.verticesNumber,
       vertices: this.shape.vertices,
       primaryColour: this.shape.primaryColour,
@@ -164,6 +167,8 @@ export abstract class ShapeAbstract extends ToolAbstract implements OnInit, OnDe
       strokeOpacity: this.shape.strokeOpacity,
       strokeWidth: this.shape.strokeWidth,
       fillOpacity: this.shape.fillOpacity,
+      strokeLinecap: this.shape.strokeLinecap,
+      strokeLinejoin: this.shape.strokeLinejoin,
       scaleX: ToolConstants.DEFAULT_SCALE,
       scaleY: ToolConstants.DEFAULT_SCALE,
     };

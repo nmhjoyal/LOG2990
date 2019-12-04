@@ -16,6 +16,7 @@ export class PolygonComponent extends ShapeAbstract implements OnInit, OnDestroy
     super(saveRef, attributesServiceRef, colourServiceRef);
     this.shape.id = ToolConstants.TOOL_ID.POLYGON;
     this.shape.verticesNumber = ToolConstants.MIN_VERTEX_NUMBER;
+    this.shape.vertices = '';
   }
 
   ngOnInit(): void {

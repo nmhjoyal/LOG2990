@@ -72,6 +72,14 @@
                     drawing.centerX + ',' + drawing.centerY + ')'" />
             </g>
 
+            <g *ngSwitchCase="toolId.BUCKET" (click)="applyColourToLine(drawing)"
+                (contextmenu)="getColourFromLine($event, drawing)">
+                <polyline [attr.points]="drawing.points" [style.fill]="drawing.primaryColour"
+                    [style.stroke]="drawing.secondaryColour" [style.stroke-width]="drawing.strokeWidth"
+                    [style.stroke-linecap]="drawing.strokeLinecap"
+                    [style.stroke-linestroke]="drawing.strokeLinejoin" />
+            </g>
+
             <g *ngSwitchCase="toolId.PEN" (click)="applyColourToLine(drawing)"
                 (contextmenu)="getColourFromLine($event, drawing)">
                 <g *ngFor="let svgpath of drawing.paths" [attr.transform-origin]="drawing.x + ' ' + drawing.y"
@@ -184,6 +192,10 @@
 <div *ngIf="toolHandler.selectedTool === toolId.PAINTBRUSH">
     <app-paintbrush #activeTool [windowWidth]="canvasData.data.drawingWidth"
         [windowHeight]="canvasData.data.drawingHeight"></app-paintbrush>
+</div>
+<div *ngIf="toolHandler.selectedTool === toolId.BUCKET">
+    <app-bucket #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">
+    </app-bucket>
 </div>
 <div *ngIf="toolHandler.selectedTool === toolId.ERASER">
     <app-eraser #activeTool [windowWidth]="canvasData.data.drawingWidth" [windowHeight]="canvasData.data.drawingHeight">

@@ -97,7 +97,7 @@ export default class ClickHelper {
                     { x: object.x, y: object.y, width: object.width, height: object.height }),
                     svgIntersections.shape('polyline', selectorLine));
                 return rectIntersections.points.length > 0;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL: case Id.BUCKET:
                 let lineIntersections;
                 if (object.points) {
                     lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
@@ -137,13 +137,10 @@ export default class ClickHelper {
                     (object.y + object.height) >= positionY);
             case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
                 return this.cursorTouchesObjectBorder(object, positionX, positionY);
-            case Id.ELLIPSE:
+            case Id.ELLIPSE: case Id.POLYGON:
                 return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
                     (((positionY - object.y) * (positionY - object.y)) / (object.height * object.height)) <= 1;
-            case Id.POLYGON:
-                return (((positionX - object.x) * (positionX - object.x)) / (object.width * object.width)) +
-                    (((positionY - object.y) * (positionY - object.y)) / (object.height * object.height)) <= 1;
-            case Id.STAMP:
+            case Id.STAMP: case Id.BUCKET:
                 return (Math.pow((positionX - (object.x + (object.width / 2))), 2) +
                     Math.pow((positionY - (object.y + (object.height / 2))), 2)) <= Math.pow(object.width / 2, 2);
             case Id.SPRAY_CAN:
@@ -182,7 +179,7 @@ export default class ClickHelper {
                     && previewBox.height < (object.height - previewBox.y + object.y));
                 intersectionPoints = rectIntersections.points;
                 break;
-            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL:
+            case Id.CRAYON: case Id.PAINTBRUSH: case Id.LINE: case Id.PEN: case Id.QUILL: case Id.BUCKET:
                 let lineIntersections;
                 if (object.points) {
                     lineIntersections = svgIntersections.intersect(svgIntersections.shape('polyline', { points: object.points }),
